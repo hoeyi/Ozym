@@ -8,6 +8,7 @@
   <ItemGroup>
     <Folder Include="Data\Context\" />
     <Folder Include="Data\Model\" />
+    <Folder Include="Controller\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +21,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
 </Project>
