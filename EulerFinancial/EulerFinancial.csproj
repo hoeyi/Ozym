@@ -8,7 +8,6 @@
   <ItemGroup>
     <Folder Include="Data\Context\" />
     <Folder Include="Data\Model\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

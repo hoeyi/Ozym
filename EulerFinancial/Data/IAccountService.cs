@@ -9,6 +9,5 @@ namespace EulerFinancial.Data
     public interface IAccountService : IModelService<Account>
     {
         Task<IList<AccountCustodian>> GetAccountCustodians();
-
     }
 }
