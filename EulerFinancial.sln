@@ -3,12 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EulerFinancial", "EulerFinancial\EulerFinancial.csproj", "{051FDE1B-C672-48A1-AB05-F6B1C0635B45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial", "EulerFinancial\EulerFinancial.csproj", "{051FDE1B-C672-48A1-AB05-F6B1C0635B45}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48E6F909-E1C0-4187-A79B-BD2019FDF31B}"
 	ProjectSection(SolutionItems) = preProject
 		GenerateModelEF.bat = GenerateModelEF.bat
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ichsoft.Razor.Components", "Ichsoft.Razor.Components\Ichsoft.Razor.Components.csproj", "{8C626CD3-4DAF-4EC8-9545-FC1F1A8F0720}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +22,10 @@ Global
 		{051FDE1B-C672-48A1-AB05-F6B1C0635B45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{051FDE1B-C672-48A1-AB05-F6B1C0635B45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{051FDE1B-C672-48A1-AB05-F6B1C0635B45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C626CD3-4DAF-4EC8-9545-FC1F1A8F0720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C626CD3-4DAF-4EC8-9545-FC1F1A8F0720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C626CD3-4DAF-4EC8-9545-FC1F1A8F0720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C626CD3-4DAF-4EC8-9545-FC1F1A8F0720}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

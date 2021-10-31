@@ -1,0 +1,200 @@
+FIELD_IDENTIFIER	TABLE_NAME	COLUMN_NAME	COLUMN_DISPLAYNAME	COLUMN_DESCRIPTION
+Account.AccountCustodianID	Account	AccountCustodianID	Custodian	The custodian holding the account.
+Account.AccountID	Account	AccountID		
+Account.AccountNumber	Account	AccountNumber	Acct. #	The custodian identifier for the account.
+Account.BooksClosedDate	Account	BooksClosedDate	Books Closed	The date before which transactions cannot be edited for the account.
+Account.DisplayOrder	Account	DisplayOrder	Display Order	The order the account receives in reporting.
+Account.HasBankTransaction	Account	HasBankTransaction	Has Bank	Whether the account supports bank transactions.
+Account.HasBrokerTransaction	Account	HasBrokerTransaction	Has Broker	Whether the account supports broker transactions.
+Account.HasWallet	Account	HasWallet	Has Wallet	Whether the account supports cryptocurrency wallets.
+Account.IsComplianceTradable	Account	IsComplianceTradable	Tradable	Whether the account is considered tradable for compliance reporting requirements.
+AccountAttributeMemberEntry.AccountObjectID	AccountAttributeMemberEntry	AccountObjectID	Account / Group	The account object to which the entry applies.
+AccountAttributeMemberEntry.AttributeMemberID	AccountAttributeMemberEntry	AttributeMemberID	Value	The member value for the entry.
+AccountAttributeMemberEntry.EffectiveDate	AccountAttributeMemberEntry	EffectiveDate	Effective Date	The effective date for the entry.
+AccountAttributeMemberEntry.EntryID	AccountAttributeMemberEntry	EntryID		
+AccountAttributeMemberEntry.Weight	AccountAttributeMemberEntry	Weight	Weight	The weight for the entry.
+AccountCustodian.AccountCustodianID	AccountCustodian	AccountCustodianID		
+AccountCustodian.CustodianCode	AccountCustodian	CustodianCode	Code	The short code used to identify the custodian.
+AccountCustodian.DisplayName	AccountCustodian	DisplayName	Display Name	The display name for the custodian.
+AccountGroup.AccountGroupID	AccountGroup	AccountGroupID		
+AccountGroup.DisplayOrder	AccountGroup	DisplayOrder	Display Order	The order the account group receives in reporting.
+AccountGroupMember.AccountGroupID	AccountGroupMember	AccountGroupID	Group	The group for the member.
+AccountGroupMember.AccountID	AccountGroupMember	AccountID	Account	The member account.
+AccountGroupMember.EntryDate	AccountGroupMember	EntryDate	Entry Date	The date the member enters the group.
+AccountGroupMember.ExitDate	AccountGroupMember	ExitDate	Exit date	The date the member exists the group.
+AccountGroupMember.MemberID	AccountGroupMember	MemberID		
+AccountObject.AccountObjectCode	AccountObject	AccountObjectCode	Code	The short code used to identify the account object.
+AccountObject.AccountObjectID	AccountObject	AccountObjectID		
+AccountObject.CloseDate	AccountObject	CloseDate	Close Date	The date the account object closed.
+AccountObject.ObjectDescription	AccountObject	ObjectDescription	Description	The description of the account object.
+AccountObject.ObjectDipslayName	AccountObject	ObjectDipslayName	Name	The display name for the account object.
+AccountObject.ObjectType	AccountObject	ObjectType	Type	The type assignment for the account object.
+AccountObject.PrefixedObjectCode	AccountObject	PrefixedObjectCode	Report Code	The reporting code for the account.
+AccountObject.StartDate	AccountObject	StartDate	Start Date	The date the account started.
+AccountWallet.AccountID	AccountWallet	AccountID	Account	The account that contains the wallet.
+AccountWallet.AccountWalletID	AccountWallet	AccountWalletID		
+AccountWallet.AddressCode	AccountWallet	AddressCode	Address	The address for the wallet.
+AccountWallet.AddressTag	AccountWallet	AddressTag	Tag	"The tag for the wallet, if applicable."
+AccountWallet.DenominationSecurityID	AccountWallet	DenominationSecurityID	Denomination	The currency in which the wallet is denominated.
+AuditEvent.AuditUserID	AuditEvent	AuditUserID		
+AuditEvent.EventID	AuditEvent	EventID		
+AuditEvent.EventTimeUTC	AuditEvent	EventTimeUTC		
+BankTransaction.AccountID	BankTransaction	AccountID	Account	The account for the transaction.
+BankTransaction.Amount	BankTransaction	Amount	Amount	The amount of the transaction - negative for debits and positive for credits.
+BankTransaction.Comment	BankTransaction	Comment	Comment	A comment describing the details of the transaction.
+BankTransaction.TransactionCodeID	BankTransaction	TransactionCodeID	Transaction Code	The bank code for the transaction.
+BankTransaction.TransactionDate	BankTransaction	TransactionDate	Date	The date the transaction occurred.
+BankTransaction.TransactionID	BankTransaction	TransactionID		
+BankTransaction.TransactionVersion	BankTransaction	TransactionVersion		
+BankTransactionCode.DisplayName	BankTransactionCode	DisplayName	Display Name	The transaction code display name.
+BankTransactionCode.TransactionCode	BankTransactionCode	TransactionCode	Code	The short code that identifies the transaction code.
+BankTransactionCode.TransactionCodeID	BankTransactionCode	TransactionCodeID	Bank Transaction Code	The bank transaction code to which the entry applies.
+BankTransactionCodeAttributeMemberEntry.AttributeMemberID	BankTransactionCodeAttributeMemberEntry	AttributeMemberID	Attribute Member	The member value for the entry.
+BankTransactionCodeAttributeMemberEntry.EffectiveDate	BankTransactionCodeAttributeMemberEntry	EffectiveDate	Effective Date	The effective date for the entry.
+BankTransactionCodeAttributeMemberEntry.EntryID	BankTransactionCodeAttributeMemberEntry	EntryID		
+BankTransactionCodeAttributeMemberEntry.TransactionCodeID	BankTransactionCodeAttributeMemberEntry	TransactionCodeID	Transaction Code	The bank transaction code to which the entry applies.
+BankTransactionCodeAttributeMemberEntry.Weight	BankTransactionCodeAttributeMemberEntry	Weight	Weight	The weight for the entry.
+BrokerTransaction.AccountID	BrokerTransaction	AccountID	Account	The account for the transaction.
+BrokerTransaction.AcquisitionDate	BrokerTransaction	AcquisitionDate	Acq. Date	The acquisition date for the position.
+BrokerTransaction.Amount	BrokerTransaction	Amount	Amount	The transaction dollar amount.
+BrokerTransaction.DepSecurityID	BrokerTransaction	DepSecurityID	Dep. Security	The deposit security.
+BrokerTransaction.Fee	BrokerTransaction	Fee	Fee	The transaction fee.
+BrokerTransaction.Quantity	BrokerTransaction	Quantity	Quantity	The transaction quantity.
+BrokerTransaction.SecurityID	BrokerTransaction	SecurityID	Security	The security transacted.
+BrokerTransaction.SettleDate	BrokerTransaction	SettleDate	Settle Date	The settle date for the trade.
+BrokerTransaction.TaxLotID	BrokerTransaction	TaxLotID	Tax Lot	The tax lot the transaction closes against.
+BrokerTransaction.TradeDate	BrokerTransaction	TradeDate	Trade Date	The trade date for the transaction.
+BrokerTransaction.TransactionCodeID	BrokerTransaction	TransactionCodeID	Action	The transaction type.
+BrokerTransaction.TransactionID	BrokerTransaction	TransactionID		
+BrokerTransaction.Withholding	BrokerTransaction	Withholding	Withholding	The tax withholding applied to the transaction.
+BrokerTransactionCode.CashEffect	BrokerTransactionCode	CashEffect	Cash Effect	The effect transactions of this type have on cash held.
+BrokerTransactionCode.ContributionWithdrawalEffect	BrokerTransactionCode	ContributionWithdrawalEffect	Contribution Effect	The effect transactions of this type have on performance contributions/withdrawals.
+BrokerTransactionCode.DisplayName	BrokerTransactionCode	DisplayName	Display Name	The transaction code display name.
+BrokerTransactionCode.QuantityEffect	BrokerTransactionCode	QuantityEffect	Quantity Effect	The effect transactions of this type have on quantity held.
+BrokerTransactionCode.TransactionCode	BrokerTransactionCode	TransactionCode	Code	The short code that identifies the transaction code.
+BrokerTransactionCode.TransactionCodeID	BrokerTransactionCode	TransactionCodeID		
+BrokerTransactionCodeAttributeMemberEntry.AttributeMemberID	BrokerTransactionCodeAttributeMemberEntry	AttributeMemberID	Attribute Member	The member value for the entry.
+BrokerTransactionCodeAttributeMemberEntry.EffectiveDate	BrokerTransactionCodeAttributeMemberEntry	EffectiveDate	Effective Date	The effective date for the entry.
+BrokerTransactionCodeAttributeMemberEntry.EntryID	BrokerTransactionCodeAttributeMemberEntry	EntryID		
+BrokerTransactionCodeAttributeMemberEntry.TransactionCodeID	BrokerTransactionCodeAttributeMemberEntry	TransactionCodeID	Action	The action the transaction represents.
+BrokerTransactionCodeAttributeMemberEntry.Weight	BrokerTransactionCodeAttributeMemberEntry	Weight	Weight	The weight for the entry.
+BrokerTransactionTaxLot.Quantity	BrokerTransactionTaxLot	Quantity		
+BrokerTransactionTaxLot.TransactionID	BrokerTransactionTaxLot	TransactionID		
+BrokerTransactionTaxLot.TransactionIDCloseVersus	BrokerTransactionTaxLot	TransactionIDCloseVersus		
+Country.CountryID	Country	CountryID		
+Country.DisplayName	Country	DisplayName	Display Name	The display name of the country.
+Country.IsoCode3	Country	IsoCode3	ISO-3 Code	The ISO 3166-1 alpha-3 code for the country.
+CountryAttributeMemberEntry.AttributeMemberID	CountryAttributeMemberEntry	AttributeMemberID	Attribute Member	The member value for the entry.
+CountryAttributeMemberEntry.CountryID	CountryAttributeMemberEntry	CountryID	Country	The country to which the entry applies.
+CountryAttributeMemberEntry.EffectiveDate	CountryAttributeMemberEntry	EffectiveDate	Effective Date	The effective date for the entry.
+CountryAttributeMemberEntry.EntryID	CountryAttributeMemberEntry	EntryID		
+CountryAttributeMemberEntry.Weight	CountryAttributeMemberEntry	Weight	Weight	The weight for the entry.
+InvestmentPerformanceAttributeMemberEntry.AccountObjectID	InvestmentPerformanceAttributeMemberEntry	AccountObjectID	Account / Group	The account or account group for the entry.
+InvestmentPerformanceAttributeMemberEntry.AttributeMemberID	InvestmentPerformanceAttributeMemberEntry	AttributeMemberID	Attribute Member	The member value for the entry.
+InvestmentPerformanceAttributeMemberEntry.AverageCapital	InvestmentPerformanceAttributeMemberEntry	AverageCapital	Average Capital	The average capital for the period.
+InvestmentPerformanceAttributeMemberEntry.EntryID	InvestmentPerformanceAttributeMemberEntry	EntryID		
+InvestmentPerformanceAttributeMemberEntry.FromDate	InvestmentPerformanceAttributeMemberEntry	FromDate	From Date	The start date for the period.
+InvestmentPerformanceAttributeMemberEntry.Gain	InvestmentPerformanceAttributeMemberEntry	Gain	Gain	The gain for the period.
+InvestmentPerformanceAttributeMemberEntry.IRR	InvestmentPerformanceAttributeMemberEntry	IRR	IRR	The return for the period.
+InvestmentPerformanceAttributeMemberEntry.MarketValue	InvestmentPerformanceAttributeMemberEntry	MarketValue	Market Value	The ending market value for the period.
+InvestmentPerformanceAttributeMemberEntry.NetContribution	InvestmentPerformanceAttributeMemberEntry	NetContribution	Net Contribution	The net contributed value for the period.
+InvestmentPerformanceAttributeMemberEntry.ToDate	InvestmentPerformanceAttributeMemberEntry	ToDate	To Date	The end date for the period.
+InvestmentPerformanceEntry.AccountObjectID	InvestmentPerformanceEntry	AccountObjectID	Account / Group	The account or group for the performance record.
+InvestmentPerformanceEntry.AverageCapital	InvestmentPerformanceEntry	AverageCapital	Average Capital	The average capital base calculated for the period.
+InvestmentPerformanceEntry.EntryID	InvestmentPerformanceEntry	EntryID		
+InvestmentPerformanceEntry.FromDate	InvestmentPerformanceEntry	FromDate	From Date	The start date of the period.
+InvestmentPerformanceEntry.Gain	InvestmentPerformanceEntry	Gain	Gain	The gain calculated for the period.
+InvestmentPerformanceEntry.IRR	InvestmentPerformanceEntry	IRR	IRR	The IRR calculated for the period.
+InvestmentPerformanceEntry.MarketValue	InvestmentPerformanceEntry	MarketValue	Market Value	The ending market value calculated for the period.
+InvestmentPerformanceEntry.NetContribution	InvestmentPerformanceEntry	NetContribution	Net Contribution	The net contribution value calculated for the period.
+InvestmentPerformanceEntry.ToDate	InvestmentPerformanceEntry	ToDate	To Date	The end date of the period.
+InvestmentStrategy.DisplayName	InvestmentStrategy	DisplayName	Display Name	The display name of the investment strategy.
+InvestmentStrategy.InvestmentStrategyID	InvestmentStrategy	InvestmentStrategyID		
+InvestmentStrategyTarget.AttributeMemberID	InvestmentStrategyTarget	AttributeMemberID	Attribute Member	The member value for the target.
+InvestmentStrategyTarget.EffectiveDate	InvestmentStrategyTarget	EffectiveDate	Effective Date	The effective date of the target.
+InvestmentStrategyTarget.InvestmentStrategyID	InvestmentStrategyTarget	InvestmentStrategyID	Strategy	The strategy for the target.
+InvestmentStrategyTarget.InvestmentStrategyTargetID	InvestmentStrategyTarget	InvestmentStrategyTargetID		
+InvestmentStrategyTarget.TargetPercent	InvestmentStrategyTarget	TargetPercent	Target	The percent of account value for the target.
+MarketHoliday.MarketHolidayID	MarketHoliday	MarketHolidayID		
+MarketHoliday.MarketHolidayName	MarketHoliday	MarketHolidayName	Name	The name of the holiday.
+MarketHolidaySchedule.MarketHolidayEntryID	MarketHolidaySchedule	MarketHolidayEntryID		
+MarketHolidaySchedule.MarketHolidayID	MarketHolidaySchedule	MarketHolidayID	Holiday	The holiday for the observance.
+MarketHolidaySchedule.ObservanceDate	MarketHolidaySchedule	ObservanceDate	Observance Date	The date the holiday is observed.
+MarketIndex.IndexCode	MarketIndex	IndexCode	Code	The short code that identifies the index.
+MarketIndex.IndexDescription	MarketIndex	IndexDescription	Description	The description of the index.
+MarketIndex.IndexID	MarketIndex	IndexID		
+MarketIndexPrice.IndexPriceID	MarketIndexPrice	IndexPriceID		
+MarketIndexPrice.MarketIndexID	MarketIndexPrice	MarketIndexID	Index	The index of the price record.
+MarketIndexPrice.Price	MarketIndexPrice	Price	Price	The index point value.
+MarketIndexPrice.PriceCode	MarketIndexPrice	PriceCode	Price Type	The type of price record.
+MarketIndexPrice.PriceDate	MarketIndexPrice	PriceDate	Date	The date of the price record.
+ModelAttribute.AttributeID	ModelAttribute	AttributeID		
+ModelAttribute.DisplayName	ModelAttribute	DisplayName	Display Name	The display name for the attribute.
+ModelAttributeMember.AttributeID	ModelAttributeMember	AttributeID	Attribute	The attribute to which the member applies.
+ModelAttributeMember.AttributeMemberID	ModelAttributeMember	AttributeMemberID		
+ModelAttributeMember.DisplayName	ModelAttributeMember	DisplayName	Display Name	The display name for the attribute member.
+ModelAttributeMember.DisplayOrder	ModelAttributeMember	DisplayOrder	Display Order	The order the member receives when appearing in reports.
+ModelAttributeScope.AttributeID	ModelAttributeScope	AttributeID	Attribute	The attribute to which the entry applies.
+ModelAttributeScope.AttributeScopeID	ModelAttributeScope	AttributeScopeID		
+ModelAttributeScope.ScopeCode	ModelAttributeScope	ScopeCode	Scope Code	The codes describing the scope for the attribute.
+ReportConfiguration.ConfigurationCode	ReportConfiguration	ConfigurationCode	Code	The short code identifying the configuration.
+ReportConfiguration.ConfigurationDescription	ReportConfiguration	ConfigurationDescription	Description	The configuration description.
+ReportConfiguration.ConfigurationID	ReportConfiguration	ConfigurationID		
+ReportConfiguration.XmlDefinition	ReportConfiguration	XmlDefinition	XML Definition	The configuration serialized as XML.
+ReportStyleSheet.StyleSheetCode	ReportStyleSheet	StyleSheetCode	Code	The short code identifying the style sheet.
+ReportStyleSheet.StyleSheetDescription	ReportStyleSheet	StyleSheetDescription	Description	The style sheet description.
+ReportStyleSheet.StyleSheetID	ReportStyleSheet	StyleSheetID		
+ReportStyleSheet.XmlDefinition	ReportStyleSheet	XmlDefinition	XML Definition	The style sheet serialized as XML.
+ResourceImage.FileExtension	ResourceImage	FileExtension	File Extension	The file extension of the image.
+ResourceImage.ImageBinary	ResourceImage	ImageBinary		
+ResourceImage.ImageDescription	ResourceImage	ImageDescription	Description	The image description.
+ResourceImage.ImageID	ResourceImage	ImageID		
+Security.CurrentSymbol	Security	CurrentSymbol	Symbol	The current symbol of the security.
+Security.HasPerpetualMarket	Security	HasPerpetualMarket	Perpetual Market	Whether the security trades in an always-open market.
+Security.HasPerpetualPrice	Security	HasPerpetualPrice	Perpetual Price	Whether the security has a constant price.
+Security.Issuer	Security	Issuer	Issuer	The issuer of the security.
+Security.SecurityDescription	Security	SecurityDescription	Description	The security long-form name or description.
+Security.SecurityExchangeID	Security	SecurityExchangeID	Exchange	The exchange on which the security trades.
+Security.SecurityID	Security	SecurityID		
+Security.SecurityTypeID	Security	SecurityTypeID	Sec. Type	The security type.
+SecurityAttributeMemberEntry.AttributeMemberID	SecurityAttributeMemberEntry	AttributeMemberID	Attribute Member	The member value for the entry.
+SecurityAttributeMemberEntry.EffectiveDate	SecurityAttributeMemberEntry	EffectiveDate	Effective Date	The effective date for the entry.
+SecurityAttributeMemberEntry.EntryID	SecurityAttributeMemberEntry	EntryID		
+SecurityAttributeMemberEntry.SecurityID	SecurityAttributeMemberEntry	SecurityID	Security	The security to which the entry applies.
+SecurityAttributeMemberEntry.Weight	SecurityAttributeMemberEntry	Weight	Weight	The weight for the entry.
+SecurityExchange.ExchangeCode	SecurityExchange	ExchangeCode	Code	The short code identifying the exchange.
+SecurityExchange.ExchangeDescription	SecurityExchange	ExchangeDescription	Description	The exchange description.
+SecurityExchange.ExchangeID	SecurityExchange	ExchangeID		
+SecurityPrice.PriceClose	SecurityPrice	PriceClose	Close	The closing price.
+SecurityPrice.PriceDate	SecurityPrice	PriceDate	Date	The price date.
+SecurityPrice.PriceHigh	SecurityPrice	PriceHigh	High	The high price.
+SecurityPrice.PriceID	SecurityPrice	PriceID		
+SecurityPrice.PriceLow	SecurityPrice	PriceLow	Low	The low price.
+SecurityPrice.PriceOpen	SecurityPrice	PriceOpen	Open	The open price.
+SecurityPrice.SecurityID	SecurityPrice	SecurityID	Security	The security to which the price applies.
+SecurityPrice.Volume	SecurityPrice	Volume	Volume	The trade volume.
+SecuritySymbol.Cusip	SecuritySymbol	Cusip	CUSIP	The CUSIP for the security as of the record date.
+SecuritySymbol.CustomSymbol	SecuritySymbol	CustomSymbol	Custom Symbol	The custom symbol for the security as of the record date.
+SecuritySymbol.EffectiveDate	SecuritySymbol	EffectiveDate	Effective Date	The effective date for the symbol record.
+SecuritySymbol.OptionTicker	SecuritySymbol	OptionTicker	Option Ticker	The option ticker for the security as of the record date.
+SecuritySymbol.SecurityID	SecuritySymbol	SecurityID	Security	The security identified by the symbol.
+SecuritySymbol.SymbolCode	SecuritySymbol	SymbolCode		The symbol calculated from the record symbol type and value.
+SecuritySymbol.SymbolID	SecuritySymbol	SymbolID		
+SecuritySymbol.SymbolTypeID	SecuritySymbol	SymbolTypeID	Type	The symbol type.
+SecuritySymbol.Ticker	SecuritySymbol	Ticker	Ticker	The ticker for the security as of the record date.
+SecuritySymbolMap.AccountCustodianID	SecuritySymbolMap	AccountCustodianID	Custodian	The custodian to which the map applies.
+SecuritySymbolMap.CustodianSymbol	SecuritySymbolMap	CustodianSymbol	Symbol (Custodian)	The symbol used by the custodian.
+SecuritySymbolMap.SecuritySymbolID	SecuritySymbolMap	SecuritySymbolID	Symbol (Application)	The application symbol to which the custodian symbol is mapped.
+SecuritySymbolMap.SymbolMapID	SecuritySymbolMap	SymbolMapID		
+SecuritySymbolType.SymbolTypeID	SecuritySymbolType	SymbolTypeID		
+SecuritySymbolType.SymbolTypeName	SecuritySymbolType	SymbolTypeName	Type Name	The symbol type name.
+SecurityType.CanHaveDerivative	SecurityType	CanHaveDerivative	Enable Derivatives	Whether securities of the type can underly derivative securities.
+SecurityType.CanHavePosition	SecurityType	CanHavePosition	Enable Positions	Whether securities of the type can have account positions.
+SecurityType.DisplayOrder	SecurityType	DisplayOrder	Display Order	The order the security type receives in reporting.
+SecurityType.SecurityTypeGroupID	SecurityType	SecurityTypeGroupID	Type Group	The security type group.
+SecurityType.SecurityTypeID	SecurityType	SecurityTypeID		
+SecurityType.SecurityTypeName	SecurityType	SecurityTypeName	Name	The security type name.
+SecurityType.ValuationFactor	SecurityType	ValuationFactor	Valuation Factor	The valuation factor for securities of the type applied to account positions.
+SecurityTypeGroup.DisplayOrder	SecurityTypeGroup	DisplayOrder	Display Order	The order the security type group receives in reporting.
+SecurityTypeGroup.SecurityTypeGroupID	SecurityTypeGroup	SecurityTypeGroupID		
+SecurityTypeGroup.SecurityTypeGroupName	SecurityTypeGroup	SecurityTypeGroupName	Name	The security type group name.

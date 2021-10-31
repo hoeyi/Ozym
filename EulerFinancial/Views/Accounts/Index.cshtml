@@ -1,0 +1,91 @@
+﻿@model IEnumerable<EulerFinancial.Data.Model.Account>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DisplayOrder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BooksClosedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsComplianceTradable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasWallet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasBankTransaction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasBrokerTransaction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountCustodian)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BooksClosedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsComplianceTradable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasWallet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasBankTransaction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasBrokerTransaction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountCustodian.CustodianCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountNavigation.AccountObjectCode)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AccountId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AccountId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AccountId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>
