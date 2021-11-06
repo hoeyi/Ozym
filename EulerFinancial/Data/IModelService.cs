@@ -9,13 +9,15 @@ namespace EulerFinancial.Data
     public interface IModelService<T>
         where T : class, new()
     {
-        Task<bool> Create(T model);
+        Task<bool> CreateAsync(T model);
 
-        Task<T> Read(int? id);
+        Task<T> ReadAsync(int? id);
 
-        Task<bool> Update(T model);
+        Task<bool> UpdateAsync(T model);
 
-        Task<bool> Delete(T model);
+        Task<bool> DeleteAsync(T model);
+
+        bool ModelExists(int? id);
 
         bool ModelExists(T model);
 

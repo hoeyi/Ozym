@@ -21,26 +21,35 @@ namespace EulerFinancial.Data
             return await context.AccountCustodians.ToListAsync();
         }
 
-        public Task<bool> Create(Account model)
+        public Task<bool> CreateAsync(Account model)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Account> Read(int? id)
+        public async Task<Account> ReadAsync(int? id)
         {
-            if()
+            return await context.Accounts.FirstOrDefaultAsync(a => a.AccountId == id);
         }
 
-        public Task<bool> Update(Account model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Delete(Account model)
+        public Task<bool> UpdateAsync(Account model)
         {
             throw new NotImplementedException();
         }
 
+        public Task<bool> DeleteAsync(Account model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ModelExists(int? id)
+        {
+            if(id is null)
+            {
+                return false;
+            }
+
+            return context.Accounts.Any(m => m.AccountId == id);
+        }
 
         public bool ModelExists(Account model)
         {

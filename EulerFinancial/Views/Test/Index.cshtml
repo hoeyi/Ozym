@@ -1,55 +1,44 @@
-﻿@model IEnumerable<EulerFinancial.Data.Model.Account>
+﻿@page
+@model EulerFinancial.Views.Test.IndexModel
 
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-page="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AccountNumber)
+                @Html.DisplayNameFor(model => model.Account[0].AccountNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DisplayOrder)
+                @Html.DisplayNameFor(model => model.Account[0].DisplayOrder)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BooksClosedDate)
+                @Html.DisplayNameFor(model => model.Account[0].BooksClosedDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsComplianceTradable)
+                @Html.DisplayNameFor(model => model.Account[0].IsComplianceTradable)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HasWallet)
+                @Html.DisplayNameFor(model => model.Account[0].HasWallet)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HasBankTransaction)
+                @Html.DisplayNameFor(model => model.Account[0].HasBankTransaction)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HasBrokerTransaction)
+                @Html.DisplayNameFor(model => model.Account[0].HasBrokerTransaction)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AccountCustodian)
+                @Html.DisplayNameFor(model => model.Account[0].AccountCustodian)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AccountNavigation)
+                @Html.DisplayNameFor(model => model.Account[0].AccountNavigation)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Account) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.AccountNumber)
@@ -79,13 +68,11 @@
                 @Html.DisplayFor(modelItem => item.AccountNavigation.AccountObjectCode)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.AccountId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AccountId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AccountId">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.AccountId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.AccountId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.AccountId">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-</body>
-</html>

@@ -1,10 +1,13 @@
 ﻿@page "/Accounts"
-@inject Data.IAccountService AccountService
+@inject HttpClient Http;
 
-@if (accounts is null){
+@if (Accounts is null)
+{
     <p><em>Loading...</em></p>
 }
-else{
+else
+{
+    <h4>Accounts</h4>
     <div>
         <table class="table">
             <thead>
@@ -40,7 +43,7 @@ else{
                 </tr>
             </thead>
             <tbody>
-                @foreach (var account in accounts)
+                @foreach (var account in Accounts)
                 {
                     <tr>
                         <td>@account.AccountNavigation.AccountObjectCode</td>
@@ -63,10 +66,10 @@ else{
 }
 
 @code{
-    private IList<Account> accounts;
+    private IEnumerable<Account> Accounts;
 
     protected override async Task OnInitializedAsync()
     {
-        accounts = await AccountService.SelectAllAsync();
+        Accounts = await Http.GetFromJsonAsync<IList<Account>>("/api/Accounts");
     }
 }
