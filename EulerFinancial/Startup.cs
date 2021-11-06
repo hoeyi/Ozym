@@ -33,7 +33,7 @@ namespace EulerFinancial
             services.AddDbContext<Data.Context.EulerFinancialContext>(options =>
                 options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
 
-            services.AddScoped<IAccountService, Services.AccountService>();
+            services.AddScoped<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

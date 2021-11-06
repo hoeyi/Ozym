@@ -30,7 +30,7 @@ namespace EulerFinancial.Data
         /// </summary>
         /// <param name="predicate">The <see cref="Expression{Func{T}}"/> used to determine results.</param>
         /// <returns>A <see cref="IList{T}"/> representing the first record matching the predicate.</returns>
-        Task<IList<T>> SelectOneAsync(Expression<Func<T, bool>> predicate);
+        Task<T> SelectOneAsync(Expression<Func<T, bool>> predicate);
 
         /// <summary>
         /// Selects records matching the given <paramref name="predicate"/>, 
