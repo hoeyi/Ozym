@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+#nullable disable
+
+namespace EulerFinancial.Model
+{
+    [Table("SecurityTypeGroup", Schema = "EulerApp")]
+    [Index(nameof(SecurityTypeGroupName), Name = "UNI_SecurityTypeGroup_SecurityTypeGroupName", IsUnique = true)]
+    public partial class SecurityTypeGroup
+    {
+        public SecurityTypeGroup()
+        {
+            SecurityTypes = new HashSet<SecurityType>();
+        }
+
+        [Key]
+        [Column("SecurityTypeGroupID")]
+        public int SecurityTypeGroupId { get; set; }
+        [Required]
+        [StringLength(32)]
+        public string SecurityTypeGroupName { get; set; }
+        public byte DisplayOrder { get; set; }
+
+        [InverseProperty(nameof(SecurityType.SecurityTypeGroup))]
+        public virtual ICollection<SecurityType> SecurityTypes { get; set; }
+    }
+}
