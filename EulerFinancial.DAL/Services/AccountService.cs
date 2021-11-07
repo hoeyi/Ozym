@@ -17,11 +17,6 @@ namespace EulerFinancial.Services
             this.context = context;
         }
 
-        public async Task<IList<AccountCustodian>> GetAccountCustodians()
-        {
-            return await context.AccountCustodians.ToListAsync();
-        }
-
         public Task<bool> CreateAsync(Account model)
         {
             throw new NotImplementedException();
@@ -29,7 +24,10 @@ namespace EulerFinancial.Services
 
         public async Task<Account> ReadAsync(int? id)
         {
-            return await context.Accounts.FirstOrDefaultAsync(a => a.AccountId == id);
+            return await context.Accounts
+                            .Include(a => a.AccountCustodian)
+                            .Include(a => a.AccountNavigation)
+                            .FirstOrDefaultAsync(a => a.AccountId == id);
         }
 
         public Task<bool> UpdateAsync(Account model)

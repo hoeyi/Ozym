@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Context\" />
-    <Folder Include="Model\" />
   </ItemGroup>
 
   <ItemGroup>

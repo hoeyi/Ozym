@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Resources;
 using System.Globalization;
+using System.Collections.Generic;
+using System.Linq;
 using EulerFinancial.Resources;
+using EulerFinancial.Model;
 
 namespace EulerFinancial.Services
 {
@@ -9,6 +12,22 @@ namespace EulerFinancial.Services
     {
         private static readonly ResourceManager displayManager = new(typeof(ModelDisplayName));
         private static readonly ResourceManager descriptionManager = new(typeof(ModelDescription));
+
+
+        public static IDictionary<string, ModelMetadata> GetModelMetaData<T>()
+        {
+            var type = typeof(T);
+            var members = type.GetProperties();
+
+            return members.ToDictionary(m =>
+                $"{type.Name}.{m.Name}",
+                m => new ModelMetadata()
+                {
+                    Description = GetDescription(type, m.Name),
+                    DisplayName = GetDisplayName(type, m.Name)
+                });
+        }
+
 
         /// <summary>
         /// Gets or sets the culture to use for the <see cref="ModelMetadataHelper"/>. Default is <see cref="CultureInfo.CurrentUICulture"/>.

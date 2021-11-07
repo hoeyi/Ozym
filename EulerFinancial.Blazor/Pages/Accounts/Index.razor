@@ -1,5 +1,6 @@
 ﻿@page "/Accounts"
 @inject IModelService<Account> AccountService
+@inject NavigationManager NavHelp
 
 @if (Accounts is null)
 {
@@ -13,7 +14,16 @@ else
             <thead>
                 <tr>
                     <th>
-                        @ModelMetadataHelper.GetDisplayName(typeof(AccountObject), nameof(Account.AccountNavigation.AccountObjectCode))
+                        @ModelMetadataHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.AccountObjectCode))
+                    </th>
+                    <th>
+                        @ModelMetadataHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.ObjectDipslayName))
+                    </th>
+                    <th>
+                        @ModelMetadataHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.StartDate))
+                    </th>
+                    <th>
+                        @ModelMetadataHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.CloseDate))
                     </th>
                     <th>
                         @ModelMetadataHelper.GetDisplayName(typeof(Account), nameof(Account.AccountNumber))
@@ -45,18 +55,26 @@ else
             <tbody>
                 @foreach (var account in Accounts)
                 {
+                    int id = account.AccountId;
+
                     <tr>
                         <td>@account.AccountNavigation.AccountObjectCode</td>
+                        <td>@account.AccountNavigation.ObjectDipslayName</td>
+                        <td>@account.AccountNavigation.StartDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
+                        <td>@account.AccountNavigation.CloseDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
                         <td>@account.AccountNumber</td>
                         <td>@account.DisplayOrder</td>
-                        <td>@account.BooksClosedDate?.ToString(CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern)</td>
-                        <td>@account.IsComplianceTradable.ToString()</td>
+                        <td>@account.BooksClosedDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
+                        <td>@account.IsComplianceTradable</td>
                         <td>@account.HasWallet</td>
-                        <td>@account.HasBankTransaction.ToString()</td>
-                        <td>@account.HasBrokerTransaction.ToString()</td>
+                        <td>@account.HasBankTransaction</td>
+                        <td>@account.HasBrokerTransaction</td>
                         <td>@account.AccountCustodian?.CustodianCode</td>
                         <td>
-                            <a asp-action="Details" asp-route-id="@account.AccountId">Details</a> |
+                            <button class="btn btn-primary"
+                                    @onclick="@(args => NavigateToDetail(args, id))">
+                                Details
+                            </button>
                         </td>
                     </tr>
                 }
@@ -71,5 +89,10 @@ else
     protected override async Task OnInitializedAsync()
     {
         Accounts = await AccountService.SelectWhereAysnc(x => true, maxCount: 0);
+    }
+
+    private void NavigateToDetail(MouseEventArgs args, int id)
+    {
+        NavHelp.NavigateTo($"/Accounts/Details/{id}");
     }
 }
