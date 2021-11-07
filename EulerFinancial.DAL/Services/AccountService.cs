@@ -17,27 +17,77 @@ namespace EulerFinancial.Services
             this.context = context;
         }
 
-        public Task<bool> CreateAsync(Account model)
+        public async Task<Account> CreateAsync(Account model)
         {
-            throw new NotImplementedException();
+            using var transaction = await context.Database.BeginTransactionAsync();
+
+            context.AccountObjects.Add(model.AccountNavigation);
+
+            await context.SaveChangesAsync();
+
+            context.Accounts.Add(model);
+
+            await context.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+
+            return model;
         }
 
         public async Task<Account> ReadAsync(int? id)
         {
             return await context.Accounts
-                            .Include(a => a.AccountCustodian)
-                            .Include(a => a.AccountNavigation)
-                            .FirstOrDefaultAsync(a => a.AccountId == id);
+                                .Include(a => a.AccountCustodian)
+                                .Include(a => a.AccountNavigation)
+                                .FirstOrDefaultAsync(a => a.AccountId == id);
         }
 
         public Task<bool> UpdateAsync(Account model)
         {
+            
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteAsync(Account model)
+        public async Task<bool> DeleteAsync(Account model)
         {
-            throw new NotImplementedException();
+            using var transaction = await context.Database.BeginTransactionAsync();
+
+            try
+            {
+                context.BankTransactions.RemoveRange(
+                    context.BankTransactions.Where(bt => bt.AccountId == model.AccountId));
+
+                context.BrokerTransactions.RemoveRange(
+                    context.BrokerTransactions.Where(bt => bt.AccountId == model.AccountId));
+
+                context.AccountGroupMembers.RemoveRange(
+                    context.AccountGroupMembers.Where(agm => agm.AccountId == model.AccountId));
+
+                context.AccountWallets.RemoveRange(
+                    context.AccountWallets.Where(w => w.AccountId == model.AccountId));
+
+                await context.SaveChangesAsync();
+
+                context.Accounts.Remove(model);
+
+                context.AccountAttributeMemberEntries.RemoveRange(
+                    context.AccountAttributeMemberEntries.Where(aa => aa.AccountObjectId == model.AccountId));
+
+                await context.SaveChangesAsync();
+
+                context.AccountObjects.Remove(
+                    context.AccountObjects.Where(a => a.AccountObjectId == model.AccountId).First());
+
+                await context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return true;
+            }
+            catch(DbUpdateException)
+            {
+                return !ModelExists(model.AccountId);
+            }
         }
 
         public bool ModelExists(int? id)

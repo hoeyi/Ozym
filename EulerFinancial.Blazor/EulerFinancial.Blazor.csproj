@@ -22,4 +22,8 @@
     <ProjectReference Include="..\EulerFinancial.DAL\EulerFinancial.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Accounts\" />
+  </ItemGroup>
+
 </Project>

@@ -12,7 +12,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ichsoft.Razor.Components", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.DAL", "EulerFinancial.DAL\EulerFinancial.DAL.csproj", "{F4F5B69C-A774-4412-9464-5AFC878AD5FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EulerFinancial.Blazor", "EulerFinancial.Blazor\EulerFinancial.Blazor.csproj", "{39C4CADD-CAE8-4493-B4D2-2B77967AD7D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.Blazor", "EulerFinancial.Blazor\EulerFinancial.Blazor.csproj", "{39C4CADD-CAE8-4493-B4D2-2B77967AD7D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
