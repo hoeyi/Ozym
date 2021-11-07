@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using EulerFinancial.Model;
 
 #nullable disable
@@ -138,7 +136,7 @@ namespace EulerFinancial.Context
 
             modelBuilder.Entity<AccountObject>(entity =>
             {
-                entity.Property(e => e.AccountObjectId).ValueGeneratedNever();
+                entity.Property(e => e.AccountObjectId).HasDefaultValueSql("(NEXT VALUE FOR [EulerApp].[seqAccountObjectID])");
 
                 entity.Property(e => e.AccountObjectCode).IsUnicode(false);
 
@@ -544,6 +542,8 @@ namespace EulerFinancial.Context
             });
 
             modelBuilder.HasSequence("AccountObjectID", "EulerApp");
+
+            modelBuilder.HasSequence<int>("seqAccountObjectID", "EulerApp");
 
             modelBuilder.HasSequence("seqAuditEventID", "EulerApp").HasMin(1);
 
