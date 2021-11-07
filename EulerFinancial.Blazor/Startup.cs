@@ -4,6 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using EulerFinancial.Controllers;
+using EulerFinancial.Reference;
+using EulerFinancial.ModelService;
+using EulerFinancial.Model;
+using EulerFinancial.Blazor.Controllers;
 
 namespace EulerFinancial.Blazor
 {
@@ -26,9 +31,10 @@ namespace EulerFinancial.Blazor
             services.AddDbContext<Context.EulerFinancialContext>(options =>
                 options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
 
-            services.AddScoped<Services.IReferenceDataService, Services.ReferenceDataService>();
+            services.AddScoped<IReferenceDataService, ReferenceDataService>();
 
-            services.AddScoped<Services.IModelService<Model.Account>, Services.AccountService>();
+            services.AddScoped<IModelService<Account>, AccountService>();
+            services.AddScoped<IController<Account>, AccountsController>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,7 +4,7 @@ using EulerFinancial.Context;
 using EulerFinancial.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace EulerFinancial.Services
+namespace EulerFinancial.Reference
 {
     public class ReferenceDataService : IReferenceDataService
     {

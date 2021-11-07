@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace EulerFinancial.Services
+namespace EulerFinancial.ModelService
 {
     public interface IModelService<T>
         where T : class, new()
@@ -55,7 +55,7 @@ namespace EulerFinancial.Services
         /// Select all records.
         /// </summary>
         /// <returns>A <see cref="IList{T}"/> representing all records in the data store.</returns>
-        Task<IList<T>> SelectAllAsync();
+        Task<List<T>> SelectAllAsync();
 
         /// <summary>
         /// Select the first record matching the given <paramref name="predicate"/>.
@@ -71,6 +71,6 @@ namespace EulerFinancial.Services
         /// <param name="predicate">The <see cref="Expression{Func{T}}"/> used to determine results.</param>
         /// <param name="maxCount">The maximum count of results to return. Default is zero.</param>
         /// <returns>A <see cref="IList{T}"/> representing the records matching the predicate, limited to a maximum count.</returns>
-        Task<IList<T>> SelectWhereAysnc(Expression<Func<T, bool>> predicate, int maxCount = 0);
+        Task<List<T>> SelectWhereAysnc(Expression<Func<T, bool>> predicate, int maxCount = 0);
     }
 }

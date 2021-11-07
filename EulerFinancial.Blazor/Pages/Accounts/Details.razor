@@ -1,6 +1,6 @@
 ﻿@page "/Accounts/Details/{AccountId:int}"
 @inherits ModelView
-@inject IModelService<Account> AccountService
+@inject IController<Account> Controller
 
 @if(account is null)
 {
@@ -110,17 +110,25 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        var metadataTask = Task.Run(() => PopulateModelMetadata(ModelMetadata));
+        var actionResult = await Controller.ReadAsync(AccountId);
+
+        await metadataTask;
+
+        account = actionResult.Value;
+
+    }
+
+    private void PopulateModelMetadata(IDictionary<string, ModelMetadata> metadata)
+    {
         foreach(var mm in ModelMetadataHelper.GetModelMetaData<AccountObject>())
         {
-            ModelMetadata.TryAdd(mm.Key, mm.Value);
+            metadata.TryAdd(mm.Key, mm.Value);
         }
 
         foreach(var mm in ModelMetadataHelper.GetModelMetaData<Account>())
         {
-            ModelMetadata.TryAdd(mm.Key, mm.Value);
+            metadata.TryAdd(mm.Key, mm.Value);
         }
-        var detailAccount = await AccountService.ReadAsync(AccountId);
-
-        account = detailAccount;
     }
 }

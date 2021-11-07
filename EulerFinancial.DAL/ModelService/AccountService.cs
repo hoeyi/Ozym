@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using EulerFinancial.Context;
 using EulerFinancial.Model;
 
-namespace EulerFinancial.Services
+namespace EulerFinancial.ModelService
 {
     public class AccountService : IModelService<Account>
     {
@@ -42,10 +42,14 @@ namespace EulerFinancial.Services
                                 .FirstOrDefaultAsync(a => a.AccountId == id);
         }
 
-        public Task<bool> UpdateAsync(Account model)
+        public async Task<bool> UpdateAsync(Account model)
         {
-            
-            throw new NotImplementedException();
+
+            context.Entry(model).State = EntityState.Modified;
+
+            await context.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<bool> DeleteAsync(Account model)
@@ -110,7 +114,7 @@ namespace EulerFinancial.Services
             return context.Accounts.Any(m => m.AccountId == model.AccountId);
         }
 
-        public async Task<IList<Account>> SelectAllAsync()
+        public async Task<List<Account>> SelectAllAsync()
         {
             return await context.Accounts
                             .Include(a => a.AccountCustodian)
@@ -126,7 +130,7 @@ namespace EulerFinancial.Services
                             .FirstOrDefaultAsync(predicate);
         }
 
-        public async Task<IList<Account>> SelectWhereAysnc(Expression<Func<Account, bool>> predicate, int maxCount = 0)
+        public async Task<List<Account>> SelectWhereAysnc(Expression<Func<Account, bool>> predicate, int maxCount = 0)
         {
             return await context.Accounts
                             .Include(a => a.AccountCustodian)

@@ -1,6 +1,6 @@
 ﻿@page "/Accounts"
-@inject IModelService<Account> AccountService
-@inject NavigationManager NavHelp
+@inherits ModelView
+@inject IController<Account> Controller
 
 @if (Accounts is null)
 {
@@ -88,11 +88,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Accounts = await AccountService.SelectWhereAysnc(x => true, maxCount: 0);
+        var actionResult = await Controller.SelectWhereAysnc(x => true, maxCount: 0);
+
+        Accounts = actionResult.Value;
     }
 
     private void NavigateToDetail(MouseEventArgs args, int id)
     {
-        NavHelp.NavigateTo($"/Accounts/Details/{id}");
+        NavigationHelper.NavigateTo($"/Accounts/Details/{id}");
     }
 }

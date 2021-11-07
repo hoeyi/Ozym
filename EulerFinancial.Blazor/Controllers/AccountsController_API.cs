@@ -1,23 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EulerFinancial.Context;
+using EulerFinancial.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EulerFinancial.Context;
-using EulerFinancial.Model;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EulerFinancial.Blazor.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountsController : ControllerBase
+    public partial class AccountsController : ControllerBase
     {
         private readonly EulerFinancialContext _context;
-
-        public AccountsController(EulerFinancialContext context)
-        {
-            _context = context;
-        }
 
         // GET: api/Accounts
         [HttpGet]

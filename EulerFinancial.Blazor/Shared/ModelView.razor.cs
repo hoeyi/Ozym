@@ -7,6 +7,9 @@ namespace EulerFinancial.Blazor.Shared
 {
     public partial class ModelView : ComponentBase
     {
+        [Inject]
+        protected NavigationManager NavigationHelper { get; set; }
+
         protected readonly IDictionary<string, ModelMetadata> ModelMetadata =
             new Dictionary<string, ModelMetadata>();
 

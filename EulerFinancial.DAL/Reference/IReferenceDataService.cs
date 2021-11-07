@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using EulerFinancial.Model;
 
-namespace EulerFinancial.Services
+namespace EulerFinancial.Reference
 {
     public interface IReferenceDataService
     {

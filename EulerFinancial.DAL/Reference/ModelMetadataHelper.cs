@@ -6,7 +6,7 @@ using System.Linq;
 using EulerFinancial.Resources;
 using EulerFinancial.Model;
 
-namespace EulerFinancial.Services
+namespace EulerFinancial.Reference
 {
     public static class ModelMetadataHelper
     {

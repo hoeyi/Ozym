@@ -6,7 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EulerFinancial.Controllers
 {
+    /// <summary>
+    /// Represents an object responsible for directing application flow
+    /// when reading, writing, or deleting records.
+    /// </summary>
+    /// <typeparam name="T">The <see cref="T"/> type worked by the contoller.</typeparam>
     public interface IController<T>
+        where T : class, new()
     {
         /// <summary>
         /// Creates the given <paramref name="model"/>.
@@ -28,7 +34,7 @@ namespace EulerFinancial.Controllers
         /// </summary>
         /// <param name="model">The <typeparamref name="T"/> model to update.</param>
         /// <returns></returns>
-        Task<ActionResult<T>> UpdateAsync(T model);
+        Task<ActionResult<T>> UpdateAsync(int? id, T model);
 
         /// <summary>
         /// Deletes the given <paramref name="model"/>.
