@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace EulerFinancial.Extensions
 {
@@ -52,6 +53,17 @@ namespace EulerFinancial.Extensions
         public static string ToString(this float? @float, string format)
         {
             return @float?.ToString(format) ?? string.Empty;
+        }
+        public static string ToTitleCase(this string str, CultureInfo cultureInfo)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return null;
+            }
+            else
+            {
+                return cultureInfo.TextInfo.ToTitleCase(str);
+            }
         }
     }
 }

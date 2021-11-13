@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xsd:element name="StyleSheet">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Fonts">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element maxOccurs="unbounded" name="Font">
+                <xsd:complexType>
+                  <xsd:attribute name="Name" type="xsd:string" use="required" />
+                  <xsd:attribute name="FontFamily" type="xsd:string" use="required" />
+                  <xsd:attribute name="FontWeight" type="xsd:string" use="required" />
+                  <xsd:attribute name="TextDecoration" type="xsd:string" use="required" />
+                  <xsd:attribute name="FontStyle" type="xsd:string" use="required" />
+                  <xsd:attribute name="FontSize" type="xsd:string" use="required" />
+                  <xsd:attribute name="Color" type="xsd:string" use="required" />
+                  <xsd:attribute name="BackColor" type="xsd:string" use="required" />
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="Colors">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element maxOccurs="unbounded" name="Color">
+                <xsd:complexType>
+                  <xsd:attribute name="Name" type="xsd:string" use="required" />
+                  <xsd:attribute name="HexCode" type="xsd:string" use="required" />
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="DefaultFont">
+          <xsd:complexType>
+            <xsd:attribute name="BackColor" type="xsd:string" use="required" />
+            <xsd:attribute name="Color" type="xsd:string" use="required" />
+            <xsd:attribute name="Name" type="xsd:string" use="required" />
+            <xsd:attribute name="Decoration" type="xsd:string" use="required" />
+            <xsd:attribute name="Size" type="xsd:string" use="required" />
+            <xsd:attribute name="Weight" type="xsd:string" use="required" />
+            <xsd:attribute name="Style" type="xsd:string" use="required" />
+            <xsd:attribute name="Family" type="xsd:string" use="required" />
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="AlphaBlendHexCode" type="xsd:string" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xs:schema>
