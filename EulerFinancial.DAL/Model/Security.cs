@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
@@ -29,8 +31,6 @@ namespace EulerFinancial.Model
         [Required]
         [StringLength(32)]
         public string SecurityDescription { get; set; }
-        [StringLength(32)]
-        public string CurrentSymbol { get; set; }
         [Required]
         [StringLength(96)]
         public string Issuer { get; set; }

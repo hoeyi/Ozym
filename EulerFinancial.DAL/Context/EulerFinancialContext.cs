@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using EulerFinancial.Model;
 
 #nullable disable
@@ -430,8 +432,6 @@ namespace EulerFinancial.Context
 
             modelBuilder.Entity<Security>(entity =>
             {
-                entity.Property(e => e.CurrentSymbol).IsUnicode(false);
-
                 entity.Property(e => e.SecurityDescription).IsUnicode(false);
 
                 entity.HasOne(d => d.SecurityExchange)
