@@ -13,12 +13,14 @@ namespace EulerFinancial.Resources
         private static readonly ResourceManager displayManager = new(typeof(ModelDisplayName));
         private static readonly ResourceManager descriptionManager = new(typeof(ModelDescription));
         private static readonly ResourceManager nounManager = new(typeof(Noun));
+        private static readonly ResourceManager expressionStringManager = new(typeof(ExpressionString));
         public static NounMetadata GetNounMetadata(string key)
         {
             string noun = nounManager.GetString(name: key);
 
             return NounMetadata.Parse(noun);
         }
+        
 
         public static IDictionary<string, ModelMetadata> GetModelMetaData<T>()
         {
@@ -85,6 +87,11 @@ namespace EulerFinancial.Resources
         public static string ToTitleCase(string str)
         {
             return str?.ToTitleCase(Culture) ?? string.Empty;
+        }
+
+        internal static string GetExpressionString(string name)
+        {
+            return expressionStringManager.GetString(name: name);
         }
     }
 }

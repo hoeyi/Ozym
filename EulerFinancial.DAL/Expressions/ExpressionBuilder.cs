@@ -3,11 +3,21 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Globalization;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace EulerFinancial.Expressions
 {
     public static class ExpressionBuilder
     {
+        public static IDictionary<ComparisonOperator, string> GetComparisonOperatorLookup()
+        {
+            var members = Enum.GetValues(typeof(ComparisonOperator))
+                .Cast<ComparisonOperator>()
+                .ToDictionary(m => m, m => Resources.ResourceHelper.GetExpressionString(name: $"{m}"));
+
+            return members;
+        }
+
         public static Expression<Func<TModel, bool>> GetExpression<TModel, TParam>(
             IQueryParameter<TModel, TParam> queryParameter)
         {
@@ -40,28 +50,7 @@ namespace EulerFinancial.Expressions
                 throw new ParseException(message: Resources.ExceptionString.Search_General_Invalid, e);
             }
         }
-
-        private static PropertyInfo GetSearchMember<T>(string name)
-        {
-            return typeof(T).GetProperty(name);
-        }
-
-        private static ConstantExpression ParseSearchConstant<TParam>(string value)
-        {
-            var parameterType = typeof(TParam);
-
-            parameterType = Nullable.GetUnderlyingType(parameterType) ?? parameterType;
-
-
-            return parameterType.FullName switch
-            {
-                "System.String" => Expression.Constant(value: value, type: parameterType),
-                "System.DateTime" => Expression.Constant(value: ParseDateTime(value), type: parameterType),
-                _ => throw new InvalidOperationException()
-            };
-        }
-
-        private static DateTime? ParseDateTime(string s)
+        public static DateTime? TryParseDateTime(string s)
         {
             var dateFormats =
                 new string[]
@@ -85,6 +74,27 @@ namespace EulerFinancial.Expressions
 
             return null;
         }
+
+        private static PropertyInfo GetSearchMember<T>(string name)
+        {
+            return typeof(T).GetProperty(name);
+        }
+
+        private static ConstantExpression ParseSearchConstant<TParam>(string value)
+        {
+            var parameterType = typeof(TParam);
+
+            parameterType = Nullable.GetUnderlyingType(parameterType) ?? parameterType;
+
+
+            return parameterType.FullName switch
+            {
+                "System.String" => Expression.Constant(value: value, type: parameterType),
+                "System.DateTime" => Expression.Constant(value: TryParseDateTime(value), type: parameterType),
+                _ => throw new InvalidOperationException()
+            };
+        }
+
 
         private static ParameterExpression GetParameterExpression<T>()
         {

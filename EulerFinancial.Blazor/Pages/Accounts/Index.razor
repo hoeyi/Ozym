@@ -9,9 +9,24 @@
 else
 {
     <h4>Accounts</h4>
-    <button class="btn btn-primary"
-            @onclick="@(args => SearchClicked(args))">
-        Search
+    <div>
+        <label hidden="@SearchInvalid" class="alert-info">@SearchInvalidMessage</label>
+    </div>
+    <div class="form-group" id="SearchRow">
+        <label for="SearchFieldSelect">@Resources.UICaption.Search_General_FieldSelect</label>
+        <select class="form-control selectpicker" @bind="SearchMemberName" id="SearchFieldSelect">
+            <option value=@nameof(AccountObject.StartDate)>@ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.StartDate))</option>
+        </select>
+        <select class="form-control selectpicker" @bind="@SearchOperator" id="SearchOperatorSelect">
+            @foreach(var op in ComparisonOperators)
+            {
+                <option value="@op.Key">@op.Value</option>
+            }
+        </select>
+        <input @bind="SearchValue"/>
+    </div>
+    <button class="btn btn-primary" @onclick="@(args => SearchClicked(args))">
+        @Resources.UICaption.Search_General_Button
     </button>
     <div>
         <table class="table">
@@ -89,12 +104,23 @@ else
 
 @code{
     private IEnumerable<Account> Accounts;
+    private IDictionary<ComparisonOperator, string> ComparisonOperators;
+
+    private ComparisonOperator SearchOperator;
+    private string SearchMemberName;
+    private string SearchValue;
+
+    private bool SearchInvalid;
+    private string SearchInvalidMessage;
+
+
 
     protected override async Task OnInitializedAsync()
     {
         var actionResult = await Controller.SelectWhereAysnc(x => true, maxCount: 0);
 
         Accounts = actionResult.Value;
+        ComparisonOperators = ExpressionBuilder.GetComparisonOperatorLookup();
     }
 
     private async Task SearchClicked(MouseEventArgs args)
@@ -106,7 +132,25 @@ else
 
     private Expression<Func<Account, bool>> GetSearchExpression()
     {
-        return x => x.AccountId > 10;
+        var dateValue = ExpressionBuilder.TryParseDateTime(SearchValue ?? string.Empty);
+        if (dateValue is null)
+        {
+            SearchInvalid = false;
+            return x => false;
+        }
+
+        try
+        {
+            var param = new QueryParameter<Account, DateTime>(nameof(Account.StartDate), SearchOperator, (DateTime)dateValue);
+            var exp = ExpressionBuilder.GetExpression(param);
+
+            return exp;
+        }
+        catch(ParseException e)
+        {
+            SearchInvalidMessage = e.Message;
+            return x => false;
+        }
     }
 
     private void NavigateToDetail(MouseEventArgs args, int id)

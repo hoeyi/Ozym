@@ -34,6 +34,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Adjective.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\ExpressionString.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExpressionString.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\ModelDescription.Designer.cs">
       <DependentUpon>ModelDescription.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -54,12 +59,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Noun.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\UICaption.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UICaption.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\Adjective.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Adjective.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ExpressionString.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExpressionString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\ModelDescription.resx">
       <LastGenOutput>ModelDescription.Designer.cs</LastGenOutput>
@@ -76,6 +90,10 @@
     <EmbeddedResource Update="Resources\Noun.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Noun.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UICaption.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>UICaption.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
