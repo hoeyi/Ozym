@@ -61,6 +61,24 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A search expression could not be built from the given parameters..
+        /// </summary>
+        internal static string Search_General_Invalid {
+            get {
+                return ResourceManager.GetString("Search.General.Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The property &apos;{0}&apos; could not be found for type &apos;{1}&apos;..
+        /// </summary>
+        internal static string Search_ParameterNotValidForType {
+            get {
+                return ResourceManager.GetString("Search.ParameterNotValidForType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The query string &apos;{0}&apos; could not be parsed..
         /// </summary>
         internal static string Search_Parse {

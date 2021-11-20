@@ -29,6 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Adjective.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Adjective.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\ModelDescription.Designer.cs">
       <DependentUpon>ModelDescription.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -52,6 +57,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\Adjective.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Adjective.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\ModelDescription.resx">
       <LastGenOutput>ModelDescription.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>

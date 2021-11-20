@@ -25,6 +25,7 @@ namespace EulerFinancial.ModelService
 
             await context.SaveChangesAsync();
 
+            model.AccountId = model.AccountNavigation.AccountObjectId;
             context.Accounts.Add(model);
 
             await context.SaveChangesAsync();

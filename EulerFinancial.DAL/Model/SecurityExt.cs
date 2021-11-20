@@ -1,13 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EulerFinancial.Model
 {
-    public partial class Security
+    public static class SecurityExt
     {
-        //public string CurrentSymbol { get; set; }
+        public static string GetCurrentSymbol(this Security security)
+        {
+            return security?.SecuritySymbols?.
+                Where(s => s.EffectiveDate > DateTime.Now)
+                ?.OrderBy(s => s.EffectiveDate)
+                ?.FirstOrDefault()
+                ?.SymbolCode ?? string.Empty;
+        }
     }
 }
