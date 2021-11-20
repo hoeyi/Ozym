@@ -9,6 +9,10 @@
 else
 {
     <h4>Accounts</h4>
+    <button class="btn btn-primary"
+            @onclick="@(args => SearchClicked(args))">
+        Search
+    </button>
     <div>
         <table class="table">
             <thead>
@@ -91,6 +95,18 @@ else
         var actionResult = await Controller.SelectWhereAysnc(x => true, maxCount: 0);
 
         Accounts = actionResult.Value;
+    }
+
+    private async Task SearchClicked(MouseEventArgs args)
+    {
+        var actionResult = await Controller.SelectWhereAysnc(GetSearchExpression(), maxCount: 0);
+
+        Accounts = actionResult.Value;
+    }
+
+    private Expression<Func<Account, bool>> GetSearchExpression()
+    {
+        return x => x.AccountId > 10;
     }
 
     private void NavigateToDetail(MouseEventArgs args, int id)
