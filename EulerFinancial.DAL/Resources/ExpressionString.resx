@@ -126,7 +126,7 @@
   <data name="GreaterThan" xml:space="preserve">
     <value>greater than</value>
   </data>
-  <data name="GreatThanOrEqualTo" xml:space="preserve">
+  <data name="GreaterThanOrEqualTo" xml:space="preserve">
     <value>greater than or equals</value>
   </data>
   <data name="LessThan" xml:space="preserve">

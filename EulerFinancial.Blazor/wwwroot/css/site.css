@@ -49,12 +49,15 @@ a, .btn-link {
         top: 0.5rem;
     }
 
-#SearchRow {
-    width: 100%;
-    float: left;
+/*.search-clause-row {*/
+    /*width: 100%;*/
+    /*float: left;
     white-space: nowrap;
 }
-.inner
-{
+.search-clause-row>* {
+    float: left;
+    white-space: nowrap;
     display: inline-block;
-}
+    vertical-align: top;
+    resize: horizontal;
+}*/

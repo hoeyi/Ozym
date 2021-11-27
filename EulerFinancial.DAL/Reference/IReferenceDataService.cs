@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EulerFinancial.Model;
-using EulerFinancial.Expressions;
 
 namespace EulerFinancial.Reference
 {

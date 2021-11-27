@@ -9,6 +9,20 @@ namespace EulerFinancial.Expressions
 {
     public static class ExpressionBuilder
     {
+        public static IDictionary<string, string> GetSearchFieldLookup<T>()
+            where T : class
+        {
+            var type = typeof(T);
+            return (from p in type.GetProperties(BindingFlags.Public)
+                    select new
+                    {
+                        MemberName = p.Name,
+                        DisplayName = Resources.ResourceHelper.GetDisplayName(type, $"{type.Name}.{p.Name}")
+                    })
+                   .Where(p => !string.IsNullOrEmpty(p.DisplayName))
+                   .ToDictionary(p => p.MemberName, p => p.DisplayName);
+        }
+
         public static IDictionary<ComparisonOperator, string> GetComparisonOperatorLookup()
         {
             var members = Enum.GetValues(typeof(ComparisonOperator))

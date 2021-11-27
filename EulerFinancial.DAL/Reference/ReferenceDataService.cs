@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EulerFinancial.Context;
-using EulerFinancial.Expressions;
 using EulerFinancial.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System;
 
 namespace EulerFinancial.Reference
 {

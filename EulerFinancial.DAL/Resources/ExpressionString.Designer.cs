@@ -90,9 +90,9 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to greater than or equals.
         /// </summary>
-        internal static string GreatThanOrEqualTo {
+        internal static string GreaterThanOrEqualTo {
             get {
-                return ResourceManager.GetString("GreatThanOrEqualTo", resourceCulture);
+                return ResourceManager.GetString("GreaterThanOrEqualTo", resourceCulture);
             }
         }
         
