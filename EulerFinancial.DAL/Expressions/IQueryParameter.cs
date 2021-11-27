@@ -6,7 +6,7 @@ namespace EulerFinancial.Expressions
     /// Reprsents a paramter used to filter search results.
     /// </summary>
     /// <typeparam name="T">The member type to be evaluated.</typeparam>
-    public interface IQueryParameter<TModel, TParam>
+    public interface IQueryParameter<TModel>
     {
         /// <summary>
         /// The type of object being searched.
@@ -25,7 +25,7 @@ namespace EulerFinancial.Expressions
         /// <summary>
         /// The value the matching member is to be compared to.
         /// </summary>
-        TParam Value { get; }
+        string Value { get; }
     }
 
 

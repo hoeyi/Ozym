@@ -9,6 +9,11 @@ using EulerFinancial.Reference;
 using EulerFinancial.ModelService;
 using EulerFinancial.Model;
 using EulerFinancial.Blazor.Controllers;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Sinks.File;
+using Serilog.Formatting.Compact;
+using Serilog.Events;
 
 namespace EulerFinancial.Blazor
 {
@@ -28,6 +33,8 @@ namespace EulerFinancial.Blazor
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            services.AddSingleton(Serilog.Log.Logger);
+
             services.AddDbContext<Context.EulerFinancialContext>(options =>
                 options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
 
@@ -40,6 +47,8 @@ namespace EulerFinancial.Blazor
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            SetLoggerConfiguration(env);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -61,6 +70,24 @@ namespace EulerFinancial.Blazor
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+        }
+        private static void SetLoggerConfiguration(IWebHostEnvironment env)
+        {
+            var loggerConfig = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.File(
+                    path: $"{EulerFinancial.Configuration.AssemblyInfoHelper.ExecutingAssemblyPath}\\.log",
+                    rollingInterval: RollingInterval.Day,
+                    shared: true);
+
+            if (env.IsDevelopment())
+            {
+                Log.Logger = loggerConfig.MinimumLevel.Debug().CreateLogger();
+            }
+            else
+            {
+                Log.Logger = loggerConfig.MinimumLevel.Information().CreateLogger();
+            }
         }
     }
 }

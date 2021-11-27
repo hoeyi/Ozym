@@ -1,6 +1,8 @@
 ﻿@page "/Accounts"
 @inherits ModelView
+
 @inject IController<Account> Controller
+@inject ILogger Logger
 
 @if (Accounts is null)
 {
@@ -138,35 +140,51 @@ else
         Accounts = actionResult.Value;
         SearchFields = ExpressionBuilder.GetSearchFieldLookup<Account>();
         ComparisonOperators = ExpressionBuilder.GetComparisonOperatorLookup();
+
+        if (SearchFields.Count > 0)
+            SearchMemberName = SearchFields.First().Key;
+
+        if (ComparisonOperators.Count > 0)
+            SearchOperator = ComparisonOperators.First().Key;
     }
 
     private async Task SearchClicked(MouseEventArgs args)
     {
-        var actionResult = await Controller.SelectWhereAysnc(GetSearchExpression(), maxCount: 0);
+        if(TryParseSearchExpression(out Expression<Func<Account, bool>> exp, out string msg))
+        {
+            try
+            {
+                var actionResult = await Controller.SelectWhereAysnc(exp, maxCount: 0);
 
-        Accounts = actionResult.Value;
+                Accounts = actionResult.Value;
+            }
+            catch(Exception e)
+            {
+                Logger.Error(e, string.Empty);
+            }
+        }
+        else
+        {
+            SearchInvalidMessage = msg;
+        }
     }
 
-    private Expression<Func<Account, bool>> GetSearchExpression()
+    private bool TryParseSearchExpression(out Expression<Func<Account,bool>> expression, out string errorMessage)
     {
-        var dateValue = ExpressionBuilder.TryParseDateTime(SearchValue ?? string.Empty);
-        if (dateValue is null)
-        {
-            SearchInvalid = false;
-            return x => false;
-        }
-
         try
         {
-            var param = new QueryParameter<Account, DateTime>(nameof(Account.StartDate), SearchOperator, (DateTime)dateValue);
-            var exp = ExpressionBuilder.GetExpression(param);
+            var param = new QueryParameter<Account>(SearchMemberName, SearchOperator, SearchValue);
+            expression = ExpressionBuilder.GetExpression(param);
+            errorMessage = null;
 
-            return exp;
+            return true;
         }
-        catch(ParseException e)
+        catch(Exception e)
         {
-            SearchInvalidMessage = e.Message;
-            return x => false;
+            expression = null;
+            errorMessage = e.Message;
+
+            return false;
         }
     }
 

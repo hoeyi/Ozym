@@ -1,8 +1,19 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using EulerFinancial.Model.Annotations;
 
 namespace EulerFinancial.Model
 {
+
+    [Searchable(new string[]
+    {
+        nameof(AccountNumber),
+        nameof(CloseDate),
+        nameof(DisplayName),
+        nameof(Description),
+        nameof(StartDate),
+    }
+    )]
     public partial class Account
     {
         [NotMapped]

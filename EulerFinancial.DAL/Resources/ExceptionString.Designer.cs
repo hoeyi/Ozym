@@ -187,6 +187,15 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to One search field must be selected..
+        /// </summary>
+        internal static string Validation_SearchMember_IsNull {
+            get {
+                return ResourceManager.GetString("Validation.SearchMember.IsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Symbol is missing defintion for selected type..
         /// </summary>
         internal static string Validation_SecuritySymbol_IncorrectType {

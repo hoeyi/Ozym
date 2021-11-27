@@ -2,10 +2,13 @@
 
 namespace EulerFinancial.Expressions
 {
-    public class QueryParameter<TModel, TParam> : IQueryParameter<TModel, TParam>
+    public class QueryParameter<TModel> : IQueryParameter<TModel>
     {
-        public QueryParameter(string memberName, ComparisonOperator @operator, TParam paramValue)
+        public QueryParameter(string memberName, ComparisonOperator @operator, string paramValue)
         {
+            if (string.IsNullOrEmpty(memberName))
+                throw new ArgumentNullException(Resources.ExceptionString.Validation_SearchMember_IsNull);
+
             if (SearchObjectType?.GetProperty(memberName) is null)
             {
                 var invalidMemberMessage = string.Format(Resources.ExceptionString.Search_ParameterNotValidForType,
@@ -24,6 +27,6 @@ namespace EulerFinancial.Expressions
 
         public ComparisonOperator Operator { get; }
 
-        public TParam Value { get; }
+        public string Value { get; }
     }
 }
