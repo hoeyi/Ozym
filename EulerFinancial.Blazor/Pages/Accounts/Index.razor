@@ -138,7 +138,7 @@ else
         var actionResult = await Controller.SelectWhereAysnc(x => true, maxCount: 0);
 
         Accounts = actionResult.Value;
-        SearchFields = ExpressionBuilder.GetSearchFieldLookup<Account>();
+        SearchFields = ExpressionBuilder.GetSearchablePropertyLookup<Account>();
         ComparisonOperators = ExpressionBuilder.GetComparisonOperatorLookup();
 
         if (SearchFields.Count > 0)
@@ -154,8 +154,8 @@ else
         {
             try
             {
+                SearchInvalidMessage = msg;
                 var actionResult = await Controller.SelectWhereAysnc(exp, maxCount: 0);
-
                 Accounts = actionResult.Value;
             }
             catch(Exception e)

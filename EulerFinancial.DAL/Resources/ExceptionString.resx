@@ -120,14 +120,13 @@
   <data name="Search.General.Invalid" xml:space="preserve">
     <value>A search expression could not be built from the given parameters.</value>
   </data>
+  <data name="Search.NestingNotSupported" xml:space="preserve">
+    <value>Search expressions may only use parameters nested one level deep.</value>
+  </data>
   <data name="Search.ParameterNotValidForType" xml:space="preserve">
     <value>The property '{0}' could not be found for type '{1}'.</value>
     <comment>{0} is the sought property name
 {1} is the containing type</comment>
-  </data>
-  <data name="Search.Parse" xml:space="preserve">
-    <value>The query string '{0}' could not be parsed.</value>
-    <comment>{0} is the search pattern</comment>
   </data>
   <data name="Validation.Date.General" xml:space="preserve">
     <value>'{0}' must be a date.</value>

@@ -70,20 +70,20 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search expressions may only use parameters nested one level deep..
+        /// </summary>
+        internal static string Search_NestingNotSupported {
+            get {
+                return ResourceManager.GetString("Search.NestingNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The property &apos;{0}&apos; could not be found for type &apos;{1}&apos;..
         /// </summary>
         internal static string Search_ParameterNotValidForType {
             get {
                 return ResourceManager.GetString("Search.ParameterNotValidForType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The query string &apos;{0}&apos; could not be parsed..
-        /// </summary>
-        internal static string Search_Parse {
-            get {
-                return ResourceManager.GetString("Search.Parse", resourceCulture);
             }
         }
         

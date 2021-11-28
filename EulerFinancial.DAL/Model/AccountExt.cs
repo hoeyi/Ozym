@@ -7,11 +7,7 @@ namespace EulerFinancial.Model
 
     [Searchable(new string[]
     {
-        nameof(AccountNumber),
-        nameof(CloseDate),
-        nameof(DisplayName),
-        nameof(Description),
-        nameof(StartDate),
+        nameof(AccountNumber)
     }
     )]
     public partial class Account

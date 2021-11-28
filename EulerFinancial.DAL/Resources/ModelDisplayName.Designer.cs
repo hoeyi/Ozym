@@ -88,33 +88,6 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Close Date.
-        /// </summary>
-        public static string Account_CloseDate {
-            get {
-                return ResourceManager.GetString("Account.CloseDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Description.
-        /// </summary>
-        public static string Account_Description {
-            get {
-                return ResourceManager.GetString("Account.Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name.
-        /// </summary>
-        public static string Account_DisplayName {
-            get {
-                return ResourceManager.GetString("Account.DisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Display Order.
         /// </summary>
         public static string Account_DisplayOrder {
@@ -156,15 +129,6 @@ namespace EulerFinancial.Resources {
         public static string Account_IsComplianceTradable {
             get {
                 return ResourceManager.GetString("Account.IsComplianceTradable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Start Date.
-        /// </summary>
-        public static string Account_StartDate {
-            get {
-                return ResourceManager.GetString("Account.StartDate", resourceCulture);
             }
         }
         

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using EulerFinancial.Model;
 using System;
-using Microsoft.Extensions.Logging;
-using Serilog;
 
 namespace EulerFinancial.Blazor.Shared
 {

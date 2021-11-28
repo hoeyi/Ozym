@@ -10,7 +10,6 @@ using EulerFinancial.ModelService;
 using EulerFinancial.Model;
 using EulerFinancial.Blazor.Controllers;
 using Serilog;
-using Serilog.Formatting.Compact;
 
 namespace EulerFinancial.Blazor
 {

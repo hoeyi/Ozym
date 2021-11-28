@@ -9,13 +9,6 @@ namespace EulerFinancial.Expressions
             if (string.IsNullOrEmpty(memberName))
                 throw new ArgumentNullException(Resources.ExceptionString.Validation_SearchMember_IsNull);
 
-            if (SearchObjectType?.GetProperty(memberName) is null)
-            {
-                var invalidMemberMessage = string.Format(Resources.ExceptionString.Search_ParameterNotValidForType,
-                    memberName ?? Resources.Adjective.Empty, SearchObjectType.Name);
-
-                throw new InvalidOperationException(message: invalidMemberMessage);
-            }
             MemberName = memberName;
             Operator = @operator;
             Value = paramValue;
