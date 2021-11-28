@@ -16,6 +16,7 @@ namespace EulerFinancial.Blazor
                 Log.Logger = new LoggerConfiguration()
                     .Enrich.FromLogContext()
                     .MinimumLevel.Information()
+                    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
                     .WriteTo.File(
                         path: $"{Configuration.AssemblyInfoHelper.ExecutingAssemblyPath}\\logs\\.log",
                         rollingInterval: RollingInterval.Day,
@@ -44,11 +45,10 @@ namespace EulerFinancial.Blazor
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                //.ConfigureLogging(l => l.AddSerilog(Log.Logger))
-                //.UseSerilog(logger: Log.Logger)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .UseSerilog(logger: Log.Logger);
     }
 }
