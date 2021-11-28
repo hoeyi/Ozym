@@ -61,11 +61,11 @@ namespace EulerFinancial.Blazor.ResourceString {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Application start-up failed..
+        ///   Looks up a localized string similar to Host terminated unexpectedly..
         /// </summary>
-        internal static string Application_StartupFailed {
+        internal static string Application_UnhandledException {
             get {
-                return ResourceManager.GetString("Application.StartupFailed", resourceCulture);
+                return ResourceManager.GetString("Application.UnhandledException", resourceCulture);
             }
         }
     }
