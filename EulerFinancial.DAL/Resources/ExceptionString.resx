@@ -117,13 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Search.General.Invalid" xml:space="preserve">
+  <data name="Expression.General.Invalid" xml:space="preserve">
     <value>A search expression could not be built from the given parameters.</value>
   </data>
-  <data name="Search.NestingNotSupported" xml:space="preserve">
+  <data name="Expression.NestingNotSupported" xml:space="preserve">
     <value>Search expressions may only use parameters nested one level deep.</value>
   </data>
-  <data name="Search.ParameterNotValidForType" xml:space="preserve">
+  <data name="Expression.Parameter.InvalidMethod" xml:space="preserve">
+    <value>The search method '{0}' cannot be used with the property '{1}'.</value>
+    <comment>{0} is the method name
+{1} is the member display name</comment>
+  </data>
+  <data name="Expression.ParameterNotValidForType" xml:space="preserve">
     <value>The property '{0}' could not be found for type '{1}'.</value>
     <comment>{0} is the sought property name
 {1} is the containing type</comment>

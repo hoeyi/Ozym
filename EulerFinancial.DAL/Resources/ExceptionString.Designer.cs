@@ -63,27 +63,36 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to A search expression could not be built from the given parameters..
         /// </summary>
-        internal static string Search_General_Invalid {
+        internal static string Expression_General_Invalid {
             get {
-                return ResourceManager.GetString("Search.General.Invalid", resourceCulture);
+                return ResourceManager.GetString("Expression.General.Invalid", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Search expressions may only use parameters nested one level deep..
         /// </summary>
-        internal static string Search_NestingNotSupported {
+        internal static string Expression_NestingNotSupported {
             get {
-                return ResourceManager.GetString("Search.NestingNotSupported", resourceCulture);
+                return ResourceManager.GetString("Expression.NestingNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The search method &apos;{0}&apos; cannot be used with the property &apos;{1}&apos;..
+        /// </summary>
+        internal static string Expression_Parameter_InvalidMethod {
+            get {
+                return ResourceManager.GetString("Expression.Parameter.InvalidMethod", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The property &apos;{0}&apos; could not be found for type &apos;{1}&apos;..
         /// </summary>
-        internal static string Search_ParameterNotValidForType {
+        internal static string Expression_ParameterNotValidForType {
             get {
-                return ResourceManager.GetString("Search.ParameterNotValidForType", resourceCulture);
+                return ResourceManager.GetString("Expression.ParameterNotValidForType", resourceCulture);
             }
         }
         

@@ -33,6 +33,8 @@ namespace EulerFinancial.Expressions
                             DisplayName = Resources.ResourceHelper.GetDisplayName(s.Item1?.PropertyType ?? type, s.Item2)
                         };
 
+            // Return dictionary where the keys are '{Type.Name}.{Member.Name}' and the values are the display names for
+            // those members.
             return query.ToDictionary(q => q.MemberName, q => q.DisplayName);
         }
 
@@ -66,29 +68,49 @@ namespace EulerFinancial.Expressions
 
             PropertyInfo outerPropertyInfo = type.GetProperty(memberInfo[0]);
 
+            // Construct the base elements of the left-hand side of the expression.
             ParameterExpression parameterExpression = Expression.Parameter(typeof(TModel), "x");
             Expression expressionLeft = Expression.Property(parameterExpression, propertyName: outerPropertyInfo.Name);
             Expression expressionRight;
 
+            // Handle direct class member scenario.
             if(memberInfo.Length == 1)
             {
-                expressionRight = ParseSearchConstant(queryParameter.Value, outerPropertyInfo.PropertyType);
+                // Check query parameter information is supported.
+                ValidateOrThrow(queryParameter.Operator, outerPropertyInfo);
+
+                // Build right-hand side with the search value.
+                expressionRight = ParseSearchConstant(value: queryParameter.Value, type: outerPropertyInfo.PropertyType);
+
+                // Conver the right-hand side to the appropriate type. Handles support for nullable property types.
+                expressionRight = Expression.Convert(expressionRight, type: outerPropertyInfo.PropertyType);
             }
+
+            // Handles single-level nested class member scenario.
             else if(memberInfo.Length == 2)
             {
-                PropertyInfo innerPeropertyInfo = outerPropertyInfo.PropertyType.GetProperty(memberInfo[1]);
-                expressionLeft = Expression.Property(expressionLeft, propertyName: innerPeropertyInfo.Name);
+                PropertyInfo innerPropertyInfo = outerPropertyInfo.PropertyType.GetProperty(memberInfo[1]);
 
-                expressionRight = ParseSearchConstant(queryParameter.Value, innerPeropertyInfo.PropertyType);
+                // Check query parameter information is supported.
+                ValidateOrThrow(queryParameter.Operator, innerPropertyInfo);
+
+                // Add the inner property to the left-hand side of the expression.
+                expressionLeft = Expression.Property(expressionLeft, propertyName: innerPropertyInfo.Name);
+
+                // Build right-hand side with the search value.
+                expressionRight = ParseSearchConstant(value: queryParameter.Value, type: innerPropertyInfo.PropertyType);
+
+                // Conver the right-hand side to the appropriate type. Handles support for nullable property types.
+                expressionRight = Expression.Convert(expressionRight, type: innerPropertyInfo.PropertyType);
             }
             else
             {
-                throw new NotSupportedException(message: Resources.ExceptionString.Search_NestingNotSupported);
+                throw new NotSupportedException(message: Resources.ExceptionString.Expression_NestingNotSupported);
             }
 
             try
             {
-
+                // Combine the left- and right-hand sides with the appropriate method.
                 Expression expression = queryParameter.Operator switch
                 {
                     ComparisonOperator.EqualTo => Expression.Equal(expressionLeft, expressionRight),
@@ -106,11 +128,68 @@ namespace EulerFinancial.Expressions
             }
             catch(Exception e)
             {
-                throw new ParseException(message: Resources.ExceptionString.Search_General_Invalid, e);
+                throw new ParseException(message: Resources.ExceptionString.Expression_General_Invalid, e);
             }
         }
 
+        /// <summary>
+        /// Validates the given <see cref="ComparisonOperator"/> is valid for use with the given <see cref="PropertyInfo"/>.
+        /// Throws a <see cref="NotSupportedException"/> if the use is invalid.
+        /// </summary>
+        /// <param name="operator">The operator to check.</param>
+        /// <param name="property">The property to check</param>
+        private static void ValidateOrThrow(ComparisonOperator @operator, PropertyInfo property)
+        {
+            if (property is null)
+                throw new ArgumentNullException(paramName: nameof(property));
 
+            // Get the underlying type if property type is nullable.
+            var type = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+
+            // Define comparisons valid for numeric types.
+            var numericOperators = new ComparisonOperator[]
+            {
+                ComparisonOperator.EqualTo,
+                ComparisonOperator.NotEqualTo,
+                ComparisonOperator.GreaterThan,
+                ComparisonOperator.GreaterThanOrEqualTo,
+                ComparisonOperator.LessThan,
+                ComparisonOperator.LessThanOrEqualTo
+            };
+
+            // Define comparisons valid for text types.
+            var textOperators = new ComparisonOperator[]
+            {
+                ComparisonOperator.EqualTo,
+                ComparisonOperator.NotEqualTo,
+                ComparisonOperator.Contains
+            };
+
+            var typeOperatorLookup = new Dictionary<Type, ComparisonOperator[]>()
+            {
+                { typeof(short), numericOperators },
+                { typeof(int), numericOperators },
+                { typeof(long), numericOperators },
+                { typeof(float), numericOperators },
+                { typeof(double), numericOperators },
+                { typeof(decimal), numericOperators },
+                { typeof(DateTime), numericOperators },
+
+                { typeof(char), textOperators },
+                { typeof(string), textOperators },
+            };
+
+            // Throw exception if mapped array does not contain the comparison operator, or if 
+            // the mapping does not contain the type.
+            if (!typeOperatorLookup.ContainsKey(type) ||
+                !typeOperatorLookup[type].Contains(@operator))
+                throw new NotSupportedException(
+                    string.Format(
+                        Resources.ExceptionString.Expression_Parameter_InvalidMethod, 
+                        Resources.ResourceHelper.GetExpressionString(name: $"{@operator}"),
+                        Resources.ResourceHelper.GetDisplayName(property.DeclaringType, property.Name)));
+        }
+        
         /// <summary>
         /// Creates an enumerable collection of property metadata from a class <typeparamref name="T"/> 
         /// and child properties whose type has the <see cref="SearchableAttribute"/> attribute.
