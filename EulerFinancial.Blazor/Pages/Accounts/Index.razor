@@ -46,77 +46,74 @@ else
         @Resources.UICaption.Search_General_Button
     </button>
     <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.AccountObjectCode))
-                    </th>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.ObjectDipslayName))
-                    </th>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.StartDate))
-                    </th>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.CloseDate))
-                    </th>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.AccountNumber))
-                    </th>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.DisplayOrder))
-                    </th>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.BooksClosedDate))
-                    </th>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.IsComplianceTradable))
-                    </th>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.HasWallet))
-                    </th>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.HasBankTransaction))
-                    </th>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.HasBrokerTransaction))
-                    </th>
-                    <th>
-                        @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.AccountCustodianId))
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var account in Accounts)
-                {
-                    int id = account.AccountId;
-
+        <ModelList Data=@Accounts>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>@account.AccountNavigation.AccountObjectCode</td>
-                        <td>@account.AccountNavigation.ObjectDipslayName</td>
-                        <td>@account.AccountNavigation.StartDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
-                        <td>@account.AccountNavigation.CloseDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
-                        <td>@account.AccountNumber</td>
-                        <td>@account.DisplayOrder</td>
-                        <td>@account.BooksClosedDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
-                        <td>@account.IsComplianceTradable</td>
-                        <td>@account.HasWallet</td>
-                        <td>@account.HasBankTransaction</td>
-                        <td>@account.HasBrokerTransaction</td>
-                        <td>@account.AccountCustodian?.CustodianCode</td>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.AccountObjectCode))
+                        </th>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.ObjectDipslayName))
+                        </th>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.StartDate))
+                        </th>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.CloseDate))
+                        </th>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.AccountNumber))
+                        </th>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.DisplayOrder))
+                        </th>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.BooksClosedDate))
+                        </th>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.IsComplianceTradable))
+                        </th>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.HasWallet))
+                        </th>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.HasBankTransaction))
+                        </th>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.HasBrokerTransaction))
+                        </th>
+                        <th>
+                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.AccountCustodianId))
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@context.AccountNavigation.AccountObjectCode</td>
+                        <td>@context.AccountNavigation.ObjectDipslayName</td>
+                        <td>@context.AccountNavigation.StartDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
+                        <td>@context.AccountNavigation.CloseDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
+                        <td>@context.AccountNumber</td>
+                        <td>@context.DisplayOrder</td>
+                        <td>@context.BooksClosedDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
+                        <td>@context.IsComplianceTradable</td>
+                        <td>@context.HasWallet</td>
+                        <td>@context.HasBankTransaction</td>
+                        <td>@context.HasBrokerTransaction</td>
+                        <td>@context.AccountCustodian?.CustodianCode</td>
                         <td>
                             <button class="btn btn-primary"
-                                    @onclick="@(args => NavigateToDetail(args, id))">
+                                    @onclick="@(args => NavigateToDetail(args, context))">
                                 Details
                             </button>
                         </td>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </ModelList>
+</div>
 }
 
 @code{
@@ -188,8 +185,8 @@ else
         }
     }
 
-    private void NavigateToDetail(MouseEventArgs args, int id)
+    private void NavigateToDetail(MouseEventArgs args, Account account)
     {
-        NavigationHelper.NavigateTo($"/Accounts/Details/{id}");
+        NavigationHelper.NavigateTo($"/Accounts/Details/{account?.AccountId ?? default}");
     }
 }
