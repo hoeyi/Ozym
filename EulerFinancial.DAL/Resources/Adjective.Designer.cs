@@ -61,11 +61,74 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to contains.
+        /// </summary>
+        internal static string Contains {
+            get {
+                return ResourceManager.GetString("Contains", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to empty.
         /// </summary>
         internal static string Empty {
             get {
                 return ResourceManager.GetString("Empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to equals.
+        /// </summary>
+        internal static string EqualTo {
+            get {
+                return ResourceManager.GetString("EqualTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to greater than.
+        /// </summary>
+        internal static string GreaterThan {
+            get {
+                return ResourceManager.GetString("GreaterThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to greater than or equals.
+        /// </summary>
+        internal static string GreaterThanOrEqualTo {
+            get {
+                return ResourceManager.GetString("GreaterThanOrEqualTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to less than.
+        /// </summary>
+        internal static string LessThan {
+            get {
+                return ResourceManager.GetString("LessThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to less than or equals.
+        /// </summary>
+        internal static string LessThanOrEqualTo {
+            get {
+                return ResourceManager.GetString("LessThanOrEqualTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not equal to.
+        /// </summary>
+        internal static string NotEqualTo {
+            get {
+                return ResourceManager.GetString("NotEqualTo", resourceCulture);
             }
         }
     }

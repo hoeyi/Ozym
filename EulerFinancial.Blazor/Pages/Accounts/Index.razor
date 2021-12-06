@@ -23,7 +23,7 @@ else
                         <select class="form-control selectpicker" @bind="SearchMemberName" id="SearchFieldSelect">
                             @foreach(var field in SearchFields)
                             {
-                                <option value="@field.Key">@field.Value</option> 
+                                <option value="@field.QualifiedMemberName">@field.DisplayName</option> 
                             }
                         </select>
                     </td>
@@ -51,40 +51,40 @@ else
                 <thead>
                     <tr>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.AccountObjectCode))
+                            @UIHelper.GetModelDisplayName(typeof(AccountObject), nameof(AccountObject.AccountObjectCode))
                         </th>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.ObjectDipslayName))
+                            @UIHelper.GetModelDisplayName(typeof(AccountObject), nameof(AccountObject.ObjectDipslayName))
                         </th>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.StartDate))
+                            @UIHelper.GetModelDisplayName(typeof(AccountObject), nameof(AccountObject.StartDate))
                         </th>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(AccountObject), nameof(AccountObject.CloseDate))
+                            @UIHelper.GetModelDisplayName(typeof(AccountObject), nameof(AccountObject.CloseDate))
                         </th>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.AccountNumber))
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.AccountNumber))
                         </th>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.DisplayOrder))
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.DisplayOrder))
                         </th>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.BooksClosedDate))
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.BooksClosedDate))
                         </th>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.IsComplianceTradable))
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.IsComplianceTradable))
                         </th>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.HasWallet))
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.HasWallet))
                         </th>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.HasBankTransaction))
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.HasBankTransaction))
                         </th>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.HasBrokerTransaction))
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.HasBrokerTransaction))
                         </th>
                         <th>
-                            @ResourceHelper.GetDisplayName(typeof(Account), nameof(Account.AccountCustodianId))
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.AccountCustodianId))
                         </th>
                         <th></th>
                     </tr>
@@ -119,7 +119,7 @@ else
 @code{
     private IEnumerable<Account> Accounts;
     private IDictionary<ComparisonOperator, string> ComparisonOperators;
-    private IDictionary<string, string> SearchFields;
+    private IEnumerable<ModelMetadata> SearchFields;
 
     private ComparisonOperator SearchOperator;
     private string SearchMemberName;
@@ -135,11 +135,11 @@ else
         var actionResult = await Controller.SelectWhereAysnc(x => true, maxCount: 0);
 
         Accounts = actionResult.Value;
-        SearchFields = ExpressionBuilder.GetSearchablePropertyLookup<Account>();
+        SearchFields = ExpressionBuilder.GetSearchableMetadata<Account>();
         ComparisonOperators = ExpressionBuilder.GetComparisonOperatorLookup();
 
-        if (SearchFields.Count > 0)
-            SearchMemberName = SearchFields.First().Key;
+        if (SearchFields.Count() > 0)
+            SearchMemberName = SearchFields.First().QualifiedMemberName;
 
         if (ComparisonOperators.Count > 0)
             SearchOperator = ComparisonOperators.First().Key;

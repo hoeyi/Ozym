@@ -117,25 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Contains" xml:space="preserve">
-    <value>contains</value>
-  </data>
-  <data name="EqualTo" xml:space="preserve">
-    <value>equals</value>
-  </data>
-  <data name="GreaterThan" xml:space="preserve">
-    <value>greater than</value>
-  </data>
-  <data name="GreaterThanOrEqualTo" xml:space="preserve">
-    <value>greater than or equals</value>
-  </data>
-  <data name="LessThan" xml:space="preserve">
-    <value>less than</value>
-  </data>
-  <data name="LessThanOrEqualTo" xml:space="preserve">
-    <value>less than or equals</value>
-  </data>
-  <data name="NotEqualTo" xml:space="preserve">
-    <value>not equal to</value>
+  <data name="Display.Account" xml:space="preserve">
+    <value />
   </data>
 </root>

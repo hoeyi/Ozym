@@ -31,6 +31,9 @@ namespace EulerFinancial.Blazor
 
             services.AddSingleton(implementationInstance: Log.Logger);
 
+            services.AddSingleton<UI.IUserInterfaceHelper, UI.UserInterfaceHelper>();
+            services.AddSingleton<Expressions.IExpressionBuilder, Expressions.ExpressionBuilder>();
+
             services.AddDbContext<Context.EulerFinancialContext>(options =>
                 options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
 

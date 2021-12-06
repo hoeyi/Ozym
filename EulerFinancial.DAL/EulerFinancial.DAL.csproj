@@ -34,10 +34,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Adjective.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\ExpressionString.Designer.cs">
+    <Compile Update="Resources\DefaultConfiguration.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ExpressionString.resx</DependentUpon>
+      <DependentUpon>DefaultConfiguration.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\ModelDescription.Designer.cs">
       <DependentUpon>ModelDescription.resx</DependentUpon>
@@ -54,10 +54,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionString.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\Noun.Designer.cs">
+    <Compile Update="Resources\NounString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Noun.resx</DependentUpon>
+      <DependentUpon>NounString.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\UICaption.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -71,9 +71,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Adjective.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ExpressionString.resx">
+    <EmbeddedResource Update="Resources\DefaultConfiguration.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ExpressionString.Designer.cs</LastGenOutput>
+      <LastGenOutput>DefaultConfiguration.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\ModelDescription.resx">
       <LastGenOutput>ModelDescription.Designer.cs</LastGenOutput>
@@ -87,9 +87,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Noun.resx">
+    <EmbeddedResource Update="Resources\NounString.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Noun.Designer.cs</LastGenOutput>
+      <LastGenOutput>NounString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\UICaption.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

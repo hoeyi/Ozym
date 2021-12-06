@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account.AccountCustodianID" xml:space="preserve">
+  <data name="Account.AccountCustodianId" xml:space="preserve">
     <value>Custodian</value>
   </data>
   <data name="Account.AccountNumber" xml:space="preserve">
@@ -141,10 +141,10 @@
   <data name="Account.IsComplianceTradable" xml:space="preserve">
     <value>Tradable</value>
   </data>
-  <data name="AccountAttributeMemberEntry.AccountObjectID" xml:space="preserve">
+  <data name="AccountAttributeMemberEntry.AccountObjectId" xml:space="preserve">
     <value>Account / Group</value>
   </data>
-  <data name="AccountAttributeMemberEntry.AttributeMemberID" xml:space="preserve">
+  <data name="AccountAttributeMemberEntry.AttributeMemberId" xml:space="preserve">
     <value>Value</value>
   </data>
   <data name="AccountAttributeMemberEntry.EffectiveDate" xml:space="preserve">
@@ -162,10 +162,10 @@
   <data name="AccountGroup.DisplayOrder" xml:space="preserve">
     <value>Display Order</value>
   </data>
-  <data name="AccountGroupMember.AccountGroupID" xml:space="preserve">
+  <data name="AccountGroupMember.AccountGroupId" xml:space="preserve">
     <value>Group</value>
   </data>
-  <data name="AccountGroupMember.AccountID" xml:space="preserve">
+  <data name="AccountGroupMember.AccountId" xml:space="preserve">
     <value>Account</value>
   </data>
   <data name="AccountGroupMember.EntryDate" xml:space="preserve">
@@ -204,10 +204,10 @@
   <data name="AccountWallet.AddressTag" xml:space="preserve">
     <value>Tag</value>
   </data>
-  <data name="AccountWallet.DenominationSecurityID" xml:space="preserve">
+  <data name="AccountWallet.DenominationSecurityId" xml:space="preserve">
     <value>Denomination</value>
   </data>
-  <data name="BankTransaction.AccountID" xml:space="preserve">
+  <data name="BankTransaction.AccountId" xml:space="preserve">
     <value>Account</value>
   </data>
   <data name="BankTransaction.Amount" xml:space="preserve">
@@ -216,7 +216,7 @@
   <data name="BankTransaction.Comment" xml:space="preserve">
     <value>Comment</value>
   </data>
-  <data name="BankTransaction.TransactionCodeID" xml:space="preserve">
+  <data name="BankTransaction.TransactionCodeId" xml:space="preserve">
     <value>Transaction Code</value>
   </data>
   <data name="BankTransaction.TransactionDate" xml:space="preserve">
@@ -228,16 +228,16 @@
   <data name="BankTransactionCode.TransactionCode" xml:space="preserve">
     <value>Code</value>
   </data>
-  <data name="BankTransactionCode.TransactionCodeID" xml:space="preserve">
+  <data name="BankTransactionCode.TransactionCodeId" xml:space="preserve">
     <value>Bank Transaction Code</value>
   </data>
-  <data name="BankTransactionCodeAttributeMemberEntry.AttributeMemberID" xml:space="preserve">
+  <data name="BankTransactionCodeAttributeMemberEntry.AttributeMemberId" xml:space="preserve">
     <value>Attribute Member</value>
   </data>
   <data name="BankTransactionCodeAttributeMemberEntry.EffectiveDate" xml:space="preserve">
     <value>Effective Date</value>
   </data>
-  <data name="BankTransactionCodeAttributeMemberEntry.TransactionCodeID" xml:space="preserve">
+  <data name="BankTransactionCodeAttributeMemberEntry.TransactionCodeId" xml:space="preserve">
     <value>Transaction Code</value>
   </data>
   <data name="BankTransactionCodeAttributeMemberEntry.Weight" xml:space="preserve">
@@ -252,7 +252,7 @@
   <data name="BrokerTransaction.Amount" xml:space="preserve">
     <value>Amount</value>
   </data>
-  <data name="BrokerTransaction.DepSecurityID" xml:space="preserve">
+  <data name="BrokerTransaction.DepSecurityId" xml:space="preserve">
     <value>Dep. Security</value>
   </data>
   <data name="BrokerTransaction.Fee" xml:space="preserve">
@@ -261,7 +261,7 @@
   <data name="BrokerTransaction.Quantity" xml:space="preserve">
     <value>Quantity</value>
   </data>
-  <data name="BrokerTransaction.SecurityID" xml:space="preserve">
+  <data name="BrokerTransaction.SecurityId" xml:space="preserve">
     <value>Security</value>
   </data>
   <data name="BrokerTransaction.SettleDate" xml:space="preserve">
@@ -273,7 +273,7 @@
   <data name="BrokerTransaction.TradeDate" xml:space="preserve">
     <value>Trade Date</value>
   </data>
-  <data name="BrokerTransaction.TransactionCodeID" xml:space="preserve">
+  <data name="BrokerTransaction.TransactionCodeId" xml:space="preserve">
     <value>Action</value>
   </data>
   <data name="BrokerTransaction.Withholding" xml:space="preserve">
@@ -294,13 +294,13 @@
   <data name="BrokerTransactionCode.TransactionCode" xml:space="preserve">
     <value>Code</value>
   </data>
-  <data name="BrokerTransactionCodeAttributeMemberEntry.AttributeMemberID" xml:space="preserve">
+  <data name="BrokerTransactionCodeAttributeMemberEntry.AttributeMemberId" xml:space="preserve">
     <value>Attribute Member</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry.EffectiveDate" xml:space="preserve">
     <value>Effective Date</value>
   </data>
-  <data name="BrokerTransactionCodeAttributeMemberEntry.TransactionCodeID" xml:space="preserve">
+  <data name="BrokerTransactionCodeAttributeMemberEntry.TransactionCodeId" xml:space="preserve">
     <value>Action</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry.Weight" xml:space="preserve">
@@ -312,7 +312,7 @@
   <data name="Country.IsoCode3" xml:space="preserve">
     <value>ISO-3 Code</value>
   </data>
-  <data name="CountryAttributeMemberEntry.AttributeMemberID" xml:space="preserve">
+  <data name="CountryAttributeMemberEntry.AttributeMemberId" xml:space="preserve">
     <value>Attribute Member</value>
   </data>
   <data name="CountryAttributeMemberEntry.CountryID" xml:space="preserve">

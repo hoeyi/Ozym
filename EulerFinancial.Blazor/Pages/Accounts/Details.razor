@@ -121,14 +121,14 @@ else
 
     private void PopulateModelMetadata(IDictionary<string, ModelMetadata> metadata)
     {
-        foreach(var mm in Resources.ResourceHelper.GetModelMetaData<AccountObject>())
+        foreach(var mm in UIHelper.GetModelMetadata<AccountObject>())
         {
-            metadata.TryAdd(mm.Key, mm.Value);
+            metadata.TryAdd(mm.DeclaringMemberName, mm);
         }
 
-        foreach(var mm in Resources.ResourceHelper.GetModelMetaData<Account>())
+        foreach(var mm in UIHelper.GetModelMetadata<Account>())
         {
-            metadata.TryAdd(mm.Key, mm.Value);
+            metadata.TryAdd(mm.DeclaringMemberName, mm);
         }
     }
 }

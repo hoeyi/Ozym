@@ -63,9 +63,9 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Custodian.
         /// </summary>
-        public static string Account_AccountCustodianID {
+        public static string Account_AccountCustodianId {
             get {
-                return ResourceManager.GetString("Account.AccountCustodianID", resourceCulture);
+                return ResourceManager.GetString("Account.AccountCustodianId", resourceCulture);
             }
         }
         
@@ -135,18 +135,18 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Account / Group.
         /// </summary>
-        public static string AccountAttributeMemberEntry_AccountObjectID {
+        public static string AccountAttributeMemberEntry_AccountObjectId {
             get {
-                return ResourceManager.GetString("AccountAttributeMemberEntry.AccountObjectID", resourceCulture);
+                return ResourceManager.GetString("AccountAttributeMemberEntry.AccountObjectId", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
-        public static string AccountAttributeMemberEntry_AttributeMemberID {
+        public static string AccountAttributeMemberEntry_AttributeMemberId {
             get {
-                return ResourceManager.GetString("AccountAttributeMemberEntry.AttributeMemberID", resourceCulture);
+                return ResourceManager.GetString("AccountAttributeMemberEntry.AttributeMemberId", resourceCulture);
             }
         }
         
@@ -198,18 +198,18 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Group.
         /// </summary>
-        public static string AccountGroupMember_AccountGroupID {
+        public static string AccountGroupMember_AccountGroupId {
             get {
-                return ResourceManager.GetString("AccountGroupMember.AccountGroupID", resourceCulture);
+                return ResourceManager.GetString("AccountGroupMember.AccountGroupId", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Account.
         /// </summary>
-        public static string AccountGroupMember_AccountID {
+        public static string AccountGroupMember_AccountId {
             get {
-                return ResourceManager.GetString("AccountGroupMember.AccountID", resourceCulture);
+                return ResourceManager.GetString("AccountGroupMember.AccountId", resourceCulture);
             }
         }
         
@@ -324,18 +324,18 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Denomination.
         /// </summary>
-        public static string AccountWallet_DenominationSecurityID {
+        public static string AccountWallet_DenominationSecurityId {
             get {
-                return ResourceManager.GetString("AccountWallet.DenominationSecurityID", resourceCulture);
+                return ResourceManager.GetString("AccountWallet.DenominationSecurityId", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Account.
         /// </summary>
-        public static string BankTransaction_AccountID {
+        public static string BankTransaction_AccountId {
             get {
-                return ResourceManager.GetString("BankTransaction.AccountID", resourceCulture);
+                return ResourceManager.GetString("BankTransaction.AccountId", resourceCulture);
             }
         }
         
@@ -360,9 +360,9 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Transaction Code.
         /// </summary>
-        public static string BankTransaction_TransactionCodeID {
+        public static string BankTransaction_TransactionCodeId {
             get {
-                return ResourceManager.GetString("BankTransaction.TransactionCodeID", resourceCulture);
+                return ResourceManager.GetString("BankTransaction.TransactionCodeId", resourceCulture);
             }
         }
         
@@ -396,18 +396,18 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Bank Transaction Code.
         /// </summary>
-        public static string BankTransactionCode_TransactionCodeID {
+        public static string BankTransactionCode_TransactionCodeId {
             get {
-                return ResourceManager.GetString("BankTransactionCode.TransactionCodeID", resourceCulture);
+                return ResourceManager.GetString("BankTransactionCode.TransactionCodeId", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Attribute Member.
         /// </summary>
-        public static string BankTransactionCodeAttributeMemberEntry_AttributeMemberID {
+        public static string BankTransactionCodeAttributeMemberEntry_AttributeMemberId {
             get {
-                return ResourceManager.GetString("BankTransactionCodeAttributeMemberEntry.AttributeMemberID", resourceCulture);
+                return ResourceManager.GetString("BankTransactionCodeAttributeMemberEntry.AttributeMemberId", resourceCulture);
             }
         }
         
@@ -423,9 +423,9 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Transaction Code.
         /// </summary>
-        public static string BankTransactionCodeAttributeMemberEntry_TransactionCodeID {
+        public static string BankTransactionCodeAttributeMemberEntry_TransactionCodeId {
             get {
-                return ResourceManager.GetString("BankTransactionCodeAttributeMemberEntry.TransactionCodeID", resourceCulture);
+                return ResourceManager.GetString("BankTransactionCodeAttributeMemberEntry.TransactionCodeId", resourceCulture);
             }
         }
         
@@ -468,9 +468,9 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Dep. Security.
         /// </summary>
-        public static string BrokerTransaction_DepSecurityID {
+        public static string BrokerTransaction_DepSecurityId {
             get {
-                return ResourceManager.GetString("BrokerTransaction.DepSecurityID", resourceCulture);
+                return ResourceManager.GetString("BrokerTransaction.DepSecurityId", resourceCulture);
             }
         }
         
@@ -495,9 +495,9 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Security.
         /// </summary>
-        public static string BrokerTransaction_SecurityID {
+        public static string BrokerTransaction_SecurityId {
             get {
-                return ResourceManager.GetString("BrokerTransaction.SecurityID", resourceCulture);
+                return ResourceManager.GetString("BrokerTransaction.SecurityId", resourceCulture);
             }
         }
         
@@ -531,9 +531,9 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
-        public static string BrokerTransaction_TransactionCodeID {
+        public static string BrokerTransaction_TransactionCodeId {
             get {
-                return ResourceManager.GetString("BrokerTransaction.TransactionCodeID", resourceCulture);
+                return ResourceManager.GetString("BrokerTransaction.TransactionCodeId", resourceCulture);
             }
         }
         
@@ -594,9 +594,9 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Attribute Member.
         /// </summary>
-        public static string BrokerTransactionCodeAttributeMemberEntry_AttributeMemberID {
+        public static string BrokerTransactionCodeAttributeMemberEntry_AttributeMemberId {
             get {
-                return ResourceManager.GetString("BrokerTransactionCodeAttributeMemberEntry.AttributeMemberID", resourceCulture);
+                return ResourceManager.GetString("BrokerTransactionCodeAttributeMemberEntry.AttributeMemberId", resourceCulture);
             }
         }
         
@@ -612,9 +612,9 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
-        public static string BrokerTransactionCodeAttributeMemberEntry_TransactionCodeID {
+        public static string BrokerTransactionCodeAttributeMemberEntry_TransactionCodeId {
             get {
-                return ResourceManager.GetString("BrokerTransactionCodeAttributeMemberEntry.TransactionCodeID", resourceCulture);
+                return ResourceManager.GetString("BrokerTransactionCodeAttributeMemberEntry.TransactionCodeId", resourceCulture);
             }
         }
         
@@ -648,9 +648,9 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Attribute Member.
         /// </summary>
-        public static string CountryAttributeMemberEntry_AttributeMemberID {
+        public static string CountryAttributeMemberEntry_AttributeMemberId {
             get {
-                return ResourceManager.GetString("CountryAttributeMemberEntry.AttributeMemberID", resourceCulture);
+                return ResourceManager.GetString("CountryAttributeMemberEntry.AttributeMemberId", resourceCulture);
             }
         }
         

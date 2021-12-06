@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using EulerFinancial.Model;
 using System;
+using EulerFinancial.UI;
+using EulerFinancial.Expressions;
 
 namespace EulerFinancial.Blazor.Shared
 {
@@ -9,6 +11,12 @@ namespace EulerFinancial.Blazor.Shared
     {
         [Inject]
         protected NavigationManager NavigationHelper { get; set; }
+
+        [Inject]
+        protected IUserInterfaceHelper UIHelper { get; set; }
+
+        [Inject]
+        protected IExpressionBuilder ExpressionBuilder { get; set; }
 
         protected readonly IDictionary<string, ModelMetadata> ModelMetadata =
             new Dictionary<string, ModelMetadata>();
