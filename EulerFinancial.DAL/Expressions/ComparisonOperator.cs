@@ -23,6 +23,12 @@ namespace EulerFinancial.Expressions
         LessThanOrEqualTo,
 
         [EnumMember(Value = "LIKE %{0}%")]
-        Contains
+        Contains,
+
+        [EnumMember(Value = "IS NULL")]
+        IsNull,
+
+        [EnumMember(Value = "IS NOT NULL")]
+        IsNotNull
     }
 }

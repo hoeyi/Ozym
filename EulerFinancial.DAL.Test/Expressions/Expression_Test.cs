@@ -41,5 +41,27 @@ namespace EulerFinancial.Test.Expressions
 
             Assert.IsInstanceOfType(expression, typeof(Expression<Func<Account, bool>>));
         }
+
+        [TestMethod]
+        public void GetAccountExpression_MemberIsNull_YieldsInstance()
+        {
+            var paramName = nameof(AccountObject.CloseDate);
+            var paramValue = "12/31/2021";
+
+            var expressionBuilder = new ExpressionBuilder();
+
+            var modelMetadata = expressionBuilder.GetSearchableMetadata<Account>()
+                                .Where(m => m.DeclaringMemberName == $"{typeof(AccountObject).Name}.{paramName}")
+                                .FirstOrDefault();
+
+            var queryParamter = new QueryParameter<Account>(
+                memberName: modelMetadata.QualifiedMemberName,
+                @operator: ComparisonOperator.IsNull,
+                paramValue: paramValue);
+
+            var expression = expressionBuilder.GetExpression(queryParamter);
+
+            Assert.IsInstanceOfType(expression, typeof(Expression<Func<Account, bool>>));
+        }
     }
 }

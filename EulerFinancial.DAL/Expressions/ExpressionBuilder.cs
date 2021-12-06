@@ -45,7 +45,8 @@ namespace EulerFinancial.Expressions
                 ValidateOrThrow(queryParameter.Operator, outerPropertyInfo);
 
                 // Build right-hand side with the search value.
-                expressionRight = ParseSearchConstant(value: queryParameter.Value, type: outerPropertyInfo.PropertyType);
+                expressionRight = queryParameter.Operator == ComparisonOperator.IsNull || queryParameter.Operator == ComparisonOperator.IsNotNull ?
+                    Expression.Constant(null) : ParseSearchConstant(value: queryParameter.Value, type: outerPropertyInfo.PropertyType);
 
                 // Conver the right-hand side to the appropriate type. Handles support for nullable property types.
                 expressionRight = Expression.Convert(expressionRight, type: outerPropertyInfo.PropertyType);
@@ -63,7 +64,8 @@ namespace EulerFinancial.Expressions
                 expressionLeft = Expression.Property(expressionLeft, propertyName: innerPropertyInfo.Name);
 
                 // Build right-hand side with the search value.
-                expressionRight = ParseSearchConstant(value: queryParameter.Value, type: innerPropertyInfo.PropertyType);
+                expressionRight = queryParameter.Operator == ComparisonOperator.IsNull || queryParameter.Operator == ComparisonOperator.IsNotNull ?
+                    Expression.Constant(null) : ParseSearchConstant(value: queryParameter.Value, type: innerPropertyInfo.PropertyType);
 
                 // Conver the right-hand side to the appropriate type. Handles support for nullable property types.
                 expressionRight = Expression.Convert(expressionRight, type: innerPropertyInfo.PropertyType);
@@ -85,6 +87,8 @@ namespace EulerFinancial.Expressions
                     ComparisonOperator.LessThan => Expression.LessThan(expressionLeft, expressionRight),
                     ComparisonOperator.LessThanOrEqualTo => Expression.LessThanOrEqual(expressionLeft, expressionRight),
                     ComparisonOperator.Contains => Expression.Call(expressionLeft, nameof(string.Contains), null, expressionRight),
+                    ComparisonOperator.IsNull => Expression.Equal(expressionLeft, expressionRight),
+                    ComparisonOperator.IsNotNull => Expression.NotEqual(expressionLeft, expressionRight),
 
                     _ => throw new InvalidOperationException(),
                 };
@@ -144,7 +148,7 @@ namespace EulerFinancial.Expressions
         /// <param name="value">The string representation the constant value.</param>
         /// <param name="type">The type to which the <paramref name="value"/> will be converted.</param>
         /// <returns>A <see cref="ConstantExpression"/> representing the right-hand side of a comparison.</returns>
-        private ConstantExpression ParseSearchConstant(string value, Type type)
+        private static ConstantExpression ParseSearchConstant(string value, Type type)
         {
             // Adjust the parameter type for nullable data types.
             var parameterType = Nullable.GetUnderlyingType(type) ?? type;
@@ -168,8 +172,11 @@ namespace EulerFinancial.Expressions
             if (property is null)
                 throw new ArgumentNullException(paramName: nameof(property));
 
+            var underlyingType = Nullable.GetUnderlyingType(property.PropertyType);
+
             // Get the underlying type if property type is nullable.
-            var type = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+            var type = underlyingType ?? property.PropertyType;
+            var typeIsNullable = !(underlyingType is null);
 
             // Define comparisons valid for numeric types.
             var numericOperators = new ComparisonOperator[]
@@ -187,8 +194,20 @@ namespace EulerFinancial.Expressions
             {
                 ComparisonOperator.EqualTo,
                 ComparisonOperator.NotEqualTo,
-                ComparisonOperator.Contains
+                ComparisonOperator.Contains,
+                ComparisonOperator.IsNull,
+                ComparisonOperator.IsNotNull
             };
+
+            if(typeIsNullable)
+            {
+                Array.Resize(ref numericOperators, numericOperators.Length + 2);
+                numericOperators[numericOperators.Length - 2] = ComparisonOperator.IsNull;
+                numericOperators[numericOperators.Length - 1] = ComparisonOperator.IsNotNull;
+
+            }
+
+            
 
             // Map the types to their supported operators.
             var typeOperatorLookup = new Dictionary<Type, ComparisonOperator[]>()

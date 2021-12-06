@@ -11,7 +11,7 @@ namespace EulerFinancial.Expressions
 
             MemberName = memberName;
             Operator = @operator;
-            Value = paramValue;
+            Value = @operator == ComparisonOperator.IsNull ? null : paramValue;
         }
 
         public Type SearchObjectType { get => typeof(TModel); }

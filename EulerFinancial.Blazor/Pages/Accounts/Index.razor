@@ -128,8 +128,6 @@ else
     private bool SearchInvalid;
     private string SearchInvalidMessage;
 
-
-
     protected override async Task OnInitializedAsync()
     {
         var actionResult = await Controller.SelectWhereAysnc(x => true, maxCount: 0);

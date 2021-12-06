@@ -70,15 +70,6 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to empty.
-        /// </summary>
-        internal static string Empty {
-            get {
-                return ResourceManager.GetString("Empty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to equals.
         /// </summary>
         internal static string EqualTo {
@@ -102,6 +93,24 @@ namespace EulerFinancial.Resources {
         internal static string GreaterThanOrEqualTo {
             get {
                 return ResourceManager.GetString("GreaterThanOrEqualTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to is not null.
+        /// </summary>
+        internal static string IsNotNull {
+            get {
+                return ResourceManager.GetString("IsNotNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to is null.
+        /// </summary>
+        internal static string IsNull {
+            get {
+                return ResourceManager.GetString("IsNull", resourceCulture);
             }
         }
         
