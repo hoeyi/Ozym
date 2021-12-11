@@ -44,11 +44,11 @@ namespace EulerFinancial.Resources
         /// </summary>
         /// <param name="name">The identifier for the configuration to retrieve.</param>
         /// <returns>A JSON-serialized string representing a <see cref="UI.DisplayConfiguration"/>.</returns>
-        public static string GetDefaultDisplayConfiguration(string name)
+        public static string GetDefaultDisplayConfiguration(Type type)
         {
             try
             {
-                return defualtConfigurationManager.GetString(name: name, culture: Culture);
+                return defualtConfigurationManager.GetString(name: $"Display.{type.Name}", culture: Culture);
             }
             catch(Exception)
             {

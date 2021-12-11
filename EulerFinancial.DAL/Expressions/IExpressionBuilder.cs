@@ -33,7 +33,7 @@ namespace EulerFinancial.Expressions
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public IEnumerable<ModelMetadata> GetSearchableMetadata<T>()
+        public IEnumerable<ModelMemberMetadata> GetSearchableMemberMetadata<T>()
             where T : class, new();
     }
 }

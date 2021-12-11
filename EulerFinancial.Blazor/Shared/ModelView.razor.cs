@@ -18,12 +18,12 @@ namespace EulerFinancial.Blazor.Shared
         [Inject]
         protected IExpressionBuilder ExpressionBuilder { get; set; }
 
-        protected readonly IDictionary<string, ModelMetadata> ModelMetadata =
-            new Dictionary<string, ModelMetadata>();
+        protected readonly IDictionary<string, ModelMemberMetadata> ModelMetadata =
+            new Dictionary<string, ModelMemberMetadata>();
         
-        protected ModelMetadata TryGetMetadata(Type type, string memberName)
+        protected ModelMemberMetadata TryGetMetadata(Type type, string memberName)
         {
-            return ModelMetadata.TryGetValue($"{type.Name}.{memberName}", out ModelMetadata modelMetadata) ?
+            return ModelMetadata.TryGetValue($"{type.Name}.{memberName}", out ModelMemberMetadata modelMetadata) ?
                 modelMetadata : null;
         }
     }

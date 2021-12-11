@@ -15,9 +15,9 @@ namespace EulerFinancial.Test.Expressions
         public void GetSearchableAccountMetadata_YieldsInstance()
         {
             var expressionBuilder = new ExpressionBuilder();
-            var searchableMetadata = expressionBuilder.GetSearchableMetadata<Account>();
+            var searchableMetadata = expressionBuilder.GetSearchableMemberMetadata<Account>();
 
-            Assert.IsInstanceOfType(searchableMetadata, typeof(IEnumerable<ModelMetadata>));
+            Assert.IsInstanceOfType(searchableMetadata, typeof(IEnumerable<ModelMemberMetadata>));
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace EulerFinancial.Test.Expressions
 
             var expressionBuilder = new ExpressionBuilder();
 
-            var modelMetadata = expressionBuilder.GetSearchableMetadata<Account>()
+            var modelMetadata = expressionBuilder.GetSearchableMemberMetadata<Account>()
                                 .Where(m => m.DeclaringMemberName == $"{typeof(AccountObject).Name}.{paramName}")
                                 .FirstOrDefault();
 
@@ -50,7 +50,7 @@ namespace EulerFinancial.Test.Expressions
 
             var expressionBuilder = new ExpressionBuilder();
 
-            var modelMetadata = expressionBuilder.GetSearchableMetadata<Account>()
+            var modelMetadata = expressionBuilder.GetSearchableMemberMetadata<Account>()
                                 .Where(m => m.DeclaringMemberName == $"{typeof(AccountObject).Name}.{paramName}")
                                 .FirstOrDefault();
 

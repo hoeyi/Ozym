@@ -27,13 +27,21 @@ namespace EulerFinancial.UI
         /// Returns the default <see cref="DisplayConfiguration"/> instance.
         /// </summary>
         /// <typeparam name="T">The type to which the configuration applies.</typeparam>
-        /// <returns>A <see cref="DisplayConfiguration"/> instance defined in the application resources.</returns>
-        public DisplayConfiguration GetDefaultDisplayConfiguration<T>()
+        /// /// <param name="name">The name of the display configuration to retrieve.</param>
+        /// <returns>A <see cref="DisplayConfiguration"/> constructed from the saved configuration./returns>
+        public DisplayConfiguration GetDisplayConfigurationOrDefault<T>(string name = null)
         {
-            var configJson = ResourceHelper.GetDefaultDisplayConfiguration($"Display.{typeof(T).Name}");
-            var config = JsonConvert.DeserializeObject<DisplayConfiguration>(configJson);
+            if(string.IsNullOrEmpty(name))
+            {
+                var configJson = ResourceHelper.GetDefaultDisplayConfiguration(typeof(T));
+                var config = JsonConvert.DeserializeObject<DisplayConfiguration>(configJson);
 
-            return config;
+                return config;
+            }
+            else
+            {
+                throw new NotImplementedException($"Member not implemented: {nameof(GetDisplayConfigurationOrDefault)}.");
+            }
         }
 
         /// <summary>
@@ -59,24 +67,40 @@ namespace EulerFinancial.UI
         }
 
         /// <summary>
-        /// Constructs a collection of model field metadata for use in presenting data in a user interface.
+        /// Constructs a collection of model field metadata for use in presenting data in a user interface, 
+        /// including the display order.
         /// </summary>
         /// <typeparam name="T">The type for which metadata is constructed.</typeparam>
-        /// <returns>An enumerable collection of <see cref="ModelMetadata"/>.</returns>
-        public IEnumerable<ModelMetadata> GetModelMetadata<T>()
+        /// <param name="dispalyConfigurationName">The name of the display configurtion name to use for 
+        /// ordering </param>
+        /// <returns>An enumerable collection of <see cref="ModelMemberMetadata"/>.</returns>
+        /// <remarks>Inlcudes only columns visible in the requested display configuration, or the default configuration 
+        /// if none are requested. </remarks>
+        public IEnumerable<ModelMemberMetadata> GetModelMemberMetadata<T>(string dispalyConfigurationName = null)
         {
             var type = typeof(T);
             var members = type.GetProperties();
 
+            var displayConfig = GetDisplayConfigurationOrDefault<T>(dispalyConfigurationName);
+
             return members.Select(m =>
-                new ModelMetadata(
-                    declaringMemberName: $"{type.Name}.{m.Name}",
-                    qualifiedMemberName: string.Empty,
-                    displayName: GetModelDisplayName(type, m.Name),
-                    description: GetModelDescription(type, m.Name)
-                ))
-                .Where(m => !string.IsNullOrEmpty(m.DisplayName))
-                .ToArray();
+            {
+                if (displayConfig.DisplayOrder.TryGetValue($"{type.Name}.{m.Name}", out int memberDisplayOrder))
+                {
+                    return new ModelMemberMetadata(
+                        declaringMemberName: $"{type.Name}.{m.Name}",
+                        qualifiedMemberName: string.Empty,
+                        displayName: GetModelDisplayName(type, m.Name),
+                        description: GetModelDescription(type, m.Name),
+                        displayOrder: memberDisplayOrder);
+                }
+                else
+                {
+                    return null;
+                }
+            })
+            .Where(m => !(m is null) && !string.IsNullOrEmpty(m.DisplayName))
+            .ToList();
         }
 
         /// <summary>

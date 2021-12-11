@@ -3,10 +3,10 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
+using System.Globalization;
 using EulerFinancial.Model.Annotations;
 using EulerFinancial.Model;
 using EulerFinancial.Resources;
-using System.Globalization;
 
 namespace EulerFinancial.Expressions
 {
@@ -101,25 +101,27 @@ namespace EulerFinancial.Expressions
             }
         }
 
-        public IEnumerable<ModelMetadata> GetSearchableMetadata<T>()
+        public IEnumerable<ModelMemberMetadata> GetSearchableMemberMetadata<T>()
             where T : class, new()
         {
             var type = typeof(T);
 
-            var searchMembers = GetSearchableMembers(type).Select(s => new ModelMetadata(
+            var searchMembers = GetSearchableMembers(type).Select(s => new ModelMemberMetadata(
                 declaringMemberName: $"{type.Name}.{s.Name}",
                 qualifiedMemberName: $"{s.Name}",
                 displayName: ResourceHelper.GetModelDisplayName(type, s.Name),
-                description: ResourceHelper.GetModelDescription(type, s.Name)));
+                description: ResourceHelper.GetModelDescription(type, s.Name),
+                displayOrder: default));
 
             var nestedSearchMembers = (from p in type.GetProperties()
                                        select p)
                                         .SelectMany(p => GetSearchableMembers(p.PropertyType)
-                                            .Select(s => new ModelMetadata(
+                                            .Select(s => new ModelMemberMetadata(
                                                 declaringMemberName: $"{s.DeclaringType.Name}.{s.Name}",
                                                 qualifiedMemberName: $"{p.Name}.{s.Name}",
                                                 displayName: ResourceHelper.GetModelDisplayName(s.DeclaringType, s.Name),
-                                                description: ResourceHelper.GetModelDescription(s.DeclaringType, s.Name))));
+                                                description: ResourceHelper.GetModelDescription(s.DeclaringType, s.Name),
+                                                displayOrder: default)));
 
             return searchMembers.Concat(nestedSearchMembers).ToArray();
         }

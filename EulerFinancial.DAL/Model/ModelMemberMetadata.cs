@@ -1,31 +1,34 @@
 ﻿namespace EulerFinancial.Model
 {
     /// <summary>
-    /// Represents a visible field in a UI element.
+    /// Represents a visible member of a model class.
     /// </summary>
-    public class ModelMetadata
+    public class ModelMemberMetadata
     {
-        internal ModelMetadata(
+        internal ModelMemberMetadata(
             string declaringMemberName,
             string qualifiedMemberName,
             string displayName,
-            string description)
+            string description,
+            int displayOrder)
         {
             DeclaringMemberName = declaringMemberName;
             QualifiedMemberName = qualifiedMemberName;
             DisplayName = displayName;
             Description = description;
+            DisplayOrder = displayOrder;
         }
 
         /// <summary>
         /// Gets the field name, including the declarying type.
         /// </summary>
+        /// <example>AccountObject.StartDate</example>
         public string DeclaringMemberName { get; }
 
         /// <summary>
         /// Gets the period-delimited member name, excluding the declarying type. 
         /// </summary>
-        /// <example>From Account: AccountNavigationStartDate, AccountFull</example>
+        /// <example>From Account: AccountNavigation.StartDate, AccountFull</example>
         /// <remarks>Use this property when constructing search epxressions dynamcially.</remarks>
         public string QualifiedMemberName { get; }
         
@@ -38,5 +41,10 @@
         /// Gets the description of the member.
         /// </summary>
         public string Description { get; }
+
+        /// <summary>
+        /// Gets the display order of the member.
+        /// </summary>
+        public int DisplayOrder { get; }
     }
 }

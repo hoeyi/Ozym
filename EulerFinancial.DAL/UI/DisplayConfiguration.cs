@@ -42,10 +42,12 @@ namespace EulerFinancial.UI
         /// Gets or sets the id of this configuration.
         /// </summary>
         public int Id { get; set; }
+
         /// <summary>
         /// Gets the GUID for this configuration.
         /// </summary>
         public Guid ObjectGuid { get; }
+        
         /// <summary>
         /// Gets or sets the name of this coniguration.
         /// </summary>

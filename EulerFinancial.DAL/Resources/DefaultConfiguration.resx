@@ -118,6 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display.Account" xml:space="preserve">
-    <value />
+    <value>{
+  "Id": 0,
+  "ObjectGuid": "9ced3bce-4e09-4217-b013-88518257e1c4",
+  "Name": "Display.Account",
+  "ApplicableTo": "EulerFinancial.Model.Account, EulerFinancial, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+  "DisplayOrder": {
+    "AccountObject.AccountObjectCode": 0,
+    "AccountObject.StartDate": 1,
+    "AccountObject.CloseDate": 2
+  }
+}</value>
+    <comment>Provides the default field display order when viewing Account objects.</comment>
   </data>
 </root>

@@ -61,7 +61,17 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to {
+        ///  &quot;Id&quot;: 0,
+        ///  &quot;ObjectGuid&quot;: &quot;9ced3bce-4e09-4217-b013-88518257e1c4&quot;,
+        ///  &quot;Name&quot;: &quot;Display.Account&quot;,
+        ///  &quot;ApplicableTo&quot;: &quot;EulerFinancial.Model.Account, EulerFinancial, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null&quot;,
+        ///  &quot;DisplayOrder&quot;: {
+        ///    &quot;AccountObject.AccountObjectCode&quot;: 0,
+        ///    &quot;AccountObject.StartDate&quot;: 1,
+        ///    &quot;AccountObject.CloseDate&quot;: 2
+        ///  }
+        ///}.
         /// </summary>
         internal static string Display_Account {
             get {

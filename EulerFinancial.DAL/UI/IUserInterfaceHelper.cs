@@ -20,8 +20,9 @@ namespace EulerFinancial.UI
         /// Returns the default <see cref="DisplayConfiguration"/> instance.
         /// </summary>
         /// <typeparam name="T">The type to which the configuration applies.</typeparam>
-        /// <returns>A <see cref="DisplayConfiguration"/> instance defined in the application resources.</returns>
-        DisplayConfiguration GetDefaultDisplayConfiguration<T>();
+        /// /// <param name="name">The name of the display configuration to retrieve.</param>
+        /// <returns>A <see cref="DisplayConfiguration"/> constructed from the saved configuration./returns>
+        DisplayConfiguration GetDisplayConfigurationOrDefault<T>(string name = null);
 
         /// <summary>
         /// Retrieves the description of the property within the given type.
@@ -40,11 +41,16 @@ namespace EulerFinancial.UI
         string GetModelDisplayName(Type type, string memberName);
 
         /// <summary>
-        /// Constructs a collection of model field metadata for use in presenting data in a user interface.
+        /// Constructs a collection of model field metadata for use in presenting data in a user interface, 
+        /// including the display order.
         /// </summary>
         /// <typeparam name="T">The type for which metadata is constructed.</typeparam>
-        /// <returns>An enumerable collection of <see cref="ModelMetadata"/>.</returns>
-        IEnumerable<ModelMetadata> GetModelMetadata<T>();
+        /// <param name="dispalyConfigurationName">The name of the display configurtion name to use for 
+        /// ordering </param>
+        /// <returns>An enumerable collection of <see cref="ModelMemberMetadata"/>.</returns>
+        /// <remarks>Inlcudes only columns visible in the requested display configuration, or the default configuration 
+        /// if none are requested. </remarks>
+        IEnumerable<ModelMemberMetadata> GetModelMemberMetadata<T>(string dispalyConfigurationName = null);
 
         /// <summary>
         /// Provides culture-specific title case formatting.
