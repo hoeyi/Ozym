@@ -2,7 +2,6 @@
 Euler Financial, a banking and investing management application, built for a web deployment with Blazor and Entity Framework.
 
 * [Commit Message Guidelines](#commit-message-guidelines)
-* [Object Naming Conventions](#object-naming-conventions)
 
 ## Commit Message Guidelines ##
 
@@ -60,6 +59,3 @@ The body contains the detail of why the change was made:
 ### Footer ###
 The footer contains information on breaking changes. Start with the phrase 
 `BREAKING CHANGE:`. Also use this space to reference closing GitHub issues. 
-
-## Object Naming Conventions ##
-TO BE DEFINED.
