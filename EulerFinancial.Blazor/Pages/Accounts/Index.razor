@@ -1,0 +1,190 @@
+﻿@page "/Accounts"
+@inherits ModelView
+
+@inject IController<Account> Controller
+@inject ILogger Logger
+
+@if (Accounts is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h4>Accounts</h4>
+    <div>
+        <label hidden="@SearchInvalid" class="alert-info">@SearchInvalidMessage</label>
+    </div>
+    <div>
+        <table class="table parameter-table">
+            <tbody>
+                <tr>
+                    <td><label>@Resources.UICaption.Search_General_FieldSelect</label></td>
+                    <td>
+                        <select class="form-control selectpicker" @bind="SearchMemberName" id="SearchFieldSelect">
+                            @foreach(var field in SearchFields)
+                            {
+                                <option value="@field.QualifiedMemberName">@field.DisplayName</option> 
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control selectpicker" @bind="@SearchOperator" id="search-operator-select">
+                            @foreach(var op in ComparisonOperators)
+                            {
+                                <option value=@op.Key>@op.Value</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <input @bind="SearchValue" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button class="btn btn-primary" @onclick="@(args => SearchClicked(args))">
+        @Resources.UICaption.Search_General_Button
+    </button>
+    <div>
+        <ModelList Data=@Accounts>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(AccountObject), nameof(AccountObject.AccountObjectCode))
+                        </th>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(AccountObject), nameof(AccountObject.ObjectDipslayName))
+                        </th>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(AccountObject), nameof(AccountObject.StartDate))
+                        </th>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(AccountObject), nameof(AccountObject.CloseDate))
+                        </th>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.AccountNumber))
+                        </th>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.DisplayOrder))
+                        </th>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.BooksClosedDate))
+                        </th>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.IsComplianceTradable))
+                        </th>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.HasWallet))
+                        </th>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.HasBankTransaction))
+                        </th>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.HasBrokerTransaction))
+                        </th>
+                        <th>
+                            @UIHelper.GetModelDisplayName(typeof(Account), nameof(Account.AccountCustodianId))
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@context.AccountNavigation.AccountObjectCode</td>
+                        <td>@context.AccountNavigation.ObjectDipslayName</td>
+                        <td>@context.AccountNavigation.StartDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
+                        <td>@context.AccountNavigation.CloseDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
+                        <td>@context.AccountNumber</td>
+                        <td>@context.DisplayOrder</td>
+                        <td>@context.BooksClosedDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
+                        <td>@context.IsComplianceTradable</td>
+                        <td>@context.HasWallet</td>
+                        <td>@context.HasBankTransaction</td>
+                        <td>@context.HasBrokerTransaction</td>
+                        <td>@context.AccountCustodian?.CustodianCode</td>
+                        <td>
+                            <button class="btn btn-primary"
+                                    @onclick="@(args => NavigateToDetail(args, context))">
+                                Details
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ModelList>
+</div>
+}
+
+@code{
+    private IEnumerable<Account> Accounts;
+    private IDictionary<ComparisonOperator, string> ComparisonOperators;
+    private IEnumerable<ModelMemberMetadata> SearchFields;
+
+    private ComparisonOperator SearchOperator;
+    private string SearchMemberName;
+    private string SearchValue;
+
+    private bool SearchInvalid;
+    private string SearchInvalidMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var actionResult = await Controller.SelectWhereAysnc(x => true, maxCount: 0);
+
+        Accounts = actionResult.Value;
+        SearchFields = ExpressionBuilder.GetSearchableMemberMetadata<Account>();
+        ComparisonOperators = ExpressionBuilder.GetComparisonOperatorLookup();
+
+        if (SearchFields.Count() > 0)
+            SearchMemberName = SearchFields.First().QualifiedMemberName;
+
+        if (ComparisonOperators.Count > 0)
+            SearchOperator = ComparisonOperators.First().Key;
+    }
+
+    private async Task SearchClicked(MouseEventArgs args)
+    {
+        if(TryParseSearchExpression(out Expression<Func<Account, bool>> exp, out string msg))
+        {
+            try
+            {
+                SearchInvalidMessage = msg;
+                var actionResult = await Controller.SelectWhereAysnc(exp, maxCount: 0);
+                Accounts = actionResult.Value;
+            }
+            catch(Exception e)
+            {
+                Logger.Error(e, string.Empty);
+            }
+        }
+        else
+        {
+            SearchInvalidMessage = msg;
+        }
+    }
+
+    private bool TryParseSearchExpression(out Expression<Func<Account,bool>> expression, out string errorMessage)
+    {
+        try
+        {
+            var param = new QueryParameter<Account>(SearchMemberName, SearchOperator, SearchValue);
+            expression = ExpressionBuilder.GetExpression(param);
+            errorMessage = null;
+
+            return true;
+        }
+        catch(Exception e)
+        {
+            expression = null;
+            errorMessage = e.Message;
+
+            return false;
+        }
+    }
+
+    private void NavigateToDetail(MouseEventArgs args, Account account)
+    {
+        NavigationHelper.NavigateTo($"/Accounts/Details/{account?.AccountId ?? default}");
+    }
+}

@@ -1,4 +1,4 @@
-# EulerFinancial #
+# Euler Financial #
 Euler Financial, a banking and investing management application, built for a web deployment with Blazor and Entity Framework.
 
 * [Commit Message Guidelines](#commit-message-guidelines)

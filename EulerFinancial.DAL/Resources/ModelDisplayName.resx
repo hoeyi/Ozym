@@ -1,0 +1,579 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account.AccountCustodianId" xml:space="preserve">
+    <value>Custodian</value>
+  </data>
+  <data name="Account.AccountNumber" xml:space="preserve">
+    <value>Acct. #</value>
+  </data>
+  <data name="Account.BooksClosedDate" xml:space="preserve">
+    <value>Books Closed</value>
+  </data>
+  <data name="Account.DisplayOrder" xml:space="preserve">
+    <value>Display Order</value>
+  </data>
+  <data name="Account.HasBankTransaction" xml:space="preserve">
+    <value>Has Bank</value>
+  </data>
+  <data name="Account.HasBrokerTransaction" xml:space="preserve">
+    <value>Has Broker</value>
+  </data>
+  <data name="Account.HasWallet" xml:space="preserve">
+    <value>Has Wallet</value>
+  </data>
+  <data name="Account.IsComplianceTradable" xml:space="preserve">
+    <value>Tradable</value>
+  </data>
+  <data name="AccountAttributeMemberEntry.AccountObjectId" xml:space="preserve">
+    <value>Account / Group</value>
+  </data>
+  <data name="AccountAttributeMemberEntry.AttributeMemberId" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="AccountAttributeMemberEntry.EffectiveDate" xml:space="preserve">
+    <value>Effective Date</value>
+  </data>
+  <data name="AccountAttributeMemberEntry.Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="AccountCustodian.CustodianCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="AccountCustodian.DisplayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="AccountGroup.DisplayOrder" xml:space="preserve">
+    <value>Display Order</value>
+  </data>
+  <data name="AccountGroupMember.AccountGroupId" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="AccountGroupMember.AccountId" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="AccountGroupMember.EntryDate" xml:space="preserve">
+    <value>Entry Date</value>
+  </data>
+  <data name="AccountGroupMember.ExitDate" xml:space="preserve">
+    <value>Exit date</value>
+  </data>
+  <data name="AccountObject.AccountObjectCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="AccountObject.CloseDate" xml:space="preserve">
+    <value>Close Date</value>
+  </data>
+  <data name="AccountObject.ObjectDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="AccountObject.ObjectDipslayName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AccountObject.ObjectType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="AccountObject.PrefixedObjectCode" xml:space="preserve">
+    <value>Report Code</value>
+  </data>
+  <data name="AccountObject.StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="AccountWallet.AccountID" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="AccountWallet.AddressCode" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="AccountWallet.AddressTag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="AccountWallet.DenominationSecurityId" xml:space="preserve">
+    <value>Denomination</value>
+  </data>
+  <data name="BankTransaction.AccountId" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="BankTransaction.Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="BankTransaction.Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="BankTransaction.TransactionCodeId" xml:space="preserve">
+    <value>Transaction Code</value>
+  </data>
+  <data name="BankTransaction.TransactionDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="BankTransactionCode.DisplayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="BankTransactionCode.TransactionCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="BankTransactionCode.TransactionCodeId" xml:space="preserve">
+    <value>Bank Transaction Code</value>
+  </data>
+  <data name="BankTransactionCodeAttributeMemberEntry.AttributeMemberId" xml:space="preserve">
+    <value>Attribute Member</value>
+  </data>
+  <data name="BankTransactionCodeAttributeMemberEntry.EffectiveDate" xml:space="preserve">
+    <value>Effective Date</value>
+  </data>
+  <data name="BankTransactionCodeAttributeMemberEntry.TransactionCodeId" xml:space="preserve">
+    <value>Transaction Code</value>
+  </data>
+  <data name="BankTransactionCodeAttributeMemberEntry.Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="BrokerTransaction.AccountID" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="BrokerTransaction.AcquisitionDate" xml:space="preserve">
+    <value>Acq. Date</value>
+  </data>
+  <data name="BrokerTransaction.Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="BrokerTransaction.DepSecurityId" xml:space="preserve">
+    <value>Dep. Security</value>
+  </data>
+  <data name="BrokerTransaction.Fee" xml:space="preserve">
+    <value>Fee</value>
+  </data>
+  <data name="BrokerTransaction.Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="BrokerTransaction.SecurityId" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="BrokerTransaction.SettleDate" xml:space="preserve">
+    <value>Settle Date</value>
+  </data>
+  <data name="BrokerTransaction.TaxLotID" xml:space="preserve">
+    <value>Tax Lot</value>
+  </data>
+  <data name="BrokerTransaction.TradeDate" xml:space="preserve">
+    <value>Trade Date</value>
+  </data>
+  <data name="BrokerTransaction.TransactionCodeId" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="BrokerTransaction.Withholding" xml:space="preserve">
+    <value>Withholding</value>
+  </data>
+  <data name="BrokerTransactionCode.CashEffect" xml:space="preserve">
+    <value>Cash Effect</value>
+  </data>
+  <data name="BrokerTransactionCode.ContributionWithdrawalEffect" xml:space="preserve">
+    <value>Contribution Effect</value>
+  </data>
+  <data name="BrokerTransactionCode.DisplayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="BrokerTransactionCode.QuantityEffect" xml:space="preserve">
+    <value>Quantity Effect</value>
+  </data>
+  <data name="BrokerTransactionCode.TransactionCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="BrokerTransactionCodeAttributeMemberEntry.AttributeMemberId" xml:space="preserve">
+    <value>Attribute Member</value>
+  </data>
+  <data name="BrokerTransactionCodeAttributeMemberEntry.EffectiveDate" xml:space="preserve">
+    <value>Effective Date</value>
+  </data>
+  <data name="BrokerTransactionCodeAttributeMemberEntry.TransactionCodeId" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="BrokerTransactionCodeAttributeMemberEntry.Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="Country.DisplayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="Country.IsoCode3" xml:space="preserve">
+    <value>ISO-3 Code</value>
+  </data>
+  <data name="CountryAttributeMemberEntry.AttributeMemberId" xml:space="preserve">
+    <value>Attribute Member</value>
+  </data>
+  <data name="CountryAttributeMemberEntry.CountryID" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="CountryAttributeMemberEntry.EffectiveDate" xml:space="preserve">
+    <value>Effective Date</value>
+  </data>
+  <data name="CountryAttributeMemberEntry.Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry.AccountObjectID" xml:space="preserve">
+    <value>Account / Group</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry.AttributeMemberID" xml:space="preserve">
+    <value>Attribute Member</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry.AverageCapital" xml:space="preserve">
+    <value>Average Capital</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry.FromDate" xml:space="preserve">
+    <value>From Date</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry.Gain" xml:space="preserve">
+    <value>Gain</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry.IRR" xml:space="preserve">
+    <value>IRR</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry.MarketValue" xml:space="preserve">
+    <value>Market Value</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry.NetContribution" xml:space="preserve">
+    <value>Net Contribution</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry.ToDate" xml:space="preserve">
+    <value>To Date</value>
+  </data>
+  <data name="InvestmentPerformanceEntry.AccountObjectID" xml:space="preserve">
+    <value>Account / Group</value>
+  </data>
+  <data name="InvestmentPerformanceEntry.AverageCapital" xml:space="preserve">
+    <value>Average Capital</value>
+  </data>
+  <data name="InvestmentPerformanceEntry.FromDate" xml:space="preserve">
+    <value>From Date</value>
+  </data>
+  <data name="InvestmentPerformanceEntry.Gain" xml:space="preserve">
+    <value>Gain</value>
+  </data>
+  <data name="InvestmentPerformanceEntry.IRR" xml:space="preserve">
+    <value>IRR</value>
+  </data>
+  <data name="InvestmentPerformanceEntry.MarketValue" xml:space="preserve">
+    <value>Market Value</value>
+  </data>
+  <data name="InvestmentPerformanceEntry.NetContribution" xml:space="preserve">
+    <value>Net Contribution</value>
+  </data>
+  <data name="InvestmentPerformanceEntry.ToDate" xml:space="preserve">
+    <value>To Date</value>
+  </data>
+  <data name="InvestmentStrategy.DisplayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="InvestmentStrategyTarget.AttributeMemberID" xml:space="preserve">
+    <value>Attribute Member</value>
+  </data>
+  <data name="InvestmentStrategyTarget.EffectiveDate" xml:space="preserve">
+    <value>Effective Date</value>
+  </data>
+  <data name="InvestmentStrategyTarget.InvestmentStrategyID" xml:space="preserve">
+    <value>Strategy</value>
+  </data>
+  <data name="InvestmentStrategyTarget.TargetPercent" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="MarketHoliday.MarketHolidayName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="MarketHolidaySchedule.MarketHolidayID" xml:space="preserve">
+    <value>Holiday</value>
+  </data>
+  <data name="MarketHolidaySchedule.ObservanceDate" xml:space="preserve">
+    <value>Observance Date</value>
+  </data>
+  <data name="MarketIndex.IndexCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="MarketIndex.IndexDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MarketIndexPrice.MarketIndexID" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="MarketIndexPrice.Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="MarketIndexPrice.PriceCode" xml:space="preserve">
+    <value>Price Type</value>
+  </data>
+  <data name="MarketIndexPrice.PriceDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="ModelAttribute.DisplayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="ModelAttributeMember.AttributeID" xml:space="preserve">
+    <value>Attribute</value>
+  </data>
+  <data name="ModelAttributeMember.DisplayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="ModelAttributeMember.DisplayOrder" xml:space="preserve">
+    <value>Display Order</value>
+  </data>
+  <data name="ModelAttributeScope.AttributeID" xml:space="preserve">
+    <value>Attribute</value>
+  </data>
+  <data name="ModelAttributeScope.ScopeCode" xml:space="preserve">
+    <value>Scope Code</value>
+  </data>
+  <data name="ReportConfiguration.ConfigurationCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="ReportConfiguration.ConfigurationDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="ReportConfiguration.XmlDefinition" xml:space="preserve">
+    <value>XML Definition</value>
+  </data>
+  <data name="ReportStyleSheet.StyleSheetCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="ReportStyleSheet.StyleSheetDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="ReportStyleSheet.XmlDefinition" xml:space="preserve">
+    <value>XML Definition</value>
+  </data>
+  <data name="ResourceImage.FileExtension" xml:space="preserve">
+    <value>File Extension</value>
+  </data>
+  <data name="ResourceImage.ImageDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Security.CurrentSymbol" xml:space="preserve">
+    <value>Symbol</value>
+  </data>
+  <data name="Security.HasPerpetualMarket" xml:space="preserve">
+    <value>Perpetual Market</value>
+  </data>
+  <data name="Security.HasPerpetualPrice" xml:space="preserve">
+    <value>Perpetual Price</value>
+  </data>
+  <data name="Security.Issuer" xml:space="preserve">
+    <value>Issuer</value>
+  </data>
+  <data name="Security.SecurityDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Security.SecurityExchangeID" xml:space="preserve">
+    <value>Exchange</value>
+  </data>
+  <data name="Security.SecurityTypeID" xml:space="preserve">
+    <value>Sec. Type</value>
+  </data>
+  <data name="SecurityAttributeMemberEntry.AttributeMemberID" xml:space="preserve">
+    <value>Attribute Member</value>
+  </data>
+  <data name="SecurityAttributeMemberEntry.EffectiveDate" xml:space="preserve">
+    <value>Effective Date</value>
+  </data>
+  <data name="SecurityAttributeMemberEntry.SecurityID" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="SecurityAttributeMemberEntry.Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="SecurityExchange.ExchangeCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="SecurityExchange.ExchangeDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SecurityPrice.PriceClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="SecurityPrice.PriceDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="SecurityPrice.PriceHigh" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="SecurityPrice.PriceLow" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="SecurityPrice.PriceOpen" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="SecurityPrice.SecurityID" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="SecurityPrice.Volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="SecuritySymbol.Cusip" xml:space="preserve">
+    <value>CUSIP</value>
+  </data>
+  <data name="SecuritySymbol.CustomSymbol" xml:space="preserve">
+    <value>Custom Symbol</value>
+  </data>
+  <data name="SecuritySymbol.EffectiveDate" xml:space="preserve">
+    <value>Effective Date</value>
+  </data>
+  <data name="SecuritySymbol.OptionTicker" xml:space="preserve">
+    <value>Option Ticker</value>
+  </data>
+  <data name="SecuritySymbol.SecurityID" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="SecuritySymbol.SymbolTypeID" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="SecuritySymbol.Ticker" xml:space="preserve">
+    <value>Ticker</value>
+  </data>
+  <data name="SecuritySymbolMap.AccountCustodianID" xml:space="preserve">
+    <value>Custodian</value>
+  </data>
+  <data name="SecuritySymbolMap.CustodianSymbol" xml:space="preserve">
+    <value>Symbol (Custodian)</value>
+  </data>
+  <data name="SecuritySymbolMap.SecuritySymbolID" xml:space="preserve">
+    <value>Symbol (Application)</value>
+  </data>
+  <data name="SecuritySymbolType.SymbolTypeName" xml:space="preserve">
+    <value>Type Name</value>
+  </data>
+  <data name="SecurityType.CanHaveDerivative" xml:space="preserve">
+    <value>Enable Derivatives</value>
+  </data>
+  <data name="SecurityType.CanHavePosition" xml:space="preserve">
+    <value>Enable Positions</value>
+  </data>
+  <data name="SecurityType.DisplayOrder" xml:space="preserve">
+    <value>Display Order</value>
+  </data>
+  <data name="SecurityType.SecurityTypeGroupID" xml:space="preserve">
+    <value>Type Group</value>
+  </data>
+  <data name="SecurityType.SecurityTypeName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="SecurityType.ValuationFactor" xml:space="preserve">
+    <value>Valuation Factor</value>
+  </data>
+  <data name="SecurityTypeGroup.DisplayOrder" xml:space="preserve">
+    <value>Display Order</value>
+  </data>
+  <data name="SecurityTypeGroup.SecurityTypeGroupName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+</root>

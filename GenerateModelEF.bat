@@ -1,4 +1,9 @@
 dotnet-ef dbcontext scaffold Name=ConnectionStrings:EulerFinancial Microsoft.EntityFrameworkCore.SqlServer^
-    --output-dir Data\Model^
-    --context-dir Data\Context^
-    --project EulerFinancial\EulerFinancial.csproj
+    --project EulerFinancial.Blazor\EulerFinancial.Blazor.csproj^
+    --output-dir ..\EulerFinancial.DAL\Model^
+    --context-dir ..\EulerFinancial.DAL\Context^
+    --context-namespace "EulerFinancial.Context"^
+    --namespace "EulerFinancial.Model"^
+    --data-annotations^
+    --force
+   
