@@ -59,3 +59,10 @@ The body contains the detail of why the change was made:
 ### Footer ###
 The footer contains information on breaking changes. Start with the phrase 
 `BREAKING CHANGE:`. Also use this space to reference closing GitHub issues. 
+
+Example:
+```
+BREAKING CHANGE: Ends support for [NAME] API
+
+Resolves #42 (where #42 is the GitHub issue no.)
+```
