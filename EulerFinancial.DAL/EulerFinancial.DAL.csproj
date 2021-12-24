@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hoeyi.Configuration.Extensions" Version="1.0.0" />
+    <PackageReference Include="Hoeyi.Extensions.Configuration" Version="1.0.0.4267" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
       <PrivateAssets>all</PrivateAssets>
