@@ -131,7 +131,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         var actionResult = await Controller.SelectWhereAysnc(x => true, maxCount: 0);
-
+        
         Accounts = actionResult.Value;
         SearchFields = ExpressionBuilder.GetSearchableMemberMetadata<Account>();
         ComparisonOperators = ExpressionBuilder.GetComparisonOperatorLookup();
