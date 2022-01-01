@@ -38,11 +38,12 @@ namespace EulerFinancial.Blazor
             {
                 Log.Information("Start-up initialized.");
 
-                //secureConfig = CreateConfiguration(
-                //    keyContainerName: config["SecureKeyContainer"],
-                //    logger: new SerilogLoggerFactory(Log.Logger).CreateLogger(nameof(Program)));
+                secureConfig = CreateProtectedConfiguration(
+                    keyContainerName: config["SecureKeyContainer"],
+                    logger: new SerilogLoggerFactory(Log.Logger).CreateLogger(nameof(Program)));
 
-                //secureConfig["ConnectionStrings:EulerFinancial"] = config["ConnectionStrings:EulerFinancial"];
+                // Copy UserSecret connection string value to secure configuration.
+                secureConfig["ConnectionStrings:EulerFinancial"] = config["ConnectionStrings:EulerFinancial"];
 
                 using IHost host = CreateHostBuilder(args).Build();
                 host.Run();
@@ -64,7 +65,7 @@ namespace EulerFinancial.Blazor
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    //webBuilder.UseConfiguration(secureConfig);
+                    webBuilder.UseConfiguration(secureConfig);
                     webBuilder.UseStartup<Startup>();
                 })
                 .UseSerilog(logger: Log.Logger);
@@ -78,7 +79,7 @@ namespace EulerFinancial.Blazor
                 .AddUserSecrets<Program>()
                 .Build();
 
-        private static IConfigurationRoot CreateConfiguration(
+        private static IConfigurationRoot CreateProtectedConfiguration(
             string keyContainerName, Microsoft.Extensions.Logging.ILogger logger)
         {
             return new ConfigurationBuilder()
