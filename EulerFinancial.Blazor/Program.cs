@@ -43,8 +43,8 @@ namespace EulerFinancial.Blazor
                     logger: new SerilogLoggerFactory(Log.Logger).CreateLogger(nameof(Program)));
 
                 // Copy UserSecret connection string value to secure configuration.
-                secureConfig["ConnectionStrings:EulerFinancial"] = config["ConnectionStrings:EulerFinancial"];
-                secureConfig.Commit();
+                //secureConfig["ConnectionStrings:EulerFinancial"] = config["ConnectionStrings:EulerFinancial"];
+                //secureConfig.Commit();
 
                 using IHost host = CreateHostBuilder(args).Build();
                 host.Run();
