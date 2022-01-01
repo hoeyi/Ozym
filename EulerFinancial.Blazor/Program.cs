@@ -44,6 +44,7 @@ namespace EulerFinancial.Blazor
 
                 // Copy UserSecret connection string value to secure configuration.
                 secureConfig["ConnectionStrings:EulerFinancial"] = config["ConnectionStrings:EulerFinancial"];
+                secureConfig.Commit();
 
                 using IHost host = CreateHostBuilder(args).Build();
                 host.Run();

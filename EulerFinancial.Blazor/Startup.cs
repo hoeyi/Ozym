@@ -68,9 +68,6 @@ namespace EulerFinancial.Blazor
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
-
-
-
     }
 }
  
