@@ -30,7 +30,7 @@ namespace EulerFinancial.Blazor
             services.AddServerSideBlazor();
 
             services.AddSingleton(implementationInstance: Log.Logger);
-            services.AddSingleton(implementationInstance: Program.SecureConfig);
+            services.AddSingleton(implementationInstance: Program.Configuration);
             services.AddSingleton<UI.IUserInterfaceHelper, UI.UserInterfaceHelper>();
             services.AddSingleton<Expressions.IExpressionBuilder, Expressions.ExpressionBuilder>();
 
