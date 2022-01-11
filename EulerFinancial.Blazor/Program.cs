@@ -4,7 +4,7 @@ using Serilog;
 using Serilog.Formatting.Compact;
 using System;
 using Microsoft.Extensions.Configuration;
-using Hoeyi.Extensions.Configuration;
+using Ichosoft.Extensions.Configuration;
 using Serilog.Extensions.Logging;
 
 namespace EulerFinancial.Blazor
@@ -41,8 +41,8 @@ namespace EulerFinancial.Blazor
                     new SerilogLoggerFactory(Log.Logger).CreateLogger(nameof(Program)));
 
                 // Copy UserSecret connection string value to secure configuration.
-                //secureConfig["ConnectionStrings:EulerFinancial"] = config["ConnectionStrings:EulerFinancial"];
-                //secureConfig.Commit();
+                config["ConnectionStrings:EulerFinancial"] = config["ConnectionStrings:EulerFinancial"];
+                config.Commit();
 
                 using IHost host = CreateHostBuilder(args).Build();
                 host.Run();
@@ -87,12 +87,13 @@ namespace EulerFinancial.Blazor
                     logger: logger,
                     optional: false,
                     reloadOnChange: true)
+                .AddUserSecrets<Program>()
                 .Build();
-
+             
             string rsaKeyAddress = "_file:RsaKeyContainer";
             if (config[rsaKeyAddress] is null)
             {
-                config[rsaKeyAddress] = "E1EB57FA-8D2C-41CF-912A-DDBC39534A39";
+                config[rsaKeyAddress] = $"E1EB57FA-8D2C-41CF-912A-DDBC39534A39";
                 config.Commit();
             }
             return config;

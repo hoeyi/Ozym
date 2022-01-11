@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Ichosoft.Extensions.Common" Version="1.0.0.3035" />
-    <PackageReference Include="Ichosoft.Extensions.Configuration" Version="2.1.0.5923" />
+    <PackageReference Include="Ichosoft.Extensions.Configuration" Version="2.1.1.689" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -34,6 +34,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Exception.resx</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.protected.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
