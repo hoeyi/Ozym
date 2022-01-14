@@ -10,6 +10,7 @@ using EulerFinancial.ModelService;
 using EulerFinancial.Model;
 using EulerFinancial.Blazor.Controllers;
 using Serilog;
+using Ichosoft.Expressions;
 
 namespace EulerFinancial.Blazor
 {
@@ -32,7 +33,7 @@ namespace EulerFinancial.Blazor
             services.AddSingleton(implementationInstance: Log.Logger);
             services.AddSingleton(implementationInstance: Program.Configuration);
             services.AddSingleton<UI.IUserInterfaceHelper, UI.UserInterfaceHelper>();
-            services.AddSingleton<Expressions.IExpressionBuilder, Expressions.ExpressionBuilder>();
+            services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
 
             services.AddDbContext<Context.EulerFinancialContext>(options =>
                 options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));

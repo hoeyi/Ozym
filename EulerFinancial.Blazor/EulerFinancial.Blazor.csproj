@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ichosoft.Expressions" Version="1.0.0.72" />
     <PackageReference Include="Ichosoft.Extensions.Common" Version="1.0.1.1144" />
     <PackageReference Include="Ichosoft.Extensions.Configuration" Version="2.1.1.689" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">

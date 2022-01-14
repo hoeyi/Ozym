@@ -9,7 +9,7 @@ namespace EulerFinancial.Test.UI
     [TestClass]
     public class UIHelper_Test
     {
-        private readonly UserInterfaceHelper uiHelper = new UserInterfaceHelper();
+        private readonly UserInterfaceHelper uiHelper = new();
 
         [TestMethod]
         public void GetAccountMetadata_YieldsExpectedCollection()
@@ -50,23 +50,24 @@ namespace EulerFinancial.Test.UI
             Assert.IsInstanceOfType(displayConfig, typeof(DisplayConfiguration));
         }
 
-        private DisplayConfiguration CreateDefaultDisplayConfiguration()
+        private static DisplayConfiguration CreateDefaultDisplayConfiguration()
         {
-            var displayConfig = new DisplayConfiguration();
-
-            displayConfig.Name = $"Display.{nameof(Account)}";
-            displayConfig.ApplicableTo = typeof(Account);
-            displayConfig.DisplayOrder = new Dictionary<string, int>()
+            var displayConfig = new DisplayConfiguration
             {
-                { $"{nameof(AccountObject)}.{nameof(AccountObject.AccountObjectCode)}", 0 },
-                { $"{nameof(AccountObject)}.{nameof(AccountObject.StartDate)}", 1 },
-                { $"{nameof(AccountObject)}.{nameof(AccountObject.CloseDate)}", 2 }
+                Name = $"Display.{nameof(Account)}",
+                ApplicableTo = typeof(Account),
+                DisplayOrder = new Dictionary<string, int>()
+                {
+                    { $"{nameof(AccountObject)}.{nameof(AccountObject.AccountObjectCode)}", 0 },
+                    { $"{nameof(AccountObject)}.{nameof(AccountObject.StartDate)}", 1 },
+                    { $"{nameof(AccountObject)}.{nameof(AccountObject.CloseDate)}", 2 }
+                }
             };
 
             return displayConfig;
         }
 
-        private string GetDefaultDisplayConfigurationJson()
+        private static string GetDefaultDisplayConfigurationJson()
         {
             var displayConfig = CreateDefaultDisplayConfiguration();
 

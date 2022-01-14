@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using EulerFinancial.Model;
 using System;
 using EulerFinancial.UI;
-using EulerFinancial.Expressions;
+using Ichosoft.Expressions;
 
 namespace EulerFinancial.Blazor.Shared
 {
