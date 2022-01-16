@@ -53,7 +53,7 @@ else
                         <th>@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
                         </th>
                         <th>
-                            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDipslayName)))
+                            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))
                         </th>
                         <th>
                             @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.StartDate)))
@@ -91,7 +91,7 @@ else
                 <tbody>
                     <tr>
                         <td>@context.AccountNavigation.AccountObjectCode</td>
-                        <td>@context.AccountNavigation.ObjectDipslayName</td>
+                        <td>@context.AccountNavigation.ObjectDisplayName</td>
                         <td>@context.AccountNavigation.StartDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
                         <td>@context.AccountNavigation.CloseDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
                         <td>@context.AccountNumber</td>

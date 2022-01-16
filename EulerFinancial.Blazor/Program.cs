@@ -64,12 +64,12 @@ namespace EulerFinancial.Blazor
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseConfiguration(config);
+                    //webBuilder.UseConfiguration(config);
                     webBuilder.UseStartup<Startup>();
                 })
                 .UseSerilog(logger: Log.Logger);
 
-        private static IConfigurationRoot CreateConfiguration() =>
+        private static IConfiguration CreateConfiguration() =>
             new ConfigurationBuilder()
                 .AddJsonWritable(
                     path: "appsettings.json",

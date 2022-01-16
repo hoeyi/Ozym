@@ -142,7 +142,7 @@ namespace EulerFinancial.Context
 
                 entity.Property(e => e.ObjectDescription).IsUnicode(false);
 
-                entity.Property(e => e.ObjectDipslayName).IsUnicode(false);
+                entity.Property(e => e.ObjectDisplayName).IsUnicode(false);
 
                 entity.Property(e => e.ObjectType)
                     .IsUnicode(false)

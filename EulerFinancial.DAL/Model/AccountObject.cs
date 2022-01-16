@@ -34,7 +34,7 @@ namespace EulerFinancial.Model
         public DateTime? CloseDate { get; set; }
         [Required]
         [StringLength(64)]
-        public string ObjectDipslayName { get; set; }
+        public string ObjectDisplayName { get; set; }
         [StringLength(128)]
         public string ObjectDescription { get; set; }
         [Required]

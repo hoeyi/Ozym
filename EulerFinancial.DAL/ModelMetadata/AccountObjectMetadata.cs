@@ -29,7 +29,7 @@ namespace EulerFinancial.Model
         [Display(
             Name = nameof(ModelDisplayName.AccountObject_ObjectDisplayName), 
             ResourceType = typeof(ModelDisplayName))]
-        public string ObjectDipslayName { get; set; }
+        public string ObjectDisplayName { get; set; }
     }
 
     [MetadataType(typeof(AccountObjectMetadata))]
