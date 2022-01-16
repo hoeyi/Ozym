@@ -60,10 +60,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>NounString.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\UICaption.Designer.cs">
+    <Compile Update="Resources\UserInterfaceString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>UICaption.resx</DependentUpon>
+      <DependentUpon>UserInterfaceString.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -92,9 +92,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>NounString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\UICaption.resx">
+    <EmbeddedResource Update="Resources\UserInterfaceString.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>UICaption.Designer.cs</LastGenOutput>
+      <LastGenOutput>UserInterfaceString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

@@ -1,26 +1,16 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using EulerFinancial.UI;
+using EulerFinancial.UserInterface;
 using EulerFinancial.Model;
 using Newtonsoft.Json;
 
-namespace EulerFinancial.Test.UI
+namespace EulerFinancial.DAL.UnitTest.UserInterface
 {
     [TestClass]
-    public class UIHelper_Test
+    public class DisplayConfigurationTests
     {
-        //[TestMethod]
-        //public void GetAccountMetadata_YieldsExpectedCollection()
-        //{
-        //    var metadata = uiHelper.GetModelMemberMetadata<Account>();
-        //    var baseMetadata = uiHelper.GetModelMemberMetadata<AccountObject>();
-
-        //    Assert.IsInstanceOfType(metadata, typeof(IEnumerable<ModelMemberMetadata>));
-        //    Assert.IsInstanceOfType(baseMetadata, typeof(IEnumerable<ModelMemberMetadata>));
-        //}
-
         [TestMethod]
-        public void DisplayConfigurationSerialize_YieldString()
+        public void DisplayConfiguration_Serialize_YieldString()
         {
             var displayConfig = CreateDefaultDisplayConfiguration();
 
@@ -30,7 +20,7 @@ namespace EulerFinancial.Test.UI
         }
 
         [TestMethod]
-        public void DisplayConfigurationDeserialize_YieldsInstance()
+        public void DisplayConfiguration_Deserialize_YieldsInstance()
         {
             var displayConfigJson = GetDefaultDisplayConfigurationJson();
 

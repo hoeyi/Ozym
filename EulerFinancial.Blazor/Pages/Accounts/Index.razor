@@ -18,7 +18,7 @@ else
         <table class="table parameter-table">
             <tbody>
                 <tr>
-                    <td><label>@Resources.UICaption.Search_General_FieldSelect</label></td>
+                    <td><label>@Resources.UserInterfaceString.Search_General_FieldSelect</label></td>
                     <td>
                         <select class="form-control selectpicker" @bind="SearchMemberName" id="SearchFieldSelect">
                             @foreach(var field in SearchFields)
@@ -43,7 +43,7 @@ else
         </table>
     </div>
     <button class="btn btn-primary" @onclick="@(args => SearchClicked(args))">
-        @Resources.UICaption.Search_General_Button
+        @Resources.UserInterfaceString.Search_General_Button
     </button>
     <div>
         <ModelList Data=@Accounts>

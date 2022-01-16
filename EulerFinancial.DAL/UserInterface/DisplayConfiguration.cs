@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EulerFinancial.UI
+namespace EulerFinancial.UserInterface
 {
     /// <summary>
     /// Represents a collection of column settings applicable to a viewable list

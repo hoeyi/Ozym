@@ -5,9 +5,9 @@
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>EulerFinancial.Test</AssemblyName>
+    <AssemblyName>EulerFinancial.DAL.UnitTest</AssemblyName>
 
-    <RootNamespace>EulerFinancial.Test</RootNamespace>
+    <RootNamespace>EulerFinancial.DAL.UnitTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
