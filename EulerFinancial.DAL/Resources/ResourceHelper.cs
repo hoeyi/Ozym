@@ -1,7 +1,5 @@
-﻿using System;
-using System.Resources;
+﻿using System.Resources;
 using System.Globalization;
-using System.Threading;
 
 namespace EulerFinancial.Resources
 {

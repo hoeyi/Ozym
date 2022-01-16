@@ -31,7 +31,7 @@ else
                         <select class="form-control selectpicker" @bind="@SearchOperator" id="search-operator-select">
                             @foreach(var op in ComparisonOperators)
                             {
-                                <option value=@op>@(ModelMetadata.DisplayTextFor<ComparisonOperator>($"{op}"))</option>
+                                <option value=@op>@(ModelMetadata.NameFor<ComparisonOperator>($"{op}"))</option>
                             }
                         </select>
                     </td>
@@ -50,40 +50,40 @@ else
             <table class="table">
                 <thead>
                     <tr>
-                        <th>@(ModelMetadata.DisplayTextFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
+                        <th>@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
                         </th>
                         <th>
-                            @(ModelMetadata.DisplayTextFor<AccountObject>(nameof(AccountObject.ObjectDipslayName)))
+                            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDipslayName)))
                         </th>
                         <th>
-                            @(ModelMetadata.DisplayTextFor<AccountObject>(nameof(AccountObject.StartDate)))
+                            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.StartDate)))
                         </th>
                         <th>
-                            @(ModelMetadata.DisplayTextFor<AccountObject>(nameof(AccountObject.CloseDate)))
+                            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.CloseDate)))
                         </th>
                         <th>
-                            @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.AccountNumber)))
+                            @(ModelMetadata.NameFor<Account>(nameof(Account.AccountNumber)))
                         </th>
                         <th>
-                            @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.DisplayOrder)))
+                            @(ModelMetadata.NameFor<Account>(nameof(Account.DisplayOrder)))
                         </th>
                         <th>
-                            @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.BooksClosedDate)))
+                            @(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))
                         </th>
                         <th>
-                            @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.IsComplianceTradable)))
+                            @(ModelMetadata.NameFor<Account>(nameof(Account.IsComplianceTradable)))
                         </th>
                         <th>
-                            @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.HasWallet)))
+                            @(ModelMetadata.NameFor<Account>(nameof(Account.HasWallet)))
                         </th>
                         <th>
-                            @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.HasBankTransaction)))
+                            @(ModelMetadata.NameFor<Account>(nameof(Account.HasBankTransaction)))
                         </th>
                         <th>
-                            @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.HasBrokerTransaction)))
+                            @(ModelMetadata.NameFor<Account>(nameof(Account.HasBrokerTransaction)))
                         </th>
                         <th>
-                            @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.AccountCustodianId)))
+                            @(ModelMetadata.NameFor<Account>(nameof(Account.AccountCustodianId)))
                         </th>
                         <th></th>
                     </tr>

@@ -12,7 +12,8 @@ namespace EulerFinancial.Model
     {
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplayName.Account_AccountNumber), 
+            Name = nameof(ModelDisplayName.Account_AccountNumber),
+            Description = nameof(ModelDisplayName.Account_AccountNumber),
             ResourceType = typeof(ModelDisplayName))]
         public string AccountNumber { get; set; }
 
