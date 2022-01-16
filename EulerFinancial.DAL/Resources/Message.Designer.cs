@@ -22,14 +22,14 @@ namespace EulerFinancial.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Adjective {
+    internal class Message {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Adjective() {
+        internal Message() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace EulerFinancial.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Resources.Adjective", typeof(Adjective).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Resources.Message", typeof(Message).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,83 +61,85 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to contains.
+        ///   Looks up a localized string similar to The parameter &apos;{0}&apos; cannot be null for the function called..
         /// </summary>
-        internal static string Contains {
+        internal static string Error_ArgumentNull {
             get {
-                return ResourceManager.GetString("Contains", resourceCulture);
+                return ResourceManager.GetString("Error.ArgumentNull", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to equals.
+        ///   Looks up a localized string similar to The command &apos;{0}&apos; could not be found in the collection..
         /// </summary>
-        internal static string EqualTo {
+        internal static string Error_Procedure_CommandNotFound {
             get {
-                return ResourceManager.GetString("EqualTo", resourceCulture);
+                return ResourceManager.GetString("Error.Procedure.CommandNotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to greater than.
+        ///   Looks up a localized string similar to The parameters for the request could not be determined..
         /// </summary>
-        internal static string GreaterThan {
+        internal static string Error_Procedure_ParametersNotSet {
             get {
-                return ResourceManager.GetString("GreaterThan", resourceCulture);
+                return ResourceManager.GetString("Error.Procedure.ParametersNotSet", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to greater than or equals.
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; does not exist the respository factory map. Data coult not be loaded..
         /// </summary>
-        internal static string GreaterThanOrEqualTo {
+        internal static string Error_RepoFactory_KeyNotFoundException {
             get {
-                return ResourceManager.GetString("GreaterThanOrEqualTo", resourceCulture);
+                return ResourceManager.GetString("Error.RepoFactory.KeyNotFoundException", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to is not null.
+        ///   Looks up a localized string similar to Cannot sort by &apos;{0}&apos;, because the object does not implement IComparable..
         /// </summary>
-        internal static string IsNotNull {
+        internal static string Error_SortNotSupported {
             get {
-                return ResourceManager.GetString("IsNotNull", resourceCulture);
+                return ResourceManager.GetString("Error.SortNotSupported", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to is null.
+        ///   Looks up a localized string similar to &lt;Select&gt;.
         /// </summary>
-        internal static string IsNull {
+        internal static string ModelReference_Select {
             get {
-                return ResourceManager.GetString("IsNull", resourceCulture);
+                return ResourceManager.GetString("ModelReference.Select", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to less than.
+        ///   Looks up a localized string similar to {0} {1} could not be found in the collection. Results may need to be requeried..
         /// </summary>
-        internal static string LessThan {
+        internal static string ModelService_ModelNotFound {
             get {
-                return ResourceManager.GetString("LessThan", resourceCulture);
+                return ResourceManager.GetString("ModelService.ModelNotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to less than or equals.
+        ///   Looks up a localized string similar to Changes could not be saved. An unspecified error is blocking the action..
         /// </summary>
-        internal static string LessThanOrEqualTo {
+        internal static string ModelService_SaveFailedGeneric {
             get {
-                return ResourceManager.GetString("LessThanOrEqualTo", resourceCulture);
+                return ResourceManager.GetString("ModelService.SaveFailedGeneric", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to not equal to.
+        ///   Looks up a localized string similar to {0} could not be saved because validation error were found.
+        ///
+        ///{1}.
         /// </summary>
-        internal static string NotEqualTo {
+        internal static string ModelService_SaveFailedValidation {
             get {
-                return ResourceManager.GetString("NotEqualTo", resourceCulture);
+                return ResourceManager.GetString("ModelService.SaveFailedValidation", resourceCulture);
             }
         }
     }

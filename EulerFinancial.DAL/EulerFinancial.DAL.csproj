@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ichosoft.Expressions" Version="1.0.0.72" />
+    <PackageReference Include="Ichosoft.DataModel" Version="1.2.1.4448" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
       <PrivateAssets>all</PrivateAssets>
@@ -30,23 +30,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\Adjective.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Adjective.resx</DependentUpon>
-    </Compile>
     <Compile Update="Resources\DefaultConfiguration.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DefaultConfiguration.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\ModelDescription.Designer.cs">
-      <DependentUpon>ModelDescription.resx</DependentUpon>
+    <Compile Update="Resources\Message.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>Message.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\ModelDisplayName.Designer.cs">
-      <DependentUpon>ModelDisplayName.resx</DependentUpon>
+    <Compile Update="Resources\ModelDescription.Designer.cs">
+      <DependentUpon>ModelDescription.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
@@ -54,6 +49,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionString.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\ModelDisplayName.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModelDisplayName.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\NounString.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -68,25 +68,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Adjective.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Adjective.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources\DefaultConfiguration.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DefaultConfiguration.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Message.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Message.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\ModelDescription.resx">
       <LastGenOutput>ModelDescription.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ModelDisplayName.resx">
-      <LastGenOutput>ModelDisplayName.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources\ExceptionString.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ModelDisplayName.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModelDisplayName.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\NounString.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -261,9 +261,9 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
-        public static string AccountObject_ObjectDipslayName {
+        public static string AccountObject_ObjectDisplayName {
             get {
-                return ResourceManager.GetString("AccountObject.ObjectDipslayName", resourceCulture);
+                return ResourceManager.GetString("AccountObject.ObjectDisplayName", resourceCulture);
             }
         }
         

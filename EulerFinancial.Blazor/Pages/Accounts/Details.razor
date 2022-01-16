@@ -12,88 +12,88 @@ else
         <h3>Account</h3>
         <dl class="row">
             <dt class="col-sm-2">
-                <ToolTip Text="@TryGetMetadata(typeof(AccountObject), nameof(AccountObject.AccountObjectCode))?.Description">
-                    @TryGetMetadata(typeof(AccountObject), nameof(AccountObject.AccountObjectCode))?.DisplayName
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))">
+                    @(ModelMetadata.DisplayTextFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
                 @account.AccountNavigation.AccountObjectCode
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@TryGetMetadata(typeof(AccountObject), nameof(AccountObject.StartDate))?.Description">
-                    @TryGetMetadata(typeof(AccountObject), nameof(AccountObject.StartDate))?.DisplayName
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<AccountObject>(nameof(AccountObject.StartDate)))">
+                    @(ModelMetadata.DisplayTextFor<AccountObject>(nameof(AccountObject.StartDate)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
                 @account.AccountNavigation.StartDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@TryGetMetadata(typeof(AccountObject), nameof(AccountObject.CloseDate))?.Description">
-                    @TryGetMetadata(typeof(AccountObject), nameof(AccountObject.CloseDate))?.DisplayName
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<AccountObject>(nameof(AccountObject.CloseDate)))">
+                    @(ModelMetadata.DisplayTextFor<AccountObject>(nameof(AccountObject.CloseDate)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
                 @account.AccountNavigation.CloseDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@TryGetMetadata(typeof(Account), nameof(Account.AccountNumber))?.Description">
-                    @TryGetMetadata(typeof(Account), nameof(Account.AccountNumber))?.DisplayName
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.AccountNumber)))">
+                    @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.AccountNumber)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
                 @account.AccountNumber
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@TryGetMetadata(typeof(Account), nameof(Account.DisplayOrder))?.Description">
-                    @TryGetMetadata(typeof(Account), nameof(Account.DisplayOrder))?.DisplayName
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.DisplayOrder)))">
+                    @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.DisplayOrder)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
                 @account.DisplayOrder
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@TryGetMetadata(typeof(Account), nameof(Account.BooksClosedDate))?.Description">
-                    @TryGetMetadata(typeof(Account), nameof(Account.BooksClosedDate))?.DisplayName
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.BooksClosedDate)))">
+                    @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.BooksClosedDate)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
                 @account.BooksClosedDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@TryGetMetadata(typeof(Account), nameof(Account.IsComplianceTradable))?.Description">
-                    @TryGetMetadata(typeof(Account), nameof(Account.IsComplianceTradable))?.DisplayName
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.IsComplianceTradable)))">
+                    @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.IsComplianceTradable)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
                 @account.IsComplianceTradable
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@TryGetMetadata(typeof(Account), nameof(Account.HasWallet))?.Description">
-                    @TryGetMetadata(typeof(Account), nameof(Account.HasWallet))?.DisplayName
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.HasWallet)))">
+                    @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.HasWallet)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
                 @account.HasWallet
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@TryGetMetadata(typeof(Account), nameof(Account.HasBankTransaction))?.Description">
-                    @TryGetMetadata(typeof(Account), nameof(Account.HasBankTransaction))?.DisplayName
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.HasBankTransaction)))">
+                    @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.HasBankTransaction)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
                 @account.HasBankTransaction
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@TryGetMetadata(typeof(Account), nameof(Account.HasBrokerTransaction))?.Description">
-                    @TryGetMetadata(typeof(Account), nameof(Account.HasBrokerTransaction))?.DisplayName
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.HasBrokerTransaction)))">
+                    @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.HasBrokerTransaction)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
                 @account.HasBrokerTransaction
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@TryGetMetadata(typeof(Account), nameof(Account.AccountCustodianId))?.Description">
-                    @TryGetMetadata(typeof(Account), nameof(Account.AccountCustodianId))?.DisplayName
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.AccountCustodianId)))">
+                    @(ModelMetadata.DisplayTextFor<Account>(nameof(Account.AccountCustodianId)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
@@ -110,25 +110,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var metadataTask = Task.Run(() => PopulateModelMetadata(ModelMetadata));
         var actionResult = await Controller.ReadAsync(AccountId);
-
-        await metadataTask;
-
         account = actionResult.Value;
-
-    }
-
-    private void PopulateModelMetadata(IDictionary<string, ModelMemberMetadata> metadata)
-    {
-        foreach(var mm in UIHelper.GetModelMemberMetadata<AccountObject>())
-        {
-            metadata.TryAdd(mm.DeclaringMemberName, mm);
-        }
-
-        foreach(var mm in UIHelper.GetModelMemberMetadata<Account>())
-        {
-            metadata.TryAdd(mm.DeclaringMemberName, mm);
-        }
     }
 }

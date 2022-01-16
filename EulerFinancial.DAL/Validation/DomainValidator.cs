@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using EulerFinancial.Extensions;
 using EulerFinancial.Resources;
 
 namespace EulerFinancial.Validation
@@ -32,7 +33,7 @@ namespace EulerFinancial.Validation
             var nounMetadata = ResourceHelper.GetNounMetadata($"Model.{typeof(T).Name}");
 
             string msg = string.Format("{0} {1}",
-                ResourceHelper.ToTitleCase(nounMetadata?.SingularArticle),
+                nounMetadata?.SingularArticle?.ToTitleCase(),
                 nounMetadata?.Singular ?? typeof(T).Name);
 
             string errors = string.Join("\n", validationErrors);
@@ -42,7 +43,7 @@ namespace EulerFinancial.Validation
         protected virtual bool ModelIsValidDel(object model, out IList<string> errors)
         {
             ICollection<ValidationResult> results = new List<ValidationResult>();
-            ValidationContext context = new ValidationContext(model);
+            ValidationContext context = new(model);
 
             bool isValid = Validator.TryValidateObject(model, context, results);
 

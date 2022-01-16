@@ -9,26 +9,15 @@ namespace EulerFinancial.Test.UI
     [TestClass]
     public class UIHelper_Test
     {
-        private readonly UserInterfaceHelper uiHelper = new();
+        //[TestMethod]
+        //public void GetAccountMetadata_YieldsExpectedCollection()
+        //{
+        //    var metadata = uiHelper.GetModelMemberMetadata<Account>();
+        //    var baseMetadata = uiHelper.GetModelMemberMetadata<AccountObject>();
 
-        [TestMethod]
-        public void GetAccountMetadata_YieldsExpectedCollection()
-        {
-            var metadata = uiHelper.GetModelMemberMetadata<Account>();
-            var baseMetadata = uiHelper.GetModelMemberMetadata<AccountObject>();
-
-            Assert.IsInstanceOfType(metadata, typeof(IEnumerable<ModelMemberMetadata>));
-            Assert.IsInstanceOfType(baseMetadata, typeof(IEnumerable<ModelMemberMetadata>));
-        }
-
-        [TestMethod]
-        public void GetDefaultDisplayConfiguration_YieldsInstance()
-        {
-            var accountDisplayConfig = uiHelper.GetDisplayConfigurationOrDefault<Account>();
-
-            Assert.IsInstanceOfType(accountDisplayConfig, typeof(DisplayConfiguration));
-        }
-
+        //    Assert.IsInstanceOfType(metadata, typeof(IEnumerable<ModelMemberMetadata>));
+        //    Assert.IsInstanceOfType(baseMetadata, typeof(IEnumerable<ModelMemberMetadata>));
+        //}
 
         [TestMethod]
         public void DisplayConfigurationSerialize_YieldString()
