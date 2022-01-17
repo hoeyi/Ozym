@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Ichosoft.DataModel.Expressions;
-using EulerFinancial.Reference;
+using Ichosoft.DataModel;
 
 namespace EulerFinancial.Blazor.Shared
 {

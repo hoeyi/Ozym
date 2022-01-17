@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Ichosoft.DataModel.Annotations;
-using EulerFinancial.Resources;
+using EulerFinancial.ModelMetadata.Resources;
 
 namespace EulerFinancial.Model
 {
@@ -12,48 +12,48 @@ namespace EulerFinancial.Model
     {
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplayName.Account_AccountNumber),
-            Description = nameof(ModelDisplayName.Account_AccountNumber),
-            ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.Account_AccountNumber_Name),
+            Description = nameof(ModelDisplay.Account_AccountNumber_Description),
+            ResourceType = typeof(ModelDisplay))]
         public string AccountNumber { get; set; }
 
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplayName.Account_IsComplianceTradable), 
-            ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.Account_IsComplianceTradable_Name), 
+            ResourceType = typeof(ModelDisplay))]
         public bool IsComplianceTradable { get; set; }
 
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplayName.Account_HasWallet), 
-                ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.Account_HasWallet_Name), 
+                ResourceType = typeof(ModelDisplay))]
         public bool HasWallet { get; set; }
 
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplayName.Account_HasBankTransaction),
-            ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.Account_HasBankTransaction_Name),
+            ResourceType = typeof(ModelDisplay))]
         public bool HasBankTransaction { get; set; }
 
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplayName.Account_HasBrokerTransaction),
-            ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.Account_HasBrokerTransaction_Name),
+            ResourceType = typeof(ModelDisplay))]
         public bool HasBrokerTransaction { get; set; }
 
         [Display(
-            Name = nameof(ModelDisplayName.Account_AccountCustodianId),
-            ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.Account_AccountCustodianId_Name),
+            ResourceType = typeof(ModelDisplay))]
         public int AccountCustodianId { get; set; }
 
         [Display(
-            Name = nameof(ModelDisplayName.Account_BooksClosedDate),
-            ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.Account_BooksClosedDate_Name),
+            ResourceType = typeof(ModelDisplay))]
         public DateTime? BooksClosedDate { get; set; }
 
         [Display(
-            Name = nameof(ModelDisplayName.Account_DisplayOrder),
-            ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.Account_DisplayOrder_Name),
+            ResourceType = typeof(ModelDisplay))]
         public int DisplayOrder { get; set; }
     }
 

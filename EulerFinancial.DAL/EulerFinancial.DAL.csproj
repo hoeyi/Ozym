@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ichosoft.DataModel" Version="1.2.1.4448" />
+    <PackageReference Include="Ichosoft.DataModel" Version="2.0.1.1497" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
       <PrivateAssets>all</PrivateAssets>
@@ -30,6 +30,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ModelMetadata\Resources\ModelDisplay.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModelDisplay.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ModelMetadata\Resources\ModelNoun.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModelNoun.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\DefaultConfiguration.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -40,25 +50,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Message.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\ModelDescription.Designer.cs">
-      <DependentUpon>ModelDescription.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Update="Resources\ExceptionString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionString.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\ModelDisplayName.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ModelDisplayName.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\NounString.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NounString.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\UserInterfaceString.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -68,6 +63,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="ModelMetadata\Resources\ModelDisplay.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModelDisplay.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ModelMetadata\Resources\ModelNoun.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModelNoun.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\DefaultConfiguration.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DefaultConfiguration.Designer.cs</LastGenOutput>
@@ -76,21 +79,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Message.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ModelDescription.resx">
-      <LastGenOutput>ModelDescription.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources\ExceptionString.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ModelDisplayName.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ModelDisplayName.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\NounString.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>NounString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\UserInterfaceString.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

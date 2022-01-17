@@ -11,6 +11,7 @@ using EulerFinancial.Model;
 using EulerFinancial.Blazor.Controllers;
 using Serilog;
 using Ichosoft.DataModel.Expressions;
+using Ichosoft.DataModel;
 
 namespace EulerFinancial.Blazor
 {

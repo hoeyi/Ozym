@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Ichosoft.DataModel.Annotations;
 using EulerFinancial.Resources;
+using EulerFinancial.ModelMetadata.Resources;
 
 namespace EulerFinancial.Model
 {
@@ -9,26 +10,26 @@ namespace EulerFinancial.Model
     {
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplayName.AccountObject_AccountObjectCode), 
-            ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.AccountObject_AccountObjectCode_Name), 
+            ResourceType = typeof(ModelDisplay))]
         public string AccountObjectCode { get; set; }
 
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplayName.AccountObject_StartDate), 
-            ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.AccountObject_StartDate_Name), 
+            ResourceType = typeof(ModelDisplay))]
         public DateTime StartDate { get; set; }
 
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplayName.AccountObject_CloseDate), 
-            ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.AccountObject_CloseDate_Name), 
+            ResourceType = typeof(ModelDisplay))]
         public DateTime? CloseDate { get; set; }
 
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplayName.AccountObject_ObjectDisplayName), 
-            ResourceType = typeof(ModelDisplayName))]
+            Name = nameof(ModelDisplay.AccountObject_ObjectDisplayName_Name), 
+            ResourceType = typeof(ModelDisplay))]
         public string ObjectDisplayName { get; set; }
     }
 
