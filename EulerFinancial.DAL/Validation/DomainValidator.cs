@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using EulerFinancial.Extensions;
-using EulerFinancial.Resources;
 
 namespace EulerFinancial.Validation
 {
