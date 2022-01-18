@@ -63,18 +63,18 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
-        public static string Search_General_Button {
+        public static string Search_Button_Caption {
             get {
-                return ResourceManager.GetString("Search.General.Button", resourceCulture);
+                return ResourceManager.GetString("Search_Button_Caption", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Search for:.
         /// </summary>
-        public static string Search_General_FieldSelect {
+        public static string Search_FieldSelector_Caption {
             get {
-                return ResourceManager.GetString("Search.General.FieldSelect", resourceCulture);
+                return ResourceManager.GetString("Search_FieldSelector_Caption", resourceCulture);
             }
         }
     }

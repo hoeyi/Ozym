@@ -24,12 +24,12 @@ namespace EulerFinancial.Blazor
                 .MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
                 .WriteTo.File(
-                    path: $"{EulerFinancial.Configuration.AssemblyInfoHelper.ExecutingAssemblyPath}\\logs\\.log",
+                    path: $"{EulerFinancial.Configuration.AssemblyInfo.ExecutingAssemblyPath}\\logs\\.log",
                     rollingInterval: RollingInterval.Day,
                     shared: true)
                 .WriteTo.File(
                     formatter: new RenderedCompactJsonFormatter(),
-                    path: $"{EulerFinancial.Configuration.AssemblyInfoHelper.ExecutingAssemblyPath}\\logs\\.json",
+                    path: $"{EulerFinancial.Configuration.AssemblyInfo.ExecutingAssemblyPath}\\logs\\.json",
                     rollingInterval: RollingInterval.Day,
                     shared: true)
                 .CreateLogger();

@@ -1,5 +1,5 @@
 ﻿@page "/Accounts"
-@inherits ModelView
+@inherits ModelIndexView
 
 @inject IController<Account> Controller
 @inject ILogger Logger
@@ -18,10 +18,10 @@ else
         <table class="table parameter-table">
             <tbody>
                 <tr>
-                    <td><label>@Resources.UserInterfaceString.Search_General_FieldSelect</label></td>
+                    <td><label>@Resources.UserInterfaceString.Search_FieldSelector_Caption</label></td>
                     <td>
-                        <select class="form-control selectpicker" @bind="SearchMemberName" id="SearchFieldSelect">
-                            @foreach(var field in SearchFields)
+                        <select class="form-control selectpicker" @bind="@SearchMemberName" id="SearchFieldSelect">
+                            @foreach (var field in SearchFields)
                             {
                                 <option value="@field.QualifiedMemberName">@field.Display?.GetName()</option> 
                             }
@@ -29,7 +29,7 @@ else
                     </td>
                     <td>
                         <select class="form-control selectpicker" @bind="@SearchOperator" id="search-operator-select">
-                            @foreach(var op in ComparisonOperators)
+                            @foreach (var op in ComparisonOperators)
                             {
                                 <option value=@op>@(ModelMetadata.NameFor<ComparisonOperator>($"{op}"))</option>
                             }
@@ -43,7 +43,7 @@ else
         </table>
     </div>
     <button class="btn btn-primary" @onclick="@(args => SearchClicked(args))">
-        @Resources.UserInterfaceString.Search_General_Button
+        @Resources.UserInterfaceString.Search_Button_Caption
     </button>
     <div>
         <ModelList Data=@Accounts>
@@ -92,11 +92,11 @@ else
                     <tr>
                         <td>@context.AccountNavigation.AccountObjectCode</td>
                         <td>@context.AccountNavigation.ObjectDisplayName</td>
-                        <td>@context.AccountNavigation.StartDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
-                        <td>@context.AccountNavigation.CloseDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
+                        <td>@context.AccountNavigation.StartDate.ToString(CurrentDateTimeFormat.ShortDatePattern)</td>
+                        <td>@context.AccountNavigation.CloseDate.ToLocalizedString(CurrentDateTimeFormat.ShortDatePattern)</td>
                         <td>@context.AccountNumber</td>
                         <td>@context.DisplayOrder</td>
-                        <td>@context.BooksClosedDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)</td>
+                        <td>@context.BooksClosedDate.ToLocalizedString(CurrentDateTimeFormat.ShortDatePattern)</td>
                         <td>@context.IsComplianceTradable</td>
                         <td>@context.HasWallet</td>
                         <td>@context.HasBankTransaction</td>
@@ -167,7 +167,12 @@ else
     {
         try
         {
-            var param = new QueryParameter<Account>(SearchMemberName, SearchOperator, SearchValue);
+            var param = ExpressionBuilder
+                .CreateQueryParameter<Account>(
+                    SearchFields.FirstOrDefault(s => s.QualifiedMemberName == SearchMemberName), 
+                    SearchOperator, 
+                    SearchValue);
+
             expression = ExpressionBuilder.GetExpression(param);
             errorMessage = null;
 

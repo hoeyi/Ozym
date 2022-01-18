@@ -1,5 +1,5 @@
 ﻿@page "/Accounts/Details/{AccountId:int}"
-@inherits ModelView
+@inherits ModelDetailView
 @inject IController<Account> Controller
 
 @if(account is null)
@@ -25,7 +25,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @account.AccountNavigation.StartDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)
+                @account.AccountNavigation.StartDate.ToString(CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern)
             </dd>
             <dt class="col-sm-2">
                 <ToolTip Text="@(ModelMetadata.DescriptionFor<AccountObject>(nameof(AccountObject.CloseDate)))">
@@ -33,7 +33,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @account.AccountNavigation.CloseDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)
+                @account.AccountNavigation.CloseDate.ToLocalizedString(CurrentDateTimeFormat.ShortDatePattern)
             </dd>
             <dt class="col-sm-2">
                 <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.AccountNumber)))">
@@ -57,7 +57,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @account.BooksClosedDate.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern)
+                @account.BooksClosedDate.ToLocalizedString(CurrentDateTimeFormat.ShortDatePattern)
             </dd>
             <dt class="col-sm-2">
                 <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.IsComplianceTradable)))">

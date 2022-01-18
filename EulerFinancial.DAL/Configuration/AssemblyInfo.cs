@@ -3,7 +3,7 @@ using System.IO;
 
 namespace EulerFinancial.Configuration
 {
-    public static class AssemblyInfoHelper
+    public static class AssemblyInfo
     {
         #region Assembly attributes
         public static string AssemblyTitle
@@ -23,6 +23,7 @@ namespace EulerFinancial.Configuration
                 }
             }
         }
+        
         public static string AssemblyVersion
         {
             get
@@ -30,6 +31,7 @@ namespace EulerFinancial.Configuration
                 return Assembly.GetCallingAssembly().GetName().Version.ToString();
             }
         }
+        
         public static string AssemblyDescription
         {
             get
@@ -42,6 +44,7 @@ namespace EulerFinancial.Configuration
                 return ((AssemblyDescriptionAttribute)attributes[0]).Description;
             }
         }
+        
         public static string AssemblyProduct
         {
             get
@@ -54,6 +57,7 @@ namespace EulerFinancial.Configuration
                 return ((AssemblyProductAttribute)attributes[0]).Product;
             }
         }
+        
         public static string AssemblyCopyright
         {
             get
@@ -66,6 +70,7 @@ namespace EulerFinancial.Configuration
                 return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
             }
         }
+        
         public static string AssemblyCompany
         {
             get
@@ -78,6 +83,7 @@ namespace EulerFinancial.Configuration
                 return ((AssemblyCompanyAttribute)attributes[0]).Company;
             }
         }
+        
         public static string AssemblyName
         {
             get
@@ -93,6 +99,7 @@ namespace EulerFinancial.Configuration
                 return Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
             }
         }
+        
         public static string ExecutingAssemblyPath
         {
             get

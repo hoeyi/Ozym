@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Search.General.Button" xml:space="preserve">
+  <data name="Search_Button_Caption" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="Search.General.FieldSelect" xml:space="preserve">
+  <data name="Search_FieldSelector_Caption" xml:space="preserve">
     <value>Search for:</value>
   </data>
 </root>
