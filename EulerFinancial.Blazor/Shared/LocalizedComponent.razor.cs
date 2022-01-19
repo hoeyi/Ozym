@@ -12,13 +12,5 @@ namespace EulerFinancial.Blazor.Shared
 
         [Inject]
         public IModelMetadataService ModelMetadata { get; set; }
-
-        public DateTimeFormatInfo CurrentDateTimeFormat
-        {
-            get
-            {
-                return CultureInfo.CurrentUICulture.DateTimeFormat;
-            }
-        }
     }
 }

@@ -12,7 +12,7 @@ else
 {
     <h4>Accounts</h4>
     <div>
-        <label hidden="@SearchInvalid" class="alert-info">@SearchInvalidMessage</label>
+        <label hidden="@SearchIsValid" class="alert-info">@SearchErrorMessage</label>
     </div>
     <div>
         <table class="table parameter-table">
@@ -92,11 +92,11 @@ else
                     <tr>
                         <td>@context.AccountNavigation.AccountObjectCode</td>
                         <td>@context.AccountNavigation.ObjectDisplayName</td>
-                        <td>@context.AccountNavigation.StartDate.ToString(CurrentDateTimeFormat.ShortDatePattern)</td>
-                        <td>@context.AccountNavigation.CloseDate.ToLocalizedString(CurrentDateTimeFormat.ShortDatePattern)</td>
+                        <td>@context.AccountNavigation.StartDate.ToShortDateString()</td>
+                        <td>@context.AccountNavigation.CloseDate?.ToShortDateString()</td>
                         <td>@context.AccountNumber</td>
                         <td>@context.DisplayOrder</td>
-                        <td>@context.BooksClosedDate.ToLocalizedString(CurrentDateTimeFormat.ShortDatePattern)</td>
+                        <td>@context.BooksClosedDate?.ToShortDateString()</td>
                         <td>@context.IsComplianceTradable</td>
                         <td>@context.HasWallet</td>
                         <td>@context.HasBankTransaction</td>
@@ -117,20 +117,11 @@ else
 
 @code{
     private IEnumerable<Account> Accounts;
-    private IEnumerable<ComparisonOperator> ComparisonOperators;
-    private IEnumerable<ISearchableMemberMetadata> SearchFields;
-
-    private ComparisonOperator SearchOperator;
-    private string SearchMemberName;
-    private string SearchValue;
-
-    private bool SearchInvalid;
-    private string SearchInvalidMessage;
 
     protected override async Task OnInitializedAsync()
     {
         var actionResult = await Controller.SelectWhereAysnc(x => true, maxCount: 0);
-        
+
         Accounts = actionResult.Value;
         SearchFields = ExpressionBuilder.GetSearchableMembers<Account>();
         ComparisonOperators = ExpressionBuilder.GetComparisonOperators();
@@ -148,7 +139,7 @@ else
         {
             try
             {
-                SearchInvalidMessage = msg;
+                SearchErrorMessage = msg;
                 var actionResult = await Controller.SelectWhereAysnc(exp, maxCount: 0);
                 Accounts = actionResult.Value;
             }
@@ -159,7 +150,7 @@ else
         }
         else
         {
-            SearchInvalidMessage = msg;
+            SearchErrorMessage = msg;
         }
     }
 
@@ -169,8 +160,8 @@ else
         {
             var param = ExpressionBuilder
                 .CreateQueryParameter<Account>(
-                    SearchFields.FirstOrDefault(s => s.QualifiedMemberName == SearchMemberName), 
-                    SearchOperator, 
+                    SearchFields.FirstOrDefault(s => s.QualifiedMemberName == SearchMemberName),
+                    SearchOperator,
                     SearchValue);
 
             expression = ExpressionBuilder.GetExpression(param);

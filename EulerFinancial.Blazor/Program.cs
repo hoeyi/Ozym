@@ -6,6 +6,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Ichosoft.Extensions.Configuration;
 using Serilog.Extensions.Logging;
+using System.Globalization;
 
 namespace EulerFinancial.Blazor
 {
@@ -43,6 +44,9 @@ namespace EulerFinancial.Blazor
                 // Copy UserSecret connection string value to secure configuration.
                 config["ConnectionStrings:EulerFinancial"] = config["ConnectionStrings:EulerFinancial"];
                 config.Commit();
+
+                CultureInfo.CurrentCulture = new("de-DE");
+                CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture;
 
                 using IHost host = CreateHostBuilder(args).Build();
                 host.Run();

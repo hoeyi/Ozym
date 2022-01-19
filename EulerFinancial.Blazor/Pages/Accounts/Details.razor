@@ -33,7 +33,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @account.AccountNavigation.CloseDate.ToLocalizedString(CurrentDateTimeFormat.ShortDatePattern)
+                @account.AccountNavigation.CloseDate?.ToShortDateString();
             </dd>
             <dt class="col-sm-2">
                 <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.AccountNumber)))">
@@ -57,7 +57,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @account.BooksClosedDate.ToLocalizedString(CurrentDateTimeFormat.ShortDatePattern)
+                @account.BooksClosedDate?.ToShortDateString();
             </dd>
             <dt class="col-sm-2">
                 <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.IsComplianceTradable)))">
