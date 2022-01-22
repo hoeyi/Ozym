@@ -12,6 +12,7 @@ using EulerFinancial.Blazor.Controllers;
 using Serilog;
 using Ichosoft.DataModel.Expressions;
 using Ichosoft.DataModel;
+using System.Globalization;
 
 namespace EulerFinancial.Blazor
 {
@@ -47,7 +48,15 @@ namespace EulerFinancial.Blazor
             services.AddScoped<IModelService<Account>, AccountService>();
             services.AddScoped<IController<Account>, AccountsController>();
 
+            //services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddLocalization();
+            var supportedCultures = new CultureInfo[] { new CultureInfo("en-US"), new CultureInfo("de-DE") };
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = 
+                    new Microsoft.AspNetCore.Localization.RequestCulture(supportedCultures[1]);
+                options.SupportedUICultures = supportedCultures;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,14 +73,9 @@ namespace EulerFinancial.Blazor
                 app.UseHsts();
             }
 
-            string[] supportedCultures = new string[] { "en-US", "de-DE" };
-
-            app.UseRequestLocalization(new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[1])
-                .AddSupportedCultures(supportedCultures)
-                .AddSupportedUICultures(supportedCultures));
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseRequestLocalization();
 
             app.UseRouting();
 

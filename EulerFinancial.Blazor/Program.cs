@@ -34,6 +34,7 @@ namespace EulerFinancial.Blazor
                     rollingInterval: RollingInterval.Day,
                     shared: true)
                 .CreateLogger();
+
             try
             {
                 Log.Information("Start-up initialized.");
@@ -45,8 +46,9 @@ namespace EulerFinancial.Blazor
                 config["ConnectionStrings:EulerFinancial"] = config["ConnectionStrings:EulerFinancial"];
                 config.Commit();
 
-                CultureInfo.CurrentCulture = new("de-DE");
+                CultureInfo.CurrentCulture = new CultureInfo("de-DE");
                 CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture;
+                CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.CurrentCulture;
 
                 using IHost host = CreateHostBuilder(args).Build();
                 host.Run();
