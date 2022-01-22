@@ -1,5 +1,5 @@
 ﻿@page "/Accounts"
-@inherits ModelIndexView
+@inherits ModelIndex
 
 @inject IController<Account> Controller
 @inject ILogger Logger
@@ -177,7 +177,7 @@ else
             return false;
         }
     }
-
+    
     private void NavigateToDetail(MouseEventArgs args, Account account)
     {
         NavigationHelper.NavigateTo($"/Accounts/Details/{account?.AccountId ?? default}");

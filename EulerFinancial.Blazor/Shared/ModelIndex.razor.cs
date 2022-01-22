@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Ichosoft.DataModel.Expressions;
-using Ichosoft.DataModel;
-using System.Globalization;
 using System.Collections.Generic;
 
 namespace EulerFinancial.Blazor.Shared
@@ -9,7 +7,7 @@ namespace EulerFinancial.Blazor.Shared
     /// <summary>
     /// Represents a searchable index of a model collection.
     /// </summary>
-    public partial class ModelIndexView : LocalizedComponent
+    public partial class ModelIndex : LocalizedComponent
     {
         private string _searchErrorMessage;
 
