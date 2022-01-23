@@ -70,7 +70,7 @@ namespace EulerFinancial.Blazor
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    //webBuilder.UseConfiguration(config);
+                    webBuilder.UseConfiguration(config);
                     webBuilder.UseStartup<Startup>();
                 })
                 .UseSerilog(logger: Log.Logger);

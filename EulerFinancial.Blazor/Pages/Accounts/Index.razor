@@ -50,50 +50,50 @@ else
         </table>
     </div>
     <div>
-        <ObjectList Data=@Models>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
-                        </th>
-                        <th>
-                            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))
-                        </th>
-                        <th>
-                            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.StartDate)))
-                        </th>
-                        <th>
-                            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.CloseDate)))
-                        </th>
-                        <th>
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.AccountNumber)))
-                        </th>
-                        <th>
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.DisplayOrder)))
-                        </th>
-                        <th>
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))
-                        </th>
-                        <th>
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.IsComplianceTradable)))
-                        </th>
-                        <th>
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.HasWallet)))
-                        </th>
-                        <th>
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.HasBankTransaction)))
-                        </th>
-                        <th>
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.HasBrokerTransaction)))
-                        </th>
-                        <th>
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.AccountCustodianId)))
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.StartDate)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.CloseDate)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<Account>(nameof(Account.AccountNumber)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<Account>(nameof(Account.DisplayOrder)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<Account>(nameof(Account.IsComplianceTradable)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<Account>(nameof(Account.HasWallet)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<Account>(nameof(Account.HasBankTransaction)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<Account>(nameof(Account.HasBrokerTransaction)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<Account>(nameof(Account.AccountCustodianId)))
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <ObjectList Data=@Models>
                     <tr>
                         <td>@context.AccountNavigation.AccountObjectCode</td>
                         <td>@context.AccountNavigation.ObjectDisplayName</td>
@@ -114,13 +114,13 @@ else
                             </button>
                         </td>
                     </tr>
-                </tbody>
-            </table>
-        </ObjectList>
+                </ObjectList>
+            </tbody>
+        </table>
     </div>
 }
 
-@code{ 
+@code{
     protected override string IndexUri { get; set; } = "/Accounts";
 
     private void NavigateToCreate()

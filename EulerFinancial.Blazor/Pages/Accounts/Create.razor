@@ -63,9 +63,13 @@ else
         int defaultId = Model.AccountId;
 
         var result = await Controller.CreateAsync(Model);
-        Model = result?.Value;
+        var createResult = result.Result as CreatedAtActionResult;
 
-        if (result.Value?.AccountId != defaultId)
+        if(createResult is not null)
+            Model = createResult.Value as Account;
+        
+
+        if (Model?.AccountId != defaultId)
             NavigateToDetail($"{Model?.AccountId}");
     }
 }
