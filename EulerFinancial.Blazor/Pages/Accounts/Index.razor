@@ -3,6 +3,9 @@
 @inherits ModelIndex<Account>
 
 <div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetPlural()?.ToTitleCase()</h3></div>
+<button class="btn btn-primary" @onclick="@(args => SearchClicked())">
+    @Resources.UserInterfaceString.Search_Button_Caption
+</button>
 
 @if (IsLoading)
 {
@@ -42,9 +45,6 @@ else
             </tbody>
         </table>
     </div>
-    <button class="btn btn-primary" @onclick="@(args => SearchClicked())">
-        @Resources.UserInterfaceString.Search_Button_Caption
-    </button>
     <div>
         <ObjectList Data=@Models>
             <table class="table">
@@ -116,9 +116,11 @@ else
     </div>
 }
 
-@code{
-    private void NavigateToDetail(MouseEventArgs args, Account account)
+@code{ 
+    protected override string IndexUri { get; set; } = "/Accounts";
+
+    protected override void NavigateToDetail(MouseEventArgs args, Account account)
     {
-        NavigationHelper.NavigateTo($"/Accounts/Details/{account?.AccountId ?? default}");
+        NavigationHelper.NavigateTo($"{IndexUri}/Detail/{account?.AccountId ?? default}");
     }
 }

@@ -1,17 +1,26 @@
-﻿@page "/Accounts/Details/{AccountId:int}"
+﻿@page "/Accounts/Detail/{AccountId:int}"
+
+@using Microsoft.AspNetCore.WebUtilities
 
 @inherits ModelCRUD<Account>
 
 <div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetSingular()?.ToTitleCase()</h3></div>
+<div>
+    <button class="btn btn-primary" @onclick=NavigateToIndex>
+        @Resources.UserInterfaceString.Index_Button_Caption
+    </button>
+    <button class=" btn btn-primary" @onclick=@(args => NavigateToEdit($"{Model?.AccountId}"))>
+        @Resources.UserInterfaceString.Edit_Button_Caption
+    </button>
+</div>
+<hr />
+
 @if (IsLoading)
 {
     <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
 }
 else
 {
-    <button class="btn btn-primary" @onclick="@(args => NavigateToEdit(args))">
-        @Resources.UserInterfaceString.Edit_Button_Caption
-    </button>
     <div>
         <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=true />
     </div>
@@ -25,19 +34,13 @@ else
 
     private IEnumerable<AccountCustodian> custodians = new AccountCustodian[0];
 
+    protected override string IndexUri { get; set; } = "/Accounts";
+
     protected override async Task OnInitializedAsync()
     {
         var actionResult = await Controller.ReadAsync(AccountId);
         Model = actionResult.Value;
 
         IsLoading = Model is null;
-    }
-
-    private void NavigateToEdit(MouseEventArgs args)
-    {
-        if (IsLoading)
-            return;
-        
-        NavigationHelper.NavigateTo($"/Accounts/Edit/{Model?.AccountId ?? default}");
     }
 }

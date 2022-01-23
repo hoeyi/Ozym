@@ -1,5 +1,8 @@
-﻿using EulerFinancial.Controllers;
+﻿using System;
+using Ichosoft.DataModel.Annotations;
 using Microsoft.AspNetCore.Components;
+using EulerFinancial.Controllers;
+using Ichosoft.Extensions.Common.Localization;
 
 namespace EulerFinancial.Blazor.Shared
 {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Linq.Expressions;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Components;
-using Ichosoft.DataModel.Expressions;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Ichosoft.DataModel.Expressions;
 
 namespace EulerFinancial.Blazor.Shared
 {
@@ -81,8 +81,12 @@ namespace EulerFinancial.Blazor.Shared
         /// </summary>
         protected int DefaultMaxRecordCount { get; set; } = 0;
 
+        /// <summary>
+        /// Gets the model collection that matches the search expression for this component.
+        /// </summary>
         protected IEnumerable<TModel> Models { get; private set; }
 
+        /// <inheritdoc/>   
         protected override async Task OnInitializedAsync()
         {
             Task<ActionResult<IList<TModel>>> actionResult = 
@@ -101,6 +105,7 @@ namespace EulerFinancial.Blazor.Shared
             Models = actionResult.Result?.Value;
             IsLoading = Models is null;
         }
+        
         /// <summary>
         /// Attempts to create a <see cref="Expression{Func{TModel, Boolean}}"/> from the entered 
         /// parameters.
@@ -134,7 +139,7 @@ namespace EulerFinancial.Blazor.Shared
         }
 
         /// <summary>
-        /// Handles the search action for a collection of models.
+        /// Handles the search action for the model collection.
         /// </summary>
         /// <returns>An empty <see cref="Task"/>.</returns>
         protected async Task SearchClicked()
@@ -156,6 +161,15 @@ namespace EulerFinancial.Blazor.Shared
             {
                 SearchErrorMessage = msg;
             }
+        }
+
+        /// <summary>
+        /// Navigate to the detail page for a selected <see cref="TModel"/>. Must be overridden in child 
+        /// classes.
+        /// </summary>
+        /// <param name="model"></param>
+        protected virtual void NavigateToDetail(MouseEventArgs args, TModel model)
+        {
         }
     }
 }

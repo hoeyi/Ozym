@@ -79,6 +79,15 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Index.
+        /// </summary>
+        public static string Index_Button_Caption {
+            get {
+                return ResourceManager.GetString("Index_Button_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         public static string Page_Loading_Caption {

@@ -123,6 +123,9 @@
   <data name="Edit_Button_Caption" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="Index_Button_Caption" xml:space="preserve">
+    <value>Index</value>
+  </data>
   <data name="Page_Loading_Caption" xml:space="preserve">
     <value>Loading...</value>
   </data>
