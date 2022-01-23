@@ -1,0 +1,65 @@
+﻿@page "/Accounts/Edit/{AccountId:int}"
+
+@inherits ModelCRUD<Account>
+
+@inject IReferenceDataService ReferenceData
+
+<div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetSingular()?.ToTitleCase()</h3></div>
+<div>
+    <button class="btn btn-primary" @onclick=NavigateToIndex>
+        @Resources.UserInterfaceString.Index_Button_Caption
+    </button>
+</div>
+<hr />
+
+@if (IsLoading)
+{
+    <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
+}
+else
+{
+    <div>
+        <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=false />
+    </div>
+    <div>
+        <AccountCRUD Model="@Model" AccountCustodians=@custodians IsDisabled=false />
+    </div>
+    <div>
+        <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
+            @Resources.UserInterfaceString.Save_Button_Caption
+        </button>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int? AccountId { get; set; }
+
+    private IEnumerable<AccountCustodian> custodians;
+
+    protected override string IndexUri { get; set; } = "/Accounts";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var noun = ModelMetadata.NounFor(typeof(Account));
+
+        var accountQuery = await Controller.ReadAsync(AccountId);
+        Model = accountQuery.Value;
+
+        var custodiansQuery = await ReferenceData.GetAccountCustodiansAsync();
+        custodians = custodiansQuery;
+
+        IsLoading = (Model is null || custodians is null);
+    }
+
+    private async Task HandleValidSubmit(MouseEventArgs args)
+    {
+        var e = args;
+        Logger.Information("HandleValidSubmit called");
+
+        var result = await Controller.UpdateAsync(AccountId, Model);
+
+        if (result.Value?.AccountId == AccountId)
+            NavigateToDetail($"{Model?.AccountId}");
+    }
+}

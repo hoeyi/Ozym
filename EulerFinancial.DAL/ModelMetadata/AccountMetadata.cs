@@ -12,7 +12,8 @@ namespace EulerFinancial.Model
         Plural = nameof(ModelNoun.Account_Plural),
         PluralArticle = nameof(ModelNoun.Account_PluralArticle),
         Singular = nameof(ModelNoun.Account_Singular),
-        SingularArticle = nameof(ModelNoun.Account_SingularArticle)
+        SingularArticle = nameof(ModelNoun.Account_SingularArticle),
+        ResourceType = typeof(ModelNoun)
         )]
     public class AccountMetadata
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EulerFinancial.Blazor.ResourceString {
+namespace EulerFinancial.Blazor.BlazorResources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EulerFinancial.Blazor.ResourceString {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Blazor.ResourceString.Exception", typeof(Exception).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Blazor.BlazorResources.Exception", typeof(Exception).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

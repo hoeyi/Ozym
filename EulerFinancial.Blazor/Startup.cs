@@ -39,8 +39,13 @@ namespace EulerFinancial.Blazor
             services.AddSingleton<IModelMetadataService, ModelMetadataService>();
 
             // Add database service.
-            services.AddDbContext<Context.EulerFinancialContext>(options =>
-                options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
+            //services.AddDbContext<Context.EulerFinancialContext>(options =>
+            //    options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
+
+            services.AddDbContext<Context.EulerFinancialContext>(
+                optionsAction: options => options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"),
+                optionsLifetime: ServiceLifetime.Singleton,
+                contextLifetime: ServiceLifetime.Transient);
 
             // Add reference and model services.
             services.AddScoped<IReferenceDataService, ReferenceDataService>();
