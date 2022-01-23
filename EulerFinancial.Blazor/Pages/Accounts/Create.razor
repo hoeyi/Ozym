@@ -1,4 +1,4 @@
-﻿@page "/Accounts/Edit/{AccountId:int}"
+﻿@page "/Accounts/Create/{RequestGuid:guid}"
 
 @inherits ModelCRUD<Account>
 
@@ -33,7 +33,7 @@ else
 
 @code {
     [Parameter]
-    public int? AccountId { get; set; }
+    public Guid RequestGuid { get; set; }
 
     private IEnumerable<AccountCustodian> custodians;
 
@@ -41,8 +41,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var accountQuery = await Controller.ReadAsync(AccountId);
-        Model = accountQuery.Value;
+        Model = new Account()
+        {
+            AccountNavigation = new AccountObject()
+            {
+                ObjectType = AccountObjectType.Account.ConvertToStringCode()
+            }
+        };
 
         var custodiansQuery = await ReferenceData.GetAccountCustodiansAsync();
         custodians = custodiansQuery;
@@ -55,9 +60,12 @@ else
         var e = args;
         Logger.Information("HandleValidSubmit called");
 
-        var result = await Controller.UpdateAsync(AccountId, Model);
+        int defaultId = Model.AccountId;
 
-        if (result.Value?.AccountId == AccountId)
+        var result = await Controller.CreateAsync(Model);
+        Model = result?.Value;
+
+        if (result.Value?.AccountId != defaultId)
             NavigateToDetail($"{Model?.AccountId}");
     }
 }

@@ -3,6 +3,10 @@
 @inherits ModelIndex<Account>
 
 <div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetPlural()?.ToTitleCase()</h3></div>
+<button class="btn btn-primary" @onclick="@(args => NavigateToCreate())">
+    @Resources.UserInterfaceString.CreateNew_Button_Caption
+</button>
+
 <button class="btn btn-primary" @onclick="@(args => SearchClicked())">
     @Resources.UserInterfaceString.Search_Button_Caption
 </button>
@@ -118,6 +122,11 @@ else
 
 @code{ 
     protected override string IndexUri { get; set; } = "/Accounts";
+
+    private void NavigateToCreate()
+    {
+        NavigationHelper.NavigateTo($"{IndexUri}/Create/{Guid.NewGuid()}");
+    }
 
     protected override void NavigateToDetail(MouseEventArgs args, Account account)
     {

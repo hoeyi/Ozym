@@ -61,6 +61,15 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string CreateNew_Button_Caption {
+            get {
+                return ResourceManager.GetString("CreateNew_Button_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete_Button_Caption {

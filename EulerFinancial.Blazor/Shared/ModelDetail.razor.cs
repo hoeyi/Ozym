@@ -6,7 +6,7 @@ namespace EulerFinancial.Blazor.Shared
     /// <summary>
     /// Base component for viewing details of a <typeparamref name="TModel"/>.
     /// </summary>
-    /// <typeparam name="TModel"></typeparam>
+    /// <typeparam name="TModel">The model type.</typeparam>
     public partial class ModelDetail<TModel> : ModelComponentBase<TModel>
         where TModel : class, new()
     {

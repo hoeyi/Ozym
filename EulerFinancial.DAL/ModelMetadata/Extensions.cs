@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Ichosoft.DataModel;
 using Ichosoft.DataModel.Annotations;
 
@@ -21,6 +22,23 @@ namespace EulerFinancial.ModelMetadata
                 return null;
 
             return metadata?.AttributeFor<NounAttribute>(type);
+        }
+
+        /// <summary>
+        /// Returns the string value assigned to the member <see cref="EnumMemberAttribute"/>.
+        /// </summary>
+        /// <typeparam name="TEnum">The enum type.</typeparam>
+        /// <param name="enum"></param>
+        /// <returns>The string representation of this member.</returns>
+        public static string ConvertToStringCode<TEnum>(this TEnum @enum)
+            where TEnum : struct
+        {
+            var enumType = typeof(TEnum);
+            var name = Enum.GetName(enumType, @enum);
+
+            var memberAttribute = enumType.AttributeFor<EnumMemberAttribute>(name);
+
+            return memberAttribute?.Value;
         }
     }
 }
