@@ -1,8 +1,10 @@
 ﻿@typeparam TItem
+
 @foreach (TItem item in Data ?? Array.Empty<TItem>())
 {
     @ChildContent(item)
 }
+
 @code
 {
     [Parameter]

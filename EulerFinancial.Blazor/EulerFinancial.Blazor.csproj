@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ResourceString\Exception.Designer.cs">
+    <Compile Update="BlazorResources\Exception.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Exception.resx</DependentUpon>
@@ -45,7 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="ResourceString\Exception.resx">
+    <EmbeddedResource Update="BlazorResources\Exception.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Exception.Designer.cs</LastGenOutput>
     </EmbeddedResource>

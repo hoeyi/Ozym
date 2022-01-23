@@ -1,0 +1,15 @@
+﻿@inherits ComponentBase
+
+@code {
+    /// <summary>
+    /// Gets or sets whether the component is disabled.
+    /// </summary>
+    [Parameter]
+    public bool IsDisabled { get; set; }
+
+    /// <summary>
+    /// Gets whether the component is currently loading data.
+    /// </summary>
+    /// <remarks>Default is <see cref="true"/>.</remarks>
+    public bool IsLoading { get; protected set; } = true;
+}

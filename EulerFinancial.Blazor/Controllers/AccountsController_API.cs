@@ -10,7 +10,7 @@ namespace EulerFinancial.Blazor.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public partial class AccountsController : ControllerBase
+    public partial class AccountsControllerAPI : ControllerBase
     {
         private readonly EulerFinancialContext _context;
 

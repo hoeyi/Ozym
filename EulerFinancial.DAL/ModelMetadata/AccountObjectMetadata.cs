@@ -12,7 +12,8 @@ namespace EulerFinancial.Model
         Plural = nameof(ModelNoun.AccountObject_Plural),
         PluralArticle = nameof(ModelNoun.AccountObject_PluralArticle),
         Singular = nameof(ModelNoun.AccountObject_Singular),
-        SingularArticle = nameof(ModelNoun.AccountObject_SingularArticle)
+        SingularArticle = nameof(ModelNoun.AccountObject_SingularArticle),
+        ResourceType = typeof(ModelNoun)
         )]
     public partial class AccountObjectMetadata
     {
@@ -22,6 +23,21 @@ namespace EulerFinancial.Model
             Description = nameof(ModelDisplay.AccountObject_AccountObjectCode_Description),
             ResourceType = typeof(ModelDisplay))]
         public string AccountObjectCode { get; set; }
+
+        [Searchable]
+        [Display(
+            Name = nameof(ModelDisplay.AccountObject_ObjectDisplayName_Name),
+            Description = nameof(ModelDisplay.AccountObject_ObjectDipslayName_Description),
+            ResourceType = typeof(ModelDisplay)
+            )]
+        public string ObjectDisplayName { get; set; }
+
+        [Display(
+            Name = nameof(ModelDisplay.AccountObject_ObjectDescription_Name),
+            Description = nameof(ModelDisplay.AccountObject_ObjectDescription_Description),
+            ResourceType = typeof(ModelDisplay)
+            )]
+        public string ObjectDescription { get; set; }
 
         [Searchable]
         [Display(
@@ -39,13 +55,6 @@ namespace EulerFinancial.Model
             )]
         public DateTime? CloseDate { get; set; }
 
-        [Searchable]
-        [Display(
-            Name = nameof(ModelDisplay.AccountObject_ObjectDisplayName_Name),
-            Description = nameof(ModelDisplay.AccountObject_ObjectDipslayName_Description),
-            ResourceType = typeof(ModelDisplay)
-            )]
-        public string ObjectDisplayName { get; set; }
     }
 
     [MetadataType(typeof(AccountObjectMetadata))]

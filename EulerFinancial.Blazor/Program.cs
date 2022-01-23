@@ -57,7 +57,7 @@ namespace EulerFinancial.Blazor
             }
             catch(Exception e)
             {
-                Log.Fatal(e, ResourceString.Exception.Application_UnhandledException);
+                Log.Fatal(e, BlazorResources.Exception.Application_UnhandledException);
                 return 1;
             }
             finally

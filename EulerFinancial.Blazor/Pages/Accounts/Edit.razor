@@ -1,0 +1,61 @@
+﻿@page "/Accounts/Edit/{AccountId:int}"
+
+@inherits ModelCRUD<Account>
+
+@inject IReferenceDataService ReferenceData
+
+<div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetSingular()?.ToTitleCase()</h3></div>
+
+@if (IsLoading)
+{
+    <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
+}
+else
+{
+    <div>
+        <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=false />
+    </div>
+    <div>
+        <AccountCRUD Model="@Model" AccountCustodians=@custodians IsDisabled=false />
+    </div>
+    <div>
+        <button type="submit" @onclick="@HandleValidSubmit">
+            @Resources.UserInterfaceString.Save_Button_Caption
+        </button>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int? AccountId { get; set; }
+
+    private IEnumerable<AccountCustodian> custodians;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var noun = ModelMetadata.NounFor(typeof(Account));
+
+        var accountQuery = await Controller.ReadAsync(AccountId);
+        Model = accountQuery.Value;
+
+        var custodiansQuery = await ReferenceData.GetAccountCustodiansAsync();
+        custodians = custodiansQuery;
+
+        IsLoading = (Model is null || custodians is null);
+    }
+
+    private void Redirect()
+    {
+        NavigationHelper.NavigateTo($"Accounts/Details/{Model?.AccountId ?? default}");
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        Logger.Information("HandleValidSubmit called");
+
+        var result = await Controller.UpdateAsync(AccountId, Model);
+
+        if (result.Value?.AccountId == AccountId)
+            Redirect();
+    }
+}

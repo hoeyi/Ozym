@@ -61,6 +61,42 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete_Button_Caption {
+            get {
+                return ResourceManager.GetString("Delete_Button_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Edit_Button_Caption {
+            get {
+                return ResourceManager.GetString("Edit_Button_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string Page_Loading_Caption {
+            get {
+                return ResourceManager.GetString("Page_Loading_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save_Button_Caption {
+            get {
+                return ResourceManager.GetString("Save_Button_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string Search_Button_Caption {

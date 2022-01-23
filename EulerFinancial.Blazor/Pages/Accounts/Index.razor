@@ -1,16 +1,15 @@
 ﻿@page "/Accounts"
-@inherits ModelIndex
 
-@inject IController<Account> Controller
-@inject ILogger Logger
+@inherits ModelIndex<Account>
 
-@if (Accounts is null)
+<div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetPlural()?.ToTitleCase()</h3></div>
+
+@if (IsLoading)
 {
-    <p><em>Loading...</em></p>
+    <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
 }
 else
 {
-    <h4>Accounts</h4>
     <div>
         <label hidden="@SearchIsValid" class="alert-info">@SearchErrorMessage</label>
     </div>
@@ -20,15 +19,16 @@ else
                 <tr>
                     <td><label>@Resources.UserInterfaceString.Search_FieldSelector_Caption</label></td>
                     <td>
-                        <select class="form-control selectpicker" @bind="@SearchMemberName" id="SearchFieldSelect">
+                        <select class="form-control selectpicker" @bind="@CurrentSearchMemberName" id="SearchFieldSelect">
                             @foreach (var field in SearchFields)
                             {
-                                <option value="@field.QualifiedMemberName">@field.Display?.GetName()</option> 
+                                <option value="@field.QualifiedMemberName">@field.Display?.GetName()</option>
+
                             }
                         </select>
                     </td>
                     <td>
-                        <select class="form-control selectpicker" @bind="@SearchOperator" id="search-operator-select">
+                        <select class="form-control selectpicker" @bind="@CurrentSearchOperator" id="search-operator-select">
                             @foreach (var op in ComparisonOperators)
                             {
                                 <option value=@op>@(ModelMetadata.NameFor<ComparisonOperator>($"{op}"))</option>
@@ -42,15 +42,16 @@ else
             </tbody>
         </table>
     </div>
-    <button class="btn btn-primary" @onclick="@(args => SearchClicked(args))">
+    <button class="btn btn-primary" @onclick="@(args => SearchClicked())">
         @Resources.UserInterfaceString.Search_Button_Caption
     </button>
     <div>
-        <ModelList Data=@Accounts>
+        <ObjectList Data=@Models>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
+                        <th>
+                            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
                         </th>
                         <th>
                             @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))
@@ -111,73 +112,11 @@ else
                     </tr>
                 </tbody>
             </table>
-        </ModelList>
-</div>
+        </ObjectList>
+    </div>
 }
 
 @code{
-    private IEnumerable<Account> Accounts;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var actionResult = await Controller.SelectWhereAysnc(x => true, maxCount: 0);
-
-        Accounts = actionResult.Value;
-        SearchFields = ExpressionBuilder.GetSearchableMembers<Account>();
-        ComparisonOperators = ExpressionBuilder.GetComparisonOperators();
-
-        if (SearchFields.Count() > 0)
-            SearchMemberName = SearchFields.First().QualifiedMemberName;
-
-        if (ComparisonOperators.Count() > 0)
-            SearchOperator = ComparisonOperators.First();
-    }
-
-    private async Task SearchClicked(MouseEventArgs args)
-    {
-        if(TryParseSearchExpression(out Expression<Func<Account, bool>> exp, out string msg))
-        {
-            try
-            {
-                SearchErrorMessage = msg;
-                var actionResult = await Controller.SelectWhereAysnc(exp, maxCount: 0);
-                Accounts = actionResult.Value;
-            }
-            catch(Exception e)
-            {
-                Logger.Error(e, string.Empty);
-            }
-        }
-        else
-        {
-            SearchErrorMessage = msg;
-        }
-    }
-
-    private bool TryParseSearchExpression(out Expression<Func<Account,bool>> expression, out string errorMessage)
-    {
-        try
-        {
-            var param = ExpressionBuilder
-                .CreateQueryParameter<Account>(
-                    SearchFields.FirstOrDefault(s => s.QualifiedMemberName == SearchMemberName),
-                    SearchOperator,
-                    SearchValue);
-
-            expression = ExpressionBuilder.GetExpression(param);
-            errorMessage = null;
-
-            return true;
-        }
-        catch(Exception e)
-        {
-            expression = null;
-            errorMessage = e.Message;
-
-            return false;
-        }
-    }
-    
     private void NavigateToDetail(MouseEventArgs args, Account account)
     {
         NavigationHelper.NavigateTo($"/Accounts/Details/{account?.AccountId ?? default}");

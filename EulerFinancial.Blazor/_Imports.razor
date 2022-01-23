@@ -8,21 +8,27 @@
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
 
-@*Non-standard and third-party namespace references*@
+@*Non-standard namespace references*@
 @using System.Globalization
 @using System.Linq.Expressions
+@using System.Threading
+@using System.Threading.Tasks 
 
 @*Logging library*@
-@*@using Microsoft.Extensions.Logging*@
-@using Serilog;
+@using Microsoft.Extensions.Logging
+@*@using Serilog;*@
 
 @*Ichosoft libraries*@
-@using Ichosoft.DataModel.Expressions;
+@using Ichosoft.DataModel 
+@using Ichosoft.DataModel.Expressions
+@using Ichosoft.DataModel.Annotations
 @using Ichosoft.Extensions.Common.Localization;
 
 @*EulerFinancial namespace references*@
 @using EulerFinancial.Blazor
 @using EulerFinancial.Blazor.Shared
+@using EulerFinancial.Blazor.Shared.ModelComponent
 @using EulerFinancial.Controllers
 @using EulerFinancial.Model
+@using EulerFinancial.ModelMetadata 
 @using EulerFinancial.Reference
