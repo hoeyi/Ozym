@@ -2,125 +2,129 @@
 
 @inherits ModelIndex<Account>
 
-<div><h2>@PageIndexUri</h2></div>
+<PageTitle>@PageTitle</PageTitle>
+<div><h4>@PageTitle</h4></div>
 
-<div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetPlural()?.ToTitleCase()</h3></div>
+
 <button class="btn btn-primary" @onclick="@(args => NavigateToCreate($"{Guid.NewGuid()}"))">
-    @Resources.UserInterfaceString.CreateNew_Button_Caption
-</button>
-
-<button class="btn btn-primary" @onclick="@(args => SearchClicked())">
-    @Resources.UserInterfaceString.Search_Button_Caption
+	@Resources.UserInterfaceString.CreateNew_Button_Caption
 </button>
 
 @if (IsLoading)
 {
-    <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
+	<p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
 }
 else
 {
-    <div>
-        <label hidden="@SearchIsValid" class="alert-info">@SearchErrorMessage</label>
-    </div>
-    <div>
-        <table class="table parameter-table">
-            <tbody>
-                <tr>
-                    <td><label>@Resources.UserInterfaceString.Search_FieldSelector_Caption</label></td>
-                    <td>
-                        <select class="form-control selectpicker" @bind="@CurrentSearchMemberName" id="SearchFieldSelect">
-                            @foreach (var field in SearchFields)
-                            {
-                                <option value="@field.QualifiedMemberName">@field.Display?.GetName()</option>
+	<div>
+		<label hidden="@SearchIsValid" class="alert-info">@SearchErrorMessage</label>
+	</div>
+	<div>
+		<table class="table parameter-table">
+			<tbody>
+				<tr>
+					<td><label>@Resources.UserInterfaceString.Search_FieldSelector_Caption</label></td>
+					<td>
+						<select class="form-control selectpicker" @bind="@CurrentSearchMemberName" id="SearchFieldSelect">
+							@foreach (var field in SearchFields)
+							{
+								<option value="@field.QualifiedMemberName">@field.Display?.GetName()</option>
 
-                            }
-                        </select>
-                    </td>
-                    <td>
-                        <select class="form-control selectpicker" @bind="@CurrentSearchOperator" id="search-operator-select">
-                            @foreach (var op in ComparisonOperators)
-                            {
-                                <option value=@op>@(ModelMetadata.NameFor<ComparisonOperator>($"{op}"))</option>
-                            }
-                        </select>
-                    </td>
-                    <td>
-                        <input @bind="SearchValue" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
-                    </th>
-                    <th>
-                        @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))
-                    </th>
-                    <th>
-                        @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.StartDate)))
-                    </th>
-                    <th>
-                        @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.CloseDate)))
-                    </th>
-                    <th>
-                        @(ModelMetadata.NameFor<Account>(nameof(Account.AccountNumber)))
-                    </th>
-                    <th>
-                        @(ModelMetadata.NameFor<Account>(nameof(Account.DisplayOrder)))
-                    </th>
-                    <th>
-                        @(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))
-                    </th>
-                    <th>
-                        @(ModelMetadata.NameFor<Account>(nameof(Account.IsComplianceTradable)))
-                    </th>
-                    <th>
-                        @(ModelMetadata.NameFor<Account>(nameof(Account.HasWallet)))
-                    </th>
-                    <th>
-                        @(ModelMetadata.NameFor<Account>(nameof(Account.HasBankTransaction)))
-                    </th>
-                    <th>
-                        @(ModelMetadata.NameFor<Account>(nameof(Account.HasBrokerTransaction)))
-                    </th>
-                    <th>
-                        @(ModelMetadata.NameFor<Account>(nameof(Account.AccountCustodianId)))
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <ObjectList Data=@Models>
-                    <tr>
-                        <td>@context.AccountNavigation.AccountObjectCode</td>
-                        <td>@context.AccountNavigation.ObjectDisplayName</td>
-                        <td>@context.AccountNavigation.StartDate.ToShortDateString()</td>
-                        <td>@context.AccountNavigation.CloseDate?.ToShortDateString()</td>
-                        <td>@context.AccountNumber</td>
-                        <td>@context.DisplayOrder</td>
-                        <td>@context.BooksClosedDate?.ToShortDateString()</td>
-                        <td>@context.IsComplianceTradable</td>
-                        <td>@context.HasWallet</td>
-                        <td>@context.HasBankTransaction</td>
-                        <td>@context.HasBrokerTransaction</td>
-                        <td>@context.AccountCustodian?.CustodianCode</td>
-                        <td>
-                            <button class="btn btn-primary"
-                                    @onclick="@(args => NavigateToDetail($"{context?.AccountId}"))">
-                                Details
-                            </button>
-                        </td>
-                    </tr>
-                </ObjectList>
-            </tbody>
-        </table>
-    </div>
+							}
+						</select>
+					</td>
+					<td>
+						<select class="form-control selectpicker" @bind="@CurrentSearchOperator" id="search-operator-select">
+							@foreach (var op in ComparisonOperators)
+							{
+								<option value=@op>@(ModelMetadata.NameFor<ComparisonOperator>($"{op}"))</option>
+							}
+						</select>
+					</td>
+					<td>
+						<input @bind="SearchValue" />
+					</td>
+					<td>
+						<button class="btn btn-primary" @onclick="@(args => SearchClicked())">
+							@Resources.UserInterfaceString.Search_Button_Caption
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
+					</th>
+					<th>
+						@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))
+					</th>
+					<th>
+						@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.StartDate)))
+					</th>
+					<th>
+						@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.CloseDate)))
+					</th>
+					<th>
+						@(ModelMetadata.NameFor<Account>(nameof(Account.AccountNumber)))
+					</th>
+					<th>
+						@(ModelMetadata.NameFor<Account>(nameof(Account.DisplayOrder)))
+					</th>
+					<th>
+						@(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))
+					</th>
+					<th>
+						@(ModelMetadata.NameFor<Account>(nameof(Account.IsComplianceTradable)))
+					</th>
+					<th>
+						@(ModelMetadata.NameFor<Account>(nameof(Account.HasWallet)))
+					</th>
+					<th>
+						@(ModelMetadata.NameFor<Account>(nameof(Account.HasBankTransaction)))
+					</th>
+					<th>
+						@(ModelMetadata.NameFor<Account>(nameof(Account.HasBrokerTransaction)))
+					</th>
+					<th>
+						@(ModelMetadata.NameFor<Account>(nameof(Account.AccountCustodianId)))
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<ObjectList Data=@Models>
+					<tr>
+						<td>@context.AccountNavigation.AccountObjectCode</td>
+						<td>@context.AccountNavigation.ObjectDisplayName</td>
+						<td>@context.AccountNavigation.StartDate.ToShortDateString()</td>
+						<td>@context.AccountNavigation.CloseDate?.ToShortDateString()</td>
+						<td>@context.AccountNumber</td>
+						<td>@context.DisplayOrder</td>
+						<td>@context.BooksClosedDate?.ToShortDateString()</td>
+						<td>@context.IsComplianceTradable</td>
+						<td>@context.HasWallet</td>
+						<td>@context.HasBankTransaction</td>
+						<td>@context.HasBrokerTransaction</td>
+						<td>@context.AccountCustodian?.CustodianCode</td>
+						<td>
+							<button class="btn btn-primary"
+								@onclick="@(args => NavigateToDetail($"{context?.AccountId}"))">
+								Details
+							</button>
+						</td>
+					</tr>
+				</ObjectList>
+			</tbody>
+		</table>
+	</div>
 }
 
-@code{
+@code {
+	/// <inheritdoc/>
+	protected override string PageTitle => Resources.PageMetadata.Account_Index_Title;
 }

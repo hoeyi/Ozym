@@ -8,7 +8,13 @@ namespace EulerFinancial.Blazor.Components.Abstractions
     public partial class ModelComponentBase<TModel> : LocalizedComponent
     {
         /// <summary>
-        /// Gets the absolue uri for the index page that represents this model.
+        /// Gets or sets the <see cref="ILogger"/> used by this component.
+        /// </summary>
+        [Inject]
+        protected ILogger Logger { get; set; }
+
+        /// <summary>
+        /// Gets the absolute uri for the index page that represents this model.
         /// Model pages use the index page as the base relative path for other model pages.
         /// Ex. {BaseUri}/Accounts
         /// </summary>
@@ -28,11 +34,14 @@ namespace EulerFinancial.Blazor.Components.Abstractions
             }
         }
 
-        /// <summary>
-        /// Gets or sets the <see cref="ILogger"/> used by this component.
-        /// </summary>
-        [Inject]
-        protected ILogger Logger { get; set; }
+        /// <inheritdoc/>
+        protected override string PageTitle
+        {
+            get
+            {
+                return Resources.PageMetadata.Title_Not_Found;
+            }
+        }
 
         /// <summary>
         /// Redirects the focus to the model index page.

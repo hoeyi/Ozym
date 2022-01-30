@@ -1,9 +1,24 @@
 ﻿@inherits CustomComponent
 
 @code{
+    /// <summary>
+    /// Gets or sets the <see cref="NavigationManager"/> for this component.
+    /// </summary>
     [Inject]
     protected NavigationManager NavigationHelper { get; set; }
 
+    /// <summary>
+    /// Gets or sets the <see cref="IModelMetadataService"/> for this component.
+    /// </summary>
     [Inject]
     protected IModelMetadataService ModelMetadata { get; set; }
+
+    /// <summary>
+    /// Gets or sets the page/section title for this component. The default is an empty string, 
+    /// unless overriden in an inheriting class.
+    /// </summary>
+    protected virtual string PageTitle
+    {
+        get { return string.Empty; }
+    }
 }

@@ -129,6 +129,9 @@
   <data name="Index_Button_Caption" xml:space="preserve">
     <value>Index</value>
   </data>
+  <data name="PageTitle.NotFound" xml:space="preserve">
+    <value>(No title)</value>
+  </data>
   <data name="Page_Loading_Caption" xml:space="preserve">
     <value>Loading...</value>
   </data>

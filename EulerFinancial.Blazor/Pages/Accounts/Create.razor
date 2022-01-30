@@ -4,9 +4,9 @@
 
 @inject IReferenceDataService ReferenceData
 
-<div><h2>@PageIndexUri</h2></div>
+<PageTitle>@PageTitle</PageTitle>
+<div><h4>@PageTitle</h4></div>
 
-<div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetSingular()?.ToTitleCase()</h3></div>
 <div>
     <button class="btn btn-primary" @onclick=NavigateToIndex>
         @Resources.UserInterfaceString.Index_Button_Caption
@@ -37,8 +37,12 @@ else
     [Parameter]
     public Guid RequestGuid { get; set; }
 
+    /// <inheritdoc/>
+    protected override string PageTitle => Resources.PageMetadata.Account_Create_Title;
+
     private IEnumerable<AccountCustodian> custodians;
 
+    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         Model = new Account()
@@ -57,7 +61,6 @@ else
 
     private async Task HandleValidSubmit(MouseEventArgs args)
     {
-        var e = args;
         Logger.Information("HandleValidSubmit called");
 
         int defaultId = Model.AccountId;

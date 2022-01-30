@@ -1,4 +1,6 @@
 ﻿using System;
+using EulerFinancial.ModelMetadata;
+using Ichosoft.Extensions.Common.Localization;
 using Microsoft.AspNetCore.Components;
 
 namespace EulerFinancial.Blazor.Components.Abstractions

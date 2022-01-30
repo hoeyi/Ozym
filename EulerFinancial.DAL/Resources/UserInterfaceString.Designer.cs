@@ -19,7 +19,7 @@ namespace EulerFinancial.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class UserInterfaceString {
@@ -102,6 +102,15 @@ namespace EulerFinancial.Resources {
         public static string Page_Loading_Caption {
             get {
                 return ResourceManager.GetString("Page_Loading_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (No title).
+        /// </summary>
+        public static string PageTitle_NotFound {
+            get {
+                return ResourceManager.GetString("PageTitle.NotFound", resourceCulture);
             }
         }
         

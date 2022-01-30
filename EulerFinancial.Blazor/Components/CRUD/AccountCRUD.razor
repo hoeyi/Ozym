@@ -40,8 +40,8 @@ else
                 else
                 {
                     <InputSelect id="account-custodian" class="form-control"
-                                 DisplayName="Model.AccountCustodian.CustodianCode"
-                                 @bind-Value="Model.AccountCustodianId">
+                                    DisplayName="Model.AccountCustodian.CustodianCode"
+                                    @bind-Value="Model.AccountCustodianId">
                         @foreach (var custodian in AccountCustodians)
                                 {
                             <option value=@custodian.AccountCustodianId>@custodian.DisplayName</option>
@@ -97,7 +97,7 @@ else
                 else
                 {
                     <InputCheckbox id="account-iscompliancetradable" class="form-control"
-                                   @bind-Value=Model.IsComplianceTradable />
+                                    @bind-Value=Model.IsComplianceTradable />
                     <ValidationMessage For="@(() => Model.IsComplianceTradable)" />
                 }
             </dd>
@@ -158,4 +158,6 @@ else
 @code {
     [Parameter]
     public IEnumerable<AccountCustodian> AccountCustodians { get; set; }
+
+    private bool TestParam { get; set; }
 }
