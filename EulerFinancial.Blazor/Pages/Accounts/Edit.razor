@@ -4,6 +4,8 @@
 
 @inject IReferenceDataService ReferenceData
 
+<div><h2>@PageIndexUri</h2></div>
+
 <div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetSingular()?.ToTitleCase()</h3></div>
 <div>
     <button class="btn btn-primary" @onclick=NavigateToIndex>
@@ -40,10 +42,8 @@ else
 
     private IEnumerable<AccountCustodian> custodians;
 
-    protected override string IndexUri { get; set; } = "/Accounts";
-
     protected override async Task OnInitializedAsync()
-    {
+    {   
         var accountQuery = await Controller.ReadAsync(AccountId);
         Model = accountQuery.Value;
 

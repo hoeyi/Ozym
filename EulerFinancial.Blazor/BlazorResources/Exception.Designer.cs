@@ -68,5 +68,14 @@ namespace EulerFinancial.Blazor.BlazorResources {
                 return ResourceManager.GetString("Application.UnhandledException", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The relative base URI is expected to be a string beginning with &apos;/&apos;..
+        /// </summary>
+        internal static string Navigation_BaseUriNotValid {
+            get {
+                return ResourceManager.GetString("Navigation.BaseUriNotValid", resourceCulture);
+            }
+        }
     }
 }

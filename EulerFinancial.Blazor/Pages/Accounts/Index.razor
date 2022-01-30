@@ -2,8 +2,10 @@
 
 @inherits ModelIndex<Account>
 
+<div><h2>@PageIndexUri</h2></div>
+
 <div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetPlural()?.ToTitleCase()</h3></div>
-<button class="btn btn-primary" @onclick="@(args => NavigateToCreate())">
+<button class="btn btn-primary" @onclick="@(args => NavigateToCreate($"{Guid.NewGuid()}"))">
     @Resources.UserInterfaceString.CreateNew_Button_Caption
 </button>
 
@@ -109,7 +111,7 @@ else
                         <td>@context.AccountCustodian?.CustodianCode</td>
                         <td>
                             <button class="btn btn-primary"
-                                    @onclick="@(args => NavigateToDetail(args, context))">
+                                    @onclick="@(args => NavigateToDetail($"{context?.AccountId}"))">
                                 Details
                             </button>
                         </td>
@@ -121,15 +123,4 @@ else
 }
 
 @code{
-    protected override string IndexUri { get; set; } = "/Accounts";
-
-    private void NavigateToCreate()
-    {
-        NavigationHelper.NavigateTo($"{IndexUri}/Create/{Guid.NewGuid()}");
-    }
-
-    protected override void NavigateToDetail(MouseEventArgs args, Account account)
-    {
-        NavigationHelper.NavigateTo($"{IndexUri}/Detail/{account?.AccountId ?? default}");
-    }
 }

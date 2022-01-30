@@ -4,6 +4,8 @@
 
 @inject IReferenceDataService ReferenceData
 
+<div><h2>@PageIndexUri</h2></div>
+
 <div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetSingular()?.ToTitleCase()</h3></div>
 <div>
     <button class="btn btn-primary" @onclick=NavigateToIndex>
@@ -37,8 +39,6 @@ else
 
     private IEnumerable<AccountCustodian> custodians;
 
-    protected override string IndexUri { get; set; } = "/Accounts";
-
     protected override async Task OnInitializedAsync()
     {
         Model = new Account()
@@ -65,9 +65,9 @@ else
         var result = await Controller.CreateAsync(Model);
         var createResult = result.Result as CreatedAtActionResult;
 
-        if(createResult is not null)
+        if (createResult is not null)
             Model = createResult.Value as Account;
-        
+
 
         if (Model?.AccountId != defaultId)
             NavigateToDetail($"{Model?.AccountId}");
