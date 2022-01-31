@@ -9,20 +9,14 @@ using EulerFinancial.Model;
 
 namespace EulerFinancial.ModelService
 {
-    /// <summary>
-    /// Worker class for servicing CRUD operations against 
-    /// a data store of <see cref="Account"/> models.
-    /// </summary>
     public class AccountService : IModelService<Account>
     {
         private readonly EulerFinancialContext context;
-
         public AccountService(EulerFinancialContext context)
         {
             this.context = context;
         }
 
-        /// <inheritdoc/>
         public async Task<Account> CreateAsync(Account model)
         {
             using var transaction = await context.Database.BeginTransactionAsync();
@@ -41,7 +35,6 @@ namespace EulerFinancial.ModelService
             return model;
         }
 
-        /// <inheritdoc/>   
         public async Task<Account> ReadAsync(int? id)
         {
             return await context.Accounts
@@ -50,7 +43,6 @@ namespace EulerFinancial.ModelService
                                 .FirstOrDefaultAsync(a => a.AccountId == id);
         }
 
-        /// <inheritdoc/>
         public async Task<bool> UpdateAsync(Account model)
         {
 
@@ -61,7 +53,6 @@ namespace EulerFinancial.ModelService
             return true;
         }
 
-        /// <inheritdoc/>
         public async Task<bool> DeleteAsync(Account model)
         {
             using var transaction = await context.Database.BeginTransactionAsync();
@@ -104,7 +95,6 @@ namespace EulerFinancial.ModelService
             }
         }
 
-        /// <inheritdoc/>
         public bool ModelExists(int? id)
         {
             if (id is null)
@@ -115,7 +105,6 @@ namespace EulerFinancial.ModelService
             return context.Accounts.Any(m => m.AccountId == id);
         }
 
-        /// <inheritdoc/>
         public bool ModelExists(Account model)
         {
             if (model is null)
@@ -126,7 +115,6 @@ namespace EulerFinancial.ModelService
             return context.Accounts.Any(m => m.AccountId == model.AccountId);
         }
 
-        /// <inheritdoc/>
         public async Task<List<Account>> SelectAllAsync()
         {
             return await context.Accounts
@@ -135,7 +123,6 @@ namespace EulerFinancial.ModelService
                             .ToListAsync();
         }
 
-        /// <inheritdoc/>
         public async Task<Account> SelectOneAsync(Expression<Func<Account, bool>> predicate)
         {
             return await context.Accounts
@@ -144,7 +131,6 @@ namespace EulerFinancial.ModelService
                             .FirstOrDefaultAsync(predicate);
         }
 
-        /// <inheritdoc/>
         public async Task<List<Account>> SelectWhereAysnc(Expression<Func<Account, bool>> predicate, int maxCount = 0)
         {
             return await context.Accounts
