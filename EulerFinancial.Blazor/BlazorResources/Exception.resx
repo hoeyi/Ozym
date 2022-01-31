@@ -120,4 +120,7 @@
   <data name="Application.UnhandledException" xml:space="preserve">
     <value>Host terminated unexpectedly.</value>
   </data>
+  <data name="Navigation.BaseUriNotValid" xml:space="preserve">
+    <value>The relative base URI is expected to be a string beginning with '/'.</value>
+  </data>
 </root>

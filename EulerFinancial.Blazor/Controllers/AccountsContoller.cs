@@ -1,12 +1,12 @@
-﻿using EulerFinancial.Controllers;
-using EulerFinancial.Model;
-using EulerFinancial.ModelService;
+﻿using System;
+using System.Threading.Tasks;
+using System.Linq.Expressions;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+using EulerFinancial.Model;
+using EulerFinancial.Controllers;
+using EulerFinancial.ModelService;
 
 namespace EulerFinancial.Blazor.Controllers
 {

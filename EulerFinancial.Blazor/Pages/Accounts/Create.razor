@@ -4,7 +4,9 @@
 
 @inject IReferenceDataService ReferenceData
 
-<div><h3>@ModelMetadata.NounFor(typeof(Account))?.GetSingular()?.ToTitleCase()</h3></div>
+<PageTitle>@PageTitle</PageTitle>
+<div><h4>@PageTitle</h4></div>
+
 <div>
     <button class="btn btn-primary" @onclick=NavigateToIndex>
         @Resources.UserInterfaceString.Index_Button_Caption
@@ -35,10 +37,12 @@ else
     [Parameter]
     public Guid RequestGuid { get; set; }
 
+    /// <inheritdoc/>
+    protected override string PageTitle => Resources.PageMetadata.Account_Create_Title;
+
     private IEnumerable<AccountCustodian> custodians;
 
-    protected override string IndexUri { get; set; } = "/Accounts";
-
+    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         Model = new Account()
@@ -57,7 +61,6 @@ else
 
     private async Task HandleValidSubmit(MouseEventArgs args)
     {
-        var e = args;
         Logger.Information("HandleValidSubmit called");
 
         int defaultId = Model.AccountId;
@@ -65,9 +68,9 @@ else
         var result = await Controller.CreateAsync(Model);
         var createResult = result.Result as CreatedAtActionResult;
 
-        if(createResult is not null)
+        if (createResult is not null)
             Model = createResult.Value as Account;
-        
+
 
         if (Model?.AccountId != defaultId)
             NavigateToDetail($"{Model?.AccountId}");

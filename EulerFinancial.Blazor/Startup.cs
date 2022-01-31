@@ -49,7 +49,7 @@ namespace EulerFinancial.Blazor
 
             services.AddScoped<IModelService<Account>, AccountService>();
             services.AddScoped<IController<Account>, AccountsController>();
-
+            
             //services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddLocalization();
             var supportedCultures = new CultureInfo[] { new CultureInfo("en-US"), new CultureInfo("de-DE") };

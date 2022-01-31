@@ -117,31 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateNew_Button_Caption" xml:space="preserve">
-    <value>New</value>
+  <data name="Account_Create_Title" xml:space="preserve">
+    <value>Create new account</value>
   </data>
-  <data name="Delete_Button_Caption" xml:space="preserve">
-    <value>Delete</value>
+  <data name="Account_Detail_Title" xml:space="preserve">
+    <value>Account details [{0}]</value>
+    <comment>{0} is the text identifying the account</comment>
   </data>
-  <data name="Edit_Button_Caption" xml:space="preserve">
-    <value>Edit</value>
+  <data name="Account_Edit_Title" xml:space="preserve">
+    <value>Edit account [{0}]</value>
+    <comment>{0} is the text identifying the account</comment>
   </data>
-  <data name="Index_Button_Caption" xml:space="preserve">
-    <value>Index</value>
+  <data name="Account_Index_Title" xml:space="preserve">
+    <value>Accounts</value>
   </data>
-  <data name="PageTitle.NotFound" xml:space="preserve">
+  <data name="Application_Home_Title" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Title_Not_Found" xml:space="preserve">
     <value>(No title)</value>
-  </data>
-  <data name="Page_Loading_Caption" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="Save_Button_Caption" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="Search_Button_Caption" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="Search_FieldSelector_Caption" xml:space="preserve">
-    <value>Search for:</value>
   </data>
 </root>

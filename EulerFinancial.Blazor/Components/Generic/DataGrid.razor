@@ -1,0 +1,44 @@
+﻿<CascadingValue Value="this">
+    <table class="table">
+        <tbody>
+            @ChildContent
+            @foreach (var item in DataSource)
+            {
+                @RowItem(item)
+            }
+        </tbody>
+    </table>
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public IEnumerable<object> DataSource { get; set; }
+
+    List<DataGridColumn> Columns = new List<DataGridColumn>();
+    public void AddColumn(DataGridColumn column)
+    {
+        Columns.Add(column);
+        StateHasChanged();
+    }
+
+    private RenderFragment RowItem(object row)
+    {
+        int i = 0;
+        return b =>          // create dynamically
+        {
+            b.OpenElement(++i, "tr");
+            foreach (var column in Columns)
+            {
+                b.OpenElement(++i, "td");
+                var val = row.GetType().GetProperty(column.Field)
+                          .GetValue(row, null).ToString();
+                b.AddContent(++i, val);
+                b.CloseElement();
+            }
+            b.CloseElement();
+        };
+    }
+}

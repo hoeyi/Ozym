@@ -23,7 +23,7 @@ else
                 else
                 {
                     <InputText id="account-number" class="form-control"
-                               @bind-Value=Model.AccountNumber />
+                       @bind-Value=Model.AccountNumber />
                     <ValidationMessage For="@(() => Model.AccountNumber)" />
                 }
             </dd>
@@ -40,13 +40,13 @@ else
                 else
                 {
                     <InputSelect id="account-custodian" class="form-control"
-                                 DisplayName="Model.AccountCustodian.CustodianCode"
-                                 @bind-Value="Model.AccountCustodianId">
+                         DisplayName="Model.AccountCustodian.CustodianCode"
+                         @bind-Value="Model.AccountCustodianId">
                         @foreach (var custodian in AccountCustodians)
-                                {
-                            <option value=@custodian.AccountCustodianId>@custodian.DisplayName</option>
-                                }
-                    </InputSelect>
+                        {
+                    <option value=@custodian.AccountCustodianId>@custodian.DisplayName</option>
+                        }
+            </InputSelect>
                     <ValidationMessage For="@(() => Model.AccountCustodianId)" />
                 }
             </dd>
@@ -63,12 +63,13 @@ else
                 else
                 {
                     <InputNumber id="account-displayorder" class="form-control"
-                                 @bind-Value=Model.DisplayOrder />
+                         @bind-Value=Model.DisplayOrder />
                     <ValidationMessage For="@(() => Model.DisplayOrder)" />
                 }
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.BooksClosedDate)))">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(
+                    nameof(Account.BooksClosedDate)))">
                     @(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))
                 </ToolTip>
             </dt>
@@ -80,12 +81,13 @@ else
                 else
                 {
                     <InputDate id="account-bookscloseddate" class="form-control"
-                               @bind-Value=Model.BooksClosedDate />
+                       @bind-Value=Model.BooksClosedDate />
                     <ValidationMessage For="@(() => Model.BooksClosedDate)" />
                 }
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.IsComplianceTradable)))">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(
+                    nameof(Account.IsComplianceTradable)))">
                     @(ModelMetadata.NameFor<Account>(nameof(Account.IsComplianceTradable)))
                 </ToolTip>
             </dt>
@@ -96,8 +98,8 @@ else
                 }
                 else
                 {
-                    <InputCheckbox id="account-iscompliancetradable" class="form-control"
-                                   @bind-Value=Model.IsComplianceTradable />
+                    <InputCheckbox id="account-iscompliancetradable"
+                           @bind-Value=Model.IsComplianceTradable />
                     <ValidationMessage For="@(() => Model.IsComplianceTradable)" />
                 }
             </dd>
@@ -113,13 +115,14 @@ else
                 }
                 else
                 {
-                    <InputCheckbox id="account-haswallet" class="form-control"
-                                   @bind-Value=Model.HasWallet />
+                    <InputCheckbox id="account-haswallet"
+                           @bind-Value=Model.HasWallet />
                     <ValidationMessage For="@(() => Model.HasWallet)" />
                 }
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.HasBankTransaction)))">
+                <ToolTip Text="@(ModelMetadata
+                    .DescriptionFor<Account>(nameof(Account.HasBankTransaction)))">
                     @(ModelMetadata.NameFor<Account>(nameof(Account.HasBankTransaction)))
                 </ToolTip>
             </dt>
@@ -130,13 +133,14 @@ else
                 }
                 else
                 {
-                    <InputCheckbox id="account-hasbanktransaction" class="form-control"
-                                   @bind-Value=Model.HasBankTransaction />
+                    <InputCheckbox id="account-hasbanktransaction"
+                           @bind-Value=Model.HasBankTransaction />
                     <ValidationMessage For="@(() => Model.HasBankTransaction)" />
                 }
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.HasBrokerTransaction)))">
+                <ToolTip Text="@(ModelMetadata
+                    .DescriptionFor<Account>(nameof(Account.HasBrokerTransaction)))">
                     @(ModelMetadata.NameFor<Account>(nameof(Account.HasBrokerTransaction)))
                 </ToolTip>
             </dt>
@@ -147,15 +151,18 @@ else
                 }
                 else
                 {
-                    <InputCheckbox id="account-hasbrokertransaction" class="form-control"
-                                   @bind-Value=Model.HasBrokerTransaction />
+                    <InputCheckbox id="account-hasbrokertransaction"
+                           @bind-Value=Model.HasBrokerTransaction />
                     <ValidationMessage For="@(() => Model.HasBrokerTransaction)" />
                 }
             </dd>
         </dl>
     </EditForm>
+    @*<input type="checkbox" @bind=Model.HasBrokerTransaction/>*@
 }
 @code {
     [Parameter]
     public IEnumerable<AccountCustodian> AccountCustodians { get; set; }
+
+    private bool TestParam { get; set; }
 }
