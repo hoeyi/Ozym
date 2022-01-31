@@ -8,8 +8,16 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
+<input type="checkbox" @bind=TestParameter/>
 
+@*<EditForm @Model=@(new Account())>
+    <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.AccountNumber)))">
+        @(ModelMetadata.NameFor<Account>(nameof(Account.AccountNumber)))
+    </ToolTip>
+    <InputCheckbox @bind-Value=TestParameter/>
+</EditForm>*@
 @code{
-	/// <inheritdoc/>
-	protected override string PageTitle => Resources.PageMetadata.Application_Home_Title;
+    protected bool TestParameter { get; set; }
+    /// <inheritdoc/>
+    protected override string PageTitle => Resources.PageMetadata.Application_Home_Title;
 }
