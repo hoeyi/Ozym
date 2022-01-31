@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>EulerFinancial</AssemblyName>
     <RootNamespace>EulerFinancial</RootNamespace>
   </PropertyGroup>
@@ -15,85 +15,77 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ichosoft.DataModel" Version="2.1.2.4848" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\Adjective.Designer.cs">
+    <Compile Update="ModelMetadata\Resources\ModelDisplay.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Adjective.resx</DependentUpon>
+      <DependentUpon>ModelDisplay.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ModelMetadata\Resources\ModelNoun.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModelNoun.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\DefaultConfiguration.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DefaultConfiguration.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\ModelDescription.Designer.cs">
-      <DependentUpon>ModelDescription.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Resources\ModelDisplayName.Designer.cs">
-      <DependentUpon>ModelDisplayName.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Update="Resources\ExceptionString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionString.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\NounString.Designer.cs">
+    <Compile Update="Resources\PageMetadata.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>NounString.resx</DependentUpon>
+      <DependentUpon>PageMetadata.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\UICaption.Designer.cs">
+    <Compile Update="Resources\UserInterfaceString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>UICaption.resx</DependentUpon>
+      <DependentUpon>UserInterfaceString.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Adjective.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Adjective.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="ModelMetadata\Resources\ModelDisplay.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModelDisplay.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ModelMetadata\Resources\ModelNoun.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModelNoun.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\DefaultConfiguration.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DefaultConfiguration.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ModelDescription.resx">
-      <LastGenOutput>ModelDescription.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ModelDisplayName.resx">
-      <LastGenOutput>ModelDisplayName.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources\ExceptionString.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\NounString.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>NounString.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\UICaption.resx">
+    <EmbeddedResource Update="Resources\PageMetadata.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>UICaption.Designer.cs</LastGenOutput>
+      <LastGenOutput>PageMetadata.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UserInterfaceString.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserInterfaceString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

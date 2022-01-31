@@ -1,0 +1,50 @@
+﻿@page "/Accounts/Detail/{AccountId:int}"
+
+@inherits ModelCRUD<Account>
+
+<PageTitle>@PageTitle</PageTitle>
+<div><h4>@PageTitle</h4></div>
+
+<div>
+    <button class="btn btn-primary" @onclick=NavigateToIndex>
+        @Resources.UserInterfaceString.Index_Button_Caption
+    </button>
+    <button class=" btn btn-primary" @onclick=@(args => NavigateToEdit($"{Model?.AccountId}"))>
+        @Resources.UserInterfaceString.Edit_Button_Caption
+    </button>
+</div>
+<hr />
+
+@if (IsLoading)
+{
+    <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
+}
+else
+{
+    <div>
+        <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=true />
+    </div>
+    <div>
+        <AccountCRUD Model="@Model" AccountCustodians=@custodians IsDisabled=true />
+    </div>
+}
+@code {
+    [Parameter]
+    public int? AccountId { get; set; }
+
+    /// <inheritdoc/>
+    protected override string PageTitle => string.Format(
+        Resources.PageMetadata.Account_Detail_Title, 
+        Model?.AccountNavigation?.AccountObjectCode);
+
+    private IEnumerable<AccountCustodian> custodians = new AccountCustodian[0];
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        var actionResult = await Controller.ReadAsync(AccountId);
+        Model = actionResult.Value;
+
+        IsLoading = Model is null;
+    }
+}
