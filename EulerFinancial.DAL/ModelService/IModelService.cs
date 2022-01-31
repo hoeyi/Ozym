@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 
 namespace EulerFinancial.ModelService
 {
+    /// <summary>
+    /// Worker class for servicing CRUD operations against 
+    /// a data store of <typeparamref name="T"/> models.
+    /// </summary>
+    /// <typeparam name="T">The model type.</typeparam>
     public interface IModelService<T>
         where T : class, new()
     {

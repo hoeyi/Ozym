@@ -1,0 +1,78 @@
+﻿@page "/Accounts/Create/{RequestGuid:guid}"
+
+@inherits ModelCRUD<Account>
+
+@inject IReferenceDataService ReferenceData
+
+<PageTitle>@PageTitle</PageTitle>
+<div><h4>@PageTitle</h4></div>
+
+<div>
+    <button class="btn btn-primary" @onclick=NavigateToIndex>
+        @Resources.UserInterfaceString.Index_Button_Caption
+    </button>
+</div>
+<hr />
+
+@if (IsLoading)
+{
+    <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
+}
+else
+{
+    <div>
+        <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=false />
+    </div>
+    <div>
+        <AccountCRUD Model="@Model" AccountCustodians=@custodians IsDisabled=false />
+    </div>
+    <div>
+        <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
+            @Resources.UserInterfaceString.Save_Button_Caption
+        </button>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid RequestGuid { get; set; }
+
+    /// <inheritdoc/>
+    protected override string PageTitle => Resources.PageMetadata.Account_Create_Title;
+
+    private IEnumerable<AccountCustodian> custodians;
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        Model = new Account()
+        {
+            AccountNavigation = new AccountObject()
+            {
+                ObjectType = AccountObjectType.Account.ConvertToStringCode()
+            }
+        };
+
+        var custodiansQuery = await ReferenceData.GetAccountCustodiansAsync();
+        custodians = custodiansQuery;
+
+        IsLoading = (Model is null || custodians is null);
+    }
+
+    private async Task HandleValidSubmit(MouseEventArgs args)
+    {
+        Logger.Information("HandleValidSubmit called");
+
+        int defaultId = Model.AccountId;
+
+        var result = await Controller.CreateAsync(Model);
+        var createResult = result.Result as CreatedAtActionResult;
+
+        if (createResult is not null)
+            Model = createResult.Value as Account;
+
+
+        if (Model?.AccountId != defaultId)
+            NavigateToDetail($"{Model?.AccountId}");
+    }
+}

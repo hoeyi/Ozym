@@ -1,0 +1,600 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccountAttributeMemberEntry_Plural" xml:space="preserve">
+    <value>attribute entries</value>
+  </data>
+  <data name="AccountAttributeMemberEntry_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountAttributeMemberEntry_Singular" xml:space="preserve">
+    <value>attribute entry</value>
+  </data>
+  <data name="AccountAttributeMemberEntry_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountCustodian_Plural" xml:space="preserve">
+    <value>custodians</value>
+  </data>
+  <data name="AccountCustodian_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountCustodian_Singular" xml:space="preserve">
+    <value>custodian</value>
+  </data>
+  <data name="AccountCustodian_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountGroupMember_Plural" xml:space="preserve">
+    <value>group members</value>
+  </data>
+  <data name="AccountGroupMember_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountGroupMember_Singular" xml:space="preserve">
+    <value>group member</value>
+  </data>
+  <data name="AccountGroupMember_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountGroup_Plural" xml:space="preserve">
+    <value>account groups</value>
+  </data>
+  <data name="AccountGroup_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountGroup_Singular" xml:space="preserve">
+    <value>account group</value>
+  </data>
+  <data name="AccountGroup_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountObject_Plural" xml:space="preserve">
+    <value>account objects</value>
+  </data>
+  <data name="AccountObject_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountObject_Singular" xml:space="preserve">
+    <value>account object</value>
+  </data>
+  <data name="AccountObject_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountWallet_Plural" xml:space="preserve">
+    <value>wallets</value>
+  </data>
+  <data name="AccountWallet_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountWallet_Singular" xml:space="preserve">
+    <value>wallet</value>
+  </data>
+  <data name="AccountWallet_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Account_Plural" xml:space="preserve">
+    <value>accounts</value>
+  </data>
+  <data name="Account_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Account_Singular" xml:space="preserve">
+    <value>account</value>
+  </data>
+  <data name="Account_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AuditEvent_Plural" xml:space="preserve">
+    <value>audit events</value>
+  </data>
+  <data name="AuditEvent_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AuditEvent_Singular" xml:space="preserve">
+    <value>audit event</value>
+  </data>
+  <data name="AuditEvent_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BankTransactionCodeAttributeMemberEntry_Plural" xml:space="preserve">
+    <value>attribute entries</value>
+  </data>
+  <data name="BankTransactionCodeAttributeMemberEntry_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BankTransactionCodeAttributeMemberEntry_Singular" xml:space="preserve">
+    <value>attribute entry</value>
+  </data>
+  <data name="BankTransactionCodeAttributeMemberEntry_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BankTransactionCode_Plural" xml:space="preserve">
+    <value>transaction codes</value>
+  </data>
+  <data name="BankTransactionCode_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BankTransactionCode_Singular" xml:space="preserve">
+    <value>transaction code</value>
+  </data>
+  <data name="BankTransactionCode_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BankTransaction_Plural" xml:space="preserve">
+    <value>transactions</value>
+  </data>
+  <data name="BankTransaction_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BankTransaction_Singular" xml:space="preserve">
+    <value>transaction</value>
+  </data>
+  <data name="BankTransaction_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTransactionCodeAttributeMemberEntry_Plural" xml:space="preserve">
+    <value>attribute entries</value>
+  </data>
+  <data name="BrokerTransactionCodeAttributeMemberEntry_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTransactionCodeAttributeMemberEntry_Singular" xml:space="preserve">
+    <value>attribute entry</value>
+  </data>
+  <data name="BrokerTransactionCodeAttributeMemberEntry_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTransactionCode_Plural" xml:space="preserve">
+    <value>transaction codes</value>
+  </data>
+  <data name="BrokerTransactionCode_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTransactionCode_Singular" xml:space="preserve">
+    <value>transaction code</value>
+  </data>
+  <data name="BrokerTransactionCode_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTransactionTaxLot_Plural" xml:space="preserve">
+    <value>tax lots</value>
+  </data>
+  <data name="BrokerTransactionTaxLot_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTransactionTaxLot_Singular" xml:space="preserve">
+    <value>tax lot</value>
+  </data>
+  <data name="BrokerTransactionTaxLot_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTransaction_Plural" xml:space="preserve">
+    <value>transactions</value>
+  </data>
+  <data name="BrokerTransaction_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTransaction_Singular" xml:space="preserve">
+    <value>transaction</value>
+  </data>
+  <data name="BrokerTransaction_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="CountryAttributeMemberEntry_Plural" xml:space="preserve">
+    <value>attribute entries</value>
+  </data>
+  <data name="CountryAttributeMemberEntry_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="CountryAttributeMemberEntry_Singular" xml:space="preserve">
+    <value>attribute entry</value>
+  </data>
+  <data name="CountryAttributeMemberEntry_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Country_Plural" xml:space="preserve">
+    <value>countries</value>
+  </data>
+  <data name="Country_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Country_Singular" xml:space="preserve">
+    <value>country</value>
+  </data>
+  <data name="Country_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry_Plural" xml:space="preserve">
+    <value>attribute entries</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry_Singular" xml:space="preserve">
+    <value>attribute entry</value>
+  </data>
+  <data name="InvestmentPerformanceAttributeMemberEntry_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="InvestmentPerformanceEntry_Plural" xml:space="preserve">
+    <value>performance rows</value>
+  </data>
+  <data name="InvestmentPerformanceEntry_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="InvestmentPerformanceEntry_Singular" xml:space="preserve">
+    <value>performance row</value>
+  </data>
+  <data name="InvestmentPerformanceEntry_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="InvestmentStrategyTarget_Plural" xml:space="preserve">
+    <value>investment targets</value>
+  </data>
+  <data name="InvestmentStrategyTarget_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="InvestmentStrategyTarget_Singular" xml:space="preserve">
+    <value>investment target</value>
+  </data>
+  <data name="InvestmentStrategyTarget_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="InvestmentStrategy_Plural" xml:space="preserve">
+    <value>investment strategies</value>
+  </data>
+  <data name="InvestmentStrategy_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="InvestmentStrategy_Singular" xml:space="preserve">
+    <value>investment strategy</value>
+  </data>
+  <data name="InvestmentStrategy_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="MarketHolidaySchedule_Plural" xml:space="preserve">
+    <value>observances</value>
+  </data>
+  <data name="MarketHolidaySchedule_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="MarketHolidaySchedule_Singular" xml:space="preserve">
+    <value>observance</value>
+  </data>
+  <data name="MarketHolidaySchedule_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="MarketHoliday_Plural" xml:space="preserve">
+    <value>holidays</value>
+  </data>
+  <data name="MarketHoliday_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="MarketHoliday_Singular" xml:space="preserve">
+    <value>holiday</value>
+  </data>
+  <data name="MarketHoliday_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="MarketIndexPrice_Plural" xml:space="preserve">
+    <value>index prices</value>
+  </data>
+  <data name="MarketIndexPrice_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="MarketIndexPrice_Singular" xml:space="preserve">
+    <value>index price</value>
+  </data>
+  <data name="MarketIndexPrice_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="MarketIndex_Plural" xml:space="preserve">
+    <value>market indexes</value>
+  </data>
+  <data name="MarketIndex_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="MarketIndex_Singular" xml:space="preserve">
+    <value>market index</value>
+  </data>
+  <data name="MarketIndex_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ModelAttributeMember_Plural" xml:space="preserve">
+    <value>attribute members</value>
+  </data>
+  <data name="ModelAttributeMember_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ModelAttributeMember_Singular" xml:space="preserve">
+    <value>attribute member</value>
+  </data>
+  <data name="ModelAttributeMember_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ModelAttributeScope_Plural" xml:space="preserve">
+    <value>attribute scopes</value>
+  </data>
+  <data name="ModelAttributeScope_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ModelAttributeScope_Singular" xml:space="preserve">
+    <value>attribute scope</value>
+  </data>
+  <data name="ModelAttributeScope_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ModelAttribute_Plural" xml:space="preserve">
+    <value>attributes</value>
+  </data>
+  <data name="ModelAttribute_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ModelAttribute_Singular" xml:space="preserve">
+    <value>attribute</value>
+  </data>
+  <data name="ModelAttribute_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ReportConfiguration_Plural" xml:space="preserve">
+    <value>report configurations</value>
+  </data>
+  <data name="ReportConfiguration_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ReportConfiguration_Singular" xml:space="preserve">
+    <value>report configuration</value>
+  </data>
+  <data name="ReportConfiguration_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ReportStyleSheet_Plural" xml:space="preserve">
+    <value>style sheets</value>
+  </data>
+  <data name="ReportStyleSheet_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ReportStyleSheet_Singular" xml:space="preserve">
+    <value>style sheet</value>
+  </data>
+  <data name="ReportStyleSheet_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ResourceImage_Plural" xml:space="preserve">
+    <value>images</value>
+  </data>
+  <data name="ResourceImage_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="ResourceImage_Singular" xml:space="preserve">
+    <value>image</value>
+  </data>
+  <data name="ResourceImage_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecurityAttributeMemberEntry_Plural" xml:space="preserve">
+    <value>attribute entries</value>
+  </data>
+  <data name="SecurityAttributeMemberEntry_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecurityAttributeMemberEntry_Singular" xml:space="preserve">
+    <value>attribute entry</value>
+  </data>
+  <data name="SecurityAttributeMemberEntry_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecurityExchange_Plural" xml:space="preserve">
+    <value>exchanges</value>
+  </data>
+  <data name="SecurityExchange_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecurityExchange_Singular" xml:space="preserve">
+    <value>exchange</value>
+  </data>
+  <data name="SecurityExchange_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecurityPrice_Plural" xml:space="preserve">
+    <value>prices</value>
+  </data>
+  <data name="SecurityPrice_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecurityPrice_Singular" xml:space="preserve">
+    <value>price</value>
+  </data>
+  <data name="SecurityPrice_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecuritySymbolMap_Plural" xml:space="preserve">
+    <value>symbol maps</value>
+  </data>
+  <data name="SecuritySymbolMap_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecuritySymbolMap_Singular" xml:space="preserve">
+    <value>symbol map</value>
+  </data>
+  <data name="SecuritySymbolMap_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecuritySymbolType_Plural" xml:space="preserve">
+    <value>symbol types</value>
+  </data>
+  <data name="SecuritySymbolType_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecuritySymbolType_Singular" xml:space="preserve">
+    <value>symbol type</value>
+  </data>
+  <data name="SecuritySymbolType_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecuritySymbol_Plural" xml:space="preserve">
+    <value>symbols</value>
+  </data>
+  <data name="SecuritySymbol_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecuritySymbol_Singular" xml:space="preserve">
+    <value>security symbol</value>
+  </data>
+  <data name="SecuritySymbol_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecurityTypeGroup_Plural" xml:space="preserve">
+    <value>security type groups</value>
+  </data>
+  <data name="SecurityTypeGroup_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecurityTypeGroup_Singular" xml:space="preserve">
+    <value>security type group</value>
+  </data>
+  <data name="SecurityTypeGroup_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecurityType_Plural" xml:space="preserve">
+    <value>security types</value>
+  </data>
+  <data name="SecurityType_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="SecurityType_Singular" xml:space="preserve">
+    <value>security type</value>
+  </data>
+  <data name="SecurityType_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Security_Plural" xml:space="preserve">
+    <value>securities</value>
+  </data>
+  <data name="Security_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Security_Singular" xml:space="preserve">
+    <value>security</value>
+  </data>
+  <data name="Security_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+</root>
