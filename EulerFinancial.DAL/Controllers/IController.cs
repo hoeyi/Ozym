@@ -15,6 +15,12 @@ namespace EulerFinancial.Controllers
         where T : class, new()
     {
         /// <summary>
+        /// Creates the default instance of <typeparamref name="T"/>.
+        /// </summary>
+        /// <returns>The generated <typeparamref name="T"/>.</returns>
+        Task<T> GetDefault();
+
+        /// <summary>
         /// Creates the given <paramref name="model"/>.
         /// </summary>
         /// <param name="model"></param>
