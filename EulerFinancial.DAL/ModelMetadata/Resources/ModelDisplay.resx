@@ -246,7 +246,7 @@
   <data name="AccountWallet_DenominationSecurityID_Description" xml:space="preserve">
     <value>The currency in which the wallet is denominated.</value>
   </data>
-  <data name="AccountWallet_DenominationSecurityId_Name" xml:space="preserve">
+  <data name="AccountWallet_DenominationSecurityID_Name" xml:space="preserve">
     <value>Denomination</value>
   </data>
   <data name="Account_AccountCustodianID_Description" xml:space="preserve">
