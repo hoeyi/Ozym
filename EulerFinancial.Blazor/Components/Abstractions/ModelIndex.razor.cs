@@ -5,11 +5,8 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Ichosoft.DataModel.Expressions;
 using EulerFinancial.Controllers;
-using EulerFinancial.ModelMetadata;
-using Ichosoft.Extensions.Common.Localization;
 
 namespace EulerFinancial.Blazor.Components.Abstractions
 {
@@ -158,7 +155,7 @@ namespace EulerFinancial.Blazor.Components.Abstractions
                 try
                 {
                     SearchErrorMessage = msg;
-                    var actionResult = await Controller.SelectWhereAysnc(exp, maxCount: 0);
+                    var actionResult = await Controller.SelectWhereAysnc(exp, maxCount: -1);
                     Models = actionResult.Value;
                 }
                 catch (Exception e)
