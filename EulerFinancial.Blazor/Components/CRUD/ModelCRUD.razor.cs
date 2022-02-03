@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using EulerFinancial.Controllers;
-using EulerFinancial.Blazor.Components.Abstractions;
+﻿using EulerFinancial.Blazor.Components.Abstractions;
 
 namespace EulerFinancial.Blazor.Components.CRUD
 {
