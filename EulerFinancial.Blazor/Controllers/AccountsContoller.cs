@@ -4,18 +4,35 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using EulerFinancial.Model;
 using EulerFinancial.Controllers;
 using EulerFinancial.ModelService;
+using EulerFinancial.Resources;
 
 namespace EulerFinancial.Blazor.Controllers
 {
+    /// <summary>
+    /// A derived MVC controller for <see cref="Account"/> objects.
+    /// </summary>
     public partial class AccountsController : ControllerBase, IController<Account>
     {
         private readonly IModelService<Account> accountService;
-        public AccountsController(IModelService<Account> accountService)
+        private readonly ILogger logger;
+        public AccountsController(IModelService<Account> accountService, ILogger logger)
         {
             this.accountService = accountService;
+            this.logger = logger;
+
+            this.logger.LogInformation(
+                message: DebugMessage.Controller_Created, nameof(AccountsController));
+        }
+
+        /// <inheritdoc/>
+        public async Task<Account> GetDefault()
+        {
+            return await accountService.GetDefault();
+
         }
 
         /// <inheritdoc/>
@@ -123,7 +140,7 @@ namespace EulerFinancial.Blazor.Controllers
         public async Task<ActionResult<IList<Account>>> SelectWhereAysnc(
             Expression<Func<Account, bool>> predicate, int maxCount = 0)
         {
-            return await accountService.SelectWhereAysnc(predicate: predicate, maxCount: maxCount);
+            return await accountService.SelectWhereAysnc(predicate, maxCount);
         }
     }
 }
