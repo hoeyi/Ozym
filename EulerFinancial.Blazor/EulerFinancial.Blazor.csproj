@@ -3,12 +3,14 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<UserSecretsId>783d448c-6fe6-4844-838d-884f7066ca6f</UserSecretsId>
+		<OutputType>WinExe</OutputType>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Ichosoft.DataModel" Version="2.1.2.4848" />
 		<PackageReference Include="Ichosoft.Extensions.Common" Version="1.3.0.3319" />
 		<PackageReference Include="Ichosoft.Extensions.Configuration" Version="2.1.1.689" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

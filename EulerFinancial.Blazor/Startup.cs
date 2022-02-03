@@ -13,6 +13,9 @@ using Serilog;
 using Ichosoft.DataModel.Expressions;
 using Ichosoft.DataModel;
 using System.Globalization;
+using Serilog.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace EulerFinancial.Blazor
 {
@@ -37,6 +40,21 @@ namespace EulerFinancial.Blazor
             services.AddSingleton(implementationInstance: Program.Configuration);
             services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
             services.AddSingleton<IModelMetadataService, ModelMetadataService>();
+
+
+            // Add Microsoft.Extensions.Logging.ILogger service
+            services.AddSingleton(implementationInstance:
+                new SerilogLoggerFactory(Log.Logger).CreateLogger(nameof(Program)));
+
+            services.Configure<OpenIdConnectOptions>(
+                OpenIdConnectDefaults.AuthenticationScheme, options =>
+                {
+                    options.ResponseType = OpenIdConnectResponseType.Code;
+                    options.SaveTokens = true;
+
+                    options.Scope.Add("offline_access");
+                });
+
 
             // Add database service.
             services.AddDbContext<Context.EulerFinancialContext>(
@@ -78,8 +96,11 @@ namespace EulerFinancial.Blazor
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRequestLocalization();
-
+            
             app.UseRouting();
+
+            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
