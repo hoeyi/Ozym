@@ -133,6 +133,10 @@
     <comment>{0} is the sought property name
 {1} is the containing type</comment>
   </data>
+  <data name="ModelService.ParentKeyNotSet" xml:space="preserve">
+    <value>The parent key for {0} has not been set.</value>
+    <comment>{0} is the name of the service in which the exception was thrown.</comment>
+  </data>
   <data name="Validation.Date.General" xml:space="preserve">
     <value>'{0}' must be a date.</value>
     <comment>{0} is the member display name</comment>

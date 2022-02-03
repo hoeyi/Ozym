@@ -140,5 +140,14 @@ namespace EulerFinancial.Resources {
                 return ResourceManager.GetString("Search_FieldSelector_Caption", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not authenticated.
+        /// </summary>
+        public static string User_NotAuthenticated_Caption {
+            get {
+                return ResourceManager.GetString("User_NotAuthenticated_Caption", resourceCulture);
+            }
+        }
     }
 }
