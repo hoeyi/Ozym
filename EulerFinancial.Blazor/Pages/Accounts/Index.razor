@@ -127,4 +127,12 @@ else
 @code {
 	/// <inheritdoc/>
 	protected override string PageTitle => Resources.PageMetadata.Account_Index_Title;
+
+	/// <inheritdoc/>
+	protected override Task OnInitializedAsync()
+	{
+		DefaultMaxRecordCount = -1;
+
+		return base.OnInitializedAsync();
+	}
 }
