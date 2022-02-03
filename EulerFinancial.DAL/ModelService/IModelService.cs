@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 namespace EulerFinancial.ModelService
 {
     /// <summary>
-    /// Worker class for servicing CRUD operations against 
+    /// Worker class for servicing CRUD requests against 
     /// a data store of <typeparamref name="T"/> models.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
     public interface IModelService<T>
         where T : class, new()
     {
+        /// <summary>
+        /// Creates the default instance of <typeparamref name="T"/>.
+        /// </summary>
+        /// <returns>A model <typeparamref name="T"/> with default values.</returns>
+        Task<T> GetDefault();
+
         /// <summary>
         /// Creates the given <paramref name="model"/>.
         /// </summary>
