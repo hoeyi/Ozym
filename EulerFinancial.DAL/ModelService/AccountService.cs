@@ -1,29 +1,44 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Ichosoft.DataModel;
 using EulerFinancial.Context;
 using EulerFinancial.Model;
 
 namespace EulerFinancial.ModelService
 {
     /// <summary>
-    /// Worker class for servicing CRUD operations against 
-    /// a data store of <see cref="Account"/> models.
+    /// The class for servicing single CRUD requests agains the <see cref="Account"/> 
+    /// data store.
     /// </summary>
-    public class AccountService : IModelService<Account>
+    public class AccountService : ModelServiceBase<Account>, IModelService<Account>
     {
-        private readonly EulerFinancialContext context;
-
-        public AccountService(EulerFinancialContext context)
+        /// <inheritdoc/>
+        public AccountService(
+            EulerFinancialContext context, 
+            IModelMetadataService modelMetadata,
+            ILogger logger)
+            : base(context, modelMetadata, logger)
         {
-            this.context = context;
         }
 
         /// <inheritdoc/>
-        public async Task<Account> CreateAsync(Account model)
+        public override async Task<Account> GetDefault()
+        {
+            var defaultTask = Task.Run(() => new Account()
+            {
+                AccountNavigation = new AccountObject()
+            });
+
+            return await defaultTask;
+        }
+
+        /// <inheritdoc/>
+        public override async Task<Account> CreateAsync(Account model)
         {
             using var transaction = await context.Database.BeginTransactionAsync();
 
@@ -42,7 +57,7 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>   
-        public async Task<Account> ReadAsync(int? id)
+        public override async Task<Account> ReadAsync(int? id)
         {
             return await context.Accounts
                                 .Include(a => a.AccountCustodian)
@@ -51,8 +66,10 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public async Task<bool> UpdateAsync(Account model)
+        public override async Task<bool> UpdateAsync(Account model)
         {
+            logger?.LogDebug("Update called on {Model} with {EntityState}",
+                model, context.Entry(model).State);
 
             context.Entry(model).State = EntityState.Modified;
 
@@ -62,7 +79,7 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public async Task<bool> DeleteAsync(Account model)
+        public override async Task<bool> DeleteAsync(Account model)
         {
             using var transaction = await context.Database.BeginTransactionAsync();
 
@@ -105,7 +122,7 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public bool ModelExists(int? id)
+        public override bool ModelExists(int? id)
         {
             if (id is null)
             {
@@ -116,7 +133,7 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public bool ModelExists(Account model)
+        public override bool ModelExists(Account model)
         {
             if (model is null)
             {
@@ -127,7 +144,7 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public async Task<List<Account>> SelectAllAsync()
+        public override async Task<List<Account>> SelectAllAsync()
         {
             return await context.Accounts
                             .Include(a => a.AccountCustodian)
@@ -136,7 +153,8 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public async Task<Account> SelectOneAsync(Expression<Func<Account, bool>> predicate)
+        public override async Task<Account> SelectOneAsync(
+            Expression<Func<Account, bool>> predicate)
         {
             return await context.Accounts
                             .Include(a => a.AccountCustodian)
@@ -145,12 +163,16 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public async Task<List<Account>> SelectWhereAysnc(Expression<Func<Account, bool>> predicate, int maxCount = 0)
+        public override async Task<List<Account>> SelectWhereAysnc(
+            Expression<Func<Account, bool>> predicate, int maxCount = 0)
         {
+            maxCount = maxCount < 0 ? int.MaxValue : maxCount;
+
             return await context.Accounts
                             .Include(a => a.AccountCustodian)
                             .Include(a => a.AccountNavigation)
                             .Where(predicate)
+                            .Take(maxCount)
                             .ToListAsync();
         }
 
