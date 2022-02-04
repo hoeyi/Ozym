@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using Ichosoft.DataModel;
-using EulerFinancial.Context;
+﻿using EulerFinancial.Context;
 using EulerFinancial.Model;
+using Ichosoft.DataModel;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace EulerFinancial.ModelService
 {
@@ -19,7 +19,7 @@ namespace EulerFinancial.ModelService
     {
         /// <inheritdoc/>
         public AccountService(
-            EulerFinancialContext context, 
+            EulerFinancialContext context,
             IModelMetadataService modelMetadata,
             ILogger logger)
             : base(context, modelMetadata, logger)
@@ -115,7 +115,7 @@ namespace EulerFinancial.ModelService
 
                 return true;
             }
-            catch(DbUpdateException)
+            catch (DbUpdateException)
             {
                 return !ModelExists(model.AccountId);
             }

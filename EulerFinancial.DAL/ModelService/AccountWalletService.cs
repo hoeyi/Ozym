@@ -1,15 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using Ichosoft.DataModel;
-using EulerFinancial.Context;
+﻿using EulerFinancial.Context;
 using EulerFinancial.Model;
-using EulerFinancial.Resources;
-using EulerFinancial.ModelMetadata;
+using Ichosoft.DataModel;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace EulerFinancial.ModelService
 {
@@ -17,8 +15,8 @@ namespace EulerFinancial.ModelService
     /// The class for servicing batch CRUD requests agains the <see cref="AccountWallet"/> 
     /// data store.
     /// </summary>
-    public class AccountWalletService : 
-        BatchModelServiceBase<AccountWallet, int>, 
+    public class AccountWalletService :
+        BatchModelServiceBase<AccountWallet, int>,
         IBatchModelService<AccountWallet>
     {
         /// <summary>

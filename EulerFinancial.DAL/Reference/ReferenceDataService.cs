@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using EulerFinancial.Context;
+﻿using EulerFinancial.Context;
 using EulerFinancial.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EulerFinancial.Reference
 {

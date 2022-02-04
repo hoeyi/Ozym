@@ -47,12 +47,12 @@ namespace EulerFinancial.UserInterface
         /// Gets the GUID for this configuration.
         /// </summary>
         public Guid ObjectGuid { get; }
-        
+
         /// <summary>
         /// Gets or sets the name of this coniguration.
         /// </summary>
         public string Name { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the type of model to which this configuration applies.
         /// </summary>

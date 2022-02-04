@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EulerFinancial.ModelMetadata.Resources;
 using Ichosoft.DataModel.Annotations;
-using EulerFinancial.ModelMetadata.Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace EulerFinancial.Model
 {
@@ -16,7 +16,7 @@ namespace EulerFinancial.Model
         [Display(
             Name = nameof(ModelDisplay.AccountWallet_AddressCode_Name),
             Description = nameof(ModelDisplay.AccountWallet_AddressCode_Description),
-            ResourceType = typeof(ModelDisplay))]            
+            ResourceType = typeof(ModelDisplay))]
         public string AddressCode { get; set; }
 
         [Display(

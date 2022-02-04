@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
+﻿using EulerFinancial.Context;
 using Ichosoft.DataModel;
-using EulerFinancial.Context;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace EulerFinancial.ModelService
 {
@@ -14,7 +14,7 @@ namespace EulerFinancial.ModelService
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
     public abstract class ModelServiceBase<T> : IModelService<T>
-        where T: class, new()
+        where T : class, new()
     {
         /// <summary>
         /// The <see cref="EulerFinancialContext"/> instance for this service.

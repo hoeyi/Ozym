@@ -35,7 +35,7 @@ namespace EulerFinancial.Validation
             {
                 validationErrors.Add(
                     string.Format(
-                        Resources.ExceptionString.Validation_Xml_SchemaMismatch, 
+                        Resources.ExceptionString.Validation_Xml_SchemaMismatch,
                         xmlSchemaResourceName));
 
                 errors = validationErrors;
@@ -57,7 +57,7 @@ namespace EulerFinancial.Validation
             catch (ValidationException)
             {
                 validationErrors.Add(Resources.ExceptionString.Validation_Xml_General);
-                
+
                 errors = validationErrors;
                 return false;
             }

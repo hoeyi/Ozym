@@ -11,7 +11,7 @@ namespace EulerFinancial.ModelService
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
     public interface IBatchModelService<T>
-        where T: class, new()
+        where T : class, new()
     {
         /// <summary>
         /// Attaches the given model to the service context as an addition.

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using EulerFinancial.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using EulerFinancial.Model;
 
 namespace EulerFinancial.Reference
 {
@@ -27,6 +27,6 @@ namespace EulerFinancial.Reference
         Task<IList<SecurityType>> GetSecurityTypesAsync();
 
         Task<IList<SecurityTypeGroup>> GetSecurityTypeGroupsAsync();
-        
+
     }
 }

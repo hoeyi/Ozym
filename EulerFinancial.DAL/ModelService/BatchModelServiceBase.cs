@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using Ichosoft.DataModel;
-using EulerFinancial.Context;
+﻿using EulerFinancial.Context;
 using EulerFinancial.Resources;
+using Ichosoft.DataModel;
 using Ichosoft.Extensions.Common.Logging;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace EulerFinancial.ModelService
 {
