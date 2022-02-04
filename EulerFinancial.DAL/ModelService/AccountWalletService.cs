@@ -31,6 +31,15 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
+        public override bool ModelExists(AccountWallet model)
+        {
+            if (model is null)
+                return false;
+
+            return context.AccountWallets.Any(m => m.AccountId == model.AccountId);
+        }
+
+        /// <inheritdoc/>
         public override async Task<int> SaveChanges()
         {
             // TODO: Determine if this have value.
@@ -52,10 +61,8 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public override bool Add(AccountWallet model, int parentKey)
+        public override bool Add(AccountWallet model)
         {
-            ParentKey = parentKey;
-
             model.AccountId = ParentKey;
             context.AccountWallets.Add(model);
 
@@ -76,10 +83,8 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public override bool Delete(AccountWallet model, int parentKey)
+        public override bool Delete(AccountWallet model)
         {
-            ParentKey = parentKey;
-
             context.AccountWallets.Remove(model);
 
             EntityState expectedState = context.Entry(model).State;
@@ -100,10 +105,8 @@ namespace EulerFinancial.ModelService
 
         /// <inheritdoc/>
         public override async Task<List<AccountWallet>> SelectWhereAysnc(
-            Expression<Func<AccountWallet, bool>> predicate, int parentKey, int maxCount = 0)
+            Expression<Func<AccountWallet, bool>> predicate,int maxCount = 0)
         {
-            ParentKey = parentKey;
-
             logger.LogInformation(
                 message: InformationMessage.ModelSearch_Request_SubmitSuccess
                     .ConvertToLogTemplate("Model", "Parameters"),
