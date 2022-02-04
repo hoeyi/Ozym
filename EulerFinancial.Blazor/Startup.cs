@@ -1,4 +1,3 @@
-using EulerFinancial.Blazor.Controllers;
 using EulerFinancial.Controllers;
 using EulerFinancial.Model;
 using EulerFinancial.ModelService;
@@ -65,8 +64,8 @@ namespace EulerFinancial.Blazor
             // Add reference and model services.
             services.AddScoped<IReferenceDataService, ReferenceDataService>();
 
-            services.AddScoped<IModelService<Account>, AccountService>();
-            services.AddScoped<IController<Account>, AccountsController>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAccountController, AccountsController>();
 
             //services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddLocalization();
