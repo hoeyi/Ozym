@@ -63,9 +63,74 @@ namespace EulerFinancial.Resources {
         /// <summary>
         ///   Looks up a localized string similar to {Controller} initialized..
         /// </summary>
-        public static string Controller_Created {
+        public static string Controller_Create_Success {
             get {
-                return ResourceManager.GetString("Controller_Created", resourceCulture);
+                return ResourceManager.GetString("Controller_Create_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Model} created..
+        /// </summary>
+        public static string Model_Create_Success {
+            get {
+                return ResourceManager.GetString("Model_Create_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Model} deleted..
+        /// </summary>
+        public static string Model_Delete_Success {
+            get {
+                return ResourceManager.GetString("Model_Delete_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Model} updated..
+        /// </summary>
+        public static string Model_Update_Success {
+            get {
+                return ResourceManager.GetString("Model_Update_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Model} addition to context did not yield expected entity state.
+        ///Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;.
+        /// </summary>
+        public static string ModelBatch_Add_Failure {
+            get {
+                return ResourceManager.GetString("ModelBatch_Add_Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Model} added to context pending save..
+        /// </summary>
+        public static string ModelBatch_Add_Success {
+            get {
+                return ResourceManager.GetString("ModelBatch_Add_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Model} deletion from context did not yield expected entity state.
+        ///Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;.
+        /// </summary>
+        public static string ModelBatch_Delete_Failure {
+            get {
+                return ResourceManager.GetString("ModelBatch_Delete_Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Model} deleted from context pending save..
+        /// </summary>
+        public static string ModelBatch_Delete_Success {
+            get {
+                return ResourceManager.GetString("ModelBatch_Delete_Success", resourceCulture);
             }
         }
     }

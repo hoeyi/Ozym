@@ -97,6 +97,15 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assignment to {0} is not allowed because .
+        /// </summary>
+        internal static string ModelService_InconsistentParentKey {
+            get {
+                return ResourceManager.GetString("ModelService.InconsistentParentKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The parent key for {0} has not been set..
         /// </summary>
         internal static string ModelService_ParentKeyNotSet {
