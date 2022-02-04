@@ -16,7 +16,7 @@ namespace EulerFinancial.Controllers
     /// A derived MCV controller for <see cref="AccountWallet"/> objects.
     /// </summary>
     public partial class AccountWalletsController 
-        : ControllerBase, IBatchController<AccountWallet, int>
+        : ControllerBase, IAccountWalletsController
     {
         private readonly IAccountWalletService walletService;
         private readonly ILogger logger;
