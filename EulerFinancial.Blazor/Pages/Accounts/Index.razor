@@ -5,10 +5,11 @@
 <PageTitle>@PageTitle</PageTitle>
 <div><h4>@PageTitle</h4></div>
 
-
-<button class="btn btn-primary" @onclick="@(args => NavigateToCreate($"{Guid.NewGuid()}"))">
-	@Resources.UserInterfaceString.CreateNew_Button_Caption
-</button>
+<div>
+	<button class="btn btn-primary" @onclick="@(args => NavigateToCreate($"{Guid.NewGuid()}"))">
+		@Resources.UserInterfaceString.CreateNew_Button_Caption
+	</button>
+</div>
 
 @if (IsLoading)
 {
@@ -17,41 +18,13 @@
 else
 {
 	<div>
-		<label hidden="@SearchIsValid" class="alert-info">@SearchErrorMessage</label>
-	</div>
-	<div>
-		<table class="table parameter-table">
-			<tbody>
-				<tr>
-					<td><label>@Resources.UserInterfaceString.Search_FieldSelector_Caption</label></td>
-					<td>
-						<select class="form-control selectpicker" @bind="@CurrentSearchMemberName" id="SearchFieldSelect">
-							@foreach (var field in SearchFields)
-							{
-								<option value="@field.QualifiedMemberName">@field.Display?.GetName()</option>
-
-							}
-						</select>
-					</td>
-					<td>
-						<select class="form-control selectpicker" @bind="@CurrentSearchOperator" id="search-operator-select">
-							@foreach (var op in ComparisonOperators)
-							{
-								<option value=@op>@(ModelMetadata.NameFor<ComparisonOperator>($"{op}"))</option>
-							}
-						</select>
-					</td>
-					<td>
-						<input @bind="SearchValue" />
-					</td>
-					<td>
-						<button class="btn btn-primary" @onclick="@(args => SearchClicked())">
-							@Resources.UserInterfaceString.Search_Button_Caption
-						</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<SearchInputTable
+			TModel=@Account
+			ComparisonOperators=@ComparisonOperators
+			ExpressionBuilder=@ExpressionBuilder
+			SearchFields=@SearchFields
+			OnSearchClick=@(args => SearchClicked(args))>
+		</SearchInputTable>
 	</div>
 	<div>
 		<table class="table">
@@ -131,7 +104,7 @@ else
 	/// <inheritdoc/>
 	protected override Task OnInitializedAsync()
 	{
-		DefaultMaxRecordCount = -1;
+		MaxRecordCount = -1;
 
 		return base.OnInitializedAsync();
 	}

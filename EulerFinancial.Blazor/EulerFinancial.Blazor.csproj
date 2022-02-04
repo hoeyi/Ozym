@@ -38,6 +38,11 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Exception.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Components\Generic\Resources\Captions.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Captions.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -85,6 +90,10 @@
 		<EmbeddedResource Update="BlazorResources\Exception.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Exception.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Components\Generic\Resources\Captions.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Captions.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
 

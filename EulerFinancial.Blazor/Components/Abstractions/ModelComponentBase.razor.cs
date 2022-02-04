@@ -1,7 +1,7 @@
-﻿using System;
+﻿using EulerFinancial.Blazor.Components.Generic;
 using Microsoft.AspNetCore.Components;
 using Serilog;
-using EulerFinancial.Blazor.Components.Generic;
+using System;
 
 namespace EulerFinancial.Blazor.Components.Abstractions
 {

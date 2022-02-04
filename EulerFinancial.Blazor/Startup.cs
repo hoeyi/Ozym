@@ -1,21 +1,21 @@
+using EulerFinancial.Blazor.Controllers;
+using EulerFinancial.Controllers;
+using EulerFinancial.Model;
+using EulerFinancial.ModelService;
+using EulerFinancial.Reference;
+using Ichosoft.DataModel;
+using Ichosoft.DataModel.Expressions;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using EulerFinancial.Controllers;
-using EulerFinancial.Reference;
-using EulerFinancial.ModelService;
-using EulerFinancial.Model;
-using EulerFinancial.Blazor.Controllers;
-using Serilog;
-using Ichosoft.DataModel.Expressions;
-using Ichosoft.DataModel;
-using System.Globalization;
-using Serilog.Extensions.Logging;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Serilog;
+using Serilog.Extensions.Logging;
+using System.Globalization;
 
 namespace EulerFinancial.Blazor
 {
@@ -67,13 +67,13 @@ namespace EulerFinancial.Blazor
 
             services.AddScoped<IModelService<Account>, AccountService>();
             services.AddScoped<IController<Account>, AccountsController>();
-            
+
             //services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddLocalization();
             var supportedCultures = new CultureInfo[] { new CultureInfo("en-US"), new CultureInfo("de-DE") };
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.DefaultRequestCulture = 
+                options.DefaultRequestCulture =
                     new Microsoft.AspNetCore.Localization.RequestCulture(supportedCultures[0]);
                 options.SupportedUICultures = supportedCultures;
             });
@@ -96,7 +96,7 @@ namespace EulerFinancial.Blazor
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRequestLocalization();
-            
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -110,4 +110,3 @@ namespace EulerFinancial.Blazor
         }
     }
 }
- 

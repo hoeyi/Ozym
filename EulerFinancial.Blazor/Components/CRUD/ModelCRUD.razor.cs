@@ -7,7 +7,7 @@ namespace EulerFinancial.Blazor.Components.CRUD
     /// </summary>
     /// <typeparam name="TModel">The model type.</typeparam>
     public partial class ModelCRUD<TModel> : ModelDetail<TModel>
-        where TModel: class, new()
+        where TModel : class, new()
     {
     }
 }

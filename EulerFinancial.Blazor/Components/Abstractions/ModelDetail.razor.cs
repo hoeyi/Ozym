@@ -7,7 +7,7 @@ namespace EulerFinancial.Blazor.Components.Abstractions
     /// </summary>
     /// <typeparam name="TModel">The model type.</typeparam>
     public partial class ModelDetail<TModel> : ModelComponentBase<TModel>
-        where TModel: class, new()
+        where TModel : class, new()
     {
         /// <summary>
         /// Gets or sets the model for which details are provided. 

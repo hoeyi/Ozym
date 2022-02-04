@@ -1,14 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
-using System.Collections.Generic;
+﻿using EulerFinancial.Controllers;
+using EulerFinancial.Model;
+using EulerFinancial.ModelService;
+using EulerFinancial.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using EulerFinancial.Model;
-using EulerFinancial.Controllers;
-using EulerFinancial.ModelService;
-using EulerFinancial.Resources;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace EulerFinancial.Blazor.Controllers
 {
@@ -56,13 +56,13 @@ namespace EulerFinancial.Blazor.Controllers
                 }
             }
         }
-        
+
         /// <inheritdoc/>
         public async Task<ActionResult<Account>> ReadAsync(int? id)
         {
             var account = await accountService.ReadAsync(id);
 
-            if(account is null)
+            if (account is null)
             {
                 return NotFound();
             }
@@ -73,7 +73,7 @@ namespace EulerFinancial.Blazor.Controllers
         /// <inheritdoc/>
         public async Task<ActionResult<Account>> UpdateAsync(int? id, Account model)
         {
-            if(id != model.AccountId)
+            if (id != model.AccountId)
             {
                 return BadRequest();
             }
@@ -87,9 +87,9 @@ namespace EulerFinancial.Blazor.Controllers
                 if (success) return model;
                 else throw updateTask.Exception;
             }
-            catch(DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException)
             {
-                if(!accountService.ModelExists(id))
+                if (!accountService.ModelExists(id))
                 {
                     return NotFound();
                 }
@@ -103,8 +103,8 @@ namespace EulerFinancial.Blazor.Controllers
 
         /// <inheritdoc/>
         public async Task<IActionResult> DeleteAsync(Account model)
-        {   
-            if(!accountService.ModelExists(model))
+        {
+            if (!accountService.ModelExists(model))
             {
                 return NotFound();
             }
@@ -128,7 +128,7 @@ namespace EulerFinancial.Blazor.Controllers
         {
             var account = await accountService.SelectOneAsync(predicate: predicate);
 
-            if(account is null)
+            if (account is null)
             {
                 return NotFound();
             }

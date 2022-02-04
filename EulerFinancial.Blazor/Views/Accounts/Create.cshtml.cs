@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using EulerFinancial.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using EulerFinancial.Model;
+using System.Threading.Tasks;
 
 namespace EulerFinancial.Blazor.Views.Accounts
 {
@@ -17,8 +17,8 @@ namespace EulerFinancial.Blazor.Views.Accounts
 
         public IActionResult OnGet()
         {
-        ViewData["AccountCustodianId"] = new SelectList(_context.AccountCustodians, "AccountCustodianId", "CustodianCode");
-        ViewData["AccountId"] = new SelectList(_context.AccountObjects, "AccountObjectId", "AccountObjectCode");
+            ViewData["AccountCustodianId"] = new SelectList(_context.AccountCustodians, "AccountCustodianId", "CustodianCode");
+            ViewData["AccountId"] = new SelectList(_context.AccountObjects, "AccountObjectId", "AccountObjectCode");
             return Page();
         }
 
