@@ -20,7 +20,7 @@ namespace EulerFinancial.ModelService
     /// </summary>
     public class AccountWalletService :
         BatchModelServiceBase<AccountWallet, int>,
-        IBatchModelService<AccountWallet, int>
+        IAccountWalletService
     {
         /// <inheritdoc/>
         public AccountWalletService(

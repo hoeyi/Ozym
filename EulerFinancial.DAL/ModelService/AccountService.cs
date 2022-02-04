@@ -15,7 +15,7 @@ namespace EulerFinancial.ModelService
     /// The class for servicing single CRUD requests agains the <see cref="Account"/> 
     /// data store.
     /// </summary>
-    public class AccountService : ModelServiceBase<Account>, IModelService<Account>
+    public class AccountService : ModelServiceBase<Account>, IAccountService
     {
         /// <inheritdoc/>
         public AccountService(
