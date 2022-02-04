@@ -19,12 +19,6 @@ namespace EulerFinancial.ModelService
         BatchModelServiceBase<AccountWallet, int>,
         IBatchModelService<AccountWallet>
     {
-        /// <summary>
-        /// The <see cref="Account"/> key representing the parent of objects worked using 
-        /// this service.
-        /// </summary>
-        private readonly int accountId;
-
         /// <inheritdoc/>
         public AccountWalletService(
             EulerFinancialContext context,
@@ -58,7 +52,7 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public override bool Add(AccountWallet model)
         {
-            model.AccountId = accountId;
+            model.AccountId = ParentKey;
             context.AccountWallets.Add(model);
 
             return context.Entry(model).State == EntityState.Added;
@@ -75,7 +69,6 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public override async Task<List<AccountWallet>> SelectWhereAysnc(Expression<Func<AccountWallet, bool>> predicate, int maxCount = 0)
         {
-
             return await context.AccountWallets
                             .Include(a => a.Account)
                             .Include(a => a.DenominationSecurity)
