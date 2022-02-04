@@ -8,23 +8,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using EulerFinancial.Resources;
+using Ichosoft.Extensions.Common.Logging;
+using Ichosoft.DataModel.Annotations;
 
 namespace EulerFinancial.ModelService
 {
     /// <summary>
-    /// The class for servicing batch CRUD requests agains the <see cref="AccountWallet"/> 
+    /// The class for servicing batch CRUD requests against the <see cref="AccountWallet"/> 
     /// data store.
     /// </summary>
     public class AccountWalletService :
         BatchModelServiceBase<AccountWallet, int>,
-        IBatchModelService<AccountWallet>
+        IBatchModelService<AccountWallet, int>
     {
         /// <inheritdoc/>
         public AccountWalletService(
             EulerFinancialContext context,
             IModelMetadataService modelMetadata,
-            ILogger logger,
-            int parentKey) : base(context, modelMetadata, logger, parentKey)
+            ILogger logger) : base(context, modelMetadata, logger)
         {
         }
 
@@ -50,31 +52,76 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public override bool Add(AccountWallet model)
+        public override bool Add(AccountWallet model, int parentKey)
         {
+            ParentKey = parentKey;
+
             model.AccountId = ParentKey;
             context.AccountWallets.Add(model);
 
-            return context.Entry(model).State == EntityState.Added;
+            EntityState expectedState = context.Entry(model).State;
+
+            bool result = expectedState == EntityState.Added;
+
+            if (result)
+            {
+                logger.LogDebug(message: DebugMessage.ModelBatch_Add_Success, model);
+            }
+            else
+            {
+                logger.LogDebug(message: DebugMessage.ModelBatch_Add_Failure,
+                    model, EntityState.Deleted, expectedState);
+            }
+            return result;
         }
 
         /// <inheritdoc/>
-        public override bool Delete(AccountWallet model)
+        public override bool Delete(AccountWallet model, int parentKey)
         {
+            ParentKey = parentKey;
+
             context.AccountWallets.Remove(model);
 
-            return context.Entry(model).State == EntityState.Deleted;
+            EntityState expectedState = context.Entry(model).State;
+
+            bool result = expectedState == EntityState.Deleted;
+
+            if(result)
+            {
+                logger.LogDebug(message: DebugMessage.ModelBatch_Delete_Success, model);
+            }
+            else
+            {
+                logger.LogDebug(message: DebugMessage.ModelBatch_Delete_Failure,
+                    model, EntityState.Deleted, expectedState);
+            }
+            return result;
         }
 
         /// <inheritdoc/>
-        public override async Task<List<AccountWallet>> SelectWhereAysnc(Expression<Func<AccountWallet, bool>> predicate, int maxCount = 0)
+        public override async Task<List<AccountWallet>> SelectWhereAysnc(
+            Expression<Func<AccountWallet, bool>> predicate, int parentKey, int maxCount = 0)
         {
-            return await context.AccountWallets
+            ParentKey = parentKey;
+
+            logger.LogInformation(
+                message: InformationMessage.ModelSearch_Request_SubmitSuccess
+                    .ConvertToLogTemplate("Model", "Parameters"),
+                args: modelMetadata.AttributeFor<NounAttribute>(typeof(AccountWallet)));
+
+            var result = await context.AccountWallets
                             .Include(a => a.Account)
                             .Include(a => a.DenominationSecurity)
                             .Where(a => a.AccountId == ParentKey)
                             .Where(predicate)
                             .ToListAsync();
+
+            logger.LogInformation(
+                message: InformationMessage.ModelSearch_Request_ReturnSuccess
+                    .ConvertToLogTemplate("Models"),
+                args: typeof(AccountWallet));
+
+            return result;
         }
     }
 }

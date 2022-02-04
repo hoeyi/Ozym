@@ -16,7 +16,7 @@ namespace EulerFinancial.ModelService
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
     /// <typeparam name="TParentKey">The model's parent key type.</typeparam>
-    public abstract class BatchModelServiceBase<T, TParentKey> : IBatchModelService<T>
+    public abstract class BatchModelServiceBase<T, TParentKey> : IBatchModelService<T, TParentKey>
         where T : class, new()
         where TParentKey : struct
     {
@@ -38,7 +38,7 @@ namespace EulerFinancial.ModelService
         /// <summary>
         /// The unique key that represents the parent of objects worked using this service.
         /// </summary>
-        private readonly TParentKey? parentKey;
+        private TParentKey? parentKey;
 
         /// <summary>
         /// Creates a new <typeparamref name="T"/> batch model service.
@@ -51,8 +51,7 @@ namespace EulerFinancial.ModelService
         protected BatchModelServiceBase(
             EulerFinancialContext context,
             IModelMetadataService modelMetadata,
-            ILogger logger,
-            TParentKey? parentKey = null)
+            ILogger logger)
         {
             if (context is null)
                 throw new ArgumentNullException(paramName: nameof(context));
@@ -66,16 +65,16 @@ namespace EulerFinancial.ModelService
             this.context = context;
             this.modelMetadata = modelMetadata;
             this.logger = logger;
-
-            this.parentKey = parentKey;
         }
 
         /// <summary>
         /// Gets the parent key for models worked using this service.
         /// </summary>
         /// <remarks>Calls to this property will throw an exception if the parent key was not 
-        /// provided to the <see cref="BatchModelServiceBase{T, TParentKey}"/> constructor.</remarks>
-        protected virtual TParentKey ParentKey
+        /// provided to the <see cref="BatchModelServiceBase{T, TParentKey}"/> constructor. 
+        /// The key will only by set if the current value is null. This ensures inconsistent 
+        /// parent keys are not passed to the same service.</remarks>
+        protected TParentKey ParentKey
         {
             get
             {
@@ -94,19 +93,24 @@ namespace EulerFinancial.ModelService
                 else
                     return (TParentKey)parentKey;
             }
+            set
+            {
+                if (parentKey is null)
+                    parentKey = value; return;
+            }
         }
 
         /// <inheritdoc/>
-        public abstract bool Add(T model);
+        public abstract bool Add(T model, TParentKey parentKey);
 
         /// <inheritdoc/>
-        public abstract bool Delete(T model);
+        public abstract bool Delete(T model, TParentKey parentKey);
 
         /// <inheritdoc/>
         public abstract Task<int> SaveChanges();
 
         /// <inheritdoc/>
         public abstract Task<List<T>> SelectWhereAysnc(
-            Expression<Func<T, bool>> predicate, int maxCount = 0);
+            Expression<Func<T, bool>> predicate, TParentKey parentKey, int maxCount = 0);
     }
 }
