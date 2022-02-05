@@ -24,7 +24,7 @@ else
         <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=false />
     </div>
     <div>
-        <AccountCRUD Model="@Model" AccountCustodians=@custodians IsDisabled=false />
+        <AccountCRUD Model="@Model" AccountCustodians=@Custodians IsDisabled=false />
     </div>
     <div>
         <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
@@ -40,23 +40,22 @@ else
     /// <inheritdoc/>
     protected override string PageTitle => Resources.PageMetadata.Account_Create_Title;
 
-    private IEnumerable<AccountCustodian> custodians;
+    private IEnumerable<AccountCustodian> Custodians { get; set; }
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        Model = new Account()
-        {
-            AccountNavigation = new AccountObject()
-            {
-                ObjectType = AccountObjectType.Account.ConvertToStringCode()
-            }
-        };
 
-        var custodiansQuery = await ReferenceData.GetAccountCustodiansAsync();
-        custodians = custodiansQuery;
+        var modelQuery = Controller.GetDefaultAsync();
+        var custodiansQuery = ReferenceData.GetAccountCustodiansAsync();
 
-        IsLoading = (Model is null || custodians is null);
+        await custodiansQuery;
+        await modelQuery;
+
+        Custodians = custodiansQuery.Result;
+        Model = modelQuery.Result.Value;
+
+        IsLoading = (Model is null || Custodians is null);
     }
 
     private async Task HandleValidSubmit(MouseEventArgs args)

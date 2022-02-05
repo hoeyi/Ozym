@@ -52,6 +52,12 @@ namespace EulerFinancial.Controllers
         Task<IActionResult> Delete(T model);
 
         /// <summary>
+        /// Creates the default instance of <typeparamref name="T"/>.
+        /// </summary>
+        /// <returns>The action response wrapping the generated <typeparamref name="T"/>.</returns>
+        Task<ActionResult<T>> GetDefault();
+
+        /// <summary>
         /// Saves pending changes within the service context to the data store.
         /// </summary>
         /// <returns>A task that represents the asynchronous save operation. The task result 

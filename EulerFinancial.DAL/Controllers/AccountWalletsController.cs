@@ -73,6 +73,12 @@ namespace EulerFinancial.Controllers
         }
 
         /// <inheritdoc/>
+        public async Task<ActionResult<AccountWallet>> GetDefault()
+        {
+            return await walletService.GetDefault();
+        }
+
+        /// <inheritdoc/>
         public IActionResult Initialize(int parentKey)
         {
             if (walletService.Initialize(parentKey))

@@ -17,7 +17,7 @@ namespace EulerFinancial.ModelService
         /// Creates the default instance of <typeparamref name="T"/>.
         /// </summary>
         /// <returns>A model <typeparamref name="T"/> with default values.</returns>
-        Task<T> GetDefault();
+        Task<T> GetDefaultAsync();
 
         /// <summary>
         /// Creates the given <paramref name="model"/>.

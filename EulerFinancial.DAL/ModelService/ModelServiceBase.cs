@@ -65,7 +65,7 @@ namespace EulerFinancial.ModelService
         public abstract Task<bool> DeleteAsync(T model);
 
         /// <inheritdoc/>
-        public abstract Task<T> GetDefault();
+        public abstract Task<T> GetDefaultAsync();
 
         /// <inheritdoc/>
         public abstract bool ModelExists(int? id);

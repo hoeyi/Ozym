@@ -60,6 +60,20 @@ namespace EulerFinancial.ModelService
             return await context.SaveChangesAsync();
         }
 
+        public override async Task<AccountWallet> GetDefault()
+        {
+            AccountWallet New()
+            {
+                return new()
+                {
+                    AccountId = ParentKey
+                };
+            }
+
+            var defaultWallet = await Task.Run(() => New());
+
+            return defaultWallet;
+        }
         /// <inheritdoc/>
         public override bool Add(AccountWallet model)
         {

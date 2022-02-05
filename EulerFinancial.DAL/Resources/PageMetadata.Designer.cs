@@ -70,7 +70,7 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Account details [{0}].
+        ///   Looks up a localized string similar to Account details: {0}.
         /// </summary>
         public static string Account_Detail_Title {
             get {
@@ -79,7 +79,7 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit account [{0}].
+        ///   Looks up a localized string similar to Edit account: {0}.
         /// </summary>
         public static string Account_Edit_Title {
             get {

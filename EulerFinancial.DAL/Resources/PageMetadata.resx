@@ -121,11 +121,11 @@
     <value>Create new account</value>
   </data>
   <data name="Account_Detail_Title" xml:space="preserve">
-    <value>Account details [{0}]</value>
+    <value>Account details: {0}</value>
     <comment>{0} is the text identifying the account</comment>
   </data>
   <data name="Account_Edit_Title" xml:space="preserve">
-    <value>Edit account [{0}]</value>
+    <value>Edit account: {0}</value>
     <comment>{0} is the text identifying the account</comment>
   </data>
   <data name="Account_Index_Title" xml:space="preserve">

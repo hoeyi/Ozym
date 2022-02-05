@@ -25,7 +25,7 @@ namespace EulerFinancial.Blazor.Components.Abstractions
         /// Gets or sets the <see cref="IController{TModel}"/> for this component.
         /// </summary>
         [Inject]
-        protected IController<TModel> Controller { get; set; }
+        protected virtual IController<TModel> Controller { get; set; }
 
         /// <summary>
         /// Gets or sets the default search expression used when first loading the index.

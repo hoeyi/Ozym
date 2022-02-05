@@ -1,0 +1,96 @@
+﻿@page "/AccountWallets/Edit/{AccountId:int}"
+@inherits ModelComponentBase<AccountWallet>
+
+@inject IAccountWalletsController Controller
+@inject IReferenceDataService ReferenceData
+
+@using System.Linq
+
+@if (IsLoading)
+{
+    <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
+}
+else
+{
+    <EditForm Model=@Wallets>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
+                    </th>
+                    <th>
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var wallet in Wallets)
+                {
+                    <tr>
+                        <td>
+                            <InputSelect class="form-control"
+                                    @bind-Value=wallet.DenominationSecurityId>
+                                @foreach (var security in DenominationSecurities)
+                                {
+                                    <option value=@security.SecurityId>@security.SecurityDescription</option>
+                                }
+                            </InputSelect>
+                        </td>
+                        <td>
+                            <InputText class="form-control" @bind-Value=wallet.AddressCode />
+                        </td>
+                        <td>
+                            <InputText class="form-control" @bind-Value=wallet.AddressTag />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </EditForm>
+}
+
+@code {
+
+    [Parameter]
+    public int AccountId { get; set; }
+
+    private IEnumerable<AccountWallet> Wallets { get; set; }
+
+    private IEnumerable<Security> DenominationSecurities { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        if (AccountId is int id)
+        {
+            var result = Controller.Initialize(id);
+
+            if (result is not OkResult)
+                return;
+
+            DenominationSecurities = await ReferenceData.GetSecuritiesAsync();
+
+            Task<ActionResult<IList<AccountWallet>>> actionResult =
+                Controller.SelectWhereAysnc(aw => aw.AccountId == id, maxCount: -1);
+
+            await actionResult;
+
+            var wallets = actionResult.Result?.Value;
+
+            if (wallets.Count() == 0)
+            {
+                var wallet = await Controller.GetDefault();
+                await Controller.Add(wallet.Value);
+                wallets.Add(wallet.Value);
+            }
+
+            Wallets = wallets;
+            IsLoading = Wallets is null;
+
+        }
+    }
+}

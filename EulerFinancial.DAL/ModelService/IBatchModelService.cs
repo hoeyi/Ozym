@@ -15,6 +15,12 @@ namespace EulerFinancial.ModelService
         where TParentKey: struct
     {
         /// <summary>
+        /// Creates the default instance of <typeparamref name="T"/>.
+        /// </summary>
+        /// <returns>A model <typeparamref name="T"/> with default values.</returns>
+        Task<T> GetDefault();
+
+        /// <summary>
         /// Initializes the intance with the given parent key. Call this method before all others.
         /// </summary>
         /// <param name="parentKey">The key for the parent of objects passed through this service.</param>

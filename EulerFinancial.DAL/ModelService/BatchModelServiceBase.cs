@@ -86,20 +86,18 @@ namespace EulerFinancial.ModelService
                 else
                     return (TParentKey)parentKey;
             }
-            set
-            {
-                parentKey ??= value;
-            }
         }
-
 
         /// <inheritdoc/>
         public bool Initialize(TParentKey parentKey)
         {
             this.parentKey = parentKey;
 
-            return this.parentKey is null;
+            return this.parentKey is not null;
         }
+
+        /// <inheritdoc/>
+        public abstract Task<T> GetDefault();
 
         /// <inheritdoc/>
         public abstract bool ModelExists(T model);

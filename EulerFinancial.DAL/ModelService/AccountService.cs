@@ -1,5 +1,6 @@
 ﻿using EulerFinancial.Context;
 using EulerFinancial.Model;
+using EulerFinancial.ModelMetadata;
 using Ichosoft.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -27,11 +28,14 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public override async Task<Account> GetDefault()
+        public override async Task<Account> GetDefaultAsync()
         {
             var defaultTask = Task.Run(() => new Account()
             {
                 AccountNavigation = new AccountObject()
+                {
+                    ObjectType = AccountObjectType.Account.ConvertToStringCode()
+                }
             });
 
             return await defaultTask;

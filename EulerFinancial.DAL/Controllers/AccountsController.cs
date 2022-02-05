@@ -29,10 +29,9 @@ namespace EulerFinancial.Controllers
         }
 
         /// <inheritdoc/>
-        public async Task<Account> GetDefault()
+        public async Task<ActionResult<Account>> GetDefaultAsync()
         {
-            return await accountService.GetDefault();
-
+            return await accountService.GetDefaultAsync();
         }
 
         /// <inheritdoc/>
@@ -67,7 +66,7 @@ namespace EulerFinancial.Controllers
                 return NotFound();
             }
 
-            return Ok(account);
+            return account;
         }
 
         /// <inheritdoc/>

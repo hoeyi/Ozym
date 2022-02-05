@@ -65,7 +65,10 @@ namespace EulerFinancial.Blazor
             services.AddScoped<IReferenceDataService, ReferenceDataService>();
 
             services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IAccountController, AccountsController>();
+            services.AddScoped<IController<Account>, AccountsController>();
+
+            services.AddScoped<IAccountWalletService, AccountWalletService>();
+            services.AddScoped<IAccountWalletsController, AccountWalletsController>();
 
             //services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddLocalization();

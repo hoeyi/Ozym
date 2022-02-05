@@ -12,6 +12,9 @@
     <button class=" btn btn-primary" @onclick=@(args => NavigateToEdit($"{Model?.AccountId}"))>
         @Resources.UserInterfaceString.Edit_Button_Caption
     </button>
+    <button class=" btn btn-primary" @onclick=@(args => NavigateToWallets())>
+        @(ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()?.ToTitleCase())
+    </button>
 </div>
 <hr />
 
@@ -39,6 +42,14 @@ else
 
     private IEnumerable<AccountCustodian> custodians = new AccountCustodian[0];
 
+
+    private string WalletsUri
+    {
+        get
+        {
+            return NavigationHelper.ToAbsoluteUri("AccountWallets").AbsoluteUri;
+        }
+    }
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
@@ -47,4 +58,11 @@ else
 
         IsLoading = Model is null;
     }
+
+    private void NavigateToWallets()
+    {
+        if (AccountId is int id)
+            NavigationHelper.NavigateTo($"{WalletsUri}/Edit/{id}");
+    }
+
 }
