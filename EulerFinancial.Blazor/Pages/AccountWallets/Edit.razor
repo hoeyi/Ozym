@@ -6,7 +6,7 @@
 
 <PageTitle>@PageTitle</PageTitle>
 <div><h4>@PageTitle</h4></div>
-<hr/>
+<hr />
 
 @if (IsLoading)
 {
@@ -17,7 +17,9 @@ else
     <a class="link-button" href="" @onclick=@(args => HandleValidSubmit(args)) @onclick:preventDefault>
         @Resources.UserInterfaceString.Save_Button_Caption
     </a>
-    <EditForm id="edit-list" Model=@Wallets>
+    <EditForm id="edit-list" Model=@Wallets >
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <table class="editable-list">
             <thead>
                 <tr>
@@ -35,8 +37,6 @@ else
             <tbody>
                 @foreach (var wallet in Wallets)
                 {
-                <DataAnnotationsValidator />
-                        <ValidationSummary />
                     <tr>
                         <td>
                             <InputSelect class="form-control" id="denomination-select"
@@ -46,15 +46,15 @@ else
                             <option value=@security.SecurityId>@security.SecurityDescription</option>
                                 }
                     </InputSelect>
-                    <ValidationMessage For=@(()=> wallet.DenominationSecurityId)/>
+                    <ValidationMessage For=@(()=> wallet.DenominationSecurityId) />
                 </td>
                 <td>
                     <InputText class="form-control" id="addresscode-text" @bind-Value=wallet.AddressCode />
-                    <ValidationMessage For=@(()=> wallet.AddressCode)/>
+                    <ValidationMessage For=@(()=> wallet.AddressCode) />
                 </td>
                 <td>
                     <InputText class="form-control" id="addresstag-text" @bind-Value=wallet.AddressTag />
-                    <ValidationMessage For=@(()=> wallet.AddressTag)/>
+                    <ValidationMessage For=@(()=> wallet.AddressTag) />
                 </td>
             </tr>
                 }
@@ -92,7 +92,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        parent = await ReferenceData.GetSingleAsync<Account>(a => 
+        parent = await ReferenceData.GetSingleAsync<Account>(a =>
                                 a.AccountId == (int)AccountId, nameof(Account.AccountNavigation));
 
         var initResult = Controller.Initialize(parent.AccountId);
@@ -139,6 +139,6 @@ else
     {
         var saveResult = await Controller.SaveChanges();
 
-        return saveResult.Value;
+        return saveResult?.Value ?? -1;
     }
 }
