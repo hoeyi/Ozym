@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EulerFinancial.Resources {
+namespace EulerFinancial.Logging.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EulerFinancial.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Resources.DebugMessage", typeof(DebugMessage).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Logging.Resources.DebugMessage", typeof(DebugMessage).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

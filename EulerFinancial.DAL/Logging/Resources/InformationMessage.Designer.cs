@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EulerFinancial.Resources {
+namespace EulerFinancial.Logging.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EulerFinancial.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Resources.InformationMessage", typeof(InformationMessage).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Logging.Resources.InformationMessage", typeof(InformationMessage).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} changes saved. {1} records added/updated/deleted..
+        ///   Looks up a localized string similar to {ModelType} changes saved. {Count} records added/updated/deleted..
         /// </summary>
         internal static string ModelBatch_Save_Success {
             get {
@@ -70,7 +70,7 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} search returned {1} records..
+        ///   Looks up a localized string similar to {ModelType} search returned {Count} records..
         /// </summary>
         internal static string ModelSearch_Request_ReturnSuccess {
             get {
@@ -79,7 +79,7 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search requested for {0} matching {1}..
+        ///   Looks up a localized string similar to Search requested for {ModelType} matching {Expression} with {MaxCount}..
         /// </summary>
         internal static string ModelSearch_Request_SubmitSuccess {
             get {

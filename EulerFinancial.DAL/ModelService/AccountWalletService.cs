@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using EulerFinancial.Resources;
+using EulerFinancial.Logging.Resources;
 using Ichosoft.Extensions.Common.Logging;
 using Ichosoft.DataModel.Annotations;
 
@@ -36,7 +36,7 @@ namespace EulerFinancial.ModelService
             if (model is null)
                 return false;
 
-            return context.AccountWallets.Any(m => m.AccountId == model.AccountId);
+            return context.AccountWallets.Any(m => m.AccountWalletId == model.AccountWalletId);
         }
 
         /// <inheritdoc/>
@@ -124,9 +124,8 @@ namespace EulerFinancial.ModelService
             Expression<Func<AccountWallet, bool>> predicate, int maxCount = 0)
         {
             logger.LogInformation(
-                message: InformationMessage.ModelSearch_Request_SubmitSuccess
-                    .ConvertToLogTemplate("Model", "Parameters"),
-                args: modelMetadata.AttributeFor<NounAttribute>(typeof(AccountWallet)));
+                message: InformationMessage.ModelSearch_Request_SubmitSuccess,
+                typeof(AccountWallet), predicate, maxCount);
 
             var result = await context.AccountWallets
                             .Include(a => a.Account)
@@ -136,9 +135,8 @@ namespace EulerFinancial.ModelService
                             .ToListAsync();
 
             logger.LogInformation(
-                message: InformationMessage.ModelSearch_Request_ReturnSuccess
-                    .ConvertToLogTemplate("Models"),
-                args: typeof(AccountWallet));
+                message: InformationMessage.ModelSearch_Request_ReturnSuccess,
+                typeof(AccountWallet), result.Count);
 
             return result;
         }

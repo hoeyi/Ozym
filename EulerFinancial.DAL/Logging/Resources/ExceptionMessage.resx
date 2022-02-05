@@ -117,19 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ModelBatch_Save_Success" xml:space="preserve">
-    <value>{0} changes saved. {1} records added/updated/deleted.</value>
-    <comment>{0} is the singular noun of the model
-{1} is the count of records added/updated/deleted</comment>
-  </data>
-  <data name="ModelSearch_Request_ReturnSuccess" xml:space="preserve">
-    <value>{0} search returned {1} records.</value>
-    <comment>{0} is the plural of the model
-{1} is the count of records returned</comment>
-  </data>
-  <data name="ModelSearch_Request_SubmitSuccess" xml:space="preserve">
-    <value>Search requested for {0} matching {1}.</value>
-    <comment>{0} is the model type
-{1} is the search expression</comment>
+  <data name="ModelService_ParentKeyNotSet" xml:space="preserve">
+    <value>The parent key for {Service} has not been set.</value>
   </data>
 </root>

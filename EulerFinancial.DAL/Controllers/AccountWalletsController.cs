@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using EulerFinancial.Logging.Resources;
 
 namespace EulerFinancial.Controllers
 {
@@ -28,7 +29,8 @@ namespace EulerFinancial.Controllers
             this.logger = logger;
 
             this.logger.LogDebug(
-                message: DebugMessage.Controller_Create_Success, typeof(AccountWalletsController));
+                message: DebugMessage.Controller_Create_Success,
+                typeof(AccountWalletsController));
         }
 
         /// <inheritdoc/>
