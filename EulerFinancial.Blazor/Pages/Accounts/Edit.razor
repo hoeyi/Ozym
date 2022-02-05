@@ -27,17 +27,21 @@ else
         </a>
     </div>
     <hr />
-    <div>
-        <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=false />
-    </div>
-    <div>
-        <AccountCRUD Model="@Model" AccountCustodians=@custodians IsDisabled=false />
-    </div>
-    <div>
-        <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
-            @Resources.UserInterfaceString.Save_Button_Caption
-        </button>
-    </div>
+    <EditForm Model=@Model>
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+        <div>
+            <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=false />
+        </div>
+        <div>
+            <AccountCRUD Model="@Model" AccountCustodians=@custodians IsDisabled=false />
+        </div>
+        <div>
+            <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
+                @Resources.UserInterfaceString.Save_Button_Caption
+            </button>
+        </div>
+    </EditForm>
 }
 
 @code {

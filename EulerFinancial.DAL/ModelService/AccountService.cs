@@ -97,7 +97,7 @@ namespace EulerFinancial.ModelService
             context.Entry(model).State = EntityState.Modified;
 
             var count = await context.SaveChangesAsync();
-            var result = count == 1;
+            var result = count > 1;
 
             if (result)
                 logger.LogInformation(
