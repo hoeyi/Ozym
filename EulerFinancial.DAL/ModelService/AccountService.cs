@@ -1,4 +1,5 @@
 ﻿using EulerFinancial.Context;
+using EulerFinancial.Logging.Resources;
 using EulerFinancial.Model;
 using EulerFinancial.ModelMetadata;
 using Ichosoft.DataModel;
@@ -53,9 +54,19 @@ namespace EulerFinancial.ModelService
             model.AccountId = model.AccountNavigation.AccountObjectId;
             context.Accounts.Add(model);
 
-            await context.SaveChangesAsync();
+            var count = await context.SaveChangesAsync();
+            var result = count == 1;
 
             await transaction.CommitAsync();
+
+            if (result)
+                logger.LogInformation(
+                    InformationMessage.Model_Create_Success,
+                    model);
+            else
+                logger.LogWarning(
+                    message: ExceptionMessage.Context_SingleAdd_UnexpectedResult,
+                    count);
 
             return model;
         }
@@ -63,23 +74,41 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>   
         public override async Task<Account> ReadAsync(int? id)
         {
-            return await context.Accounts
+            var result = await context.Accounts
                                 .Include(a => a.AccountCustodian)
                                 .Include(a => a.AccountNavigation)
                                 .FirstOrDefaultAsync(a => a.AccountId == id);
+
+            if (result is not null)
+                logger.LogInformation(
+                    InformationMessage.Model_Read_Success,
+                    result);
+            else if(id is not null)
+                logger.LogWarning(
+                    ExceptionMessage.Context_SingleRead_Failure,
+                    id);
+
+            return result;
         }
 
         /// <inheritdoc/>
         public override async Task<bool> UpdateAsync(Account model)
         {
-            logger?.LogDebug("Update called on {Model} with {EntityState}",
-                model, context.Entry(model).State);
-
             context.Entry(model).State = EntityState.Modified;
 
-            await context.SaveChangesAsync();
+            var count = await context.SaveChangesAsync();
+            var result = count == 1;
 
-            return true;
+            if (result)
+                logger.LogInformation(
+                    InformationMessage.Model_Update_Success,
+                    model);
+            else
+                logger.LogWarning(
+                    message: ExceptionMessage.Context_SingleUpdate_UnexpectedResult,
+                    count);
+
+            return result;
         }
 
         /// <inheritdoc/>
@@ -113,14 +142,28 @@ namespace EulerFinancial.ModelService
                 context.AccountObjects.Remove(
                     context.AccountObjects.Where(a => a.AccountObjectId == model.AccountId).First());
 
-                await context.SaveChangesAsync();
+                var count = await context.SaveChangesAsync();
+                var result = count == 1;
 
                 await transaction.CommitAsync();
 
+                if (result)
+                    logger.LogInformation(
+                        InformationMessage.Model_Delete_Success,
+                        model);
+                else
+                    logger.LogWarning(
+                        message: ExceptionMessage.Context_SingleDelete_UnexpectedResult,
+                        count);
+
                 return true;
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
+                logger.LogError(
+                    exception: e,
+                    message: e.Message);
+
                 return !ModelExists(model.AccountId);
             }
         }
@@ -150,20 +193,22 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public override async Task<List<Account>> SelectAllAsync()
         {
-            return await context.Accounts
+            Expression<Func<Account, bool>> expression = x => true;
+
+            logger.LogInformation(
+                message: InformationMessage.ModelSearch_Request_SubmitSuccess,
+                typeof(Account), expression, int.MaxValue);
+
+            var result = await context.Accounts
                             .Include(a => a.AccountCustodian)
                             .Include(a => a.AccountNavigation)
                             .ToListAsync();
-        }
 
-        /// <inheritdoc/>
-        public override async Task<Account> SelectOneAsync(
-            Expression<Func<Account, bool>> predicate)
-        {
-            return await context.Accounts
-                            .Include(a => a.AccountCustodian)
-                            .Include(a => a.AccountNavigation)
-                            .FirstOrDefaultAsync(predicate);
+            logger.LogInformation(
+                message: InformationMessage.ModelSearch_Request_ReturnSuccess,
+                typeof(Account), result.Count);
+
+            return result;
         }
 
         /// <inheritdoc/>
@@ -172,12 +217,22 @@ namespace EulerFinancial.ModelService
         {
             maxCount = maxCount < 0 ? int.MaxValue : maxCount;
 
-            return await context.Accounts
+            logger.LogInformation(
+                message: InformationMessage.ModelSearch_Request_SubmitSuccess,
+                typeof(Account), predicate, maxCount);
+
+            var result = await context.Accounts
                             .Include(a => a.AccountCustodian)
                             .Include(a => a.AccountNavigation)
                             .Where(predicate)
                             .Take(maxCount)
                             .ToListAsync();
+
+            logger.LogInformation(
+                message: InformationMessage.ModelSearch_Request_ReturnSuccess,
+                typeof(Account), result.Count);
+
+            return result;
         }
 
     }

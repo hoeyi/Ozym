@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Context_Save_Success" xml:space="preserve">
+    <value>Changes successfully saved.</value>
+  </data>
   <data name="ModelBatch_Save_Success" xml:space="preserve">
     <value>{ModelType} changes saved. {Count} records added/updated/deleted.</value>
   </data>
@@ -124,6 +127,18 @@
     <value>{ModelType} search returned {Count} records.</value>
   </data>
   <data name="ModelSearch_Request_SubmitSuccess" xml:space="preserve">
-    <value>Search requested for {ModelType} matching {Expression} with {MaxCount}.</value>
+    <value>Search requested for {ModelType} matching {Expression} with with limit {MaxCount}.</value>
+  </data>
+  <data name="Model_Create_Success" xml:space="preserve">
+    <value>{Model} created.</value>
+  </data>
+  <data name="Model_Delete_Success" xml:space="preserve">
+    <value>{Model} deleted.</value>
+  </data>
+  <data name="Model_Read_Success" xml:space="preserve">
+    <value>{Model} accessed.</value>
+  </data>
+  <data name="Model_Update_Success" xml:space="preserve">
+    <value>{@Model} updated.</value>
   </data>
 </root>

@@ -124,19 +124,6 @@ namespace EulerFinancial.Controllers
         }
 
         /// <inheritdoc/>
-        public async Task<ActionResult<Account>> SelectOneAsync(Expression<Func<Account, bool>> predicate)
-        {
-            var account = await accountService.SelectOneAsync(predicate: predicate);
-
-            if (account is null)
-            {
-                return NotFound();
-            }
-
-            return account;
-        }
-
-        /// <inheritdoc/>
         public async Task<ActionResult<IList<Account>>> SelectWhereAysnc(
             Expression<Func<Account, bool>> predicate, int maxCount = 0)
         {

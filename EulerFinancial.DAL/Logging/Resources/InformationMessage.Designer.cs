@@ -61,6 +61,51 @@ namespace EulerFinancial.Logging.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changes successfully saved..
+        /// </summary>
+        internal static string Context_Save_Success {
+            get {
+                return ResourceManager.GetString("Context_Save_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Model} created..
+        /// </summary>
+        internal static string Model_Create_Success {
+            get {
+                return ResourceManager.GetString("Model_Create_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Model} deleted..
+        /// </summary>
+        internal static string Model_Delete_Success {
+            get {
+                return ResourceManager.GetString("Model_Delete_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Model} accessed..
+        /// </summary>
+        internal static string Model_Read_Success {
+            get {
+                return ResourceManager.GetString("Model_Read_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {@Model} updated..
+        /// </summary>
+        internal static string Model_Update_Success {
+            get {
+                return ResourceManager.GetString("Model_Update_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {ModelType} changes saved. {Count} records added/updated/deleted..
         /// </summary>
         internal static string ModelBatch_Save_Success {
@@ -79,7 +124,7 @@ namespace EulerFinancial.Logging.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search requested for {ModelType} matching {Expression} with {MaxCount}..
+        ///   Looks up a localized string similar to Search requested for {ModelType} matching {Expression} with with limit {MaxCount}..
         /// </summary>
         internal static string ModelSearch_Request_SubmitSuccess {
             get {

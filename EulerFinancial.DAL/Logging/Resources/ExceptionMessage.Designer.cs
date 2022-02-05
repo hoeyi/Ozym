@@ -61,6 +61,71 @@ namespace EulerFinancial.Logging.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {Model} addition to context did not yield the expected entity state.
+        ///Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;.
+        /// </summary>
+        internal static string Context_Add_UnexpectedState {
+            get {
+                return ResourceManager.GetString("Context_Add_UnexpectedState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Model} deletion from context did not yield expected the entity state.
+        ///Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;.
+        /// </summary>
+        internal static string Context_Delete_UnexpectedState {
+            get {
+                return ResourceManager.GetString("Context_Delete_UnexpectedState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes were not saved..
+        /// </summary>
+        internal static string Context_Save_Failure {
+            get {
+                return ResourceManager.GetString("Context_Save_Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Addition affected the state of {Count} records. Expected 1..
+        /// </summary>
+        internal static string Context_SingleAdd_UnexpectedResult {
+            get {
+                return ResourceManager.GetString("Context_SingleAdd_UnexpectedResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete affected the state of {Count} records. Expected 1..
+        /// </summary>
+        internal static string Context_SingleDelete_UnexpectedResult {
+            get {
+                return ResourceManager.GetString("Context_SingleDelete_UnexpectedResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Model {Id} could not be accessed..
+        /// </summary>
+        internal static string Context_SingleRead_Failure {
+            get {
+                return ResourceManager.GetString("Context_SingleRead_Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update affected the state of {Count} records. Expected 1..
+        /// </summary>
+        internal static string Context_SingleUpdate_UnexpectedResult {
+            get {
+                return ResourceManager.GetString("Context_SingleUpdate_UnexpectedResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The parent key for {Service} has not been set..
         /// </summary>
         internal static string ModelService_ParentKeyNotSet {

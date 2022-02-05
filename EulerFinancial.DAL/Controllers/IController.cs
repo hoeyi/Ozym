@@ -56,13 +56,6 @@ namespace EulerFinancial.Controllers
         Task<ActionResult<IList<T>>> SelectAllAsync();
 
         /// <summary>
-        /// Select the first record matching the given <paramref name="predicate"/>.
-        /// </summary>
-        /// <param name="predicate">The <see cref="Expression{Func{T}}"/> used to determine results.</param>
-        /// <returns>A <see cref="IList{T}"/> representing the first record matching the predicate.</returns>
-        Task<ActionResult<T>> SelectOneAsync(Expression<Func<T, bool>> predicate);
-
-        /// <summary>
         /// Selects records matching the given <paramref name="predicate"/>, 
         /// with the count limited to the value of <paramref name="maxCount"/>.
         /// </summary>

@@ -92,5 +92,10 @@ namespace EulerFinancial.Model
         {
             get { return AccountNavigation?.ObjectDisplayName; }
         }
+
+        public override string ToString()
+        {
+            return $"{{Type = {typeof(Account)}; AccountCode = {AccountCode}}}";
+        }
     }
 }

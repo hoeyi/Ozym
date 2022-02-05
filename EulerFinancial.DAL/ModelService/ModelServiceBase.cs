@@ -80,9 +80,6 @@ namespace EulerFinancial.ModelService
         public abstract Task<List<T>> SelectAllAsync();
 
         /// <inheritdoc/>
-        public abstract Task<T> SelectOneAsync(Expression<Func<T, bool>> predicate);
-
-        /// <inheritdoc/>
         public abstract Task<List<T>> SelectWhereAysnc(
             Expression<Func<T, bool>> predicate, int maxCount = 0);
 

@@ -117,30 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Controller_Create_Success" xml:space="preserve">
-    <value>{Controller} initialized.</value>
-  </data>
-  <data name="ModelBatch_Add_Failure" xml:space="preserve">
-    <value>{Model} addition to context did not yield expected entity state.
-Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;</value>
-  </data>
-  <data name="ModelBatch_Add_Success" xml:space="preserve">
+  <data name="Context_AddPending_Success" xml:space="preserve">
     <value>{Model} added to context pending save.</value>
   </data>
-  <data name="ModelBatch_Delete_Failure" xml:space="preserve">
-    <value>{Model} deletion from context did not yield expected entity state.
-Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;</value>
-  </data>
-  <data name="ModelBatch_Delete_Success" xml:space="preserve">
+  <data name="Context_DeletePending_Success" xml:space="preserve">
     <value>{Model} deleted from context pending save.</value>
   </data>
-  <data name="Model_Create_Success" xml:space="preserve">
-    <value>{Model} created.</value>
-  </data>
-  <data name="Model_Delete_Success" xml:space="preserve">
-    <value>{Model} deleted.</value>
-  </data>
-  <data name="Model_Update_Success" xml:space="preserve">
-    <value>{Model} updated.</value>
+  <data name="Controller_Create_Success" xml:space="preserve">
+    <value>{Controller} initialized.</value>
   </data>
 </root>

@@ -88,11 +88,11 @@ namespace EulerFinancial.ModelService
 
             if (result)
             {
-                logger.LogDebug(message: DebugMessage.ModelBatch_Add_Success, model);
+                logger.LogDebug(message: DebugMessage.Context_AddPending_Success, model);
             }
             else
             {
-                logger.LogDebug(message: DebugMessage.ModelBatch_Add_Failure,
+                logger.LogDebug(message: ExceptionMessage.Context_Add_UnexpectedState,
                     model, EntityState.Deleted, expectedState);
             }
             return result;
@@ -109,11 +109,11 @@ namespace EulerFinancial.ModelService
 
             if(result)
             {
-                logger.LogDebug(message: DebugMessage.ModelBatch_Delete_Success, model);
+                logger.LogDebug(message: DebugMessage.Context_DeletePending_Success, model);
             }
             else
             {
-                logger.LogDebug(message: DebugMessage.ModelBatch_Delete_Failure,
+                logger.LogDebug(message: ExceptionMessage.Context_Delete_UnexpectedState,
                     model, EntityState.Deleted, expectedState);
             }
             return result;
@@ -123,6 +123,8 @@ namespace EulerFinancial.ModelService
         public override async Task<List<AccountWallet>> SelectWhereAysnc(
             Expression<Func<AccountWallet, bool>> predicate, int maxCount = 0)
         {
+            maxCount = maxCount < 0 ? int.MaxValue : maxCount;
+
             logger.LogInformation(
                 message: InformationMessage.ModelSearch_Request_SubmitSuccess,
                 typeof(AccountWallet), predicate, maxCount);
