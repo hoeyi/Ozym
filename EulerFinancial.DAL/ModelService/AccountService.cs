@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace EulerFinancial.ModelService
 {
     /// <summary>
-    /// The class for servicing single CRUD requests agains the <see cref="Account"/> 
+    /// The class for servicing single CRUD requests against the <see cref="Account"/> 
     /// data store.
     /// </summary>
     public class AccountService : ModelServiceBase<Account>, IAccountService

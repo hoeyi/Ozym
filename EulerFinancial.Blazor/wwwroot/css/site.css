@@ -78,3 +78,16 @@ a, .btn-link {
     -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
     box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
 }
+
+/*Custom button link styling*/
+.link-button {
+    appearance: button;
+    -moz-appearance: button;
+    -webkit-appearance: button;
+    text-decoration: none;
+    background-color: ActiveBorder;
+    /*font: menu;*/
+    color: ButtonText;
+    display: inline-block;
+    padding: 2px 8px;
+}

@@ -6,16 +6,7 @@
 
 <PageTitle>@PageTitle</PageTitle>
 <div><h4>@PageTitle</h4></div>
-
-<div>
-    <button class="btn btn-primary" @onclick=NavigateToIndex>
-        @Resources.UserInterfaceString.Index_Button_Caption
-    </button>
-    <button class="btn btn-primary" @onclick=@(args => HandleDelete(args))>
-        @Resources.UserInterfaceString.Delete_Button_Caption
-    </button>
-</div>
-<hr />
+<hr/>
 
 @if (IsLoading)
 {
@@ -23,6 +14,19 @@
 }
 else
 {
+    <div>
+        <a class="link-button" href="@($"{PageIndexUri}")"
+            @onclick="@(args => NavigateToIndex(args))"
+            @onclick:preventDefault>
+            @Resources.UserInterfaceString.Index_Button_Caption
+        </a>
+        <a class="link-button" href=""
+            @onclick=@(args => HandleDelete(args))
+            @onclick:preventDefault>
+            @Resources.UserInterfaceString.Delete_Button_Caption
+        </a>
+    </div>
+    <hr />
     <div>
         <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=false />
     </div>
@@ -43,7 +47,7 @@ else
     /// <inheritdoc/>
     protected override string PageTitle => string.Format(
         Resources.PageMetadata.Account_Edit_Title, 
-        Model?.AccountNavigation?.AccountObjectCode);
+        Model?.AccountNavigation?.AccountObjectCode.ToUpper());
 
     private IEnumerable<AccountCustodian> custodians;
 
@@ -53,7 +57,7 @@ else
         var accountQuery = await Controller.ReadAsync(AccountId);
         Model = accountQuery.Value;
 
-        var custodiansQuery = await ReferenceData.GetAccountCustodiansAsync();
+        var custodiansQuery = await ReferenceData.GetAllAsync<AccountCustodian>();
         custodians = custodiansQuery;
 
         IsLoading = (Model is null || custodians is null);
@@ -64,7 +68,7 @@ else
         var result = await Controller.DeleteAsync(Model);
 
         if (result is NoContentResult)
-            NavigateToIndex();
+            NavigateToIndex(args);
     }
 
     private async Task HandleValidSubmit(MouseEventArgs args)

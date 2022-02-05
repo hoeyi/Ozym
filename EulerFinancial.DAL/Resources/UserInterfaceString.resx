@@ -120,6 +120,9 @@
   <data name="CreateNew_Button_Caption" xml:space="preserve">
     <value>New</value>
   </data>
+  <data name="DataGrid_NewLine_Caption" xml:space="preserve">
+    <value>New line</value>
+  </data>
   <data name="Delete_Button_Caption" xml:space="preserve">
     <value>Delete</value>
   </data>

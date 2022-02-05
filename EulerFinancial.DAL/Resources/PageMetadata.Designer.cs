@@ -97,6 +97,15 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit wallets for: {0}.
+        /// </summary>
+        public static string AccountWallets_Edit_Title {
+            get {
+                return ResourceManager.GetString("AccountWallets_Edit_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Application_Home_Title {

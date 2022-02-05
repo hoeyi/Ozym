@@ -2,6 +2,7 @@
 using Ichosoft.DataModel.Annotations;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EulerFinancial.Model
 {
@@ -74,5 +75,22 @@ namespace EulerFinancial.Model
     [MetadataType(typeof(AccountMetadata))]
     public partial class Account
     {
+        /// <summary>
+        /// Gets the short code for this account.
+        /// </summary>
+        [NotMapped]
+        public string AccountCode
+        {
+            get { return AccountNavigation?.AccountObjectCode; }
+        }
+
+        /// <summary>
+        /// Gets the display name for this account.
+        /// </summary>
+        [NotMapped]
+        public string AccountName
+        {
+            get { return AccountNavigation?.ObjectDisplayName; }
+        }
     }
 }

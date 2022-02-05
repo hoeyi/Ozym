@@ -1,6 +1,7 @@
 ﻿using EulerFinancial.ModelMetadata.Resources;
 using Ichosoft.DataModel.Annotations;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EulerFinancial.Model
 {

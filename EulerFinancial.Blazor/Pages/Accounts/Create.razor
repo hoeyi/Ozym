@@ -6,13 +6,7 @@
 
 <PageTitle>@PageTitle</PageTitle>
 <div><h4>@PageTitle</h4></div>
-
-<div>
-    <button class="btn btn-primary" @onclick=NavigateToIndex>
-        @Resources.UserInterfaceString.Index_Button_Caption
-    </button>
-</div>
-<hr />
+<hr/>
 
 @if (IsLoading)
 {
@@ -20,6 +14,14 @@
 }
 else
 {
+    <div>
+        <a class="link-button" href="@($"{PageIndexUri}")"
+            @onclick="@(args => NavigateToIndex(args))"
+            @onclick:preventDefault>
+            @Resources.UserInterfaceString.Index_Button_Caption
+        </a>
+    </div>
+    <hr />
     <div>
         <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=false />
     </div>
@@ -47,7 +49,7 @@ else
     {
 
         var modelQuery = Controller.GetDefaultAsync();
-        var custodiansQuery = ReferenceData.GetAccountCustodiansAsync();
+        var custodiansQuery = ReferenceData.GetAllAsync<AccountCustodian>();
 
         await custodiansQuery;
         await modelQuery;

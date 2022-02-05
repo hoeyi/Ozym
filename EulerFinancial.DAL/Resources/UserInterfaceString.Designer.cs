@@ -70,6 +70,15 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New line.
+        /// </summary>
+        public static string DataGrid_NewLine_Caption {
+            get {
+                return ResourceManager.GetString("DataGrid_NewLine_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete_Button_Caption {

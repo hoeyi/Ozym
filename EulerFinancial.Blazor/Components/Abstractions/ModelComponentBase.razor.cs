@@ -1,5 +1,6 @@
 ﻿using EulerFinancial.Blazor.Components.Generic;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Serilog;
 using System;
 
@@ -46,7 +47,7 @@ namespace EulerFinancial.Blazor.Components.Abstractions
         /// <summary>
         /// Redirects the focus to the model index page.
         /// </summary>
-        protected virtual void NavigateToIndex()
+        protected virtual void NavigateToIndex(MouseEventArgs args)
         {
             if (IsLoading)
                 return;

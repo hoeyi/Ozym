@@ -4,19 +4,7 @@
 
 <PageTitle>@PageTitle</PageTitle>
 <div><h4>@PageTitle</h4></div>
-
-<div>
-    <button class="btn btn-primary" @onclick=NavigateToIndex>
-        @Resources.UserInterfaceString.Index_Button_Caption
-    </button>
-    <button class=" btn btn-primary" @onclick=@(args => NavigateToEdit($"{Model?.AccountId}"))>
-        @Resources.UserInterfaceString.Edit_Button_Caption
-    </button>
-    <button class=" btn btn-primary" @onclick=@(args => NavigateToWallets())>
-        @(ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()?.ToTitleCase())
-    </button>
-</div>
-<hr />
+<hr/>
 
 @if (IsLoading)
 {
@@ -24,6 +12,24 @@
 }
 else
 {
+    <div>
+        <a class="link-button" href="@($"{PageIndexUri}")"
+            @onclick="@(args => NavigateToIndex(args))"
+            @onclick:preventDefault>
+            @Resources.UserInterfaceString.Index_Button_Caption
+        </a>
+        <a class="link-button" href="@($"{PageIndexUri}/Accounts/Edit/{Model.AccountId}")"
+            @onclick=@(args => NavigateToEdit(args))
+            @onclick:preventDefault>
+            @Resources.UserInterfaceString.Edit_Button_Caption
+        </a>
+        <a class="link-button" href="@NavigationHelper.ToAbsoluteUri($"AccountWallets/Edit/{Model.AccountId}").AbsoluteUri"
+            @onclick=@(args => NavigateToWallets(args))
+            @onclick:preventDefault>
+            @(ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()?.ToTitleCase())
+        </a>
+    </div>
+    <hr />
     <div>
         <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=true />
     </div>
@@ -38,7 +44,7 @@ else
     /// <inheritdoc/>
     protected override string PageTitle => string.Format(
         Resources.PageMetadata.Account_Detail_Title, 
-        Model?.AccountNavigation?.AccountObjectCode);
+        Model?.AccountNavigation?.AccountObjectCode.ToUpper());
 
     private IEnumerable<AccountCustodian> custodians = new AccountCustodian[0];
 
@@ -59,10 +65,15 @@ else
         IsLoading = Model is null;
     }
 
-    private void NavigateToWallets()
+    private void NavigateToWallets(MouseEventArgs args)
     {
         if (AccountId is int id)
             NavigationHelper.NavigateTo($"{WalletsUri}/Edit/{id}");
+    }
+
+    private void NavigateToEdit(MouseEventArgs args)
+    {
+        NavigateToEdit($"{Model.AccountId}");
     }
 
 }

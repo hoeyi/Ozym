@@ -4,7 +4,9 @@
 @inject IAccountWalletsController Controller
 @inject IReferenceDataService ReferenceData
 
-@using System.Linq
+<PageTitle>@PageTitle</PageTitle>
+<div><h4>@PageTitle</h4></div>
+<hr/>
 
 @if (IsLoading)
 {
@@ -12,18 +14,21 @@
 }
 else
 {
-    <EditForm Model=@Wallets>
-        <table>
+    <a class="link-button" href="" @onclick=@(args => HandleValidSubmit(args)) @onclick:preventDefault>
+        @Resources.UserInterfaceString.Save_Button_Caption
+    </a>
+    <EditForm id="edit-list" Model=@Wallets>
+        <table class="editable-list">
             <thead>
                 <tr>
-                    <th>
+                    <th id="denomination-header">
                         @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
                     </th>
-                    <th>
-                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
-                    </th>
-                    <th>
+                    <th id="addresscode-header">
                         @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
+                    </th>
+                    <th id="addresstag-header">
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
                     </th>
                 </tr>
             </thead>
@@ -32,23 +37,28 @@ else
                 {
                     <tr>
                         <td>
-                            <InputSelect class="form-control"
-                                    @bind-Value=wallet.DenominationSecurityId>
+                            <InputSelect class="form-control" id="denomination-select"
+                                 @bind-Value=wallet.DenominationSecurityId>
                                 @foreach (var security in DenominationSecurities)
                                 {
-                                    <option value=@security.SecurityId>@security.SecurityDescription</option>
+                            <option value=@security.SecurityId>@security.SecurityDescription</option>
                                 }
-                            </InputSelect>
-                        </td>
-                        <td>
-                            <InputText class="form-control" @bind-Value=wallet.AddressCode />
-                        </td>
-                        <td>
-                            <InputText class="form-control" @bind-Value=wallet.AddressTag />
-                        </td>
-                    </tr>
+                    </InputSelect>
+                </td>
+                <td>
+                    <InputText class="form-control" id="addresstag-text" @bind-Value=wallet.AddressCode />
+                </td>
+                <td>
+                    <InputText class="form-control" id="addresscode-text" @bind-Value=wallet.AddressTag />
+                </td>
+            </tr>
                 }
             </tbody>
+            <tfoot>
+                <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
+                    @Resources.UserInterfaceString.DataGrid_NewLine_Caption
+                </button>
+            </tfoot>
         </table>
     </EditForm>
 }
@@ -58,39 +68,72 @@ else
     [Parameter]
     public int AccountId { get; set; }
 
-    private IEnumerable<AccountWallet> Wallets { get; set; }
+    /// <summary>
+    /// Gets or sets the <see cref="AccountWallet"/> collection for this component.
+    /// </summary>
+    private IList<AccountWallet> Wallets { get; set; }
 
+    /// <summary>
+    /// Gets or sets the <see cref="Security"/> collection for this component.
+    /// </summary>
     private IEnumerable<Security> DenominationSecurities { get; set; }
+
+    /// <inheritdoc/>
+    protected override string PageTitle => string.Format(
+        Resources.PageMetadata.AccountWallets_Edit_Title,
+        parent?.AccountCode?.ToUpper());
+
+    private Account parent;
 
     protected override async Task OnInitializedAsync()
     {
+        parent = await ReferenceData.GetSingleAsync<Account>(a => 
+                                a.AccountId == (int)AccountId, nameof(Account.AccountNavigation));
 
-        if (AccountId is int id)
+        var initResult = Controller.Initialize(parent.AccountId);
+
+
+        if (initResult is not OkResult)
+            return; // TODO: Redirect to error page.
+
+        DenominationSecurities = await ReferenceData.GetAllAsync<Security>();
+
+        Task<ActionResult<IList<AccountWallet>>> actionResult =
+            Controller.SelectWhereAysnc(aw => aw.AccountId == parent.AccountId, maxCount: -1);
+
+        await actionResult;
+
+        Wallets = actionResult.Result?.Value;
+
+        if (Wallets.Count() == 0)
         {
-            var result = Controller.Initialize(id);
-
-            if (result is not OkResult)
-                return;
-
-            DenominationSecurities = await ReferenceData.GetSecuritiesAsync();
-
-            Task<ActionResult<IList<AccountWallet>>> actionResult =
-                Controller.SelectWhereAysnc(aw => aw.AccountId == id, maxCount: -1);
-
-            await actionResult;
-
-            var wallets = actionResult.Result?.Value;
-
-            if (wallets.Count() == 0)
-            {
-                var wallet = await Controller.GetDefault();
-                await Controller.Add(wallet.Value);
-                wallets.Add(wallet.Value);
-            }
-
-            Wallets = wallets;
-            IsLoading = Wallets is null;
-
+            await AddNewAsync(null);
         }
+
+        IsLoading = Wallets is null;
+    }
+
+    private async Task AddNewAsync(MouseEventArgs args)
+    {
+        // TODO: Do something with MouseEventArgs?
+
+        var getDefaultTask = await Controller.GetDefault();
+        await Controller.Add(getDefaultTask.Value);
+
+        Wallets.Add(getDefaultTask.Value);
+    }
+
+    private async Task DeleteAsync(AccountWallet wallet, MouseEventArgs args)
+    {
+        var result = await Controller.Delete(wallet);
+
+        // TODO: interpret the response.
+    }
+
+    private async Task<int> HandleValidSubmit(MouseEventArgs args)
+    {
+        var saveResult = await Controller.SaveChanges();
+
+        return saveResult.Value;
     }
 }

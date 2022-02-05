@@ -60,6 +60,7 @@ namespace EulerFinancial.ModelService
             return await context.SaveChangesAsync();
         }
 
+        /// <inheritdoc/>
         public override async Task<AccountWallet> GetDefault()
         {
             AccountWallet New()
@@ -74,6 +75,7 @@ namespace EulerFinancial.ModelService
 
             return defaultWallet;
         }
+
         /// <inheritdoc/>
         public override bool Add(AccountWallet model)
         {
@@ -119,7 +121,7 @@ namespace EulerFinancial.ModelService
 
         /// <inheritdoc/>
         public override async Task<List<AccountWallet>> SelectWhereAysnc(
-            Expression<Func<AccountWallet, bool>> predicate,int maxCount = 0)
+            Expression<Func<AccountWallet, bool>> predicate, int maxCount = 0)
         {
             logger.LogInformation(
                 message: InformationMessage.ModelSearch_Request_SubmitSuccess
