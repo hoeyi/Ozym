@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using EulerFinancial.Model;
+﻿using EulerFinancial.Model;
+using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 

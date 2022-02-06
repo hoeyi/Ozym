@@ -8,6 +8,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
+using EulerFinancial.ModelMetadata.Resources;
 
 namespace EulerFinancial.Validation
 {
@@ -35,7 +36,7 @@ namespace EulerFinancial.Validation
             {
                 validationErrors.Add(
                     string.Format(
-                        Resources.ExceptionString.Validation_Xml_SchemaMismatch, 
+                        ModelValidation.Validation_Xml_SchemaMismatch,
                         xmlSchemaResourceName));
 
                 errors = validationErrors;
@@ -56,8 +57,8 @@ namespace EulerFinancial.Validation
             }
             catch (ValidationException)
             {
-                validationErrors.Add(Resources.ExceptionString.Validation_Xml_General);
-                
+                validationErrors.Add(ModelValidation.Validation_Xml_General);
+
                 errors = validationErrors;
                 return false;
             }

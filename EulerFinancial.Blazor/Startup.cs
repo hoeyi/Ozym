@@ -1,17 +1,19 @@
+using EulerFinancial.Controllers;
+using EulerFinancial.Model;
+using EulerFinancial.ModelService;
+using EulerFinancial.Reference;
+using Ichosoft.DataModel;
+using Ichosoft.DataModel.Expressions;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using EulerFinancial.Controllers;
-using EulerFinancial.Reference;
-using EulerFinancial.ModelService;
-using EulerFinancial.Model;
-using EulerFinancial.Blazor.Controllers;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Serilog;
-using Ichosoft.DataModel.Expressions;
-using Ichosoft.DataModel;
+using Serilog.Extensions.Logging;
 using System.Globalization;
 
 namespace EulerFinancial.Blazor
@@ -38,6 +40,21 @@ namespace EulerFinancial.Blazor
             services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
             services.AddSingleton<IModelMetadataService, ModelMetadataService>();
 
+
+            // Add Microsoft.Extensions.Logging.ILogger service
+            services.AddSingleton(implementationInstance:
+                new SerilogLoggerFactory(Log.Logger).CreateLogger(nameof(Program)));
+
+            services.Configure<OpenIdConnectOptions>(
+                OpenIdConnectDefaults.AuthenticationScheme, options =>
+                {
+                    options.ResponseType = OpenIdConnectResponseType.Code;
+                    options.SaveTokens = true;
+
+                    options.Scope.Add("offline_access");
+                });
+
+
             // Add database service.
             services.AddDbContext<Context.EulerFinancialContext>(
                 optionsAction: options => options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"),
@@ -47,15 +64,18 @@ namespace EulerFinancial.Blazor
             // Add reference and model services.
             services.AddScoped<IReferenceDataService, ReferenceDataService>();
 
-            services.AddScoped<IModelService<Account>, AccountService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IController<Account>, AccountsController>();
-            
+
+            services.AddScoped<IAccountWalletService, AccountWalletService>();
+            services.AddScoped<IAccountWalletsController, AccountWalletsController>();
+
             //services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddLocalization();
             var supportedCultures = new CultureInfo[] { new CultureInfo("en-US"), new CultureInfo("de-DE") };
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.DefaultRequestCulture = 
+                options.DefaultRequestCulture =
                     new Microsoft.AspNetCore.Localization.RequestCulture(supportedCultures[0]);
                 options.SupportedUICultures = supportedCultures;
             });
@@ -81,6 +101,9 @@ namespace EulerFinancial.Blazor
 
             app.UseRouting();
 
+            app.UseAuthorization();
+            app.UseAuthentication();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
@@ -89,4 +112,3 @@ namespace EulerFinancial.Blazor
         }
     }
 }
- 

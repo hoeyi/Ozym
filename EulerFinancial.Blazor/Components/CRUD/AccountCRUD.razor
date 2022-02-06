@@ -2,7 +2,7 @@
 
 @if (Model is null || AccountCustodians is null)
 {
-    <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
+    <p><em>@StringResource.Page_Loading_Caption</em></p>
 }
 else
 {
@@ -44,7 +44,7 @@ else
                          @bind-Value="Model.AccountCustodianId">
                         @foreach (var custodian in AccountCustodians)
                         {
-                    <option value=@custodian.AccountCustodianId>@custodian.DisplayName</option>
+                            <option value=@custodian.AccountCustodianId>@custodian.DisplayName</option>
                         }
             </InputSelect>
                     <ValidationMessage For="@(() => Model.AccountCustodianId)" />
@@ -163,5 +163,5 @@ else
     [Parameter]
     public IEnumerable<AccountCustodian> AccountCustodians { get; set; }
 
-    private bool TestParam { get; set; }
+    //private bool TestParam { get; set; }
 }

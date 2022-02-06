@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using EulerFinancial.Model;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using EulerFinancial.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EulerFinancial.Blazor.Views.Accounts
 {
@@ -15,7 +15,7 @@ namespace EulerFinancial.Blazor.Views.Accounts
             _context = context;
         }
 
-        public IList<Account> Account { get;set; }
+        public IList<Account> Account { get; set; }
 
         public async Task OnGetAsync()
         {

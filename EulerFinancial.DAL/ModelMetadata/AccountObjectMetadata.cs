@@ -1,7 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using EulerFinancial.ModelMetadata.Resources;
 using Ichosoft.DataModel.Annotations;
-using EulerFinancial.ModelMetadata.Resources;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace EulerFinancial.Model
 {
@@ -19,7 +19,7 @@ namespace EulerFinancial.Model
     {
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplay.AccountObject_AccountObjectCode_Name), 
+            Name = nameof(ModelDisplay.AccountObject_AccountObjectCode_Name),
             Description = nameof(ModelDisplay.AccountObject_AccountObjectCode_Description),
             ResourceType = typeof(ModelDisplay))]
         public string AccountObjectCode { get; set; }

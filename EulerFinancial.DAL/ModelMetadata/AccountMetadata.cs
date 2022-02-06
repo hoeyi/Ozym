@@ -1,7 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using EulerFinancial.ModelMetadata.Resources;
 using Ichosoft.DataModel.Annotations;
-using EulerFinancial.ModelMetadata.Resources;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EulerFinancial.Model
 {
@@ -33,7 +34,7 @@ namespace EulerFinancial.Model
 
         [Searchable]
         [Display(
-            Name = nameof(ModelDisplay.Account_HasWallet_Name), 
+            Name = nameof(ModelDisplay.Account_HasWallet_Name),
             Description = nameof(ModelDisplay.Account_HasWallet_Description),
             ResourceType = typeof(ModelDisplay))]
         public bool HasWallet { get; set; }
@@ -74,5 +75,27 @@ namespace EulerFinancial.Model
     [MetadataType(typeof(AccountMetadata))]
     public partial class Account
     {
+        /// <summary>
+        /// Gets the short code for this account.
+        /// </summary>
+        [NotMapped]
+        public string AccountCode
+        {
+            get { return AccountNavigation?.AccountObjectCode; }
+        }
+
+        /// <summary>
+        /// Gets the display name for this account.
+        /// </summary>
+        [NotMapped]
+        public string AccountName
+        {
+            get { return AccountNavigation?.ObjectDisplayName; }
+        }
+
+        public override string ToString()
+        {
+            return $"{{Type = {typeof(Account)}; AccountCode = {AccountCode}}}";
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace EulerFinancial.ModelMetadata.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ModelDisplay {
@@ -594,9 +594,9 @@ namespace EulerFinancial.ModelMetadata.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Denomination.
         /// </summary>
-        public static string AccountWallet_DenominationSecurityId_Name {
+        public static string AccountWallet_DenominationSecurityID_Name {
             get {
-                return ResourceManager.GetString("AccountWallet_DenominationSecurityId_Name", resourceCulture);
+                return ResourceManager.GetString("AccountWallet_DenominationSecurityID_Name", resourceCulture);
             }
         }
         

@@ -1,11 +1,11 @@
+using Ichosoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Serilog.Extensions.Logging;
 using Serilog.Formatting.Compact;
 using System;
-using Microsoft.Extensions.Configuration;
-using Ichosoft.Extensions.Configuration;
-using Serilog.Extensions.Logging;
 using System.Globalization;
 
 namespace EulerFinancial.Blazor
@@ -15,7 +15,7 @@ namespace EulerFinancial.Blazor
         private static IConfigurationRoot config;
         internal static IConfigurationRoot Configuration
         {
-            get{ return config; }
+            get { return config; }
         }
 
         public static int Main(string[] args)
@@ -39,7 +39,7 @@ namespace EulerFinancial.Blazor
             {
                 Log.Information("Start-up initialized.");
 
-                config = CreateProtectedConfiguration(logger: 
+                config = CreateProtectedConfiguration(logger:
                     new SerilogLoggerFactory(Log.Logger).CreateLogger(nameof(Program)));
 
                 // Copy UserSecret connection string value to secure configuration.
@@ -55,7 +55,7 @@ namespace EulerFinancial.Blazor
 
                 return 0;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Fatal(e, BlazorResources.Exception.Application_UnhandledException);
                 return 1;
@@ -83,7 +83,7 @@ namespace EulerFinancial.Blazor
                     reloadOnChange: true)
                 .AddUserSecrets<Program>()
                 .Build();
-        
+
         private static IConfigurationRoot CreateProtectedConfiguration(
             Microsoft.Extensions.Logging.ILogger logger)
         {
@@ -95,7 +95,7 @@ namespace EulerFinancial.Blazor
                     reloadOnChange: true)
                 .AddUserSecrets<Program>()
                 .Build();
-             
+
             string rsaKeyAddress = "_file:RsaKeyContainer";
             if (config[rsaKeyAddress] is null)
             {

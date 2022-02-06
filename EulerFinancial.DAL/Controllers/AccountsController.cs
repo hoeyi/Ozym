@@ -1,21 +1,32 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
-using System.Collections.Generic;
+﻿using EulerFinancial.Model;
+using EulerFinancial.ModelService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EulerFinancial.Model;
-using EulerFinancial.Controllers;
-using EulerFinancial.ModelService;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
-namespace EulerFinancial.Blazor.Controllers
+namespace EulerFinancial.Controllers
 {
-    public partial class AccountsController : ControllerBase, IController<Account>
+    /// <summary>
+    /// A derived MVC controller for <see cref="Account"/> objects.
+    /// </summary>
+    public partial class AccountsController : ControllerBase, IAccountController
     {
-        private readonly IModelService<Account> accountService;
-        public AccountsController(IModelService<Account> accountService)
+        private readonly IAccountService accountService;
+        private readonly ILogger logger;
+        public AccountsController(IAccountService accountService, ILogger logger)
         {
             this.accountService = accountService;
+            this.logger = logger;
+        }
+
+        /// <inheritdoc/>
+        public async Task<ActionResult<Account>> GetDefaultAsync()
+        {
+            return await accountService.GetDefaultAsync();
         }
 
         /// <inheritdoc/>
@@ -24,7 +35,7 @@ namespace EulerFinancial.Blazor.Controllers
             try
             {
                 var account = await accountService.CreateAsync(model);
-
+                
                 return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
             }
             catch (DbUpdateException)
@@ -39,13 +50,13 @@ namespace EulerFinancial.Blazor.Controllers
                 }
             }
         }
-        
+
         /// <inheritdoc/>
         public async Task<ActionResult<Account>> ReadAsync(int? id)
         {
             var account = await accountService.ReadAsync(id);
 
-            if(account is null)
+            if (account is null)
             {
                 return NotFound();
             }
@@ -56,7 +67,7 @@ namespace EulerFinancial.Blazor.Controllers
         /// <inheritdoc/>
         public async Task<ActionResult<Account>> UpdateAsync(int? id, Account model)
         {
-            if(id != model.AccountId)
+            if (id != model.AccountId)
             {
                 return BadRequest();
             }
@@ -70,9 +81,9 @@ namespace EulerFinancial.Blazor.Controllers
                 if (success) return model;
                 else throw updateTask.Exception;
             }
-            catch(DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException)
             {
-                if(!accountService.ModelExists(id))
+                if (!accountService.ModelExists(id))
                 {
                     return NotFound();
                 }
@@ -86,8 +97,8 @@ namespace EulerFinancial.Blazor.Controllers
 
         /// <inheritdoc/>
         public async Task<IActionResult> DeleteAsync(Account model)
-        {   
-            if(!accountService.ModelExists(model))
+        {
+            if (!accountService.ModelExists(model))
             {
                 return NotFound();
             }
@@ -107,23 +118,10 @@ namespace EulerFinancial.Blazor.Controllers
         }
 
         /// <inheritdoc/>
-        public async Task<ActionResult<Account>> SelectOneAsync(Expression<Func<Account, bool>> predicate)
-        {
-            var account = await accountService.SelectOneAsync(predicate: predicate);
-
-            if(account is null)
-            {
-                return NotFound();
-            }
-
-            return account;
-        }
-
-        /// <inheritdoc/>
         public async Task<ActionResult<IList<Account>>> SelectWhereAysnc(
             Expression<Func<Account, bool>> predicate, int maxCount = 0)
         {
-            return await accountService.SelectWhereAysnc(predicate: predicate, maxCount: maxCount);
+            return await accountService.SelectWhereAysnc(predicate, maxCount);
         }
     }
 }

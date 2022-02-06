@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EulerFinancial.Resources {
+namespace EulerFinancial.Logging.Templates {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace EulerFinancial.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class UserInterfaceString {
+    internal class ExceptionMessage {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal UserInterfaceString() {
+        internal ExceptionMessage() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Resources.UserInterfaceString", typeof(UserInterfaceString).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Logging.Templates.ExceptionMessage", typeof(ExceptionMessage).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace EulerFinancial.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,83 +61,58 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New.
+        ///   Looks up a localized string similar to Adding {@Model} returned an unexpected state.
+        ///Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;.
         /// </summary>
-        public static string CreateNew_Button_Caption {
+        internal static string ModelService_AfterAdd_InvalidState {
             get {
-                return ResourceManager.GetString("CreateNew_Button_Caption", resourceCulture);
+                return ResourceManager.GetString("ModelService_AfterAdd_InvalidState", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete.
+        ///   Looks up a localized string similar to Deleting {@Model} returned an unexpected state.
+        ///Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;.
         /// </summary>
-        public static string Delete_Button_Caption {
+        internal static string ModelService_AfterDelete_InvalidState {
             get {
-                return ResourceManager.GetString("Delete_Button_Caption", resourceCulture);
+                return ResourceManager.GetString("ModelService_AfterDelete_InvalidState", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit.
+        ///   Looks up a localized string similar to {Service} has not been initialized.(TParentKey)&apos;..
         /// </summary>
-        public static string Edit_Button_Caption {
+        internal static string ModelService_NotInitialized {
             get {
-                return ResourceManager.GetString("Edit_Button_Caption", resourceCulture);
+                return ResourceManager.GetString("ModelService_NotInitialized", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Index.
+        ///   Looks up a localized string similar to The parent key for {Service} has not been set..
         /// </summary>
-        public static string Index_Button_Caption {
+        internal static string ModelService_ParentKeyNotSet {
             get {
-                return ResourceManager.GetString("Index_Button_Caption", resourceCulture);
+                return ResourceManager.GetString("ModelService_ParentKeyNotSet", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loading....
+        ///   Looks up a localized string similar to {@Model} could not be accessed..
         /// </summary>
-        public static string Page_Loading_Caption {
+        internal static string ModelService_ReadSingle_Failed {
             get {
-                return ResourceManager.GetString("Page_Loading_Caption", resourceCulture);
+                return ResourceManager.GetString("ModelService_ReadSingle_Failed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (No title).
+        ///   Looks up a localized string similar to Changes were not saved..
         /// </summary>
-        public static string PageTitle_NotFound {
+        internal static string ModelService_SaveChanges_Failed {
             get {
-                return ResourceManager.GetString("PageTitle.NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        public static string Save_Button_Caption {
-            get {
-                return ResourceManager.GetString("Save_Button_Caption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search.
-        /// </summary>
-        public static string Search_Button_Caption {
-            get {
-                return ResourceManager.GetString("Search_Button_Caption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search for:.
-        /// </summary>
-        public static string Search_FieldSelector_Caption {
-            get {
-                return ResourceManager.GetString("Search_FieldSelector_Caption", resourceCulture);
+                return ResourceManager.GetString("ModelService_SaveChanges_Failed", resourceCulture);
             }
         }
     }

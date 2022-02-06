@@ -31,7 +31,7 @@
         /// <example>From Account: AccountNavigation.StartDate, AccountFull</example>
         /// <remarks>Use this property when constructing search epxressions dynamcially.</remarks>
         public string QualifiedMemberName { get; }
-        
+
         /// <summary>
         /// Gets the display name of the member.
         /// </summary>

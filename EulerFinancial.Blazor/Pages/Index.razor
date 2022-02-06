@@ -3,6 +3,8 @@
 
 @inherits LocalizedComponent
 
+<PageTitle>@PageTitle</PageTitle>
+
 <h1>Hello, world!</h1>
 Welcome to your new app.
 
@@ -10,5 +12,5 @@ Welcome to your new app.
 
 @code{
     /// <inheritdoc/>
-    protected override string PageTitle => Resources.PageMetadata.Application_Home_Title;
+    protected override string PageTitle => StringResource.Title_ApplicationHome.AsPageTitle();
 }

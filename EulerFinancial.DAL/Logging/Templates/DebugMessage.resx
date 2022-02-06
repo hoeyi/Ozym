@@ -117,31 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateNew_Button_Caption" xml:space="preserve">
-    <value>New</value>
+  <data name="ModelService_AddPendingSave_Success" xml:space="preserve">
+    <value>{@Model} added to context pending save.</value>
   </data>
-  <data name="Delete_Button_Caption" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="Edit_Button_Caption" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="Index_Button_Caption" xml:space="preserve">
-    <value>Index</value>
-  </data>
-  <data name="PageTitle.NotFound" xml:space="preserve">
-    <value>(No title)</value>
-  </data>
-  <data name="Page_Loading_Caption" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="Save_Button_Caption" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="Search_Button_Caption" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="Search_FieldSelector_Caption" xml:space="preserve">
-    <value>Search for:</value>
+  <data name="ModelService_DeletePendingSave_Success" xml:space="preserve">
+    <value>{@Model} deleted from context pending save.</value>
   </data>
 </root>

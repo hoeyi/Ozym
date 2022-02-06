@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EulerFinancial.Resources {
+namespace EulerFinancial.Blazor.Components.Generic.Resources {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace EulerFinancial.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class PageMetadata {
+    internal class Captions {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PageMetadata() {
+        internal Captions() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Resources.PageMetadata", typeof(PageMetadata).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Blazor.Components.Generic.Resources.Captions", typeof(Captions).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace EulerFinancial.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,56 +61,20 @@ namespace EulerFinancial.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create new account.
+        ///   Looks up a localized string similar to Search.
         /// </summary>
-        public static string Account_Create_Title {
+        internal static string Search_Button {
             get {
-                return ResourceManager.GetString("Account_Create_Title", resourceCulture);
+                return ResourceManager.GetString("Search_Button", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Account details [{0}].
+        ///   Looks up a localized string similar to Search for:.
         /// </summary>
-        public static string Account_Detail_Title {
+        internal static string Search_FieldSelector {
             get {
-                return ResourceManager.GetString("Account_Detail_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit account [{0}].
-        /// </summary>
-        public static string Account_Edit_Title {
-            get {
-                return ResourceManager.GetString("Account_Edit_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Accounts.
-        /// </summary>
-        public static string Account_Index_Title {
-            get {
-                return ResourceManager.GetString("Account_Index_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Home.
-        /// </summary>
-        public static string Application_Home_Title {
-            get {
-                return ResourceManager.GetString("Application_Home_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (No title).
-        /// </summary>
-        public static string Title_Not_Found {
-            get {
-                return ResourceManager.GetString("Title_Not_Found", resourceCulture);
+                return ResourceManager.GetString("Search_FieldSelector", resourceCulture);
             }
         }
     }

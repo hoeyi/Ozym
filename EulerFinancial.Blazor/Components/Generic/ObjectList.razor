@@ -5,11 +5,13 @@
     @ChildContent(item)
 }
 
-@code
-{
+@code{
     [Parameter]
     public IEnumerable<TItem> Data { get; set; }
-    
+
     [Parameter]
     public RenderFragment<TItem> ChildContent { get; set; }
+
+    [Parameter]
+    public IEnumerable<int> Columns { get; set; }
 }

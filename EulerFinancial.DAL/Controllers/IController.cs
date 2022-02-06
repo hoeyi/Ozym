@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EulerFinancial.Controllers
 {
@@ -14,6 +14,12 @@ namespace EulerFinancial.Controllers
     public interface IController<T>
         where T : class, new()
     {
+        /// <summary>
+        /// Creates the default instance of <typeparamref name="T"/>.
+        /// </summary>
+        /// <returns>The action response wrapping the generated <typeparamref name="T"/>.</returns>
+        Task<ActionResult<T>> GetDefaultAsync();
+
         /// <summary>
         /// Creates the given <paramref name="model"/>.
         /// </summary>
@@ -50,19 +56,13 @@ namespace EulerFinancial.Controllers
         Task<ActionResult<IList<T>>> SelectAllAsync();
 
         /// <summary>
-        /// Select the first record matching the given <paramref name="predicate"/>.
-        /// </summary>
-        /// <param name="predicate">The <see cref="Expression{Func{T}}"/> used to determine results.</param>
-        /// <returns>A <see cref="IList{T}"/> representing the first record matching the predicate.</returns>
-        Task<ActionResult<T>> SelectOneAsync(Expression<Func<T, bool>> predicate);
-
-        /// <summary>
         /// Selects records matching the given <paramref name="predicate"/>, 
         /// with the count limited to the value of <paramref name="maxCount"/>.
         /// </summary>
         /// <param name="predicate">The <see cref="Expression{Func{T}}"/> used to determine results.</param>
         /// <param name="maxCount">The maximum count of results to return. Default is zero.</param>
         /// <returns>A <see cref="IList{T}"/> representing the records matching the predicate, limited to a maximum count.</returns>
-        Task<ActionResult<IList<T>>> SelectWhereAysnc(Expression<Func<T, bool>> predicate, int maxCount = 0);
+        Task<ActionResult<IList<T>>> SelectWhereAysnc(
+            Expression<Func<T, bool>> predicate, int maxCount = 0);
     }
 }

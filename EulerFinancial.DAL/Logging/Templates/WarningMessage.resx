@@ -117,24 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account_Create_Title" xml:space="preserve">
-    <value>Create new account</value>
-  </data>
-  <data name="Account_Detail_Title" xml:space="preserve">
-    <value>Account details [{0}]</value>
-    <comment>{0} is the text identifying the account</comment>
-  </data>
-  <data name="Account_Edit_Title" xml:space="preserve">
-    <value>Edit account [{0}]</value>
-    <comment>{0} is the text identifying the account</comment>
-  </data>
-  <data name="Account_Index_Title" xml:space="preserve">
-    <value>Accounts</value>
-  </data>
-  <data name="Application_Home_Title" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="Title_Not_Found" xml:space="preserve">
-    <value>(No title)</value>
-  </data>
 </root>

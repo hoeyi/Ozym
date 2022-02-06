@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Ichosoft.DataModel" Version="2.1.2.4848" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
@@ -30,6 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Logging\Templates\WarningMessage.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WarningMessage.resx</DependentUpon>
+    </Compile>
     <Compile Update="ModelMetadata\Resources\ModelDisplay.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -40,29 +49,48 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ModelNoun.resx</DependentUpon>
     </Compile>
+    <Compile Update="Logging\Templates\DebugMessage.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DebugMessage.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ModelMetadata\Resources\ModelValidation.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModelValidation.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Exceptions\ExceptionString.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExceptionString.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\DefaultConfiguration.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DefaultConfiguration.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\ExceptionString.Designer.cs">
+    <Compile Update="Logging\Templates\ExceptionMessage.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ExceptionString.resx</DependentUpon>
+      <DependentUpon>ExceptionMessage.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\PageMetadata.Designer.cs">
+    <Compile Update="Logging\Templates\InformationMessage.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>PageMetadata.resx</DependentUpon>
+      <DependentUpon>InformationMessage.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\UserInterfaceString.Designer.cs">
+    <Compile Update="UserInterface\StringResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>UserInterfaceString.resx</DependentUpon>
+      <DependentUpon>StringResource.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Logging\Templates\WarningMessage.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>WarningMessage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="ModelMetadata\Resources\ModelDisplay.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ModelDisplay.Designer.cs</LastGenOutput>
@@ -71,26 +99,34 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ModelNoun.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Logging\Templates\DebugMessage.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DebugMessage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ModelMetadata\Resources\ModelValidation.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModelValidation.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Exceptions\ExceptionString.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\DefaultConfiguration.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DefaultConfiguration.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\ExceptionString.resx">
+    <EmbeddedResource Update="Logging\Templates\ExceptionMessage.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
+      <LastGenOutput>ExceptionMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\PageMetadata.resx">
+    <EmbeddedResource Update="Logging\Templates\InformationMessage.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>InformationMessage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="UserInterface\StringResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>PageMetadata.Designer.cs</LastGenOutput>
+      <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\UserInterfaceString.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>UserInterfaceString.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Model\Validation\" />
   </ItemGroup>
 
 </Project>

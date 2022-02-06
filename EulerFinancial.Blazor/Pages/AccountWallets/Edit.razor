@@ -1,0 +1,224 @@
+﻿@page "/AccountWallets/Edit/{AccountId:int}"
+@inherits ModelComponentBase<AccountWallet>
+
+@inject IAccountWalletsController Controller
+@inject IReferenceDataService ReferenceData
+
+<PageTitle>@PageTitle.AsPageTitle()</PageTitle>
+<div><h4>@PageTitle</h4></div>
+<hr />
+
+@if (IsLoading)
+{
+    <p><em>@StringResource.Page_Loading_Caption</em></p>
+}
+else
+{
+    @*    <EditForm id="edit-list" Model=@Wallets>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <table class="editable-list">
+            <thead>
+                <tr>
+                    <th id="denomination-header">
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
+                    </th>
+                    <th id="addresscode-header">
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
+                    </th>
+                    <th id="addresstag-header">
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var wallet in Wallets)
+                {
+                    <tr>
+                        <td>
+                            <InputSelect class="form-control" id="denomination-select"
+                                 @bind-Value=wallet.DenominationSecurityId>
+                                @foreach (var security in DenominationSecurities)
+                                {
+                            <option value=@security.SecurityId>@security.SecurityDescription</option>
+                                }
+                    </InputSelect>
+                    <ValidationMessage For=@(()=> wallet.DenominationSecurityId) />
+                </td>
+                <td>
+                    <InputText class="form-control" id="addresscode-text" @bind-Value=wallet.AddressCode />
+                    <ValidationMessage For=@(()=> wallet.AddressCode) />
+                </td>
+                <td>
+                    <InputText class="form-control" id="addresstag-text" @bind-Value=wallet.AddressTag />
+                    <ValidationMessage For=@(()=> wallet.AddressTag) />
+                </td>
+            </tr>
+                }
+            </tbody>
+            <tfoot>
+                <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
+                    @StringResource.DataGrid_NewLine_Caption
+                </button>
+            </tfoot>
+        </table>
+    </EditForm>*@
+    <EditForm class="edit-form-list" 
+        Model=@Wallets 
+        OnValidSubmit="@HandleValidSubmit" 
+        OnInvalidSubmit="@HandleInvalidSubmit">
+        <DataAnnotationsValidator />
+        <a class="link-button" href="" @onclick=@(args => HandleSubmit(context, args)) @onclick:preventDefault>
+            @StringResource.Button_Save_Caption
+        </a>
+        <hr/>
+        <div>
+            <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
+                @StringResource.DataGrid_NewLine_Caption.Format(
+                    ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
+            </button>
+        </div>
+        <br/>
+        @if (displayValidationErrorMessages)
+        {
+            <div class="col-md-4" style="margin-top:10px">
+                <label>@StringResource.EditFormList_ValidationFailed.Format(
+                    ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()?.ToTitleCase())</label>
+                <ValidationSummary />
+            </div>
+        }
+        <table class="editable-list">
+            <thead>
+                <tr>
+                    <th id="denomination-header">
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
+                    </th>
+                    <th id="addresscode-header">
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
+                    </th>
+                    <th id="addresstag-header">
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
+                    </th>
+                </tr>
+            </thead>
+            <ObjectList TItem="AccountWallet" Data=@Wallets Context="itemContext">
+                <tr>
+                    <td>
+                        <InputSelect class="form-control" id="denomination-select" @bind-Value=itemContext.DenominationSecurityId>
+                            @foreach (var security in DenominationSecurities)
+                            {
+                                <option value=@security.SecurityId>@security.SecurityDescription</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For=@(()=> itemContext.DenominationSecurityId) />
+                    </td>
+                    <td>
+                        <InputText class="form-control" id="addresscode-text" @bind-Value=itemContext.AddressCode />
+                        <ValidationMessage For=@(()=> itemContext.AddressCode) />
+                    </td>
+                    <td>
+                        <InputText class="form-control" id="addresstag-text" @bind-Value=itemContext.AddressTag />
+                        <ValidationMessage For=@(()=> itemContext.AddressTag) />
+                    </td>
+                </tr>
+            </ObjectList>
+        </table>
+    </EditForm>
+}
+
+@code {
+
+    [Parameter]
+    public int AccountId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="AccountWallet"/> collection for this component.
+    /// </summary>
+    private IList<AccountWallet> Wallets { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="Security"/> collection for this component.
+    /// </summary>
+    private IEnumerable<Security> DenominationSecurities { get; set; }
+
+    /// <inheritdoc/>
+    protected override string PageTitle => StringResource
+        .Title_AccountWalletsEdit.Format(parent?.AccountCode?.ToUpper());
+
+    private Account parent;
+
+    private bool displayValidationErrorMessages;
+
+    protected override async Task OnInitializedAsync()
+    {
+        parent = await ReferenceData.GetSingleAsync<Account>(a =>
+                                a.AccountId == (int)AccountId, nameof(Account.AccountNavigation));
+
+        var initResult = Controller.Initialize(parent.AccountId);
+
+
+        if (initResult is not OkResult)
+            return; // TODO: Redirect to error page.
+
+        DenominationSecurities = await ReferenceData.GetAllAsync<Security>();
+
+        Task<ActionResult<IList<AccountWallet>>> actionResult =
+            Controller.SelectWhereAysnc(aw => aw.AccountId == parent.AccountId, maxCount: -1);
+
+        await actionResult;
+
+        Wallets = actionResult.Result?.Value;
+
+        if (Wallets.Count() == 0)
+        {
+            await AddNewAsync(null);
+        }
+
+        IsLoading = Wallets is null;
+    }
+
+    private async Task AddNewAsync(MouseEventArgs args)
+    {
+        // TODO: Do something with MouseEventArgs?
+
+        var getDefaultTask = await Controller.GetDefault();
+        await Controller.Add(getDefaultTask.Value);
+
+        Wallets.Add(getDefaultTask.Value);
+    }
+
+    private async Task DeleteAsync(AccountWallet wallet, MouseEventArgs args)
+    {
+        var result = await Controller.Delete(wallet);
+
+        // TODO: interpret the response.
+    }
+
+    private void HandleValidSubmit(EditContext context)
+    {
+        displayValidationErrorMessages = false;
+    }
+
+    private void HandleInvalidSubmit(EditContext context)
+    {
+        displayValidationErrorMessages = true;
+    }
+
+
+    private async Task<int> HandleSubmit(EditContext context, MouseEventArgs args)
+    {
+        bool isValid = context.Validate();
+        if(isValid)
+        {
+            HandleValidSubmit(null);
+            var saveResult = await Controller.SaveChanges();
+
+            return saveResult?.Value ?? -1;
+        }
+        else
+        {
+            HandleInvalidSubmit(context);
+            return 0;
+        }
+    }
+}

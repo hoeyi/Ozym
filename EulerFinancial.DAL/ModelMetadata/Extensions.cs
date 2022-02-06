@@ -1,7 +1,7 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Ichosoft.DataModel;
+﻿using Ichosoft.DataModel;
 using Ichosoft.DataModel.Annotations;
+using System;
+using System.Runtime.Serialization;
 
 namespace EulerFinancial.ModelMetadata
 {
@@ -9,7 +9,7 @@ namespace EulerFinancial.ModelMetadata
     /// Extensions methods useful for accessing model metadata.
     /// </summary>
     public static class Extensions
-    {  
+    {
         /// <summary>
         /// Gets the <see cref="NounAttribute"/> applied to the given type.
         /// </summary>

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using EulerFinancial.Controllers;
-using EulerFinancial.Blazor.Components.Abstractions;
+﻿using EulerFinancial.Blazor.Components.Abstractions;
 
 namespace EulerFinancial.Blazor.Components.CRUD
 {
@@ -9,7 +7,7 @@ namespace EulerFinancial.Blazor.Components.CRUD
     /// </summary>
     /// <typeparam name="TModel">The model type.</typeparam>
     public partial class ModelCRUD<TModel> : ModelDetail<TModel>
-        where TModel: class, new()
+        where TModel : class, new()
     {
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using EulerFinancial.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using EulerFinancial.Model;
+using System.Threading.Tasks;
 
 namespace EulerFinancial.Blazor.Views.Accounts
 {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EulerFinancial.Resources {
+namespace EulerFinancial.ModelMetadata.Resources {
     using System;
     
     
@@ -19,17 +19,17 @@ namespace EulerFinancial.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ExceptionString {
+    internal class ModelValidation {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ExceptionString() {
+        internal ModelValidation() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace EulerFinancial.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Resources.ExceptionString", typeof(ExceptionString).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.ModelMetadata.Resources.ModelValidation", typeof(ModelValidation).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,42 +57,6 @@ namespace EulerFinancial.Resources {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A search expression could not be built from the given parameters..
-        /// </summary>
-        internal static string Expression_General_Invalid {
-            get {
-                return ResourceManager.GetString("Expression.General.Invalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search expressions may only use parameters nested one level deep..
-        /// </summary>
-        internal static string Expression_NestingNotSupported {
-            get {
-                return ResourceManager.GetString("Expression.NestingNotSupported", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The search method &apos;{0}&apos; cannot be used with the property &apos;{1}&apos;..
-        /// </summary>
-        internal static string Expression_Parameter_InvalidMethod {
-            get {
-                return ResourceManager.GetString("Expression.Parameter.InvalidMethod", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The property &apos;{0}&apos; could not be found for type &apos;{1}&apos;..
-        /// </summary>
-        internal static string Expression_ParameterNotValidForType {
-            get {
-                return ResourceManager.GetString("Expression.ParameterNotValidForType", resourceCulture);
             }
         }
         

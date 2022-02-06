@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using EulerFinancial.Model;
 using EulerFinancial.UserInterface;
-using EulerFinancial.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace EulerFinancial.DAL.UnitTest.UserInterface
 {

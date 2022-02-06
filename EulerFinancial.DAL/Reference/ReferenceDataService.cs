@@ -1,11 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using EulerFinancial.Context;
-using EulerFinancial.Model;
+﻿using EulerFinancial.Context;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace EulerFinancial.Reference
 {
+    /// <summary>
+    /// Worker class for reading models from a data store.
+    /// </summary>
+    /// <remarks>Implements <see cref="IReferenceDataService"/>.</remarks>
     public class ReferenceDataService : IReferenceDataService
     {
         private readonly EulerFinancialContext context;
@@ -14,66 +20,31 @@ namespace EulerFinancial.Reference
             this.context = context;
         }
 
-        public async Task<IList<Account>> GetAccountsAsync()
+        /// <inheritdoc/>
+        public async Task<T> GetSingleAsync<T>(
+            Expression<Func<T, bool>> predicate, string includeNavigationPath = null)
+            where T: class, new()
         {
-            return await SelectAllOfTypeAsync<Account>();
+            if (string.IsNullOrEmpty(includeNavigationPath))
+                return await context.Set<T>()
+                                .SingleAsync();
+            else
+                return await context.Set<T>()
+                                .Include(includeNavigationPath)
+                                .SingleAsync(predicate);
         }
 
-        public async Task<IList<AccountCustodian>> GetAccountCustodiansAsync()
-        {
-            return await SelectAllOfTypeAsync<AccountCustodian>();
-        }
-
-        public async Task<IList<BankTransactionCode>> GetBankTransactionCodesAsync()
-        {
-            return await SelectAllOfTypeAsync<BankTransactionCode>();
-        }
-
-        public async Task<IList<BrokerTransactionCode>> GetBrokerTransactionCodesAsync()
-        {
-            return await SelectAllOfTypeAsync<BrokerTransactionCode>();
-        }
-
-        public async Task<IList<BrokerTransactionTaxLot>> GetBrokerTransactionTaxLotsAsync()
-        {
-            return await SelectAllOfTypeAsync<BrokerTransactionTaxLot>();
-        }
-
-        public async Task<IList<Country>> GetCountriesAsync()
-        {
-            return await SelectAllOfTypeAsync<Country>();
-        }
-
-        public async Task<IList<MarketHoliday>> GetMarketHolidaysAsync()
-        {
-            return await SelectAllOfTypeAsync<MarketHoliday>();
-        }
-
-        public async Task<IList<Security>> GetSecuritiesAsync()
-        {
-            return await SelectAllOfTypeAsync<Security>();
-        }
-
-        public async Task<IList<SecurityExchange>> GetSecurityExchangesAsync()
-        {
-            return await SelectAllOfTypeAsync<SecurityExchange>();
-        }
-
-        public async Task<IList<SecurityTypeGroup>> GetSecurityTypeGroupsAsync()
-        {
-            return await SelectAllOfTypeAsync<SecurityTypeGroup>();
-        }
-
-        public async Task<IList<SecurityType>> GetSecurityTypesAsync()
-        {
-            return await SelectAllOfTypeAsync<SecurityType>();
-        }
-
-        private async Task<IList<T>> SelectAllOfTypeAsync<T>()
-            where T : class, new()
+        /// <inheritdoc/>
+        public async Task<IList<T>> GetAllAsync<T>() where T : class, new()
         {
             return await context.Set<T>().ToListAsync();
         }
 
+        /// <inheritdoc/>
+        public async Task<IList<T>> GetWhereAsync<T>(Expression<Func<T, bool>> predicate) 
+            where T : class, new()
+        {
+            return await context.Set<T>().Where(predicate).ToListAsync();
+        }
     }
 }
