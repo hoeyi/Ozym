@@ -13,6 +13,19 @@ namespace EulerFinancial.UserInterface
         private static string appName;
 
         /// <summary>
+        /// Converts this string to an application-specific page title in the format: 
+        /// <br/>{s} | {AssemblyProduct}
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns>A new <see cref="string"/> formatted as a page title.</returns>
+        public static string AsPageTitle(this string s)
+        {
+            appName ??= Configuration.AssemblyInfo.AssemblyProduct;
+
+            return $"{s} | {appName}";
+        }
+
+        /// <summary>
         /// Formats this string with the given values.
         /// </summary>
         /// <param name="s"></param>
@@ -24,19 +37,6 @@ namespace EulerFinancial.UserInterface
                 return s;
 
             return string.Format(s, args);
-        }
-
-        /// <summary>
-        /// Converts this string to an application-specific page title in the format: 
-        /// <br/>{s} | {AssemblyProduct}
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns>A new <see cref="string"/> formatted as a page title.</returns>
-        public static string AsPageTitle(this string s)
-        {
-            appName ??= Configuration.AssemblyInfo.AssemblyProduct;
-
-            return $"{s} | {appName}";
         }
     }
 }

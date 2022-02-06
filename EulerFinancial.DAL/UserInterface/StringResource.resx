@@ -136,7 +136,16 @@
     <value>Search</value>
   </data>
   <data name="DataGrid_NewLine_Caption" xml:space="preserve">
-    <value>New line</value>
+    <value>Add {0}</value>
+    <comment>{0} is the singular noun of the bound model type</comment>
+  </data>
+  <data name="EditFormList_ValidationFailed" xml:space="preserve">
+    <value>{0} could not be saved. The errors below must be resolved:</value>
+    <comment>{0} is the plural noun of the bound model type</comment>
+  </data>
+  <data name="EditForm_ValidationFailed" xml:space="preserve">
+    <value>{0} could not be saved. The errors below must be resolved:</value>
+    <comment>{0} is the singular noun of the bound model type</comment>
   </data>
   <data name="InputSelect_SearchField_Caption" xml:space="preserve">
     <value>Search for:</value>
@@ -153,7 +162,7 @@
   </data>
   <data name="Title_AccountEdit" xml:space="preserve">
     <value>{0}: Edit</value>
-    <comment>{0} ist he account identifier</comment>
+    <comment>{0} is the account identifier</comment>
   </data>
   <data name="Title_AccountIndex" xml:space="preserve">
     <value>Accounts</value>

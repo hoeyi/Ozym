@@ -17,12 +17,14 @@ namespace EulerFinancial.Model
             Name = nameof(ModelDisplay.AccountWallet_AddressCode_Name),
             Description = nameof(ModelDisplay.AccountWallet_AddressCode_Description),
             ResourceType = typeof(ModelDisplay))]
+        [MinLength(10)]
         public string AddressCode { get; set; }
 
         [Display(
             Name = nameof(ModelDisplay.AccountWallet_AddressTag_Name),
             Description = nameof(ModelDisplay.AccountWallet_AddressTag_Description),
             ResourceType = typeof(ModelDisplay))]
+        [MinLength(5)]
         public string AddressTag { get; set; }
 
         [Display(

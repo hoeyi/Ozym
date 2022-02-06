@@ -115,11 +115,29 @@ namespace EulerFinancial.UserInterface {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New line.
+        ///   Looks up a localized string similar to Add {0}.
         /// </summary>
         public static string DataGrid_NewLine_Caption {
             get {
                 return ResourceManager.GetString("DataGrid_NewLine_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} could not be saved. The errors below must be resolved:.
+        /// </summary>
+        public static string EditForm_ValidationFailed {
+            get {
+                return ResourceManager.GetString("EditForm_ValidationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} could not be saved. The errors below must be resolved:.
+        /// </summary>
+        public static string EditFormList_ValidationFailed {
+            get {
+                return ResourceManager.GetString("EditFormList_ValidationFailed", resourceCulture);
             }
         }
         

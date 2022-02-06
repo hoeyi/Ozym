@@ -14,10 +14,7 @@
 }
 else
 {
-    <a class="link-button" href="" @onclick=@(args => SubmitClicked(args)) @onclick:preventDefault>
-        @StringResource.Button_Save_Caption
-    </a>
-@*    <EditForm id="edit-list" Model=@Wallets>
+    @*    <EditForm id="edit-list" Model=@Wallets>
         <DataAnnotationsValidator />
         <ValidationSummary />
         <table class="editable-list">
@@ -70,14 +67,23 @@ else
         Model=@Wallets 
         OnValidSubmit="@HandleValidSubmit" 
         OnInvalidSubmit="@HandleInvalidSubmit">
-        <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
-            @StringResource.DataGrid_NewLine_Caption
-        </button>
         <DataAnnotationsValidator />
+        <a class="link-button" href="" @onclick=@(args => HandleSubmit(context, args)) @onclick:preventDefault>
+            @StringResource.Button_Save_Caption
+        </a>
+        <hr/>
+        <div>
+            <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
+                @StringResource.DataGrid_NewLine_Caption.Format(
+                    ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
+            </button>
+        </div>
+        <br/>
         @if (displayValidationErrorMessages)
         {
             <div class="col-md-4" style="margin-top:10px">
-                <label>Validation Messages: </label>
+                <label>@StringResource.EditFormList_ValidationFailed.Format(
+                    ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()?.ToTitleCase())</label>
                 <ValidationSummary />
             </div>
         }
@@ -199,10 +205,20 @@ else
     }
 
 
-    private async Task<int> SubmitClicked(MouseEventArgs args)
+    private async Task<int> HandleSubmit(EditContext context, MouseEventArgs args)
     {
-        var saveResult = await Controller.SaveChanges();
+        bool isValid = context.Validate();
+        if(isValid)
+        {
+            HandleValidSubmit(null);
+            var saveResult = await Controller.SaveChanges();
 
-        return saveResult?.Value ?? -1;
+            return saveResult?.Value ?? -1;
+        }
+        else
+        {
+            HandleInvalidSubmit(context);
+            return 0;
+        }
     }
 }
