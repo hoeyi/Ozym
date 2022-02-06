@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EulerFinancial.Logging.Resources {
+namespace EulerFinancial.Logging.Templates {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EulerFinancial.Logging.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Logging.Resources.ExceptionMessage", typeof(ExceptionMessage).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Logging.Templates.ExceptionMessage", typeof(ExceptionMessage).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,67 +61,31 @@ namespace EulerFinancial.Logging.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {Model} addition to context did not yield the expected entity state.
+        ///   Looks up a localized string similar to Adding {@Model} returned an unexpected state.
         ///Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;.
         /// </summary>
-        internal static string Context_Add_UnexpectedState {
+        internal static string ModelService_AfterAdd_InvalidState {
             get {
-                return ResourceManager.GetString("Context_Add_UnexpectedState", resourceCulture);
+                return ResourceManager.GetString("ModelService_AfterAdd_InvalidState", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {Model} deletion from context did not yield expected the entity state.
+        ///   Looks up a localized string similar to Deleting {@Model} returned an unexpected state.
         ///Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;.
         /// </summary>
-        internal static string Context_Delete_UnexpectedState {
+        internal static string ModelService_AfterDelete_InvalidState {
             get {
-                return ResourceManager.GetString("Context_Delete_UnexpectedState", resourceCulture);
+                return ResourceManager.GetString("ModelService_AfterDelete_InvalidState", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changes were not saved..
+        ///   Looks up a localized string similar to {Service} has not been initialized.(TParentKey)&apos;..
         /// </summary>
-        internal static string Context_Save_Failure {
+        internal static string ModelService_NotInitialized {
             get {
-                return ResourceManager.GetString("Context_Save_Failure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Addition affected the state of {Count} records. Expected 1..
-        /// </summary>
-        internal static string Context_SingleAdd_UnexpectedResult {
-            get {
-                return ResourceManager.GetString("Context_SingleAdd_UnexpectedResult", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Delete affected the state of {Count} records. Expected 1..
-        /// </summary>
-        internal static string Context_SingleDelete_UnexpectedResult {
-            get {
-                return ResourceManager.GetString("Context_SingleDelete_UnexpectedResult", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Model {Id} could not be accessed..
-        /// </summary>
-        internal static string Context_SingleRead_Failure {
-            get {
-                return ResourceManager.GetString("Context_SingleRead_Failure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Update affected the state of {Count} records. Expected 1..
-        /// </summary>
-        internal static string Context_SingleUpdate_UnexpectedResult {
-            get {
-                return ResourceManager.GetString("Context_SingleUpdate_UnexpectedResult", resourceCulture);
+                return ResourceManager.GetString("ModelService_NotInitialized", resourceCulture);
             }
         }
         
@@ -131,6 +95,24 @@ namespace EulerFinancial.Logging.Resources {
         internal static string ModelService_ParentKeyNotSet {
             get {
                 return ResourceManager.GetString("ModelService_ParentKeyNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {@Model} could not be accessed..
+        /// </summary>
+        internal static string ModelService_ReadSingle_Failed {
+            get {
+                return ResourceManager.GetString("ModelService_ReadSingle_Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changes were not saved..
+        /// </summary>
+        internal static string ModelService_SaveChanges_Failed {
+            get {
+                return ResourceManager.GetString("ModelService_SaveChanges_Failed", resourceCulture);
             }
         }
     }

@@ -46,7 +46,7 @@ namespace EulerFinancial.ModelService
         /// <exception cref="ArgumentNullException"><paramref name="model"/> was null.</exception>
         /// <exception cref="InvalidOperationException"><see cref="this.ParentKey"/> is not valid 
         /// for this call.</exception>/// 
-        bool Add(T model);
+        bool AddPendingSave(T model);
 
         /// <summary>
         /// Attaches the given model to the service context as a deletion.
@@ -57,7 +57,7 @@ namespace EulerFinancial.ModelService
         /// <exception cref="ArgumentNullException"><paramref name="model"/> was null.</exception>
         /// <exception cref="InvalidOperationException"><see cref="this.ParentKey"/> is not valid 
         /// for this call.</exception>/// 
-        bool Delete(T model);
+        bool DeletePendingSave(T model);
 
         /// <summary>
         /// Saves pending changes within the service context to the data store.

@@ -1,5 +1,4 @@
 ﻿using EulerFinancial.Context;
-using EulerFinancial.Logging.Resources;
 using EulerFinancial.Model;
 using EulerFinancial.ModelMetadata;
 using Ichosoft.DataModel;
@@ -10,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using EulerFinancial.Logging;
 
 namespace EulerFinancial.ModelService
 {
@@ -55,18 +55,19 @@ namespace EulerFinancial.ModelService
             context.Accounts.Add(model);
 
             var count = await context.SaveChangesAsync();
-            var result = count == 1;
 
             await transaction.CommitAsync();
 
+            var result = count > 0;
+
             if (result)
-                logger.LogInformation(
-                    InformationMessage.Model_Create_Success,
-                    model);
-            else
-                logger.LogWarning(
-                    message: ExceptionMessage.Context_SingleAdd_UnexpectedResult,
-                    count);
+                logger.ModelServiceCreatedModel(
+                    new
+                    {
+                        Type = model.GetType().Name,
+                        Id = model.AccountId,
+                        Code = model.AccountCode
+                    });
 
             return model;
         }
@@ -74,21 +75,36 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>   
         public override async Task<Account> ReadAsync(int? id)
         {
-            var result = await context.Accounts
-                                .Include(a => a.AccountCustodian)
-                                .Include(a => a.AccountNavigation)
-                                .FirstOrDefaultAsync(a => a.AccountId == id);
+            try
+            {
+                var result = await context.Accounts
+                                    .Include(a => a.AccountCustodian)
+                                    .Include(a => a.AccountNavigation)
+                                    .FirstOrDefaultAsync(a => a.AccountId == id);
 
-            if (result is not null)
-                logger.LogInformation(
-                    InformationMessage.Model_Read_Success,
-                    result);
-            else if(id is not null)
-                logger.LogWarning(
-                    ExceptionMessage.Context_SingleRead_Failure,
-                    id);
+                if (result is not null)
+                    logger.ModelServiceReadModel(
+                        model: new
+                        {
+                            Type = typeof(Account).Name,
+                            result.AccountId,
+                            result.AccountCode
+                        });
 
-            return result;
+                return result;
+            }
+            catch(Exception exception)
+            {
+                logger.ModelServiceReadSingleFailed(
+                    model: new
+                    {
+                        Type = typeof(Account).Name,
+                        Id = id
+                    },
+                    exception);
+
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -97,16 +113,16 @@ namespace EulerFinancial.ModelService
             context.Entry(model).State = EntityState.Modified;
 
             var count = await context.SaveChangesAsync();
-            var result = count > 1;
+            var result = count > 0;
 
             if (result)
-                logger.LogInformation(
-                    InformationMessage.Model_Update_Success,
-                    model);
-            else
-                logger.LogWarning(
-                    message: ExceptionMessage.Context_SingleUpdate_UnexpectedResult,
-                    count);
+                logger.ModelServiceUpdatedModel(
+                    model: new
+                    {
+                        Type = typeof(Account).Name,
+                        model.AccountId,
+                        model.AccountCode
+                    });
 
             return result;
         }
@@ -143,26 +159,24 @@ namespace EulerFinancial.ModelService
                     context.AccountObjects.Where(a => a.AccountObjectId == model.AccountId).First());
 
                 var count = await context.SaveChangesAsync();
-                var result = count == 1;
+                var result = count > 0;
 
                 await transaction.CommitAsync();
 
                 if (result)
-                    logger.LogInformation(
-                        InformationMessage.Model_Delete_Success,
-                        model);
-                else
-                    logger.LogWarning(
-                        message: ExceptionMessage.Context_SingleDelete_UnexpectedResult,
-                        count);
+                    logger.ModelServiceDeletedModel(
+                        model: new
+                        {
+                            Type = typeof(Account).Name,
+                            model.AccountId,
+                            model.AccountCode
+                        });
 
-                return true;
+                return result;
             }
             catch (DbUpdateException e)
             {
-                logger.LogError(
-                    exception: e,
-                    message: e.Message);
+                logger.ModelServiceSaveChangesFailed(e);
 
                 return !ModelExists(model.AccountId);
             }
@@ -195,18 +209,23 @@ namespace EulerFinancial.ModelService
         {
             Expression<Func<Account, bool>> expression = x => true;
 
-            logger.LogInformation(
-                message: InformationMessage.ModelSearch_Request_SubmitSuccess,
-                typeof(Account), expression, int.MaxValue);
+            var searchGuid = Guid.NewGuid();
+
+            logger.ModelServiceSearchRequestAccepted(
+                requestGuid: searchGuid,
+                type: typeof(Account),
+                predicate: expression.Body,
+                recordLimit: int.MaxValue);
 
             var result = await context.Accounts
                             .Include(a => a.AccountCustodian)
                             .Include(a => a.AccountNavigation)
                             .ToListAsync();
 
-            logger.LogInformation(
-                message: InformationMessage.ModelSearch_Request_ReturnSuccess,
-                typeof(Account), result.Count);
+            logger.ModelServiceSearchResultReturned(
+                requestGuid: searchGuid,
+                type: typeof(Account),
+                resultCount: result?.Count ?? default);
 
             return result;
         }
@@ -217,9 +236,13 @@ namespace EulerFinancial.ModelService
         {
             maxCount = maxCount < 0 ? int.MaxValue : maxCount;
 
-            logger.LogInformation(
-                message: InformationMessage.ModelSearch_Request_SubmitSuccess,
-                typeof(Account), predicate, maxCount);
+            var searchGuid = Guid.NewGuid();
+
+            logger.ModelServiceSearchRequestAccepted(
+                requestGuid: searchGuid,
+                type: typeof(Account),
+                predicate: predicate.Body,
+                recordLimit: maxCount);
 
             var result = await context.Accounts
                             .Include(a => a.AccountCustodian)
@@ -228,9 +251,10 @@ namespace EulerFinancial.ModelService
                             .Take(maxCount)
                             .ToListAsync();
 
-            logger.LogInformation(
-                message: InformationMessage.ModelSearch_Request_ReturnSuccess,
-                typeof(Account), result.Count);
+            logger.ModelServiceSearchResultReturned(
+                requestGuid: searchGuid,
+                type: typeof(Account),
+                resultCount: result?.Count ?? default);
 
             return result;
         }

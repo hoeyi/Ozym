@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EulerFinancial.Logging.Resources {
+namespace EulerFinancial.Logging.Templates {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace EulerFinancial.Logging.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class DebugMessage {
+    internal class WarningMessage {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DebugMessage() {
+        internal WarningMessage() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Logging.Resources.DebugMessage", typeof(DebugMessage).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Logging.Templates.WarningMessage", typeof(WarningMessage).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,39 +51,12 @@ namespace EulerFinancial.Logging.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {Model} added to context pending save..
-        /// </summary>
-        public static string Context_AddPending_Success {
-            get {
-                return ResourceManager.GetString("Context_AddPending_Success", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {Model} deleted from context pending save..
-        /// </summary>
-        public static string Context_DeletePending_Success {
-            get {
-                return ResourceManager.GetString("Context_DeletePending_Success", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {Controller} initialized..
-        /// </summary>
-        public static string Controller_Create_Success {
-            get {
-                return ResourceManager.GetString("Controller_Create_Success", resourceCulture);
             }
         }
     }

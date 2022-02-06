@@ -8,9 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using EulerFinancial.Logging.Resources;
-using Ichosoft.Extensions.Common.Logging;
-using Ichosoft.DataModel.Annotations;
+using EulerFinancial.Logging;
 
 namespace EulerFinancial.ModelService
 {
@@ -77,44 +75,56 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public override bool Add(AccountWallet model)
+        public override bool AddPendingSave(AccountWallet model)
         {
             model.AccountId = ParentKey;
             context.AccountWallets.Add(model);
 
-            EntityState expectedState = context.Entry(model).State;
+            EntityState observedState = context.Entry(model).State;
 
-            bool result = expectedState == EntityState.Added;
+            bool result = observedState == EntityState.Added;
+
+            object m = new
+            {
+                Type = typeof(AccountWallet).Name,
+                model.AccountWalletId,
+                model.AccountId
+            };
 
             if (result)
             {
-                logger.LogDebug(message: DebugMessage.Context_AddPending_Success, model);
+                logger.ModelServiceAddedPendingSave(m);
             }
             else
             {
-                logger.LogDebug(message: ExceptionMessage.Context_Add_UnexpectedState,
-                    model, EntityState.Deleted, expectedState);
+                logger.ModelServiceAddReturnedInvalidState(m, EntityState.Added, observedState);
             }
             return result;
         }
 
         /// <inheritdoc/>
-        public override bool Delete(AccountWallet model)
+        public override bool DeletePendingSave(AccountWallet model)
         {
             context.AccountWallets.Remove(model);
 
-            EntityState expectedState = context.Entry(model).State;
+            EntityState observedState = context.Entry(model).State;
 
-            bool result = expectedState == EntityState.Deleted;
+            bool result = observedState == EntityState.Deleted;
 
-            if(result)
+            object m = new
             {
-                logger.LogDebug(message: DebugMessage.Context_DeletePending_Success, model);
+                Type = typeof(AccountWallet).Name,
+                model.AccountWalletId,
+                model.AccountId
+            };
+
+            if (result)
+            {
+                logger.ModelServiceDeletedPendingSave(m);
             }
             else
             {
-                logger.LogDebug(message: ExceptionMessage.Context_Delete_UnexpectedState,
-                    model, EntityState.Deleted, expectedState);
+                logger.ModelServiceDeleteReturnedInvalidState(m, EntityState.Deleted, observedState);
             }
             return result;
         }
@@ -125,9 +135,13 @@ namespace EulerFinancial.ModelService
         {
             maxCount = maxCount < 0 ? int.MaxValue : maxCount;
 
-            logger.LogInformation(
-                message: InformationMessage.ModelSearch_Request_SubmitSuccess,
-                typeof(AccountWallet), predicate, maxCount);
+            var searchGuid = Guid.NewGuid();
+
+            logger.ModelServiceSearchRequestAccepted(
+                requestGuid: searchGuid,
+                type: typeof(AccountWallet),
+                predicate: predicate.Body,
+                recordLimit: maxCount);
 
             var result = await context.AccountWallets
                             .Include(a => a.Account)
@@ -136,9 +150,10 @@ namespace EulerFinancial.ModelService
                             .Where(predicate)
                             .ToListAsync();
 
-            logger.LogInformation(
-                message: InformationMessage.ModelSearch_Request_ReturnSuccess,
-                typeof(AccountWallet), result.Count);
+            logger.ModelServiceSearchResultReturned(
+                requestGuid: searchGuid,
+                type: typeof(AccountWallet),
+                resultCount: result?.Count ?? default);
 
             return result;
         }

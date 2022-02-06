@@ -45,14 +45,14 @@ namespace EulerFinancial.ModelService
         /// Deletes the given <paramref name="model"/>.
         /// </summary>
         /// <param name="model">The <typeparamref name="T"/> model to delete.</param>
-        /// <returns><see cref="true"/> if the operation is successful, else false.</returns>
+        /// <returns>True if the operation is successful, else false.</returns>
         Task<bool> DeleteAsync(T model);
 
         /// <summary>
         /// Checks a model with the given <paramref name="id"/> exists.
         /// </summary>
         /// <param name="id">The integer key to match.</param>
-        /// <returns></returns>
+        /// <returns>True if a model whose primary key matches <paramref name="id"/>, else false.</returns>
         bool ModelExists(int? id);
 
         /// <summary>

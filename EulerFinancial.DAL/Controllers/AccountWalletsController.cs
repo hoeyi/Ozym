@@ -1,15 +1,11 @@
 ﻿using EulerFinancial.Model;
 using EulerFinancial.ModelService;
-using EulerFinancial.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-using EulerFinancial.Logging.Resources;
 
 namespace EulerFinancial.Controllers
 {
@@ -27,10 +23,6 @@ namespace EulerFinancial.Controllers
         {
             this.walletService = walletService;
             this.logger = logger;
-
-            this.logger.LogDebug(
-                message: DebugMessage.Controller_Create_Success,
-                typeof(AccountWalletsController));
         }
 
         /// <inheritdoc/>
@@ -38,7 +30,7 @@ namespace EulerFinancial.Controllers
         {
             IActionResult Add()
             {
-                if(walletService.Add(model))
+                if(walletService.AddPendingSave(model))
                 {
                     return Ok();
                 }
@@ -63,7 +55,7 @@ namespace EulerFinancial.Controllers
                     return BadRequest();
                 }
 
-                if (walletService.Delete(model))
+                if (walletService.DeletePendingSave(model))
                     return Ok();
                 else
                     return Conflict();

@@ -34,6 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Logging\Templates\WarningMessage.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WarningMessage.resx</DependentUpon>
+    </Compile>
     <Compile Update="ModelMetadata\Resources\ModelDisplay.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -44,7 +49,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ModelNoun.resx</DependentUpon>
     </Compile>
-    <Compile Update="Logging\Resources\DebugMessage.Designer.cs">
+    <Compile Update="Logging\Templates\DebugMessage.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DebugMessage.resx</DependentUpon>
@@ -54,17 +59,22 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ModelValidation.resx</DependentUpon>
     </Compile>
+    <Compile Update="Exceptions\ExceptionString.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExceptionString.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\DefaultConfiguration.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DefaultConfiguration.resx</DependentUpon>
     </Compile>
-    <Compile Update="Logging\Resources\ExceptionMessage.Designer.cs">
+    <Compile Update="Logging\Templates\ExceptionMessage.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionMessage.resx</DependentUpon>
     </Compile>
-    <Compile Update="Logging\Resources\InformationMessage.Designer.cs">
+    <Compile Update="Logging\Templates\InformationMessage.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>InformationMessage.resx</DependentUpon>
@@ -82,6 +92,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Logging\Templates\WarningMessage.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>WarningMessage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="ModelMetadata\Resources\ModelDisplay.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ModelDisplay.Designer.cs</LastGenOutput>
@@ -90,7 +104,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ModelNoun.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Logging\Resources\DebugMessage.resx">
+    <EmbeddedResource Update="Logging\Templates\DebugMessage.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DebugMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -98,15 +112,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ModelValidation.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Exceptions\ExceptionString.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\DefaultConfiguration.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DefaultConfiguration.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Logging\Resources\ExceptionMessage.resx">
+    <EmbeddedResource Update="Logging\Templates\ExceptionMessage.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Logging\Resources\InformationMessage.resx">
+    <EmbeddedResource Update="Logging\Templates\InformationMessage.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>InformationMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>

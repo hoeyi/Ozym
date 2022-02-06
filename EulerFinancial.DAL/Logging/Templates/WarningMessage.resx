@@ -117,31 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Context_Add_UnexpectedState" xml:space="preserve">
-    <value>{Model} addition to context did not yield the expected entity state.
-Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;</value>
-  </data>
-  <data name="Context_Delete_UnexpectedState" xml:space="preserve">
-    <value>{Model} deletion from context did not yield expected the entity state.
-Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;</value>
-  </data>
-  <data name="Context_Save_Failure" xml:space="preserve">
-    <value>Changes were not saved.</value>
-  </data>
-  <data name="Context_SingleAdd_UnexpectedResult" xml:space="preserve">
-    <value>Addition affected the state of {Count} records. Expected 1.</value>
-  </data>
-  <data name="Context_SingleDelete_UnexpectedResult" xml:space="preserve">
-    <value>Delete affected the state of {Count} records. Expected 1.</value>
-  </data>
-  <data name="Context_SingleRead_Failure" xml:space="preserve">
-    <value>Model {Id} could not be accessed.</value>
-    <comment>{Id} the unique identifier for the model</comment>
-  </data>
-  <data name="Context_SingleUpdate_UnexpectedResult" xml:space="preserve">
-    <value>Update affected the state of {Count} records. Expected 1.</value>
-  </data>
-  <data name="ModelService_ParentKeyNotSet" xml:space="preserve">
-    <value>The parent key for {Service} has not been set.</value>
-  </data>
 </root>

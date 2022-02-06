@@ -1,7 +1,5 @@
-﻿using EulerFinancial.Controllers;
-using EulerFinancial.Model;
+﻿using EulerFinancial.Model;
 using EulerFinancial.ModelService;
-using EulerFinancial.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -9,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using EulerFinancial.Logging.Resources;
 
 namespace EulerFinancial.Controllers
 {
@@ -18,15 +15,12 @@ namespace EulerFinancial.Controllers
     /// </summary>
     public partial class AccountsController : ControllerBase, IAccountController
     {
-        private readonly IModelService<Account> accountService;
+        private readonly IAccountService accountService;
         private readonly ILogger logger;
         public AccountsController(IAccountService accountService, ILogger logger)
         {
             this.accountService = accountService;
             this.logger = logger;
-
-            this.logger.LogDebug(
-                message: DebugMessage.Controller_Create_Success, typeof(AccountsController));
         }
 
         /// <inheritdoc/>

@@ -1,13 +1,12 @@
 ﻿using EulerFinancial.Context;
-using EulerFinancial.Resources;
 using Ichosoft.DataModel;
-using Ichosoft.Extensions.Common.Logging;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using EulerFinancial.Logging.Resources;
+using EulerFinancial.Exceptions;
+using EulerFinancial.Logging;
 
 namespace EulerFinancial.ModelService
 {
@@ -74,13 +73,10 @@ namespace EulerFinancial.ModelService
             {
                 if (parentKey is null)
                 {
-                    Exception e = new InvalidOperationException(string.Format(
-                        ExceptionMessage.ModelService_ParentKeyNotSet, this));
+                    Exception e = new InvalidOperationException(
+                        message: ExceptionString.ModelService_ParentKeyNotSet);
 
-                    logger.LogError(
-                        message: ExceptionMessage.ModelService_ParentKeyNotSet
-                            .ConvertToLogTemplate("Service"),
-                        args: this);
+                    logger.ModelServiceNotInitialized(service: GetType().Name, e);
 
                     throw e;
                 }
@@ -104,10 +100,10 @@ namespace EulerFinancial.ModelService
         public abstract bool ModelExists(T model);
 
         /// <inheritdoc/>
-        public abstract bool Add(T model);
+        public abstract bool AddPendingSave(T model);
 
         /// <inheritdoc/>
-        public abstract bool Delete(T model);
+        public abstract bool DeletePendingSave(T model);
 
         /// <inheritdoc/>
         public abstract Task<int> SaveChanges();
@@ -115,10 +111,5 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public abstract Task<List<T>> SelectWhereAysnc(
             Expression<Func<T, bool>> predicate, int maxCount = 0);
-
-        protected virtual void ValidateParentKeyOrThrow()
-        {
-
-        }
     }
 }

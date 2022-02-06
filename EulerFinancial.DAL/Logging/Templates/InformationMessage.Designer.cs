@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EulerFinancial.Logging.Resources {
+namespace EulerFinancial.Logging.Templates {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EulerFinancial.Logging.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Logging.Resources.InformationMessage", typeof(InformationMessage).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Logging.Templates.InformationMessage", typeof(InformationMessage).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,74 +61,68 @@ namespace EulerFinancial.Logging.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changes successfully saved..
+        ///   Looks up a localized string similar to {@Model} created..
         /// </summary>
-        internal static string Context_Save_Success {
+        internal static string ModelService_CreatedSingle {
             get {
-                return ResourceManager.GetString("Context_Save_Success", resourceCulture);
+                return ResourceManager.GetString("ModelService_CreatedSingle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {Model} created..
+        ///   Looks up a localized string similar to {@Model} deleted..
         /// </summary>
-        internal static string Model_Create_Success {
+        internal static string ModelService_DeletedSingle {
             get {
-                return ResourceManager.GetString("Model_Create_Success", resourceCulture);
+                return ResourceManager.GetString("ModelService_DeletedSingle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {Model} deleted..
+        ///   Looks up a localized string similar to {@Model} accessed..
         /// </summary>
-        internal static string Model_Delete_Success {
+        internal static string ModelService_ReadSingle {
             get {
-                return ResourceManager.GetString("Model_Delete_Success", resourceCulture);
+                return ResourceManager.GetString("ModelService_ReadSingle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {Model} accessed..
+        ///   Looks up a localized string similar to Changes successfully saved. {Count} records added/updated/deleted..
         /// </summary>
-        internal static string Model_Read_Success {
+        internal static string ModelService_SavedChanges {
             get {
-                return ResourceManager.GetString("Model_Read_Success", resourceCulture);
+                return ResourceManager.GetString("ModelService_SavedChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search requested for {Type} with arguments:
+        ///(Body = {Body}; Limit = {Limit}).
+        ///(Request = {RequestGuid}).
+        /// </summary>
+        internal static string ModelService_SearchRequestAccepted {
+            get {
+                return ResourceManager.GetString("ModelService_SearchRequestAccepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {Type} search returned {Count} records. 
+        ///(Request = {RequestGuid}).
+        /// </summary>
+        internal static string ModelService_SearchResultReturned {
+            get {
+                return ResourceManager.GetString("ModelService_SearchResultReturned", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {@Model} updated..
         /// </summary>
-        internal static string Model_Update_Success {
+        internal static string ModelService_UpdatedSingle {
             get {
-                return ResourceManager.GetString("Model_Update_Success", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {ModelType} changes saved. {Count} records added/updated/deleted..
-        /// </summary>
-        internal static string ModelBatch_Save_Success {
-            get {
-                return ResourceManager.GetString("ModelBatch_Save_Success", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {ModelType} search returned {Count} records..
-        /// </summary>
-        internal static string ModelSearch_Request_ReturnSuccess {
-            get {
-                return ResourceManager.GetString("ModelSearch_Request_ReturnSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search requested for {ModelType} matching {Expression} with with limit {MaxCount}..
-        /// </summary>
-        internal static string ModelSearch_Request_SubmitSuccess {
-            get {
-                return ResourceManager.GetString("ModelSearch_Request_SubmitSuccess", resourceCulture);
+                return ResourceManager.GetString("ModelService_UpdatedSingle", resourceCulture);
             }
         }
     }
