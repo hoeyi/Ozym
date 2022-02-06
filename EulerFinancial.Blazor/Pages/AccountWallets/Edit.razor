@@ -4,20 +4,20 @@
 @inject IAccountWalletsController Controller
 @inject IReferenceDataService ReferenceData
 
-<PageTitle>@PageTitle</PageTitle>
+<PageTitle>@PageTitle.AsPageTitle()</PageTitle>
 <div><h4>@PageTitle</h4></div>
 <hr />
 
 @if (IsLoading)
 {
-    <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
+    <p><em>@StringResource.Page_Loading_Caption</em></p>
 }
 else
 {
-    <a class="link-button" href="" @onclick=@(args => HandleValidSubmit(args)) @onclick:preventDefault>
-        @Resources.UserInterfaceString.Save_Button_Caption
+    <a class="link-button" href="" @onclick=@(args => SubmitClicked(args)) @onclick:preventDefault>
+        @StringResource.Button_Save_Caption
     </a>
-    <EditForm id="edit-list" Model=@Wallets >
+@*    <EditForm id="edit-list" Model=@Wallets>
         <DataAnnotationsValidator />
         <ValidationSummary />
         <table class="editable-list">
@@ -61,9 +61,61 @@ else
             </tbody>
             <tfoot>
                 <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
-                    @Resources.UserInterfaceString.DataGrid_NewLine_Caption
+                    @StringResource.DataGrid_NewLine_Caption
                 </button>
             </tfoot>
+        </table>
+    </EditForm>*@
+    <EditForm class="edit-form-list" 
+        Model=@Wallets 
+        OnValidSubmit="@HandleValidSubmit" 
+        OnInvalidSubmit="@HandleInvalidSubmit">
+        <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
+            @StringResource.DataGrid_NewLine_Caption
+        </button>
+        <DataAnnotationsValidator />
+        @if (displayValidationErrorMessages)
+        {
+            <div class="col-md-4" style="margin-top:10px">
+                <label>Validation Messages: </label>
+                <ValidationSummary />
+            </div>
+        }
+        <table class="editable-list">
+            <thead>
+                <tr>
+                    <th id="denomination-header">
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
+                    </th>
+                    <th id="addresscode-header">
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
+                    </th>
+                    <th id="addresstag-header">
+                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
+                    </th>
+                </tr>
+            </thead>
+            <ObjectList TItem="AccountWallet" Data=@Wallets Context="itemContext">
+                <tr>
+                    <td>
+                        <InputSelect class="form-control" id="denomination-select" @bind-Value=itemContext.DenominationSecurityId>
+                            @foreach (var security in DenominationSecurities)
+                            {
+                                <option value=@security.SecurityId>@security.SecurityDescription</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For=@(()=> itemContext.DenominationSecurityId) />
+                    </td>
+                    <td>
+                        <InputText class="form-control" id="addresscode-text" @bind-Value=itemContext.AddressCode />
+                        <ValidationMessage For=@(()=> itemContext.AddressCode) />
+                    </td>
+                    <td>
+                        <InputText class="form-control" id="addresstag-text" @bind-Value=itemContext.AddressTag />
+                        <ValidationMessage For=@(()=> itemContext.AddressTag) />
+                    </td>
+                </tr>
+            </ObjectList>
         </table>
     </EditForm>
 }
@@ -84,11 +136,12 @@ else
     private IEnumerable<Security> DenominationSecurities { get; set; }
 
     /// <inheritdoc/>
-    protected override string PageTitle => string.Format(
-        Resources.PageMetadata.AccountWallets_Edit_Title,
-        parent?.AccountCode?.ToUpper());
+    protected override string PageTitle => StringResource
+        .Title_AccountWalletsEdit.Format(parent?.AccountCode?.ToUpper());
 
     private Account parent;
+
+    private bool displayValidationErrorMessages;
 
     protected override async Task OnInitializedAsync()
     {
@@ -135,7 +188,18 @@ else
         // TODO: interpret the response.
     }
 
-    private async Task<int> HandleValidSubmit(MouseEventArgs args)
+    private void HandleValidSubmit(EditContext context)
+    {
+        displayValidationErrorMessages = false;
+    }
+
+    private void HandleInvalidSubmit(EditContext context)
+    {
+        displayValidationErrorMessages = true;
+    }
+
+
+    private async Task<int> SubmitClicked(MouseEventArgs args)
     {
         var saveResult = await Controller.SaveChanges();
 

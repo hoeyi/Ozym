@@ -117,35 +117,56 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateNew_Button_Caption" xml:space="preserve">
+  <data name="Button_Create_Caption" xml:space="preserve">
     <value>New</value>
+  </data>
+  <data name="Button_Delete_Caption" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Button_Edit_Caption" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Button_Index_Caption" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="Button_Save_Caption" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Button_Search_Caption" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="DataGrid_NewLine_Caption" xml:space="preserve">
     <value>New line</value>
   </data>
-  <data name="Delete_Button_Caption" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="Edit_Button_Caption" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="Index_Button_Caption" xml:space="preserve">
-    <value>Index</value>
-  </data>
-  <data name="PageTitle.NotFound" xml:space="preserve">
-    <value>(No title)</value>
+  <data name="InputSelect_SearchField_Caption" xml:space="preserve">
+    <value>Search for:</value>
   </data>
   <data name="Page_Loading_Caption" xml:space="preserve">
     <value>Loading...</value>
   </data>
-  <data name="Save_Button_Caption" xml:space="preserve">
-    <value>Save</value>
+  <data name="Title_AccountCreate" xml:space="preserve">
+    <value>Create new account</value>
   </data>
-  <data name="Search_Button_Caption" xml:space="preserve">
-    <value>Search</value>
+  <data name="Title_AccountDetail" xml:space="preserve">
+    <value>{0}: Details</value>
+    <comment>{0} is the account identifier</comment>
   </data>
-  <data name="Search_FieldSelector_Caption" xml:space="preserve">
-    <value>Search for:</value>
+  <data name="Title_AccountEdit" xml:space="preserve">
+    <value>{0}: Edit</value>
+    <comment>{0} ist he account identifier</comment>
+  </data>
+  <data name="Title_AccountIndex" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="Title_AccountWalletsEdit" xml:space="preserve">
+    <value>{0}: Edit wallets</value>
+    <comment>{0} is the account identifier</comment>
+  </data>
+  <data name="Title_ApplicationHome" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Title_NotFound" xml:space="preserve">
+    <value>(No title)</value>
   </data>
   <data name="User_NotAuthenticated_Caption" xml:space="preserve">
     <value>Not authenticated</value>

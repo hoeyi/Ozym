@@ -1,4 +1,5 @@
 ﻿using EulerFinancial.Blazor.Components.Generic;
+using EulerFinancial.UserInterface;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Serilog;
@@ -36,13 +37,7 @@ namespace EulerFinancial.Blazor.Components.Abstractions
         }
 
         /// <inheritdoc/>
-        protected override string PageTitle
-        {
-            get
-            {
-                return Resources.PageMetadata.Title_Not_Found;
-            }
-        }
+        protected override string PageTitle => StringResource.Title_NotFound;
 
         /// <summary>
         /// Redirects the focus to the model index page.

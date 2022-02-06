@@ -2,20 +2,20 @@
 
 @inherits ModelIndex<Account>
 
-<PageTitle>@PageTitle</PageTitle>
+<PageTitle>@PageTitle.AsPageTitle()</PageTitle>
 <div><h4>@PageTitle</h4></div>
 
 <div>
     <a class="link-button" href="@($"{PageIndexUri}/Create")" 
         @onclick="@(args => NavigateToCreate($"{Guid.NewGuid()}"))"
         @onclick:preventDefault>
-        @Resources.UserInterfaceString.CreateNew_Button_Caption
+        @StringResource.Button_Create_Caption
     </a>
 </div>
 
 @if (IsLoading)
 {
-    <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
+    <p><em>@StringResource.Page_Loading_Caption</em></p>
 }
 else
 {
@@ -100,7 +100,7 @@ else
 
 @code {
     /// <inheritdoc/>
-    protected override string PageTitle => Resources.PageMetadata.Account_Index_Title;
+    protected override string PageTitle => StringResource.Title_AccountIndex;
 
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()

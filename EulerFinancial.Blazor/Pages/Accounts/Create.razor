@@ -4,13 +4,13 @@
 
 @inject IReferenceDataService ReferenceData
 
-<PageTitle>@PageTitle</PageTitle>
+<PageTitle>@PageTitle.AsPageTitle()</PageTitle>
 <div><h4>@PageTitle</h4></div>
 <hr/>
 
 @if (IsLoading)
 {
-    <p><em>@Resources.UserInterfaceString.Page_Loading_Caption</em></p>
+    <p><em>@StringResource.Page_Loading_Caption</em></p>
 }
 else
 {
@@ -18,7 +18,7 @@ else
         <a class="link-button" href="@($"{PageIndexUri}")"
             @onclick="@(args => NavigateToIndex(args))"
             @onclick:preventDefault>
-            @Resources.UserInterfaceString.Index_Button_Caption
+            @StringResource.Button_Index_Caption
         </a>
     </div>
     <hr />
@@ -30,7 +30,7 @@ else
     </div>
     <div>
         <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
-            @Resources.UserInterfaceString.Save_Button_Caption
+            @StringResource.Button_Save_Caption
         </button>
     </div>
 }
@@ -40,7 +40,7 @@ else
     public Guid RequestGuid { get; set; }
 
     /// <inheritdoc/>
-    protected override string PageTitle => Resources.PageMetadata.Account_Create_Title;
+    protected override string PageTitle => StringResource.Title_AccountCreate;
 
     private IEnumerable<AccountCustodian> Custodians { get; set; }
 
@@ -62,8 +62,6 @@ else
 
     private async Task HandleValidSubmit(MouseEventArgs args)
     {
-        Logger.Information("HandleValidSubmit called");
-
         int defaultId = Model.AccountId;
 
         var result = await Controller.CreateAsync(Model);
