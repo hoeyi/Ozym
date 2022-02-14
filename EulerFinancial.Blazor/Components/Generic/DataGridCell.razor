@@ -1,0 +1,51 @@
+﻿@typeparam TModel
+
+@inherits LocalizedComponent
+
+if(@DataGridColumn is not null && DataGridRow is not null)
+{
+    <td>
+        <CascadingValue Value=this>
+            @ChildContent
+        </CascadingValue>
+    </td>
+}
+
+
+@code{
+    /// <summary>
+    /// Gets or sets the parent <see cref="DataGridColumn{TModel}"/> for this cell.
+    /// </summary>
+    [Parameter]
+    public DataGridColumn<TModel> DataGridColumn { get; set; }
+
+    /// <summary>
+    /// Gets or sets the parent <see cref="DataGridRow{TModel}"/> for this cell.
+    /// </summary>
+    [Parameter]
+    public DataGridRow<TModel> DataGridRow { get; set; }
+
+    /// <summary>
+    /// Gets or sets the parent <see cref="DataGrid{TModel}"/> for this cell.
+    /// </summary>
+    [Parameter]
+    public DataGrid<TModel> DataGrid { get; set; }
+
+    /// <summary>
+    /// Gets or sets the model bound to this cell.
+    /// </summary>
+    [Parameter]
+    public TModel Model { get; set; } = default(TModel)!;
+
+    /// <summary>
+    /// Gets or sets the edit context for this cell.
+    /// </summary>
+    [Parameter]
+    public EditContext EditContext { get; set; }
+
+    /// <summary>
+    /// Gets or sets the child content to render for this cell.
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

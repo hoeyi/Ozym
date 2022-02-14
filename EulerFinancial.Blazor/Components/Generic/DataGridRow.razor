@@ -1,0 +1,45 @@
+﻿@typeparam TModel
+@attribute [CascadingTypeParameter(nameof(TModel))]
+
+@inherits LocalizedComponent
+
+<tr>
+    @foreach (var column in DataGrid.Columns.OrderBy(c => c.Index))
+    {
+        @if(column.CellTemplate is null)
+        {
+            <td>@column.GetValue(Model)</td>
+        }
+        else
+        {
+            @column.CellTemplate(Model)
+        }
+    }
+</tr>
+
+
+@code {
+    /// <summary>
+    /// Gets or sets the parent <see cref="DataGrid{TModel}"/> for this row.
+    /// </summary>
+    [CascadingParameter]
+    public DataGrid<TModel> DataGrid { get; set; }
+
+    /// <summary>
+    /// Gets or sets the model bound to this cell.
+    /// </summary>
+    [Parameter]
+    public TModel Model { get; set; } = default(TModel)!;
+
+    /// <summary>
+    /// Gets or sets the edit context for this cell.
+    /// </summary>
+    [CascadingParameter]
+    public EditContext EditContext { get; set; }
+
+    /// <summary>
+    /// Gets or sets the child content to render for this cell.
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

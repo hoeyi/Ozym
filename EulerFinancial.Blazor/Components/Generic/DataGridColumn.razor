@@ -1,13 +1,80 @@
-﻿@code {
-    [Parameter]
-    public string Field { get; set; }
+﻿@typeparam TModel
+@attribute [CascadingTypeParameter(nameof(TModel))]
 
+@inherits LocalizedComponent
+
+ <CascadingValue Value=this.DataGrid />
+
+@code{
+    /// <summary>
+    /// Gets or sets the index of this 
+    /// </summary>
+    public int Index { get; set; }
+
+    /// <summary>
+    /// Gets or sets the parent <see cref"DataGrid{TModel}"/> for this column.
+    /// </summary>
     [CascadingParameter]
-    private DataGrid Parent { get; set; }
+    public DataGrid<TModel> DataGrid { get; set; }
+
+    [Parameter]
+    public RenderFragment Columns { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether this column is visible.
+    /// </summary>
+    [Parameter]
+    public bool Visible { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the header text for this column.
+    /// </summary>
+    [Parameter]
+    public string Caption { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the property path for the value bound to this column.
+    /// </summary>
+    [Parameter]
+    public string Property { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the tool-tip text that describes this column.
+    /// </summary>
+    [Parameter]
+    public string ToolTip { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the string format for the data type of this column.
+    /// </summary>
+    [Parameter]
+    public string Format { get; set; }
+
+    [Parameter]
+    public RenderFragment<TModel> CellTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment<TModel> CellEditTemplate { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        DataGrid.AddColumn(this);
+
+        return base.OnInitializedAsync();
+    }
 
     protected override void OnInitialized()
     {
+        DataGrid.AddColumn(this);
+
         base.OnInitialized();
-        Parent.AddColumn(this); //register child into parent
+    }
+
+    public object GetValue(TModel model)
+    {
+        if (model is null)
+            throw new ArgumentNullException(paramName: nameof(model));
+
+        return PropertyAccessor.GetValue<TModel>(Property, model);
     }
 }

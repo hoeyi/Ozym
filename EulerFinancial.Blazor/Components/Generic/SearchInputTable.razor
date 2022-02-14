@@ -9,7 +9,7 @@
 	<table class="table parameter-table">
 		<tbody>
 			<tr>
-				<td><label>@Generic.Resources.Captions.Search_FieldSelector</label></td>
+				<td><label>@Resources.Captions.Search_FieldSelector</label></td>
 				<td>
 					<select class="form-control selectpicker" @bind="@CurrentSearchMemberName" id="SearchFieldSelect">
 						@foreach (var field in SearchFields)
@@ -32,7 +32,7 @@
 				</td>
 				<td>
 					<button class="btn btn-primary" @onclick="@(args => SearchSubmitted(args))">
-						@Generic.Resources.Captions.Search_Button
+						@Resources.Captions.Search_Button
 					</button>
 				</td>
 			</tr>

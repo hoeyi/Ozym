@@ -1,44 +1,83 @@
-﻿<CascadingValue Value="this">
-    <table class="table">
+﻿@typeparam TModel
+@attribute [CascadingTypeParameter(nameof(TModel))]
+
+@inherits LocalizedComponent
+
+
+<CascadingValue IsFixed=true Value=this>
+    @ChildContent
+    <table style="width:100%">
+        <thead>
+            <tr id="test">
+                @*Create column headers...*@
+                @foreach (var column in Columns.Where(c => c.Visible))
+                {
+                    <th id=@column.Index>
+                        @column.Property
+                    </th>
+                }
+            </tr>
+        </thead>
         <tbody>
-            @ChildContent
-            @foreach (var item in DataSource)
+            @foreach (var model in Data)
             {
-                @RowItem(item)
+                <DataGridRow Model=model />
             }
         </tbody>
     </table>
-</CascadingValue>
 
+</CascadingValue>
 @code {
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public IEnumerable<TModel> Data { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the edit context for this cell.
+    /// </summary>
     [Parameter]
-    public IEnumerable<object> DataSource { get; set; }
+    public EditContext EditContext { get; set; } = null!;
 
-    List<DataGridColumn> Columns = new List<DataGridColumn>();
-    public void AddColumn(DataGridColumn column)
-    {
-        Columns.Add(column);
-        StateHasChanged();
-    }
+    /// <summary>
+    /// Gets or sets the child content for this grid. Column defintions must be provided here.
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = null!;
 
-    private RenderFragment RowItem(object row)
+    public IList<DataGridColumn<TModel>> Columns { get; set; } =
+        new List<DataGridColumn<TModel>>();
+
+    /// <summary>
+    /// Gets or sets whether the grid is currently in edit mode.
+    /// </summary>
+    internal bool IsInEditMode { get; set; }
+
+    /// <summary>
+    /// Adds the given column to the data grid collection.
+    /// </summary>
+    /// <param name="gridColumn">The <see cref="DataGridColumn{TModel}"/> to add.</param>
+    /// <exception cref="ArgumentNullException"><param name="gridColumn"/> was null.</exception>
+    internal void AddColumn(DataGridColumn<TModel> gridColumn)
     {
-        int i = 0;
-        return b =>          // create dynamically
+        if (gridColumn is null)
+            throw new ArgumentNullException(paramName: nameof(gridColumn));
+
+        if (!Columns.Contains(gridColumn))
         {
-            b.OpenElement(++i, "tr");
-            foreach (var column in Columns)
-            {
-                b.OpenElement(++i, "td");
-                var val = row.GetType().GetProperty(column.Field)
-                          .GetValue(row, null).ToString();
-                b.AddContent(++i, val);
-                b.CloseElement();
-            }
-            b.CloseElement();
-        };
+            gridColumn.Index = Columns.Count + 1;
+            Columns.Add(gridColumn);
+        }
     }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // The first render will instantiate the GridColumn defined in the ChildContent.
+            // GridColumn calls AddColumn during its initialization. This means that until
+            // the first render is completed, the columns collection is empty.
+            // Calling StateHasChanged() will re-render the component, so the second time it will know the columns
+            StateHasChanged();
+        }
+    }
+
 }
