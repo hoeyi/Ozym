@@ -38,8 +38,10 @@ namespace EulerFinancial.Controllers
                 
                 return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException due)
             {
+                logger.LogError(exception: due, message: due.Message);
+
                 if (accountService.ModelExists(model?.AccountId))
                 {
                     return Conflict();

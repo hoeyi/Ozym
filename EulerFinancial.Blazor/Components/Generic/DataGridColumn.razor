@@ -50,6 +50,12 @@
     [Parameter]
     public string Format { get; set; }
 
+    /// <summary>
+    /// Gets or sets the attributes to apply to the underlying <th> element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> ColumnAttributes { get; set; }
+
     [Parameter]
     public RenderFragment<TModel> CellTemplate { get; set; }
 

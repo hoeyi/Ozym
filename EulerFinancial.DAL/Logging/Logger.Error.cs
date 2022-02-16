@@ -47,7 +47,15 @@ namespace EulerFinancial.Logging
                         logLevel: LogLevel.Error,
                         eventId: new EventId(404, name: nameof(ModelServiceNotInitialized)),
                         formatString: ExceptionMessage.ModelService_NotInitialized);
-                    
+
+        private static readonly Action<ILogger, object, Exception>
+            _modelServiceInitializationFailed =
+                LoggerMessage
+                    .Define<object>(
+                        logLevel: LogLevel.Error,
+                        eventId: new EventId(405, name: nameof(ModelServiceInitializationFailed)),
+                        formatString: ExceptionMessage.ModelService_InitializationFailed);
+
         /// <summary>
         /// Creates an error-level entry representing an addition that resulted in a model 
         /// <see cref="EntityState"/> not equal to the expectation.
@@ -76,9 +84,7 @@ namespace EulerFinancial.Logging
             object model,
             EntityState expected,
             EntityState observed)
-        {
-
-        }
+            => _modelServiceDeleteReturnedInvalidState(logger, model, expected, observed, null);
 
         /// <summary>
         /// Creates an error-level entry representing a failure in a model services 'Save' method.
@@ -113,6 +119,17 @@ namespace EulerFinancial.Logging
             object service,
             Exception exception)
             => _modelServiceNotInitialized(logger, service, exception);
+
+        /// <summary>
+        /// Creates an error-level entry representing an error during model service initialization.
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="service">An object identifying the service that is the source of the error.</param>
+        public static void ModelServiceInitializationFailed(
+            this ILogger logger,
+            object service)
+            => _modelServiceInitializationFailed(logger, service, null);
+
     }
 
     #endregion

@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using EulerFinancial.Exceptions;
+using System.Net;
+using EulerFinancial.Logging;
 
 namespace EulerFinancial.Controllers
 {
@@ -26,7 +29,7 @@ namespace EulerFinancial.Controllers
         }
 
         /// <inheritdoc/>
-        public async Task<IActionResult> Add(AccountWallet model)
+        public async Task<IActionResult> AddAsync(AccountWallet model)
         {
             IActionResult Add()
             {
@@ -46,7 +49,7 @@ namespace EulerFinancial.Controllers
         }
 
         /// <inheritdoc/>
-        public async Task<IActionResult> Delete(AccountWallet model)
+        public async Task<IActionResult> DeleteAsync(AccountWallet model)
         {
             IActionResult Delete()
             {
@@ -67,7 +70,7 @@ namespace EulerFinancial.Controllers
         }
 
         /// <inheritdoc/>
-        public async Task<ActionResult<AccountWallet>> GetDefault()
+        public async Task<ActionResult<AccountWallet>> GetDefaultAsync()
         {
             return await walletService.GetDefault();
         }
@@ -78,15 +81,31 @@ namespace EulerFinancial.Controllers
             if (walletService.Initialize(parentKey))
                 return Ok();
             else
+            {
+                logger.ModelServiceInitializationFailed(service: new
+                {
+                    Service = walletService.GetType().Name,
+                    KeyType = parentKey.GetType().Name,
+                    KeyValue = parentKey
+                });
+
                 return Conflict();
+            }
         }
 
         /// <inheritdoc/>
-        public async Task<ActionResult<int>> SaveChanges()
+        public async Task<ActionResult> SaveChangesAsync()
         {
-            var result = await walletService.SaveChanges();
+            try
+            {
+                var result = await walletService.SaveChanges();
 
-            return Ok(result);
+                return NoContent();
+            }
+            catch(ModelUpdateException mue)
+            {
+                return StatusCode(500, mue);
+            }
         }
 
         /// <inheritdoc/>

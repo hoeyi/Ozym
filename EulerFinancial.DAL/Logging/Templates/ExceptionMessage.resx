@@ -125,8 +125,11 @@ Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;</value>
     <value>Deleting {@Model} returned an unexpected state.
 Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;</value>
   </data>
+  <data name="ModelService_InitializationFailed" xml:space="preserve">
+    <value>{@Service} initialized failed.</value>
+  </data>
   <data name="ModelService_NotInitialized" xml:space="preserve">
-    <value>{Service} has not been initialized.(TParentKey)'.</value>
+    <value>{@Service} has not been initialized.</value>
   </data>
   <data name="ModelService_ParentKeyNotSet" xml:space="preserve">
     <value>The parent key for {Service} has not been set.</value>

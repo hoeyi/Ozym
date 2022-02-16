@@ -3,53 +3,70 @@
 
 @inherits LocalizedComponent
 
-
 <CascadingValue IsFixed=true Value=this>
-    @ChildContent
-    <table style="width:100%">
-        <thead>
-            <tr id="test">
-                @*Create column headers...*@
-                @foreach (var column in Columns.Where(c => c.Visible))
+    <CascadingValue IsFixed=true Value="@EditContext">
+
+        @ChildContent
+
+        <table class="datagrid" @attributes="TableAttributes">
+            <thead>
+                <tr class="datagrid-header-row">
+                    @foreach (var column in Columns.Where(c => c.Visible).OrderBy(c => c.Index))
+                    {
+                        <th @attributes="column.ColumnAttributes">
+                            @column.Property
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var model in Data)
                 {
-                    <th id=@column.Index>
-                        @column.Property
-                    </th>
+                    <DataGridRow Model="@model" />
                 }
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var model in Data)
-            {
-                <DataGridRow Model=model />
-            }
-        </tbody>
-    </table>
-
+            </tbody>
+        </table>
+    </CascadingValue>
 </CascadingValue>
-@code {
-    [Parameter]
-    public IEnumerable<TModel> Data { get; set; } = null!;
 
+
+
+@code {
     /// <summary>
     /// Gets or sets the edit context for this cell.
     /// </summary>
-    [Parameter]
-    public EditContext EditContext { get; set; } = null!;
+    [CascadingParameter]
+    public EditContext EditContext { get; set; }
+
+    /// <summary>
+    /// Gets or sets the attributes to apply to the underlying <table> element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> TableAttributes { get; set; }
 
     /// <summary>
     /// Gets or sets the child content for this grid. Column defintions must be provided here.
     /// </summary>
     [Parameter]
-    public RenderFragment ChildContent { get; set; } = null!;
+    public RenderFragment ChildContent { get; set; }
 
-    public IList<DataGridColumn<TModel>> Columns { get; set; } =
+    /// <summary>
+    /// Gets or sets the enumerable collection of <typeparamref name="TModel"/> for this grid.
+    /// </summary>
+    [Parameter]
+    public IEnumerable<TModel> Data { get; set; }
+
+    /// <summary>
+    /// Gets the list of <see cref="DataGridColumn{TModel}"/> objects in this grid.
+    /// </summary>
+    public IList<DataGridColumn<TModel>> Columns { get; private set; } =
         new List<DataGridColumn<TModel>>();
 
     /// <summary>
     /// Gets or sets whether the grid is currently in edit mode.
     /// </summary>
     internal bool IsInEditMode { get; set; }
+
 
     /// <summary>
     /// Adds the given column to the data grid collection.

@@ -81,7 +81,16 @@ namespace EulerFinancial.Logging.Templates {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {Service} has not been initialized.(TParentKey)&apos;..
+        ///   Looks up a localized string similar to {@Service} initialized failed..
+        /// </summary>
+        internal static string ModelService_InitializationFailed {
+            get {
+                return ResourceManager.GetString("ModelService_InitializationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {@Service} has not been initialized..
         /// </summary>
         internal static string ModelService_NotInitialized {
             get {

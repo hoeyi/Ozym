@@ -13,80 +13,129 @@
     <p><em>@StringResource.Page_Loading_Caption</em></p>
 }
 else
-{
+{   if(!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="error-text">@errorMessage</div>
+    }
+    <EditForm Model="@Wallets">
+        <a class="link-button" href="" @onclick=@(args => HandleSubmit(context, args)) @onclick:preventDefault>
+            @StringResource.Button_Save_Caption
+        </a>
+        <div>
+            <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
+                @StringResource.DataGrid_NewLine_Caption.Format(
+            ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
+            </button>
+        </div>
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+        <span>
+            <DataGrid Data="@Wallets" class="datagrid-editable">
+                <DataGridColumn 
+                    Property="@nameof(AccountWallet.DenominationSecurityId)"
+                    width="20%">
+                    <CellTemplate Context="model">
+                        <InputSelect class="form-control" id="denomination-select" @bind-Value="@model.DenominationSecurityId">
+                            @foreach (var security in DenominationSecurities)
+                                    {
+                                    <option value=@security.SecurityId>@security.SecurityDescription</option>
+                                    }
+                            </InputSelect>
+                            <ValidationMessage For=@(()=> model.DenominationSecurityId) />
+                        </CellTemplate>
+                    </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(AccountWallet.AddressCode)"
+                    width="45%">
+                        <CellTemplate Context="model">
+                            <InputText class="form-control" id="addresscode-text" @bind-Value="@model.AddressCode" />
+                            <ValidationMessage For=@(()=> model.AddressCode) />
+                        </CellTemplate>
+                    </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(AccountWallet.AddressTag)"
+                    width="35%">
+                        <CellTemplate Context="model">
+                            <InputText class="form-control" id="addresscode-text" @bind-Value="@model.AddressTag" />
+                            <ValidationMessage For=@(()=> model.AddressTag) />
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+        </span>
+    </EditForm>
+
     @*    <EditForm id="edit-list" Model=@Wallets>
         <DataAnnotationsValidator />
         <ValidationSummary />
         <table class="editable-list">
-            <thead>
-                <tr>
-                    <th id="denomination-header">
-                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
-                    </th>
-                    <th id="addresscode-header">
-                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
-                    </th>
-                    <th id="addresstag-header">
-                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var wallet in Wallets)
-                {
-                    <tr>
-                        <td>
-                            <InputSelect class="form-control" id="denomination-select"
-                                 @bind-Value=wallet.DenominationSecurityId>
-                                @foreach (var security in DenominationSecurities)
-                                {
-                            <option value=@security.SecurityId>@security.SecurityDescription</option>
-                                }
-                    </InputSelect>
-                    <ValidationMessage For=@(()=> wallet.DenominationSecurityId) />
-                </td>
-                <td>
-                    <InputText class="form-control" id="addresscode-text" @bind-Value=wallet.AddressCode />
-                    <ValidationMessage For=@(()=> wallet.AddressCode) />
-                </td>
-                <td>
-                    <InputText class="form-control" id="addresstag-text" @bind-Value=wallet.AddressTag />
-                    <ValidationMessage For=@(()=> wallet.AddressTag) />
-                </td>
-            </tr>
-                }
-            </tbody>
-            <tfoot>
-                <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
-                    @StringResource.DataGrid_NewLine_Caption
-                </button>
-            </tfoot>
+        <thead>
+        <tr>
+        <th id="denomination-header">
+        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
+        </th>
+        <th id="addresscode-header">
+        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
+        </th>
+        <th id="addresstag-header">
+        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
+        </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var wallet in Wallets)
+        {
+        <tr>
+        <td>
+        <InputSelect class="form-control" id="denomination-select"
+        @bind-Value=wallet.DenominationSecurityId>
+        @foreach (var security in DenominationSecurities)
+        {
+        <option value=@security.SecurityId>@security.SecurityDescription</option>
+        }
+        </InputSelect>
+        <ValidationMessage For=@(()=> wallet.DenominationSecurityId) />
+        </td>
+        <td>
+        <InputText class="form-control" id="addresscode-text" @bind-Value=wallet.AddressCode />
+        <ValidationMessage For=@(()=> wallet.AddressCode) />
+        </td>
+        <td>
+        <InputText class="form-control" id="addresstag-text" @bind-Value=wallet.AddressTag />
+        <ValidationMessage For=@(()=> wallet.AddressTag) />
+        </td>
+        </tr>
+        }
+        </tbody>
+        <tfoot>
+        <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
+        @StringResource.DataGrid_NewLine_Caption
+        </button>
+        </tfoot>
         </table>
-    </EditForm>*@
-    <EditForm class="edit-form-list" 
-        Model=@Wallets 
-        OnValidSubmit="@HandleValidSubmit" 
-        OnInvalidSubmit="@HandleInvalidSubmit">
+        </EditForm>*@
+@*    <EditForm class="edit-form-list"
+          Model="@Wallets"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit">
         <DataAnnotationsValidator />
         <a class="link-button" href="" @onclick=@(args => HandleSubmit(context, args)) @onclick:preventDefault>
             @StringResource.Button_Save_Caption
         </a>
-        <hr/>
+        <hr />
         <div>
             <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
                 @StringResource.DataGrid_NewLine_Caption.Format(
-                    ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
+            ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
             </button>
         </div>
-        <br/>
-        @if (displayValidationErrorMessages)
-        {
-            <div class="col-md-4" style="margin-top:10px">
-                <label>@StringResource.EditFormList_ValidationFailed.Format(
-                    ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()?.ToTitleCase())</label>
-                <ValidationSummary />
-            </div>
-        }
+        <br />
+        <div class="col-md-4" style="margin-top:10px">
+            <label>
+                @StringResource.EditFormList_ValidationFailed.Format(
+        ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()?.ToTitleCase())
+            </label>
+            <ValidationSummary />
+        </div>
         <table class="editable-list">
             <thead>
                 <tr>
@@ -107,23 +156,23 @@ else
                         <InputSelect class="form-control" id="denomination-select" @bind-Value=itemContext.DenominationSecurityId>
                             @foreach (var security in DenominationSecurities)
                             {
-                                <option value=@security.SecurityId>@security.SecurityDescription</option>
+                            <option value=@security.SecurityId>@security.SecurityDescription</option>
                             }
-                        </InputSelect>
-                        <ValidationMessage For=@(()=> itemContext.DenominationSecurityId) />
-                    </td>
-                    <td>
-                        <InputText class="form-control" id="addresscode-text" @bind-Value=itemContext.AddressCode />
-                        <ValidationMessage For=@(()=> itemContext.AddressCode) />
-                    </td>
-                    <td>
-                        <InputText class="form-control" id="addresstag-text" @bind-Value=itemContext.AddressTag />
-                        <ValidationMessage For=@(()=> itemContext.AddressTag) />
-                    </td>
-                </tr>
-            </ObjectList>
-        </table>
-    </EditForm>
+                    </InputSelect>
+                    <ValidationMessage For=@(()=> itemContext.DenominationSecurityId) />
+                </td>
+                <td>
+                    <InputText class="form-control" id="addresscode-text" @bind-Value=itemContext.AddressCode />
+                    <ValidationMessage For=@(()=> itemContext.AddressCode) />
+                </td>
+                <td>
+                    <InputText class="form-control" id="addresstag-text" @bind-Value=itemContext.AddressTag />
+                    <ValidationMessage For=@(()=> itemContext.AddressTag) />
+                </td>
+            </tr>
+        </ObjectList>
+    </table>
+</EditForm>*@
 }
 
 @code {
@@ -147,7 +196,7 @@ else
 
     private Account parent;
 
-    private bool displayValidationErrorMessages;
+    private string errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -181,44 +230,32 @@ else
     {
         // TODO: Do something with MouseEventArgs?
 
-        var getDefaultTask = await Controller.GetDefault();
-        await Controller.Add(getDefaultTask.Value);
+        var getDefaultTask = await Controller.GetDefaultAsync();
+        await Controller.AddAsync(getDefaultTask.Value);
 
         Wallets.Add(getDefaultTask.Value);
     }
 
     private async Task DeleteAsync(AccountWallet wallet, MouseEventArgs args)
     {
-        var result = await Controller.Delete(wallet);
+        var result = await Controller.DeleteAsync(wallet);
 
         // TODO: interpret the response.
     }
 
-    private void HandleValidSubmit(EditContext context)
-    {
-        displayValidationErrorMessages = false;
-    }
 
-    private void HandleInvalidSubmit(EditContext context)
-    {
-        displayValidationErrorMessages = true;
-    }
-
-
-    private async Task<int> HandleSubmit(EditContext context, MouseEventArgs args)
+    private async Task HandleSubmit(EditContext context, MouseEventArgs args)
     {
         bool isValid = context.Validate();
-        if(isValid)
+        if (isValid)
         {
-            HandleValidSubmit(null);
-            var saveResult = await Controller.SaveChanges();
+            var saveResult = await Controller.SaveChangesAsync();
 
-            return saveResult?.Value ?? -1;
-        }
-        else
-        {
-            HandleInvalidSubmit(context);
-            return 0;
+            if (saveResult is NoContentResult)
+                return;
+
+            else if (saveResult is ObjectResult objectResult)
+                errorMessage = (objectResult.Value as Exception)?.Message;
         }
     }
 }

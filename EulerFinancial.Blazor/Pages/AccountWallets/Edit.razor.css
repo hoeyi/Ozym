@@ -1,27 +1,4 @@
-﻿#denomination-header, #denomination-select{
-    width: 20%;
-}
-
-/*#denomination-select {
-    width: 20%;
-}*/
-
-#addresscode-header, #addresscode-text{
-    width: 45%
-}
-
-/*#addresscode-text{
-    width: 45%
-}*/
-
-#addresstag-header, #addresstag-text{
-    width: 35%
-}
-
-/*#addresstag-text {
-    width: 35%
-}*/
-
-.editable-list{
+﻿::deep .datagrid-editable {
     width: 100%;
+    overflow: scroll;
 }

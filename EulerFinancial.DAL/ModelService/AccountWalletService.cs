@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using EulerFinancial.Logging;
+using EulerFinancial.Exceptions;
 
 namespace EulerFinancial.ModelService
 {
@@ -43,6 +44,8 @@ namespace EulerFinancial.ModelService
             // TODO: Determine if this have value.
             // Why return the record count of added/updated/deleted records?
 
+            // TODO: What is this for? Checking for valid update row counts before submitting?
+            // Would it be better to try/catch concurrency exception?
             //EntityState[] dirtyStates = new[]
             //{
             //    EntityState.Added,
@@ -55,7 +58,20 @@ namespace EulerFinancial.ModelService
             //    .Where(e => dirtyStates.Contains(context.Entry(e).State))
             //    .Count();
 
-            return await context.SaveChangesAsync();
+            try
+            {
+                return await context.SaveChangesAsync();
+            }
+            catch(DbUpdateConcurrencyException duc)
+            {
+                logger.LogError(duc, duc.Message);
+                throw new ModelUpdateException(duc.Message);
+            }
+            catch(DbUpdateException du)
+            {
+                logger.LogError(du, message: du.Message);
+                throw new ModelUpdateException(du.InnerException.Message, du);
+            }
         }
 
         /// <inheritdoc/>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using EulerFinancial.Exceptions;
 
 namespace EulerFinancial.ModelService
 {
@@ -66,6 +67,8 @@ namespace EulerFinancial.ModelService
         /// contains the number of state entries written to the database.</returns>
         /// <exception cref="InvalidOperationException"><see cref="this.ParentKey"/> is not valid 
         /// for this call.</exception>/// 
+        /// <exception cref="ModelUpdateException">An error occured when writing changes to the 
+        /// data store.</exception>
         Task<int> SaveChanges();
 
         /// <summary>

@@ -28,7 +28,7 @@ namespace EulerFinancial.Controllers
         IActionResult Initialize(TParentKey parentKey);
 
         /// <summary>
-        /// Adds the model pending a call to <see cref="SaveChanges"/>.
+        /// Adds the model pending a call to <see cref="SaveChangesAsync"/>.
         /// </summary>
         /// <param name="model">The model to add.</param>
         /// <returns>True if the entry state is added, else
@@ -36,10 +36,10 @@ namespace EulerFinancial.Controllers
         /// <exception cref="ArgumentNullException"><paramref name="model"/> was null.</exception>
         /// <exception cref="InvalidOperationException"> parent key is not valid for this call.
         /// </exception>
-        Task<IActionResult> Add(T model);
+        Task<IActionResult> AddAsync(T model);
 
         /// <summary>
-        /// Deletes the model pending a call to <see cref="SaveChanges"/>.
+        /// Deletes the model pending a call to <see cref="SaveChangesAsync"/>.
         /// </summary>
         /// <param name="model">The model to add.</param>
         /// <returns>True if the entry state is deleted, else
@@ -47,22 +47,21 @@ namespace EulerFinancial.Controllers
         /// <exception cref="ArgumentNullException"><paramref name="model"/> was null.</exception>
         /// <exception cref="InvalidOperationException"> parent key is not valid for this call.
         /// </exception>
-        Task<IActionResult> Delete(T model);
+        Task<IActionResult> DeleteAsync(T model);
 
         /// <summary>
         /// Creates the default instance of <typeparamref name="T"/>.
         /// </summary>
         /// <returns>The action response wrapping the generated <typeparamref name="T"/>.</returns>
-        Task<ActionResult<T>> GetDefault();
+        Task<ActionResult<T>> GetDefaultAsync();
 
         /// <summary>
         /// Saves pending changes within the service context to the data store.
         /// </summary>
-        /// <returns>A task that represents the asynchronous save operation. The task result 
-        /// contains the number of state entries written to the database.</returns>
+        /// <returns>A task that represents the asynchronous save operation.</returns>
         /// <exception cref="InvalidOperationException"> parent key is not valid for this call.
         /// </exception>
-        Task<ActionResult<int>> SaveChanges();
+        Task<ActionResult> SaveChangesAsync();
 
         /// <summary>
         /// Selects records matching the given <paramref name="predicate"/>, 

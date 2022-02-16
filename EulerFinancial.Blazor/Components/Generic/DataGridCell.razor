@@ -1,18 +1,35 @@
 ﻿@typeparam TModel
+@attribute [CascadingTypeParameter(nameof(TModel))]
 
 @inherits LocalizedComponent
 
-if(@DataGridColumn is not null && DataGridRow is not null)
+@if (DataGridColumn is not null && DataGridRow is not null)
 {
-    <td>
-        <CascadingValue Value=this>
-            @ChildContent
-        </CascadingValue>
+    <td class="datagrid-cell">
+        @if (DataGridColumn.CellTemplate is null)
+        {
+            @DataGridColumn.GetValue(Model)
+        }
+        else
+        {
+            @DataGridColumn.CellTemplate(Model)
+        }
     </td>
 }
 
-
-@code{
+@code {
+    /// <summary>
+    /// Gets or sets the edit context for this cell.
+    /// </summary>
+    [CascadingParameter]
+    public EditContext EditContext { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the parent <see cref="DataGrid{TModel}"/> for this cell.
+    /// </summary>
+    [CascadingParameter]
+    public DataGrid<TModel> DataGrid { get; set; }
+    
     /// <summary>
     /// Gets or sets the parent <see cref="DataGridColumn{TModel}"/> for this cell.
     /// </summary>
@@ -26,26 +43,19 @@ if(@DataGridColumn is not null && DataGridRow is not null)
     public DataGridRow<TModel> DataGridRow { get; set; }
 
     /// <summary>
-    /// Gets or sets the parent <see cref="DataGrid{TModel}"/> for this cell.
-    /// </summary>
-    [Parameter]
-    public DataGrid<TModel> DataGrid { get; set; }
-
-    /// <summary>
     /// Gets or sets the model bound to this cell.
     /// </summary>
     [Parameter]
     public TModel Model { get; set; } = default(TModel)!;
 
     /// <summary>
-    /// Gets or sets the edit context for this cell.
-    /// </summary>
-    [Parameter]
-    public EditContext EditContext { get; set; }
-
-    /// <summary>
     /// Gets or sets the child content to render for this cell.
     /// </summary>
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    public object Test(object obj)
+    {
+        return null;
+    }
 }
