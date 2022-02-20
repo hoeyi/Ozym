@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using EulerFinancial.Exceptions;
-using System.Net;
 using EulerFinancial.Logging;
 
 namespace EulerFinancial.Controllers
@@ -16,12 +15,12 @@ namespace EulerFinancial.Controllers
     /// A derived MCV controller for <see cref="AccountWallet"/> objects.
     /// </summary>
     public partial class AccountWalletsController 
-        : ControllerBase, IAccountWalletsController
+        : ControllerBase, IBatchController<AccountWallet>
     {
-        private readonly IAccountWalletService walletService;
+        private readonly IBatchModelService<AccountWallet> walletService;
         private readonly ILogger logger;
         public AccountWalletsController(
-            IAccountWalletService walletService,
+            IBatchModelService<AccountWallet> walletService,
             ILogger logger)
         {
             this.walletService = walletService;
@@ -76,7 +75,7 @@ namespace EulerFinancial.Controllers
         }
 
         /// <inheritdoc/>
-        public IActionResult Initialize(int parentKey)
+        public IActionResult Initialize(object parentKey)
         {
             if (walletService.Initialize(parentKey))
                 return Ok();

@@ -1,7 +1,7 @@
 ﻿@page "/AccountWallets/Edit/{AccountId:int}"
 @inherits ModelComponentBase<AccountWallet>
 
-@inject IAccountWalletsController Controller
+@inject IBatchController<AccountWallet> Controller
 @inject IReferenceDataService ReferenceData
 
 <PageTitle>@PageTitle.AsPageTitle()</PageTitle>
@@ -63,116 +63,6 @@ else
                 </DataGrid>
         </span>
     </EditForm>
-
-    @*    <EditForm id="edit-list" Model=@Wallets>
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <table class="editable-list">
-        <thead>
-        <tr>
-        <th id="denomination-header">
-        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
-        </th>
-        <th id="addresscode-header">
-        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
-        </th>
-        <th id="addresstag-header">
-        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
-        </th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var wallet in Wallets)
-        {
-        <tr>
-        <td>
-        <InputSelect class="form-control" id="denomination-select"
-        @bind-Value=wallet.DenominationSecurityId>
-        @foreach (var security in DenominationSecurities)
-        {
-        <option value=@security.SecurityId>@security.SecurityDescription</option>
-        }
-        </InputSelect>
-        <ValidationMessage For=@(()=> wallet.DenominationSecurityId) />
-        </td>
-        <td>
-        <InputText class="form-control" id="addresscode-text" @bind-Value=wallet.AddressCode />
-        <ValidationMessage For=@(()=> wallet.AddressCode) />
-        </td>
-        <td>
-        <InputText class="form-control" id="addresstag-text" @bind-Value=wallet.AddressTag />
-        <ValidationMessage For=@(()=> wallet.AddressTag) />
-        </td>
-        </tr>
-        }
-        </tbody>
-        <tfoot>
-        <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
-        @StringResource.DataGrid_NewLine_Caption
-        </button>
-        </tfoot>
-        </table>
-        </EditForm>*@
-@*    <EditForm class="edit-form-list"
-          Model="@Wallets"
-          OnValidSubmit="@HandleValidSubmit"
-          OnInvalidSubmit="@HandleInvalidSubmit">
-        <DataAnnotationsValidator />
-        <a class="link-button" href="" @onclick=@(args => HandleSubmit(context, args)) @onclick:preventDefault>
-            @StringResource.Button_Save_Caption
-        </a>
-        <hr />
-        <div>
-            <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
-                @StringResource.DataGrid_NewLine_Caption.Format(
-            ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
-            </button>
-        </div>
-        <br />
-        <div class="col-md-4" style="margin-top:10px">
-            <label>
-                @StringResource.EditFormList_ValidationFailed.Format(
-        ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()?.ToTitleCase())
-            </label>
-            <ValidationSummary />
-        </div>
-        <table class="editable-list">
-            <thead>
-                <tr>
-                    <th id="denomination-header">
-                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
-                    </th>
-                    <th id="addresscode-header">
-                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
-                    </th>
-                    <th id="addresstag-header">
-                        @(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
-                    </th>
-                </tr>
-            </thead>
-            <ObjectList TItem="AccountWallet" Data=@Wallets Context="itemContext">
-                <tr>
-                    <td>
-                        <InputSelect class="form-control" id="denomination-select" @bind-Value=itemContext.DenominationSecurityId>
-                            @foreach (var security in DenominationSecurities)
-                            {
-                            <option value=@security.SecurityId>@security.SecurityDescription</option>
-                            }
-                    </InputSelect>
-                    <ValidationMessage For=@(()=> itemContext.DenominationSecurityId) />
-                </td>
-                <td>
-                    <InputText class="form-control" id="addresscode-text" @bind-Value=itemContext.AddressCode />
-                    <ValidationMessage For=@(()=> itemContext.AddressCode) />
-                </td>
-                <td>
-                    <InputText class="form-control" id="addresstag-text" @bind-Value=itemContext.AddressTag />
-                    <ValidationMessage For=@(()=> itemContext.AddressTag) />
-                </td>
-            </tr>
-        </ObjectList>
-    </table>
-</EditForm>*@
 }
 
 @code {

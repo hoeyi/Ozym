@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 namespace EulerFinancial.Controllers
 {
     /// <summary>
-    /// Represents the controller for a given <typeparamref name="T"/> model and parent key type 
-    /// <typeparamref name="TParentKey"/>.
+    /// Represents the controller for a given <typeparamref name="T"/> model.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TParentKey"></typeparam>
-    public interface IBatchController<T, TParentKey>
+    public interface IBatchController<T>
         where T: class, new()
-        where TParentKey: struct
     {
         /// <summary>
         /// Initializes the intance with the given parent key. Call this method before all others.
@@ -25,7 +22,7 @@ namespace EulerFinancial.Controllers
         /// </returns>
         /// <remarks>Calls to other methods fail if this method has not been successfully called 
         /// first.</remarks>
-        IActionResult Initialize(TParentKey parentKey);
+        IActionResult Initialize(object parentKey);
 
         /// <summary>
         /// Adds the model pending a call to <see cref="SaveChangesAsync"/>.

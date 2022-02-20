@@ -13,11 +13,11 @@ namespace EulerFinancial.Controllers
     /// <summary>
     /// A derived MVC controller for <see cref="Account"/> objects.
     /// </summary>
-    public partial class AccountsController : ControllerBase, IAccountController
+    public partial class AccountsController : ControllerBase, IController<Account>
     {
-        private readonly IAccountService accountService;
+        private readonly  IModelService<Account> accountService;
         private readonly ILogger logger;
-        public AccountsController(IAccountService accountService, ILogger logger)
+        public AccountsController(IModelService<Account> accountService, ILogger logger)
         {
             this.accountService = accountService;
             this.logger = logger;

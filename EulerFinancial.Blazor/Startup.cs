@@ -1,17 +1,11 @@
-using EulerFinancial.Controllers;
-using EulerFinancial.Model;
-using EulerFinancial.ModelService;
-using EulerFinancial.Reference;
 using Ichosoft.DataModel;
 using Ichosoft.DataModel.Expressions;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Serilog;
 using Serilog.Extensions.Logging;
 using System.Globalization;
@@ -54,24 +48,13 @@ namespace EulerFinancial.Blazor
             //        options.Scope.Add("offline_access");
             //    });
 
+            // Register model services and controllers.
+            services.AddModelServices();
+            services.AddControllers();
 
             // Add database service.
             services.AddDbContextFactory<Context.EulerFinancialContext>(options =>
                 options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
-
-            //services.AddDbContext<Context.EulerFinancialContext>(
-            //    optionsAction: options => options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"),
-            //    optionsLifetime: ServiceLifetime.Singleton,
-            //    contextLifetime: ServiceLifetime.Transient);
-
-            // Add reference and model services.
-            services.AddScoped<IReferenceDataService, ReferenceDataService>();
-
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IController<Account>, AccountsController>();
-
-            services.AddScoped<IAccountWalletService, AccountWalletService>();
-            services.AddScoped<IAccountWalletsController, AccountWalletsController>();
 
             //services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddLocalization();

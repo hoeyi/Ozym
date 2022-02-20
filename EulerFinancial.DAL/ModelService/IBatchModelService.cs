@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using EulerFinancial.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EulerFinancial.ModelService
 {
@@ -11,9 +12,8 @@ namespace EulerFinancial.ModelService
     /// <typeparamref name="T"/> models.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
-    public interface IBatchModelService<T, TParentKey>
+    public interface IBatchModelService<T>
         where T : class, new()
-        where TParentKey: struct
     {
         /// <summary>
         /// Creates the default instance of <typeparamref name="T"/>.
@@ -29,7 +29,7 @@ namespace EulerFinancial.ModelService
         /// </returns>
         /// <remarks>Calls to other methods fail if this method has not been successfully called 
         /// first.</remarks>
-        bool Initialize(TParentKey parentKey);
+        bool Initialize(object parentKey);
 
         /// <summary>
         /// Checks the given model for presence in the service context.

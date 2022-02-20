@@ -16,7 +16,7 @@ namespace EulerFinancial.ModelService
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
     /// <typeparam name="TParentKey">The model's parent key type.</typeparam>
-    public abstract class BatchModelServiceBase<T, TParentKey> : IBatchModelService<T, TParentKey>
+    public abstract class BatchModelServiceBase<T, TParentKey> : IBatchModelService<T>
         where T : class, new()
         where TParentKey : struct
     {
@@ -86,9 +86,12 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public bool Initialize(TParentKey parentKey)
+        public bool Initialize(object parentKey)
         {
-            this.parentKey = parentKey;
+            if (parentKey is not TParentKey)
+                throw new InvalidOperationException();
+
+            this.parentKey = (TParentKey)parentKey;
 
             return this.parentKey is not null;
         }
