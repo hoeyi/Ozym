@@ -7,7 +7,7 @@ namespace EulerFinancial.Context
 {
     public partial class EulerFinancialContext : DbContext
     {
-        public EulerFinancialContext()
+        public EulerFinancialContext() : base()
         {
         }
 
