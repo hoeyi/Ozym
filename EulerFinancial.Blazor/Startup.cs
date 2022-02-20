@@ -45,14 +45,14 @@ namespace EulerFinancial.Blazor
             services.AddSingleton(implementationInstance:
                 new SerilogLoggerFactory(Log.Logger).CreateLogger(nameof(Program)));
 
-            services.Configure<OpenIdConnectOptions>(
-                OpenIdConnectDefaults.AuthenticationScheme, options =>
-                {
-                    options.ResponseType = OpenIdConnectResponseType.Code;
-                    options.SaveTokens = true;
+            //services.Configure<OpenIdConnectOptions>(
+            //    OpenIdConnectDefaults.AuthenticationScheme, options =>
+            //    {
+            //        options.ResponseType = OpenIdConnectResponseType.Code;
+            //        options.SaveTokens = true;
 
-                    options.Scope.Add("offline_access");
-                });
+            //        options.Scope.Add("offline_access");
+            //    });
 
 
             // Add database service.
