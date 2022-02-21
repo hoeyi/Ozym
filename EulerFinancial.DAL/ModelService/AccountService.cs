@@ -10,6 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using EulerFinancial.Logging;
+using EulerFinancial.Exceptions;
 
 namespace EulerFinancial.ModelService
 {
@@ -17,7 +18,7 @@ namespace EulerFinancial.ModelService
     /// The class for servicing single CRUD requests against the <see cref="Account"/> 
     /// data store.
     /// </summary>
-    public class AccountService : ModelServiceBase<Account>, IModelService<Account>
+    public class AccountService : ModelService<Account>, IModelService<Account>
     {
         /// <inheritdoc/>
         public AccountService(
@@ -45,31 +46,34 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public override async Task<Account> CreateAsync(Account model)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
+            return await DoWriteOperationAsync(async () =>
+            {
+                using var transaction = await context.Database.BeginTransactionAsync();
 
-            context.AccountObjects.Add(model.AccountNavigation);
+                context.AccountObjects.Add(model.AccountNavigation);
 
-            await context.SaveChangesAsync();
+                //await context.SaveChangesAsync();
 
-            model.AccountId = model.AccountNavigation.AccountObjectId;
-            context.Accounts.Add(model);
+                model.AccountId = model.AccountNavigation.AccountObjectId;
+                context.Accounts.Add(model);
 
-            var count = await context.SaveChangesAsync();
+                var count = await context.SaveChangesAsync();
 
-            await transaction.CommitAsync();
+                await transaction.CommitAsync();
 
-            var result = count > 0;
+                var result = count > 0;
 
-            if (result)
-                logger.ModelServiceCreatedModel(
-                    new
-                    {
-                        Type = model.GetType().Name,
-                        Id = model.AccountId,
-                        Code = model.AccountCode
-                    });
+                if (result)
+                    logger.ModelServiceCreatedModel(
+                        new
+                        {
+                            Type = model.GetType().Name,
+                            Id = model.AccountId,
+                            Code = model.AccountCode
+                        });
 
-            return model;
+                return model;
+            });
         }
 
         /// <inheritdoc/>   
@@ -110,61 +114,15 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public override async Task<bool> UpdateAsync(Account model)
         {
-            context.Entry(model).State = EntityState.Modified;
-
-            var count = await context.SaveChangesAsync();
-            var result = count > 0;
-
-            if (result)
-                logger.ModelServiceUpdatedModel(
-                    model: new
-                    {
-                        Type = typeof(Account).Name,
-                        model.AccountId,
-                        model.AccountCode
-                    });
-
-            return result;
-        }
-
-        /// <inheritdoc/>
-        public override async Task<bool> DeleteAsync(Account model)
-        {
-            using var transaction = await context.Database.BeginTransactionAsync();
-
-            try
+            return await DoWriteOperationAsync(async () =>
             {
-                context.BankTransactions.RemoveRange(
-                    context.BankTransactions.Where(bt => bt.AccountId == model.AccountId));
-
-                context.BrokerTransactions.RemoveRange(
-                    context.BrokerTransactions.Where(bt => bt.AccountId == model.AccountId));
-
-                context.AccountGroupMembers.RemoveRange(
-                    context.AccountGroupMembers.Where(agm => agm.AccountId == model.AccountId));
-
-                context.AccountWallets.RemoveRange(
-                    context.AccountWallets.Where(w => w.AccountId == model.AccountId));
-
-                await context.SaveChangesAsync();
-
-                context.Accounts.Remove(model);
-
-                context.AccountAttributeMemberEntries.RemoveRange(
-                    context.AccountAttributeMemberEntries.Where(aa => aa.AccountObjectId == model.AccountId));
-
-                await context.SaveChangesAsync();
-
-                context.AccountObjects.Remove(
-                    context.AccountObjects.Where(a => a.AccountObjectId == model.AccountId).First());
+                context.Entry(model).State = EntityState.Modified;
 
                 var count = await context.SaveChangesAsync();
                 var result = count > 0;
 
-                await transaction.CommitAsync();
-
                 if (result)
-                    logger.ModelServiceDeletedModel(
+                    logger.ModelServiceUpdatedModel(
                         model: new
                         {
                             Type = typeof(Account).Name,
@@ -173,13 +131,82 @@ namespace EulerFinancial.ModelService
                         });
 
                 return result;
-            }
-            catch (DbUpdateException e)
-            {
-                logger.ModelServiceSaveChangesFailed(e);
+            });
+        }
 
-                return !ModelExists(model.AccountId);
-            }
+        /// <inheritdoc/>
+        public override async Task<bool> DeleteAsync(Account model)
+        {
+            return await DoWriteOperationAsync(async () =>
+            {
+                try
+                {
+                    using var transaction = await context.Database.BeginTransactionAsync();
+
+                    // Remove bank transaction children.
+                    if (context.BankTransactions.Any(bt => bt.AccountId == model.AccountId))
+                        context.BankTransactions.RemoveRange(
+                            context.BankTransactions.Where(bt => bt.AccountId == model.AccountId));
+
+                    // Remove broker transaction children.
+                    if(context.BrokerTransactions.Any(bt => bt.AccountId == model.AccountId))
+                        context.BrokerTransactions.RemoveRange(
+                            context.BrokerTransactions.Where(bt => bt.AccountId == model.AccountId));
+
+                    // Remove account wallet children.
+                    if(context.AccountWallets.Any(aw => aw.AccountId == model.AccountId))
+                        context.AccountWallets.RemoveRange(
+                            context.AccountWallets.Where(w => w.AccountId == model.AccountId));
+
+                    // Remove account attribute children.
+                    if(context.AccountAttributeMemberEntries.Any(gm => gm.AccountObjectId == model.AccountId))
+                        context.AccountAttributeMemberEntries.RemoveRange(
+                            context.AccountAttributeMemberEntries.Where(
+                                aa => aa.AccountObjectId == model.AccountId));
+
+                    // Remove account group memberships.
+                    if(context.AccountGroupMembers.Any(gm => gm.AccountId == model.AccountId))
+                        context.AccountGroupMembers.RemoveRange(
+                            context.AccountGroupMembers.Where(agm => agm.AccountId == model.AccountId));
+
+                    // Save changes because cascade delete is not used.
+                    await context.SaveChangesAsync();
+
+                    // Remove account.
+                    context.Accounts.Remove(model);
+
+                    // Save changes because cascade delete is not used.
+                    await context.SaveChangesAsync();
+
+                    // Remove account object.
+                    context.AccountObjects.Remove(
+                        context.AccountObjects.Where(
+                            a => a.AccountObjectId == model.AccountId).First());
+
+                    var count = await context.SaveChangesAsync();
+                    var result = count > 0;
+
+                    await transaction.CommitAsync();
+
+                    if (result)
+                        logger.ModelServiceDeletedModel(
+                            model: new
+                            {
+                                Type = typeof(Account).Name,
+                                model.AccountId,
+                                model.AccountCode
+                            });
+
+                    return result;
+                }
+                catch (DbUpdateException dbe)
+                {
+                    logger.ModelServiceSaveChangesFailed(dbe);
+
+                    return !ModelExists(model.AccountId);
+                }
+
+            });
         }
 
         /// <inheritdoc/>

@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using EulerFinancial.Exceptions;
 using EulerFinancial.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.ModelService
 {
@@ -114,5 +115,33 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public abstract Task<List<T>> SelectWhereAysnc(
             Expression<Func<T, bool>> predicate, int maxCount = 0);
+
+        /// <summary>
+        /// Invokes the given data store modification method.
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="writeDelegate">The method adding, updating, or deleting a method.</param>
+        /// <returns>A task representing an asynchronous write operation. The <typeparamref name="TResult"/>
+        ///  is taken from the passed delegate.</returns>
+        /// <exception cref="ModelUpdateException">An error occured when writing to the data store. 
+        /// This typcially represents an unhandled concurrency or schema constraint exception.</exception>
+        protected async Task<TResult> DoWriteOperationAsync<TResult>(
+            Func<Task<TResult>> writeDelegate)
+        {
+            try
+            {
+                return await writeDelegate.Invoke();
+            }
+            catch (DbUpdateConcurrencyException duc)
+            {
+                logger.LogWarning(duc, duc.Message);
+                throw new ModelUpdateException(duc.Message);
+            }
+            catch (DbUpdateException du)
+            {
+                logger.LogWarning(du, message: du.Message);
+                throw new ModelUpdateException(du.InnerException.Message, du);
+            }
+        }
     }
 }

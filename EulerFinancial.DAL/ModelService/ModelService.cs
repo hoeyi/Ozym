@@ -1,5 +1,7 @@
 ﻿using EulerFinancial.Context;
+using EulerFinancial.Exceptions;
 using Ichosoft.DataModel;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,7 @@ namespace EulerFinancial.ModelService
     /// models.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
-    public abstract class ModelServiceBase<T> : IModelService<T>
+    public abstract class ModelService<T> : IModelService<T>
         where T : class, new()
     {
         /// <summary>
@@ -39,7 +41,7 @@ namespace EulerFinancial.ModelService
         /// <param name="logger">The <see cref="ILogger"/> for this service.</param>
         /// <param name="parentKey">The <typeparamref name="T"/> parent key type.</param>
         /// <exception cref="ArgumentNullException">A required parameter was null.</exception>
-        protected ModelServiceBase(
+        protected ModelService(
             EulerFinancialContext context,
             IModelMetadataService modelMetadata,
             ILogger logger)
@@ -85,5 +87,34 @@ namespace EulerFinancial.ModelService
 
         /// <inheritdoc/>
         public abstract Task<bool> UpdateAsync(T model);
+
+        /// <summary>
+        /// Invokes the given data store modification method.
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="writeDelegate">The method adding, updating, or deleting a method.</param>
+        /// <returns>A task representing an asynchronous write operation. The <typeparamref name="TResult"/>
+        ///  is taken from the passed delegate.</returns>
+        /// <exception cref="ModelUpdateException">An error occured when writing to the data store. 
+        /// This typcially represents an unhandled concurrency or schema constraint exception.</exception>
+        protected async Task<TResult> DoWriteOperationAsync<TResult>(
+            Func<Task<TResult>> writeDelegate)
+        {
+            try
+            {
+                return await writeDelegate.Invoke();
+            }
+            catch (DbUpdateConcurrencyException duc)
+            {
+                logger.LogWarning(duc, duc.Message);
+                throw new ModelUpdateException(duc.Message);
+            }
+            catch (DbUpdateException du)
+            {
+                logger.LogWarning(du, message: du.Message);
+                throw new ModelUpdateException(du.InnerException.Message, du);
+            }
+        }
+
     }
 }

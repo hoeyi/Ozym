@@ -58,20 +58,10 @@ namespace EulerFinancial.ModelService
             //    .Where(e => dirtyStates.Contains(context.Entry(e).State))
             //    .Count();
 
-            try
+            return await DoWriteOperationAsync(async () =>
             {
                 return await context.SaveChangesAsync();
-            }
-            catch(DbUpdateConcurrencyException duc)
-            {
-                logger.LogError(duc, duc.Message);
-                throw new ModelUpdateException(duc.Message);
-            }
-            catch(DbUpdateException du)
-            {
-                logger.LogError(du, message: du.Message);
-                throw new ModelUpdateException(du.InnerException.Message, du);
-            }
+            });
         }
 
         /// <inheritdoc/>
