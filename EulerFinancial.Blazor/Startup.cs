@@ -39,15 +39,6 @@ namespace EulerFinancial.Blazor
             services.AddSingleton(implementationInstance:
                 new SerilogLoggerFactory(Log.Logger).CreateLogger(nameof(Program)));
 
-            //services.Configure<OpenIdConnectOptions>(
-            //    OpenIdConnectDefaults.AuthenticationScheme, options =>
-            //    {
-            //        options.ResponseType = OpenIdConnectResponseType.Code;
-            //        options.SaveTokens = true;
-
-            //        options.Scope.Add("offline_access");
-            //    });
-
             // Register model services and controllers.
             services.AddModelServices();
             services.AddControllers();
@@ -56,7 +47,7 @@ namespace EulerFinancial.Blazor
             services.AddDbContextFactory<Context.EulerFinancialContext>(options =>
                 options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
 
-            //services.AddLocalization(options => options.ResourcesPath = "Resources");
+            // Add localization
             services.AddLocalization();
             var supportedCultures = new CultureInfo[] { new CultureInfo("en-US"), new CultureInfo("de-DE") };
             services.Configure<RequestLocalizationOptions>(options =>
