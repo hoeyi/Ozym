@@ -8,10 +8,13 @@
 
             var pathElements = path.Split(".");
 
+            // If the path element count is 1 the property is not nested.
             if (pathElements.Length == 1)
             {
                 return type.GetProperty(path)?.GetValue(obj);
             }
+            // If the path element count is 2 the property is nested. Return the property value 
+            // for the first nested member.
             else if (pathElements.Length == 2)
             {
                 var complexMemberInfo = type.GetProperty(pathElements[0]);
@@ -23,6 +26,7 @@
                     ?.GetProperty(pathElements[1])
                     ?.GetValue(complexMemberValue);
             }
+            // TODO: Add support for nested properties beyond first-level?
             else
                 return null;
         }

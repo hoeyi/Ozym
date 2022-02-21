@@ -1,7 +1,7 @@
 ﻿@typeparam TModel
 @attribute [CascadingTypeParameter(nameof(TModel))]
 
-@inherits LocalizedComponent
+@inherits ComponentBase
 
 <tr class="datagrid-row" @attributes="RowAttributes">
     @foreach (var column in DataGrid.Columns.OrderBy(c => c.Index))
