@@ -1,12 +1,17 @@
-﻿.link-button {
+﻿::deep .link-button {
     appearance: button;
     -moz-appearance: button;
     -webkit-appearance: button;
     text-decoration: none;
     background-color: ActiveBorder;
     font-size:1.1rem;
-    /*font: menu;*/
+    font: menu;
     color: ButtonText;
     display: inline-block;
     padding: 2px 8px;
+}
+
+::deep .datagrid {
+    width: 100%;
+    overflow: scroll;
 }

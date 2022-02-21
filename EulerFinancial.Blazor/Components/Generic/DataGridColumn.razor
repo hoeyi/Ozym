@@ -3,11 +3,11 @@
 
 @inherits ComponentBase
 
- <CascadingValue Value=this.DataGrid />
+ <CascadingValue Value="@DataGrid" />
 
 @code{
     /// <summary>
-    /// Gets or sets the index of this 
+    /// Gets or sets the index of this column.
     /// </summary>
     public int Index { get; set; }
 
@@ -17,8 +17,8 @@
     [CascadingParameter]
     public DataGrid<TModel> DataGrid { get; set; }
 
-    [Parameter]
-    public RenderFragment Columns { get; set; }
+    //[Parameter]
+    //public RenderFragment Columns { get; set; }
 
     /// <summary>
     /// Gets or sets whether this column is visible.

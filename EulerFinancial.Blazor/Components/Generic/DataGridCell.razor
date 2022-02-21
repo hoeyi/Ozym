@@ -6,13 +6,17 @@
 @if (DataGridColumn is not null && DataGridRow is not null)
 {
     <td class="datagrid-cell">
-        @if (DataGridColumn.CellTemplate is null)
+        @if(DataGridColumn.CellEditTemplate is not null)
         {
-            @DataGridColumn.GetValue(Model)
+            @DataGridColumn.CellEditTemplate(Model);
+        }
+        else if(DataGridColumn.CellTemplate is not null)
+        {
+            @DataGridColumn.CellTemplate(Model);
         }
         else
         {
-            @DataGridColumn.CellTemplate(Model)
+            @DataGridColumn.GetValue(Model);
         }
     </td>
 }
@@ -23,13 +27,13 @@
     /// </summary>
     [CascadingParameter]
     public EditContext EditContext { get; set; }
-    
+
     /// <summary>
-    /// Gets or sets the parent <see cref="DataGrid{TModel}"/> for this cell.
+    /// Gets or sets the parent grid for this cell.
     /// </summary>
     [CascadingParameter]
     public DataGrid<TModel> DataGrid { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the parent <see cref="DataGridColumn{TModel}"/> for this cell.
     /// </summary>
@@ -57,5 +61,10 @@
     public object Test(object obj)
     {
         return null;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
     }
 }

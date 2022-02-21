@@ -2,6 +2,7 @@
 @attribute [CascadingTypeParameter(nameof(TModel))]
 
 @inherits ComponentBase
+@inject IModelMetadataService ModelMetadata
 
 <CascadingValue IsFixed=true Value=this>
     <CascadingValue IsFixed=true Value="@EditContext">
@@ -14,7 +15,7 @@
                     @foreach (var column in Columns.Where(c => c.Visible).OrderBy(c => c.Index))
                     {
                         <th @attributes="column.ColumnAttributes">
-                            @column.Property
+                            @(column.Caption ?? column.Property)
                         </th>
                     }
                 </tr>
@@ -60,12 +61,6 @@
     /// Gets the list of <see cref="DataGridColumn{TModel}"/> objects in this grid.
     /// </summary>
     public IList<DataGridColumn<TModel>> Columns { get; init; } = new List<DataGridColumn<TModel>>();
-
-    /// <summary>
-    /// Gets or sets whether the grid is currently in edit mode.
-    /// </summary>
-    internal bool IsInEditMode { get; set; }
-
 
     /// <summary>
     /// Adds the given column to the data grid collection.

@@ -80,7 +80,7 @@ a, .btn-link {
 }
 
 /*Custom button link styling*/
-.link-button {
+::deep .link-button {
     appearance: button;
     -moz-appearance: button;
     -webkit-appearance: button;
@@ -90,4 +90,15 @@ a, .btn-link {
     color: ButtonText;
     display: inline-block;
     padding: 2px 8px;
+}
+
+/*Styling form custom DataGrid components*/
+::deep .datagrid-editable {
+    width: 100%;
+    overflow: scroll;
+}
+
+::deep .datagrid {
+    width: 100%;
+    overflow: scroll;
 }
