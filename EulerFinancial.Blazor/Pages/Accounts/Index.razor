@@ -9,13 +9,13 @@
     <a class="link-button" href="@($"{PageIndexUri}/Create")"
        @onclick="@(args => NavigateToCreate($"{Guid.NewGuid()}"))"
        @onclick:preventDefault>
-        @StringResource.Button_Create_Caption
+        @StringResource.Caption_Button_Create
     </a>
 </div>
 
 @if (IsLoading)
 {
-    <p><em>@StringResource.Page_Loading_Caption</em></p>
+    <p><em>@StringResource.Caption_Page_Loading</em></p>
 }
 else
 {
@@ -111,73 +111,6 @@ else
                 </CellTemplate>
             </DataGridColumn>
         </DataGrid>
-        @*        <table class="table">
-            <thead>
-            <tr>
-            <th>
-            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
-            </th>
-            <th>
-            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))
-            </th>
-            <th>
-            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.StartDate)))
-            </th>
-            <th>
-            @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.CloseDate)))
-            </th>
-            <th>
-            @(ModelMetadata.NameFor<Account>(nameof(Account.AccountNumber)))
-            </th>
-            <th>
-            @(ModelMetadata.NameFor<Account>(nameof(Account.DisplayOrder)))
-            </th>
-            <th>
-            @(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))
-            </th>
-            <th>
-            @(ModelMetadata.NameFor<Account>(nameof(Account.IsComplianceTradable)))
-            </th>
-            <th>
-            @(ModelMetadata.NameFor<Account>(nameof(Account.HasWallet)))
-            </th>
-            <th>
-            @(ModelMetadata.NameFor<Account>(nameof(Account.HasBankTransaction)))
-            </th>
-            <th>
-            @(ModelMetadata.NameFor<Account>(nameof(Account.HasBrokerTransaction)))
-            </th>
-            <th>
-            @(ModelMetadata.NameFor<Account>(nameof(Account.AccountCustodianId)))
-            </th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <ObjectList Data=@Models>
-            <tr>
-            <td>
-            <a href="@($"{PageIndexUri}/Details/{context.AccountId}")" @onclick="@(args => NavigateToDetail(context, args))"
-            @onclick:preventDefault>
-            @context.AccountNavigation.AccountObjectCode.ToUpper()
-            </a>
-
-            </td>
-            <td>@context.AccountNavigation.ObjectDisplayName</td>
-            <td>@context.AccountNavigation.StartDate.ToShortDateString()</td>
-            <td>@context.AccountNavigation.CloseDate?.ToShortDateString()</td>
-            <td>@context.AccountNumber</td>
-            <td>@context.DisplayOrder</td>
-            <td>@context.BooksClosedDate?.ToShortDateString()</td>
-            <td>@context.IsComplianceTradable</td>
-            <td>@context.HasWallet</td>
-            <td>@context.HasBankTransaction</td>
-            <td>@context.HasBrokerTransaction</td>
-            <td>@context.AccountCustodian?.CustodianCode</td>
-            </tr>
-            </ObjectList>
-            </tbody>
-            </table>*@
     </span>
 }
 

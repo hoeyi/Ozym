@@ -2,6 +2,7 @@
 using EulerFinancial.Model;
 using EulerFinancial.ModelService;
 using EulerFinancial.Reference;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EulerFinancial

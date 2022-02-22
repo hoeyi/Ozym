@@ -1,7 +1,12 @@
+using BlazorAuthenticated.Areas.Identity;
+using EulerFinancial.Blazor.Authentication;
 using Ichosoft.DataModel;
 using Ichosoft.DataModel.Expressions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +24,7 @@ namespace EulerFinancial.Blazor
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; init; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -30,7 +35,7 @@ namespace EulerFinancial.Blazor
 
             // Add singleton services.
             services.AddSingleton(implementationInstance: Log.Logger);
-            services.AddSingleton(implementationInstance: Program.Configuration);
+            services.AddSingleton(implementationInstance: Configuration);
             services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
             services.AddSingleton<IModelMetadataService, ModelMetadataService>();
 
@@ -43,12 +48,15 @@ namespace EulerFinancial.Blazor
             services.AddModelServices();
             services.AddControllers();
 
+            services.AddIdentityServices();
+
             // Add database service.
             services.AddDbContextFactory<Context.EulerFinancialContext>(options =>
                 options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
 
             // Add localization
             services.AddLocalization();
+
             var supportedCultures = new CultureInfo[] { new CultureInfo("en-US"), new CultureInfo("de-DE") };
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -85,6 +93,33 @@ namespace EulerFinancial.Blazor
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
+            });
+        }
+
+         
+    }
+
+    internal static class IServiceCollectionExtension
+    {
+        public static void AddIdentityServices(this IServiceCollection services)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddDefaultIdentity<IdentityUser>(options =>
+                    options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
             });
         }
     }

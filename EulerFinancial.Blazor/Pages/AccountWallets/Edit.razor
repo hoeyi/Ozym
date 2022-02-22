@@ -10,7 +10,7 @@
 
 @if (IsLoading)
 {
-    <p><em>@StringResource.Page_Loading_Caption</em></p>
+    <p><em>@StringResource.Caption_Page_Loading</em></p>
 }
 else
 {   if(!string.IsNullOrEmpty(errorMessage))
@@ -19,11 +19,11 @@ else
     }
     <EditForm Model="@Wallets">
         <a class="link-button" href="" @onclick=@(args => HandleSubmit(context, args)) @onclick:preventDefault>
-            @StringResource.Button_Save_Caption
+            @StringResource.Caption_Button_Save
         </a>
         <div>
             <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
-                @StringResource.DataGrid_NewLine_Caption.Format(
+                @StringResource.Caption_DataGrid_NewLine.Format(
             ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
             </button>
         </div>

@@ -117,27 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Button_Create_Caption" xml:space="preserve">
+  <data name="Caption_Button_Create" xml:space="preserve">
     <value>New</value>
   </data>
-  <data name="Button_Delete_Caption" xml:space="preserve">
+  <data name="Caption_Button_Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="Button_Edit_Caption" xml:space="preserve">
+  <data name="Caption_Button_Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
-  <data name="Button_Index_Caption" xml:space="preserve">
+  <data name="Caption_Button_Index" xml:space="preserve">
     <value>Index</value>
   </data>
-  <data name="Button_Save_Caption" xml:space="preserve">
+  <data name="Caption_Button_Save" xml:space="preserve">
     <value>Save</value>
   </data>
-  <data name="Button_Search_Caption" xml:space="preserve">
+  <data name="Caption_Button_Search" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="DataGrid_NewLine_Caption" xml:space="preserve">
+  <data name="Caption_DataGrid_NewLine" xml:space="preserve">
     <value>Add {0}</value>
     <comment>{0} is the singular noun of the bound model type</comment>
+  </data>
+  <data name="Caption_InputSelect_SearchField" xml:space="preserve">
+    <value>Search for:</value>
+  </data>
+  <data name="Caption_Page_Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Caption_User_NotAuthenticated" xml:space="preserve">
+    <value>Not authenticated</value>
   </data>
   <data name="EditFormList_ValidationFailed" xml:space="preserve">
     <value>{0} could not be saved. The errors below must be resolved:</value>
@@ -146,12 +155,6 @@
   <data name="EditForm_ValidationFailed" xml:space="preserve">
     <value>{0} could not be saved. The errors below must be resolved:</value>
     <comment>{0} is the singular noun of the bound model type</comment>
-  </data>
-  <data name="InputSelect_SearchField_Caption" xml:space="preserve">
-    <value>Search for:</value>
-  </data>
-  <data name="Page_Loading_Caption" xml:space="preserve">
-    <value>Loading...</value>
   </data>
   <data name="Title_AccountCreate" xml:space="preserve">
     <value>Create new account</value>
@@ -176,8 +179,5 @@
   </data>
   <data name="Title_NotFound" xml:space="preserve">
     <value>(No title)</value>
-  </data>
-  <data name="User_NotAuthenticated_Caption" xml:space="preserve">
-    <value>Not authenticated</value>
   </data>
 </root>

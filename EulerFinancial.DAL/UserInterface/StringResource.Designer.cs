@@ -63,63 +63,90 @@ namespace EulerFinancial.UserInterface {
         /// <summary>
         ///   Looks up a localized string similar to New.
         /// </summary>
-        public static string Button_Create_Caption {
+        public static string Caption_Button_Create {
             get {
-                return ResourceManager.GetString("Button_Create_Caption", resourceCulture);
+                return ResourceManager.GetString("Caption_Button_Create", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
-        public static string Button_Delete_Caption {
+        public static string Caption_Button_Delete {
             get {
-                return ResourceManager.GetString("Button_Delete_Caption", resourceCulture);
+                return ResourceManager.GetString("Caption_Button_Delete", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
-        public static string Button_Edit_Caption {
+        public static string Caption_Button_Edit {
             get {
-                return ResourceManager.GetString("Button_Edit_Caption", resourceCulture);
+                return ResourceManager.GetString("Caption_Button_Edit", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Index.
         /// </summary>
-        public static string Button_Index_Caption {
+        public static string Caption_Button_Index {
             get {
-                return ResourceManager.GetString("Button_Index_Caption", resourceCulture);
+                return ResourceManager.GetString("Caption_Button_Index", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
-        public static string Button_Save_Caption {
+        public static string Caption_Button_Save {
             get {
-                return ResourceManager.GetString("Button_Save_Caption", resourceCulture);
+                return ResourceManager.GetString("Caption_Button_Save", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
-        public static string Button_Search_Caption {
+        public static string Caption_Button_Search {
             get {
-                return ResourceManager.GetString("Button_Search_Caption", resourceCulture);
+                return ResourceManager.GetString("Caption_Button_Search", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Add {0}.
         /// </summary>
-        public static string DataGrid_NewLine_Caption {
+        public static string Caption_DataGrid_NewLine {
             get {
-                return ResourceManager.GetString("DataGrid_NewLine_Caption", resourceCulture);
+                return ResourceManager.GetString("Caption_DataGrid_NewLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search for:.
+        /// </summary>
+        public static string Caption_InputSelect_SearchField {
+            get {
+                return ResourceManager.GetString("Caption_InputSelect_SearchField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string Caption_Page_Loading {
+            get {
+                return ResourceManager.GetString("Caption_Page_Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not authenticated.
+        /// </summary>
+        public static string Caption_User_NotAuthenticated {
+            get {
+                return ResourceManager.GetString("Caption_User_NotAuthenticated", resourceCulture);
             }
         }
         
@@ -138,24 +165,6 @@ namespace EulerFinancial.UserInterface {
         public static string EditFormList_ValidationFailed {
             get {
                 return ResourceManager.GetString("EditFormList_ValidationFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search for:.
-        /// </summary>
-        public static string InputSelect_SearchField_Caption {
-            get {
-                return ResourceManager.GetString("InputSelect_SearchField_Caption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Loading....
-        /// </summary>
-        public static string Page_Loading_Caption {
-            get {
-                return ResourceManager.GetString("Page_Loading_Caption", resourceCulture);
             }
         }
         
@@ -219,15 +228,6 @@ namespace EulerFinancial.UserInterface {
         public static string Title_NotFound {
             get {
                 return ResourceManager.GetString("Title_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Not authenticated.
-        /// </summary>
-        public static string User_NotAuthenticated_Caption {
-            get {
-                return ResourceManager.GetString("User_NotAuthenticated_Caption", resourceCulture);
             }
         }
     }
