@@ -68,9 +68,6 @@
 		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
-		<Content Update="Components\Authorization\LoginDisplay.razor">
-		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		</Content>
 		<Content Update="Shared\MainLayout.razor">
 		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 		</Content>
@@ -100,6 +97,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Areas\Identity\Pages\Account\Manage\" />
 	  <Folder Include="Areas\Identity\Pages\Shared\" />
 	</ItemGroup>
 
