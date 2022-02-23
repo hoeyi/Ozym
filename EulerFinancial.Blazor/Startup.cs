@@ -30,6 +30,31 @@ namespace EulerFinancial.Blazor
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Authentication services
+            //services.AddAuthentication("Identity.Application")
+            //    .AddCookie();
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
+
+            //services.AddDatabaseDeveloperPageExceptionFilter();
+
+            //services.AddDefaultIdentity<IdentityUser>(options =>
+            //        options.SignIn.RequireConfirmedAccount = false)
+            //    .AddRoles<IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
+            #endregion
+
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
@@ -39,7 +64,6 @@ namespace EulerFinancial.Blazor
             services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
             services.AddSingleton<IModelMetadataService, ModelMetadataService>();
 
-
             // Add Microsoft.Extensions.Logging.ILogger service
             services.AddSingleton(implementationInstance:
                 new SerilogLoggerFactory(Log.Logger).CreateLogger(nameof(Program)));
@@ -47,8 +71,6 @@ namespace EulerFinancial.Blazor
             // Register model services and controllers.
             services.AddModelServices();
             services.AddControllers();
-
-            services.AddIdentityServices();
 
             // Add database service.
             services.AddDbContextFactory<Context.EulerFinancialContext>(options =>
@@ -97,30 +119,5 @@ namespace EulerFinancial.Blazor
         }
 
          
-    }
-
-    internal static class IServiceCollectionExtension
-    {
-        public static void AddIdentityServices(this IServiceCollection services)
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
-
-            services.AddDatabaseDeveloperPageExceptionFilter();
-
-            services.AddDefaultIdentity<IdentityUser>(options =>
-                    options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-
-            services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            });
-        }
     }
 }
