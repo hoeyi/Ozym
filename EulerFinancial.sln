@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.DAL", "Euler
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.DAL.Test", "EulerFinancial.DAL.Test\EulerFinancial.DAL.Test.csproj", "{AEB6D616-508A-4AA3-B490-F90AF1D4E169}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.Blazor", "EulerFinancial.Blazor\EulerFinancial.Blazor.csproj", "{4B1A117D-2BC9-437D-ACF2-569690A127E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.Web", "EulerFinancial.Web\EulerFinancial.Web.csproj", "{C56BA965-51AA-4913-94D7-AF19DC2E1243}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,10 +30,10 @@ Global
 		{AEB6D616-508A-4AA3-B490-F90AF1D4E169}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEB6D616-508A-4AA3-B490-F90AF1D4E169}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEB6D616-508A-4AA3-B490-F90AF1D4E169}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B1A117D-2BC9-437D-ACF2-569690A127E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B1A117D-2BC9-437D-ACF2-569690A127E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B1A117D-2BC9-437D-ACF2-569690A127E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B1A117D-2BC9-437D-ACF2-569690A127E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C56BA965-51AA-4913-94D7-AF19DC2E1243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C56BA965-51AA-4913-94D7-AF19DC2E1243}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C56BA965-51AA-4913-94D7-AF19DC2E1243}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C56BA965-51AA-4913-94D7-AF19DC2E1243}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

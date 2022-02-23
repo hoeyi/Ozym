@@ -2,7 +2,6 @@
 using EulerFinancial.Model;
 using EulerFinancial.ModelService;
 using EulerFinancial.Reference;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EulerFinancial
@@ -26,7 +25,7 @@ namespace EulerFinancial
         /// Adds the component controllers to the collection.
         /// </summary>
         /// <param name="services"></param>
-        public static void AddControllers(this IServiceCollection services)
+        public static void AddModelControllers(this IServiceCollection services)
         {
             services.AddScoped<IController<Account>, AccountsController>();
             services.AddScoped<IBatchController<AccountWallet>, AccountWalletsController>();

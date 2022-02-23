@@ -1,5 +1,3 @@
-using BlazorAuthenticated.Areas.Identity;
-using EulerFinancial.Blazor.Authentication;
 using Ichosoft.DataModel;
 using Ichosoft.DataModel.Expressions;
 using Microsoft.AspNetCore.Authorization;

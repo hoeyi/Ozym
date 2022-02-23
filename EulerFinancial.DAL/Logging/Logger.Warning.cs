@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-
-namespace EulerFinancial.Logging
+﻿namespace EulerFinancial.Logging
 {
     #region Warning delegates
     // Pass

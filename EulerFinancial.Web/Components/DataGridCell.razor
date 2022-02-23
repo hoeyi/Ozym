@@ -1,0 +1,66 @@
+﻿@typeparam TModel
+@attribute [CascadingTypeParameter(nameof(TModel))]
+
+@inherits ComponentBase
+
+@if (DataGridColumn is not null && DataGridRow is not null)
+{
+    <td class="datagrid-cell">
+        @if(DataGridColumn.CellEditTemplate is not null)
+        {
+            @DataGridColumn.CellEditTemplate(Model);
+        }
+        else if(DataGridColumn.CellTemplate is not null)
+        {
+            @DataGridColumn.CellTemplate(Model);
+        }
+        else
+        {
+            @DataGridColumn.GetValue(Model);
+        }
+    </td>
+}
+
+@code {
+    /// <summary>
+    /// Gets or sets the edit context for this cell.
+    /// </summary>
+    [CascadingParameter]
+    public EditContext EditContext { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the parent grid for this cell.
+    /// </summary>
+    [CascadingParameter]
+    public DataGrid<TModel> DataGrid { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the parent <see cref="DataGridColumn{TModel}"/> for this cell.
+    /// </summary>
+    [Parameter]
+    public DataGridColumn<TModel> DataGridColumn { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the parent <see cref="DataGridRow{TModel}"/> for this cell.
+    /// </summary>
+    [Parameter]
+    public DataGridRow<TModel> DataGridRow { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the model bound to this cell.
+    /// </summary>
+    [Parameter]
+    public TModel Model { get; set; } = default(TModel)!;
+
+    /// <summary>
+    /// Gets or sets the child content to render for this cell.
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    /// <inheritdoc/>
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+    }
+}

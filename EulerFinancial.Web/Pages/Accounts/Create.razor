@@ -1,0 +1,76 @@
+﻿@page "/Accounts/Create/{RequestGuid:guid}"
+
+@inherits ModelDetail<Account>
+
+@inject IReferenceDataService ReferenceData
+
+<PageTitle>@PageTitle.AsPageTitle()</PageTitle>
+<div><h4>@PageTitle</h4></div>
+<hr/>
+
+@if (IsLoading)
+{
+    <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
+}
+else
+{
+    <div>
+        <a class="link-button" href="@($"{PageIndexUri}")"
+            @onclick="@(args => NavigateToIndex(args))"
+            @onclick:preventDefault>
+            @Resources.Strings.Caption_Button_Index
+        </a>
+    </div>
+    <hr />
+    <div>
+        <AccountObjectCRUD Model="@Model!.AccountNavigation" IsDisabled=false />
+    </div>
+    <div>
+        <AccountCRUD Model="@Model" AccountCustodians=@Custodians IsDisabled=false />
+    </div>
+    <div>
+        <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
+            @Resources.Strings.Caption_Button_Save
+        </button>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid RequestGuid { get; set; }
+
+    /// <inheritdoc/>
+    protected override string PageTitle => Resources.Strings.Title_AccountCreate;
+
+    private IEnumerable<AccountCustodian>? Custodians { get; set; }
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+
+        var modelQuery = Controller.GetDefaultAsync();
+        var custodiansQuery = ReferenceData.GetAllAsync<AccountCustodian>();
+
+        await custodiansQuery;
+        await modelQuery;
+
+        Custodians = custodiansQuery.Result;
+        if (modelQuery.Result.Value is Account account)
+            Model = account;
+
+        IsLoading = (Model is null || Custodians is null);
+    }
+
+    private async Task HandleValidSubmit(MouseEventArgs args)
+    {
+        int defaultId = Model!.AccountId;
+
+        var result = await Controller.CreateAsync(Model);
+        var createResult = result.Result as CreatedAtActionResult;
+
+        if (result.Result is CreatedAtActionResult caar &&
+            caar.Value is Account account &&
+            account.AccountId != defaultId)
+            NavigateToDetail($"{account.AccountId}");
+    }
+}

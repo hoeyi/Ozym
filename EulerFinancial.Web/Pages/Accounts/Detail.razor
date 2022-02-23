@@ -1,0 +1,79 @@
+﻿@page "/Accounts/Detail/{AccountId:int}"
+
+@inherits ModelDetail<Account>
+
+<PageTitle>@PageTitle.AsPageTitle()</PageTitle>
+<div><h4>@PageTitle</h4></div>
+<hr/>
+
+@if (IsLoading)
+{
+    <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
+}
+else
+{
+    <div>
+        <a class="link-button" href="@($"{PageIndexUri}")"
+            @onclick="@(args => NavigateToIndex(args))"
+            @onclick:preventDefault>
+            @Resources.Strings.Caption_Button_Index
+        </a>
+        <a class="link-button" href="@($"{PageIndexUri}/Accounts/Edit/{Model.AccountId}")"
+            @onclick=@(args => NavigateToEdit(args))
+            @onclick:preventDefault>
+            @Resources.Strings.Caption_Button_Edit
+        </a>
+        <a class="link-button" href="@NavigationHelper.ToAbsoluteUri($"AccountWallets/Edit/{Model.AccountId}").AbsoluteUri"
+            @onclick=@(args => NavigateToWallets(args))
+            @onclick:preventDefault>
+            @(ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()?.ToTitleCase())
+        </a>
+    </div>
+    <hr />
+    <div>
+        <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=true />
+    </div>
+    <div>
+        <AccountCRUD Model="@Model" AccountCustodians=@custodians IsDisabled=true />
+    </div>
+}
+@code {
+    [Parameter]
+    public int? AccountId { get; set; }
+
+    /// <inheritdoc/>
+    protected override string PageTitle => Resources.Strings.Title_AccountDetail
+        .Format(Model?.AccountCode?.ToUpper());
+
+    private IEnumerable<AccountCustodian> custodians = new AccountCustodian[0];
+
+    private string WalletsUri
+    {
+        get
+        {
+            return NavigationHelper.ToAbsoluteUri("AccountWallets").AbsoluteUri;
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        var accountQuery = await Controller.ReadAsync(AccountId);
+        if (accountQuery.Value is Account account)
+            Model = account;
+
+        IsLoading = Model is null;
+    }
+
+    private void NavigateToWallets(MouseEventArgs args)
+    {
+        if (AccountId is int id)
+            NavigationHelper.NavigateTo($"{WalletsUri}/Edit/{id}");
+    }
+
+    private void NavigateToEdit(MouseEventArgs args)
+    {
+        NavigateToEdit($"{Model.AccountId}");
+    }
+
+}
