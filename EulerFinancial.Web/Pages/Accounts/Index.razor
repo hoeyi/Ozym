@@ -1,9 +1,10 @@
 ﻿@page "/Accounts"
 
+@layout PageLayout
+
 @inherits ModelIndex<Account>
 
-<PageTitle>@PageTitle.AsPageTitle()</PageTitle>
-<div><h4>@PageTitle</h4></div>
+<PageTitle>@(ViewService.Header?.AsPageTitle() ?? Resources.Strings.Title_NotFound)</PageTitle>
 
 <div>
     <a class="link-button" href="@($"{PageIndexUri}/Create")"
@@ -115,13 +116,13 @@ else
 }
 
 @code {
-    /// <inheritdoc/>
-    protected override string PageTitle => Resources.Strings.Title_AccountIndex;
 
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
         MaxRecordCount = -1;
+
+        ViewService.Header = Resources.Strings.Title_AccountIndex;
 
         return base.OnInitializedAsync();
     }

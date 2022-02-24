@@ -22,7 +22,7 @@ namespace EulerFinancial.UserInterface
         {
             appName ??= Configuration.AssemblyInfo.AssemblyProduct;
 
-            return $"{s} | {appName}";
+            return $"{appName} | {s}";
         }
 
         /// <summary>

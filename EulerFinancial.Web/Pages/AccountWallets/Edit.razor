@@ -1,12 +1,13 @@
 ﻿@page "/AccountWallets/Edit/{AccountId:int}"
-@inherits ModelComponentBase<AccountWallet>
+
+@layout PageLayout
+
+@inherits ModelPage<AccountWallet>
 
 @inject IBatchController<AccountWallet> Controller
 @inject IReferenceDataService ReferenceData
 
-<PageTitle>@PageTitle.AsPageTitle()</PageTitle>
-<div><h4>@PageTitle</h4></div>
-<hr />
+<PageTitle>@(ViewService.Header?.AsPageTitle() ?? Resources.Strings.Title_NotFound)</PageTitle>
 
 @if (Wallets is null)
 {
@@ -73,6 +74,9 @@ else
     [Parameter]
     public int AccountId { get; set; }
 
+    [CascadingParameter]
+    public PageLayout? Layout { get; set; }
+
     /// <summary>
     /// Gets or sets the <see cref="AccountWallet"/> collection for this component.
     /// </summary>
@@ -83,11 +87,7 @@ else
     /// </summary>
     private IEnumerable<Security> DenominationSecurities { get; set; } = Array.Empty<Security>();
 
-    /// <inheritdoc/>
-    protected override string PageTitle => Resources.Strings.Title_AccountWalletsEdit
-        .Format(parent?.AccountCode?.ToUpper());
-
-    private Account? parent;
+    private Account parent = default!;
 
     private string? errorMessage;
 
@@ -96,8 +96,10 @@ else
         parent = await ReferenceData.GetSingleAsync<Account>(a =>
                                 a.AccountId == (int)AccountId, nameof(Account.AccountNavigation));
 
-        
-        var initResult = Controller.Initialize(parent!.AccountId);
+        ViewService.Header = Resources.Strings.Title_AccountWalletsEdit
+                .Format(parent.AccountCode.ToUpper());
+
+        var initResult = Controller.Initialize(parent.AccountId);
 
 
         if (initResult is not OkResult)

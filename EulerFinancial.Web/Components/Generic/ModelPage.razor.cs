@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 using System;
+using EulerFinancial.Web.Services;
 
 namespace EulerFinancial.Web.Components.Generic
 {
-    public partial class ModelComponentBase<TModel> : LocalizableComponent, INavigationSource
+    public partial class ModelPage<TModel> : LocalizableComponent, INavigationSource
     {
         /// <summary>
         /// Gets or sets the <see cref="ILogger"/> used by this component.
@@ -18,6 +19,14 @@ namespace EulerFinancial.Web.Components.Generic
         /// </summary>
         [Inject]
         public NavigationManager NavigationHelper { get; set; } = default!;
+
+
+        /// <summary>
+        /// Gets or sets the service used to pass values to layouts.
+        /// </summary>
+        [Inject]
+        public ViewDataService ViewService { get; set; } = default!;
+
 
         /// <summary>
         /// Gets the absolute uri for the index page that represents this model.
@@ -39,9 +48,6 @@ namespace EulerFinancial.Web.Components.Generic
 
             }
         }
-
-        /// <inheritdoc/>
-        protected override string PageTitle => Resources.Strings.Title_NotFound;
 
         /// <summary>
         /// Redirects the focus to the model index page.

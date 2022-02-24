@@ -8,13 +8,4 @@
     /// </summary>
     [Inject]
     protected IModelMetadataService ModelMetadata { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the page/section title for this component. The default is an empty string, 
-    /// unless overriden in an inheriting class.
-    /// </summary>
-    protected virtual string PageTitle
-    {
-        get { return string.Empty; }
-    }
 }

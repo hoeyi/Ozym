@@ -12,7 +12,7 @@ namespace EulerFinancial.Web.Components.Generic
     /// <summary>
     /// A component for interacting with a model index.
     /// </summary>
-    public partial class ModelIndex<TModel> : ModelComponentBase<TModel>
+    public partial class ModelIndex<TModel> : ModelPage<TModel>
         where TModel : class, new()
     {
         /// <summary>

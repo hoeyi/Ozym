@@ -1,9 +1,14 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@inject Services.ViewDataService ViewService
+
+<PageTitle>@Resources.Strings.Title_ApplicationHome</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@code{
+}

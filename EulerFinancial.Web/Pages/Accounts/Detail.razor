@@ -1,10 +1,10 @@
 ﻿@page "/Accounts/Detail/{AccountId:int}"
 
+@layout PageLayout
+
 @inherits ModelDetail<Account>
 
-<PageTitle>@PageTitle.AsPageTitle()</PageTitle>
-<div><h4>@PageTitle</h4></div>
-<hr/>
+<PageTitle>@(ViewService.Header?.AsPageTitle() ?? Resources.Strings.Title_NotFound)</PageTitle>
 
 @if (Model is null)
 {
@@ -43,9 +43,11 @@ else
     [Parameter]
     public int? AccountId { get; set; }
 
+    [CascadingParameter]
+    public PageLayout? Layout { get; set; }
     /// <inheritdoc/>
-    protected override string PageTitle => Resources.Strings.Title_AccountDetail
-        .Format(Model?.AccountCode?.ToUpper());
+    //protected override string PageTitle => Resources.Strings.Title_AccountDetail
+    //    .Format(Model?.AccountCode?.ToUpper());
 
     private IEnumerable<AccountCustodian> custodians = new AccountCustodian[0];
 
@@ -65,7 +67,14 @@ else
     {
         var accountQuery = await Controller.ReadAsync(AccountId);
         if (accountQuery.Value is Account account)
+        {
             Model = account;
+
+            ViewService.Header = Resources.Strings.Title_AccountDetail
+                .Format(Model.AccountCode.ToUpper());
+        }
+
+        // TODO: Take corrective action here, accountQuery.Value should be Account
     }
 
     private void NavigateToWallets(MouseEventArgs args)

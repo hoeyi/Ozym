@@ -1,12 +1,12 @@
 ﻿@page "/Accounts/Edit/{AccountId:int}"
 
+@layout PageLayout
+
 @inherits ModelDetail<Account>
 
 @inject IReferenceDataService ReferenceData
 
-<PageTitle>@PageTitle.AsPageTitle()</PageTitle>
-<div><h4>@PageTitle</h4></div>
-<hr/>
+<PageTitle>@(ViewService.Header?.AsPageTitle() ?? Resources.Strings.Title_NotFound)</PageTitle>
 
 @if (Model is null || Custodians is null)
 {
@@ -50,9 +50,12 @@ else
     [Parameter]
     public int? AccountId { get; set; }
 
-    /// <inheritdoc/>
-    protected override string PageTitle => Resources.Strings.Title_AccountEdit
-        .Format(Model?.AccountCode?.ToUpper());
+    [CascadingParameter]
+    public PageLayout? Layout { get; set; }
+
+    ///// <inheritdoc/>
+    //protected override string PageTitle => Resources.Strings.Title_AccountEdit
+    //    .Format(Model?.AccountCode?.ToUpper());
 
     private IEnumerable<AccountCustodian>? Custodians { get; set; }
 
@@ -64,7 +67,12 @@ else
     {   
         var accountQuery = await Controller.ReadAsync(AccountId);
         if (accountQuery.Value is Account account)
+        {
             Model = account;
+
+            ViewService.Header = Resources.Strings.Title_AccountEdit
+                    .Format(Model.AccountCode.ToUpper());  
+        }
 
         var custodiansQuery = await ReferenceData.GetAllAsync<AccountCustodian>();
         Custodians = custodiansQuery;

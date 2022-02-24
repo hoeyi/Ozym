@@ -187,7 +187,7 @@ namespace EulerFinancial.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create new account.
+        ///   Looks up a localized string similar to New account.
         /// </summary>
         internal static string Title_AccountCreate {
             get {
@@ -196,7 +196,7 @@ namespace EulerFinancial.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}: Details.
+        ///   Looks up a localized string similar to Account: {0}.
         /// </summary>
         internal static string Title_AccountDetail {
             get {
@@ -205,7 +205,7 @@ namespace EulerFinancial.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}: Edit.
+        ///   Looks up a localized string similar to Edit account: {0}.
         /// </summary>
         internal static string Title_AccountEdit {
             get {
@@ -223,7 +223,7 @@ namespace EulerFinancial.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}: Edit wallets.
+        ///   Looks up a localized string similar to Account wallets: {0}.
         /// </summary>
         internal static string Title_AccountWalletsEdit {
             get {

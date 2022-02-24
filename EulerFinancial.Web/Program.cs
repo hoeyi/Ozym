@@ -73,6 +73,8 @@ builder.Services.AddModelControllers();
 
 #endregion
 
+builder.Services.AddSingleton<EulerFinancial.Web.Services.ViewDataService>();
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
