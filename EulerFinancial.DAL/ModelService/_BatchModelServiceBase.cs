@@ -17,25 +17,11 @@ namespace EulerFinancial.ModelService
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
     /// <typeparam name="TParentKey">The model's parent key type.</typeparam>
-    public abstract class BatchModelServiceBase<T, TParentKey> : IBatchModelService<T>
+    public abstract class BatchModelServiceBase<T, TParentKey> 
+        : ModelServiceBase, IBatchModelService<T>
         where T : class, new()
         where TParentKey : struct
     {
-        /// <summary>
-        /// The <see cref="EulerFinancialContext"/> instance for this service.
-        /// </summary>
-        protected readonly EulerFinancialContext context;
-
-        /// <summary>
-        /// The <see cref="IModelMetadataService"/> instance for this service.
-        /// </summary>
-        protected readonly IModelMetadataService modelMetadata;
-
-        /// <summary>
-        /// The <see cref="ILogger"/> instance for this service.
-        /// </summary>
-        protected readonly ILogger logger;
-
         /// <summary>
         /// The unique key that represents the parent of objects worked using this service.
         /// </summary>
@@ -48,23 +34,19 @@ namespace EulerFinancial.ModelService
         /// <param name="modelMetadata">The <see cref="IModelMetadataService"/> for this service.</param>
         /// <param name="logger">The <see cref="ILogger"/> for this service.</param>
         /// <exception cref="ArgumentNullException">A required parameter was null.</exception>
+        /// <summary>
+        /// Creates a new <typeparamref name="T"/> service.
+        /// </summary>
+        /// <param name="context">The <see cref="EulerFinancialContext"/> for this service.</param>
+        /// <param name="modelMetadata">The <see cref="IModelMetadataService"/> for this service.</param>
+        /// <param name="logger">The <see cref="ILogger"/> for this service.</param>
+        /// <param name="parentKey">The <typeparamref name="T"/> parent key type.</param>
+        /// <exception cref="ArgumentNullException">A required parameter was null.</exception>
         protected BatchModelServiceBase(
-            EulerFinancialContext context,
+            IDbContextFactory<EulerFinancialContext> contextFactory,
             IModelMetadataService modelMetadata,
-            ILogger logger)
+            ILogger logger) : base(contextFactory, modelMetadata, logger)
         {
-            if (context is null)
-                throw new ArgumentNullException(paramName: nameof(context));
-
-            if (modelMetadata is null)
-                throw new ArgumentNullException(paramName: nameof(modelMetadata));
-
-            if (logger is null)
-                throw new ArgumentNullException(paramName: nameof(logger));
-
-            this.context = context;
-            this.modelMetadata = modelMetadata;
-            this.logger = logger;
         }
 
         /// <inheritdoc/>
@@ -77,7 +59,7 @@ namespace EulerFinancial.ModelService
                     Exception e = new InvalidOperationException(
                         message: ExceptionString.ModelService_ParentKeyNotSet);
 
-                    logger.ModelServiceNotInitialized(service: GetType().Name, e);
+                    _logger.ModelServiceNotInitialized(service: GetType().Name, e);
 
                     throw e;
                 }
@@ -134,12 +116,12 @@ namespace EulerFinancial.ModelService
             }
             catch (DbUpdateConcurrencyException duc)
             {
-                logger.LogWarning(duc, duc.Message);
+                _logger.LogWarning(duc, duc.Message);
                 throw new ModelUpdateException(duc.Message);
             }
             catch (DbUpdateException du)
             {
-                logger.LogWarning(du, message: du.Message);
+                _logger.LogWarning(du, message: du.Message);
                 throw new ModelUpdateException(du.InnerException.Message, du);
             }
         }

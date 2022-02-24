@@ -22,9 +22,9 @@ namespace EulerFinancial.ModelService
     {
         /// <inheritdoc/>
         public AccountWalletService(
-            EulerFinancialContext context,
+            IDbContextFactory<EulerFinancialContext> contextFactory,
             IModelMetadataService modelMetadata,
-            ILogger logger) : base(context, modelMetadata, logger)
+            ILogger logger) : base(contextFactory, modelMetadata, logger)
         {
         }
 
@@ -33,6 +33,8 @@ namespace EulerFinancial.ModelService
         {
             if (model is null)
                 return false;
+
+            using var context = _contextFactory.CreateDbContext();
 
             return context.AccountWallets.Any(m => m.AccountWalletId == model.AccountWalletId);
         }
@@ -56,6 +58,8 @@ namespace EulerFinancial.ModelService
             //    .AccountWallets
             //    .Where(e => dirtyStates.Contains(context.Entry(e).State))
             //    .Count();
+
+            using var context = _contextFactory.CreateDbContext();
 
             return await DoWriteOperationAsync(async () =>
             {
@@ -83,6 +87,9 @@ namespace EulerFinancial.ModelService
         public override bool AddPendingSave(AccountWallet model)
         {
             model.AccountId = ParentKey;
+
+            using var context = _contextFactory.CreateDbContext();
+
             context.AccountWallets.Add(model);
 
             EntityState observedState = context.Entry(model).State;
@@ -98,11 +105,11 @@ namespace EulerFinancial.ModelService
 
             if (result)
             {
-                logger.ModelServiceAddedPendingSave(m);
+                _logger.ModelServiceAddedPendingSave(m);
             }
             else
             {
-                logger.ModelServiceAddReturnedInvalidState(m, EntityState.Added, observedState);
+                _logger.ModelServiceAddReturnedInvalidState(m, EntityState.Added, observedState);
             }
             return result;
         }
@@ -110,6 +117,8 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public override bool DeletePendingSave(AccountWallet model)
         {
+            using var context = _contextFactory.CreateDbContext();
+
             context.AccountWallets.Remove(model);
 
             EntityState observedState = context.Entry(model).State;
@@ -125,11 +134,11 @@ namespace EulerFinancial.ModelService
 
             if (result)
             {
-                logger.ModelServiceDeletedPendingSave(m);
+                _logger.ModelServiceDeletedPendingSave(m);
             }
             else
             {
-                logger.ModelServiceDeleteReturnedInvalidState(m, EntityState.Deleted, observedState);
+                _logger.ModelServiceDeleteReturnedInvalidState(m, EntityState.Deleted, observedState);
             }
             return result;
         }
@@ -142,11 +151,13 @@ namespace EulerFinancial.ModelService
 
             var searchGuid = Guid.NewGuid();
 
-            logger.ModelServiceSearchRequestAccepted(
+            _logger.ModelServiceSearchRequestAccepted(
                 requestGuid: searchGuid,
                 type: typeof(AccountWallet),
                 predicate: predicate.Body,
                 recordLimit: maxCount);
+
+            using var context = _contextFactory.CreateDbContext();
 
             var result = await context.AccountWallets
                             .Include(a => a.Account)
@@ -155,7 +166,7 @@ namespace EulerFinancial.ModelService
                             .Where(predicate)
                             .ToListAsync();
 
-            logger.ModelServiceSearchResultReturned(
+            _logger.ModelServiceSearchResultReturned(
                 requestGuid: searchGuid,
                 type: typeof(AccountWallet),
                 resultCount: result?.Count ?? default);

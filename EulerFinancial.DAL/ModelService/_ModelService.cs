@@ -15,26 +15,13 @@ namespace EulerFinancial.ModelService
     /// models.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
-    public abstract class ModelService<T> : IModelService<T>
+    public abstract class ModelService<T> : ModelServiceBase, IModelService<T>
         where T : class, new()
     {
-        /// <summary>
-        /// The <see cref="EulerFinancialContext"/> instance for this service.
-        /// </summary>
-        protected readonly EulerFinancialContext context;
+
 
         /// <summary>
-        /// The <see cref="IModelMetadataService"/> instance for this service.
-        /// </summary>
-        protected readonly IModelMetadataService modelMetadata;
-
-        /// <summary>
-        /// The <see cref="ILogger"/> instance for this service.
-        /// </summary>
-        protected readonly ILogger logger;
-
-        /// <summary>
-        /// Creates a new <typeparamref name="T"/> model service.
+        /// Creates a new <typeparamref name="T"/> service.
         /// </summary>
         /// <param name="context">The <see cref="EulerFinancialContext"/> for this service.</param>
         /// <param name="modelMetadata">The <see cref="IModelMetadataService"/> for this service.</param>
@@ -42,22 +29,10 @@ namespace EulerFinancial.ModelService
         /// <param name="parentKey">The <typeparamref name="T"/> parent key type.</param>
         /// <exception cref="ArgumentNullException">A required parameter was null.</exception>
         protected ModelService(
-            EulerFinancialContext context,
+            IDbContextFactory<EulerFinancialContext> contextFactory,
             IModelMetadataService modelMetadata,
-            ILogger logger)
+            ILogger logger) : base(contextFactory, modelMetadata, logger)
         {
-            if (context is null)
-                throw new ArgumentNullException(paramName: nameof(context));
-
-            if (modelMetadata is null)
-                throw new ArgumentNullException(paramName: nameof(modelMetadata));
-
-            if (logger is null)
-                throw new ArgumentNullException(paramName: nameof(logger));
-
-            this.context = context;
-            this.modelMetadata = modelMetadata;
-            this.logger = logger;
         }
 
         /// <inheritdoc/>
@@ -106,12 +81,12 @@ namespace EulerFinancial.ModelService
             }
             catch (DbUpdateConcurrencyException duc)
             {
-                logger.LogWarning(duc, duc.Message);
+                _logger.LogWarning(duc, duc.Message);
                 throw new ModelUpdateException(duc.Message);
             }
             catch (DbUpdateException du)
             {
-                logger.LogWarning(du, message: du.Message);
+                _logger.LogWarning(du, message: du.Message);
                 throw new ModelUpdateException(du.InnerException.Message, du);
             }
         }

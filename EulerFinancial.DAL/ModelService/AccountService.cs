@@ -21,10 +21,10 @@ namespace EulerFinancial.ModelService
     {
         /// <inheritdoc/>
         public AccountService(
-            EulerFinancialContext context,
+            IDbContextFactory<EulerFinancialContext> contextFactory,
             IModelMetadataService modelMetadata,
             ILogger logger)
-            : base(context, modelMetadata, logger)
+            : base(contextFactory, modelMetadata, logger)
         {
         }
 
@@ -45,6 +45,8 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public override async Task<Account> CreateAsync(Account model)
         {
+            using var context = _contextFactory.CreateDbContext();
+
             return await DoWriteOperationAsync(async () =>
             {
                 using var transaction = await context.Database.BeginTransactionAsync();
@@ -63,7 +65,7 @@ namespace EulerFinancial.ModelService
                 var result = count > 0;
 
                 if (result)
-                    logger.ModelServiceCreatedModel(
+                    _logger.ModelServiceCreatedModel(
                         new
                         {
                             Type = model.GetType().Name,
@@ -78,6 +80,8 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>   
         public override async Task<Account> ReadAsync(int? id)
         {
+            using var context = _contextFactory.CreateDbContext();
+
             try
             {
                 var result = await context.Accounts
@@ -86,7 +90,7 @@ namespace EulerFinancial.ModelService
                                     .FirstOrDefaultAsync(a => a.AccountId == id);
 
                 if (result is not null)
-                    logger.ModelServiceReadModel(
+                    _logger.ModelServiceReadModel(
                         model: new
                         {
                             Type = typeof(Account).Name,
@@ -98,7 +102,7 @@ namespace EulerFinancial.ModelService
             }
             catch(Exception exception)
             {
-                logger.ModelServiceReadSingleFailed(
+                _logger.ModelServiceReadSingleFailed(
                     model: new
                     {
                         Type = typeof(Account).Name,
@@ -113,6 +117,8 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public override async Task<bool> UpdateAsync(Account model)
         {
+            using var context = _contextFactory.CreateDbContext();
+
             return await DoWriteOperationAsync(async () =>
             {
                 context.Entry(model).State = EntityState.Modified;
@@ -121,7 +127,7 @@ namespace EulerFinancial.ModelService
                 var result = count > 0;
 
                 if (result)
-                    logger.ModelServiceUpdatedModel(
+                    _logger.ModelServiceUpdatedModel(
                         model: new
                         {
                             Type = typeof(Account).Name,
@@ -136,6 +142,8 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public override async Task<bool> DeleteAsync(Account model)
         {
+            using var context = _contextFactory.CreateDbContext();
+
             return await DoWriteOperationAsync(async () =>
             {
                 try
@@ -188,7 +196,7 @@ namespace EulerFinancial.ModelService
                     await transaction.CommitAsync();
 
                     if (result)
-                        logger.ModelServiceDeletedModel(
+                        _logger.ModelServiceDeletedModel(
                             model: new
                             {
                                 Type = typeof(Account).Name,
@@ -200,7 +208,7 @@ namespace EulerFinancial.ModelService
                 }
                 catch (DbUpdateException dbe)
                 {
-                    logger.ModelServiceSaveChangesFailed(dbe);
+                    _logger.ModelServiceSaveChangesFailed(dbe);
 
                     return !ModelExists(model.AccountId);
                 }
@@ -216,6 +224,8 @@ namespace EulerFinancial.ModelService
                 return false;
             }
 
+            using var context = _contextFactory.CreateDbContext();
+
             return context.Accounts.Any(m => m.AccountId == id);
         }
 
@@ -226,6 +236,8 @@ namespace EulerFinancial.ModelService
             {
                 return false;
             }
+            
+            using var context = _contextFactory.CreateDbContext();
 
             return context.Accounts.Any(m => m.AccountId == model.AccountId);
         }
@@ -237,18 +249,20 @@ namespace EulerFinancial.ModelService
 
             var searchGuid = Guid.NewGuid();
 
-            logger.ModelServiceSearchRequestAccepted(
+            _logger.ModelServiceSearchRequestAccepted(
                 requestGuid: searchGuid,
                 type: typeof(Account),
                 predicate: expression.Body,
                 recordLimit: int.MaxValue);
+
+            using var context = _contextFactory.CreateDbContext();
 
             var result = await context.Accounts
                             .Include(a => a.AccountCustodian)
                             .Include(a => a.AccountNavigation)
                             .ToListAsync();
 
-            logger.ModelServiceSearchResultReturned(
+            _logger.ModelServiceSearchResultReturned(
                 requestGuid: searchGuid,
                 type: typeof(Account),
                 resultCount: result?.Count ?? default);
@@ -264,11 +278,13 @@ namespace EulerFinancial.ModelService
 
             var searchGuid = Guid.NewGuid();
 
-            logger.ModelServiceSearchRequestAccepted(
+            _logger.ModelServiceSearchRequestAccepted(
                 requestGuid: searchGuid,
                 type: typeof(Account),
                 predicate: predicate.Body,
                 recordLimit: maxCount);
+
+            using var context = _contextFactory.CreateDbContext();
 
             var result = await context.Accounts
                             .Include(a => a.AccountCustodian)
@@ -277,7 +293,7 @@ namespace EulerFinancial.ModelService
                             .Take(maxCount)
                             .ToListAsync();
 
-            logger.ModelServiceSearchResultReturned(
+            _logger.ModelServiceSearchResultReturned(
                 requestGuid: searchGuid,
                 type: typeof(Account),
                 resultCount: result?.Count ?? default);
