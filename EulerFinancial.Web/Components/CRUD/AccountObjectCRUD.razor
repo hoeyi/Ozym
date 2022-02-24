@@ -1,0 +1,107 @@
+﻿@inherits ModelCRUD<AccountObject>
+@if (Model is null)
+{
+    <p><em>"@Resources.Strings.Caption_Page_Loading"</em></p>
+}
+else
+{
+    <EditForm Model="@Model">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <dl class="row">
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))">
+                    @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.AccountObjectCode
+                }
+                else
+                {
+                    <InputText id="accountobject-shortcode" class="form-control"
+                               @bind-Value=Model.AccountObjectCode
+                               disable="@Disabled"
+                               DisplayName=@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode))) />
+                    <ValidationMessage For="@(() => Model.AccountObjectCode)" />
+                }
+            </dd>
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))">
+                    @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.ObjectDisplayName
+                }
+                else
+                {
+                    <InputText id="accountobject-objectdisplayname" class="form-control"
+                               @bind-Value=Model.ObjectDisplayName
+                               disable="@Disabled"
+                               DisplayName=@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName))) />
+                    <ValidationMessage For="@(() => Model.ObjectDisplayName)" />
+                }
+            </dd>
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<AccountObject>(nameof(AccountObject.ObjectDescription)))">
+                    @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDescription)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.ObjectDescription
+                }
+                else
+                {
+                    <InputText id="accountobject-objectdescription" class="form-control"
+                               @bind-Value=Model.ObjectDescription
+                               disable="@Disabled"
+                               DisplayName=@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDescription))) />
+                    <ValidationMessage For="@(() => Model.ObjectDescription)" />
+                }
+            </dd>
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<AccountObject>(nameof(AccountObject.StartDate)))">
+                    @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.StartDate)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.StartDate.ToShortDateString()
+                }
+                else
+                {
+                    <InputDate id="accountobect-startdate" class="form-control"
+                               @bind-Value=Model.StartDate
+                               disable="@Disabled"/>
+                    <ValidationMessage For="@(() => Model.StartDate)" />
+                }
+            </dd>
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<AccountObject>(nameof(AccountObject.CloseDate)))">
+                    @(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.CloseDate)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.CloseDate?.ToShortDateString()
+                }
+                else
+                {
+                    <InputDate id="account-number" class="form-control"
+                               @bind-Value=Model.CloseDate
+                               disable="@Disabled"/>
+                    <ValidationMessage For="@(() => Model.CloseDate)" />
+                }
+            </dd>
+        </dl>
+    </EditForm>
+}

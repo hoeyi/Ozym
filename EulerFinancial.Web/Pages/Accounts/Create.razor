@@ -1,0 +1,84 @@
+﻿@page "/Accounts/Create/{RequestGuid:guid}"
+
+@layout PageLayout
+
+@inherits ModelDetail<Account>
+
+@inject IReferenceDataService ReferenceData
+
+<PageTitle>@(ViewService.Header?.AsPageTitle() ?? Resources.Strings.Title_NotFound)</PageTitle>
+
+@if (Model is null || Custodians is null)
+{
+    <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
+}
+else
+{
+    <div>
+        <a class="link-button" href="@($"{PageIndexUri}")"
+            @onclick="@(args => NavigateToIndex(args))"
+            @onclick:preventDefault>
+            @Resources.Strings.Caption_Button_Index
+        </a>
+    </div>
+    <hr />
+    <div>
+        <AccountObjectCRUD Model="@Model!.AccountNavigation" 
+            Disabled="@_disabled" Readonly="@_readonly" />
+    </div>
+    <div>
+        <AccountCRUD Model="@Model" AccountCustodians=@Custodians 
+            Disabled="@_disabled" Readonly="@_readonly" />
+    </div>
+    <div>
+        <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
+            @Resources.Strings.Caption_Button_Save
+        </button>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid RequestGuid { get; set; }
+
+
+    [CascadingParameter]
+    public PageLayout? Layout { get; set; }
+
+    /// <inheritdoc/>
+    //protected override string PageTitle => Resources.Strings.Title_AccountCreate;
+
+    private IEnumerable<AccountCustodian>? Custodians { get; set; }
+
+    private const bool _disabled = false;
+    private const bool _readonly = false;
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        ViewService.Header = Resources.Strings.Title_AccountCreate;
+
+        var modelQuery = Controller.GetDefaultAsync();
+        var custodiansQuery = ReferenceData.GetAllAsync<AccountCustodian>();
+
+        await custodiansQuery;
+        await modelQuery;
+
+        Custodians = custodiansQuery.Result;
+        if (modelQuery.Result.Value is Account account)
+            Model = account;
+    }
+
+    private async Task HandleValidSubmit(MouseEventArgs args)
+    {
+        int defaultId = Model!.AccountId;
+
+        var result = await Controller.CreateAsync(Model);
+        var createResult = result.Result as CreatedAtActionResult;
+
+        if (result.Result is CreatedAtActionResult caar &&
+            caar.Value is Account account &&
+            account.AccountId != defaultId)
+            NavigateToDetail($"{account.AccountId}");
+    }
+}

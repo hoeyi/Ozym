@@ -79,11 +79,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>InformationMessage.resx</DependentUpon>
     </Compile>
-    <Compile Update="UserInterface\StringResource.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>StringResource.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -122,10 +117,6 @@
     <EmbeddedResource Update="Logging\Templates\InformationMessage.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>InformationMessage.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="UserInterface\StringResource.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

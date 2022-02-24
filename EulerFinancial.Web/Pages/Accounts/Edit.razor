@@ -1,0 +1,99 @@
+﻿@page "/Accounts/Edit/{AccountId:int}"
+
+@layout PageLayout
+
+@inherits ModelDetail<Account>
+
+@inject IReferenceDataService ReferenceData
+
+<PageTitle>@(ViewService.Header?.AsPageTitle() ?? Resources.Strings.Title_NotFound)</PageTitle>
+
+@if (Model is null || Custodians is null)
+{
+    <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
+}
+else
+{
+    <div>
+        <a class="link-button" href="@($"{PageIndexUri}")"
+            @onclick="@(args => NavigateToIndex(args))"
+            @onclick:preventDefault>
+            @Resources.Strings.Caption_Button_Index
+        </a>
+        <a class="link-button" href=""
+            @onclick=@(args => HandleDelete(args))
+            @onclick:preventDefault>
+            @Resources.Strings.Caption_Button_Delete
+        </a>
+    </div>
+    <hr />
+    <EditForm Model=@Model>
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+        <div>
+            <AccountObjectCRUD Model="@Model.AccountNavigation"
+                Disabled="@_disabled" Readonly="@_readonly" />
+        </div>
+        <div>
+            <AccountCRUD Model="@Model" AccountCustodians="@Custodians"
+                Disabled="@_disabled" Readonly="@_readonly" />
+        </div>
+        <div>
+            <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
+                @Resources.Strings.Caption_Button_Save
+            </button>
+        </div>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int? AccountId { get; set; }
+
+    [CascadingParameter]
+    public PageLayout? Layout { get; set; }
+
+    ///// <inheritdoc/>
+    //protected override string PageTitle => Resources.Strings.Title_AccountEdit
+    //    .Format(Model?.AccountCode?.ToUpper());
+
+    private IEnumerable<AccountCustodian>? Custodians { get; set; }
+
+    private const bool _disabled = false;
+    private const bool _readonly = false;
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {   
+        var accountQuery = await Controller.ReadAsync(AccountId);
+        if (accountQuery.Value is Account account)
+        {
+            Model = account;
+
+            ViewService.Header = Resources.Strings.Title_AccountEdit
+                    .Format(Model.AccountCode.ToUpper());  
+        }
+
+        var custodiansQuery = await ReferenceData.GetAllAsync<AccountCustodian>();
+        Custodians = custodiansQuery;
+    }
+
+    private async Task HandleDelete(MouseEventArgs args)
+    {
+        var result = await Controller.DeleteAsync(Model!);
+
+        if (result is NoContentResult)
+            NavigateToIndex(args);
+    }
+
+    private async Task HandleValidSubmit(MouseEventArgs args)
+    {
+        var e = args;
+        Logger.LogInformation("HandleValidSubmit called");
+
+        var result = await Controller.UpdateAsync(AccountId, Model);
+
+        if (result.Value?.AccountId == AccountId)
+            NavigateToDetail($"{Model?.AccountId}");
+    }
+}
