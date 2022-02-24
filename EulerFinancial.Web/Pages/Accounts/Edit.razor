@@ -31,10 +31,12 @@ else
         <DataAnnotationsValidator/>
         <ValidationSummary/>
         <div>
-            <AccountObjectCRUD Model="@Model.AccountNavigation" Disabled=false />
+            <AccountObjectCRUD Model="@Model.AccountNavigation"
+                Disabled="@_disabled" Readonly="@_readonly" />
         </div>
         <div>
-            <AccountCRUD Model="@Model" AccountCustodians="@Custodians" Disabled=false />
+            <AccountCRUD Model="@Model" AccountCustodians="@Custodians"
+                Disabled="@_disabled" Readonly="@_readonly" />
         </div>
         <div>
             <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
@@ -53,6 +55,9 @@ else
         .Format(Model?.AccountCode?.ToUpper());
 
     private IEnumerable<AccountCustodian>? Custodians { get; set; }
+
+    private const bool _disabled = false;
+    private const bool _readonly = false;
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()

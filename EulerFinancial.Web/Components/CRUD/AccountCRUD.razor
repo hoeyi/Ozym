@@ -16,14 +16,15 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.AccountNumber
                 }
                 else
                 {
                     <InputText id="account-number" class="form-control"
-                       @bind-Value=Model.AccountNumber />
+                       @bind-Value=Model.AccountNumber
+                       disable="@Disabled" />
                     <ValidationMessage For="@(() => Model.AccountNumber)" />
                 }
             </dd>
@@ -33,7 +34,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.AccountCustodian?.DisplayName
                 }
@@ -41,8 +42,8 @@ else
                 {
                     <InputSelect id="account-custodian" class="form-control"
                          DisplayName="Model.AccountCustodian.CustodianCode"
-                         @bind-Value="Model.AccountCustodianId"
-                        disabled=>
+                         @bind-Value="Model.AccountCustodianId" 
+                         disabled="@Disabled">
                         @foreach (var custodian in AccountCustodians)
                         {
                             <option value=@custodian.AccountCustodianId>@custodian.DisplayName</option>
@@ -57,50 +58,51 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.DisplayOrder
                 }
                 else
                 {
                     <InputNumber id="account-displayorder" class="form-control"
-                         @bind-Value=Model.DisplayOrder />
+                         @bind-Value=Model.DisplayOrder
+                         disabled="@Disabled" />
                     <ValidationMessage For="@(() => Model.DisplayOrder)" />
                 }
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(
-                    nameof(Account.BooksClosedDate)))">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.BooksClosedDate)))">
                     @(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.BooksClosedDate?.ToShortDateString()
                 }
                 else
                 {
                     <InputDate id="account-bookscloseddate" class="form-control"
-                       @bind-Value=Model.BooksClosedDate />
+                       @bind-Value=Model.BooksClosedDate 
+                       disabled="@Disabled"/>
                     <ValidationMessage For="@(() => Model.BooksClosedDate)" />
                 }
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(
-                    nameof(Account.IsComplianceTradable)))">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.IsComplianceTradable)))">
                     @(ModelMetadata.NameFor<Account>(nameof(Account.IsComplianceTradable)))
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.IsComplianceTradable
                 }
                 else
                 {
                     <InputCheckbox id="account-iscompliancetradable"
-                           @bind-Value=Model.IsComplianceTradable />
+                           @bind-Value=Model.IsComplianceTradable
+                           disabled="@Disabled"/>
                     <ValidationMessage For="@(() => Model.IsComplianceTradable)" />
                 }
             </dd>
@@ -110,14 +112,15 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.HasWallet
                 }
                 else
                 {
                     <InputCheckbox id="account-haswallet"
-                           @bind-Value=Model.HasWallet />
+                           @bind-Value=Model.HasWallet 
+                           disabled="@Disabled"/>
                     <ValidationMessage For="@(() => Model.HasWallet)" />
                 }
             </dd>
@@ -128,14 +131,15 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.HasBankTransaction
                 }
                 else
                 {
                     <InputCheckbox id="account-hasbanktransaction"
-                           @bind-Value=Model.HasBankTransaction />
+                           @bind-Value=Model.HasBankTransaction 
+                           disabled="@Disabled"/>
                     <ValidationMessage For="@(() => Model.HasBankTransaction)" />
                 }
             </dd>
@@ -146,14 +150,15 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.HasBrokerTransaction
                 }
                 else
                 {
                     <InputCheckbox id="account-hasbrokertransaction"
-                           @bind-Value=Model.HasBrokerTransaction />
+                           @bind-Value=Model.HasBrokerTransaction 
+                           disabled="@Disabled"/>
                     <ValidationMessage For="@(() => Model.HasBrokerTransaction)" />
                 }
             </dd>

@@ -15,7 +15,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.AccountObjectCode
                 }
@@ -23,6 +23,7 @@ else
                 {
                     <InputText id="accountobject-shortcode" class="form-control"
                                @bind-Value=Model.AccountObjectCode
+                               disable="@Disabled"
                                DisplayName=@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode))) />
                     <ValidationMessage For="@(() => Model.AccountObjectCode)" />
                 }
@@ -33,7 +34,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.ObjectDisplayName
                 }
@@ -41,6 +42,7 @@ else
                 {
                     <InputText id="accountobject-objectdisplayname" class="form-control"
                                @bind-Value=Model.ObjectDisplayName
+                               disable="@Disabled"
                                DisplayName=@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName))) />
                     <ValidationMessage For="@(() => Model.ObjectDisplayName)" />
                 }
@@ -51,7 +53,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.ObjectDescription
                 }
@@ -59,6 +61,7 @@ else
                 {
                     <InputText id="accountobject-objectdescription" class="form-control"
                                @bind-Value=Model.ObjectDescription
+                               disable="@Disabled"
                                DisplayName=@(ModelMetadata.NameFor<AccountObject>(nameof(AccountObject.ObjectDescription))) />
                     <ValidationMessage For="@(() => Model.ObjectDescription)" />
                 }
@@ -69,14 +72,15 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.StartDate.ToShortDateString()
                 }
                 else
                 {
                     <InputDate id="accountobect-startdate" class="form-control"
-                               @bind-Value=Model.StartDate />
+                               @bind-Value=Model.StartDate
+                               disable="@Disabled"/>
                     <ValidationMessage For="@(() => Model.StartDate)" />
                 }
             </dd>
@@ -86,14 +90,15 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (Disabled)
+                @if (Readonly)
                 {
                     @Model.CloseDate?.ToShortDateString()
                 }
                 else
                 {
                     <InputDate id="account-number" class="form-control"
-                               @bind-Value=Model.CloseDate />
+                               @bind-Value=Model.CloseDate
+                               disable="@Disabled"/>
                     <ValidationMessage For="@(() => Model.CloseDate)" />
                 }
             </dd>

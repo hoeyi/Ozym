@@ -31,10 +31,12 @@ else
     </div>
     <hr />
     <div>
-        <AccountObjectCRUD Model="@Model.AccountNavigation" Disabled=true />
+        <AccountObjectCRUD Model="@Model.AccountNavigation"
+            Disabled="@_disabled" Readonly="@_readonly" />
     </div>
     <div>
-        <AccountCRUD Model="@Model" AccountCustodians=@custodians Disabled=true />
+        <AccountCRUD Model="@Model" AccountCustodians=@custodians 
+            Disabled="@_disabled" Readonly="@_readonly" />
     </div>
 }
 @code {
@@ -54,6 +56,9 @@ else
             return NavigationHelper.ToAbsoluteUri("AccountWallets").AbsoluteUri;
         }
     }
+
+    private const bool _disabled = false;
+    private const bool _readonly = true;
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
