@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EulerFinancial.Web.Components
 {
-    public partial class SearchInputTable<TModel> : LocalizedComponent
+    public partial class SearchInputTable<TModel> : LocalizableComponent
     {
         /// <summary>
         /// Gets or sets the collection of searchables fields for the type: <typeparamref name="TModel"/>.

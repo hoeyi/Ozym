@@ -5,13 +5,19 @@ using System;
 
 namespace EulerFinancial.Web.Components.Generic
 {
-    public partial class ModelComponentBase<TModel> : LocalizedComponent
+    public partial class ModelComponentBase<TModel> : LocalizableComponent, INavigationSource
     {
         /// <summary>
         /// Gets or sets the <see cref="ILogger"/> used by this component.
         /// </summary>
         [Inject]
-        protected ILogger Logger { get; set; } = default!;
+        public ILogger Logger { get; set; } = default!;
+
+        /// <summary>
+        /// Gets or sets the <see cref="NavigationManager"/> for this component.
+        /// </summary>
+        [Inject]
+        public NavigationManager NavigationHelper { get; set; } = default!;
 
         /// <summary>
         /// Gets the absolute uri for the index page that represents this model.
@@ -42,9 +48,6 @@ namespace EulerFinancial.Web.Components.Generic
         /// </summary>
         protected virtual void NavigateToIndex(MouseEventArgs args)
         {
-            if (IsLoading)
-                return;
-
             NavigationHelper.NavigateTo($"{PageIndexUri}");
         }
 
@@ -54,9 +57,6 @@ namespace EulerFinancial.Web.Components.Generic
         /// <param name="id">The identifier representing the request.</param>
         protected virtual void NavigateToCreate(string id)
         {
-            if (IsLoading)
-                return;
-
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException(paramName: nameof(id));
 
@@ -69,9 +69,6 @@ namespace EulerFinancial.Web.Components.Generic
         /// <param name="id">The identifier representing the request.</param>
         protected virtual void NavigateToEdit(string id)
         {
-            if (IsLoading)
-                return;
-
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException(paramName: nameof(id));
 
@@ -84,9 +81,6 @@ namespace EulerFinancial.Web.Components.Generic
         /// <param name="id">The identifier representing the request.</param>
         protected virtual void NavigateToDetail(string id)
         {
-            if (IsLoading)
-                return;
-
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException(paramName: nameof(id));
 

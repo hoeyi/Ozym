@@ -8,7 +8,7 @@
 <div><h4>@PageTitle</h4></div>
 <hr/>
 
-@if (IsLoading)
+@if (Model is null || Custodians is null)
 {
     <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
 }
@@ -31,10 +31,10 @@ else
         <DataAnnotationsValidator/>
         <ValidationSummary/>
         <div>
-            <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=false />
+            <AccountObjectCRUD Model="@Model.AccountNavigation" Disabled=false />
         </div>
         <div>
-            <AccountCRUD Model="@Model" AccountCustodians="@Custodians" IsDisabled=false />
+            <AccountCRUD Model="@Model" AccountCustodians="@Custodians" Disabled=false />
         </div>
         <div>
             <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
@@ -63,8 +63,6 @@ else
 
         var custodiansQuery = await ReferenceData.GetAllAsync<AccountCustodian>();
         Custodians = custodiansQuery;
-
-        IsLoading = (Model is null || Custodians is null);
     }
 
     private async Task HandleDelete(MouseEventArgs args)

@@ -1,4 +1,4 @@
-﻿@inherits ModelDetail<Account>
+﻿@inherits ModelCRUD<Account>
 
 @if (Model is null || AccountCustodians is null)
 {
@@ -16,7 +16,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.AccountNumber
                 }
@@ -33,7 +33,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.AccountCustodian?.DisplayName
                 }
@@ -41,7 +41,8 @@ else
                 {
                     <InputSelect id="account-custodian" class="form-control"
                          DisplayName="Model.AccountCustodian.CustodianCode"
-                         @bind-Value="Model.AccountCustodianId">
+                         @bind-Value="Model.AccountCustodianId"
+                        disabled=>
                         @foreach (var custodian in AccountCustodians)
                         {
                             <option value=@custodian.AccountCustodianId>@custodian.DisplayName</option>
@@ -56,7 +57,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.DisplayOrder
                 }
@@ -74,7 +75,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.BooksClosedDate?.ToShortDateString()
                 }
@@ -92,7 +93,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.IsComplianceTradable
                 }
@@ -109,7 +110,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.HasWallet
                 }
@@ -127,7 +128,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.HasBankTransaction
                 }
@@ -145,7 +146,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.HasBrokerTransaction
                 }

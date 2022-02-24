@@ -6,7 +6,7 @@
 <div><h4>@PageTitle</h4></div>
 <hr/>
 
-@if (IsLoading)
+@if (Model is null)
 {
     <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
 }
@@ -31,10 +31,10 @@ else
     </div>
     <hr />
     <div>
-        <AccountObjectCRUD Model="@Model.AccountNavigation" IsDisabled=true />
+        <AccountObjectCRUD Model="@Model.AccountNavigation" Disabled=true />
     </div>
     <div>
-        <AccountCRUD Model="@Model" AccountCustodians=@custodians IsDisabled=true />
+        <AccountCRUD Model="@Model" AccountCustodians=@custodians Disabled=true />
     </div>
 }
 @code {
@@ -61,8 +61,6 @@ else
         var accountQuery = await Controller.ReadAsync(AccountId);
         if (accountQuery.Value is Account account)
             Model = account;
-
-        IsLoading = Model is null;
     }
 
     private void NavigateToWallets(MouseEventArgs args)

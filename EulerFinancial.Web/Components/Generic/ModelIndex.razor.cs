@@ -72,7 +72,6 @@ namespace EulerFinancial.Web.Components.Generic
 
             await actionResult;
             Models = actionResult.Result?.Value ?? Array.Empty<TModel>();
-            IsLoading = Models is null;
         }
 
         /// <summary>

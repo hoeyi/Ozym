@@ -8,7 +8,7 @@
 <div><h4>@PageTitle</h4></div>
 <hr />
 
-@if (IsLoading)
+@if (Wallets is null)
 {
     <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
 }
@@ -116,8 +116,6 @@ else
         {
             await AddNewAsync(args: null);
         }
-
-        IsLoading = Wallets is null;
     }
 
     private async Task AddNewAsync(MouseEventArgs? args)
@@ -137,7 +135,6 @@ else
 
         // TODO: interpret the response.
     }
-
 
     private async Task HandleSubmit(EditContext context, MouseEventArgs args)
     {

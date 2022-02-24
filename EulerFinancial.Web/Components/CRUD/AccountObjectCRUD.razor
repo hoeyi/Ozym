@@ -1,4 +1,4 @@
-﻿@inherits ModelDetail<AccountObject>
+﻿@inherits ModelCRUD<AccountObject>
 @if (Model is null)
 {
     <p><em>"@Resources.Strings.Caption_Page_Loading"</em></p>
@@ -15,7 +15,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.AccountObjectCode
                 }
@@ -33,7 +33,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.ObjectDisplayName
                 }
@@ -51,7 +51,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.ObjectDescription
                 }
@@ -69,7 +69,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.StartDate.ToShortDateString()
                 }
@@ -86,7 +86,7 @@ else
                 </ToolTip>
             </dt>
             <dd class="col-sm-10">
-                @if (IsDisabled)
+                @if (Disabled)
                 {
                     @Model.CloseDate?.ToShortDateString()
                 }

@@ -7,7 +7,7 @@ namespace EulerFinancial.Web.Components.Generic
     /// Base component for viewing details of a <typeparamref name="TModel"/>.
     /// </summary>
     /// <typeparam name="TModel">The model type.</typeparam>
-    public partial class ModelDetail<TModel> : ModelComponentBase<TModel>
+    public partial class ModelDetail<TModel> : ModelComponentBase<TModel>, INavigationSource
         where TModel : class, new()
     {
         /// <summary>
