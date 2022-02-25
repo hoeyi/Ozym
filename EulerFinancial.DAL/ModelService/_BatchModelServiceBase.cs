@@ -47,6 +47,7 @@ namespace EulerFinancial.ModelService
             IModelMetadataService modelMetadata,
             ILogger logger) : base(contextFactory, modelMetadata, logger)
         {
+            Context = _contextFactory.CreateDbContext();
         }
 
         /// <inheritdoc/>
@@ -67,6 +68,11 @@ namespace EulerFinancial.ModelService
                     return (TParentKey)parentKey;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the <see cref="EulerFinancialContext"/> for this instance.
+        /// </summary>
+        protected EulerFinancialContext Context { get; set; }
 
         /// <inheritdoc/>
         public bool Initialize(object parentKey)

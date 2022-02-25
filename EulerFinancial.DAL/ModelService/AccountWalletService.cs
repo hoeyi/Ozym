@@ -34,9 +34,7 @@ namespace EulerFinancial.ModelService
             if (model is null)
                 return false;
 
-            using var context = _contextFactory.CreateDbContext();
-
-            return context.AccountWallets.Any(m => m.AccountWalletId == model.AccountWalletId);
+            return Context.AccountWallets.Any(m => m.AccountWalletId == model.AccountWalletId);
         }
 
         /// <inheritdoc/>
@@ -63,7 +61,7 @@ namespace EulerFinancial.ModelService
 
             return await DoWriteOperationAsync(async () =>
             {
-                return await context.SaveChangesAsync();
+                return await Context.SaveChangesAsync();
             });
         }
 
@@ -88,11 +86,9 @@ namespace EulerFinancial.ModelService
         {
             model.AccountId = ParentKey;
 
-            using var context = _contextFactory.CreateDbContext();
+            Context.AccountWallets.Add(model);
 
-            context.AccountWallets.Add(model);
-
-            EntityState observedState = context.Entry(model).State;
+            EntityState observedState = Context.Entry(model).State;
 
             bool result = observedState == EntityState.Added;
 
@@ -117,11 +113,9 @@ namespace EulerFinancial.ModelService
         /// <inheritdoc/>
         public override bool DeletePendingSave(AccountWallet model)
         {
-            using var context = _contextFactory.CreateDbContext();
+            Context.AccountWallets.Remove(model);
 
-            context.AccountWallets.Remove(model);
-
-            EntityState observedState = context.Entry(model).State;
+            EntityState observedState = Context.Entry(model).State;
 
             bool result = observedState == EntityState.Deleted;
 
@@ -151,15 +145,18 @@ namespace EulerFinancial.ModelService
 
             var searchGuid = Guid.NewGuid();
 
+            // Clear current context and its changes.
+            Context.Dispose();
+
+            Context = _contextFactory.CreateDbContext();
+
             _logger.ModelServiceSearchRequestAccepted(
                 requestGuid: searchGuid,
                 type: typeof(AccountWallet),
                 predicate: predicate.Body,
                 recordLimit: maxCount);
 
-            using var context = _contextFactory.CreateDbContext();
-
-            var result = await context.AccountWallets
+            var result = await Context.AccountWallets
                             .Include(a => a.Account)
                             .Include(a => a.DenominationSecurity)
                             .Where(a => a.AccountId == ParentKey)
