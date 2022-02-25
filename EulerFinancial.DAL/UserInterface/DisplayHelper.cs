@@ -38,5 +38,12 @@ namespace EulerFinancial.UserInterface
 
             return string.Format(s, args);
         }
+
+        /// <summary>
+        /// Gets the <see cref="IPageTitle"/> for <typeparamref name="TModel"/>.
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <returns></returns>
+        public static IPageTitle GetPagetTitle<TModel>() => new PageTitle<TModel>();
     }
 }

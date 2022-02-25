@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 using System;
-using EulerFinancial.Web.Services;
+using EulerFinancial.UserInterface;
 
 namespace EulerFinancial.Web.Components.Generic
 {
@@ -20,13 +20,13 @@ namespace EulerFinancial.Web.Components.Generic
         [Inject]
         public NavigationManager NavigationHelper { get; set; } = default!;
 
-
         /// <summary>
-        /// Gets or sets the service used to pass values to layouts.
+        /// Gets the <see cref="IPageTitle"/> instance for this page.
         /// </summary>
-        [Inject]
-        public ViewDataService ViewService { get; set; } = default!;
-
+        protected IPageTitle PageTitle
+        {
+            get => DisplayHelper.GetPagetTitle<TModel>();
+        }
 
         /// <summary>
         /// Gets the absolute uri for the index page that represents this model.

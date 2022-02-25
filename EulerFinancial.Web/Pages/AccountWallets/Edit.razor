@@ -1,20 +1,22 @@
 ﻿@page "/AccountWallets/Edit/{AccountId:int}"
 
-@layout PageLayout
-
 @inherits ModelPage<AccountWallet>
 
 @inject IBatchController<AccountWallet> Controller
 @inject IReferenceDataService ReferenceData
 
-<PageTitle>@(ViewService.Header?.AsPageTitle() ?? Resources.Strings.Title_NotFound)</PageTitle>
 
-@if (Wallets is null)
+@if (Wallets is null || parent is null)
 {
     <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
 }
 else
-{   if(!string.IsNullOrEmpty(errorMessage))
+{   
+    <PageTitle>@(PageTitle.Update(parent.AccountCode).AsPageTitle())</PageTitle>
+    <h3>@(PageTitle.Update(parent.AccountCode))</h3>
+    <hr/>
+
+    if(!string.IsNullOrEmpty(errorMessage))
     {
         <div class="error-text">@errorMessage</div>
     }
@@ -74,9 +76,6 @@ else
     [Parameter]
     public int AccountId { get; set; }
 
-    [CascadingParameter]
-    public PageLayout? Layout { get; set; }
-
     /// <summary>
     /// Gets or sets the <see cref="AccountWallet"/> collection for this component.
     /// </summary>
@@ -95,9 +94,6 @@ else
     {
         parent = await ReferenceData.GetSingleAsync<Account>(a =>
                                 a.AccountId == (int)AccountId, nameof(Account.AccountNavigation));
-
-        ViewService.Header = Resources.Strings.Title_AccountWalletsEdit
-                .Format(parent.AccountCode.ToUpper());
 
         var initResult = Controller.Initialize(parent.AccountId);
 

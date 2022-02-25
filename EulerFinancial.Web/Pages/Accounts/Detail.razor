@@ -1,10 +1,7 @@
 ﻿@page "/Accounts/Detail/{AccountId:int}"
 
-@layout PageLayout
-
 @inherits ModelDetail<Account>
 
-<PageTitle>@(ViewService.Header?.AsPageTitle() ?? Resources.Strings.Title_NotFound)</PageTitle>
 
 @if (Model is null)
 {
@@ -12,6 +9,10 @@
 }
 else
 {
+    <PageTitle>@(PageTitle.Read(Model.AccountCode).AsPageTitle())</PageTitle>
+    <h3>@(PageTitle.Read(Model.AccountCode))</h3>
+    <hr/>
+
     <div>
         <a class="link-button" href="@($"{PageIndexUri}")"
             @onclick="@(args => NavigateToIndex(args))"
@@ -43,12 +44,6 @@ else
     [Parameter]
     public int? AccountId { get; set; }
 
-    [CascadingParameter]
-    public PageLayout? Layout { get; set; }
-    /// <inheritdoc/>
-    //protected override string PageTitle => Resources.Strings.Title_AccountDetail
-    //    .Format(Model?.AccountCode?.ToUpper());
-
     private IEnumerable<AccountCustodian> custodians = new AccountCustodian[0];
 
     private string WalletsUri
@@ -69,9 +64,6 @@ else
         if (accountQuery.Value is Account account)
         {
             Model = account;
-
-            ViewService.Header = Resources.Strings.Title_AccountDetail
-                .Format(Model.AccountCode.ToUpper());
         }
 
         // TODO: Take corrective action here, accountQuery.Value should be Account

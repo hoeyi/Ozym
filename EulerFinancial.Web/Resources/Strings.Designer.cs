@@ -187,51 +187,6 @@ namespace EulerFinancial.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New account.
-        /// </summary>
-        internal static string Title_AccountCreate {
-            get {
-                return ResourceManager.GetString("Title_AccountCreate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Account: {0}.
-        /// </summary>
-        internal static string Title_AccountDetail {
-            get {
-                return ResourceManager.GetString("Title_AccountDetail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit account: {0}.
-        /// </summary>
-        internal static string Title_AccountEdit {
-            get {
-                return ResourceManager.GetString("Title_AccountEdit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Accounts.
-        /// </summary>
-        internal static string Title_AccountIndex {
-            get {
-                return ResourceManager.GetString("Title_AccountIndex", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Account wallets: {0}.
-        /// </summary>
-        internal static string Title_AccountWalletsEdit {
-            get {
-                return ResourceManager.GetString("Title_AccountWalletsEdit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         internal static string Title_ApplicationHome {

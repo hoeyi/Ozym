@@ -1,12 +1,9 @@
 ﻿@page "/Accounts/Create/{RequestGuid:guid}"
 
-@layout PageLayout
-
 @inherits ModelDetail<Account>
 
 @inject IReferenceDataService ReferenceData
 
-<PageTitle>@(ViewService.Header?.AsPageTitle() ?? Resources.Strings.Title_NotFound)</PageTitle>
 
 @if (Model is null || Custodians is null)
 {
@@ -14,6 +11,10 @@
 }
 else
 {
+    <PageTitle>@(PageTitle.Create().AsPageTitle())</PageTitle>
+    <h3>@(PageTitle.Create())</h3>
+    <hr/>
+
     <div>
         <a class="link-button" href="@($"{PageIndexUri}")"
             @onclick="@(args => NavigateToIndex(args))"
@@ -41,13 +42,6 @@ else
     [Parameter]
     public Guid RequestGuid { get; set; }
 
-
-    [CascadingParameter]
-    public PageLayout? Layout { get; set; }
-
-    /// <inheritdoc/>
-    //protected override string PageTitle => Resources.Strings.Title_AccountCreate;
-
     private IEnumerable<AccountCustodian>? Custodians { get; set; }
 
     private const bool _disabled = false;
@@ -56,8 +50,6 @@ else
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        ViewService.Header = Resources.Strings.Title_AccountCreate;
-
         var modelQuery = Controller.GetDefaultAsync();
         var custodiansQuery = ReferenceData.GetAllAsync<AccountCustodian>();
 

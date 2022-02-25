@@ -117,55 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Caption_Button_Create" xml:space="preserve">
-    <value>New</value>
+  <data name="CreateModel" xml:space="preserve">
+    <value>New {0}</value>
+    <comment>{0} is the model noun singular</comment>
   </data>
-  <data name="Caption_Button_Delete" xml:space="preserve">
-    <value>Delete</value>
+  <data name="IndexModel" xml:space="preserve">
+    <value>{0}</value>
+    <comment>{0} is the plural of the model</comment>
   </data>
-  <data name="Caption_Button_Edit" xml:space="preserve">
-    <value>Edit</value>
+  <data name="ReadModel" xml:space="preserve">
+    <value>{0}: {1}</value>
+    <comment>{0} is the model noun singular
+{1} is the model identifier</comment>
   </data>
-  <data name="Caption_Button_Index" xml:space="preserve">
-    <value>Index</value>
-  </data>
-  <data name="Caption_Button_Save" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="Caption_Button_Search" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="Caption_DataGrid_NewLine" xml:space="preserve">
-    <value>Add {0}</value>
-    <comment>{0} is the singular noun of the bound model type</comment>
-  </data>
-  <data name="Caption_InputSelect_SearchField" xml:space="preserve">
-    <value>Search for:</value>
-  </data>
-  <data name="Caption_Page_Loading" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="Caption_User_NotAuthenticated" xml:space="preserve">
-    <value>Not authenticated</value>
-  </data>
-  <data name="EditFormList_ValidationFailed" xml:space="preserve">
-    <value>{0} could not be saved. The errors below must be resolved:</value>
-    <comment>{0} is the plural noun of the bound model type</comment>
-  </data>
-  <data name="EditForm_ValidationFailed" xml:space="preserve">
-    <value>{0} could not be saved. The errors below must be resolved:</value>
-    <comment>{0} is the singular noun of the bound model type</comment>
-  </data>
-  <data name="Exception_Application_Fatal" xml:space="preserve">
-    <value>Host terminated unexpectedly.</value>
-  </data>
-  <data name="Exception_Navigation_BaseUriNotValid" xml:space="preserve">
-    <value>The relative base URI is expected to be a string beginning with '/'.</value>
-  </data>
-  <data name="Title_ApplicationHome" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="Title_NotFound" xml:space="preserve">
-    <value>(No title)</value>
+  <data name="UpdateModel" xml:space="preserve">
+    <value>Edit {0}: {1}</value>
+    <comment>{0} is the model noun singular
+{1} is the model identifier</comment>
   </data>
 </root>

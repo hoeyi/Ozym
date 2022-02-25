@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EulerFinancial.Exceptions {
+namespace EulerFinancial.Resources {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace EulerFinancial.Exceptions {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ExceptionString {
+    internal class UserInterfaceString {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ExceptionString() {
+        internal UserInterfaceString() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace EulerFinancial.Exceptions {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Exceptions.ExceptionString", typeof(ExceptionString).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EulerFinancial.Resources.UserInterfaceString", typeof(UserInterfaceString).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,38 @@ namespace EulerFinancial.Exceptions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type &apos;{0}&apos; does not have a noun attribute applied. The page title cannot be generated..
+        ///   Looks up a localized string similar to New {0}.
         /// </summary>
-        internal static string ModelNoun_NotFound {
+        internal static string CreateModel {
             get {
-                return ResourceManager.GetString("ModelNoun_NotFound", resourceCulture);
+                return ResourceManager.GetString("CreateModel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The service parent key has not been set. This error occurs when a service method is called before a call to &apos;Initialize(TParentKey)&apos;..
+        ///   Looks up a localized string similar to {0}.
         /// </summary>
-        internal static string ModelService_ParentKeyNotSet {
+        internal static string IndexModel {
             get {
-                return ResourceManager.GetString("ModelService_ParentKeyNotSet", resourceCulture);
+                return ResourceManager.GetString("IndexModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: {1}.
+        /// </summary>
+        internal static string ReadModel {
+            get {
+                return ResourceManager.GetString("ReadModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit {0}: {1}.
+        /// </summary>
+        internal static string UpdateModel {
+            get {
+                return ResourceManager.GetString("UpdateModel", resourceCulture);
             }
         }
     }

@@ -1,10 +1,7 @@
 ﻿@page "/Accounts"
 
-@layout PageLayout
-
 @inherits ModelIndex<Account>
 
-<PageTitle>@(ViewService.Header?.AsPageTitle() ?? Resources.Strings.Title_NotFound)</PageTitle>
 
 <div>
     <a class="link-button" href="@($"{PageIndexUri}/Create")"
@@ -20,6 +17,10 @@
 }
 else
 {
+    <PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
+    <h3>@(PageTitle.Index())</h3>
+    <hr/>
+
     <div>
         <SearchInputTable TModel=@Account
                       ComparisonOperators=@ComparisonOperators
@@ -121,8 +122,6 @@ else
     protected override Task OnInitializedAsync()
     {
         MaxRecordCount = -1;
-
-        ViewService.Header = Resources.Strings.Title_AccountIndex;
 
         return base.OnInitializedAsync();
     }
