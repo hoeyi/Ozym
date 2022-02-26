@@ -2,6 +2,7 @@ using EulerFinancial;
 using EulerFinancial.Web.Areas.Identity;
 using EulerFinancial.Web.Areas.Identity.Data;
 using EulerFinancial.Web.Data;
+using EulerFinancial.Web.Components.Graphics;
 using Ichosoft.DataModel;
 using Ichosoft.DataModel.Expressions;
 using Ichosoft.Extensions.Configuration;
@@ -20,13 +21,13 @@ using Serilog;
 using Serilog.Extensions.Logging;
 using Serilog.Formatting.Compact;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
-
+using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-#region Configuration and Logger services
+#region Configuration, Logger, Helper services
 
 var logger = ConvertFromSerilogILogger(logger: BuildLogger());
 var config = BuildConfiguration(logger);
@@ -38,8 +39,9 @@ config.Commit();
 builder.Services.AddSingleton(implementationInstance: logger);
 builder.Services.AddSingleton(implementationInstance: config);
 
-#endregion
+builder.Services.AddSingleton<ISvgHelper, SvgHelper>();
 
+#endregion
 
 #region Authentication configuration
 

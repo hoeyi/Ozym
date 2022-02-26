@@ -1,0 +1,76 @@
+﻿@using Graphics
+
+@inject ISvgHelper SvgHelper
+
+@if(string.IsNullOrEmpty(Name) || SvgMarkup is null)
+{
+    <div></div>
+}
+else
+{
+    <div>@(new MarkupString("<p><em>Test</em></p></div>"))</div>
+
+    <div class="svg-wrapper">
+        <svg class="svg-element" @attributes="SvgAttributes">
+            @((MarkupString)SvgMarkup)
+        </svg>
+    </div>
+}
+
+@code {
+    /// <summary>
+    /// Gets or sets the name of the SVG element.
+    /// </summary>
+    [Parameter]
+    public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the width for the svg-wrapper element.
+    /// </summary>
+    private int Width
+    {
+        get
+        {
+            if ((SvgAttributes?.TryGetValue("width", out object? value) ?? false)
+                && int.TryParse(value?.ToString() ?? string.Empty, out int i))
+                return i;
+            else
+                return default;
+        }
+    }
+
+    /// <summary>
+    /// Gets the height for the svg-wrapper element.
+    /// </summary>
+    private int Height
+    {
+        get
+        {
+            if ((SvgAttributes?.TryGetValue("height", out object? value) ?? false)
+                && int.TryParse(value?.ToString() ?? string.Empty, out int i))
+                return i;
+            else
+                return default;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the attributes to apply to the underlying <th> element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> SvgAttributes { get; set; } = default!;
+
+    /// <summary>
+    /// Gets the SVG elements as markup.
+    /// </summary>
+    private MarkupString? SvgMarkup
+    {
+        get
+        {
+            _svgMarkup ??= SvgHelper.GetSvg(name: Name);
+            return _svgMarkup;
+        }
+    }
+    
+    private MarkupString? _svgMarkup;
+}
