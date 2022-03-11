@@ -3,43 +3,46 @@
 @inherits LocalizableComponent
 
 <div>
-    <label hidden=@SearchIsValid class="alert-info">@SearchErrorMessage</label>
+    <label hidden=@SearchIsValid class="alert-info">@InvalidSearchMessage</label>
 </div>
 <div>
-    <table class="table parameter-table">
-        <tbody>
-            <tr>
-                <td>
-                    <label>
-                        @Resources.Strings.Caption_InputSelect_SearchField
-                    </label>
-                </td>
-                <td>
-                    <select class="form-control selectpicker" @bind="@CurrentSearchMemberName" id="SearchFieldSelect">
-                        @foreach (var field in SearchFields)
-                        {
-                            <option value="@field.QualifiedMemberName">@field.Display?.GetName()</option>
+    <EditForm Model="@this">
+        <table class="table parameter-table">
+            <tbody>
+                <tr>
+                    <td>
+                        <label>
+                            @Resources.Strings.Caption_InputSelect_SearchField
+                        </label>
+                    </td>
+                    <td>
+                        <InputSelect TValue="@(string)" 
+                            class="form-control" @bind-Value="@QualifiedMemberName">
+                            @foreach (var field in SearchFields)
+                            {
+                                <option value="@field.QualifiedMemberName">@field.Display?.GetName()</option>
 
-                        }
-                    </select>
-                </td>
-                <td>
-                    <select class="form-control selectpicker" @bind="@CurrentSearchOperator" id="search-operator-select">
-                        @foreach (var op in ComparisonOperators)
-                        {
-                            <option value=@op>@(ModelMetadata.NameFor<ComparisonOperator>($"{op}"))</option>
-                        }
-                    </select>
-                </td>
-                <td>
-                    <input @bind="SearchValue" />
-                </td>
-                <td>
-                    <button class="btn btn-primary" @onclick="@(args => SearchSubmitted(args))">
-                        @Resources.Strings.Caption_Button_Search
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                            }
+                        </InputSelect>
+                    </td>
+                    <td>
+                        <InputSelect class="form-control" @bind-Value="@SearchOperator">
+                            @foreach (var op in ComparisonOperators)
+                            {
+                                <option value=@op>@(ModelMetadata.NameFor<ComparisonOperator>($"{op}"))</option>
+                            }
+                        </InputSelect>
+                    </td>
+                    <td>
+                        <InputText class="form-control" @bind-Value="@SearchValue" />
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="@(args => SearchSubmitted(args))">
+                            @Resources.Strings.Caption_Button_Search
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </EditForm>
 </div>

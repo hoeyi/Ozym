@@ -1,5 +1,7 @@
 ﻿@page "/"
 
+@using EulerFinancial.Web.Components.Shared
+
 <PageTitle>@Resources.Strings.Title_ApplicationHome.AsPageTitle()</PageTitle>
 
 <h1>Hello, world!</h1>
@@ -8,7 +10,7 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-<IonIcon Name="add" width="32" height="32"/>
+<ActionBar/>
 
 @code{
 }

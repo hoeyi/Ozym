@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ichosoft.Blazor.Ionicons" Version="1.0.0.1830" />
+    <PackageReference Include="Ichosoft.Blazor.Ionicons" Version="1.1.2-beta.0" />
     <PackageReference Include="Ichosoft.DataModel" Version="2.1.2.4848" />
     <PackageReference Include="Ichosoft.Extensions.Common" Version="1.3.0.3319" />
     <PackageReference Include="Ichosoft.Extensions.Configuration" Version="2.1.1.689" />
@@ -50,10 +50,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Components\Shared\" />
   </ItemGroup>
 
 </Project>

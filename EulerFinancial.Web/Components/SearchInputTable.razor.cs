@@ -43,15 +43,6 @@ namespace EulerFinancial.Web.Components
         /// </summary>
         private string _searchErrorMessage = string.Empty;
 
-        /// <summary>
-        /// Gets or sets the current member to be used as a parameter when a search is submitted.
-        /// </summary>
-        private string? CurrentSearchMemberName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the string representation of the value used when this index is searched.
-        /// </summary>
-        private string? SearchValue { get; set; }
 
         /// <summary>
         /// Gets whether the last search submitted to this index had valid syntax.
@@ -61,7 +52,7 @@ namespace EulerFinancial.Web.Components
         /// <summary>
         /// Gets or sets the search error message for this component.
         /// </summary>
-        private string SearchErrorMessage
+        private string InvalidSearchMessage
         {
             get { return _searchErrorMessage; }
             set
@@ -75,18 +66,28 @@ namespace EulerFinancial.Web.Components
         }
 
         /// <summary>
+        /// Gets or sets the current member to be used as a parameter when a search is submitted.
+        /// </summary>
+        private string? QualifiedMemberName { get; set; }
+
+        /// <summary>
         /// Gets or sets the current operator used when a search is submitted.
         /// </summary>
-        private ComparisonOperator CurrentSearchOperator { get; set; }
+        private ComparisonOperator SearchOperator { get; set; }
+
+        /// <summary>
+        /// Gets or sets the string representation of the value used when this index is searched.
+        /// </summary>
+        private string? SearchValue { get; set; }
 
         /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
             if (SearchFields.Any())
-                CurrentSearchMemberName = SearchFields.First().QualifiedMemberName;
+                QualifiedMemberName = SearchFields.First().QualifiedMemberName;
 
             if (ComparisonOperators.Any())
-                CurrentSearchOperator = ComparisonOperators.First();
+                SearchOperator = ComparisonOperators.First();
 
             return base.OnInitializedAsync();
         }
@@ -102,14 +103,14 @@ namespace EulerFinancial.Web.Components
                 out Expression<Func<TModel, bool>> expression,
                 out string? errorMessage))
             {
-                SearchErrorMessage = string.Empty;
+                InvalidSearchMessage = string.Empty;
                 SearchSubmittedEventArgs<TModel> searchArgs = new(args, expression);
 
                 await OnSearchClick.InvokeAsync(searchArgs);
             }
             else
             {
-                SearchErrorMessage = errorMessage ?? string.Empty;
+                InvalidSearchMessage = errorMessage ?? string.Empty;
             }
         }
 
@@ -127,8 +128,8 @@ namespace EulerFinancial.Web.Components
             {
                 var param = ExpressionBuilder!
                     .CreateQueryParameter<TModel>(
-                        SearchFields?.FirstOrDefault(s => s.QualifiedMemberName == CurrentSearchMemberName),
-                        CurrentSearchOperator,
+                        SearchFields?.FirstOrDefault(s => s.QualifiedMemberName == QualifiedMemberName),
+                        SearchOperator,
                         SearchValue);
 
                 expression = ExpressionBuilder!.GetExpression(param);
