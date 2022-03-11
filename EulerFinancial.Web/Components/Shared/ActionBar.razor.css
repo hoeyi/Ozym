@@ -28,21 +28,23 @@ li {
     display: inline-block
 }
 
-::deep svg > line {
-    stroke-linecap: square;
-    stroke-linejoin: round;
-    stroke-width: 32px;
-}
-
-::deep svg > * {
+/* Change the fill color to light shade if not 'none' or 'transparent'. */
+::deep .ion-icon :not(svg [fill="none"], svg[fill="transparent"]) {
     fill: #E6E6E6;
-    stroke: #191919;
 }
 
-::deep svg {
+/* Change the stroke color to light shade if not 'none' or 'transparent'. */
+::deep .ion-icon :not(svg [stroke="none"], svg [stroke="transparent"]) {
+    stroke: #E6E6E6;
+}
+
+/* Set the default background color. */
+::deep .ion-icon svg {
     background: #424242;
 }
-::deep svg:hover {
+
+/* Change the background color to darker shade on hover. */
+::deep .ion-icon svg:hover {
     background: #191919;
-    cursor: pointer
+    cursor: pointer;
 }
