@@ -20,6 +20,7 @@ Commit messages should follow the format:
 Must be one of the following:
 
 * **build**: Changes that affect the build system or external dependencies
+* **design**: Changes to CSS rules or code changes to support UI behavior
 * **docs**: Documentation only changes
 * **feat**: A new feature
 * **fix**: A bug fix
