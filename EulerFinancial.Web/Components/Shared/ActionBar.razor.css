@@ -29,12 +29,12 @@ li {
 }
 
 /* Change the fill color to light shade if not 'none' or 'transparent'. */
-::deep .ion-icon :not(svg [fill="none"], svg[fill="transparent"]) {
+::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
     fill: #E6E6E6;
 }
 
 /* Change the stroke color to light shade if not 'none' or 'transparent'. */
-::deep .ion-icon :not(svg [stroke="none"], svg [stroke="transparent"]) {
+::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
     stroke: #E6E6E6;
 }
 
@@ -47,3 +47,4 @@ li {
 ::deep .ion-icon svg:hover {
     background: #191919;
     cursor: pointer;
+}
