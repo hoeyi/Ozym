@@ -142,6 +142,9 @@
   <data name="Caption_InputSelect_SearchField" xml:space="preserve">
     <value>Search for:</value>
   </data>
+  <data name="Caption_NoContent" xml:space="preserve">
+    <value>(No content)</value>
+  </data>
   <data name="Caption_Page_Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>

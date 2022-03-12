@@ -133,6 +133,15 @@ namespace EulerFinancial.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (No content).
+        /// </summary>
+        internal static string Caption_NoContent {
+            get {
+                return ResourceManager.GetString("Caption_NoContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         internal static string Caption_Page_Loading {

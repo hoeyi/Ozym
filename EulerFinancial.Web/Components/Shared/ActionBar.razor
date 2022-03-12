@@ -1,14 +1,43 @@
-﻿<ul>
-    <li>
-        <div>
-            <IonIcon Name="add" width="64" height="64" />
-        </div>
+﻿<div class="action-bar" width="100%">
+    @if (ButtonList is not null)
+    {
+        <ul>
+            @foreach (var keypair in ButtonList!)
+            {
+                <li title="@keypair.Value">
+                    <IonIcon Name="@keypair.Key" width="@ButtonSize" height="@ButtonSize"
+                        @onclick="@(args => OnIconClick(keypair.Key, args))" />
+                </li>
+            }
+        </ul>
+    }
+</div>
 
-    </li>
-    <li>
-        <div>
-            <IonIcon Name="add-circle" width="64" height="64" />
-        </div>
-    </li>
-</ul>
+@code {
+    /// <summary>
+    /// Gets or sets the button/action collection in this action bar, where keys are
+    /// the <em>ioncion</em> names and the values are the captions/tooltip.
+    /// </summary>
+    [Parameter]
+    public IDictionary<string, string> ButtonList { get; set; } = default!;
 
+    /// <summary>
+    /// Gets or sets the height and width of member buttons.
+    /// </summary>
+    [Parameter]
+    public int ButtonSize { get; set; } = 32;
+
+    /// <summary>
+    /// The delegate method for handling
+    /// </summary>
+    public EventCallback<string> OnActionClick { get; set; }
+
+    private async Task OnIconClick(string key, MouseEventArgs args)
+    {
+        // TODO: Add some logic for different behavior when shift click is used.
+        if (args.Button == 0)
+        {
+            await OnActionClick.InvokeAsync(key);
+        }
+    }
+}

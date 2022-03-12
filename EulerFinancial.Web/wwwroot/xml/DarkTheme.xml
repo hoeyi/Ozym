@@ -1,37 +1,172 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<StyleSheet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+﻿<StyleSheet xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Fonts>
-		<Font Name="TableGroupHeader" FontFamily="Arial" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray5" BackColor="blue" />
-		<Font Name="TableSubGroupHeader" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" />
-		<Font Name="TableColumnHeader" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" />
-		<Font Name="TableCell" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" />
-		<Font Name="ChartAxisLabel" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="7pt" Color="gray1" BackColor="No Color" />
-		<Font Name="ChartTitle" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="12pt" Color="gray5" BackColor="No Color" />
-		<Font Name="ReportParameter" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Italic" FontSize="8pt" Color="gray1" BackColor="No Color" />
-		<Font Name="ReportTitle" FontFamily="Cambria" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="14pt" Color="gray1" BackColor="No Color" />
-		<Font Name="ChartLegend" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" />
-		<Font Name="TableCellSubTotal" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" />
-		<Font Name="TableCellTotal" FontFamily="Arial" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" />
-		<Font Name="ReportPageNumber" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="7pt" Color="gray1" BackColor="No Color" />
-		<Font Name="TableDefault" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" />
-		<Font Name="ReportDefault" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" />
-		<Font Name="TableTotalRow" FontFamily="Arial" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray5" BackColor="blue" />
-		<Font Name="ChartSeriesLabel" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="7pt" Color="gray1" BackColor="No Color" />
-		<Font Name="DashboardChartSeriesLabel" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray5" BackColor="No Color" />
+		<Font Name="TableGroupHeader"
+              FontFamily="Arial"
+              FontWeight="Bold"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="8pt"
+              Color="gray5"
+              BackColor="blue"/>
+		<Font Name="TableSubGroupHeader"
+              FontFamily="Arial"
+              FontWeight="SemiBold"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="8pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="TableColumnHeader"
+              FontFamily="Arial"
+              FontWeight="SemiBold"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="8pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="TableCell"
+              FontFamily="Arial"
+              FontWeight="Default"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="8pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="ChartAxisLabel"
+              FontFamily="Arial"
+              FontWeight="Default"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="7pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="ChartTitle"
+              FontFamily="Arial"
+              FontWeight="SemiBold"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="12pt"
+              Color="gray5"
+              BackColor="No Color"/>
+		<Font Name="ReportParameter"
+              FontFamily="Arial"
+              FontWeight="Default"
+              TextDecoration="Default"
+              FontStyle="Italic"
+              FontSize="8pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="ReportTitle"
+              FontFamily="Cambria"
+              FontWeight="Bold"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="14pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="ChartLegend"
+              FontFamily="Arial"
+              FontWeight="Default"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="8pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="TableCellSubTotal"
+              FontFamily="Arial"
+              FontWeight="SemiBold"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="8pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="TableCellTotal"
+              FontFamily="Arial"
+              FontWeight="Bold"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="8pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="ReportPageNumber"
+              FontFamily="Arial"
+              FontWeight="Default"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="7pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="TableDefault"
+              FontFamily="Arial"
+              FontWeight="Default"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="8pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="ReportDefault"
+              FontFamily="Arial"
+              FontWeight="Default"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="8pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="TableTotalRow"
+              FontFamily="Arial"
+              FontWeight="Bold"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="8pt"
+              Color="gray5"
+              BackColor="blue"/>
+		<Font Name="ChartSeriesLabel"
+              FontFamily="Arial"
+              FontWeight="SemiBold"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="7pt"
+              Color="gray1"
+              BackColor="No Color"/>
+		<Font Name="DashboardChartSeriesLabel"
+              FontFamily="Arial"
+              FontWeight="Default"
+              TextDecoration="Default"
+              FontStyle="Default"
+              FontSize="8pt"
+              Color="gray5"
+              BackColor="No Color"/>
 	</Fonts>
 	<Colors>
-		<Color Name="gray0" HexCode="#191919" />
-		<Color Name="gray1" HexCode="#212121" />
-		<Color Name="gray2" HexCode="#303030" />
-		<Color Name="gray3" HexCode="#424242" />
-		<Color Name="gray4" HexCode="#D2D2D2" />
-		<Color Name="gray5" HexCode="#E6E6E6" />
-		<Color Name="blue" HexCode="#0E2C39" />
-		<Color Name="yellow" HexCode="#5B4713" />
-		<Color Name="green" HexCode="#0E391B" />
-		<Color Name="red" HexCode="#5B2113" />
+		<Color Name="gray0"
+               HexCode="#191919"/>
+		<Color Name="gray1"
+               HexCode="#212121"/>
+		<Color Name="gray2"
+               HexCode="#303030"/>
+		<Color Name="gray3"
+               HexCode="#424242"/>
+		<Color Name="gray4"
+               HexCode="#D2D2D2"/>
+		<Color Name="gray5"
+               HexCode="#E6E6E6"/>
+		<Color Name="blue"
+               HexCode="#0E2C39"/>
+		<Color Name="yellow"
+               HexCode="#5B4713"/>
+		<Color Name="green"
+               HexCode="#0E391B"/>
+		<Color Name="red"
+               HexCode="#5B2113"/>
 	</Colors>
-	<DefaultFont BackColor="No Color" Color="#000000" Name="default" Decoration="Default" Size="8pt" Weight="Default" Style="Default" Family="Arial" />
+	<DefaultFont BackColor="No Color"
+                 Color="#000000"
+                 Name="default"
+                 Decoration="Default"
+                 Size="8pt"
+                 Weight="Default"
+                 Style="Default"
+                 Family="Arial"/>
 	<AlphaBlendHexCode>#ffffff</AlphaBlendHexCode>
 </StyleSheet>
-</xml>
