@@ -2,48 +2,29 @@
     display: inline-block
 }
 
+/* Set aciton bar background color. Default is none.*/
 .action-bar {
-    background: var(--hexcolor-gray-3, none);
+    background: var(--euler-hexcolor-back-0, none);
 }
 
 /* Change the fill color to light shade if not 'none' or 'transparent'. */
 ::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
-    fill: var(--hexcolor-gray-5, black);
+    fill: var(--euler-hexcolor-fore-0, black);
 }
 
 /* Change the stroke color to light shade if not 'none' or 'transparent'. */
 ::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
-    stroke: var(--hexcolor-gray-5, black);
+    stroke: var(--euler-hexcolor-fore-0, black);
 }
 
-/* Set the default background color. */
+/* Set the default background color for IonIcons. Default is gray.*/
 ::deep .ion-icon svg {
-    background: var(--hexcolor-gray-3, none);
+    background: var(--euler-hexcolor-back-0, none);
 }
 
-/* Change the background color to darker shade on hover. */
-::deep .ion-icon svg:hover {
-    background: var(--hexcolor-gray-2, gray);
-    cursor: pointer;
-}
+/* Change the hover background color for IonIcons to alternate shade. */
+    ::deep .ion-icon svg:hover {
+        background: var(--euler-hexcolor-back-1, gray);
+        cursor: pointer;
+    }
 
-.tooltip {
-    position: relative;
-    display: inline-block;
-}
-
-.tooltip-text {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 1;
-}
-
-.tooltip:hover .tooltip-text {
-    visibility: visible;
-}

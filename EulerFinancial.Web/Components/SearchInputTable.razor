@@ -7,11 +7,11 @@
 </div>
 <div>
     <EditForm Model="@this">
-        <table class="table parameter-table">
+        <table class="table search-parameter-table">
             <tbody>
                 <tr>
                     <td>
-                        <label>
+                        <label class="form-control label">
                             @Resources.Strings.Caption_InputSelect_SearchField
                         </label>
                     </td>
@@ -37,7 +37,7 @@
                         <InputText class="form-control" @bind-Value="@SearchValue" />
                     </td>
                     <td>
-                        <button class="btn btn-primary" @onclick="@(args => SearchSubmitted(args))">
+                        <button class="form-control button" @onclick="@(args => SearchSubmitted(args))">
                             @Resources.Strings.Caption_Button_Search
                         </button>
                     </td>

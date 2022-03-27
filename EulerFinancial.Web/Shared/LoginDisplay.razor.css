@@ -1,0 +1,11 @@
+﻿a.sign-in, a.manage-profile {
+    padding: 0.5em !important;
+    margin-left: 0em;
+    color: var(--euler-hexcolor-fore-0, black);
+    position: relative;
+}
+
+a.sign-in:hover, a.manage-profile:hover {
+    background-color: var(--euler-hexcolor-gray-2, gray);
+    color: var(--euler-hexcolor-fore-0, black);
+}

@@ -1,4 +1,4 @@
-﻿::deep .datagrid-editable {
+﻿table {
     width: 100%;
     overflow: scroll;
 }

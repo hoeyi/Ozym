@@ -1,0 +1,44 @@
+﻿table {
+    color: var(--euler-hexcolor-fore-0, black);
+    background-color: var(--euler-hexcolor-back-0, white);
+}
+
+
+::deep .form-control{
+    color: var(--euler-hexcolor-fore-0, black);
+    outline: none !important;
+    padding: 0.125em !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+}
+
+::deep .form-control:not(.label):not(.button) {
+    background-color: var(--euler-hexcolor-control-back-0, white);
+    border-color: var(--euler-hexcolor-control-border, gray);
+}
+
+::deep .form-control.label {
+    color: var(--euler-hexcolor-fore-0, black);
+    background-color: var(--euler-hexcolor-back-0, white);
+    border: none !important;
+    outline: none !important;
+    padding: 0.125em !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+}
+
+::deep .form-control.button {
+    background-color: var(--euler-hexcolor-primary-0, inherit);
+    color: var(--euler-hexcolor-fore-0, white);
+    border-color: var(--euler-hexcolor-back-1, inherit);
+}
+
+    ::deep .form-control.button:hover {
+        background-color: var(--euler-hexcolor-primary-2, inherit);
+        color: var(--euler-hexcolor-fore-0, white);
+        border-color: var(--euler-hexcolor-back-1, inherit);
+    }
+
+    ::deep .form-control.button:focus {
+        border-color: var(--euler-hexcolor-)
+    }
