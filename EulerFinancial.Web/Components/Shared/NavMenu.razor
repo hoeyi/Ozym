@@ -1,0 +1,57 @@
+﻿<div class="navmenu">
+    <div id="navmenu-anchor" @onclick="@(args => OnMenuClick(args))">
+        <IonIcon Name="grid" />
+    </div>
+    <div class="navmenu-content @VisibleClass">
+        @foreach (var keypair in menuItems!)
+        {
+            <div class="navmenu-tile">
+                <NavMenuItem Caption="@keypair.Value">
+                    <IonIcon Name="@keypair.Key"
+                         @onclick="@(args => OnIconClick(keypair.Key, args))" />
+                </NavMenuItem>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the height and width of member buttons.
+    /// </summary>
+    [Parameter]
+    public int ButtonSize { get; set; } = 64;
+
+    public bool MenuVisible { get; set; } = false;
+
+    private string VisibleClass
+    {
+        get { return MenuVisible ? "visible" : "hidden"; }
+    }
+
+    private IReadOnlyDictionary<string, string> menuItems { get; } = new Dictionary<string, string>()
+    {
+        { "add", "Add" },
+        { "wifi", "Wifi" },
+        { "airplane-sharp", "Airplane" }
+    };
+
+    /// <summary>
+    /// The delegate method for handling
+    /// </summary>
+    public EventCallback<string> OnActionClick { get; set; }
+
+    private async Task OnIconClick(string key, MouseEventArgs args)
+    {
+        // TODO: Add some logic for different behavior when shift click is used.
+        if (args.Button == 0)
+        {
+            await OnActionClick.InvokeAsync(key);
+        }
+    }
+
+    private void OnMenuClick(MouseEventArgs args)
+    {
+        MenuVisible = !MenuVisible;
+    }
+}

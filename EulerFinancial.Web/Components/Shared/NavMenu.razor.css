@@ -1,0 +1,60 @@
+﻿.navmenu {
+    background-image: linear-gradient(180deg, var(--euler-hexcolor-primary-0), var(--euler-hexcolor-primary-2));
+    width: auto;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    padding: 5px 5px 5px 5px;
+}
+
+    .navmenu #navmenu-anchor {
+        height: 3rem;
+        width: 3rem;
+        text-align: center;
+    }
+
+        .navmenu #navmenu-anchor:hover {
+            cursor: pointer;
+            background: var(--euler-hexcolor-secondary-1-1, gray);
+        }
+
+.navmenu-content.hidden {
+    display: none;
+}
+
+.navmenu-content {
+    /*display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 3rem 3rem;*/
+    margin: 10px;
+    color: var(--euler-hexcolor-fore-0, black);
+    overflow: hidden;
+    /*column-count: 3;*/
+    /*column-width: 3rem;*/
+}
+
+::deep .navmenu-item:hover {
+    background: var(--euler-hexcolor-secondary-1-1, gray);
+    cursor: pointer;
+}
+
+/* Change the fill color to light shade if not 'none' or 'transparent'. */
+::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
+    fill: var(--euler-hexcolor-fore-0, black);
+}
+
+/* Change the stroke color to light shade if not 'none' or 'transparent'. */
+::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
+    stroke: var(--euler-hexcolor-fore-0, black);
+}
+
+/* Set the default background color for IonIcons.*/
+::deep .ion-icon svg {
+    background: none;
+}
+
+    /* Change the hover background color for IonIcons to alternate shade. */
+    ::deep .ion-icon svg:hover {
+        /*        background: var(--euler-hexcolor-secondary-1-1, gray);
+        cursor: pointer;*/
+    }
