@@ -1,15 +1,15 @@
 ﻿<div class="navmenu">
-    <div id="navmenu-anchor" @onclick="@(args => OnMenuClick(args))">
+    <div class="navmenu-anchor" @onclick="@(args => OnMenuClick(args))">
         <IonIcon Name="grid" />
     </div>
-    <div class="navmenu-content @VisibleClass">
+    <div class="navmenu-title @VisibleClass">Main Menu</div>
+    <div class="navmenu-grid @VisibleClass">
         @foreach (var keypair in menuItems!)
         {
             <div class="navmenu-tile">
-                <NavMenuItem Caption="@keypair.Value">
-                    <IonIcon Name="@keypair.Key"
-                         @onclick="@(args => OnIconClick(keypair.Key, args))" />
-                </NavMenuItem>
+                <IonIcon Name="@keypair.Key"
+                        @onclick="@(args => OnIconClick(keypair.Key, args))" />
+                <div class="navmenu-caption">@keypair.Value</div>
             </div>
         }
     </div>
@@ -33,7 +33,8 @@
     {
         { "add", "Add" },
         { "wifi", "Wifi" },
-        { "airplane-sharp", "Airplane" }
+        { "airplane-sharp", "Airplane" },
+        { "newspaper", "News"}
     };
 
     /// <summary>
