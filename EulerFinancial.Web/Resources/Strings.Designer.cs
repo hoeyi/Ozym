@@ -205,6 +205,15 @@ namespace EulerFinancial.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to euler financial.
+        /// </summary>
+        internal static string Title_ApplicationName {
+            get {
+                return ResourceManager.GetString("Title_ApplicationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (No title).
         /// </summary>
         internal static string Title_NotFound {

@@ -168,6 +168,9 @@
   <data name="Title_ApplicationHome" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="Title_ApplicationName" xml:space="preserve">
+    <value>euler financial</value>
+  </data>
   <data name="Title_NotFound" xml:space="preserve">
     <value>(No title)</value>
   </data>

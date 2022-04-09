@@ -1,14 +1,14 @@
 ﻿<div class="navmenu">
-    <div class="navmenu-anchor" @onclick="@(args => OnMenuClick(args))">
+    <div class="navmenu-anchor" @onclick="@(args => ToggleMenu(args))">
         <IonIcon Name="apps" />
     </div>
-    <div class="navmenu-title @VisibleClass">Main Menu</div>
+    @*<div class="navmenu-title @VisibleClass">Main Menu</div>*@
     <div class="navmenu-grid @VisibleClass">
         @foreach (var navIcon in MenuItems!.Where(n => !n.IsIncomplete))
         {
             <div class="navmenu-tile">
                 <IonIcon Name="@navIcon.IconKey"
-                        @onclick="@(args => OnIconClick(navIcon, args))" />
+                        @onclick="@(args => OnItemClick(navIcon, args))" />
                 <div class="navmenu-caption">@navIcon.Caption</div>
             </div>
         }
@@ -43,7 +43,7 @@
             _navigationHelper ??= value;
         }
     }
-    
+
     /// <summary>
     /// Gets or sets whether the menu collection is expanded or collapsed.
     /// </summary>
@@ -59,8 +59,12 @@
 
     private NavigationManager _navigationHelper = default!;
 
-
-    private void OnIconClick(NavMenuItem menuItem, MouseEventArgs args)
+    /// <summary>
+    /// Handles the event triggered when a menu item is clicked.
+    /// </summary>
+    /// <param name="menuItem"></param>
+    /// <param name="args"></param>
+    private void OnItemClick(NavMenuItem menuItem, MouseEventArgs args)
     {
         // TODO: Add some logic for different behavior when shift click is used.
         if (args.Button == 0)
@@ -75,7 +79,7 @@
         }
     }
 
-    private void OnMenuClick(MouseEventArgs args)
+    private void ToggleMenu(MouseEventArgs args)
     {
         Collapsed = !Collapsed;
     }

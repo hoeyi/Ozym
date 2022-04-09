@@ -1,8 +1,12 @@
 ﻿a.sign-in, a.manage-profile {
+    display: inline-block;
+    position: relative;
     padding: 0.5em !important;
     margin-left: 0em;
     color: var(--euler-hexcolor-fore-0, black);
-    position: relative;
+    font-size: 0.75rem;
+    text-align: center;
+    vertical-align: middle;
 }
 
 a.sign-in:hover, a.manage-profile:hover {
