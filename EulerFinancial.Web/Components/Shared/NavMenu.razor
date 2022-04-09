@@ -1,15 +1,15 @@
 ﻿<div class="navmenu">
     <div class="navmenu-anchor" @onclick="@(args => OnMenuClick(args))">
-        <IonIcon Name="grid" />
+        <IonIcon Name="apps" />
     </div>
     <div class="navmenu-title @VisibleClass">Main Menu</div>
     <div class="navmenu-grid @VisibleClass">
-        @foreach (var keypair in menuItems!)
+        @foreach (var navIcon in MenuItems!.Where(n => !n.IsIncomplete))
         {
             <div class="navmenu-tile">
-                <IonIcon Name="@keypair.Key"
-                        @onclick="@(args => OnIconClick(keypair.Key, args))" />
-                <div class="navmenu-caption">@keypair.Value</div>
+                <IonIcon Name="@navIcon.IconKey"
+                        @onclick="@(args => OnIconClick(navIcon, args))" />
+                <div class="navmenu-caption">@navIcon.Caption</div>
             </div>
         }
     </div>
@@ -22,37 +22,62 @@
     [Parameter]
     public int ButtonSize { get; set; } = 64;
 
-    public bool MenuVisible { get; set; } = false;
-
-    private string VisibleClass
-    {
-        get { return MenuVisible ? "visible" : "hidden"; }
-    }
-
-    private IReadOnlyDictionary<string, string> menuItems { get; } = new Dictionary<string, string>()
-    {
-        { "add", "Add" },
-        { "wifi", "Wifi" },
-        { "airplane-sharp", "Airplane" },
-        { "newspaper", "News"}
-    };
+    /// <summary>
+    /// Gets or sets the collection of <see cref="NavMenuItem" /> objects to add.
+    /// </summary>
+    [Parameter]
+    public IReadOnlySet<NavMenuItem>? MenuItems { get; set; }
 
     /// <summary>
-    /// The delegate method for handling
+    /// Gets or sets the <see cref="NavigationManager" /> instance for this collection.
     /// </summary>
-    public EventCallback<string> OnActionClick { get; set; }
+    [Parameter]
+    public NavigationManager NavigationHelper
+    {
+        get
+        { 
+            return _navigationHelper; 
+        }
+        set
+        {
+            _navigationHelper ??= value;
+        }
+    }
+    
+    /// <summary>
+    /// Gets or sets whether the menu collection is expanded or collapsed.
+    /// </summary>
+    public bool Collapsed { get; set; } = false;
 
-    private async Task OnIconClick(string key, MouseEventArgs args)
+    /// <summary>
+    /// Flags collapsable components class attributes according to the current state.
+    /// </summary>
+    private string VisibleClass
+    {
+        get { return Collapsed ? "visible" : "hidden"; }
+    }
+
+    private NavigationManager _navigationHelper = default!;
+
+
+    private void OnIconClick(NavMenuItem menuItem, MouseEventArgs args)
     {
         // TODO: Add some logic for different behavior when shift click is used.
         if (args.Button == 0)
         {
-            await OnActionClick.InvokeAsync(key);
+            if (NavigationHelper is null ||
+                string.IsNullOrEmpty(NavigationHelper.BaseUri) ||
+                string.IsNullOrEmpty(menuItem.UriStem))
+                return;
+
+            Uri uri = NavigationHelper.ToAbsoluteUri(menuItem.UriStem);
+            NavigationHelper.NavigateTo(uri.AbsoluteUri);
         }
     }
 
     private void OnMenuClick(MouseEventArgs args)
     {
-        MenuVisible = !MenuVisible;
+        Collapsed = !Collapsed;
     }
+
 }
