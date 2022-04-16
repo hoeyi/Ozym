@@ -29,12 +29,17 @@ main {
         margin-left: auto;
     }
 
+/* Not sold on the look of a border yet. */
+/*.home-link {
+    border: 2px solid;
+}*/
+
 .home-link a {
     padding: 0.5em;
     margin: 0rem;
     color: var(--euler-hexcolor-fore-0, black);
     font-family: 'Cambria Math' !important;
-    font-size: 1rem;
+    font-size: 1.25rem;
     font-style: italic;
     text-decoration: none;
     text-align: center;

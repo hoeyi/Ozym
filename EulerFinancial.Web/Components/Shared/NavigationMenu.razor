@@ -1,11 +1,11 @@
 ﻿@using System.Text.Json;
 
-<div class="menu dropdown">
+<div class="menu">
     @if (Menu is not null && Menu.HasChildren)
     {
         @foreach (var item in Menu.Children)
         {
-            <div class="menu-item dropdown-anchor">
+            <div id="menu-key-@item.Key" class="menu-item dropdown-anchor">
                 <a href="@item.Value.UriStem">
                     @item.Value.Caption
                 </a>
