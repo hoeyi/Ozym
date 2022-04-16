@@ -19,7 +19,7 @@ main {
     flex-flow: nowrap;
     align-items: center;
 }
-    
+
     .top-row .left {
         margin-right: auto;
         display: flex;
@@ -47,11 +47,11 @@ main {
     width: auto;
 }
 
-.home-link a:hover {
-    background-color: var(--euler-hexcolor-gray-2, gray);
-    color: var(--euler-hexcolor-fore-0, black);
-    cursor: pointer;
-}
+    .home-link a:hover {
+        background-color: var(--euler-hexcolor-gray-2, gray);
+        color: var(--euler-hexcolor-fore-0, black);
+        cursor: pointer;
+    }
 
 
 @media (max-width: 640.98px) {

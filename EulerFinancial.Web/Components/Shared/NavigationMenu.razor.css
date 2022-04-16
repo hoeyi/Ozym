@@ -10,12 +10,14 @@ a {
     display: block;
 }
 
-.menu {
-    position: relative;
-    top: 0px;
+.menu-root {
+    position: absolute;
+    display: inline-block;
+    bottom: 0px;
 }
 
 .menu-item {
+    position: relative;
     background-color: var(--euler-hexcolor-back-0, white);
     color: var(--euler-hexcolor-fore-0, black);
     border: none;
@@ -23,7 +25,6 @@ a {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 0.85rem;
     text-align: left;
-    vertical-align: bottom;
     text-decoration: none;
 }
 
@@ -41,7 +42,6 @@ a {
                 display: block;
             }
 
-
 /*
     Dropdown content elements contain the visible detail when the parent anchor 
     is underneath the cursor.
@@ -56,6 +56,7 @@ a {
     text-decoration: none;
     width: 15vw;
     padding: inherit;
+    z-index: 3;
     /*margin-left: -0.25rem !important;*/
 }
 
