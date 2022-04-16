@@ -1,0 +1,39 @@
+﻿@using System.Text.Json;
+
+<div class="menu dropdown">
+    @if (Menu is not null && Menu.HasChildren)
+    {
+        @foreach (var item in Menu.Children)
+        {
+            <div class="menu-item dropdown-anchor">
+                <a href="@item.Value.UriStem">
+                    @item.Value.Caption
+                </a>
+                @if (item.Value.HasChildren)
+                {
+                    <div class="dropdown-content">
+                        @foreach (var subItem in item.Value.Children)
+                        {
+                            <div class="menu-item detail">
+                                <a href="@subItem.Value.UriStem">
+                                    @subItem.Value.Caption
+                                </a>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
+@code {
+    [Parameter]
+    public Menu? Menu { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Menu = JsonSerializer.Deserialize<Menu>(Resources.DefaultConfiguration.NavigationMenu);
+    }
+}

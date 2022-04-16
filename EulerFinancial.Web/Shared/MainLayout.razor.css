@@ -13,50 +13,41 @@ main {
 .top-row {
     position: relative;
     border-bottom: 1px solid var(--euler-hexcolor-fore-0);
-    justify-content: flex-start;
+    justify-content: left;
     height: 3.5rem;
     display: flex;
+    flex-flow: nowrap;
     align-items: center;
 }
     
-    .top-row a {
-        padding: 0.5em !important;
-        /*margin-left: 0em;*/
-        color: var(--euler-hexcolor-fore-0, black);
-    }
-
-        .top-row a:hover {
-            background-color: var(--euler-hexcolor-gray-2, gray);
-            color: var(--euler-hexcolor-fore-0, black);
-            cursor: pointer;
-        }
-
     .top-row .left {
         margin-right: auto;
+        display: flex;
     }
 
     .top-row .right {
         margin-left: auto;
     }
 
-    .top-row ::deep a, .top-row .btn-link {
-        white-space: nowrap;
-        /*margin-left: 1.5rem;*/
-    }
-
-    .top-row a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-.home-link {
-    font-family: 'Cambria Math';
+.home-link a {
+    padding: 0.5em;
+    margin: 0rem;
+    color: var(--euler-hexcolor-fore-0, black);
+    font-family: 'Cambria Math' !important;
     font-size: 1rem;
     font-style: italic;
     text-decoration: none;
     text-align: center;
     display: inline-block;
+    width: auto;
 }
+
+.home-link a:hover {
+    background-color: var(--euler-hexcolor-gray-2, gray);
+    color: var(--euler-hexcolor-fore-0, black);
+    cursor: pointer;
+}
+
 
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {

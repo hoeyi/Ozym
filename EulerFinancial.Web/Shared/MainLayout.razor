@@ -7,14 +7,19 @@
 
 <div class="page">
     <div class="sidebar">
-        <NavMenu MenuItems="@menuItems" NavigationHelper="@NavigationManager"/>
+        <AppMenu MenuItems="@menuItems" NavigationHelper="@NavigationManager"/>
     </div>
 
     <main>
         <div class="top-row px-4 auth">
-            <a class="left home-link" href="/">
-                @Resources.Strings.Title_ApplicationName
-            </a>
+            <div class="left">
+                <div class="home-link">
+                    <a href="/">
+                        @Resources.Strings.Title_ApplicationName
+                    </a>
+                </div>
+                <NavigationMenu />
+            </div>
             <div class="right">
                 <LoginDisplay />
             </div>
@@ -28,11 +33,10 @@
 
 @code {
 
-    private readonly IReadOnlySet<NavMenuItem> menuItems = new HashSet<NavMenuItem>()
+    private readonly IReadOnlySet<AppMenuItem> menuItems = new HashSet<AppMenuItem>()
     {
-        new (iconKey: "calendar", caption: "Calendar", "/Accounts"),
-        new (iconKey: "newspaper", caption: "News", "/Accounts"),
-        new (iconKey: "stats-chart", caption: "Reports", "/Accounts")
-
+        new(){ IconKey = "calendar", Caption = "Calendar" , UriStem = "/Accounts" },
+        new(){ IconKey = "news", Caption = "News" , UriStem = "/Accounts" },
+        new(){ IconKey = "stats-chart", Caption = "Reports" , UriStem = "/Accounts" }
     };
 }

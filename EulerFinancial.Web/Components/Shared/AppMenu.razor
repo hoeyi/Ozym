@@ -4,12 +4,16 @@
     </div>
     @*<div class="navmenu-title @VisibleClass">Main Menu</div>*@
     <div class="navmenu-grid @VisibleClass">
-        @foreach (var navIcon in MenuItems!.Where(n => !n.IsIncomplete))
+        @foreach (var menuItem in MenuItems!.Where(n => !(
+            string.IsNullOrEmpty(n.IconKey) ||
+            string.IsNullOrEmpty(n.Caption) ||
+            string.IsNullOrEmpty(n.UriStem)
+        )))
         {
             <div class="navmenu-tile">
-                <IonIcon Name="@navIcon.IconKey"
-                        @onclick="@(args => OnItemClick(navIcon, args))" />
-                <div class="navmenu-caption">@navIcon.Caption</div>
+                <IonIcon Name="@menuItem.IconKey"
+                     @onclick="@(args => OnItemClick(menuItem, args))" />
+                <div class="navmenu-caption">@menuItem.Caption</div>
             </div>
         }
     </div>
@@ -23,10 +27,10 @@
     public int ButtonSize { get; set; } = 64;
 
     /// <summary>
-    /// Gets or sets the collection of <see cref="NavMenuItem" /> objects to add.
+    /// Gets or sets the collection of <see cref="AppMenuItem" /> objects to add.
     /// </summary>
     [Parameter]
-    public IReadOnlySet<NavMenuItem>? MenuItems { get; set; }
+    public IReadOnlySet<AppMenuItem>? MenuItems { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="NavigationManager" /> instance for this collection.
@@ -35,8 +39,8 @@
     public NavigationManager NavigationHelper
     {
         get
-        { 
-            return _navigationHelper; 
+        {
+            return _navigationHelper;
         }
         set
         {
@@ -64,7 +68,7 @@
     /// </summary>
     /// <param name="menuItem"></param>
     /// <param name="args"></param>
-    private void OnItemClick(NavMenuItem menuItem, MouseEventArgs args)
+    private void OnItemClick(AppMenuItem menuItem, MouseEventArgs args)
     {
         // TODO: Add some logic for different behavior when shift click is used.
         if (args.Button == 0)

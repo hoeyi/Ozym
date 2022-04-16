@@ -1,0 +1,63 @@
+﻿/* Override the a element rules so that value inherits from parent. */
+a {
+    text-decoration: inherit !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    color: inherit !important;
+    background-color: inherit !important;
+    padding: inherit !important;
+    margin: inherit !important;
+    display: block;
+}
+
+.menu-item {
+    background-color: var(--euler-hexcolor-back-0, white);
+    color: var(--euler-hexcolor-fore-0, black);
+    border: none;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    text-align: left;
+    text-decoration: none;
+}
+
+    .menu-item.dropdown-anchor {
+        display: inline-block;
+        padding: 0.25rem;
+    }
+
+        .menu-item.dropdown-anchor:hover {
+            background-color: var(--euler-hexcolor-back-1-alt, white);
+        }
+
+            .menu-item.dropdown-anchor:hover > .dropdown-content {
+                display: block;
+            }
+
+        .menu-item.dropdown-anchor .dropdown-content {
+            left: 0px;
+        }
+
+/*Dropdown Content (Hidden by Default)*/
+.dropdown-content {
+    color: var(--euler-hexcolor-fore-0, black);
+    background-color: var(--euler-hexcolor-back-1-alt, white);
+    display: none;
+    position: absolute;
+    left: 0px;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    font-size: 0.85rem;
+    width: 15vw;
+    padding: inherit;
+    /*margin-left: -0.25rem !important;*/
+}
+
+/* Menu item */
+.menu-item.detail {
+    background-color: var(--euler-hexcolor-back-1-alt, white);
+}
+
+    .menu-item.detail:hover {
+        background-color: var(--euler-hexcolor-back-1, white);
+    }
