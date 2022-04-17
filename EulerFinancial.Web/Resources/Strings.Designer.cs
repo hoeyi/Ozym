@@ -151,6 +151,15 @@ namespace EulerFinancial.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Page is under construction. Check back later..
+        /// </summary>
+        internal static string Caption_PageUnderConstruction {
+            get {
+                return ResourceManager.GetString("Caption_PageUnderConstruction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not authenticated.
         /// </summary>
         internal static string Caption_User_NotAuthenticated {

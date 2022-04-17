@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    background-color: var(--euler-hexcolor-back-0, white);
 }
 
 main {
@@ -11,13 +12,15 @@ main {
 }
 
 .top-row {
-    position: relative;
+    /*position: relative;*/
+    background-color: var(--euler-hexcolor-back-0, white);
     border-bottom: 1px solid var(--euler-hexcolor-fore-0);
     justify-content: left;
     height: 3.5rem;
     display: flex;
     flex-flow: nowrap;
     align-items: center;
+    z-index: 99;
 }
 
     .top-row .left {
@@ -84,7 +87,6 @@ main {
     .top-row {
         position: sticky;
         top: 0;
-        z-index: 1;
     }
 
     .top-row, article {

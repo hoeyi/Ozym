@@ -75,14 +75,13 @@ namespace EulerFinancial.Web.Resources {
         ///        &quot;1&quot;: {
         ///          &quot;IconKey&quot;: null,
         ///          &quot;Caption&quot;: &quot;Groups&quot;,
-        ///          &quot;UriStem&quot;: &quot;.&quot;,
+        ///          &quot;UriStem&quot;: &quot;/UnderConstruction&quot;,
         ///          &quot;Children&quot;: {},
         ///          &quot;HasChildren&quot;: false
         ///        },
         ///        &quot;2&quot;: {
         ///          &quot;IconKey&quot;: null,
-        ///          &quot;Caption&quot;: &quot;New&quot;,
-        ///          &quot;U [rest of string was truncated]&quot;;.
+        ///          &quot;Caption&quot;: &quot;Ne [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string NavigationMenu {
             get {

@@ -43,6 +43,10 @@
     --euler-hexcolor-fore-1: #D2D2D2;
 }
 
+body {
+    background-color: var(--euler-hexcolor-back-0, white);
+}
+
 /*.color-primary-0 {
     color: #324851
 }*/

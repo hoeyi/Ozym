@@ -11,7 +11,7 @@
         )))
         {
             <div class="navmenu-tile">
-                <IonIcon Name="@menuItem.IconKey"
+                <IonIcon Name="@menuItem.IconKey" class="@menuItem.IconKey"
                      @onclick="@(args => OnItemClick(menuItem, args))" />
                 <div class="navmenu-caption">@menuItem.Caption</div>
             </div>
@@ -20,12 +20,6 @@
 </div>
 
 @code {
-    /// <summary>
-    /// Gets or sets the height and width of member buttons.
-    /// </summary>
-    [Parameter]
-    public int ButtonSize { get; set; } = 64;
-
     /// <summary>
     /// Gets or sets the collection of <see cref="AppMenuItem" /> objects to add.
     /// </summary>

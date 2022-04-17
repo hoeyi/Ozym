@@ -132,14 +132,14 @@
         "1": {
           "IconKey": null,
           "Caption": "Groups",
-          "UriStem": ".",
+          "UriStem": "/UnderConstruction",
           "Children": {},
           "HasChildren": false
         },
         "2": {
           "IconKey": null,
           "Caption": "New",
-          "UriStem": ".",
+          "UriStem": "/UnderConstruction",
           "Children": {},
           "HasChildren": false
         }
@@ -149,25 +149,54 @@
     "1": {
       "IconKey": null,
       "Caption": "Market Data",
-      "UriStem": ".",
+      "UriStem": "/UnderConstruction",
       "Children": {
         "1": {
           "IconKey": null,
           "Caption": "Securities",
-          "UriStem": null,
+          "UriStem": "/UnderConstruction",
           "Children": {},
           "HasChildren": false
         },
         "2": {
           "IconKey": null,
           "Caption": "Prices",
-          "UriStem": null,
+          "UriStem": "/UnderConstruction",
           "Children": {},
           "HasChildren": false
         }
       },
       "HasChildren": true
-    }    
+    },
+    "2": {
+      "IconKey": null,
+      "Caption": "Reference Data",
+      "UriStem": "/UnderConstruction",
+      "Children": {
+        "1": {
+          "IconKey": null,
+          "Caption": "Custodians",
+          "UriStem": "/UnderConstruction",
+          "Children": {},
+          "HasChildren": false
+        },
+        "2": {
+          "IconKey": null,
+          "Caption": "Reference",
+          "UriStem": "/UnderConstruction",
+          "Children": {},
+          "HasChildren": false
+        }
+      },
+      "HasChildren": true
+    },
+    "3": {
+      "IconKey": null,
+      "Caption": "About",
+      "UriStem": "/UnderConstruction",
+      "Children": {},
+      "HasChildren": false
+    }  
   },
   "HasChildren": true
 }</value>

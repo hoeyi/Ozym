@@ -145,6 +145,9 @@
   <data name="Caption_NoContent" xml:space="preserve">
     <value>(No content)</value>
   </data>
+  <data name="Caption_PageUnderConstruction" xml:space="preserve">
+    <value>Page is under construction. Check back later.</value>
+  </data>
   <data name="Caption_Page_Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
