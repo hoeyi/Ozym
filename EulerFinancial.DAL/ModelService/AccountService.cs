@@ -122,6 +122,7 @@ namespace EulerFinancial.ModelService
             return await DoWriteOperationAsync(async () =>
             {
                 context.Entry(model).State = EntityState.Modified;
+                context.Entry(model.AccountNavigation).State = EntityState.Modified;
 
                 var count = await context.SaveChangesAsync();
                 var result = count > 0;
