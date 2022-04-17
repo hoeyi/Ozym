@@ -1,15 +1,28 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+@using EulerFinancial.Web.Components.Shared
 
 <PageTitle>EulerFinancial.Web</PageTitle>
 
 <div class="page">
     <div class="sidebar">
-        <NavMenu />
+        <AppMenu MenuItems="@menuItems" NavigationHelper="@NavigationManager"/>
     </div>
 
     <main>
         <div class="top-row px-4 auth">
-            <LoginDisplay />
+            <div class="left">
+                <div class="home-link">
+                    <a href="/">
+                        @Resources.Strings.Title_ApplicationName
+                    </a>
+                </div>
+                <NavigationMenu />
+            </div>
+            <div class="right">
+                <LoginDisplay />
+            </div>
         </div>
 
         <article class="content px-4">
@@ -17,3 +30,14 @@
         </article>
     </main>
 </div>
+
+@code {
+
+    private readonly IReadOnlySet<AppMenuItem> menuItems = new HashSet<AppMenuItem>()
+    {
+        new(){ IconKey = "calendar", Caption = "Calendar" , UriStem = "/PageUnderConstruction" },
+        new(){ IconKey = "newspaper", Caption = "News" , UriStem = "/PageUnderConstruction" },
+        new(){ IconKey = "stats-chart", Caption = "Reports" , UriStem = "/PageUnderConstruction" },
+        new(){ IconKey = "planet", Caption = "Geography" , UriStem = "/PageUnderConstruction" }
+    };
+}

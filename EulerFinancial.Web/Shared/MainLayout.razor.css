@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    background-color: var(--euler-hexcolor-back-0, white);
 }
 
 main {
@@ -10,27 +11,51 @@ main {
     background-color: var(--euler-hexcolor-back-0, white);
 }
 
-.sidebar {
-    background-image: linear-gradient(180deg, var(--euler-hexcolor-primary-0), var(--euler-hexcolor-primary-2));
-}
-
 .top-row {
+    /*position: relative;*/
+    background-color: var(--euler-hexcolor-back-0, white);
     border-bottom: 1px solid var(--euler-hexcolor-fore-0);
-    justify-content: flex-end;
+    justify-content: left;
     height: 3.5rem;
     display: flex;
+    flex-flow: nowrap;
     align-items: center;
+    z-index: 99;
 }
 
-    .top-row ::deep a, .top-row .btn-link {
-        white-space: nowrap;
-        /*margin-left: 1.5rem;*/
+    .top-row .left {
+        margin-right: auto;
+        display: flex;
     }
 
-    .top-row a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
+    .top-row .right {
+        margin-left: auto;
     }
+
+/* Not sold on the look of a border yet. */
+/*.home-link {
+    border: 2px solid;
+}*/
+
+.home-link a {
+    padding: 0.5em;
+    margin: 0rem;
+    color: var(--euler-hexcolor-fore-0, black);
+    font-family: 'Cambria Math' !important;
+    font-size: 1.25rem;
+    font-style: italic;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    width: auto;
+}
+
+    .home-link a:hover {
+        background-color: var(--euler-hexcolor-gray-2, gray);
+        color: var(--euler-hexcolor-fore-0, black);
+        cursor: pointer;
+    }
+
 
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {
@@ -51,17 +76,17 @@ main {
         flex-direction: row;
     }
 
-    .sidebar {
-        width: 250px;
+    /*    .sidebar {
+        width: auto;
         height: 100vh;
         position: sticky;
         top: 0;
-    }
+        padding: 5px 5px 5px 5px;
+    }*/
 
     .top-row {
         position: sticky;
         top: 0;
-        z-index: 1;
     }
 
     .top-row, article {

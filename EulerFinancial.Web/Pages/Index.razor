@@ -2,8 +2,6 @@
 
 @using EulerFinancial.Web.Components.Shared
 
-<ActionBar ButtonList="@TestButtons" />
-
 <PageTitle>@Resources.Strings.Title_ApplicationHome.AsPageTitle()</PageTitle>
 
 <h1>Hello, world!</h1>
@@ -11,13 +9,3 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
-
-
-@code {
-    private Dictionary<string, string> TestButtons = new()
-        {
-            { "add", "Add" },
-            { "wifi", "Wifi" },
-            { "airplane-sharp", "Airplane" }
-        };
-}

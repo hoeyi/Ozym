@@ -1,0 +1,134 @@
+﻿.navmenu {
+    background-image: linear-gradient(180deg, var(--euler-hexcolor-primary-0), var(--euler-hexcolor-primary-2));
+    width: fit-content;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    /*padding: 5px 5px 5px 5px;*/
+}
+
+.navmenu-anchor {
+    display: inline-block;
+    height: 3rem;
+    width: 3rem;
+    margin: 5px;
+}
+
+.navmenu-anchor:hover {
+        cursor: pointer;
+        background: var(--euler-hexcolor-secondary-1-1, gray);
+    }
+
+.navmenu-title {
+    display: inline-block;
+    font-size: 1.4rem;
+    color: var(--euler-hexcolor-fore-0, black);
+    text-align: center;
+    vertical-align: bottom;
+}
+
+    .navmenu-title.hidden {
+        display: none;
+    }
+
+.navmenu-grid {
+    overflow: hidden;
+    /*margin: 10px 0px 10px 0px;*/
+    width: fit-content;
+    max-width: 217px;
+}
+
+    .navmenu-grid.hidden {
+        display: none;
+    }
+
+.navmenu-tile {
+    float: left;
+    position: relative;
+    background-color: var(--euler-hexcolor-primary-2, white);
+    width: 100px;
+    height: 100px;
+    margin: 5px 0px 0px 5px;
+    padding: 0px;
+}
+
+::deep .navmenu-tile:hover {
+    background: var(--euler-hexcolor-secondary-1-1, gray);
+    cursor: pointer;
+}
+
+::deep .navmenu-tile .ion-icon {
+    position: absolute;
+    padding: 5px;
+    height: 80%;
+    width: 80%;
+    left: 10%;
+    top: 0%;
+    z-index: 1;
+}
+
+.navmenu-tile .navmenu-caption {
+    font-size: 0.85rem;
+    position: absolute;
+    color: var(--euler-hexcolor-fore-0, black);
+    width: 80%;
+    left: 10%;
+    bottom: 5px;
+    height: fit-content;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 2;
+}
+
+/* Change the fill color to light shade if not 'none' or 'transparent'. */
+::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
+    fill: var(--euler-hexcolor-fore-0, black);
+}
+
+/* Change the stroke color to light shade if not 'none' or 'transparent'. */
+::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
+    stroke: var(--euler-hexcolor-fore-0, black);
+}
+
+/* Set the default background color for IonIcons.*/
+::deep .ion-icon svg {
+    background: none;
+}
+
+
+/*
+    This section is for styling based on the screen type. Save
+    for future use.
+*/
+/*@media only screen and (max-width : 480px) {
+     Smartphone view: 1 tile 
+    .square {
+        width: 100%;
+        padding-bottom: 100%;
+    }
+}
+
+@media only screen and (max-width : 650px) and (min-width : 481px) {
+     Tablet view: 2 tiles 
+    .square {
+        width: 50%;
+        padding-bottom: 50%;
+    }
+}
+
+@media only screen and (max-width : 1050px) and (min-width : 651px) {
+     Small desktop / ipad view: 3 tiles 
+    .square {
+        width: 33.3%;
+        padding-bottom: 33.3%;
+    }
+}
+
+@media only screen and (max-width : 1290px) and (min-width : 1051px) {
+     Medium desktop: 4 tiles 
+    .square {
+        width: 25%;
+        padding-bottom: 25%;
+    }
+}*/

@@ -1,0 +1,85 @@
+﻿<div class="navmenu">
+    <div class="navmenu-anchor" @onclick="@(args => ToggleMenu(args))">
+        <IonIcon Name="apps" />
+    </div>
+    @*<div class="navmenu-title @VisibleClass">Main Menu</div>*@
+    <div class="navmenu-grid @VisibleClass">
+        @foreach (var menuItem in MenuItems!.Where(n => !(
+            string.IsNullOrEmpty(n.IconKey) ||
+            string.IsNullOrEmpty(n.Caption) ||
+            string.IsNullOrEmpty(n.UriStem)
+        )))
+        {
+            <div class="navmenu-tile">
+                <IonIcon Name="@menuItem.IconKey" class="@menuItem.IconKey"
+                     @onclick="@(args => OnItemClick(menuItem, args))" />
+                <div class="navmenu-caption">@menuItem.Caption</div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the collection of <see cref="AppMenuItem" /> objects to add.
+    /// </summary>
+    [Parameter]
+    public IReadOnlySet<AppMenuItem>? MenuItems { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="NavigationManager" /> instance for this collection.
+    /// </summary>
+    [Parameter]
+    public NavigationManager NavigationHelper
+    {
+        get
+        {
+            return _navigationHelper;
+        }
+        set
+        {
+            _navigationHelper ??= value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether the menu collection is expanded or collapsed.
+    /// </summary>
+    public bool Collapsed { get; set; } = false;
+
+    /// <summary>
+    /// Flags collapsable components class attributes according to the current state.
+    /// </summary>
+    private string VisibleClass
+    {
+        get { return Collapsed ? "visible" : "hidden"; }
+    }
+
+    private NavigationManager _navigationHelper = default!;
+
+    /// <summary>
+    /// Handles the event triggered when a menu item is clicked.
+    /// </summary>
+    /// <param name="menuItem"></param>
+    /// <param name="args"></param>
+    private void OnItemClick(AppMenuItem menuItem, MouseEventArgs args)
+    {
+        // TODO: Add some logic for different behavior when shift click is used.
+        if (args.Button == 0)
+        {
+            if (NavigationHelper is null ||
+                string.IsNullOrEmpty(NavigationHelper.BaseUri) ||
+                string.IsNullOrEmpty(menuItem.UriStem))
+                return;
+
+            Uri uri = NavigationHelper.ToAbsoluteUri(menuItem.UriStem);
+            NavigationHelper.NavigateTo(uri.AbsoluteUri);
+        }
+    }
+
+    private void ToggleMenu(MouseEventArgs args)
+    {
+        Collapsed = !Collapsed;
+    }
+
+}
