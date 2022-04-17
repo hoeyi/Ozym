@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using EulerFinancial.Web.Components.Shared;
 using System.Text.Json;
 
-namespace EulerFinancial.Test.Web
+namespace EulerFinancial.UnitTest.Web
 {
     [TestClass]
     public class MenuTest

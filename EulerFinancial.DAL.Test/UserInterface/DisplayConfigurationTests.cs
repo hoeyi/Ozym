@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace EulerFinancial.DAL.UnitTest.UserInterface
+namespace EulerFinancial.UnitTest.UserInterface
 {
     [TestClass]
     public class DisplayConfigurationTests

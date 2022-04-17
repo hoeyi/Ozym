@@ -12,11 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.DAL", "EulerFinancial.DAL\EulerFinancial.DAL.csproj", "{F4F5B69C-A774-4412-9464-5AFC878AD5FF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.DAL.Test", "EulerFinancial.DAL.Test\EulerFinancial.DAL.Test.csproj", "{AEB6D616-508A-4AA3-B490-F90AF1D4E169}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.UnitTest", "EulerFinancial.DAL.Test\EulerFinancial.UnitTest.csproj", "{AEB6D616-508A-4AA3-B490-F90AF1D4E169}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.Web", "EulerFinancial.Web\EulerFinancial.Web.csproj", "{C56BA965-51AA-4913-94D7-AF19DC2E1243}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.Test.Web", "EulerFinancial.Web.Test\EulerFinancial.Test.Web.csproj", "{2AAD1729-E635-4A53-9F58-914A2A81220A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EulerFinancial.UnitTest.Web", "EulerFinancial.Web.Test\EulerFinancial.UnitTest.Web.csproj", "{2AAD1729-E635-4A53-9F58-914A2A81220A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
