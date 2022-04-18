@@ -35,7 +35,7 @@ namespace EulerFinancial.UnitTest.ModelService
         /// Verifies the unit of work for a creating a single <see cref="Account"/>.
         /// </summary>
         [TestMethod]
-        public async Task CreateAsync_Returns_Single_Account_UpdatedKey()
+        public async Task CreateAsync_Returns_Single_Account()
         {
             var service = CreateAccountService();
 
