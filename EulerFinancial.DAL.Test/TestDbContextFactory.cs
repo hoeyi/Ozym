@@ -44,7 +44,7 @@ namespace EulerFinancial.UnitTest.ModelService
         /// <inheritdoc/>
         public EulerFinancialContext CreateDbContext() => new EulerFinancialContext(
                 new DbContextOptionsBuilder<EulerFinancialContext>()
-                    .UseSqlServer(UnitTestConfig.Configuration["Connectionstrings:EulerFinancial-DEV"])
+                    .UseSqlServer(UnitTest.Configuration["Connectionstrings:EulerFinancial-DEV"])
                     .Options)
                 .WithSeedData();
 
@@ -55,7 +55,7 @@ namespace EulerFinancial.UnitTest.ModelService
 #pragma warning disable CA1822 // Mark members as static
         public EulerFinancialContext CreateDbContextNoSeed() => new(
                 new DbContextOptionsBuilder<EulerFinancialContext>()
-                    .UseSqlServer(UnitTestConfig.Configuration["Connectionstrings:EulerFinancial-DEV"])
+                    .UseSqlServer(UnitTest.Configuration["Connectionstrings:EulerFinancial-DEV"])
                     .Options);
 
 #pragma warning restore CA1822 // Mark members as static

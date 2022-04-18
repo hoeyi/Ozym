@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,14 +16,14 @@ namespace EulerFinancial.UnitTest
     /// <summary>
     /// Container class for unit-test helper methods.
     /// </summary>
-    internal class UnitTestConfig
+    internal class UnitTest
     {
         /// <summary>
         /// Getst the configuration used by unit tests.
         /// </summary>
         internal static IConfiguration Configuration { get; } =
             new ConfigurationBuilder()
-            .AddUserSecrets<UnitTestConfig>()
+            .AddUserSecrets<UnitTest>()
             .Build();
 
         /// <summary>
@@ -32,6 +33,8 @@ namespace EulerFinancial.UnitTest
 
         internal static readonly ILogger Logger = LoggerFactory
             .Create(builder => builder.AddConsole().AddDebug())
-            .CreateLogger<UnitTestConfig>();
+            .CreateLogger<UnitTest>();
+
+
     }
 }

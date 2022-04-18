@@ -56,7 +56,7 @@ namespace EulerFinancial.UnitTest.ModelService
             account = await service.CreateAsync(account);
 
             // Create a new context for checking results. Avoids dependency on model service.
-            using var tmpContext = UnitTestConfig.DbContextFactory.CreateDbContext();
+            using var tmpContext = UnitTest.DbContextFactory.CreateDbContext();
 
             var savedAccount = tmpContext.Accounts
                 .Include(a => a.AccountCustodian)
@@ -85,7 +85,7 @@ namespace EulerFinancial.UnitTest.ModelService
         public async Task ReadAsync_Returns_Single_Account()
         {
             var service = CreateAccountService();
-            using var tmpContext = UnitTestConfig.DbContextFactory.CreateDbContext();
+            using var tmpContext = UnitTest.DbContextFactory.CreateDbContext();
 
             var accountID = tmpContext.Accounts
                 .Include(a => a.AccountNavigation)
@@ -134,7 +134,7 @@ namespace EulerFinancial.UnitTest.ModelService
             var result = await service.UpdateAsync(account);
 
             // Open a context for checking results.
-            using var tmpContext = UnitTestConfig.DbContextFactory.CreateDbContext();
+            using var tmpContext = UnitTest.DbContextFactory.CreateDbContext();
 
             var savedAccount = tmpContext.Accounts
                 .Include(a => a.AccountNavigation)
@@ -177,7 +177,7 @@ namespace EulerFinancial.UnitTest.ModelService
 
             var result = await service.DeleteAsync(account);
 
-            using var tmpContext = UnitTestConfig.DbContextFactory.CreateDbContext();
+            using var tmpContext = UnitTest.DbContextFactory.CreateDbContext();
 
             Assert.IsTrue(result && !tmpContext.Accounts.Any(a => a.AccountId == account.AccountId));
         }
@@ -186,8 +186,8 @@ namespace EulerFinancial.UnitTest.ModelService
     public partial class AccountServiceTest
     {
         private static AccountService CreateAccountService() => new(
-            contextFactory: UnitTestConfig.DbContextFactory,
+            contextFactory: UnitTest.DbContextFactory,
             modelMetadata: new ModelMetadataService(),
-            logger: UnitTestConfig.Logger);
+            logger: UnitTest.Logger);
     }
 }
