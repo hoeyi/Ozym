@@ -67,15 +67,11 @@ namespace EulerFinancial.UnitTest.ModelService
             Assert.IsTrue(account.AccountId > initialID);
 
             // Check the return attributes match the submitted object.
-            Assert.IsTrue(
-                    savedAccount.AccountNavigation.AccountObjectCode == account.AccountNavigation.AccountObjectCode
-                    && savedAccount.AccountNavigation.StartDate == account.AccountNavigation.StartDate
-                    && savedAccount.AccountNavigation.CloseDate == account.AccountNavigation.CloseDate
-                    && savedAccount.AccountNavigation.ObjectDisplayName == account.AccountNavigation.ObjectDisplayName
-                    && savedAccount.AccountNavigation.ObjectDescription == account.AccountNavigation.ObjectDescription
-                    && savedAccount.AccountNavigation.ObjectType == account.AccountNavigation.ObjectType
-                    && savedAccount.AccountNumber == account.AccountNumber
-                    && savedAccount.AccountCustodianId == account.AccountCustodianId);
+            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
+                savedAccount, account));
+
+            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
+                savedAccount.AccountNavigation, account.AccountNavigation));
         }
 
         /// <summary>
@@ -141,15 +137,11 @@ namespace EulerFinancial.UnitTest.ModelService
                 .FirstOrDefault(a => a.AccountId == account.AccountId);
 
             // Check the return attributes match the submitted object.
-            Assert.IsTrue(
-                    savedAccount.AccountNavigation.AccountObjectCode == account.AccountNavigation.AccountObjectCode
-                    && savedAccount.AccountNavigation.StartDate == account.AccountNavigation.StartDate
-                    && savedAccount.AccountNavigation.CloseDate == account.AccountNavigation.CloseDate
-                    && savedAccount.AccountNavigation.ObjectDisplayName == account.AccountNavigation.ObjectDisplayName
-                    && savedAccount.AccountNavigation.ObjectDescription == account.AccountNavigation.ObjectDescription
-                    && savedAccount.AccountNavigation.ObjectType == account.AccountNavigation.ObjectType
-                    && savedAccount.AccountNumber == account.AccountNumber
-                    && savedAccount.AccountCustodianId == account.AccountCustodianId);
+            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
+                savedAccount, account));
+
+            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
+                savedAccount.AccountNavigation, account.AccountNavigation));
         }
 
         /// <summary>
@@ -179,6 +171,7 @@ namespace EulerFinancial.UnitTest.ModelService
 
             using var tmpContext = UnitTest.DbContextFactory.CreateDbContext();
 
+            // Check delete action was successful and the account is not found in the DbContext.
             Assert.IsTrue(result && !tmpContext.Accounts.Any(a => a.AccountId == account.AccountId));
         }
     }
