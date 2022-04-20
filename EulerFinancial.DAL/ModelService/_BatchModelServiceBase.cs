@@ -30,17 +30,9 @@ namespace EulerFinancial.ModelService
         /// <summary>
         /// Creates a new <typeparamref name="T"/> batch model service.
         /// </summary>
-        /// <param name="context">The <see cref="EulerFinancialContext"/> for this service.</param>
+        /// <param name="contextFactory">The <see cref="IDbContextFactory{T}"/> for this service.</param>
         /// <param name="modelMetadata">The <see cref="IModelMetadataService"/> for this service.</param>
         /// <param name="logger">The <see cref="ILogger"/> for this service.</param>
-        /// <exception cref="ArgumentNullException">A required parameter was null.</exception>
-        /// <summary>
-        /// Creates a new <typeparamref name="T"/> service.
-        /// </summary>
-        /// <param name="context">The <see cref="EulerFinancialContext"/> for this service.</param>
-        /// <param name="modelMetadata">The <see cref="IModelMetadataService"/> for this service.</param>
-        /// <param name="logger">The <see cref="ILogger"/> for this service.</param>
-        /// <param name="parentKey">The <typeparamref name="T"/> parent key type.</param>
         /// <exception cref="ArgumentNullException">A required parameter was null.</exception>
         protected BatchModelServiceBase(
             IDbContextFactory<EulerFinancialContext> contextFactory,
