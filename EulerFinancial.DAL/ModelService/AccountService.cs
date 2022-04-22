@@ -1,4 +1,5 @@
 ﻿using EulerFinancial.Context;
+using EulerFinancial.Logging;
 using EulerFinancial.Model;
 using EulerFinancial.ModelMetadata;
 using Ichosoft.DataModel;
@@ -9,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using EulerFinancial.Logging;
 
 namespace EulerFinancial.ModelService
 {
@@ -100,7 +100,7 @@ namespace EulerFinancial.ModelService
 
                 return result;
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 _logger.ModelServiceReadSingleFailed(
                     model: new
@@ -157,23 +157,23 @@ namespace EulerFinancial.ModelService
                             context.BankTransactions.Where(bt => bt.AccountId == model.AccountId));
 
                     // Remove broker transaction children.
-                    if(context.BrokerTransactions.Any(bt => bt.AccountId == model.AccountId))
+                    if (context.BrokerTransactions.Any(bt => bt.AccountId == model.AccountId))
                         context.BrokerTransactions.RemoveRange(
                             context.BrokerTransactions.Where(bt => bt.AccountId == model.AccountId));
 
                     // Remove account wallet children.
-                    if(context.AccountWallets.Any(aw => aw.AccountId == model.AccountId))
+                    if (context.AccountWallets.Any(aw => aw.AccountId == model.AccountId))
                         context.AccountWallets.RemoveRange(
                             context.AccountWallets.Where(w => w.AccountId == model.AccountId));
 
                     // Remove account attribute children.
-                    if(context.AccountAttributeMemberEntries.Any(gm => gm.AccountObjectId == model.AccountId))
+                    if (context.AccountAttributeMemberEntries.Any(gm => gm.AccountObjectId == model.AccountId))
                         context.AccountAttributeMemberEntries.RemoveRange(
                             context.AccountAttributeMemberEntries.Where(
                                 aa => aa.AccountObjectId == model.AccountId));
 
                     // Remove account group memberships.
-                    if(context.AccountGroupMembers.Any(gm => gm.AccountId == model.AccountId))
+                    if (context.AccountGroupMembers.Any(gm => gm.AccountId == model.AccountId))
                         context.AccountGroupMembers.RemoveRange(
                             context.AccountGroupMembers.Where(agm => agm.AccountId == model.AccountId));
 
@@ -237,7 +237,7 @@ namespace EulerFinancial.ModelService
             {
                 return false;
             }
-            
+
             using var context = _contextFactory.CreateDbContext();
 
             return context.Accounts.Any(m => m.AccountId == model.AccountId);
