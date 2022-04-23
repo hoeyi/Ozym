@@ -174,6 +174,35 @@ namespace EulerFinancial.UnitTest.ModelService
             // Check delete action was successful and the account is not found in the DbContext.
             Assert.IsTrue(result && !tmpContext.Accounts.Any(a => a.AccountId == account.AccountId));
         }
+
+        /// <summary>
+        /// Verifies the method used to check the existance of a model given an integer key value.
+        /// </summary>
+        [TestMethod]
+        public void ModelExists_UseKeyValue_Returns_True()
+        {
+            var service = CreateAccountService();
+
+            var result = service.ModelExists(id: 1);
+
+            Assert.IsTrue(result);
+        }
+
+        /// <summary>
+        /// Verifies the method used to check the existance of a model given a model instance.
+        /// </summary>
+        [TestMethod]
+        public void ModelExists_UseModel_Returns_True()
+        {
+            var service = CreateAccountService();
+
+            var result = service.ModelExists(model: new()
+            {
+                AccountId = 1
+            });
+
+            Assert.IsTrue(result);
+        }
     }
 
     public partial class AccountServiceTest
