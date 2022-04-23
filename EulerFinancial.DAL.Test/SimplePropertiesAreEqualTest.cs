@@ -1,11 +1,6 @@
 ﻿using EulerFinancial.Model;
 using EulerFinancial.ModelMetadata;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EulerFinancial.UnitTest
 {
