@@ -1,13 +1,8 @@
 ﻿using Ichosoft.DataModel;
 using Ichosoft.DataModel.Annotations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EulerFinancial.Resources;
 using Ichosoft.Extensions.Common.Localization;
-using System.Reflection;
 
 namespace EulerFinancial.UserInterface
 {
