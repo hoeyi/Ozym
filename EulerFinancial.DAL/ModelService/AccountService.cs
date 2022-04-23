@@ -154,32 +154,6 @@ namespace EulerFinancial.ModelService
             return await defaultTask;
         }
         
-        /// <inheritdoc/>
-        public override bool ModelExists(Account model)
-        {
-            if (model is null)
-            {
-                return false;
-            }
-
-            using var context = _contextFactory.CreateDbContext();
-
-            return context.Accounts.Any(m => m.AccountId == model.AccountId);
-        }
-
-        /// <inheritdoc/>
-        public override bool ModelExists(int? id)
-        {
-            if (id is null)
-            {
-                return false;
-            }
-
-            using var context = _contextFactory.CreateDbContext();
-
-            return context.Accounts.Any(m => m.AccountId == id);
-        }
-
         /// <inheritdoc/>   
         public override async Task<Account> ReadAsync(int? id)
         {
