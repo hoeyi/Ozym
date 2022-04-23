@@ -26,6 +26,8 @@ namespace EulerFinancial.ModelService
             ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
+            PathCollection.AddPath(a => a.AccountCustodian);
+            PathCollection.AddPath(a => a.AccountNavigation);
         }
 
         /// <inheritdoc/>
@@ -54,7 +56,7 @@ namespace EulerFinancial.ModelService
                     _logger.ModelServiceCreatedModel(
                         new
                         {
-                            Type = model.GetType().Name,
+                            Type = typeof(Account).Name,
                             Id = model.AccountId,
                             Code = model.AccountCode
                         });
@@ -152,102 +154,6 @@ namespace EulerFinancial.ModelService
             });
 
             return await defaultTask;
-        }
-        
-        /// <inheritdoc/>   
-        public override async Task<Account> ReadAsync(int? id)
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            try
-            {
-                var result = await context.Accounts
-                                    .Include(a => a.AccountCustodian)
-                                    .Include(a => a.AccountNavigation)
-                                    .FirstOrDefaultAsync(a => a.AccountId == id);
-
-                if (result is not null)
-                    _logger.ModelServiceReadModel(
-                        model: new
-                        {
-                            Type = typeof(Account).Name,
-                            result.AccountId,
-                            result.AccountCode
-                        });
-
-                return result;
-            }
-            catch (Exception exception)
-            {
-                _logger.ModelServiceReadSingleFailed(
-                    model: new
-                    {
-                        Type = typeof(Account).Name,
-                        Id = id
-                    },
-                    exception);
-
-                throw;
-            }
-        }
-
-        /// <inheritdoc/>
-        public override async Task<List<Account>> SelectAllAsync()
-        {
-            Expression<Func<Account, bool>> expression = x => true;
-
-            var searchGuid = Guid.NewGuid();
-
-            _logger.ModelServiceSearchRequestAccepted(
-                requestGuid: searchGuid,
-                type: typeof(Account),
-                predicate: expression.Body,
-                recordLimit: int.MaxValue);
-
-            using var context = _contextFactory.CreateDbContext();
-
-            var result = await context.Accounts
-                            .Include(a => a.AccountCustodian)
-                            .Include(a => a.AccountNavigation)
-                            .ToListAsync();
-
-            _logger.ModelServiceSearchResultReturned(
-                requestGuid: searchGuid,
-                type: typeof(Account),
-                resultCount: result?.Count ?? default);
-
-            return result;
-        }
-
-        /// <inheritdoc/>
-        public override async Task<List<Account>> SelectWhereAysnc(
-            Expression<Func<Account, bool>> predicate, int maxCount = 0)
-        {
-            maxCount = maxCount < 0 ? int.MaxValue : maxCount;
-
-            var searchGuid = Guid.NewGuid();
-
-            _logger.ModelServiceSearchRequestAccepted(
-                requestGuid: searchGuid,
-                type: typeof(Account),
-                predicate: predicate.Body,
-                recordLimit: maxCount);
-
-            using var context = _contextFactory.CreateDbContext();
-
-            var result = await context.Accounts
-                            .Include(a => a.AccountCustodian)
-                            .Include(a => a.AccountNavigation)
-                            .Where(predicate)
-                            .Take(maxCount)
-                            .ToListAsync();
-
-            _logger.ModelServiceSearchResultReturned(
-                requestGuid: searchGuid,
-                type: typeof(Account),
-                resultCount: result?.Count ?? default);
-
-            return result;
         }
 
         /// <inheritdoc/>

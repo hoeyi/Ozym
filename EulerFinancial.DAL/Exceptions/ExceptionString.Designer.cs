@@ -77,5 +77,14 @@ namespace EulerFinancial.Exceptions {
                 return ResourceManager.GetString("ModelService_ParentKeyNotSet", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Query complexity limit ({0}) reached. Consider increasing the navigation path limit or re-writing the query..
+        /// </summary>
+        internal static string ModelService_QueryComplexityNotSupported {
+            get {
+                return ResourceManager.GetString("ModelService_QueryComplexityNotSupported", resourceCulture);
+            }
+        }
     }
 }
