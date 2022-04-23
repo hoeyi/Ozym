@@ -5,10 +5,7 @@ using EulerFinancial.ModelMetadata;
 using Ichosoft.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace EulerFinancial.ModelService
@@ -40,8 +37,6 @@ namespace EulerFinancial.ModelService
                 using var transaction = await context.Database.BeginTransactionAsync();
 
                 context.AccountObjects.Add(model.AccountNavigation);
-
-                //await context.SaveChangesAsync();
 
                 model.AccountId = model.AccountNavigation.AccountObjectId;
                 context.Accounts.Add(model);
