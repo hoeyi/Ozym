@@ -29,20 +29,6 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public override async Task<Account> GetDefaultAsync()
-        {
-            var defaultTask = Task.Run(() => new Account()
-            {
-                AccountNavigation = new AccountObject()
-                {
-                    ObjectType = AccountObjectType.Account.ConvertToStringCode()
-                }
-            });
-
-            return await defaultTask;
-        }
-
-        /// <inheritdoc/>
         public override async Task<Account> CreateAsync(Account model)
         {
             using var context = _contextFactory.CreateDbContext();
@@ -74,69 +60,6 @@ namespace EulerFinancial.ModelService
                         });
 
                 return model;
-            });
-        }
-
-        /// <inheritdoc/>   
-        public override async Task<Account> ReadAsync(int? id)
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            try
-            {
-                var result = await context.Accounts
-                                    .Include(a => a.AccountCustodian)
-                                    .Include(a => a.AccountNavigation)
-                                    .FirstOrDefaultAsync(a => a.AccountId == id);
-
-                if (result is not null)
-                    _logger.ModelServiceReadModel(
-                        model: new
-                        {
-                            Type = typeof(Account).Name,
-                            result.AccountId,
-                            result.AccountCode
-                        });
-
-                return result;
-            }
-            catch (Exception exception)
-            {
-                _logger.ModelServiceReadSingleFailed(
-                    model: new
-                    {
-                        Type = typeof(Account).Name,
-                        Id = id
-                    },
-                    exception);
-
-                throw;
-            }
-        }
-
-        /// <inheritdoc/>
-        public override async Task<bool> UpdateAsync(Account model)
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await DoWriteOperationAsync(async () =>
-            {
-                context.Entry(model).State = EntityState.Modified;
-                context.Entry(model.AccountNavigation).State = EntityState.Modified;
-
-                var count = await context.SaveChangesAsync();
-                var result = count > 0;
-
-                if (result)
-                    _logger.ModelServiceUpdatedModel(
-                        model: new
-                        {
-                            Type = typeof(Account).Name,
-                            model.AccountId,
-                            model.AccountCode
-                        });
-
-                return result;
             });
         }
 
@@ -218,6 +141,33 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
+        public override async Task<Account> GetDefaultAsync()
+        {
+            var defaultTask = Task.Run(() => new Account()
+            {
+                AccountNavigation = new AccountObject()
+                {
+                    ObjectType = AccountObjectType.Account.ConvertToStringCode()
+                }
+            });
+
+            return await defaultTask;
+        }
+        
+        /// <inheritdoc/>
+        public override bool ModelExists(Account model)
+        {
+            if (model is null)
+            {
+                return false;
+            }
+
+            using var context = _contextFactory.CreateDbContext();
+
+            return context.Accounts.Any(m => m.AccountId == model.AccountId);
+        }
+
+        /// <inheritdoc/>
         public override bool ModelExists(int? id)
         {
             if (id is null)
@@ -230,17 +180,41 @@ namespace EulerFinancial.ModelService
             return context.Accounts.Any(m => m.AccountId == id);
         }
 
-        /// <inheritdoc/>
-        public override bool ModelExists(Account model)
+        /// <inheritdoc/>   
+        public override async Task<Account> ReadAsync(int? id)
         {
-            if (model is null)
-            {
-                return false;
-            }
-
             using var context = _contextFactory.CreateDbContext();
 
-            return context.Accounts.Any(m => m.AccountId == model.AccountId);
+            try
+            {
+                var result = await context.Accounts
+                                    .Include(a => a.AccountCustodian)
+                                    .Include(a => a.AccountNavigation)
+                                    .FirstOrDefaultAsync(a => a.AccountId == id);
+
+                if (result is not null)
+                    _logger.ModelServiceReadModel(
+                        model: new
+                        {
+                            Type = typeof(Account).Name,
+                            result.AccountId,
+                            result.AccountCode
+                        });
+
+                return result;
+            }
+            catch (Exception exception)
+            {
+                _logger.ModelServiceReadSingleFailed(
+                    model: new
+                    {
+                        Type = typeof(Account).Name,
+                        Id = id
+                    },
+                    exception);
+
+                throw;
+            }
         }
 
         /// <inheritdoc/>
@@ -302,5 +276,30 @@ namespace EulerFinancial.ModelService
             return result;
         }
 
+        /// <inheritdoc/>
+        public override async Task<bool> UpdateAsync(Account model)
+        {
+            using var context = _contextFactory.CreateDbContext();
+
+            return await DoWriteOperationAsync(async () =>
+            {
+                context.Entry(model).State = EntityState.Modified;
+                context.Entry(model.AccountNavigation).State = EntityState.Modified;
+
+                var count = await context.SaveChangesAsync();
+                var result = count > 0;
+
+                if (result)
+                    _logger.ModelServiceUpdatedModel(
+                        model: new
+                        {
+                            Type = typeof(Account).Name,
+                            model.AccountId,
+                            model.AccountCode
+                        });
+
+                return result;
+            });
+        }
     }
 }
