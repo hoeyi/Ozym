@@ -203,6 +203,36 @@ namespace EulerFinancial.UnitTest.ModelService
 
             Assert.IsTrue(result);
         }
+
+        /// <summary>
+        /// Verifies the method used to return all <see cref="Account"/> objects matching 
+        /// the given predicate, limited to 1 result.
+        /// </summary>
+        [TestMethod]
+        public async Task SelectWhereAsync_Returns_Accounts_List()
+        {
+            var service = CreateAccountService();
+
+            var result = await service.SelectWhereAysnc(
+                predicate: a => a.AccountNavigation.AccountObjectCode == "TEST000_SEED",
+                maxCount: 1);
+
+            Assert.IsTrue(result.Count == 1);
+            Assert.IsTrue(result[0].AccountCode == "TEST000_SEED");
+        }
+
+        /// <summary>
+        /// Verifies the method used to return all <see cref="Account"/> objects.
+        /// </summary>
+        [TestMethod]
+        public async Task SelectAllAsync_Returns_Accounts_List()
+        {
+            var service = CreateAccountService();
+
+            var result = await service.SelectAllAsync();
+
+            Assert.IsTrue(result.Count > 0);
+        }
     }
 
     public partial class AccountServiceTest
