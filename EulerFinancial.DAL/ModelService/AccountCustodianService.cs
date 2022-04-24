@@ -1,5 +1,4 @@
 ﻿using EulerFinancial.Context;
-using EulerFinancial.Logging;
 using EulerFinancial.Model;
 using Ichosoft.DataModel;
 using Microsoft.EntityFrameworkCore;
