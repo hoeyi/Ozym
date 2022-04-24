@@ -5,6 +5,7 @@ using EulerFinancial.ModelMetadata;
 using Ichosoft.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,11 +29,9 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public override async Task<Account> CreateAsync(Account model)
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await DoWriteOperationAsync(async () =>
+        protected override Func<
+            EulerFinancialContext, Account, Task<DbActionResult<Account>>
+            > CreateDelegate => async (context, model) =>
             {
                 using var transaction = await context.Database.BeginTransactionAsync();
 
@@ -47,26 +46,15 @@ namespace EulerFinancial.ModelService
 
                 var result = count > 0;
 
-                if (result)
-                    _logger.ModelServiceCreatedModel(
-                        new
-                        {
-                            Type = typeof(Account).Name,
-                            Id = model.AccountId,
-                            Code = model.AccountCode
-                        });
-
-                return model;
-            });
-        }
+                return new DbActionResult<Account>(model, result);
+            };
 
         /// <inheritdoc/>
-        public override async Task<bool> DeleteAsync(Account model)
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await DoWriteOperationAsync(async () =>
+        protected override Func<
+            EulerFinancialContext, Account, Task<DbActionResult<bool>>
+            > DeleteDelegate => async (context, model) =>
             {
+                bool deleteSuccessful = false;
                 try
                 {
                     using var transaction = await context.Database.BeginTransactionAsync();
@@ -111,31 +99,31 @@ namespace EulerFinancial.ModelService
                         context.AccountObjects.Where(
                             a => a.AccountObjectId == model.AccountId).First());
 
-                    var count = await context.SaveChangesAsync();
-                    var result = count > 0;
+                    deleteSuccessful = await context.SaveChangesAsync() > 0;
 
                     await transaction.CommitAsync();
 
-                    if (result)
-                        _logger.ModelServiceDeletedModel(
-                            model: new
-                            {
-                                Type = typeof(Account).Name,
-                                model.AccountId,
-                                model.AccountCode
-                            });
-
-                    return result;
+                    return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
                 }
-                catch (DbUpdateException dbe)
+                catch (DbUpdateException)
                 {
-                    _logger.ModelServiceSaveChangesFailed(dbe);
+                    return new DbActionResult<bool>(false, false);
+                };
+            };
 
-                    return !ModelExists(model.AccountId);
-                }
+        /// <inheritdoc/>
+        protected override Func<
+            EulerFinancialContext, Account, Task<DbActionResult<bool>>
+            > UpdateDelegate => async (context, model) =>
+            {
+                context.Entry(model).State = EntityState.Modified;
+                context.Entry(model.AccountNavigation).State = EntityState.Modified;
 
-            });
-        }
+                var count = await context.SaveChangesAsync();
+                var result = count > 0;
+
+                return new DbActionResult<bool>(result, result);
+            };
 
         /// <inheritdoc/>
         public override async Task<Account> GetDefaultAsync()
@@ -149,32 +137,6 @@ namespace EulerFinancial.ModelService
             });
 
             return await defaultTask;
-        }
-
-        /// <inheritdoc/>
-        public override async Task<bool> UpdateAsync(Account model)
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await DoWriteOperationAsync(async () =>
-            {
-                context.Entry(model).State = EntityState.Modified;
-                context.Entry(model.AccountNavigation).State = EntityState.Modified;
-
-                var count = await context.SaveChangesAsync();
-                var result = count > 0;
-
-                if (result)
-                    _logger.ModelServiceUpdatedModel(
-                        model: new
-                        {
-                            Type = typeof(Account).Name,
-                            model.AccountId,
-                            model.AccountCode
-                        });
-
-                return result;
-            });
         }
     }
 }

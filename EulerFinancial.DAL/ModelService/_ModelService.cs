@@ -37,16 +37,79 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public abstract Task<T> CreateAsync(T model);
+        public virtual async Task<T> CreateAsync(T model)
+        {
+            using var context = await _contextFactory.CreateDbContextAsync();
+
+            var logModel = new
+            {
+                Type = typeof(T).Name,
+                Id = GetKey<int>(model),
+                Guid = GetKey<Guid>(model)
+            };
+
+            DbActionResult<T> createAction = await DoWriteOperationAsync(CreateDelegate, model);
+            if (createAction.Successful)
+            {
+                _logger.ModelServiceCreatedModel(logModel);
+                return createAction.Result;
+            }
+            else
+            {
+                return default;
+            }
+        }
 
         /// <inheritdoc/>
-        public abstract Task<bool> DeleteAsync(T model);
+        public virtual async Task<bool> DeleteAsync(T model)
+        {
+            using var context = await _contextFactory.CreateDbContextAsync();
+
+            var logModel = new
+            {
+                Type = typeof(T).Name,
+                Id = GetKey<int>(model),
+                Guid = GetKey<Guid>(model)
+            };
+
+            DbActionResult<bool> deleteAction = await DoWriteOperationAsync(DeleteDelegate, model);
+            if (deleteAction.Successful)
+            {
+                _logger.ModelServiceDeletedModel(logModel);
+                return deleteAction.Result;
+            }
+            else
+            {
+                return default;
+            }
+        }
 
         /// <inheritdoc/>
         public abstract Task<T> GetDefaultAsync();
 
         /// <inheritdoc/>
-        public abstract Task<bool> UpdateAsync(T model);
+        public virtual async Task<bool> UpdateAsync(T model)
+        {
+            using var context = await _contextFactory.CreateDbContextAsync();
+
+            var logModel = new
+            {
+                Type = typeof(T).Name,
+                Id = GetKey<int>(model),
+                Guid = GetKey<Guid>(model)
+            };
+
+            DbActionResult<bool> udpateAction = await DoWriteOperationAsync(UpdateDelegate, model);
+            if (udpateAction.Successful)
+            {
+                _logger.ModelServiceUpdatedModel(logModel);
+                return udpateAction.Result;
+            }
+            else
+            {
+                return default;
+            }
+        }
 
         /// <inheritdoc/>
         public virtual bool ModelExists(int? id)
@@ -157,8 +220,33 @@ namespace EulerFinancial.ModelService
         }
     }
 
+    /// <inheritdoc/>
     public abstract partial class ModelService<T>
     {
+        /// <summary>
+        /// Represents the result of an action against a data store.
+        /// </summary>
+        /// <typeparam name="TResult">The action result type.</typeparam>
+        protected struct DbActionResult<TResult>
+        {
+            public DbActionResult(TResult result, bool successful)
+            {
+                Result = result;
+                Successful = successful;
+            }
+
+            /// <summary>
+            /// Gets the result of the action.
+            /// </summary>
+            public TResult Result { get; init; }
+
+            /// <summary>
+            /// Gets whether the action was successful.
+            /// </summary>
+            public bool Successful { get; init; }
+
+        }
+
         /// <summary>
         /// Gets the <see cref="NavigationPathCollection"/> instance for this service.
         /// </summary>
@@ -216,37 +304,28 @@ namespace EulerFinancial.ModelService
                 .FirstOrDefault(p => p.GetCustomAttribute<KeyAttribute>() is not null
                 && p.PropertyType == keyType);
 
+            if (firstKey is null) return default;
+
             return (TKey)firstKey.GetValue(model);
         }
 
-        /// <summary>
-        /// Invokes the given data store modification method.
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="writeDelegate">The method adding, updating, or deleting a method.</param>
-        /// <returns>A task representing an asynchronous write operation. The <typeparamref name="TResult"/>
-        ///  is taken from the passed delegate.</returns>
-        /// <exception cref="ModelUpdateException">An error occured when writing to the data store. 
-        /// This typcially represents an unhandled concurrency or schema constraint exception.</exception>
-        protected async Task<TResult> DoWriteOperationAsync<TResult>(
-            Func<Task<TResult>> writeDelegate)
-        {
-            try
-            {
-                return await writeDelegate.Invoke();
-            }
-            catch (DbUpdateConcurrencyException duc)
-            {
-                _logger.LogWarning(duc, duc.Message);
-                throw new ModelUpdateException(duc.Message);
-            }
-            catch (DbUpdateException du)
-            {
-                _logger.LogWarning(du, message: du.Message);
-                throw new ModelUpdateException(du.InnerException.Message, du);
-            }
-        }
+        ///// <summary>
+        ///// Invokes the given data store modification method.
+        ///// </summary>
+        ///// <typeparam name="TResult"></typeparam>
+        ///// <param name="writeDelegate">The method adding, updating, or deleting a method.</param>
+        ///// <returns>A task representing an asynchronous write operation. The <typeparamref name="TResult"/>
+        /////  is taken from the passed delegate.</returns>
+        ///// <exception cref="ModelUpdateException">An error occured when writing to the data store. 
+        ///// This typcially represents an unhandled concurrency or schema constraint exception.</exception>
+        ///// 
+
+        protected abstract Func<EulerFinancialContext, T, Task<DbActionResult<T>>> CreateDelegate { get; }
         
+        protected abstract Func<EulerFinancialContext, T, Task<DbActionResult<bool>>> DeleteDelegate { get; }
+
+        protected abstract Func<EulerFinancialContext, T, Task<DbActionResult<bool>>> UpdateDelegate { get; }
+
         /// <summary>
         /// Represents a collection of <see cref="Expression{Delegate}"/> navigation paths.
         /// </summary>
@@ -298,6 +377,37 @@ namespace EulerFinancial.ModelService
                         string.Format(ExceptionString.ModelService_QueryComplexityNotSupported, pathLimit));
 
                 _navigationPaths[Items.Count] = navigationPath;
+            }
+        }
+
+        /// <summary>
+        /// Invokes the given delegate to write data to the data store.
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="writeDelegate">The delegate that will perform the write operations to the 
+        /// <see cref="EulerFinancialContext"/>.</param>
+        /// <param name="model">The <typeparamref name="T"/> model which is being written.</param>
+        /// <returns>A <typeparamref name="TResult"/> representing the outcome of the write operation.</returns>
+        /// <exception cref="ModelUpdateException"></exception>
+        private async Task<DbActionResult<TResult>> DoWriteOperationAsync<TResult>(
+            Func<EulerFinancialContext, T, Task<DbActionResult<TResult>>> writeDelegate,
+            T model)
+        {
+            try
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+
+                return await writeDelegate.Invoke(context, model);
+            }
+            catch (DbUpdateConcurrencyException duc)
+            {
+                _logger.LogWarning(duc, duc.Message);
+                throw new ModelUpdateException(duc.Message);
+            }
+            catch (DbUpdateException du)
+            {
+                _logger.ModelServiceSaveChangesFailed(du);
+                throw new ModelUpdateException(du.InnerException.Message, du);
             }
         }
     }

@@ -4,6 +4,7 @@ using EulerFinancial.Model;
 using Ichosoft.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace EulerFinancial.ModelService
@@ -12,7 +13,7 @@ namespace EulerFinancial.ModelService
     /// The class for servicing single CRUD requests against the <see cref="AccountCustodian"/> 
     /// data store.
     /// </summary>
-    public class AccountCustodianService : 
+    public class AccountCustodianService :
         ModelService<AccountCustodian>, IModelService<AccountCustodian>
     {
         /// <inheritdoc/>
@@ -25,56 +26,40 @@ namespace EulerFinancial.ModelService
         }
 
         /// <inheritdoc/>
-        public override async Task<AccountCustodian> CreateAsync(AccountCustodian model)
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await DoWriteOperationAsync(async () =>
+        protected override Func<
+            EulerFinancialContext, AccountCustodian, Task<DbActionResult<AccountCustodian>>
+            > CreateDelegate => async (context, model) =>
             {
                 context.AccountCustodians.Add(model);
 
-                var count = await context.SaveChangesAsync();
+                var result = await context.SaveChangesAsync() > 0;
 
-                var result = count > 0;
-
-                if (result)
-                    _logger.ModelServiceCreatedModel(
-                        new
-                        {
-                            Type = typeof(AccountCustodian).Name,
-                            Id = model.AccountCustodianId,
-                            Code = model.CustodianCode
-                        });
-
-                return model;
-            });
-        }
+                return new DbActionResult<AccountCustodian>(model, result);
+            };
 
         /// <inheritdoc/>
-        public override async Task<bool> DeleteAsync(AccountCustodian model)
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await DoWriteOperationAsync(async () =>
+        protected override Func<
+            EulerFinancialContext, AccountCustodian, Task<DbActionResult<bool>>
+            > DeleteDelegate => async (context, model) =>
             {
-                context.AccountCustodians.Add(model);
+                context.AccountCustodians.Remove(model);
 
-                var count = await context.SaveChangesAsync();
+                var result = await context.SaveChangesAsync() > 0;
 
-                var result = count > 0;
+                return new DbActionResult<bool>(result, result);
+            };
 
-                if (result)
-                    _logger.ModelServiceCreatedModel(
-                        new
-                        {
-                            Type = typeof(AccountCustodian).Name,
-                            Id = model.AccountCustodianId,
-                            Code = model.CustodianCode
-                        });
+        /// <inheritdoc/>
+        protected override Func<
+            EulerFinancialContext, AccountCustodian, Task<DbActionResult<bool>>
+            > UpdateDelegate => async (context, model) =>
+            {
+                context.Entry(model).State = EntityState.Modified;
 
-                return result;
-            });
-        }
+                var result = await context.SaveChangesAsync() > 0;
+
+                return new DbActionResult<bool>(result, result);
+            };
 
         /// <inheritdoc/>   
         public override async Task<AccountCustodian> GetDefaultAsync()
@@ -82,31 +67,6 @@ namespace EulerFinancial.ModelService
             var defaultTask = Task.Run(() => new AccountCustodian());
 
             return await defaultTask;
-        }
-
-        /// <inheritdoc/>
-        public override async Task<bool> UpdateAsync(AccountCustodian model)
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await DoWriteOperationAsync(async () =>
-            {
-                context.Entry(model).State = EntityState.Modified;
-
-                var count = await context.SaveChangesAsync();
-                var result = count == 1;
-
-                if (result)
-                    _logger.ModelServiceUpdatedModel(
-                        model: new
-                        {
-                            Type = typeof(Account).Name,
-                            model.AccountCustodianId,
-                            model.CustodianCode
-                        });
-
-                return result;
-            });
         }
     }
 }
