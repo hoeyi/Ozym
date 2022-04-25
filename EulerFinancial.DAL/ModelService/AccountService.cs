@@ -54,60 +54,53 @@ namespace EulerFinancial.ModelService
             > DeleteDelegate => async (context, model) =>
             {
                 bool deleteSuccessful = false;
-                try
-                {
-                    using var transaction = await context.Database.BeginTransactionAsync();
+                using var transaction = await context.Database.BeginTransactionAsync();
 
-                    // Remove bank transaction children.
-                    if (context.BankTransactions.Any(bt => bt.AccountId == model.AccountId))
-                        context.BankTransactions.RemoveRange(
-                            context.BankTransactions.Where(bt => bt.AccountId == model.AccountId));
+                // Remove bank transaction children.
+                if (context.BankTransactions.Any(bt => bt.AccountId == model.AccountId))
+                    context.BankTransactions.RemoveRange(
+                        context.BankTransactions.Where(bt => bt.AccountId == model.AccountId));
 
-                    // Remove broker transaction children.
-                    if (context.BrokerTransactions.Any(bt => bt.AccountId == model.AccountId))
-                        context.BrokerTransactions.RemoveRange(
-                            context.BrokerTransactions.Where(bt => bt.AccountId == model.AccountId));
+                // Remove broker transaction children.
+                if (context.BrokerTransactions.Any(bt => bt.AccountId == model.AccountId))
+                    context.BrokerTransactions.RemoveRange(
+                        context.BrokerTransactions.Where(bt => bt.AccountId == model.AccountId));
 
-                    // Remove account wallet children.
-                    if (context.AccountWallets.Any(aw => aw.AccountId == model.AccountId))
-                        context.AccountWallets.RemoveRange(
-                            context.AccountWallets.Where(w => w.AccountId == model.AccountId));
+                // Remove account wallet children.
+                if (context.AccountWallets.Any(aw => aw.AccountId == model.AccountId))
+                    context.AccountWallets.RemoveRange(
+                        context.AccountWallets.Where(w => w.AccountId == model.AccountId));
 
-                    // Remove account attribute children.
-                    if (context.AccountAttributeMemberEntries.Any(gm => gm.AccountObjectId == model.AccountId))
-                        context.AccountAttributeMemberEntries.RemoveRange(
-                            context.AccountAttributeMemberEntries.Where(
-                                aa => aa.AccountObjectId == model.AccountId));
+                // Remove account attribute children.
+                if (context.AccountAttributeMemberEntries.Any(gm => gm.AccountObjectId == model.AccountId))
+                    context.AccountAttributeMemberEntries.RemoveRange(
+                        context.AccountAttributeMemberEntries.Where(
+                            aa => aa.AccountObjectId == model.AccountId));
 
-                    // Remove account group memberships.
-                    if (context.AccountGroupMembers.Any(gm => gm.AccountId == model.AccountId))
-                        context.AccountGroupMembers.RemoveRange(
-                            context.AccountGroupMembers.Where(agm => agm.AccountId == model.AccountId));
+                // Remove account group memberships.
+                if (context.AccountGroupMembers.Any(gm => gm.AccountId == model.AccountId))
+                    context.AccountGroupMembers.RemoveRange(
+                        context.AccountGroupMembers.Where(agm => agm.AccountId == model.AccountId));
 
-                    // Save changes because cascade delete is not used.
-                    await context.SaveChangesAsync();
+                // Save changes because cascade delete is not used.
+                await context.SaveChangesAsync();
 
-                    // Remove account.
-                    context.Accounts.Remove(model);
+                // Remove account.
+                context.Accounts.Remove(model);
 
-                    // Save changes because cascade delete is not used.
-                    await context.SaveChangesAsync();
+                // Save changes because cascade delete is not used.
+                await context.SaveChangesAsync();
 
-                    // Remove account object.
-                    context.AccountObjects.Remove(
-                        context.AccountObjects.Where(
-                            a => a.AccountObjectId == model.AccountId).First());
+                // Remove account object.
+                context.AccountObjects.Remove(
+                    context.AccountObjects.Where(
+                        a => a.AccountObjectId == model.AccountId).First());
 
-                    deleteSuccessful = await context.SaveChangesAsync() > 0;
+                deleteSuccessful = await context.SaveChangesAsync() > 0;
 
-                    await transaction.CommitAsync();
+                await transaction.CommitAsync();
 
-                    return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
-                }
-                catch (DbUpdateException)
-                {
-                    return new DbActionResult<bool>(false, false);
-                };
+                return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
             };
 
         /// <inheritdoc/>
