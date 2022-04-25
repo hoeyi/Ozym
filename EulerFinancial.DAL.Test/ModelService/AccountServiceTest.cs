@@ -7,6 +7,7 @@ using Ichosoft.DataModel;
 using EulerFinancial.Model;
 using EulerFinancial.ModelMetadata;
 using Microsoft.EntityFrameworkCore;
+using EulerFinancial.Exceptions;
 
 namespace EulerFinancial.UnitTest.ModelService
 {
@@ -70,6 +71,35 @@ namespace EulerFinancial.UnitTest.ModelService
 
             Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
                 savedAccount.AccountNavigation, account.AccountNavigation));
+        }
+
+        /// <summary>
+        /// Verifies a deletion request for a non-existent account yields a 
+        /// <see cref="DbUpdateException"/>.
+        /// </summary>
+        [TestMethod]
+        public async Task DeleteAsync_InvalidAccount_ThrowsModelUpdateException()
+        {
+            var service = CreateAccountService();
+
+            Account account = new()
+            {
+                AccountNavigation = new()
+                {
+                    AccountObjectId = 10,
+                    AccountObjectCode = "TESTFAIL",
+                    ObjectType = AccountObjectType.Account.ConvertToStringCode(),
+                    ObjectDisplayName = "TEST DELETE ACCOUNT FAILURE",
+                    ObjectDescription = "Test object for causing a failed delete request."
+                },
+                AccountNumber = "0000-0000-00",
+                AccountId = 10
+            };
+
+            await Assert.ThrowsExceptionAsync<ModelUpdateException>(async () =>
+            {
+                await service.DeleteAsync(account);
+            });
         }
 
         /// <summary>
