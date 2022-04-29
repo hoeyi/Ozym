@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -21,9 +19,9 @@ namespace EulerFinancial.Model
         [Key]
         [Column("AttributeID")]
         public int AttributeId { get; set; }
-        [Required]
         [StringLength(32)]
-        public string DisplayName { get; set; }
+        [Unicode(false)]
+        public string DisplayName { get; set; } = null!;
 
         [InverseProperty(nameof(ModelAttributeMember.Attribute))]
         public virtual ICollection<ModelAttributeMember> ModelAttributeMembers { get; set; }

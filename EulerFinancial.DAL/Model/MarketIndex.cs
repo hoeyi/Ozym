@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -20,12 +18,12 @@ namespace EulerFinancial.Model
         [Key]
         [Column("IndexID")]
         public int IndexId { get; set; }
-        [Required]
         [StringLength(10)]
-        public string IndexCode { get; set; }
-        [Required]
+        [Unicode(false)]
+        public string IndexCode { get; set; } = null!;
         [StringLength(128)]
-        public string IndexDescription { get; set; }
+        [Unicode(false)]
+        public string IndexDescription { get; set; } = null!;
 
         [InverseProperty(nameof(MarketIndexPrice.MarketIndex))]
         public virtual ICollection<MarketIndexPrice> MarketIndexPrices { get; set; }

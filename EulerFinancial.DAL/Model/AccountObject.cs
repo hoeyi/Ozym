@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -22,29 +20,30 @@ namespace EulerFinancial.Model
         [Key]
         [Column("AccountObjectID")]
         public int AccountObjectId { get; set; }
-        [Required]
         [StringLength(16)]
-        public string AccountObjectCode { get; set; }
-        [Required]
+        [Unicode(false)]
+        public string AccountObjectCode { get; set; } = null!;
         [StringLength(1)]
-        public string ObjectType { get; set; }
+        [Unicode(false)]
+        public string ObjectType { get; set; } = null!;
         [Column(TypeName = "date")]
         public DateTime StartDate { get; set; }
         [Column(TypeName = "date")]
         public DateTime? CloseDate { get; set; }
-        [Required]
         [StringLength(64)]
-        public string ObjectDisplayName { get; set; }
+        [Unicode(false)]
+        public string ObjectDisplayName { get; set; } = null!;
         [StringLength(128)]
-        public string ObjectDescription { get; set; }
-        [Required]
+        [Unicode(false)]
+        public string? ObjectDescription { get; set; }
         [StringLength(17)]
-        public string PrefixedObjectCode { get; set; }
+        [Unicode(false)]
+        public string PrefixedObjectCode { get; set; } = null!;
 
         [InverseProperty("AccountNavigation")]
-        public virtual Account Account { get; set; }
-        [InverseProperty("AccountGroupNavigation")]
-        public virtual AccountGroup AccountGroup { get; set; }
+        public virtual Account Account { get; set; } = null!;
+        [InverseProperty("AccountCompositeNavigation")]
+        public virtual AccountComposite AccountComposite { get; set; } = null!;
         [InverseProperty(nameof(AccountAttributeMemberEntry.AccountObject))]
         public virtual ICollection<AccountAttributeMemberEntry> AccountAttributeMemberEntries { get; set; }
         [InverseProperty(nameof(InvestmentPerformanceAttributeMemberEntry.AccountObject))]

@@ -277,6 +277,96 @@ namespace EulerFinancial.ModelMetadata.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The order the account group receives in reporting..
+        /// </summary>
+        public static string AccountComposite_DisplayOrder_Description {
+            get {
+                return ResourceManager.GetString("AccountComposite_DisplayOrder_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Order.
+        /// </summary>
+        public static string AccountComposite_DisplayOrder_Name {
+            get {
+                return ResourceManager.GetString("AccountComposite_DisplayOrder_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The group for the member..
+        /// </summary>
+        public static string AccountCompositeMember_AccountGroupID_Description {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_AccountGroupID_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group.
+        /// </summary>
+        public static string AccountCompositeMember_AccountGroupId_Name {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_AccountGroupId_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The member account..
+        /// </summary>
+        public static string AccountCompositeMember_AccountID_Description {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_AccountID_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        public static string AccountCompositeMember_AccountId_Name {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_AccountId_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The date the member enters the group..
+        /// </summary>
+        public static string AccountCompositeMember_EntryDate_Description {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_EntryDate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entry Date.
+        /// </summary>
+        public static string AccountCompositeMember_EntryDate_Name {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_EntryDate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The date the member exists the group..
+        /// </summary>
+        public static string AccountCompositeMember_ExitDate_Description {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_ExitDate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit date.
+        /// </summary>
+        public static string AccountCompositeMember_ExitDate_Name {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_ExitDate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The short code used to identify the custodian..
         /// </summary>
         public static string AccountCustodian_CustodianCode_Description {
@@ -309,96 +399,6 @@ namespace EulerFinancial.ModelMetadata.Resources {
         public static string AccountCustodian_DisplayName_Name {
             get {
                 return ResourceManager.GetString("AccountCustodian_DisplayName_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The order the account group receives in reporting..
-        /// </summary>
-        public static string AccountGroup_DisplayOrder_Description {
-            get {
-                return ResourceManager.GetString("AccountGroup_DisplayOrder_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Display Order.
-        /// </summary>
-        public static string AccountGroup_DisplayOrder_Name {
-            get {
-                return ResourceManager.GetString("AccountGroup_DisplayOrder_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The group for the member..
-        /// </summary>
-        public static string AccountGroupMember_AccountGroupID_Description {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_AccountGroupID_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Group.
-        /// </summary>
-        public static string AccountGroupMember_AccountGroupId_Name {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_AccountGroupId_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The member account..
-        /// </summary>
-        public static string AccountGroupMember_AccountID_Description {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_AccountID_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Account.
-        /// </summary>
-        public static string AccountGroupMember_AccountId_Name {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_AccountId_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The date the member enters the group..
-        /// </summary>
-        public static string AccountGroupMember_EntryDate_Description {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_EntryDate_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Entry Date.
-        /// </summary>
-        public static string AccountGroupMember_EntryDate_Name {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_EntryDate_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The date the member exists the group..
-        /// </summary>
-        public static string AccountGroupMember_ExitDate_Description {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_ExitDate_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Exit date.
-        /// </summary>
-        public static string AccountGroupMember_ExitDate_Name {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_ExitDate_Name", resourceCulture);
             }
         }
         

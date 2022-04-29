@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -21,15 +21,15 @@ namespace EulerFinancial.Model
         [Column(TypeName = "decimal(19, 4)")]
         public decimal Amount { get; set; }
         [StringLength(72)]
-        public string Comment { get; set; }
-        [Required]
-        public byte[] TransactionVersion { get; set; }
+        [Unicode(false)]
+        public string? Comment { get; set; }
+        public byte[] TransactionVersion { get; set; } = null!;
 
         [ForeignKey(nameof(AccountId))]
         [InverseProperty("BankTransactions")]
-        public virtual Account Account { get; set; }
+        public virtual Account Account { get; set; } = null!;
         [ForeignKey(nameof(TransactionCodeId))]
         [InverseProperty(nameof(BankTransactionCode.BankTransactions))]
-        public virtual BankTransactionCode TransactionCode { get; set; }
+        public virtual BankTransactionCode TransactionCode { get; set; } = null!;
     }
 }

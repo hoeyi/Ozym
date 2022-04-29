@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -22,12 +20,12 @@ namespace EulerFinancial.Model
         [Key]
         [Column("TransactionCodeID")]
         public int TransactionCodeId { get; set; }
-        [Required]
         [StringLength(3)]
-        public string TransactionCode { get; set; }
-        [Required]
+        [Unicode(false)]
+        public string TransactionCode { get; set; } = null!;
         [StringLength(32)]
-        public string DisplayName { get; set; }
+        [Unicode(false)]
+        public string DisplayName { get; set; } = null!;
         public byte CashEffect { get; set; }
         public byte ContributionWithdrawalEffect { get; set; }
         public byte QuantityEffect { get; set; }

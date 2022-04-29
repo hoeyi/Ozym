@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -22,12 +20,12 @@ namespace EulerFinancial.Model
         [Key]
         [Column("AccountCustodianID")]
         public int AccountCustodianId { get; set; }
-        [Required]
         [StringLength(16)]
-        public string CustodianCode { get; set; }
-        [Required]
+        [Unicode(false)]
+        public string CustodianCode { get; set; } = null!;
         [StringLength(72)]
-        public string DisplayName { get; set; }
+        [Unicode(false)]
+        public string DisplayName { get; set; } = null!;
 
         [InverseProperty(nameof(Account.AccountCustodian))]
         public virtual ICollection<Account> Accounts { get; set; }

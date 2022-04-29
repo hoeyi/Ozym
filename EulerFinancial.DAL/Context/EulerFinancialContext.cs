@@ -1,13 +1,14 @@
-﻿using EulerFinancial.Model;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore.Metadata;
+using EulerFinancial.Model;
 
 namespace EulerFinancial.Context
 {
     public partial class EulerFinancialContext : DbContext
     {
-        public EulerFinancialContext() : base()
+        public EulerFinancialContext()
         {
         }
 
@@ -16,46 +17,46 @@ namespace EulerFinancial.Context
         {
         }
 
-        public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<AccountAttributeMemberEntry> AccountAttributeMemberEntries { get; set; }
-        public virtual DbSet<AccountCustodian> AccountCustodians { get; set; }
-        public virtual DbSet<AccountGroup> AccountGroups { get; set; }
-        public virtual DbSet<AccountGroupMember> AccountGroupMembers { get; set; }
-        public virtual DbSet<AccountObject> AccountObjects { get; set; }
-        public virtual DbSet<AccountWallet> AccountWallets { get; set; }
-        public virtual DbSet<AuditEvent> AuditEvents { get; set; }
-        public virtual DbSet<BankTransaction> BankTransactions { get; set; }
-        public virtual DbSet<BankTransactionCode> BankTransactionCodes { get; set; }
-        public virtual DbSet<BankTransactionCodeAttributeMemberEntry> BankTransactionCodeAttributeMemberEntries { get; set; }
-        public virtual DbSet<BrokerTransaction> BrokerTransactions { get; set; }
-        public virtual DbSet<BrokerTransactionCode> BrokerTransactionCodes { get; set; }
-        public virtual DbSet<BrokerTransactionCodeAttributeMemberEntry> BrokerTransactionCodeAttributeMemberEntries { get; set; }
-        public virtual DbSet<BrokerTransactionTaxLot> BrokerTransactionTaxLots { get; set; }
-        public virtual DbSet<Country> Countries { get; set; }
-        public virtual DbSet<CountryAttributeMemberEntry> CountryAttributeMemberEntries { get; set; }
-        public virtual DbSet<InvestmentPerformanceAttributeMemberEntry> InvestmentPerformanceAttributeMemberEntries { get; set; }
-        public virtual DbSet<InvestmentPerformanceEntry> InvestmentPerformanceEntries { get; set; }
-        public virtual DbSet<InvestmentStrategy> InvestmentStrategies { get; set; }
-        public virtual DbSet<InvestmentStrategyTarget> InvestmentStrategyTargets { get; set; }
-        public virtual DbSet<MarketHoliday> MarketHolidays { get; set; }
-        public virtual DbSet<MarketHolidaySchedule> MarketHolidaySchedules { get; set; }
-        public virtual DbSet<MarketIndex> MarketIndices { get; set; }
-        public virtual DbSet<MarketIndexPrice> MarketIndexPrices { get; set; }
-        public virtual DbSet<ModelAttribute> ModelAttributes { get; set; }
-        public virtual DbSet<ModelAttributeMember> ModelAttributeMembers { get; set; }
-        public virtual DbSet<ModelAttributeScope> ModelAttributeScopes { get; set; }
-        public virtual DbSet<ReportConfiguration> ReportConfigurations { get; set; }
-        public virtual DbSet<ReportStyleSheet> ReportStyleSheets { get; set; }
-        public virtual DbSet<ResourceImage> ResourceImages { get; set; }
-        public virtual DbSet<Security> Securities { get; set; }
-        public virtual DbSet<SecurityAttributeMemberEntry> SecurityAttributeMemberEntries { get; set; }
-        public virtual DbSet<SecurityExchange> SecurityExchanges { get; set; }
-        public virtual DbSet<SecurityPrice> SecurityPrices { get; set; }
-        public virtual DbSet<SecuritySymbol> SecuritySymbols { get; set; }
-        public virtual DbSet<SecuritySymbolMap> SecuritySymbolMaps { get; set; }
-        public virtual DbSet<SecuritySymbolType> SecuritySymbolTypes { get; set; }
-        public virtual DbSet<SecurityType> SecurityTypes { get; set; }
-        public virtual DbSet<SecurityTypeGroup> SecurityTypeGroups { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; } = null!;
+        public virtual DbSet<AccountAttributeMemberEntry> AccountAttributeMemberEntries { get; set; } = null!;
+        public virtual DbSet<AccountComposite> AccountComposites { get; set; } = null!;
+        public virtual DbSet<AccountCompositeMember> AccountCompositeMembers { get; set; } = null!;
+        public virtual DbSet<AccountCustodian> AccountCustodians { get; set; } = null!;
+        public virtual DbSet<AccountObject> AccountObjects { get; set; } = null!;
+        public virtual DbSet<AccountWallet> AccountWallets { get; set; } = null!;
+        public virtual DbSet<AuditEvent> AuditEvents { get; set; } = null!;
+        public virtual DbSet<BankTransaction> BankTransactions { get; set; } = null!;
+        public virtual DbSet<BankTransactionCode> BankTransactionCodes { get; set; } = null!;
+        public virtual DbSet<BankTransactionCodeAttributeMemberEntry> BankTransactionCodeAttributeMemberEntries { get; set; } = null!;
+        public virtual DbSet<BrokerTransaction> BrokerTransactions { get; set; } = null!;
+        public virtual DbSet<BrokerTransactionCode> BrokerTransactionCodes { get; set; } = null!;
+        public virtual DbSet<BrokerTransactionCodeAttributeMemberEntry> BrokerTransactionCodeAttributeMemberEntries { get; set; } = null!;
+        public virtual DbSet<BrokerTransactionTaxLot> BrokerTransactionTaxLots { get; set; } = null!;
+        public virtual DbSet<Country> Countries { get; set; } = null!;
+        public virtual DbSet<CountryAttributeMemberEntry> CountryAttributeMemberEntries { get; set; } = null!;
+        public virtual DbSet<InvestmentPerformanceAttributeMemberEntry> InvestmentPerformanceAttributeMemberEntries { get; set; } = null!;
+        public virtual DbSet<InvestmentPerformanceEntry> InvestmentPerformanceEntries { get; set; } = null!;
+        public virtual DbSet<InvestmentStrategy> InvestmentStrategies { get; set; } = null!;
+        public virtual DbSet<InvestmentStrategyTarget> InvestmentStrategyTargets { get; set; } = null!;
+        public virtual DbSet<MarketHoliday> MarketHolidays { get; set; } = null!;
+        public virtual DbSet<MarketHolidaySchedule> MarketHolidaySchedules { get; set; } = null!;
+        public virtual DbSet<MarketIndex> MarketIndices { get; set; } = null!;
+        public virtual DbSet<MarketIndexPrice> MarketIndexPrices { get; set; } = null!;
+        public virtual DbSet<ModelAttribute> ModelAttributes { get; set; } = null!;
+        public virtual DbSet<ModelAttributeMember> ModelAttributeMembers { get; set; } = null!;
+        public virtual DbSet<ModelAttributeScope> ModelAttributeScopes { get; set; } = null!;
+        public virtual DbSet<ReportConfiguration> ReportConfigurations { get; set; } = null!;
+        public virtual DbSet<ReportStyleSheet> ReportStyleSheets { get; set; } = null!;
+        public virtual DbSet<ResourceImage> ResourceImages { get; set; } = null!;
+        public virtual DbSet<Security> Securities { get; set; } = null!;
+        public virtual DbSet<SecurityAttributeMemberEntry> SecurityAttributeMemberEntries { get; set; } = null!;
+        public virtual DbSet<SecurityExchange> SecurityExchanges { get; set; } = null!;
+        public virtual DbSet<SecurityPrice> SecurityPrices { get; set; } = null!;
+        public virtual DbSet<SecuritySymbol> SecuritySymbols { get; set; } = null!;
+        public virtual DbSet<SecuritySymbolMap> SecuritySymbolMaps { get; set; } = null!;
+        public virtual DbSet<SecuritySymbolType> SecuritySymbolTypes { get; set; } = null!;
+        public virtual DbSet<SecurityType> SecurityTypes { get; set; } = null!;
+        public virtual DbSet<SecurityTypeGroup> SecurityTypeGroups { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -67,13 +68,9 @@ namespace EulerFinancial.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
-
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.Property(e => e.AccountId).ValueGeneratedNever();
-
-                entity.Property(e => e.AccountNumber).IsUnicode(false);
 
                 entity.HasOne(d => d.AccountCustodian)
                     .WithMany(p => p.Accounts)
@@ -101,64 +98,44 @@ namespace EulerFinancial.Context
                     .HasConstraintName("FK_AccountAttributeMemberEntry_ModelAttributeMember");
             });
 
-            modelBuilder.Entity<AccountCustodian>(entity =>
+            modelBuilder.Entity<AccountComposite>(entity =>
             {
-                entity.Property(e => e.CustodianCode).IsUnicode(false);
+                entity.Property(e => e.AccountCompositeId).ValueGeneratedNever();
 
-                entity.Property(e => e.DisplayName).IsUnicode(false);
+                entity.HasOne(d => d.AccountCompositeNavigation)
+                    .WithOne(p => p.AccountComposite)
+                    .HasForeignKey<AccountComposite>(d => d.AccountCompositeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AccountComposite_AccountObject");
             });
 
-            modelBuilder.Entity<AccountGroup>(entity =>
+            modelBuilder.Entity<AccountCompositeMember>(entity =>
             {
-                entity.Property(e => e.AccountGroupId).ValueGeneratedNever();
+                entity.HasKey(e => e.MemberId)
+                    .HasName("PK_AccountCommpositeMember");
 
-                entity.HasOne(d => d.AccountGroupNavigation)
-                    .WithOne(p => p.AccountGroup)
-                    .HasForeignKey<AccountGroup>(d => d.AccountGroupId)
+                entity.HasOne(d => d.AccountComposite)
+                    .WithMany(p => p.AccountCompositeMembers)
+                    .HasForeignKey(d => d.AccountCompositeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AccountGroup_AccountObject");
-            });
-
-            modelBuilder.Entity<AccountGroupMember>(entity =>
-            {
-                entity.HasOne(d => d.AccountGroup)
-                    .WithMany(p => p.AccountGroupMembers)
-                    .HasForeignKey(d => d.AccountGroupId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AccountGroupMember_AccountGroup");
+                    .HasConstraintName("FK_AccountCommpositeMember_AccountComposite");
 
                 entity.HasOne(d => d.Account)
-                    .WithMany(p => p.AccountGroupMembers)
+                    .WithMany(p => p.AccountCompositeMembers)
                     .HasForeignKey(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AccountGroupMember_Account");
+                    .HasConstraintName("FK_AccountCommpositeMember_Account");
             });
 
             modelBuilder.Entity<AccountObject>(entity =>
             {
-                entity.Property(e => e.AccountObjectId).HasDefaultValueSql("(NEXT VALUE FOR [EulerApp].[seqAccountObjectID])");
+                entity.Property(e => e.ObjectType).IsFixedLength();
 
-                entity.Property(e => e.AccountObjectCode).IsUnicode(false);
-
-                entity.Property(e => e.ObjectDescription).IsUnicode(false);
-
-                entity.Property(e => e.ObjectDisplayName).IsUnicode(false);
-
-                entity.Property(e => e.ObjectType)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.PrefixedObjectCode)
-                    .IsUnicode(false)
-                    .HasComputedColumnSql("(case when [AccountObject].[ObjectType]='g' then concat('+',[AccountObject].[AccountObjectCode]) else [AccountObject].[AccountObjectCode] end)", false);
+                entity.Property(e => e.PrefixedObjectCode).HasComputedColumnSql("(case when [ObjectType]='g' then concat('+',[AccountObjectCode]) else [AccountObjectCode] end)", false);
             });
 
             modelBuilder.Entity<AccountWallet>(entity =>
             {
-                entity.Property(e => e.AddressCode).IsUnicode(false);
-
-                entity.Property(e => e.AddressTag).IsUnicode(false);
-
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.AccountWallets)
                     .HasForeignKey(d => d.AccountId)
@@ -179,8 +156,6 @@ namespace EulerFinancial.Context
 
             modelBuilder.Entity<BankTransaction>(entity =>
             {
-                entity.Property(e => e.Comment).IsUnicode(false);
-
                 entity.Property(e => e.TransactionVersion)
                     .IsRowVersion()
                     .IsConcurrencyToken();
@@ -202,10 +177,6 @@ namespace EulerFinancial.Context
             {
                 entity.HasKey(e => e.TransactionCodeId)
                     .HasName("PK_BankTransactionSymbol");
-
-                entity.Property(e => e.DisplayName).IsUnicode(false);
-
-                entity.Property(e => e.TransactionCode).IsUnicode(false);
             });
 
             modelBuilder.Entity<BankTransactionCodeAttributeMemberEntry>(entity =>
@@ -249,11 +220,7 @@ namespace EulerFinancial.Context
 
             modelBuilder.Entity<BrokerTransactionCode>(entity =>
             {
-                entity.Property(e => e.DisplayName).IsUnicode(false);
-
-                entity.Property(e => e.TransactionCode)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
+                entity.Property(e => e.TransactionCode).IsFixedLength();
             });
 
             modelBuilder.Entity<BrokerTransactionCodeAttributeMemberEntry>(entity =>
@@ -284,9 +251,7 @@ namespace EulerFinancial.Context
 
             modelBuilder.Entity<Country>(entity =>
             {
-                entity.Property(e => e.IsoCode3)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
+                entity.Property(e => e.IsoCode3).IsFixedLength();
             });
 
             modelBuilder.Entity<CountryAttributeMemberEntry>(entity =>
@@ -324,11 +289,6 @@ namespace EulerFinancial.Context
                     .HasConstraintName("FK_InvestmentPerformanceEntry_AccountObject");
             });
 
-            modelBuilder.Entity<InvestmentStrategy>(entity =>
-            {
-                entity.Property(e => e.DisplayName).IsUnicode(false);
-            });
-
             modelBuilder.Entity<InvestmentStrategyTarget>(entity =>
             {
                 entity.HasOne(d => d.AttributeMember)
@@ -354,18 +314,9 @@ namespace EulerFinancial.Context
                     .HasConstraintName("FK_MarketHolidayScheduleMarketHoliday");
             });
 
-            modelBuilder.Entity<MarketIndex>(entity =>
-            {
-                entity.Property(e => e.IndexCode).IsUnicode(false);
-
-                entity.Property(e => e.IndexDescription).IsUnicode(false);
-            });
-
             modelBuilder.Entity<MarketIndexPrice>(entity =>
             {
-                entity.Property(e => e.PriceCode)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
+                entity.Property(e => e.PriceCode).IsFixedLength();
 
                 entity.HasOne(d => d.MarketIndex)
                     .WithMany(p => p.MarketIndexPrices)
@@ -376,15 +327,11 @@ namespace EulerFinancial.Context
             modelBuilder.Entity<ModelAttribute>(entity =>
             {
                 entity.Property(e => e.AttributeId).ValueGeneratedNever();
-
-                entity.Property(e => e.DisplayName).IsUnicode(false);
             });
 
             modelBuilder.Entity<ModelAttributeMember>(entity =>
             {
                 entity.Property(e => e.AttributeMemberId).ValueGeneratedNever();
-
-                entity.Property(e => e.DisplayName).IsUnicode(false);
 
                 entity.HasOne(d => d.Attribute)
                     .WithMany(p => p.ModelAttributeMembers)
@@ -394,9 +341,7 @@ namespace EulerFinancial.Context
 
             modelBuilder.Entity<ModelAttributeScope>(entity =>
             {
-                entity.Property(e => e.ScopeCode)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
+                entity.Property(e => e.ScopeCode).IsFixedLength();
 
                 entity.HasOne(d => d.Attribute)
                     .WithMany(p => p.ModelAttributeScopes)
@@ -408,30 +353,10 @@ namespace EulerFinancial.Context
             {
                 entity.HasKey(e => e.ConfigurationId)
                     .HasName("PK_ReportSetting");
-
-                entity.Property(e => e.ConfigurationCode).IsUnicode(false);
-
-                entity.Property(e => e.ConfigurationDescription).IsUnicode(false);
-            });
-
-            modelBuilder.Entity<ReportStyleSheet>(entity =>
-            {
-                entity.Property(e => e.StyleSheetCode).IsUnicode(false);
-
-                entity.Property(e => e.StyleSheetDescription).IsUnicode(false);
-            });
-
-            modelBuilder.Entity<ResourceImage>(entity =>
-            {
-                entity.Property(e => e.FileExtension).IsUnicode(false);
-
-                entity.Property(e => e.ImageDescription).IsUnicode(false);
             });
 
             modelBuilder.Entity<Security>(entity =>
             {
-                entity.Property(e => e.SecurityDescription).IsUnicode(false);
-
                 entity.HasOne(d => d.SecurityExchange)
                     .WithMany(p => p.Securities)
                     .HasForeignKey(d => d.SecurityExchangeId)
@@ -458,11 +383,6 @@ namespace EulerFinancial.Context
                     .HasConstraintName("FK_SecurityAttributeMemberEntry_Security");
             });
 
-            modelBuilder.Entity<SecurityExchange>(entity =>
-            {
-                entity.Property(e => e.ExchangeCode).IsUnicode(false);
-            });
-
             modelBuilder.Entity<SecurityPrice>(entity =>
             {
                 entity.HasOne(d => d.Security)
@@ -473,19 +393,9 @@ namespace EulerFinancial.Context
 
             modelBuilder.Entity<SecuritySymbol>(entity =>
             {
-                entity.Property(e => e.Cusip)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
+                entity.Property(e => e.Cusip).IsFixedLength();
 
-                entity.Property(e => e.CustomSymbol).IsUnicode(false);
-
-                entity.Property(e => e.OptionTicker).IsUnicode(false);
-
-                entity.Property(e => e.SymbolCode)
-                    .IsUnicode(false)
-                    .HasComputedColumnSql("(case when [SecuritySymbol].[SymbolTypeID]=(1) then [SecuritySymbol].[Cusip] when [SecuritySymbol].[SymbolTypeID]=(2) then [SecuritySymbol].[CustomSymbol] when [SecuritySymbol].[SymbolTypeID]=(3) then [SecuritySymbol].[OptionTicker] when [SecuritySymbol].[SymbolTypeID]=(4) then [SecuritySymbol].[Ticker]  end)", false);
-
-                entity.Property(e => e.Ticker).IsUnicode(false);
+                entity.Property(e => e.SymbolCode).HasComputedColumnSql("(case when [SecuritySymbol].[SymbolTypeID]=(1) then [SecuritySymbol].[Cusip] when [SecuritySymbol].[SymbolTypeID]=(2) then [SecuritySymbol].[CustomSymbol] when [SecuritySymbol].[SymbolTypeID]=(3) then [SecuritySymbol].[OptionTicker] when [SecuritySymbol].[SymbolTypeID]=(4) then [SecuritySymbol].[Ticker]  end)", false);
 
                 entity.HasOne(d => d.Security)
                     .WithMany(p => p.SecuritySymbols)
@@ -503,8 +413,6 @@ namespace EulerFinancial.Context
             {
                 entity.Property(e => e.SymbolMapId).ValueGeneratedNever();
 
-                entity.Property(e => e.CustodianSymbol).IsUnicode(false);
-
                 entity.HasOne(d => d.AccountCustodian)
                     .WithMany(p => p.SecuritySymbolMaps)
                     .HasForeignKey(d => d.AccountCustodianId)
@@ -518,25 +426,13 @@ namespace EulerFinancial.Context
                     .HasConstraintName("FK_SecuritySymbolMap_SecuritySymbol");
             });
 
-            modelBuilder.Entity<SecuritySymbolType>(entity =>
-            {
-                entity.Property(e => e.SymbolTypeName).IsUnicode(false);
-            });
-
             modelBuilder.Entity<SecurityType>(entity =>
             {
-                entity.Property(e => e.SecurityTypeName).IsUnicode(false);
-
                 entity.HasOne(d => d.SecurityTypeGroup)
                     .WithMany(p => p.SecurityTypes)
                     .HasForeignKey(d => d.SecurityTypeGroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SecurityType_SecurityTypeGroup");
-            });
-
-            modelBuilder.Entity<SecurityTypeGroup>(entity =>
-            {
-                entity.Property(e => e.SecurityTypeGroupName).IsUnicode(false);
             });
 
             modelBuilder.HasSequence("AccountObjectID", "EulerApp");

@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -25,9 +24,9 @@ namespace EulerFinancial.Model
 
         [ForeignKey(nameof(AttributeMemberId))]
         [InverseProperty(nameof(ModelAttributeMember.CountryAttributeMemberEntries))]
-        public virtual ModelAttributeMember AttributeMember { get; set; }
+        public virtual ModelAttributeMember AttributeMember { get; set; } = null!;
         [ForeignKey(nameof(CountryId))]
         [InverseProperty("CountryAttributeMemberEntries")]
-        public virtual Country Country { get; set; }
+        public virtual Country Country { get; set; } = null!;
     }
 }

@@ -141,6 +141,36 @@
   <data name="AccountAttributeMemberEntry_Weight_Name" xml:space="preserve">
     <value>Weight</value>
   </data>
+  <data name="AccountCompositeMember_AccountGroupID_Description" xml:space="preserve">
+    <value>The group for the member.</value>
+  </data>
+  <data name="AccountCompositeMember_AccountGroupId_Name" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="AccountCompositeMember_AccountID_Description" xml:space="preserve">
+    <value>The member account.</value>
+  </data>
+  <data name="AccountCompositeMember_AccountId_Name" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="AccountCompositeMember_EntryDate_Description" xml:space="preserve">
+    <value>The date the member enters the group.</value>
+  </data>
+  <data name="AccountCompositeMember_EntryDate_Name" xml:space="preserve">
+    <value>Entry Date</value>
+  </data>
+  <data name="AccountCompositeMember_ExitDate_Description" xml:space="preserve">
+    <value>The date the member exists the group.</value>
+  </data>
+  <data name="AccountCompositeMember_ExitDate_Name" xml:space="preserve">
+    <value>Exit date</value>
+  </data>
+  <data name="AccountComposite_DisplayOrder_Description" xml:space="preserve">
+    <value>The order the account group receives in reporting.</value>
+  </data>
+  <data name="AccountComposite_DisplayOrder_Name" xml:space="preserve">
+    <value>Display Order</value>
+  </data>
   <data name="AccountCustodian_CustodianCode_Description" xml:space="preserve">
     <value>The short code used to identify the custodian.</value>
   </data>
@@ -152,36 +182,6 @@
   </data>
   <data name="AccountCustodian_DisplayName_Name" xml:space="preserve">
     <value>Display Name</value>
-  </data>
-  <data name="AccountGroupMember_AccountGroupID_Description" xml:space="preserve">
-    <value>The group for the member.</value>
-  </data>
-  <data name="AccountGroupMember_AccountGroupId_Name" xml:space="preserve">
-    <value>Group</value>
-  </data>
-  <data name="AccountGroupMember_AccountID_Description" xml:space="preserve">
-    <value>The member account.</value>
-  </data>
-  <data name="AccountGroupMember_AccountId_Name" xml:space="preserve">
-    <value>Account</value>
-  </data>
-  <data name="AccountGroupMember_EntryDate_Description" xml:space="preserve">
-    <value>The date the member enters the group.</value>
-  </data>
-  <data name="AccountGroupMember_EntryDate_Name" xml:space="preserve">
-    <value>Entry Date</value>
-  </data>
-  <data name="AccountGroupMember_ExitDate_Description" xml:space="preserve">
-    <value>The date the member exists the group.</value>
-  </data>
-  <data name="AccountGroupMember_ExitDate_Name" xml:space="preserve">
-    <value>Exit date</value>
-  </data>
-  <data name="AccountGroup_DisplayOrder_Description" xml:space="preserve">
-    <value>The order the account group receives in reporting.</value>
-  </data>
-  <data name="AccountGroup_DisplayOrder_Name" xml:space="preserve">
-    <value>Display Order</value>
   </data>
   <data name="AccountObject_AccountObjectCode_Description" xml:space="preserve">
     <value>The short code used to identify the account object.</value>

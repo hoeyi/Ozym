@@ -129,6 +129,30 @@
   <data name="AccountAttributeMemberEntry_SingularArticle" xml:space="preserve">
     <value>the</value>
   </data>
+  <data name="AccountCompositeMember_Plural" xml:space="preserve">
+    <value>composite members</value>
+  </data>
+  <data name="AccountCompositeMember_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountCompositeMember_Singular" xml:space="preserve">
+    <value>composite member</value>
+  </data>
+  <data name="AccountCompositeMember_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountComposite_Plural" xml:space="preserve">
+    <value>account composites</value>
+  </data>
+  <data name="AccountComposite_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AccountComposite_Singular" xml:space="preserve">
+    <value>account composite</value>
+  </data>
+  <data name="AccountComposite_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
   <data name="AccountCustodian_Plural" xml:space="preserve">
     <value>custodians</value>
   </data>
@@ -139,30 +163,6 @@
     <value>custodian</value>
   </data>
   <data name="AccountCustodian_SingularArticle" xml:space="preserve">
-    <value>the</value>
-  </data>
-  <data name="AccountGroupMember_Plural" xml:space="preserve">
-    <value>group members</value>
-  </data>
-  <data name="AccountGroupMember_PluralArticle" xml:space="preserve">
-    <value>the</value>
-  </data>
-  <data name="AccountGroupMember_Singular" xml:space="preserve">
-    <value>group member</value>
-  </data>
-  <data name="AccountGroupMember_SingularArticle" xml:space="preserve">
-    <value>the</value>
-  </data>
-  <data name="AccountGroup_Plural" xml:space="preserve">
-    <value>account groups</value>
-  </data>
-  <data name="AccountGroup_PluralArticle" xml:space="preserve">
-    <value>the</value>
-  </data>
-  <data name="AccountGroup_Singular" xml:space="preserve">
-    <value>account group</value>
-  </data>
-  <data name="AccountGroup_SingularArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="AccountObject_Plural" xml:space="preserve">

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -26,21 +26,20 @@ namespace EulerFinancial.Model
         public int SecurityTypeId { get; set; }
         [Column("SecurityExchangeID")]
         public int? SecurityExchangeId { get; set; }
-        [Required]
         [StringLength(32)]
-        public string SecurityDescription { get; set; }
-        [Required]
+        [Unicode(false)]
+        public string SecurityDescription { get; set; } = null!;
         [StringLength(96)]
-        public string Issuer { get; set; }
+        public string Issuer { get; set; } = null!;
         public bool HasPerpetualMarket { get; set; }
         public bool HasPerpetualPrice { get; set; }
 
         [ForeignKey(nameof(SecurityExchangeId))]
         [InverseProperty("Securities")]
-        public virtual SecurityExchange SecurityExchange { get; set; }
+        public virtual SecurityExchange? SecurityExchange { get; set; }
         [ForeignKey(nameof(SecurityTypeId))]
         [InverseProperty("Securities")]
-        public virtual SecurityType SecurityType { get; set; }
+        public virtual SecurityType SecurityType { get; set; } = null!;
         [InverseProperty(nameof(AccountWallet.DenominationSecurity))]
         public virtual ICollection<AccountWallet> AccountWallets { get; set; }
         [InverseProperty(nameof(BrokerTransaction.DepSecurity))]

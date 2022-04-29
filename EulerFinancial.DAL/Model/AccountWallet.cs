@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -18,20 +17,20 @@ namespace EulerFinancial.Model
         public int AccountWalletId { get; set; }
         [Column("AccountID")]
         public int AccountId { get; set; }
-        [Required]
         [StringLength(256)]
-        public string AddressCode { get; set; }
-        [Required]
+        [Unicode(false)]
+        public string AddressCode { get; set; } = null!;
         [StringLength(256)]
-        public string AddressTag { get; set; }
+        [Unicode(false)]
+        public string AddressTag { get; set; } = null!;
         [Column("DenominationSecurityID")]
         public int DenominationSecurityId { get; set; }
 
         [ForeignKey(nameof(AccountId))]
         [InverseProperty("AccountWallets")]
-        public virtual Account Account { get; set; }
+        public virtual Account Account { get; set; } = null!;
         [ForeignKey(nameof(DenominationSecurityId))]
         [InverseProperty(nameof(Security.AccountWallets))]
-        public virtual Security DenominationSecurity { get; set; }
+        public virtual Security DenominationSecurity { get; set; } = null!;
     }
 }

@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -14,14 +13,13 @@ namespace EulerFinancial.Model
         [Key]
         [Column("StyleSheetID")]
         public int StyleSheetId { get; set; }
-        [Required]
         [StringLength(32)]
-        public string StyleSheetCode { get; set; }
-        [Required]
+        [Unicode(false)]
+        public string StyleSheetCode { get; set; } = null!;
         [StringLength(128)]
-        public string StyleSheetDescription { get; set; }
-        [Required]
+        [Unicode(false)]
+        public string StyleSheetDescription { get; set; } = null!;
         [Column(TypeName = "xml")]
-        public string XmlDefinition { get; set; }
+        public string XmlDefinition { get; set; } = null!;
     }
 }

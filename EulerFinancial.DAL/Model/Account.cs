@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -12,7 +11,7 @@ namespace EulerFinancial.Model
     {
         public Account()
         {
-            AccountGroupMembers = new HashSet<AccountGroupMember>();
+            AccountCompositeMembers = new HashSet<AccountCompositeMember>();
             AccountWallets = new HashSet<AccountWallet>();
             BankTransactions = new HashSet<BankTransaction>();
             BrokerTransactions = new HashSet<BrokerTransaction>();
@@ -21,9 +20,9 @@ namespace EulerFinancial.Model
         [Key]
         [Column("AccountID")]
         public int AccountId { get; set; }
-        [Required]
         [StringLength(64)]
-        public string AccountNumber { get; set; }
+        [Unicode(false)]
+        public string AccountNumber { get; set; } = null!;
         public short DisplayOrder { get; set; }
         [Column("AccountCustodianID")]
         public int? AccountCustodianId { get; set; }
@@ -36,12 +35,12 @@ namespace EulerFinancial.Model
 
         [ForeignKey(nameof(AccountCustodianId))]
         [InverseProperty("Accounts")]
-        public virtual AccountCustodian AccountCustodian { get; set; }
+        public virtual AccountCustodian? AccountCustodian { get; set; }
         [ForeignKey(nameof(AccountId))]
         [InverseProperty(nameof(AccountObject.Account))]
-        public virtual AccountObject AccountNavigation { get; set; }
-        [InverseProperty(nameof(AccountGroupMember.Account))]
-        public virtual ICollection<AccountGroupMember> AccountGroupMembers { get; set; }
+        public virtual AccountObject AccountNavigation { get; set; } = null!;
+        [InverseProperty(nameof(AccountCompositeMember.Account))]
+        public virtual ICollection<AccountCompositeMember> AccountCompositeMembers { get; set; }
         [InverseProperty(nameof(AccountWallet.Account))]
         public virtual ICollection<AccountWallet> AccountWallets { get; set; }
         [InverseProperty(nameof(BankTransaction.Account))]

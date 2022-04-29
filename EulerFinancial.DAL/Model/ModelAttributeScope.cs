@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -16,12 +15,12 @@ namespace EulerFinancial.Model
         public int AttributeScopeId { get; set; }
         [Column("AttributeID")]
         public int AttributeId { get; set; }
-        [Required]
         [StringLength(1)]
-        public string ScopeCode { get; set; }
+        [Unicode(false)]
+        public string ScopeCode { get; set; } = null!;
 
         [ForeignKey(nameof(AttributeId))]
         [InverseProperty(nameof(ModelAttribute.ModelAttributeScopes))]
-        public virtual ModelAttribute Attribute { get; set; }
+        public virtual ModelAttribute Attribute { get; set; } = null!;
     }
 }

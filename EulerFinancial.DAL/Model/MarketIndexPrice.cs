@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -18,14 +17,14 @@ namespace EulerFinancial.Model
         public int MarketIndexId { get; set; }
         [Column(TypeName = "date")]
         public DateTime PriceDate { get; set; }
-        [Required]
         [StringLength(1)]
-        public string PriceCode { get; set; }
+        [Unicode(false)]
+        public string PriceCode { get; set; } = null!;
         [Column(TypeName = "decimal(19, 4)")]
         public decimal Price { get; set; }
 
         [ForeignKey(nameof(MarketIndexId))]
         [InverseProperty("MarketIndexPrices")]
-        public virtual MarketIndex MarketIndex { get; set; }
+        public virtual MarketIndex MarketIndex { get; set; } = null!;
     }
 }

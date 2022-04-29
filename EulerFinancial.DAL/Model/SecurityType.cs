@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -22,9 +20,9 @@ namespace EulerFinancial.Model
         public int SecurityTypeId { get; set; }
         [Column("SecurityTypeGroupID")]
         public int SecurityTypeGroupId { get; set; }
-        [Required]
         [StringLength(32)]
-        public string SecurityTypeName { get; set; }
+        [Unicode(false)]
+        public string SecurityTypeName { get; set; } = null!;
         [Column(TypeName = "decimal(7, 4)")]
         public decimal ValuationFactor { get; set; }
         public bool CanHaveDerivative { get; set; }
@@ -33,7 +31,7 @@ namespace EulerFinancial.Model
 
         [ForeignKey(nameof(SecurityTypeGroupId))]
         [InverseProperty("SecurityTypes")]
-        public virtual SecurityTypeGroup SecurityTypeGroup { get; set; }
+        public virtual SecurityTypeGroup SecurityTypeGroup { get; set; } = null!;
         [InverseProperty(nameof(Security.SecurityType))]
         public virtual ICollection<Security> Securities { get; set; }
     }

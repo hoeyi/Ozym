@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -28,14 +26,14 @@ namespace EulerFinancial.Model
         public int AttributeMemberId { get; set; }
         [Column("AttributeID")]
         public int AttributeId { get; set; }
-        [Required]
         [StringLength(32)]
-        public string DisplayName { get; set; }
+        [Unicode(false)]
+        public string DisplayName { get; set; } = null!;
         public short? DisplayOrder { get; set; }
 
         [ForeignKey(nameof(AttributeId))]
         [InverseProperty(nameof(ModelAttribute.ModelAttributeMembers))]
-        public virtual ModelAttribute Attribute { get; set; }
+        public virtual ModelAttribute Attribute { get; set; } = null!;
         [InverseProperty(nameof(AccountAttributeMemberEntry.AttributeMember))]
         public virtual ICollection<AccountAttributeMemberEntry> AccountAttributeMemberEntries { get; set; }
         [InverseProperty(nameof(BankTransactionCodeAttributeMemberEntry.AttributeMember))]

@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -20,9 +18,9 @@ namespace EulerFinancial.Model
         [Key]
         [Column("SymbolTypeID")]
         public int SymbolTypeId { get; set; }
-        [Required]
         [StringLength(32)]
-        public string SymbolTypeName { get; set; }
+        [Unicode(false)]
+        public string SymbolTypeName { get; set; } = null!;
 
         [InverseProperty(nameof(SecuritySymbol.SymbolType))]
         public virtual ICollection<SecuritySymbol> SecuritySymbols { get; set; }

@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -16,17 +15,17 @@ namespace EulerFinancial.Model
         public int SymbolMapId { get; set; }
         [Column("AccountCustodianID")]
         public int AccountCustodianId { get; set; }
-        [Required]
         [StringLength(72)]
-        public string CustodianSymbol { get; set; }
+        [Unicode(false)]
+        public string CustodianSymbol { get; set; } = null!;
         [Column("SecuritySymbolID")]
         public int SecuritySymbolId { get; set; }
 
         [ForeignKey(nameof(AccountCustodianId))]
         [InverseProperty("SecuritySymbolMaps")]
-        public virtual AccountCustodian AccountCustodian { get; set; }
+        public virtual AccountCustodian AccountCustodian { get; set; } = null!;
         [ForeignKey(nameof(SecuritySymbolId))]
         [InverseProperty("SecuritySymbolMaps")]
-        public virtual SecuritySymbol SecuritySymbol { get; set; }
+        public virtual SecuritySymbol SecuritySymbol { get; set; } = null!;
     }
 }

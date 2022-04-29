@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -39,17 +39,17 @@ namespace EulerFinancial.Model
 
         [ForeignKey(nameof(AccountId))]
         [InverseProperty("BrokerTransactions")]
-        public virtual Account Account { get; set; }
+        public virtual Account Account { get; set; } = null!;
         [ForeignKey(nameof(DepSecurityId))]
         [InverseProperty("BrokerTransactionDepSecurities")]
-        public virtual Security DepSecurity { get; set; }
+        public virtual Security DepSecurity { get; set; } = null!;
         [ForeignKey(nameof(SecurityId))]
         [InverseProperty("BrokerTransactionSecurities")]
-        public virtual Security Security { get; set; }
+        public virtual Security Security { get; set; } = null!;
         [ForeignKey(nameof(TransactionCodeId))]
         [InverseProperty(nameof(BrokerTransactionCode.BrokerTransactions))]
-        public virtual BrokerTransactionCode TransactionCode { get; set; }
+        public virtual BrokerTransactionCode? TransactionCode { get; set; }
         [InverseProperty("Transaction")]
-        public virtual BrokerTransactionTaxLot BrokerTransactionTaxLot { get; set; }
+        public virtual BrokerTransactionTaxLot BrokerTransactionTaxLot { get; set; } = null!;
     }
 }

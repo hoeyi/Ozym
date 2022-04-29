@@ -19,7 +19,7 @@ namespace EulerFinancial.ModelMetadata.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ModelNoun {
@@ -133,6 +133,78 @@ namespace EulerFinancial.ModelMetadata.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to account composites.
+        /// </summary>
+        public static string AccountComposite_Plural {
+            get {
+                return ResourceManager.GetString("AccountComposite_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string AccountComposite_PluralArticle {
+            get {
+                return ResourceManager.GetString("AccountComposite_PluralArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to account composite.
+        /// </summary>
+        public static string AccountComposite_Singular {
+            get {
+                return ResourceManager.GetString("AccountComposite_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string AccountComposite_SingularArticle {
+            get {
+                return ResourceManager.GetString("AccountComposite_SingularArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to composite members.
+        /// </summary>
+        public static string AccountCompositeMember_Plural {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string AccountCompositeMember_PluralArticle {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_PluralArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to composite member.
+        /// </summary>
+        public static string AccountCompositeMember_Singular {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string AccountCompositeMember_SingularArticle {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_SingularArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to custodians.
         /// </summary>
         public static string AccountCustodian_Plural {
@@ -165,78 +237,6 @@ namespace EulerFinancial.ModelMetadata.Resources {
         public static string AccountCustodian_SingularArticle {
             get {
                 return ResourceManager.GetString("AccountCustodian_SingularArticle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to account groups.
-        /// </summary>
-        public static string AccountGroup_Plural {
-            get {
-                return ResourceManager.GetString("AccountGroup_Plural", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to the.
-        /// </summary>
-        public static string AccountGroup_PluralArticle {
-            get {
-                return ResourceManager.GetString("AccountGroup_PluralArticle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to account group.
-        /// </summary>
-        public static string AccountGroup_Singular {
-            get {
-                return ResourceManager.GetString("AccountGroup_Singular", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to the.
-        /// </summary>
-        public static string AccountGroup_SingularArticle {
-            get {
-                return ResourceManager.GetString("AccountGroup_SingularArticle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to group members.
-        /// </summary>
-        public static string AccountGroupMember_Plural {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_Plural", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to the.
-        /// </summary>
-        public static string AccountGroupMember_PluralArticle {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_PluralArticle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to group member.
-        /// </summary>
-        public static string AccountGroupMember_Singular {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_Singular", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to the.
-        /// </summary>
-        public static string AccountGroupMember_SingularArticle {
-            get {
-                return ResourceManager.GetString("AccountGroupMember_SingularArticle", resourceCulture);
             }
         }
         

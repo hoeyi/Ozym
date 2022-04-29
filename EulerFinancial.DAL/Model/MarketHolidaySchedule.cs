@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -21,6 +20,6 @@ namespace EulerFinancial.Model
 
         [ForeignKey(nameof(MarketHolidayId))]
         [InverseProperty("MarketHolidaySchedules")]
-        public virtual MarketHoliday MarketHoliday { get; set; }
+        public virtual MarketHoliday MarketHoliday { get; set; } = null!;
     }
 }

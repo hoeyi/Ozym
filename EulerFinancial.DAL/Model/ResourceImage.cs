@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -11,13 +12,12 @@ namespace EulerFinancial.Model
         [Key]
         [Column("ImageID")]
         public int ImageId { get; set; }
-        [Required]
         [StringLength(128)]
-        public string ImageDescription { get; set; }
-        [Required]
-        public byte[] ImageBinary { get; set; }
-        [Required]
+        [Unicode(false)]
+        public string ImageDescription { get; set; } = null!;
+        public byte[] ImageBinary { get; set; } = null!;
         [StringLength(4)]
-        public string FileExtension { get; set; }
+        [Unicode(false)]
+        public string FileExtension { get; set; } = null!;
     }
 }

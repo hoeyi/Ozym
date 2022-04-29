@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -21,12 +19,11 @@ namespace EulerFinancial.Model
         [Key]
         [Column("CountryID")]
         public int CountryId { get; set; }
-        [Required]
         [StringLength(256)]
-        public string DisplayName { get; set; }
-        [Required]
+        public string DisplayName { get; set; } = null!;
         [StringLength(3)]
-        public string IsoCode3 { get; set; }
+        [Unicode(false)]
+        public string IsoCode3 { get; set; } = null!;
 
         [InverseProperty(nameof(CountryAttributeMemberEntry.Country))]
         public virtual ICollection<CountryAttributeMemberEntry> CountryAttributeMemberEntries { get; set; }

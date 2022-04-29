@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -25,9 +24,9 @@ namespace EulerFinancial.Model
 
         [ForeignKey(nameof(AttributeMemberId))]
         [InverseProperty(nameof(ModelAttributeMember.BankTransactionCodeAttributeMemberEntries))]
-        public virtual ModelAttributeMember AttributeMember { get; set; }
+        public virtual ModelAttributeMember AttributeMember { get; set; } = null!;
         [ForeignKey(nameof(TransactionCodeId))]
         [InverseProperty(nameof(BankTransactionCode.BankTransactionCodeAttributeMemberEntries))]
-        public virtual BankTransactionCode TransactionCode { get; set; }
+        public virtual BankTransactionCode TransactionCode { get; set; } = null!;
     }
 }

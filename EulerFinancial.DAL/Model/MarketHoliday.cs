@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -20,9 +18,8 @@ namespace EulerFinancial.Model
         [Key]
         [Column("MarketHolidayID")]
         public int MarketHolidayId { get; set; }
-        [Required]
         [StringLength(72)]
-        public string MarketHolidayName { get; set; }
+        public string MarketHolidayName { get; set; } = null!;
 
         [InverseProperty(nameof(MarketHolidaySchedule.MarketHoliday))]
         public virtual ICollection<MarketHolidaySchedule> MarketHolidaySchedules { get; set; }

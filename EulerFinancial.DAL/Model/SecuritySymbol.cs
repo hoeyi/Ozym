@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -27,22 +25,27 @@ namespace EulerFinancial.Model
         [Column("SymbolTypeID")]
         public int SymbolTypeId { get; set; }
         [StringLength(32)]
-        public string SymbolCode { get; set; }
+        [Unicode(false)]
+        public string? SymbolCode { get; set; }
         [StringLength(9)]
-        public string Cusip { get; set; }
+        [Unicode(false)]
+        public string? Cusip { get; set; }
         [StringLength(32)]
-        public string CustomSymbol { get; set; }
+        [Unicode(false)]
+        public string? CustomSymbol { get; set; }
         [StringLength(32)]
-        public string OptionTicker { get; set; }
+        [Unicode(false)]
+        public string? OptionTicker { get; set; }
         [StringLength(8)]
-        public string Ticker { get; set; }
+        [Unicode(false)]
+        public string? Ticker { get; set; }
 
         [ForeignKey(nameof(SecurityId))]
         [InverseProperty("SecuritySymbols")]
-        public virtual Security Security { get; set; }
+        public virtual Security Security { get; set; } = null!;
         [ForeignKey(nameof(SymbolTypeId))]
         [InverseProperty(nameof(SecuritySymbolType.SecuritySymbols))]
-        public virtual SecuritySymbolType SymbolType { get; set; }
+        public virtual SecuritySymbolType SymbolType { get; set; } = null!;
         [InverseProperty(nameof(SecuritySymbolMap.SecuritySymbol))]
         public virtual ICollection<SecuritySymbolMap> SecuritySymbolMaps { get; set; }
     }

@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace EulerFinancial.Model
 {
@@ -18,6 +19,6 @@ namespace EulerFinancial.Model
 
         [ForeignKey(nameof(TransactionId))]
         [InverseProperty(nameof(BrokerTransaction.BrokerTransactionTaxLot))]
-        public virtual BrokerTransaction Transaction { get; set; }
+        public virtual BrokerTransaction Transaction { get; set; } = null!;
     }
 }
