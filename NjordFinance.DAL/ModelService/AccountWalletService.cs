@@ -22,7 +22,7 @@ namespace NjordFinance.ModelService
     {
         /// <inheritdoc/>
         public AccountWalletService(
-            IDbContextFactory<EulerDbContext> contextFactory,
+            IDbContextFactory<FinanceDbContext> contextFactory,
             IModelMetadataService modelMetadata,
             ILogger logger) : base(contextFactory, modelMetadata, logger)
         {

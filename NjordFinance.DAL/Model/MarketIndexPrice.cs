@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Model
 {
-    [Table("MarketIndexPrice", Schema = "EulerApp")]
+    [Table("MarketIndexPrice", Schema = "FinanceApp")]
     [Index(nameof(PriceDate), nameof(MarketIndexId), nameof(PriceCode), Name = "UNI_MarketIndexPrice_RowDef", IsUnique = true)]
     public partial class MarketIndexPrice
     {

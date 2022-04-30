@@ -1,13 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>EulerFinancial.UnitTest</AssemblyName>
+    <AssemblyName>NjordFinance.UnitTest</AssemblyName>
 
-    <RootNamespace>EulerFinancial.UnitTest</RootNamespace>
+    <RootNamespace>NjordFinance.UnitTest</RootNamespace>
 
     <UserSecretsId>9a018f40-5dd0-457f-b030-29e9febfa89c</UserSecretsId>
   </PropertyGroup>

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using EulerFinancial.Web.Areas.Identity.Data;
+using NjordFinance.Web.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 
-namespace EulerFinancial.Web.Areas.Identity.Pages.Account
+namespace NjordFinance.Web.Areas.Identity.Pages.Account
 {
     public class LoginWith2faModel : PageModel
     {

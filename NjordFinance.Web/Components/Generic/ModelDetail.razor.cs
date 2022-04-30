@@ -1,7 +1,7 @@
-﻿using EulerFinancial.Controllers;
+﻿using NjordFinance.Controllers;
 using Microsoft.AspNetCore.Components;
 
-namespace EulerFinancial.Web.Components.Generic
+namespace NjordFinance.Web.Components.Generic
 {
     /// <summary>
     /// Base component for viewing details of a <typeparamref name="TModel"/>.

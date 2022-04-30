@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Model
 {
-    [Table("SecurityAttributeMemberEntry", Schema = "EulerApp")]
+    [Table("SecurityAttributeMemberEntry", Schema = "FinanceApp")]
     [Index(nameof(EffectiveDate), nameof(SecurityId), nameof(AttributeMemberId), Name = "UNI_SecurityAttributeMemberEntry_RowDef", IsUnique = true)]
     public partial class SecurityAttributeMemberEntry
     {

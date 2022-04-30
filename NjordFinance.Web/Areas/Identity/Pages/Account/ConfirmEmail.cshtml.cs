@@ -4,13 +4,13 @@
 
 using System.Text;
 using System.Threading.Tasks;
-using EulerFinancial.Web.Areas.Identity.Data;
+using NjordFinance.Web.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace EulerFinancial.Web.Areas.Identity.Pages.Account
+namespace NjordFinance.Web.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {

@@ -10,16 +10,16 @@ namespace NjordFinance.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "EulerApp");
+                name: "FinanceApp");
 
             migrationBuilder.CreateSequence(
                 name: "seqAuditEventID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 minValue: 1L);
 
             migrationBuilder.CreateTable(
                 name: "AccountCustodian",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     AccountCustodianID = table.Column<int>(type: "int", nullable: false)
@@ -34,7 +34,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AccountObject",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     AccountObjectID = table.Column<int>(type: "int", nullable: false)
@@ -54,7 +54,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AuditEvent",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     EventID = table.Column<int>(type: "int", nullable: false),
@@ -68,7 +68,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "BankTransactionCode",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     TransactionCodeID = table.Column<int>(type: "int", nullable: false)
@@ -83,7 +83,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "BrokerTransactionCode",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     TransactionCodeID = table.Column<int>(type: "int", nullable: false)
@@ -101,7 +101,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Country",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     CountryID = table.Column<int>(type: "int", nullable: false)
@@ -116,7 +116,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "InvestmentStrategy",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     InvestmentStrategyID = table.Column<int>(type: "int", nullable: false)
@@ -130,7 +130,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "MarketHoliday",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     MarketHolidayID = table.Column<int>(type: "int", nullable: false)
@@ -144,7 +144,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "MarketIndex",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     IndexID = table.Column<int>(type: "int", nullable: false)
@@ -159,7 +159,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ModelAttribute",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     AttributeID = table.Column<int>(type: "int", nullable: false),
@@ -172,7 +172,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ReportConfiguration",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     ConfigurationID = table.Column<int>(type: "int", nullable: false)
@@ -188,7 +188,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ReportStyleSheet",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     StyleSheetID = table.Column<int>(type: "int", nullable: false)
@@ -204,7 +204,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ResourceImage",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     ImageID = table.Column<int>(type: "int", nullable: false)
@@ -220,7 +220,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SecurityExchange",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     ExchangeID = table.Column<int>(type: "int", nullable: false)
@@ -235,7 +235,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SecuritySymbolType",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     SymbolTypeID = table.Column<int>(type: "int", nullable: false)
@@ -249,7 +249,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SecurityTypeGroup",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     SecurityTypeGroupID = table.Column<int>(type: "int", nullable: false)
@@ -264,7 +264,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Account",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     AccountID = table.Column<int>(type: "int", nullable: false),
@@ -282,21 +282,21 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_Account_AccountCustodian",
                         column: x => x.AccountCustodianID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "AccountCustodian",
                         principalColumn: "AccountCustodianID",
                         onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Account_AccountObject",
                         column: x => x.AccountID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "AccountObject",
                         principalColumn: "AccountObjectID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "AccountComposite",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     AccountCompositeID = table.Column<int>(type: "int", nullable: false),
@@ -308,14 +308,14 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_AccountComposite_AccountObject",
                         column: x => x.AccountCompositeID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "AccountObject",
                         principalColumn: "AccountObjectID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "InvestmentPerformanceEntry",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     EntryID = table.Column<int>(type: "int", nullable: false)
@@ -335,7 +335,7 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_InvestmentPerformanceEntry_AccountObject",
                         column: x => x.AccountObjectID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "AccountObject",
                         principalColumn: "AccountObjectID",
                         onDelete: ReferentialAction.Cascade);
@@ -343,7 +343,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "MarketHolidaySchedule",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     MarketHolidayEntryID = table.Column<int>(type: "int", nullable: false)
@@ -357,7 +357,7 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_MarketHolidayScheduleMarketHoliday",
                         column: x => x.MarketHolidayID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "MarketHoliday",
                         principalColumn: "MarketHolidayID",
                         onDelete: ReferentialAction.Cascade);
@@ -365,7 +365,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "MarketIndexPrice",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     IndexPriceID = table.Column<int>(type: "int", nullable: false)
@@ -381,7 +381,7 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_MarketIndexPrice_MarketIndex",
                         column: x => x.MarketIndexID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "MarketIndex",
                         principalColumn: "IndexID",
                         onDelete: ReferentialAction.Cascade);
@@ -389,7 +389,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ModelAttributeMember",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     AttributeMemberID = table.Column<int>(type: "int", nullable: false),
@@ -403,7 +403,7 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_ModelAttributeMember_ModelAttribute",
                         column: x => x.AttributeID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "ModelAttribute",
                         principalColumn: "AttributeID",
                         onDelete: ReferentialAction.Cascade);
@@ -411,7 +411,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ModelAttributeScope",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     AttributeScopeID = table.Column<int>(type: "int", nullable: false)
@@ -425,7 +425,7 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_ModelAttributeScope_ModelAttribute",
                         column: x => x.AttributeID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "ModelAttribute",
                         principalColumn: "AttributeID",
                         onDelete: ReferentialAction.Cascade);
@@ -433,7 +433,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SecurityType",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     SecurityTypeID = table.Column<int>(type: "int", nullable: false)
@@ -451,14 +451,14 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_SecurityType_SecurityTypeGroup",
                         column: x => x.SecurityTypeGroupID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "SecurityTypeGroup",
                         principalColumn: "SecurityTypeGroupID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "BankTransaction",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     TransactionID = table.Column<int>(type: "int", nullable: false)
@@ -476,20 +476,20 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_BankTransaction_Account",
                         column: x => x.AccountID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "Account",
                         principalColumn: "AccountID");
                     table.ForeignKey(
                         name: "FK_BankTransaction_BankTransactionCode",
                         column: x => x.TransactionCodeID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "BankTransactionCode",
                         principalColumn: "TransactionCodeID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "AccountCompositeMember",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     MemberID = table.Column<int>(type: "int", nullable: false)
@@ -506,20 +506,20 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_AccountCommpositeMember_Account",
                         column: x => x.AccountID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "Account",
                         principalColumn: "AccountID");
                     table.ForeignKey(
                         name: "FK_AccountCommpositeMember_AccountComposite",
                         column: x => x.AccountCompositeID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "AccountComposite",
                         principalColumn: "AccountCompositeID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "AccountAttributeMemberEntry",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     EntryID = table.Column<int>(type: "int", nullable: false)
@@ -535,14 +535,14 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_AccountAttributeMemberEntry_AccountObjectID",
                         column: x => x.AccountObjectID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "AccountObject",
                         principalColumn: "AccountObjectID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AccountAttributeMemberEntry_ModelAttributeMember",
                         column: x => x.AttributeMemberID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "ModelAttributeMember",
                         principalColumn: "AttributeMemberID",
                         onDelete: ReferentialAction.Cascade);
@@ -550,7 +550,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "BankTransactionCodeAttributeMemberEntry",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     EntryID = table.Column<int>(type: "int", nullable: false)
@@ -566,14 +566,14 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_BankTransactionCodeAttributeMemberEntry_BankTransactionCode",
                         column: x => x.TransactionCodeID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "BankTransactionCode",
                         principalColumn: "TransactionCodeID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_BankTransactionCodeAttributeMemberEntry_ModelAttributeMember",
                         column: x => x.AttributeMemberID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "ModelAttributeMember",
                         principalColumn: "AttributeMemberID",
                         onDelete: ReferentialAction.Cascade);
@@ -581,7 +581,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "BrokerTransactionCodeAttributeMemberEntry",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     EntryID = table.Column<int>(type: "int", nullable: false)
@@ -597,14 +597,14 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_BrokerTransactionCodeAttributeMemberEntry_BrokerTransactionCode",
                         column: x => x.TransactionCodeID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "BrokerTransactionCode",
                         principalColumn: "TransactionCodeID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_BrokerTransactionCodeAttributeMemberEntry_ModelAttributeMember",
                         column: x => x.AttributeMemberID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "ModelAttributeMember",
                         principalColumn: "AttributeMemberID",
                         onDelete: ReferentialAction.Cascade);
@@ -612,7 +612,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "CountryAttributeMemberEntry",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     EntryID = table.Column<int>(type: "int", nullable: false)
@@ -628,14 +628,14 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_CountryAttributeMemberEntry_Country",
                         column: x => x.CountryID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "Country",
                         principalColumn: "CountryID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CountryAttributeMemberEntry_ModelAttributeMember",
                         column: x => x.AttributeMemberID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "ModelAttributeMember",
                         principalColumn: "AttributeMemberID",
                         onDelete: ReferentialAction.Cascade);
@@ -643,7 +643,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "InvestmentPerformanceAttributeMemberEntry",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     EntryID = table.Column<int>(type: "int", nullable: false)
@@ -664,21 +664,21 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_InvestmentPerformanceAttributeMemberEntry_AccountObject",
                         column: x => x.AccountObjectID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "AccountObject",
                         principalColumn: "AccountObjectID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_InvestmentPerformanceAttributeMemberEntry_ModelAttributeMember",
                         column: x => x.AttributeMemberID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "ModelAttributeMember",
                         principalColumn: "AttributeMemberID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "InvestmentStrategyTarget",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     InvestmentStrategyTargetID = table.Column<int>(type: "int", nullable: false)
@@ -694,21 +694,21 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_InvestmentStrategyTarget_InvestmentStrategy",
                         column: x => x.InvestmentStrategyID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "InvestmentStrategy",
                         principalColumn: "InvestmentStrategyID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_InvestmentStrategyTarget_ModelAttributeMember",
                         column: x => x.AttributeMemberID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "ModelAttributeMember",
                         principalColumn: "AttributeMemberID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Security",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     SecurityID = table.Column<int>(type: "int", nullable: false)
@@ -726,21 +726,21 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_Security_SecurityExchange",
                         column: x => x.SecurityExchangeID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "SecurityExchange",
                         principalColumn: "ExchangeID",
                         onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Security_SecurityType",
                         column: x => x.SecurityTypeID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "SecurityType",
                         principalColumn: "SecurityTypeID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "AccountWallet",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     AccountWalletID = table.Column<int>(type: "int", nullable: false)
@@ -756,20 +756,20 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_AccountWallet_Account",
                         column: x => x.AccountID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "Account",
                         principalColumn: "AccountID");
                     table.ForeignKey(
                         name: "FK_AccountWallet_Security",
                         column: x => x.DenominationSecurityID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "Security",
                         principalColumn: "SecurityID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "BrokerTransaction",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     TransactionID = table.Column<int>(type: "int", nullable: false)
@@ -793,38 +793,38 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_BrokerTransaction_Account",
                         column: x => x.AccountID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "Account",
                         principalColumn: "AccountID");
                     table.ForeignKey(
                         name: "FK_BrokerTransaction_BrokerTransaction",
                         column: x => x.TaxLotID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "BrokerTransaction",
                         principalColumn: "TransactionID");
                     table.ForeignKey(
                         name: "FK_BrokerTransaction_BrokerTransactionCode",
                         column: x => x.TransactionCodeID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "BrokerTransactionCode",
                         principalColumn: "TransactionCodeID");
                     table.ForeignKey(
                         name: "FK_BrokerTransaction_DepSecurityID",
                         column: x => x.DepSecurityID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "Security",
                         principalColumn: "SecurityID");
                     table.ForeignKey(
                         name: "FK_BrokerTransaction_SecurityID",
                         column: x => x.SecurityID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "Security",
                         principalColumn: "SecurityID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "SecurityAttributeMemberEntry",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     EntryID = table.Column<int>(type: "int", nullable: false)
@@ -840,14 +840,14 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_SecurityAttributeMemberEntry_ModelAttributeMember",
                         column: x => x.AttributeMemberID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "ModelAttributeMember",
                         principalColumn: "AttributeMemberID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SecurityAttributeMemberEntry_Security",
                         column: x => x.SecurityID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "Security",
                         principalColumn: "SecurityID",
                         onDelete: ReferentialAction.Cascade);
@@ -855,7 +855,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SecurityPrice",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     PriceID = table.Column<int>(type: "int", nullable: false)
@@ -874,7 +874,7 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_SecurityPrice_Security",
                         column: x => x.SecurityID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "Security",
                         principalColumn: "SecurityID",
                         onDelete: ReferentialAction.Cascade);
@@ -882,7 +882,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SecuritySymbol",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     SymbolID = table.Column<int>(type: "int", nullable: false)
@@ -902,21 +902,21 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_SecuritySymbol_Security",
                         column: x => x.SecurityID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "Security",
                         principalColumn: "SecurityID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SecuritySymbol_SecuritySymbolType",
                         column: x => x.SymbolTypeID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "SecuritySymbolType",
                         principalColumn: "SymbolTypeID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "SecuritySymbolMap",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 columns: table => new
                 {
                     SymbolMapID = table.Column<int>(type: "int", nullable: false),
@@ -930,19 +930,19 @@ namespace NjordFinance.Migrations
                     table.ForeignKey(
                         name: "FK_SecuritySymbolMap_AccountCustodian",
                         column: x => x.AccountCustodianID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "AccountCustodian",
                         principalColumn: "AccountCustodianID");
                     table.ForeignKey(
                         name: "FK_SecuritySymbolMap_SecuritySymbol",
                         column: x => x.SecuritySymbolID,
-                        principalSchema: "EulerApp",
+                        principalSchema: "FinanceApp",
                         principalTable: "SecuritySymbol",
                         principalColumn: "SymbolID");
                 });
 
             migrationBuilder.InsertData(
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountCustodian",
                 columns: new[] { "AccountCustodianID", "CustodianCode", "DisplayName" },
                 values: new object[,]
@@ -953,7 +953,7 @@ namespace NjordFinance.Migrations
                 });
 
             migrationBuilder.InsertData(
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountObject",
                 columns: new[] { "AccountObjectID", "AccountObjectCode", "CloseDate", "ObjectDescription", "ObjectDisplayName", "ObjectType", "StartDate" },
                 values: new object[,]
@@ -964,7 +964,7 @@ namespace NjordFinance.Migrations
                 });
 
             migrationBuilder.InsertData(
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "Country",
                 columns: new[] { "CountryID", "DisplayName", "IsoCode3" },
                 values: new object[,]
@@ -976,7 +976,7 @@ namespace NjordFinance.Migrations
                 });
 
             migrationBuilder.InsertData(
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityExchange",
                 columns: new[] { "ExchangeID", "ExchangeCode", "ExchangeDescription" },
                 values: new object[,]
@@ -986,7 +986,7 @@ namespace NjordFinance.Migrations
                 });
 
             migrationBuilder.InsertData(
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecuritySymbolType",
                 columns: new[] { "SymbolTypeID", "SymbolTypeName" },
                 values: new object[,]
@@ -998,7 +998,7 @@ namespace NjordFinance.Migrations
                 });
 
             migrationBuilder.InsertData(
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityTypeGroup",
                 columns: new[] { "SecurityTypeGroupID", "DisplayOrder", "SecurityTypeGroupName" },
                 values: new object[,]
@@ -1009,7 +1009,7 @@ namespace NjordFinance.Migrations
                 });
 
             migrationBuilder.InsertData(
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "Account",
                 columns: new[] { "AccountID", "AccountCustodianID", "AccountNumber", "BooksClosedDate", "HasBankTransaction", "HasBrokerTransaction", "HasWallet", "IsComplianceTradable" },
                 values: new object[,]
@@ -1020,7 +1020,7 @@ namespace NjordFinance.Migrations
                 });
 
             migrationBuilder.InsertData(
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityType",
                 columns: new[] { "SecurityTypeID", "CanHaveDerivative", "CanHavePosition", "DisplayOrder", "SecurityTypeGroupID", "SecurityTypeName", "ValuationFactor" },
                 values: new object[,]
@@ -1033,7 +1033,7 @@ namespace NjordFinance.Migrations
                 });
 
             migrationBuilder.InsertData(
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "Security",
                 columns: new[] { "SecurityID", "HasPerpetualMarket", "HasPerpetualPrice", "Issuer", "SecurityDescription", "SecurityExchangeID", "SecurityTypeID" },
                 values: new object[,]
@@ -1047,7 +1047,7 @@ namespace NjordFinance.Migrations
                 });
 
             migrationBuilder.InsertData(
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecuritySymbol",
                 columns: new[] { "SymbolID", "Cusip", "CustomSymbol", "EffectiveDate", "OptionTicker", "SecurityID", "SymbolTypeID", "Ticker" },
                 values: new object[,]
@@ -1062,50 +1062,50 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Account_AccountCustodianID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "Account",
                 column: "AccountCustodianID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountAttributeMemberEntry_AccountObjectID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountAttributeMemberEntry",
                 column: "AccountObjectID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountAttributeMemberEntry_AttributeMemberID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountAttributeMemberEntry",
                 column: "AttributeMemberID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_AccountAttributeMemberEntry_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountAttributeMemberEntry",
                 columns: new[] { "EffectiveDate", "AccountObjectID", "AttributeMemberID" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountCompositeMember_AccountCompositeID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountCompositeMember",
                 column: "AccountCompositeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountCompositeMember_AccountID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountCompositeMember",
                 column: "AccountID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_AccountCompositeMember_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountCompositeMember",
                 columns: new[] { "EntryDate", "AccountID", "AccountCompositeID" });
 
             migrationBuilder.CreateIndex(
                 name: "UNI_AccountCustodian_CustodianCode",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountCustodian",
                 column: "CustodianCode",
                 unique: true,
@@ -1113,7 +1113,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "UNI_AccountCustodian_DisplayName",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountCustodian",
                 column: "DisplayName",
                 unique: true,
@@ -1121,7 +1121,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "UNI_AccountObject_AccountObjectCode",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountObject",
                 column: "AccountObjectCode",
                 unique: true,
@@ -1129,32 +1129,32 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_AccountWallet_AccountID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountWallet",
                 column: "AccountID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_AccountWallet_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "AccountWallet",
                 columns: new[] { "DenominationSecurityID", "AccountID" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BankTransaction_AccountID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BankTransaction",
                 column: "AccountID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BankTransaction_TransactionCodeID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BankTransaction",
                 column: "TransactionCodeID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_BankTransactionCode_DisplayName",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BankTransactionCode",
                 column: "DisplayName",
                 unique: true,
@@ -1162,7 +1162,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "UNI_BankTransactionCode_TransactionCode",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BankTransactionCode",
                 column: "TransactionCode",
                 unique: true,
@@ -1170,56 +1170,56 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_BankTransactionCodeAttributeMemberEntry_AttributeMemberID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BankTransactionCodeAttributeMemberEntry",
                 column: "AttributeMemberID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BankTransactionCodeAttributeMemberEntry_TransactionCodeID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BankTransactionCodeAttributeMemberEntry",
                 column: "TransactionCodeID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_BankTransactionCodeAttributeMemberEntry_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BankTransactionCodeAttributeMemberEntry",
                 columns: new[] { "EffectiveDate", "TransactionCodeID", "AttributeMemberID" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BrokerTransaction_AccountID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BrokerTransaction",
                 column: "AccountID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BrokerTransaction_DepSecurityID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BrokerTransaction",
                 column: "DepSecurityID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BrokerTransaction_SecurityID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BrokerTransaction",
                 column: "SecurityID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BrokerTransaction_TaxLotID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BrokerTransaction",
                 column: "TaxLotID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BrokerTransaction_TransactionCodeID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BrokerTransaction",
                 column: "TransactionCodeID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_BrokerTransactionCode_DisplayName",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BrokerTransactionCode",
                 column: "DisplayName",
                 unique: true,
@@ -1227,7 +1227,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "UNI_BrokerTransactionCode_TransactionCode",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BrokerTransactionCode",
                 column: "TransactionCode",
                 unique: true,
@@ -1235,26 +1235,26 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_BrokerTransactionCodeAttributeMemberEntry_AttributeMemberID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BrokerTransactionCodeAttributeMemberEntry",
                 column: "AttributeMemberID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BrokerTransactionCodeAttributeMemberEntry_TransactionCodeID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BrokerTransactionCodeAttributeMemberEntry",
                 column: "TransactionCodeID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_BrokerTransactionCodeAttributeMemberEntry_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "BrokerTransactionCodeAttributeMemberEntry",
                 columns: new[] { "EffectiveDate", "TransactionCodeID", "AttributeMemberID" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UNI_Country_DisplayName",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "Country",
                 column: "DisplayName",
                 unique: true,
@@ -1262,7 +1262,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "UNI_Country_IsoCode3",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "Country",
                 column: "IsoCode3",
                 unique: true,
@@ -1270,52 +1270,52 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_CountryAttributeMemberEntry_CountryID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "CountryAttributeMemberEntry",
                 column: "CountryID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_CountryAttributeMemberEntry_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "CountryAttributeMemberEntry",
                 columns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvestmentPerformanceAttributeMemberEntry_AccountObjectID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "InvestmentPerformanceAttributeMemberEntry",
                 column: "AccountObjectID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvestmentPerformanceAttributeMemberEntry_AttributeMemberID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "InvestmentPerformanceAttributeMemberEntry",
                 column: "AttributeMemberID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_InvestmentPerformanceAttributeMemberEntry_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "InvestmentPerformanceAttributeMemberEntry",
                 columns: new[] { "FromDate", "AccountObjectID", "AttributeMemberID" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvestmentPerformanceEntry_AccountObjectID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "InvestmentPerformanceEntry",
                 column: "AccountObjectID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_InvestmentPerformanceEntry_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "InvestmentPerformanceEntry",
                 columns: new[] { "FromDate", "AccountObjectID" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UNI_InvestmentStrategy_DisplayName",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "InvestmentStrategy",
                 column: "DisplayName",
                 unique: true,
@@ -1323,26 +1323,26 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvestmentStrategyTarget_AttributeMemberID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "InvestmentStrategyTarget",
                 column: "AttributeMemberID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvestmentStrategyTarget_InvestmentStrategyID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "InvestmentStrategyTarget",
                 column: "InvestmentStrategyID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_InvestmentStrategyTarget_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "InvestmentStrategyTarget",
                 columns: new[] { "EffectiveDate", "AttributeMemberID", "InvestmentStrategyID" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UNI_MarketHoliday_MarketHolidayName",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "MarketHoliday",
                 column: "MarketHolidayName",
                 unique: true,
@@ -1350,20 +1350,20 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_MarketHolidaySchedule_MarketHolidayID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "MarketHolidaySchedule",
                 column: "MarketHolidayID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_MarketHolidaySchedule_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "MarketHolidaySchedule",
                 columns: new[] { "ObservanceDate", "MarketHolidayID" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UNI_MarketIndex_IndexCode",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "MarketIndex",
                 column: "IndexCode",
                 unique: true,
@@ -1371,13 +1371,13 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_MarketIndexPrice_MarketIndexID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "MarketIndexPrice",
                 column: "MarketIndexID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_MarketIndexPrice_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "MarketIndexPrice",
                 columns: new[] { "PriceDate", "MarketIndexID", "PriceCode" },
                 unique: true,
@@ -1385,7 +1385,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "UNI_ModelAttribute_DisplayName",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "ModelAttribute",
                 column: "DisplayName",
                 unique: true,
@@ -1393,13 +1393,13 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_ModelAttributeMember_AttributeID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "ModelAttributeMember",
                 column: "AttributeID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_ModelAttributeMember_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "ModelAttributeMember",
                 columns: new[] { "DisplayName", "AttributeID" },
                 unique: true,
@@ -1407,7 +1407,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "UNI_ModelAttributeScope_AttributeID_ScopeCode",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "ModelAttributeScope",
                 columns: new[] { "AttributeID", "ScopeCode" },
                 unique: true,
@@ -1415,7 +1415,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "UNI_ReportConfiguration_ConfigurationCode",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "ReportConfiguration",
                 column: "ConfigurationCode",
                 unique: true,
@@ -1423,7 +1423,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "UNI_ReportStyleSheet_StyleSheetCode",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "ReportStyleSheet",
                 column: "StyleSheetCode",
                 unique: true,
@@ -1431,38 +1431,38 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Security_SecurityExchangeID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "Security",
                 column: "SecurityExchangeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Security_SecurityTypeID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "Security",
                 column: "SecurityTypeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SecurityAttributeMemberEntry_AttributeMemberID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityAttributeMemberEntry",
                 column: "AttributeMemberID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SecurityAttributeMemberEntry_SecurityID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityAttributeMemberEntry",
                 column: "SecurityID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_SecurityAttributeMemberEntry_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityAttributeMemberEntry",
                 columns: new[] { "EffectiveDate", "SecurityID", "AttributeMemberID" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UNI_SecurityExchange_ExchangeCode",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityExchange",
                 column: "ExchangeCode",
                 unique: true,
@@ -1470,46 +1470,46 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_SecurityPrice_SecurityID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityPrice",
                 column: "SecurityID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_SecurityPrice_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityPrice",
                 columns: new[] { "PriceDate", "SecurityID" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SecuritySymbol_SymbolTypeID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecuritySymbol",
                 column: "SymbolTypeID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_SecuritySymbol_Column",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecuritySymbol",
                 columns: new[] { "SecurityID", "EffectiveDate" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SecuritySymbolMap_AccountCustodianID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecuritySymbolMap",
                 column: "AccountCustodianID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_SecuritySymbolMap_RowDef",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecuritySymbolMap",
                 columns: new[] { "SecuritySymbolID", "AccountCustodianID" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UNI_SecuritySymbolType_TypeName",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecuritySymbolType",
                 column: "SymbolTypeName",
                 unique: true,
@@ -1517,13 +1517,13 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_SecurityType_SecurityTypeGroupID",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityType",
                 column: "SecurityTypeGroupID");
 
             migrationBuilder.CreateIndex(
                 name: "UNI_SecurityType_SecurityTypeName",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityType",
                 column: "SecurityTypeName",
                 unique: true,
@@ -1531,7 +1531,7 @@ namespace NjordFinance.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "UNI_SecurityTypeGroup_SecurityTypeGroupName",
-                schema: "EulerApp",
+                schema: "FinanceApp",
                 table: "SecurityTypeGroup",
                 column: "SecurityTypeGroupName",
                 unique: true,
@@ -1542,163 +1542,163 @@ namespace NjordFinance.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AccountAttributeMemberEntry",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "AccountCompositeMember",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "AccountWallet",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "AuditEvent",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "BankTransaction",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "BankTransactionCodeAttributeMemberEntry",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "BrokerTransaction",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "BrokerTransactionCodeAttributeMemberEntry",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "CountryAttributeMemberEntry",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "InvestmentPerformanceAttributeMemberEntry",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "InvestmentPerformanceEntry",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "InvestmentStrategyTarget",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "MarketHolidaySchedule",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "MarketIndexPrice",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "ModelAttributeScope",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "ReportConfiguration",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "ReportStyleSheet",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "ResourceImage",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "SecurityAttributeMemberEntry",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "SecurityPrice",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "SecuritySymbolMap",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "AccountComposite",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "BankTransactionCode",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "Account",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "BrokerTransactionCode",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "Country",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "InvestmentStrategy",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "MarketHoliday",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "MarketIndex",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "ModelAttributeMember",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "SecuritySymbol",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "AccountCustodian",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "AccountObject",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "ModelAttribute",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "Security",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "SecuritySymbolType",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "SecurityExchange",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "SecurityType",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropTable(
                 name: "SecurityTypeGroup",
-                schema: "EulerApp");
+                schema: "FinanceApp");
 
             migrationBuilder.DropSequence(
                 name: "seqAuditEventID",
-                schema: "EulerApp");
+                schema: "FinanceApp");
         }
     }
 }

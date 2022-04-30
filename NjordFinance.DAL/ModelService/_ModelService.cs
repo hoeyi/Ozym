@@ -30,7 +30,7 @@ namespace NjordFinance.ModelService
         /// <param name="logger">The <see cref="ILogger"/> for this service.</param>
         /// <exception cref="ArgumentNullException">A required parameter was null.</exception>
         protected ModelService(
-            IDbContextFactory<EulerDbContext> contextFactory,
+            IDbContextFactory<FinanceDbContext> contextFactory,
             IModelMetadataService modelMetadata,
             ILogger logger) : base(contextFactory, modelMetadata, logger)
         {
@@ -320,11 +320,11 @@ namespace NjordFinance.ModelService
         ///// This typcially represents an unhandled concurrency or schema constraint exception.</exception>
         ///// 
 
-        protected abstract Func<EulerDbContext, T, Task<DbActionResult<T>>> CreateDelegate { get; }
+        protected abstract Func<FinanceDbContext, T, Task<DbActionResult<T>>> CreateDelegate { get; }
         
-        protected abstract Func<EulerDbContext, T, Task<DbActionResult<bool>>> DeleteDelegate { get; }
+        protected abstract Func<FinanceDbContext, T, Task<DbActionResult<bool>>> DeleteDelegate { get; }
 
-        protected abstract Func<EulerDbContext, T, Task<DbActionResult<bool>>> UpdateDelegate { get; }
+        protected abstract Func<FinanceDbContext, T, Task<DbActionResult<bool>>> UpdateDelegate { get; }
 
         /// <summary>
         /// Represents a collection of <see cref="Expression{Delegate}"/> navigation paths.
@@ -385,12 +385,12 @@ namespace NjordFinance.ModelService
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="writeDelegate">The delegate that will perform the write operations to the 
-        /// <see cref="EulerDbContext"/>.</param>
+        /// <see cref="FinanceDbContext"/>.</param>
         /// <param name="model">The <typeparamref name="T"/> model which is being written.</param>
         /// <returns>A <typeparamref name="TResult"/> representing the outcome of the write operation.</returns>
         /// <exception cref="ModelUpdateException"></exception>
         private async Task<DbActionResult<TResult>> DoWriteOperationAsync<TResult>(
-            Func<EulerDbContext, T, Task<DbActionResult<TResult>>> writeDelegate,
+            Func<FinanceDbContext, T, Task<DbActionResult<TResult>>> writeDelegate,
             T model)
         {
             try

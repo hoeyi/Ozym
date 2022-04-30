@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EulerFinancial.Web.Components.Shared
+namespace NjordFinance.Web.Components.Shared
 {
     public class Menu : AppMenuItem
     {

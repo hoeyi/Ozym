@@ -35,7 +35,7 @@ namespace NjordFinance.ModelService
         /// <param name="logger">The <see cref="ILogger"/> for this service.</param>
         /// <exception cref="ArgumentNullException">A required parameter was null.</exception>
         protected BatchModelServiceBase(
-            IDbContextFactory<EulerDbContext> contextFactory,
+            IDbContextFactory<FinanceDbContext> contextFactory,
             IModelMetadataService modelMetadata,
             ILogger logger) : base(contextFactory, modelMetadata, logger)
         {
@@ -62,9 +62,9 @@ namespace NjordFinance.ModelService
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="EulerDbContext"/> for this instance.
+        /// Gets or sets the <see cref="FinanceDbContext"/> for this instance.
         /// </summary>
-        protected EulerDbContext Context { get; set; }
+        protected FinanceDbContext Context { get; set; }
 
         /// <inheritdoc/>
         public bool Initialize(object parentKey)

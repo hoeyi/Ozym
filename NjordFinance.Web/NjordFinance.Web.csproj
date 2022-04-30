@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
-    <UserSecretsId>aspnet-EulerFinancial.Web-8127480B-07E8-4478-AEFA-EAC0AACF174B</UserSecretsId>
+    <UserSecretsId>aspnet-NjordFinance.Web-8127480B-07E8-4478-AEFA-EAC0AACF174B</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EulerFinancial.DAL\NjordFinance.DAL.csproj" />
+    <ProjectReference Include="..\NjordFinance.DAL\NjordFinance.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

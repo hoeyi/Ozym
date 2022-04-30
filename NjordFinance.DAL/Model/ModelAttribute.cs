@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Model
 {
-    [Table("ModelAttribute", Schema = "EulerApp")]
+    [Table("ModelAttribute", Schema = "FinanceApp")]
     [Index(nameof(DisplayName), Name = "UNI_ModelAttribute_DisplayName", IsUnique = true)]
     public partial class ModelAttribute
     {

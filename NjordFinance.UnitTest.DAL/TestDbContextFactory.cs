@@ -1,15 +1,15 @@
 ﻿using System.Linq;
-using EulerFinancial.Context;
+using NjordFinance.Context;
 using Microsoft.EntityFrameworkCore;
-using EulerFinancial.Model;
-using EulerFinancial.ModelMetadata;
+using NjordFinance.Model;
+using NjordFinance.ModelMetadata;
 
-namespace EulerFinancial.UnitTest.ModelService
+namespace NjordFinance.UnitTest.ModelService
 {
     /// <summary>
     /// Implements <see cref="IDbContextFactory{TContext}"/> for testing model services.
     /// </summary>
-    internal class TestDbContextFactory : IDbContextFactory<EulerDbContext>
+    internal class TestDbContextFactory : IDbContextFactory<FinanceDbContext>
     {
         private static readonly object _lock = new();
         private static bool _databaseInitialized;
@@ -35,34 +35,34 @@ namespace EulerFinancial.UnitTest.ModelService
         }
 
         /// <summary>
-        /// Creates a new <see cref="EulerDbContext"/> instance for unit-testing.
+        /// Creates a new <see cref="FinanceDbContext"/> instance for unit-testing.
         /// </summary>
         /// <inheritdoc/>
-        public EulerDbContext CreateDbContext() => new EulerDbContext(
-                new DbContextOptionsBuilder<EulerDbContext>()
-                    .UseSqlServer(UnitTest.Configuration["Connectionstrings:EulerFinancial-DEV"])
+        public FinanceDbContext CreateDbContext() => new FinanceDbContext(
+                new DbContextOptionsBuilder<FinanceDbContext>()
+                    .UseSqlServer(UnitTest.Configuration["Connectionstrings:NjordFinance-DEV"])
                     .Options)
                 .WithSeedData();
 
         /// <summary>
-        /// Creates a new <see cref="EulerDbContext"/> instance for unit-testing.
+        /// Creates a new <see cref="FinanceDbContext"/> instance for unit-testing.
         /// </summary>
         /// <returns>A new instance.</returns>
 #pragma warning disable CA1822 // Mark members as static
-        public EulerDbContext CreateDbContextNoSeed() => new(
-                new DbContextOptionsBuilder<EulerDbContext>()
-                    .UseSqlServer(UnitTest.Configuration["Connectionstrings:EulerFinancial-DEV"])
+        public FinanceDbContext CreateDbContextNoSeed() => new(
+                new DbContextOptionsBuilder<FinanceDbContext>()
+                    .UseSqlServer(UnitTest.Configuration["Connectionstrings:NjordFinance-DEV"])
                     .Options);
 
 #pragma warning restore CA1822 // Mark members as static
     }
 
     /// <summary>
-    /// Extension class for initial data seed of a test <see cref="EulerDbContext"/>.
+    /// Extension class for initial data seed of a test <see cref="FinanceDbContext"/>.
     /// </summary>
     internal static class ContextExtensions
     {
-        internal static EulerDbContext WithSeedData(this EulerDbContext context)
+        internal static FinanceDbContext WithSeedData(this FinanceDbContext context)
         {
             context
                 .SeedSingleAccount()
@@ -77,8 +77,8 @@ namespace EulerFinancial.UnitTest.ModelService
         /// Adds the test <see cref="Account"/> instance, if it is does not exist.
         /// </summary>
         /// <param name="context"></param>
-        /// <returns>The <see cref="EulerDbContext"/> instance, updated but not saved.</returns>
-        internal static EulerDbContext SeedSingleAccount(this EulerDbContext context)
+        /// <returns>The <see cref="FinanceDbContext"/> instance, updated but not saved.</returns>
+        internal static FinanceDbContext SeedSingleAccount(this FinanceDbContext context)
         {
             if(!context.Accounts.Any(a => a.AccountNavigation.AccountObjectCode == "TEST000_SEED"))
             {
@@ -103,9 +103,9 @@ namespace EulerFinancial.UnitTest.ModelService
         /// Adds the test <see cref="AccountCustodian"/> instance, if it is does not exist.
         /// </summary>
         /// <param name="context"></param>
-        /// <returns>The <see cref="EulerDbContext"/> instance, updated but not saved.</returns>
-        internal static EulerDbContext SeedSingleAccountCustodian(
-            this EulerDbContext context)
+        /// <returns>The <see cref="FinanceDbContext"/> instance, updated but not saved.</returns>
+        internal static FinanceDbContext SeedSingleAccountCustodian(
+            this FinanceDbContext context)
         {
             if(!context.AccountCustodians.Any(a => a.CustodianCode == "SCHWAB"))
             {

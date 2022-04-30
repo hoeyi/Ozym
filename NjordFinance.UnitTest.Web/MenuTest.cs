@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using EulerFinancial.Web.Components.Shared;
+using NjordFinance.Web.Components.Shared;
 using System.Text.Json;
 
 namespace EulerFinancial.UnitTest.Web

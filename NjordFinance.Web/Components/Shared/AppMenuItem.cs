@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EulerFinancial.Web.Components.Shared
+namespace NjordFinance.Web.Components.Shared
 {
     /// <summary>
     /// Represents the base element for items in a traditional tiered navigation menu.

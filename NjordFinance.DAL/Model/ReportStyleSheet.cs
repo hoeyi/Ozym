@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Model
 {
-    [Table("ReportStyleSheet", Schema = "EulerApp")]
+    [Table("ReportStyleSheet", Schema = "FinanceApp")]
     [Index(nameof(StyleSheetCode), Name = "UNI_ReportStyleSheet_StyleSheetCode", IsUnique = true)]
     public partial class ReportStyleSheet
     {

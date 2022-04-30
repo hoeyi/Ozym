@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Model
 {
-    [Table("AccountCustodian", Schema = "EulerApp")]
+    [Table("AccountCustodian", Schema = "FinanceApp")]
     [Index(nameof(CustodianCode), Name = "UNI_AccountCustodian_CustodianCode", IsUnique = true)]
     [Index(nameof(DisplayName), Name = "UNI_AccountCustodian_DisplayName", IsUnique = true)]
     public partial class AccountCustodian

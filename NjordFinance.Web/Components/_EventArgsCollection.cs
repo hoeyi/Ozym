@@ -2,7 +2,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace EulerFinancial.Web.Components
+namespace NjordFinance.Web.Components
 {
     /// <summary>
     /// Class the contains event data from a search submission event.

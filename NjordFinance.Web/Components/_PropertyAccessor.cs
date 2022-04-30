@@ -1,4 +1,4 @@
-﻿namespace EulerFinancial.Web.Components
+﻿namespace NjordFinance.Web.Components
 {
     public static class PropertyAccessor
     {

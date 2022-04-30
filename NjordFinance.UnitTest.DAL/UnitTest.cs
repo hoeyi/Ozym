@@ -1,4 +1,4 @@
-﻿using EulerFinancial.UnitTest.ModelService;
+﻿using NjordFinance.UnitTest.ModelService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace EulerFinancial.UnitTest
+namespace NjordFinance.UnitTest
 {
     /// <summary>
     /// Container class for unit-test helper methods.

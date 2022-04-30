@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EulerFinancial.Web.Migrations
+namespace NjordFinance.Web.Migrations
 {
     public partial class IdentitySupport : Migration
     {

@@ -1,8 +1,8 @@
-﻿using EulerFinancial.Web.Areas.Identity.Data;
+﻿using NjordFinance.Web.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace EulerFinancial.Web.Data;
+namespace NjordFinance.Web.Data;
 
 public class IdentityContext : IdentityDbContext<WebAppUser>
 {

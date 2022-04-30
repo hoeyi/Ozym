@@ -1,10 +1,10 @@
-﻿using EulerFinancial.Model;
-using EulerFinancial.UserInterface;
+﻿using NjordFinance.Model;
+using NjordFinance.UserInterface;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace EulerFinancial.UnitTest.UserInterface
+namespace NjordFinance.UnitTest.UserInterface
 {
     [TestClass]
     public class DisplayConfigurationTests

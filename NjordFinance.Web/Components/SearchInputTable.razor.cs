@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace EulerFinancial.Web.Components
+namespace NjordFinance.Web.Components
 {
     public partial class SearchInputTable<TModel> : LocalizableComponent
     {

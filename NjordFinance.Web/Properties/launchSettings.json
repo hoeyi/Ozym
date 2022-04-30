@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "EulerFinancial.Web": {
+    "NjordFinance.Web": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

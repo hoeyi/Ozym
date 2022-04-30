@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EulerFinancial.ModelService;
+using NjordFinance.ModelService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ichosoft.DataModel;
-using EulerFinancial.Model;
-using EulerFinancial.ModelMetadata;
+using NjordFinance.Model;
+using NjordFinance.ModelMetadata;
 using Microsoft.EntityFrameworkCore;
-using EulerFinancial.Exceptions;
+using NjordFinance.Exceptions;
 
-namespace EulerFinancial.UnitTest.ModelService
+namespace NjordFinance.UnitTest.ModelService
 {
     /// <summary>
     /// Test class for verifying each unit of work done by <see cref="AccountService"/>.

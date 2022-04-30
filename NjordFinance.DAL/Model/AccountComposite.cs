@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Model
 {
-    [Table("AccountComposite", Schema = "EulerApp")]
+    [Table("AccountComposite", Schema = "FinanceApp")]
     public partial class AccountComposite
     {
         public AccountComposite()

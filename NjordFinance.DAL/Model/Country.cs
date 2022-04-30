@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Model
 {
-    [Table("Country", Schema = "EulerApp")]
+    [Table("Country", Schema = "FinanceApp")]
     [Index(nameof(DisplayName), Name = "UNI_Country_DisplayName", IsUnique = true)]
     [Index(nameof(IsoCode3), Name = "UNI_Country_IsoCode3", IsUnique = true)]
     public partial class Country

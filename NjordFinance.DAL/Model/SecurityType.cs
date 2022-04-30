@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Model
 {
-    [Table("SecurityType", Schema = "EulerApp")]
+    [Table("SecurityType", Schema = "FinanceApp")]
     [Index(nameof(SecurityTypeName), Name = "UNI_SecurityType_SecurityTypeName", IsUnique = true)]
     public partial class SecurityType
     {

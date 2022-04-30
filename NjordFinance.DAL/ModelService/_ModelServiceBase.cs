@@ -14,7 +14,7 @@ namespace NjordFinance.ModelService
         /// <summary>
         /// The data context factory for this service.
         /// </summary>
-        protected readonly IDbContextFactory<EulerDbContext> _contextFactory;
+        protected readonly IDbContextFactory<FinanceDbContext> _contextFactory;
 
         /// <summary>
         /// The <see cref="IModelMetadataService"/> instance for this service.
@@ -33,7 +33,7 @@ namespace NjordFinance.ModelService
         /// <param name="metadataService">An <see cref="IModelMetadataService"/> for the service to use.</param>
         /// <param name="logger">An <see cref="ILogger"/> for the service to use.</param>
         protected ModelServiceBase(
-            IDbContextFactory<EulerDbContext> contextFactory,
+            IDbContextFactory<FinanceDbContext> contextFactory,
             IModelMetadataService metadataService,
             ILogger logger)
         {

@@ -17,7 +17,7 @@ namespace NjordFinance.ModelService
     {
         /// <inheritdoc/>
         public AccountCustodianService(
-                IDbContextFactory<EulerDbContext> contextFactory,
+                IDbContextFactory<FinanceDbContext> contextFactory,
                 IModelMetadataService modelMetadata,
                 ILogger logger)
             : base(contextFactory, modelMetadata, logger)
@@ -26,7 +26,7 @@ namespace NjordFinance.ModelService
 
         /// <inheritdoc/>
         protected override Func<
-            EulerDbContext, AccountCustodian, Task<DbActionResult<AccountCustodian>>
+            FinanceDbContext, AccountCustodian, Task<DbActionResult<AccountCustodian>>
             > CreateDelegate => async (context, model) =>
             {
                 context.AccountCustodians.Add(model);
@@ -38,7 +38,7 @@ namespace NjordFinance.ModelService
 
         /// <inheritdoc/>
         protected override Func<
-            EulerDbContext, AccountCustodian, Task<DbActionResult<bool>>
+            FinanceDbContext, AccountCustodian, Task<DbActionResult<bool>>
             > DeleteDelegate => async (context, model) =>
             {
                 context.AccountCustodians.Remove(model);
@@ -50,7 +50,7 @@ namespace NjordFinance.ModelService
 
         /// <inheritdoc/>
         protected override Func<
-            EulerDbContext, AccountCustodian, Task<DbActionResult<bool>>
+            FinanceDbContext, AccountCustodian, Task<DbActionResult<bool>>
             > UpdateDelegate => async (context, model) =>
             {
                 context.Entry(model).State = EntityState.Modified;

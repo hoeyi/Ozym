@@ -9,7 +9,7 @@ using NjordFinance.ModelMetadata;
 
 namespace NjordFinance.Context
 {
-    public partial class EulerDbContext : DbContext
+    public partial class FinanceDbContext : DbContext
     {
 #pragma warning disable CA1822 // Mark members as static
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)

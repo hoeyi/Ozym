@@ -1,7 +1,7 @@
-using EulerFinancial;
-using EulerFinancial.Web.Areas.Identity;
-using EulerFinancial.Web.Areas.Identity.Data;
-using EulerFinancial.Web.Data;
+using NjordFinance;
+using NjordFinance.Web.Areas.Identity;
+using NjordFinance.Web.Areas.Identity.Data;
+using NjordFinance.Web.Data;
 using Ichosoft.DataModel;
 using Ichosoft.DataModel.Expressions;
 using Ichosoft.Extensions.Configuration;
@@ -27,7 +27,7 @@ var logger = ConvertFromSerilogILogger(logger: BuildLogger());
 var config = BuildConfiguration(logger);
 
 // Copy UserSecret connection string value to secure configuration.
-config["ConnectionStrings:EulerFinancial"] = config["ConnectionStrings:EulerFinancial"];
+config["ConnectionStrings:NjordFinance"] = config["ConnectionStrings:NjordFinance"];
 config.Commit();
 
 builder.Services.AddSingleton(implementationInstance: logger);
@@ -41,7 +41,7 @@ builder.Services.AddSingleton(ISvgHelper.Create());
 
 // Add identity management database
 builder.Services.AddDbContext<IdentityContext>(options =>
-    options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
+    options.UseSqlServer("Name=ConnectionStrings:NjordFinance"));
 
 builder.Services.AddDefaultIdentity<WebAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<IdentityContext>();
@@ -60,8 +60,8 @@ builder.Services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
 builder.Services.AddSingleton<IModelMetadataService, ModelMetadataService>();
 
 // Add database service.
-builder.Services.AddDbContextFactory<EulerFinancial.Context.EulerDbContext>(options =>
-    options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
+builder.Services.AddDbContextFactory<NjordFinance.Context.FinanceDbContext>(options =>
+    options.UseSqlServer("Name=ConnectionStrings:NjordFinance"));
 
 // Register model services and controllers.
 builder.Services.AddModelServices();
@@ -116,12 +116,12 @@ partial class Program
             .MinimumLevel.Information()
             .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
             .WriteTo.File(
-                path: $"{EulerFinancial.Configuration.AssemblyInfo.ExecutingAssemblyPath}\\logs\\.log",
+                path: $"{NjordFinance.Configuration.AssemblyInfo.ExecutingAssemblyPath}\\logs\\.log",
                 rollingInterval: RollingInterval.Day,
                 shared: true)
             .WriteTo.File(
                 formatter: new RenderedCompactJsonFormatter(),
-                path: $"{EulerFinancial.Configuration.AssemblyInfo.ExecutingAssemblyPath}\\logs\\.json",
+                path: $"{NjordFinance.Configuration.AssemblyInfo.ExecutingAssemblyPath}\\logs\\.json",
                 rollingInterval: RollingInterval.Day,
                 shared: true)
             .CreateLogger();

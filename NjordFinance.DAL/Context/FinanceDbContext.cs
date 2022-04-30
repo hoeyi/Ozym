@@ -6,13 +6,13 @@ using NjordFinance.Model;
 
 namespace NjordFinance.Context
 {
-    public partial class EulerDbContext : DbContext
+    public partial class FinanceDbContext : DbContext
     {
-        public EulerDbContext()
+        public FinanceDbContext()
         {
         }
 
-        public EulerDbContext(DbContextOptions<EulerDbContext> options)
+        public FinanceDbContext(DbContextOptions<FinanceDbContext> options)
             : base(options)
         {
         }
@@ -435,7 +435,7 @@ namespace NjordFinance.Context
                     .HasConstraintName("FK_SecurityType_SecurityTypeGroup");
             });
 
-            modelBuilder.HasSequence("seqAuditEventID", "EulerApp").HasMin(1);
+            modelBuilder.HasSequence("seqAuditEventID", "FinanceApp").HasMin(1);
 
             OnModelCreatingPartial(modelBuilder);
         }

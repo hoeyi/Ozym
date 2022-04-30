@@ -14,8 +14,8 @@ namespace NjordFinance.Reference
     /// <remarks>Implements <see cref="IReferenceDataService"/>.</remarks>
     public class ReferenceDataService : IReferenceDataService
     {
-        private readonly EulerDbContext context;
-        public ReferenceDataService(EulerDbContext context)
+        private readonly FinanceDbContext context;
+        public ReferenceDataService(FinanceDbContext context)
         {
             this.context = context;
         }

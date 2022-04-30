@@ -5,12 +5,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using EulerFinancial.Web.Areas.Identity.Data;
+using NjordFinance.Web.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-namespace EulerFinancial.Web.Areas.Identity.Pages.Account
+namespace NjordFinance.Web.Areas.Identity.Pages.Account
 {
     public class LoginWithRecoveryCodeModel : PageModel
     {

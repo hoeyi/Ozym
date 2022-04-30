@@ -1,4 +1,4 @@
-﻿using EulerFinancial.Controllers;
+﻿using NjordFinance.Controllers;
 using Ichosoft.DataModel.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace EulerFinancial.Web.Components.Generic
+namespace NjordFinance.Web.Components.Generic
 {
     /// <summary>
     /// A component for interacting with a model index.

@@ -1,8 +1,8 @@
-﻿using EulerFinancial.Model;
-using EulerFinancial.ModelMetadata;
+﻿using NjordFinance.Model;
+using NjordFinance.ModelMetadata;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EulerFinancial.UnitTest
+namespace NjordFinance.UnitTest
 {
     [TestClass]
     public class SimplePropertiesAreEqualTest

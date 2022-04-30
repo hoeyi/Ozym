@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 using System;
-using EulerFinancial.UserInterface;
+using NjordFinance.UserInterface;
 
-namespace EulerFinancial.Web.Components.Generic
+namespace NjordFinance.Web.Components.Generic
 {
     public partial class ModelPage<TModel> : LocalizableComponent, INavigationSource
     {

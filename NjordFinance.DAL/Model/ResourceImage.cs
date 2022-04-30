@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Model
 {
-    [Table("ResourceImage", Schema = "EulerApp")]
+    [Table("ResourceImage", Schema = "FinanceApp")]
     public partial class ResourceImage
     {
         [Key]

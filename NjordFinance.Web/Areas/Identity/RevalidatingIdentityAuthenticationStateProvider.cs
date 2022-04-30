@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EulerFinancial.Web.Areas.Identity
+namespace NjordFinance.Web.Areas.Identity
 {
     public class RevalidatingIdentityAuthenticationStateProvider<TUser>
         : RevalidatingServerAuthenticationStateProvider where TUser : class

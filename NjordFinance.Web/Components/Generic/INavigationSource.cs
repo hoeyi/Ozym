@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace EulerFinancial.Web.Components.Generic
+namespace NjordFinance.Web.Components.Generic
 {
     /// <summary>
     /// Represents a component that can redirect focus to a 

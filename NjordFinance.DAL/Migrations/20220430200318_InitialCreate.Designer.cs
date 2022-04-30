@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace NjordFinance.Migrations
 {
-    [DbContext(typeof(EulerDbContext))]
+    [DbContext(typeof(FinanceDbContext))]
     [Migration("20220430200318_InitialCreate")]
     partial class InitialCreate
     {
@@ -24,7 +24,7 @@ namespace NjordFinance.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.HasSequence("seqAuditEventID", "EulerApp")
+            modelBuilder.HasSequence("seqAuditEventID", "FinanceApp")
                 .HasMin(1L);
 
             modelBuilder.Entity("NjordFinance.Model.Account", b =>
@@ -62,7 +62,7 @@ namespace NjordFinance.Migrations
 
                     b.HasIndex("AccountCustodianId");
 
-                    b.ToTable("Account", "EulerApp");
+                    b.ToTable("Account", "FinanceApp");
 
                     b.HasData(
                         new
@@ -125,7 +125,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "EffectiveDate", "AccountObjectId", "AttributeMemberId" }, "UNI_AccountAttributeMemberEntry_RowDef")
                         .IsUnique();
 
-                    b.ToTable("AccountAttributeMemberEntry", "EulerApp");
+                    b.ToTable("AccountAttributeMemberEntry", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.AccountComposite", b =>
@@ -139,7 +139,7 @@ namespace NjordFinance.Migrations
 
                     b.HasKey("AccountCompositeId");
 
-                    b.ToTable("AccountComposite", "EulerApp");
+                    b.ToTable("AccountComposite", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.AccountCompositeMember", b =>
@@ -177,7 +177,7 @@ namespace NjordFinance.Migrations
 
                     b.HasIndex(new[] { "EntryDate", "AccountId", "AccountCompositeId" }, "UNI_AccountCompositeMember_RowDef");
 
-                    b.ToTable("AccountCompositeMember", "EulerApp");
+                    b.ToTable("AccountCompositeMember", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.AccountCustodian", b =>
@@ -209,7 +209,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[DisplayName] IS NOT NULL");
 
-                    b.ToTable("AccountCustodian", "EulerApp");
+                    b.ToTable("AccountCustodian", "FinanceApp");
 
                     b.HasData(
                         new
@@ -281,7 +281,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[AccountObjectCode] IS NOT NULL");
 
-                    b.ToTable("AccountObject", "EulerApp");
+                    b.ToTable("AccountObject", "FinanceApp");
 
                     b.HasData(
                         new
@@ -349,7 +349,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "DenominationSecurityId", "AccountId" }, "UNI_AccountWallet_RowDef")
                         .IsUnique();
 
-                    b.ToTable("AccountWallet", "EulerApp");
+                    b.ToTable("AccountWallet", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.AuditEvent", b =>
@@ -368,7 +368,7 @@ namespace NjordFinance.Migrations
 
                     b.HasKey("EventId");
 
-                    b.ToTable("AuditEvent", "EulerApp");
+                    b.ToTable("AuditEvent", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.BankTransaction", b =>
@@ -410,7 +410,7 @@ namespace NjordFinance.Migrations
 
                     b.HasIndex("TransactionCodeId");
 
-                    b.ToTable("BankTransaction", "EulerApp");
+                    b.ToTable("BankTransaction", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.BankTransactionCode", b =>
@@ -443,7 +443,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[TransactionCode] IS NOT NULL");
 
-                    b.ToTable("BankTransactionCode", "EulerApp");
+                    b.ToTable("BankTransactionCode", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.BankTransactionCodeAttributeMemberEntry", b =>
@@ -478,7 +478,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "EffectiveDate", "TransactionCodeId", "AttributeMemberId" }, "UNI_BankTransactionCodeAttributeMemberEntry_RowDef")
                         .IsUnique();
 
-                    b.ToTable("BankTransactionCodeAttributeMemberEntry", "EulerApp");
+                    b.ToTable("BankTransactionCodeAttributeMemberEntry", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.BrokerTransaction", b =>
@@ -543,7 +543,7 @@ namespace NjordFinance.Migrations
 
                     b.HasIndex("TransactionCodeId");
 
-                    b.ToTable("BrokerTransaction", "EulerApp");
+                    b.ToTable("BrokerTransaction", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.BrokerTransactionCode", b =>
@@ -585,7 +585,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[TransactionCode] IS NOT NULL");
 
-                    b.ToTable("BrokerTransactionCode", "EulerApp");
+                    b.ToTable("BrokerTransactionCode", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.BrokerTransactionCodeAttributeMemberEntry", b =>
@@ -621,7 +621,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "EffectiveDate", "TransactionCodeId", "AttributeMemberId" }, "UNI_BrokerTransactionCodeAttributeMemberEntry_RowDef")
                         .IsUnique();
 
-                    b.ToTable("BrokerTransactionCodeAttributeMemberEntry", "EulerApp");
+                    b.ToTable("BrokerTransactionCodeAttributeMemberEntry", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.Country", b =>
@@ -653,7 +653,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[IsoCode3] IS NOT NULL");
 
-                    b.ToTable("Country", "EulerApp");
+                    b.ToTable("Country", "FinanceApp");
 
                     b.HasData(
                         new
@@ -712,7 +712,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "AttributeMemberId", "CountryId", "EffectiveDate" }, "UNI_CountryAttributeMemberEntry_RowDef")
                         .IsUnique();
 
-                    b.ToTable("CountryAttributeMemberEntry", "EulerApp");
+                    b.ToTable("CountryAttributeMemberEntry", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.InvestmentPerformanceAttributeMemberEntry", b =>
@@ -763,7 +763,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "FromDate", "AccountObjectId", "AttributeMemberId" }, "UNI_InvestmentPerformanceAttributeMemberEntry_RowDef")
                         .IsUnique();
 
-                    b.ToTable("InvestmentPerformanceAttributeMemberEntry", "EulerApp");
+                    b.ToTable("InvestmentPerformanceAttributeMemberEntry", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.InvestmentPerformanceEntry", b =>
@@ -808,7 +808,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "FromDate", "AccountObjectId" }, "UNI_InvestmentPerformanceEntry_RowDef")
                         .IsUnique();
 
-                    b.ToTable("InvestmentPerformanceEntry", "EulerApp");
+                    b.ToTable("InvestmentPerformanceEntry", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.InvestmentStrategy", b =>
@@ -831,7 +831,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[DisplayName] IS NOT NULL");
 
-                    b.ToTable("InvestmentStrategy", "EulerApp");
+                    b.ToTable("InvestmentStrategy", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.InvestmentStrategyTarget", b =>
@@ -866,7 +866,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "EffectiveDate", "AttributeMemberId", "InvestmentStrategyId" }, "UNI_InvestmentStrategyTarget_RowDef")
                         .IsUnique();
 
-                    b.ToTable("InvestmentStrategyTarget", "EulerApp");
+                    b.ToTable("InvestmentStrategyTarget", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.MarketHoliday", b =>
@@ -888,7 +888,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[MarketHolidayName] IS NOT NULL");
 
-                    b.ToTable("MarketHoliday", "EulerApp");
+                    b.ToTable("MarketHoliday", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.MarketHolidaySchedule", b =>
@@ -915,7 +915,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "ObservanceDate", "MarketHolidayId" }, "UNI_MarketHolidaySchedule_RowDef")
                         .IsUnique();
 
-                    b.ToTable("MarketHolidaySchedule", "EulerApp");
+                    b.ToTable("MarketHolidaySchedule", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.MarketIndex", b =>
@@ -943,7 +943,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[IndexCode] IS NOT NULL");
 
-                    b.ToTable("MarketIndex", "EulerApp");
+                    b.ToTable("MarketIndex", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.MarketIndexPrice", b =>
@@ -979,7 +979,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[PriceCode] IS NOT NULL");
 
-                    b.ToTable("MarketIndexPrice", "EulerApp");
+                    b.ToTable("MarketIndexPrice", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.ModelAttribute", b =>
@@ -999,7 +999,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[DisplayName] IS NOT NULL");
 
-                    b.ToTable("ModelAttribute", "EulerApp");
+                    b.ToTable("ModelAttribute", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.ModelAttributeMember", b =>
@@ -1028,7 +1028,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[DisplayName] IS NOT NULL");
 
-                    b.ToTable("ModelAttributeMember", "EulerApp");
+                    b.ToTable("ModelAttributeMember", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.ModelAttributeScope", b =>
@@ -1056,7 +1056,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[ScopeCode] IS NOT NULL");
 
-                    b.ToTable("ModelAttributeScope", "EulerApp");
+                    b.ToTable("ModelAttributeScope", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.ReportConfiguration", b =>
@@ -1088,7 +1088,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[ConfigurationCode] IS NOT NULL");
 
-                    b.ToTable("ReportConfiguration", "EulerApp");
+                    b.ToTable("ReportConfiguration", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.ReportStyleSheet", b =>
@@ -1119,7 +1119,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[StyleSheetCode] IS NOT NULL");
 
-                    b.ToTable("ReportStyleSheet", "EulerApp");
+                    b.ToTable("ReportStyleSheet", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.ResourceImage", b =>
@@ -1146,7 +1146,7 @@ namespace NjordFinance.Migrations
 
                     b.HasKey("ImageId");
 
-                    b.ToTable("ResourceImage", "EulerApp");
+                    b.ToTable("ResourceImage", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.Security", b =>
@@ -1187,7 +1187,7 @@ namespace NjordFinance.Migrations
 
                     b.HasIndex("SecurityTypeId");
 
-                    b.ToTable("Security", "EulerApp");
+                    b.ToTable("Security", "FinanceApp");
 
                     b.HasData(
                         new
@@ -1274,7 +1274,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "EffectiveDate", "SecurityId", "AttributeMemberId" }, "UNI_SecurityAttributeMemberEntry_RowDef")
                         .IsUnique();
 
-                    b.ToTable("SecurityAttributeMemberEntry", "EulerApp");
+                    b.ToTable("SecurityAttributeMemberEntry", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.SecurityExchange", b =>
@@ -1301,7 +1301,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[ExchangeCode] IS NOT NULL");
 
-                    b.ToTable("SecurityExchange", "EulerApp");
+                    b.ToTable("SecurityExchange", "FinanceApp");
 
                     b.HasData(
                         new
@@ -1356,7 +1356,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "PriceDate", "SecurityId" }, "UNI_SecurityPrice_RowDef")
                         .IsUnique();
 
-                    b.ToTable("SecurityPrice", "EulerApp");
+                    b.ToTable("SecurityPrice", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.SecuritySymbol", b =>
@@ -1414,7 +1414,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "SecurityId", "EffectiveDate" }, "UNI_SecuritySymbol_Column")
                         .IsUnique();
 
-                    b.ToTable("SecuritySymbol", "EulerApp");
+                    b.ToTable("SecuritySymbol", "FinanceApp");
 
                     b.HasData(
                         new
@@ -1493,7 +1493,7 @@ namespace NjordFinance.Migrations
                     b.HasIndex(new[] { "SecuritySymbolId", "AccountCustodianId" }, "UNI_SecuritySymbolMap_RowDef")
                         .IsUnique();
 
-                    b.ToTable("SecuritySymbolMap", "EulerApp");
+                    b.ToTable("SecuritySymbolMap", "FinanceApp");
                 });
 
             modelBuilder.Entity("NjordFinance.Model.SecuritySymbolType", b =>
@@ -1516,7 +1516,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[SymbolTypeName] IS NOT NULL");
 
-                    b.ToTable("SecuritySymbolType", "EulerApp");
+                    b.ToTable("SecuritySymbolType", "FinanceApp");
 
                     b.HasData(
                         new
@@ -1579,7 +1579,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[SecurityTypeName] IS NOT NULL");
 
-                    b.ToTable("SecurityType", "EulerApp");
+                    b.ToTable("SecurityType", "FinanceApp");
 
                     b.HasData(
                         new
@@ -1657,7 +1657,7 @@ namespace NjordFinance.Migrations
                         .IsUnique()
                         .HasFilter("[SecurityTypeGroupName] IS NOT NULL");
 
-                    b.ToTable("SecurityTypeGroup", "EulerApp");
+                    b.ToTable("SecurityTypeGroup", "FinanceApp");
 
                     b.HasData(
                         new
