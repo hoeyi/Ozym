@@ -2,8 +2,7 @@ REM Change working directory to the project direct where IdentityDbContext resid
 cd NjordFinance.Web
 
 REM Define context migration event.
-set context = IdentityDbContext_
-set migration = %context% and %1
+set migration=IdentityDbContext_%1
 
 REM Add the migration. Reference the IdentityDbContext with fully-qualified namespace.
 dotnet ef migrations add %migration% ^
@@ -11,7 +10,8 @@ dotnet ef migrations add %migration% ^
 
 REM Update the database using the added migration.
 dotnet ef database update IdentityDbContext_Initialize ^
-	--context NjordFinance.Web.Data.IdentityDbContext
+	--context NjordFinance.Web.Data.IdentityDbContext ^
+	--configuration Debug
 
 REM Remove the migration.
 dotnet ef migrations remove
