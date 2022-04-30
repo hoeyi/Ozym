@@ -31,7 +31,6 @@ namespace EulerFinancial.Context
         public virtual DbSet<BrokerTransaction> BrokerTransactions { get; set; } = null!;
         public virtual DbSet<BrokerTransactionCode> BrokerTransactionCodes { get; set; } = null!;
         public virtual DbSet<BrokerTransactionCodeAttributeMemberEntry> BrokerTransactionCodeAttributeMemberEntries { get; set; } = null!;
-        public virtual DbSet<BrokerTransactionTaxLot> BrokerTransactionTaxLots { get; set; } = null!;
         public virtual DbSet<Country> Countries { get; set; } = null!;
         public virtual DbSet<CountryAttributeMemberEntry> CountryAttributeMemberEntries { get; set; } = null!;
         public virtual DbSet<InvestmentPerformanceAttributeMemberEntry> InvestmentPerformanceAttributeMemberEntries { get; set; } = null!;
@@ -218,6 +217,11 @@ namespace EulerFinancial.Context
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BrokerTransaction_SecurityID");
 
+                entity.HasOne(d => d.TaxLot)
+                    .WithMany(p => p.InverseTaxLot)
+                    .HasForeignKey(d => d.TaxLotId)
+                    .HasConstraintName("FK_BrokerTransaction_BrokerTransaction");
+
                 entity.HasOne(d => d.TransactionCode)
                     .WithMany(p => p.BrokerTransactions)
                     .HasForeignKey(d => d.TransactionCodeId)
@@ -243,16 +247,6 @@ namespace EulerFinancial.Context
                     .WithMany(p => p.BrokerTransactionCodeAttributeMemberEntries)
                     .HasForeignKey(d => d.TransactionCodeId)
                     .HasConstraintName("FK_BrokerTransactionCodeAttributeMemberEntry_BrokerTransactionCode");
-            });
-
-            modelBuilder.Entity<BrokerTransactionTaxLot>(entity =>
-            {
-                entity.Property(e => e.TransactionId).ValueGeneratedNever();
-
-                entity.HasOne(d => d.Transaction)
-                    .WithOne(p => p.BrokerTransactionTaxLot)
-                    .HasForeignKey<BrokerTransactionTaxLot>(d => d.TransactionId)
-                    .HasConstraintName("FK_BrokerTransactionTaxLot_BrokerTransaction");
             });
 
             modelBuilder.Entity<Country>(entity =>
@@ -401,7 +395,7 @@ namespace EulerFinancial.Context
             {
                 entity.Property(e => e.Cusip).IsFixedLength();
 
-                entity.Property(e => e.SymbolCode).HasComputedColumnSql("(case when [SecuritySymbol].[SymbolTypeID]=(1) then [SecuritySymbol].[Cusip] when [SecuritySymbol].[SymbolTypeID]=(2) then [SecuritySymbol].[CustomSymbol] when [SecuritySymbol].[SymbolTypeID]=(3) then [SecuritySymbol].[OptionTicker] when [SecuritySymbol].[SymbolTypeID]=(4) then [SecuritySymbol].[Ticker]  end)", false);
+                entity.Property(e => e.SymbolCode).HasComputedColumnSql("(case when [SecuritySymbol].[SymbolTypeID]=(-10) then [SecuritySymbol].[Cusip] when [SecuritySymbol].[SymbolTypeID]=(-20) then [SecuritySymbol].[CustomSymbol] when [SecuritySymbol].[SymbolTypeID]=(-30) then [SecuritySymbol].[OptionTicker] when [SecuritySymbol].[SymbolTypeID]=(-40) then [SecuritySymbol].[Ticker]  end)", false);
 
                 entity.HasOne(d => d.Security)
                     .WithMany(p => p.SecuritySymbols)

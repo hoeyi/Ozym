@@ -243,12 +243,12 @@ namespace EulerFinancial.Context
                 new SecuritySymbolType()
                 {
                     SymbolTypeId = -10,
-                    SymbolTypeName = "Ticker"
+                    SymbolTypeName = "CUSIP"
                 },
                 new SecuritySymbolType()
                 {
                     SymbolTypeId = -20,
-                    SymbolTypeName = "CUSIP"
+                    SymbolTypeName = "Custom Identifer"
                 },
                 new SecuritySymbolType()
                 {
@@ -258,50 +258,56 @@ namespace EulerFinancial.Context
                 new SecuritySymbolType()
                 {
                     SymbolTypeId = -40,
-                    SymbolTypeName = "Propietary"
+                    SymbolTypeName = "Ticker"
                 });
 
             modelBuilder.Entity<SecuritySymbol>().HasData(
                 new SecuritySymbol()
                 {
+                    SymbolId = -100,
                     SecurityId = -100,
-                    SymbolTypeId = -10,
+                    SymbolTypeId = -40,
                     Ticker = "MSFT",
                     EffectiveDate = GetRandomDateTime(20, 30)
                 },
                 new SecuritySymbol()
                 {
+                    SymbolId = -101,
                     SecurityId = -101,
-                    SymbolTypeId = -10,
+                    SymbolTypeId = -40,
                     Ticker = "AAPL",
                     EffectiveDate = GetRandomDateTime(20, 30)
                 },
                 new SecuritySymbol()
                 {
+                    SymbolId = -102,
                     SecurityId = -102,
-                    SymbolTypeId = -10,
+                    SymbolTypeId = -40,
                     Ticker = "JPM",
                     EffectiveDate = GetRandomDateTime(15, 25)
                 },
                 new SecuritySymbol()
                 {
+                    SymbolId = -103,
                     SecurityId = -103,
-                    SymbolTypeId = -10,
-                    Ticker = "BTC",
+                    SymbolTypeId = -20,
+                    CustomSymbol = "BTC",
                     EffectiveDate = GetRandomDateTime(7, 10)
                 },
                 new SecuritySymbol()
                 {
+                    SymbolId = -104,
                     SecurityId = -104,
-                    SymbolTypeId = -10,
-                    Ticker = "LTC",
+                    SymbolTypeId = -20,
+                    CustomSymbol = "LTC",
                     EffectiveDate = GetRandomDateTime(7, 10)
                 },
                 new SecuritySymbol()
                 {
+                    SymbolId = -105,
                     SecurityId = -105,
-                    SymbolTypeId = -10,
-                    Ticker = "ETH",
+                    SymbolTypeId = -20,
+                    CustomSymbol = "ETH",
                     EffectiveDate = GetRandomDateTime(1, 25)
                 });
         }
