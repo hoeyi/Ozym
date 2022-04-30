@@ -1,7 +1,18 @@
-# Euler Financial #
-Euler Financial, a banking and investing management application, built for a web deployment with Blazor and Entity Framework.
+# Njord Finance #
+Njord Finance, a banking and investing management application, built using ASP .NET Core, EF Core, 
+and Blazor.
 
+* [Getting Started](#getting-started)
 * [Commit Message Guidelines](#commit-message-guidelines)
+
+## Getting Started ##
+
+### Build Scripts ###
+
+| Script | Usage |
+|:--- |:--- |
+| **MigrateNjordFinanceModel** | Updates the destintation database set in the startup project connection string using the `FinanceDbContext`.
+| **MigrateNjordIdentityModel** | Updates the destination database set in the startup project connection string using the `IdentityDbContext`.
 
 ## Commit Message Guidelines ##
 
@@ -33,16 +44,16 @@ Must be one of the following:
 
 ### Scope ###
 The scope is the domain affected. Choose one of the following:
-* **Blazor**: Application view or view logic.
-* **DAL**: Application data model or business logic.
-* **Extension**: API extensions (e.g., market data API, broker API, etc.).
-* **API**: EulerFinancial API support.
+* **Blazor**: Blazor view, view logic, or components.
+* **DAL**: Data model or data service layer.
+* **Logic**: Business logic or related model.
+* **API-{Name}**: API support where {Name} is the API project (e.g., NjordFinance, or a vendor).
 
 Example: 
 ```
-feat(EulerFinancial.DAL): add service for using market data API
+feat(DAL): add service for using market data API
 
-fix(EulerFinancial.Blazor): fix unhandled null reference error
+fix(Blazor): fix unhandled null reference error
 ```
 
 ### Subject ###
