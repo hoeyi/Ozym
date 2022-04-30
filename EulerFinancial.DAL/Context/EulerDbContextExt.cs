@@ -64,14 +64,14 @@ namespace EulerFinancial.Context
             modelBuilder.Entity<Account>().HasData(
                 new Account()
                 {
-                    AccountId = -100,
+                    AccountId = -101,
                     IsComplianceTradable = true,
                     HasBrokerTransaction = true,
                     AccountCustodianId = -102
                 },
                 new Account()
                 {
-                    AccountId = -101,
+                    AccountId = -100,
                     IsComplianceTradable = false,
                     HasBankTransaction = true,
                 },
@@ -81,7 +81,7 @@ namespace EulerFinancial.Context
                     IsComplianceTradable = true,
                     HasBrokerTransaction = true,
                     HasWallet = true,
-                    AccountCustodianId = -103
+                    AccountCustodianId = -102
                 });
 
             modelBuilder.Entity<Country>().HasData(
