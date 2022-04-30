@@ -18,19 +18,19 @@ namespace EulerFinancial.Context
             modelBuilder.Entity<AccountCustodian>().HasData(
                 new AccountCustodian()
                 {
-                    AccountCustodianId = -1,
+                    AccountCustodianId = -100,
                     CustodianCode = "SOMEWHERE",
                     DisplayName = "SomeWhere Bank LLC"
                 },
                 new AccountCustodian()
                 {
-                    AccountCustodianId = -2,
+                    AccountCustodianId = -101,
                     CustodianCode = "SOMENAME",
                     DisplayName = "Some Name Securities Broker"
                 },
                 new AccountCustodian()
                 {
-                    AccountCustodianId = -3,
+                    AccountCustodianId = -102,
                     CustodianCode = "CRYPTO",
                     DisplayName = "Cryptopotamus Coin Exchange"
                 });
@@ -38,7 +38,7 @@ namespace EulerFinancial.Context
             modelBuilder.Entity<AccountObject>().HasData(
                 new AccountObject()
                 {
-                    AccountObjectId = -1,
+                    AccountObjectId = -100,
                     AccountObjectCode = "TESTBROKER",
                     ObjectType = AccountObjectType.Account.ConvertToStringCode(),
                     ObjectDisplayName = "Test Broker Account",
@@ -46,7 +46,7 @@ namespace EulerFinancial.Context
                 },
                 new AccountObject()
                 {
-                    AccountObjectId = -2,
+                    AccountObjectId = -101,
                     AccountObjectCode = "TESTBANK",
                     ObjectType = AccountObjectType.Account.ConvertToStringCode(),
                     ObjectDisplayName = "Test Bank Account",
@@ -54,7 +54,7 @@ namespace EulerFinancial.Context
                 },
                 new AccountObject()
                 {
-                    AccountObjectId = -3,
+                    AccountObjectId = -102,
                     AccountObjectCode = "TESTCRYPTO",
                     ObjectType = AccountObjectType.Account.ConvertToStringCode(),
                     ObjectDisplayName = "Testt Crypto Account",
@@ -67,21 +67,21 @@ namespace EulerFinancial.Context
                     AccountId = -100,
                     IsComplianceTradable = true,
                     HasBrokerTransaction = true,
-                    AccountCustodianId = -2
+                    AccountCustodianId = -102
                 },
                 new Account()
                 {
-                    AccountId = -200,
+                    AccountId = -101,
                     IsComplianceTradable = false,
                     HasBankTransaction = true,
                 },
                 new Account()
                 {
-                    AccountId = -300,
+                    AccountId = -102,
                     IsComplianceTradable = true,
                     HasBrokerTransaction = true,
                     HasWallet = true,
-                    AccountCustodianId = -3
+                    AccountCustodianId = -103
                 });
 
             modelBuilder.Entity<Country>().HasData(
