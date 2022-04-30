@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Web.Data;
 
-public class IdentityContext : IdentityDbContext<WebAppUser>
+public partial class IdentityDbContext : IdentityDbContext<WebAppUser>
 {
-    public IdentityContext(DbContextOptions<IdentityContext> options)
+    public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
         : base(options)
     {
     }
@@ -17,5 +17,7 @@ public class IdentityContext : IdentityDbContext<WebAppUser>
         // Customize the ASP.NET Identity model and override the defaults if needed.
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
+
+        builder.HasDefaultSchema("WebIdentity");
     }
 }

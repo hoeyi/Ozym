@@ -40,11 +40,11 @@ builder.Services.AddSingleton(ISvgHelper.Create());
 #region Authentication configuration
 
 // Add identity management database
-builder.Services.AddDbContext<IdentityContext>(options =>
+builder.Services.AddDbContext<IdentityDbContext>(options =>
     options.UseSqlServer("Name=ConnectionStrings:NjordFinance"));
 
 builder.Services.AddDefaultIdentity<WebAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<IdentityContext>();
+    .AddEntityFrameworkStores<IdentityDbContext>();
 
 builder.Services
     .AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<WebAppUser>>();

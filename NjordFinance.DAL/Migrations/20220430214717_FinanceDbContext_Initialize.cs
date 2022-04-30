@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NjordFinance.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class FinanceDbContext_Initialize : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -1052,12 +1052,12 @@ namespace NjordFinance.Migrations
                 columns: new[] { "SymbolID", "Cusip", "CustomSymbol", "EffectiveDate", "OptionTicker", "SecurityID", "SymbolTypeID", "Ticker" },
                 values: new object[,]
                 {
-                    { -105, null, "ETH", new DateTime(2013, 6, 7, 16, 3, 18, 603, DateTimeKind.Local).AddTicks(180), null, -105, -20, null },
-                    { -104, null, "LTC", new DateTime(2016, 3, 3, 16, 3, 18, 603, DateTimeKind.Local).AddTicks(148), null, -104, -20, null },
-                    { -103, null, "BTC", new DateTime(2013, 5, 17, 16, 3, 18, 603, DateTimeKind.Local).AddTicks(140), null, -103, -20, null },
-                    { -102, null, null, new DateTime(2001, 11, 27, 16, 3, 18, 603, DateTimeKind.Local).AddTicks(134), null, -102, -40, "JPM" },
-                    { -101, null, null, new DateTime(2001, 6, 13, 16, 3, 18, 603, DateTimeKind.Local).AddTicks(129), null, -101, -40, "AAPL" },
-                    { -100, null, null, new DateTime(2003, 4, 12, 16, 3, 18, 603, DateTimeKind.Local).AddTicks(88), null, -100, -40, "MSFT" }
+                    { -105, null, "ETH", new DateTime(2003, 7, 5, 17, 47, 17, 12, DateTimeKind.Local).AddTicks(7339), null, -105, -20, null },
+                    { -104, null, "LTC", new DateTime(2014, 7, 29, 17, 47, 17, 12, DateTimeKind.Local).AddTicks(7334), null, -104, -20, null },
+                    { -103, null, "BTC", new DateTime(2015, 4, 10, 17, 47, 17, 12, DateTimeKind.Local).AddTicks(7329), null, -103, -20, null },
+                    { -102, null, null, new DateTime(2006, 1, 6, 17, 47, 17, 12, DateTimeKind.Local).AddTicks(7323), null, -102, -40, "JPM" },
+                    { -101, null, null, new DateTime(2003, 1, 19, 17, 47, 17, 12, DateTimeKind.Local).AddTicks(7302), null, -101, -40, "AAPL" },
+                    { -100, null, null, new DateTime(2000, 1, 19, 17, 47, 17, 12, DateTimeKind.Local).AddTicks(7259), null, -100, -40, "MSFT" }
                 });
 
             migrationBuilder.CreateIndex(
