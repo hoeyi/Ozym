@@ -78,9 +78,9 @@ namespace EulerFinancial.ModelService
                             aa => aa.AccountObjectId == model.AccountId));
 
                 // Remove account group memberships.
-                if (context.AccountGroupMembers.Any(gm => gm.AccountId == model.AccountId))
-                    context.AccountGroupMembers.RemoveRange(
-                        context.AccountGroupMembers.Where(agm => agm.AccountId == model.AccountId));
+                if (context.AccountCompositeMembers.Any(gm => gm.AccountId == model.AccountId))
+                    context.AccountCompositeMembers.RemoveRange(
+                        context.AccountCompositeMembers.Where(agm => agm.AccountId == model.AccountId));
 
                 // Save changes because cascade delete is not used.
                 await context.SaveChangesAsync();
