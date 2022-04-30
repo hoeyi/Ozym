@@ -72,6 +72,8 @@ namespace EulerFinancial.Context
             {
                 entity.Property(e => e.AccountId).ValueGeneratedNever();
 
+                entity.Property(e => e.AccountNumber).UseCollation("Latin1_General_BIN2");
+
                 entity.HasOne(d => d.AccountCustodian)
                     .WithMany(p => p.Accounts)
                     .HasForeignKey(d => d.AccountCustodianId)
@@ -131,11 +133,15 @@ namespace EulerFinancial.Context
             {
                 entity.Property(e => e.ObjectType).IsFixedLength();
 
-                entity.Property(e => e.PrefixedObjectCode).HasComputedColumnSql("(case when [ObjectType]='g' then concat('+',[AccountObjectCode]) else [AccountObjectCode] end)", false);
+                entity.Property(e => e.PrefixedObjectCode).HasComputedColumnSql("(case when [ObjectType]='c' then concat('+',[AccountObjectCode]) else [AccountObjectCode] end)", false);
             });
 
             modelBuilder.Entity<AccountWallet>(entity =>
             {
+                entity.Property(e => e.AddressCode).UseCollation("Latin1_General_BIN2");
+
+                entity.Property(e => e.AddressTag).UseCollation("Latin1_General_BIN2");
+
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.AccountWallets)
                     .HasForeignKey(d => d.AccountId)
@@ -434,10 +440,6 @@ namespace EulerFinancial.Context
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SecurityType_SecurityTypeGroup");
             });
-
-            modelBuilder.HasSequence("AccountObjectID", "EulerApp");
-
-            modelBuilder.HasSequence<int>("seqAccountObjectID", "EulerApp");
 
             modelBuilder.HasSequence("seqAuditEventID", "EulerApp").HasMin(1);
 

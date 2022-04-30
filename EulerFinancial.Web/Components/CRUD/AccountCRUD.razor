@@ -53,24 +53,6 @@ else
                 }
             </dd>
             <dt class="col-sm-2">
-                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.DisplayOrder)))">
-                    @(ModelMetadata.NameFor<Account>(nameof(Account.DisplayOrder)))
-                </ToolTip>
-            </dt>
-            <dd class="col-sm-10">
-                @if (Readonly)
-                {
-                    @Model.DisplayOrder
-                }
-                else
-                {
-                    <InputNumber id="account-displayorder" class="form-control"
-                         @bind-Value=Model.DisplayOrder
-                         disabled="@Disabled" />
-                    <ValidationMessage For="@(() => Model.DisplayOrder)" />
-                }
-            </dd>
-            <dt class="col-sm-2">
                 <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.BooksClosedDate)))">
                     @(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))
                 </ToolTip>

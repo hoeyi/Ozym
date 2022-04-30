@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace EulerFinancial.Model
 {
     [Table("AccountWallet", Schema = "EulerApp")]
-    [Index(nameof(AddressCode), Name = "UNI_AccountWallet_AddressCode", IsUnique = true)]
-    [Index(nameof(AddressTag), Name = "UNI_AccountWallet_AddressTag", IsUnique = true)]
     [Index(nameof(DenominationSecurityId), nameof(AccountId), Name = "UNI_AccountWallet_RowDef", IsUnique = true)]
     public partial class AccountWallet
     {

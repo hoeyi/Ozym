@@ -21,6 +21,7 @@ namespace EulerFinancial.Model
         public DateTime EntryDate { get; set; }
         [Column(TypeName = "date")]
         public DateTime? ExitDate { get; set; }
+        public int DisplayOrder { get; set; }
 
         [ForeignKey(nameof(AccountId))]
         [InverseProperty("AccountCompositeMembers")]

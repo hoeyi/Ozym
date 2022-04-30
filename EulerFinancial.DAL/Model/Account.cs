@@ -22,8 +22,7 @@ namespace EulerFinancial.Model
         public int AccountId { get; set; }
         [StringLength(64)]
         [Unicode(false)]
-        public string AccountNumber { get; set; } = null!;
-        public short DisplayOrder { get; set; }
+        public string? AccountNumber { get; set; }
         [Column("AccountCustodianID")]
         public int? AccountCustodianId { get; set; }
         [Column(TypeName = "date")]

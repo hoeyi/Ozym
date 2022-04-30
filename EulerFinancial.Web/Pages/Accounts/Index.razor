@@ -70,12 +70,6 @@ else
                     @model.AccountNumber
                 </CellTemplate>
             </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.DisplayOrder)
-                        Caption=@(ModelMetadata.NameFor<Account>(nameof(Account.DisplayOrder)))>
-                <CellTemplate Context="model">
-                    @model.DisplayOrder
-                </CellTemplate>
-            </DataGridColumn>
             <DataGridColumn Property=@nameof(Account.BooksClosedDate)
                         Caption=@(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))>
                 <CellTemplate Context="model">
