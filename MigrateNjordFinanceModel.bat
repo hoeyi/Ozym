@@ -16,12 +16,14 @@ REM Update the database using the added migration.
 dotnet ef database update %migration% ^
 	--context NjordFinance.Context.FinanceDbContext ^
 	--startup-project ..\NjordFinance.Web\NjordFinance.Web.csproj ^
-	--configuration Debug
+	--configuration Debug ^
+	--no-build
 
 REM Remove the migration.
 dotnet ef migrations remove ^
 	--context NjordFinance.Context.FinanceDbContext ^
-	--startup-project ..\NjordFinance.Web\NjordFinance.Web.csproj
+	--startup-project ..\NjordFinance.Web\NjordFinance.Web.csproj ^
+	--no-build
 
 goto scriptexit
 

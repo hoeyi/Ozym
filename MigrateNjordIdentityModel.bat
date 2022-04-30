@@ -12,12 +12,15 @@ dotnet ef migrations add %migration% ^
 	--context NjordFinance.Web.Data.IdentityDbContext
 
 REM Update the database using the added migration.
-dotnet ef database update IdentityDbContext_Initialize ^
+dotnet ef database update %migration% ^
 	--context NjordFinance.Web.Data.IdentityDbContext ^
-	--configuration Debug
+	--configuration Debug ^
+	--no-build
 
 REM Remove the migration.
-dotnet ef migrations remove
+dotnet ef migrations remove ^
+	--context NjordFinance.Web.Data.IdentityDbContext ^
+	--no-build
 
 goto scriptexit
 
