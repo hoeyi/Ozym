@@ -6,13 +6,13 @@ using EulerFinancial.Model;
 
 namespace EulerFinancial.Context
 {
-    public partial class EulerFinancialContext : DbContext
+    public partial class EulerDbContext : DbContext
     {
-        public EulerFinancialContext()
+        public EulerDbContext()
         {
         }
 
-        public EulerFinancialContext(DbContextOptions<EulerFinancialContext> options)
+        public EulerDbContext(DbContextOptions<EulerDbContext> options)
             : base(options)
         {
         }

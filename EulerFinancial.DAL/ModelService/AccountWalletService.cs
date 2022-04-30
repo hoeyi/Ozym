@@ -22,7 +22,7 @@ namespace EulerFinancial.ModelService
     {
         /// <inheritdoc/>
         public AccountWalletService(
-            IDbContextFactory<EulerFinancialContext> contextFactory,
+            IDbContextFactory<EulerDbContext> contextFactory,
             IModelMetadataService modelMetadata,
             ILogger logger) : base(contextFactory, modelMetadata, logger)
         {

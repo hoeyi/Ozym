@@ -15,9 +15,9 @@ namespace EulerFinancial.ModelMetadata
         Account = 0,
 
         /// <summary>
-        /// A collection of one or more accounts.
+        /// A collection of one or more accounts over time.
         /// </summary>
-        [EnumMember(Value = "g")]
-        Group = 1
+        [EnumMember(Value = "c")]
+        Composite = 1
     }
 }

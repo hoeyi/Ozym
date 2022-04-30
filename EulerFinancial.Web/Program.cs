@@ -60,7 +60,7 @@ builder.Services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
 builder.Services.AddSingleton<IModelMetadataService, ModelMetadataService>();
 
 // Add database service.
-builder.Services.AddDbContextFactory<EulerFinancial.Context.EulerFinancialContext>(options =>
+builder.Services.AddDbContextFactory<EulerFinancial.Context.EulerDbContext>(options =>
     options.UseSqlServer("Name=ConnectionStrings:EulerFinancial"));
 
 // Register model services and controllers.

@@ -18,7 +18,7 @@ namespace EulerFinancial.ModelService
     {
         /// <inheritdoc/>
         public AccountService(
-            IDbContextFactory<EulerFinancialContext> contextFactory,
+            IDbContextFactory<EulerDbContext> contextFactory,
             IModelMetadataService modelMetadata,
             ILogger logger)
             : base(contextFactory, modelMetadata, logger)
@@ -29,7 +29,7 @@ namespace EulerFinancial.ModelService
 
         /// <inheritdoc/>
         protected override Func<
-            EulerFinancialContext, Account, Task<DbActionResult<Account>>
+            EulerDbContext, Account, Task<DbActionResult<Account>>
             > CreateDelegate => async (context, model) =>
             {
                 using var transaction = await context.Database.BeginTransactionAsync();
@@ -50,7 +50,7 @@ namespace EulerFinancial.ModelService
 
         /// <inheritdoc/>
         protected override Func<
-            EulerFinancialContext, Account, Task<DbActionResult<bool>>
+            EulerDbContext, Account, Task<DbActionResult<bool>>
             > DeleteDelegate => async (context, model) =>
             {
                 bool deleteSuccessful = false;
@@ -105,7 +105,7 @@ namespace EulerFinancial.ModelService
 
         /// <inheritdoc/>
         protected override Func<
-            EulerFinancialContext, Account, Task<DbActionResult<bool>>
+            EulerDbContext, Account, Task<DbActionResult<bool>>
             > UpdateDelegate => async (context, model) =>
             {
                 context.Entry(model).State = EntityState.Modified;

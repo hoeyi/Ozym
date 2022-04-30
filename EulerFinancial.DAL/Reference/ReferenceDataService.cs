@@ -14,8 +14,8 @@ namespace EulerFinancial.Reference
     /// <remarks>Implements <see cref="IReferenceDataService"/>.</remarks>
     public class ReferenceDataService : IReferenceDataService
     {
-        private readonly EulerFinancialContext context;
-        public ReferenceDataService(EulerFinancialContext context)
+        private readonly EulerDbContext context;
+        public ReferenceDataService(EulerDbContext context)
         {
             this.context = context;
         }

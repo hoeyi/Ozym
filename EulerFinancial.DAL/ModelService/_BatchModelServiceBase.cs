@@ -35,7 +35,7 @@ namespace EulerFinancial.ModelService
         /// <param name="logger">The <see cref="ILogger"/> for this service.</param>
         /// <exception cref="ArgumentNullException">A required parameter was null.</exception>
         protected BatchModelServiceBase(
-            IDbContextFactory<EulerFinancialContext> contextFactory,
+            IDbContextFactory<EulerDbContext> contextFactory,
             IModelMetadataService modelMetadata,
             ILogger logger) : base(contextFactory, modelMetadata, logger)
         {
@@ -62,9 +62,9 @@ namespace EulerFinancial.ModelService
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="EulerFinancialContext"/> for this instance.
+        /// Gets or sets the <see cref="EulerDbContext"/> for this instance.
         /// </summary>
-        protected EulerFinancialContext Context { get; set; }
+        protected EulerDbContext Context { get; set; }
 
         /// <inheritdoc/>
         public bool Initialize(object parentKey)

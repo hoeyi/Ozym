@@ -14,7 +14,7 @@ namespace EulerFinancial.ModelService
         /// <summary>
         /// The data context factory for this service.
         /// </summary>
-        protected readonly IDbContextFactory<EulerFinancialContext> _contextFactory;
+        protected readonly IDbContextFactory<EulerDbContext> _contextFactory;
 
         /// <summary>
         /// The <see cref="IModelMetadataService"/> instance for this service.
@@ -33,7 +33,7 @@ namespace EulerFinancial.ModelService
         /// <param name="metadataService">An <see cref="IModelMetadataService"/> for the service to use.</param>
         /// <param name="logger">An <see cref="ILogger"/> for the service to use.</param>
         protected ModelServiceBase(
-            IDbContextFactory<EulerFinancialContext> contextFactory,
+            IDbContextFactory<EulerDbContext> contextFactory,
             IModelMetadataService metadataService,
             ILogger logger)
         {

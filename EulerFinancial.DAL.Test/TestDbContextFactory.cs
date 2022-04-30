@@ -9,7 +9,7 @@ namespace EulerFinancial.UnitTest.ModelService
     /// <summary>
     /// Implements <see cref="IDbContextFactory{TContext}"/> for testing model services.
     /// </summary>
-    internal class TestDbContextFactory : IDbContextFactory<EulerFinancialContext>
+    internal class TestDbContextFactory : IDbContextFactory<EulerDbContext>
     {
         private static readonly object _lock = new();
         private static bool _databaseInitialized;
@@ -35,22 +35,22 @@ namespace EulerFinancial.UnitTest.ModelService
         }
 
         /// <summary>
-        /// Creates a new <see cref="EulerFinancialContext"/> instance for unit-testing.
+        /// Creates a new <see cref="EulerDbContext"/> instance for unit-testing.
         /// </summary>
         /// <inheritdoc/>
-        public EulerFinancialContext CreateDbContext() => new EulerFinancialContext(
-                new DbContextOptionsBuilder<EulerFinancialContext>()
+        public EulerDbContext CreateDbContext() => new EulerDbContext(
+                new DbContextOptionsBuilder<EulerDbContext>()
                     .UseSqlServer(UnitTest.Configuration["Connectionstrings:EulerFinancial-DEV"])
                     .Options)
                 .WithSeedData();
 
         /// <summary>
-        /// Creates a new <see cref="EulerFinancialContext"/> instance for unit-testing.
+        /// Creates a new <see cref="EulerDbContext"/> instance for unit-testing.
         /// </summary>
         /// <returns>A new instance.</returns>
 #pragma warning disable CA1822 // Mark members as static
-        public EulerFinancialContext CreateDbContextNoSeed() => new(
-                new DbContextOptionsBuilder<EulerFinancialContext>()
+        public EulerDbContext CreateDbContextNoSeed() => new(
+                new DbContextOptionsBuilder<EulerDbContext>()
                     .UseSqlServer(UnitTest.Configuration["Connectionstrings:EulerFinancial-DEV"])
                     .Options);
 
@@ -58,11 +58,11 @@ namespace EulerFinancial.UnitTest.ModelService
     }
 
     /// <summary>
-    /// Extension class for initial data seed of a test <see cref="EulerFinancialContext"/>.
+    /// Extension class for initial data seed of a test <see cref="EulerDbContext"/>.
     /// </summary>
     internal static class ContextExtensions
     {
-        internal static EulerFinancialContext WithSeedData(this EulerFinancialContext context)
+        internal static EulerDbContext WithSeedData(this EulerDbContext context)
         {
             context
                 .SeedSingleAccount()
@@ -77,8 +77,8 @@ namespace EulerFinancial.UnitTest.ModelService
         /// Adds the test <see cref="Account"/> instance, if it is does not exist.
         /// </summary>
         /// <param name="context"></param>
-        /// <returns>The <see cref="EulerFinancialContext"/> instance, updated but not saved.</returns>
-        internal static EulerFinancialContext SeedSingleAccount(this EulerFinancialContext context)
+        /// <returns>The <see cref="EulerDbContext"/> instance, updated but not saved.</returns>
+        internal static EulerDbContext SeedSingleAccount(this EulerDbContext context)
         {
             if(!context.Accounts.Any(a => a.AccountNavigation.AccountObjectCode == "TEST000_SEED"))
             {
@@ -103,9 +103,9 @@ namespace EulerFinancial.UnitTest.ModelService
         /// Adds the test <see cref="AccountCustodian"/> instance, if it is does not exist.
         /// </summary>
         /// <param name="context"></param>
-        /// <returns>The <see cref="EulerFinancialContext"/> instance, updated but not saved.</returns>
-        internal static EulerFinancialContext SeedSingleAccountCustodian(
-            this EulerFinancialContext context)
+        /// <returns>The <see cref="EulerDbContext"/> instance, updated but not saved.</returns>
+        internal static EulerDbContext SeedSingleAccountCustodian(
+            this EulerDbContext context)
         {
             if(!context.AccountCustodians.Any(a => a.CustodianCode == "SCHWAB"))
             {
