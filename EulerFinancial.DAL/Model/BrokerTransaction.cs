@@ -9,6 +9,11 @@ namespace EulerFinancial.Model
     [Table("BrokerTransaction", Schema = "EulerApp")]
     public partial class BrokerTransaction
     {
+        public BrokerTransaction()
+        {
+            InverseTaxLot = new HashSet<BrokerTransaction>();
+        }
+
         [Key]
         [Column("TransactionID")]
         public int TransactionId { get; set; }
@@ -46,10 +51,13 @@ namespace EulerFinancial.Model
         [ForeignKey(nameof(SecurityId))]
         [InverseProperty("BrokerTransactionSecurities")]
         public virtual Security Security { get; set; } = null!;
+        [ForeignKey(nameof(TaxLotId))]
+        [InverseProperty(nameof(BrokerTransaction.InverseTaxLot))]
+        public virtual BrokerTransaction? TaxLot { get; set; }
         [ForeignKey(nameof(TransactionCodeId))]
         [InverseProperty(nameof(BrokerTransactionCode.BrokerTransactions))]
         public virtual BrokerTransactionCode? TransactionCode { get; set; }
-        [InverseProperty("Transaction")]
-        public virtual BrokerTransactionTaxLot BrokerTransactionTaxLot { get; set; } = null!;
+        [InverseProperty(nameof(BrokerTransaction.TaxLot))]
+        public virtual ICollection<BrokerTransaction> InverseTaxLot { get; set; }
     }
 }
