@@ -8,7 +8,6 @@ namespace NjordFinance.Model
 {
     [Table("Account", Schema = "FinanceApp")]
     [Index(nameof(AccountCustodianId), Name = "IX_Account_AccountCustodianID")]
-    [Index(nameof(AccountNavigationAccountObjectId), Name = "IX_Account_AccountNavigationAccountObjectId")]
     public partial class Account
     {
         public Account()
@@ -32,12 +31,11 @@ namespace NjordFinance.Model
         public bool HasWallet { get; set; }
         public bool HasBankTransaction { get; set; }
         public bool HasBrokerTransaction { get; set; }
-        public int? AccountNavigationAccountObjectId { get; set; }
 
         [ForeignKey(nameof(AccountCustodianId))]
         [InverseProperty("Accounts")]
         public virtual AccountCustodian AccountCustodian { get; set; }
-        [ForeignKey(nameof(AccountNavigationAccountObjectId))]
+        [ForeignKey(nameof(AccountId))]
         [InverseProperty(nameof(AccountObject.Accounts))]
         public virtual AccountObject AccountNavigation { get; set; }
         [InverseProperty(nameof(AccountCompositeMember.Account))]
