@@ -85,10 +85,6 @@ namespace NjordFinance.Context
                     .WithMany(p => p.AccountAttributeMemberEntries)
                     .HasForeignKey(d => d.AttributeMemberId)
                     .HasConstraintName("FK_AccountAttributeMemberEntry_ModelAttributeMember");
-
-                entity.HasCheckConstraint(
-                    name: "[CK_AccountObject_ObjectType]",
-                    sql: "[ObjectType] IN ('c','a')");
             });
 
             modelBuilder.Entity<AccountComposite>(entity =>
@@ -140,6 +136,10 @@ namespace NjordFinance.Context
                 entity.Property(e => e.ObjectType).IsFixedLength();
 
                 entity.Property(e => e.PrefixedObjectCode).HasComputedColumnSql("(case when [ObjectType]='c' then concat('+',[AccountObjectCode]) else [AccountObjectCode] end)", false);
+
+                entity.HasCheckConstraint(
+                    name: "CK_AccountObject_ObjectType",
+                    sql: "[ObjectType] IN ('c','a')");
             });
 
             modelBuilder.Entity<AccountWallet>(entity =>
