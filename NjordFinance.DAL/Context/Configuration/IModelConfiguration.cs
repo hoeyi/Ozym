@@ -1,7 +1,9 @@
-﻿namespace NjordFinance.Model.Configuration
+﻿using NjordFinance.Model;
+
+namespace NjordFinance.Context.Configuration
 {
     /// <summary>
-    /// Represents the seed data and settings for <see cref="Context.FinanceDbContext"/>.
+    /// Represents the seed data and settings for <see cref="FinanceDbContext"/>.
     /// </summary>
     internal interface IModelConfiguration
     {

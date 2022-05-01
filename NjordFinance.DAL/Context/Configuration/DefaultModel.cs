@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NjordFinance.Model;
 
-namespace NjordFinance.Model.Configuration
+namespace NjordFinance.Context.Configuration
 {
     /// <summary>
     /// Represents the seed data and settings for development and production versions of
-    /// <see cref="Context.FinanceDbContext"/>.
+    /// <see cref="FinanceDbContext"/>.
     /// </summary>
     internal class DefaultModel : IModelConfiguration
     {
