@@ -1,10 +1,9 @@
 ﻿using System.Runtime.Serialization;
 
-namespace NjordFinance.ModelMetadata
+namespace NjordFinance.Model
 {
     /// <summary>
-    /// List the support account object types and 
-    /// their database codes.
+    /// Represents the supported values for <see cref="AccountObject.ObjectType"/>.
     /// </summary>
     public enum AccountObjectType
     {
