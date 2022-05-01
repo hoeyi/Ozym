@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <UserSecretsId>aspnet-NjordFinance.Web-8127480B-07E8-4478-AEFA-EAC0AACF174B</UserSecretsId>
   </PropertyGroup>
