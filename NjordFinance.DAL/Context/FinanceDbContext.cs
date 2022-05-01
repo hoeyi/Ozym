@@ -85,6 +85,10 @@ namespace NjordFinance.Context
                     .WithMany(p => p.AccountAttributeMemberEntries)
                     .HasForeignKey(d => d.AttributeMemberId)
                     .HasConstraintName("FK_AccountAttributeMemberEntry_ModelAttributeMember");
+
+                entity.HasCheckConstraint(
+                    name: "[CK_AccountObject_ObjectType]",
+                    sql: "[ObjectType] IN ('c','a')");
             });
 
             modelBuilder.Entity<AccountComposite>(entity =>
@@ -401,11 +405,15 @@ namespace NjordFinance.Context
             modelBuilder.Entity<ModelAttributeScope>(entity =>
             {
                 entity.HasKey(e => new { e.AttributeId, e.ScopeCode })
-                    .HasName("PK_ModelAttributeScope_1");
+                    .HasName("PK_ModelAttributeScope");
 
                 entity.HasIndex(e => new { e.AttributeId, e.ScopeCode }, "UNI_ModelAttributeScope_AttributeID_ScopeCode")
                     .IsUnique()
                     .HasFilter("([ScopeCode] IS NOT NULL)");
+
+                entity.HasCheckConstraint(
+                    name: "CK_ModelAttributeScope_ScopeCode", 
+                    sql: "[ScopeCode] in ('acc', 'bnk', 'brk', 'cou', 'cus', 'exc', 'sec')");
 
                 entity.Property(e => e.ScopeCode).IsFixedLength();
 
