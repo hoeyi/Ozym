@@ -19,10 +19,12 @@ namespace NjordFinance.Model
     {
         internal SecurityTypeGroup(
             int securityTypeGroupId,
-            string securityTypeGroupName)
+            string securityTypeGroupName,
+            int attributeMemberId)
         {
             SecurityTypeGroupId = securityTypeGroupId;
             SecurityTypeGroupName = securityTypeGroupName;
+            AttributeMemberId = attributeMemberId;
         }
     }
 }

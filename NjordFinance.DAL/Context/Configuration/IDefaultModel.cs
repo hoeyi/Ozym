@@ -5,7 +5,7 @@ namespace NjordFinance.Context.Configuration
     /// <summary>
     /// Represents the seed data and settings for <see cref="FinanceDbContext"/>.
     /// </summary>
-    internal interface IModelConfiguration
+    public interface IDefaultModel
     {
         /// <summary>
         /// Gets the default <see cref="ModelAttribute"/> records.

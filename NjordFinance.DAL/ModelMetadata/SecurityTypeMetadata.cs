@@ -23,7 +23,8 @@ namespace NjordFinance.Model
             string securityTypeName,
             decimal valuationFactor, 
             bool canHavePosition,
-            bool canHaveDerivative)
+            bool canHaveDerivative,
+            int attributeMemberId)
         {
             SecurityTypeId = securityTypeId;
             SecurityTypeGroupId = securityTypeGroupId;
@@ -31,6 +32,7 @@ namespace NjordFinance.Model
             ValuationFactor = valuationFactor;
             CanHavePosition = canHavePosition;
             CanHaveDerivative = canHaveDerivative;
+            AttributeMemberId = attributeMemberId;
         }
     }
 }
