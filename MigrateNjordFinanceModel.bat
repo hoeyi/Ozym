@@ -18,15 +18,7 @@ dotnet ef database update %migration% ^
 	--context NjordFinance.Context.FinanceDbContext ^
 	--startup-project ..\NjordFinance.Web\NjordFinance.Web.csproj ^
 	--project NjordFinance.DAL.csproj ^
-	--configuration Debug ^
-	--no-build
-
-REM Remove the migration.
-REM	dotnet ef migrations remove ^
-REM		--context NjordFinance.Context.FinanceDbContext ^
-REM		--startup-project ..\NjordFinance.Web\NjordFinance.Web.csproj ^
-REM		--project NjordFinance.DAL.csproj ^
-REM		--no-build
+	--configuration Debug
 
 goto scriptexit
 
