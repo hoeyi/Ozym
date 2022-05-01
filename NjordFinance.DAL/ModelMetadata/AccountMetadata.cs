@@ -64,12 +64,6 @@ namespace NjordFinance.Model
             Description = nameof(ModelDisplay.Account_BooksClosedDate_Description),
             ResourceType = typeof(ModelDisplay))]
         public DateTime? BooksClosedDate { get; set; }
-
-        [Display(
-            Name = nameof(ModelDisplay.Account_DisplayOrder_Name),
-            Description = nameof(ModelDisplay.Account_DisplayOrder_Description),
-            ResourceType = typeof(ModelDisplay))]
-        public int DisplayOrder { get; set; }
     }
 
     [MetadataType(typeof(AccountMetadata))]
