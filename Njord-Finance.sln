@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 	ProjectSection(SolutionItems) = preProject
 		MigrateNjordFinanceModel.bat = MigrateNjordFinanceModel.bat
 		MigrateNjordIdentityModel.bat = MigrateNjordIdentityModel.bat
-		ScaffoldNjordFinanceContext.bat = ScaffoldNjordFinanceContext.bat
+		ScaffoldNjordDbContext.bat = ScaffoldNjordDbContext.bat
 	EndProjectSection
 EndProject
 Global

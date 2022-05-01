@@ -3,6 +3,7 @@ dotnet-ef dbcontext scaffold Name=ConnectionStrings:NjordFinance Microsoft.Entit
     --output-dir ..\NjordFinance.DAL\Model ^
     --context-dir ..\NjordFinance.DAL\Context ^
     --context-namespace "NjordFinance.Context" ^
+	--context "FinanceDbContext" ^
     --namespace "NjordFinance.Model" ^
     --data-annotations ^
     --force
