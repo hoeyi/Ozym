@@ -18,9 +18,11 @@ dotnet ef database update %migration% ^
 	--no-build
 
 REM Remove the migration.
-dotnet ef migrations remove ^
-	--context NjordFinance.Web.Data.IdentityDbContext ^
-	--no-build
+REM	dotnet ef migrations remove ^
+REM		--context NjordFinance.Web.Data.IdentityDbContext ^
+REM		--no-build
+
+del Migrations\*
 
 goto scriptexit
 

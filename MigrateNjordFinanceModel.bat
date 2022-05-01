@@ -10,20 +10,25 @@ set migration=FinanceDbContext_%1
 REM Add the migration. Reference the FinanceDbContext with fully-qualified namespace.
 dotnet ef migrations add %migration% ^
 	--context NjordFinance.Context.FinanceDbContext ^
-	--startup-project ..\NjordFinance.Web\NjordFinance.Web.csproj
+	--startup-project ..\NjordFinance.Web\NjordFinance.Web.csproj ^
+	--project NjordFinance.DAL.csproj
 
 REM Update the database using the added migration.
 dotnet ef database update %migration% ^
 	--context NjordFinance.Context.FinanceDbContext ^
 	--startup-project ..\NjordFinance.Web\NjordFinance.Web.csproj ^
+	--project NjordFinance.DAL.csproj ^
 	--configuration Debug ^
 	--no-build
 
+del Migrations\*
+
 REM Remove the migration.
-dotnet ef migrations remove ^
-	--context NjordFinance.Context.FinanceDbContext ^
-	--startup-project ..\NjordFinance.Web\NjordFinance.Web.csproj ^
-	--no-build
+REM	dotnet ef migrations remove ^
+REM		--context NjordFinance.Context.FinanceDbContext ^
+REM		--startup-project ..\NjordFinance.Web\NjordFinance.Web.csproj ^
+REM		--project NjordFinance.DAL.csproj ^
+REM		--no-build
 
 goto scriptexit
 
