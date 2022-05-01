@@ -22,8 +22,6 @@ REM	dotnet ef migrations remove ^
 REM		--context NjordFinance.Web.Data.IdentityDbContext ^
 REM		--no-build
 
-del Migrations\*
-
 goto scriptexit
 
 REM Write error message to console describing missing parameter.

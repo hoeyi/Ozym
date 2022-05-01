@@ -21,8 +21,6 @@ dotnet ef database update %migration% ^
 	--configuration Debug ^
 	--no-build
 
-del Migrations\*
-
 REM Remove the migration.
 REM	dotnet ef migrations remove ^
 REM		--context NjordFinance.Context.FinanceDbContext ^
