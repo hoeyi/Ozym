@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("SecuritySymbolMap", Schema = "FinanceApp")]
+    [Index(nameof(AccountCustodianId), Name = "IX_SecuritySymbolMap_AccountCustodianID")]
     [Index(nameof(SecuritySymbolId), nameof(AccountCustodianId), Name = "UNI_SecuritySymbolMap_RowDef", IsUnique = true)]
     public partial class SecuritySymbolMap
     {
@@ -15,17 +16,17 @@ namespace NjordFinance.Model
         public int SymbolMapId { get; set; }
         [Column("AccountCustodianID")]
         public int AccountCustodianId { get; set; }
+        [Required]
         [StringLength(72)]
-        [Unicode(false)]
-        public string CustodianSymbol { get; set; } = null!;
+        public string CustodianSymbol { get; set; }
         [Column("SecuritySymbolID")]
         public int SecuritySymbolId { get; set; }
 
         [ForeignKey(nameof(AccountCustodianId))]
         [InverseProperty("SecuritySymbolMaps")]
-        public virtual AccountCustodian AccountCustodian { get; set; } = null!;
+        public virtual AccountCustodian AccountCustodian { get; set; }
         [ForeignKey(nameof(SecuritySymbolId))]
         [InverseProperty("SecuritySymbolMaps")]
-        public virtual SecuritySymbol SecuritySymbol { get; set; } = null!;
+        public virtual SecuritySymbol SecuritySymbol { get; set; }
     }
 }

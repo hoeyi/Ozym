@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("ModelAttributeMember", Schema = "FinanceApp")]
-    [Index(nameof(DisplayName), nameof(AttributeId), Name = "UNI_ModelAttributeMember_RowDef", IsUnique = true)]
+    [Index(nameof(AttributeId), Name = "IX_ModelAttributeMember_AttributeID")]
     public partial class ModelAttributeMember
     {
         public ModelAttributeMember()
@@ -19,6 +19,8 @@ namespace NjordFinance.Model
             InvestmentPerformanceAttributeMemberEntries = new HashSet<InvestmentPerformanceAttributeMemberEntry>();
             InvestmentStrategyTargets = new HashSet<InvestmentStrategyTarget>();
             SecurityAttributeMemberEntries = new HashSet<SecurityAttributeMemberEntry>();
+            SecurityTypeGroups = new HashSet<SecurityTypeGroup>();
+            SecurityTypes = new HashSet<SecurityType>();
         }
 
         [Key]
@@ -26,14 +28,14 @@ namespace NjordFinance.Model
         public int AttributeMemberId { get; set; }
         [Column("AttributeID")]
         public int AttributeId { get; set; }
-        [StringLength(32)]
-        [Unicode(false)]
-        public string DisplayName { get; set; } = null!;
-        public short? DisplayOrder { get; set; }
+        [Required]
+        [StringLength(72)]
+        public string DisplayName { get; set; }
+        public short DisplayOrder { get; set; }
 
         [ForeignKey(nameof(AttributeId))]
         [InverseProperty(nameof(ModelAttribute.ModelAttributeMembers))]
-        public virtual ModelAttribute Attribute { get; set; } = null!;
+        public virtual ModelAttribute Attribute { get; set; }
         [InverseProperty(nameof(AccountAttributeMemberEntry.AttributeMember))]
         public virtual ICollection<AccountAttributeMemberEntry> AccountAttributeMemberEntries { get; set; }
         [InverseProperty(nameof(BankTransactionCodeAttributeMemberEntry.AttributeMember))]
@@ -48,5 +50,9 @@ namespace NjordFinance.Model
         public virtual ICollection<InvestmentStrategyTarget> InvestmentStrategyTargets { get; set; }
         [InverseProperty(nameof(SecurityAttributeMemberEntry.AttributeMember))]
         public virtual ICollection<SecurityAttributeMemberEntry> SecurityAttributeMemberEntries { get; set; }
+        [InverseProperty(nameof(SecurityTypeGroup.AttributeMember))]
+        public virtual ICollection<SecurityTypeGroup> SecurityTypeGroups { get; set; }
+        [InverseProperty(nameof(SecurityType.AttributeMember))]
+        public virtual ICollection<SecurityType> SecurityTypes { get; set; }
     }
 }

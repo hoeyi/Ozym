@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("Security", Schema = "FinanceApp")]
+    [Index(nameof(SecurityExchangeId), Name = "IX_Security_SecurityExchangeID")]
+    [Index(nameof(SecurityTypeId), Name = "IX_Security_SecurityTypeID")]
     public partial class Security
     {
         public Security()
@@ -26,20 +28,20 @@ namespace NjordFinance.Model
         public int SecurityTypeId { get; set; }
         [Column("SecurityExchangeID")]
         public int? SecurityExchangeId { get; set; }
-        [StringLength(32)]
-        [Unicode(false)]
-        public string SecurityDescription { get; set; } = null!;
+        [Required]
+        [StringLength(72)]
+        public string SecurityDescription { get; set; }
         [StringLength(96)]
-        public string Issuer { get; set; } = null!;
+        public string Issuer { get; set; }
         public bool HasPerpetualMarket { get; set; }
         public bool HasPerpetualPrice { get; set; }
 
         [ForeignKey(nameof(SecurityExchangeId))]
         [InverseProperty("Securities")]
-        public virtual SecurityExchange? SecurityExchange { get; set; }
+        public virtual SecurityExchange SecurityExchange { get; set; }
         [ForeignKey(nameof(SecurityTypeId))]
         [InverseProperty("Securities")]
-        public virtual SecurityType SecurityType { get; set; } = null!;
+        public virtual SecurityType SecurityType { get; set; }
         [InverseProperty(nameof(AccountWallet.DenominationSecurity))]
         public virtual ICollection<AccountWallet> AccountWallets { get; set; }
         [InverseProperty(nameof(BrokerTransaction.DepSecurity))]

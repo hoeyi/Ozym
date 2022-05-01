@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("BankTransaction", Schema = "FinanceApp")]
+    [Index(nameof(AccountId), Name = "IX_BankTransaction_AccountID")]
+    [Index(nameof(TransactionCodeId), Name = "IX_BankTransaction_TransactionCodeID")]
     public partial class BankTransaction
     {
         [Key]
@@ -21,15 +23,15 @@ namespace NjordFinance.Model
         [Column(TypeName = "decimal(19, 4)")]
         public decimal Amount { get; set; }
         [StringLength(72)]
-        [Unicode(false)]
-        public string? Comment { get; set; }
-        public byte[] TransactionVersion { get; set; } = null!;
+        public string Comment { get; set; }
+        [Required]
+        public byte[] TransactionVersion { get; set; }
 
         [ForeignKey(nameof(AccountId))]
         [InverseProperty("BankTransactions")]
-        public virtual Account Account { get; set; } = null!;
+        public virtual Account Account { get; set; }
         [ForeignKey(nameof(TransactionCodeId))]
         [InverseProperty(nameof(BankTransactionCode.BankTransactions))]
-        public virtual BankTransactionCode TransactionCode { get; set; } = null!;
+        public virtual BankTransactionCode TransactionCode { get; set; }
     }
 }

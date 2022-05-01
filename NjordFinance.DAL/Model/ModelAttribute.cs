@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("ModelAttribute", Schema = "FinanceApp")]
-    [Index(nameof(DisplayName), Name = "UNI_ModelAttribute_DisplayName", IsUnique = true)]
     public partial class ModelAttribute
     {
         public ModelAttribute()
@@ -19,9 +18,9 @@ namespace NjordFinance.Model
         [Key]
         [Column("AttributeID")]
         public int AttributeId { get; set; }
+        [Required]
         [StringLength(32)]
-        [Unicode(false)]
-        public string DisplayName { get; set; } = null!;
+        public string DisplayName { get; set; }
 
         [InverseProperty(nameof(ModelAttributeMember.Attribute))]
         public virtual ICollection<ModelAttributeMember> ModelAttributeMembers { get; set; }

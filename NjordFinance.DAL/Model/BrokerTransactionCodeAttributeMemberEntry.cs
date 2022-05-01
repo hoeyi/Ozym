@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("BrokerTransactionCodeAttributeMemberEntry", Schema = "FinanceApp")]
+    [Index(nameof(AttributeMemberId), Name = "IX_BrokerTransactionCodeAttributeMemberEntry_AttributeMemberID")]
+    [Index(nameof(TransactionCodeId), Name = "IX_BrokerTransactionCodeAttributeMemberEntry_TransactionCodeID")]
     [Index(nameof(EffectiveDate), nameof(TransactionCodeId), nameof(AttributeMemberId), Name = "UNI_BrokerTransactionCodeAttributeMemberEntry_RowDef", IsUnique = true)]
     public partial class BrokerTransactionCodeAttributeMemberEntry
     {
@@ -24,9 +26,9 @@ namespace NjordFinance.Model
 
         [ForeignKey(nameof(AttributeMemberId))]
         [InverseProperty(nameof(ModelAttributeMember.BrokerTransactionCodeAttributeMemberEntries))]
-        public virtual ModelAttributeMember AttributeMember { get; set; } = null!;
+        public virtual ModelAttributeMember AttributeMember { get; set; }
         [ForeignKey(nameof(TransactionCodeId))]
         [InverseProperty(nameof(BrokerTransactionCode.BrokerTransactionCodeAttributeMemberEntries))]
-        public virtual BrokerTransactionCode TransactionCode { get; set; } = null!;
+        public virtual BrokerTransactionCode TransactionCode { get; set; }
     }
 }

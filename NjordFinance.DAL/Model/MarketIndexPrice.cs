@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("MarketIndexPrice", Schema = "FinanceApp")]
-    [Index(nameof(PriceDate), nameof(MarketIndexId), nameof(PriceCode), Name = "UNI_MarketIndexPrice_RowDef", IsUnique = true)]
+    [Index(nameof(MarketIndexId), Name = "IX_MarketIndexPrice_MarketIndexID")]
     public partial class MarketIndexPrice
     {
         [Key]
@@ -17,14 +17,13 @@ namespace NjordFinance.Model
         public int MarketIndexId { get; set; }
         [Column(TypeName = "date")]
         public DateTime PriceDate { get; set; }
-        [StringLength(1)]
-        [Unicode(false)]
-        public string PriceCode { get; set; } = null!;
+        [StringLength(10)]
+        public string PriceCode { get; set; }
         [Column(TypeName = "decimal(19, 4)")]
         public decimal Price { get; set; }
 
         [ForeignKey(nameof(MarketIndexId))]
         [InverseProperty("MarketIndexPrices")]
-        public virtual MarketIndex MarketIndex { get; set; } = null!;
+        public virtual MarketIndex MarketIndex { get; set; }
     }
 }

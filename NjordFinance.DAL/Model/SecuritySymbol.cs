@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("SecuritySymbol", Schema = "FinanceApp")]
+    [Index(nameof(SymbolTypeId), Name = "IX_SecuritySymbol_SymbolTypeID")]
     [Index(nameof(SecurityId), nameof(EffectiveDate), Name = "UNI_SecuritySymbol_Column", IsUnique = true)]
     public partial class SecuritySymbol
     {
@@ -25,27 +26,22 @@ namespace NjordFinance.Model
         [Column("SymbolTypeID")]
         public int SymbolTypeId { get; set; }
         [StringLength(32)]
-        [Unicode(false)]
-        public string? SymbolCode { get; set; }
+        public string SymbolCode { get; set; }
         [StringLength(9)]
-        [Unicode(false)]
-        public string? Cusip { get; set; }
+        public string Cusip { get; set; }
         [StringLength(32)]
-        [Unicode(false)]
-        public string? CustomSymbol { get; set; }
-        [StringLength(32)]
-        [Unicode(false)]
-        public string? OptionTicker { get; set; }
+        public string CustomSymbol { get; set; }
+        [StringLength(24)]
+        public string OptionTicker { get; set; }
         [StringLength(8)]
-        [Unicode(false)]
-        public string? Ticker { get; set; }
+        public string Ticker { get; set; }
 
         [ForeignKey(nameof(SecurityId))]
         [InverseProperty("SecuritySymbols")]
-        public virtual Security Security { get; set; } = null!;
+        public virtual Security Security { get; set; }
         [ForeignKey(nameof(SymbolTypeId))]
         [InverseProperty(nameof(SecuritySymbolType.SecuritySymbols))]
-        public virtual SecuritySymbolType SymbolType { get; set; } = null!;
+        public virtual SecuritySymbolType SymbolType { get; set; }
         [InverseProperty(nameof(SecuritySymbolMap.SecuritySymbol))]
         public virtual ICollection<SecuritySymbolMap> SecuritySymbolMaps { get; set; }
     }

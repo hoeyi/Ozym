@@ -7,19 +7,19 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("ReportStyleSheet", Schema = "FinanceApp")]
-    [Index(nameof(StyleSheetCode), Name = "UNI_ReportStyleSheet_StyleSheetCode", IsUnique = true)]
     public partial class ReportStyleSheet
     {
         [Key]
         [Column("StyleSheetID")]
         public int StyleSheetId { get; set; }
+        [Required]
         [StringLength(32)]
-        [Unicode(false)]
-        public string StyleSheetCode { get; set; } = null!;
+        public string StyleSheetCode { get; set; }
+        [Required]
         [StringLength(128)]
-        [Unicode(false)]
-        public string StyleSheetDescription { get; set; } = null!;
+        public string StyleSheetDescription { get; set; }
+        [Required]
         [Column(TypeName = "xml")]
-        public string XmlDefinition { get; set; } = null!;
+        public string XmlDefinition { get; set; }
     }
 }

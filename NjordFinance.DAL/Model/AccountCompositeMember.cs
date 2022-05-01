@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("AccountCompositeMember", Schema = "FinanceApp")]
+    [Index(nameof(AccountCompositeId), Name = "IX_AccountCompositeMember_AccountCompositeID")]
+    [Index(nameof(AccountId), Name = "IX_AccountCompositeMember_AccountID")]
     [Index(nameof(EntryDate), nameof(AccountId), nameof(AccountCompositeId), Name = "UNI_AccountCompositeMember_RowDef")]
     public partial class AccountCompositeMember
     {
@@ -22,12 +24,14 @@ namespace NjordFinance.Model
         [Column(TypeName = "date")]
         public DateTime? ExitDate { get; set; }
         public int DisplayOrder { get; set; }
+        [StringLength(72)]
+        public string Comment { get; set; }
 
         [ForeignKey(nameof(AccountId))]
         [InverseProperty("AccountCompositeMembers")]
-        public virtual Account Account { get; set; } = null!;
+        public virtual Account Account { get; set; }
         [ForeignKey(nameof(AccountCompositeId))]
         [InverseProperty("AccountCompositeMembers")]
-        public virtual AccountComposite AccountComposite { get; set; } = null!;
+        public virtual AccountComposite AccountComposite { get; set; }
     }
 }

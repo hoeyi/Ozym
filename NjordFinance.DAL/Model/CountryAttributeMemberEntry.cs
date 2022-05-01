@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("CountryAttributeMemberEntry", Schema = "FinanceApp")]
+    [Index(nameof(CountryId), Name = "IX_CountryAttributeMemberEntry_CountryID")]
     [Index(nameof(AttributeMemberId), nameof(CountryId), nameof(EffectiveDate), Name = "UNI_CountryAttributeMemberEntry_RowDef", IsUnique = true)]
     public partial class CountryAttributeMemberEntry
     {
@@ -24,9 +25,9 @@ namespace NjordFinance.Model
 
         [ForeignKey(nameof(AttributeMemberId))]
         [InverseProperty(nameof(ModelAttributeMember.CountryAttributeMemberEntries))]
-        public virtual ModelAttributeMember AttributeMember { get; set; } = null!;
+        public virtual ModelAttributeMember AttributeMember { get; set; }
         [ForeignKey(nameof(CountryId))]
         [InverseProperty("CountryAttributeMemberEntries")]
-        public virtual Country Country { get; set; } = null!;
+        public virtual Country Country { get; set; }
     }
 }

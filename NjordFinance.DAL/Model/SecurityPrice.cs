@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("SecurityPrice", Schema = "FinanceApp")]
+    [Index(nameof(SecurityId), Name = "IX_SecurityPrice_SecurityID")]
     [Index(nameof(PriceDate), nameof(SecurityId), Name = "UNI_SecurityPrice_RowDef", IsUnique = true)]
     public partial class SecurityPrice
     {
@@ -29,6 +30,6 @@ namespace NjordFinance.Model
 
         [ForeignKey(nameof(SecurityId))]
         [InverseProperty("SecurityPrices")]
-        public virtual Security Security { get; set; } = null!;
+        public virtual Security Security { get; set; }
     }
 }

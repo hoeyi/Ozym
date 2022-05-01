@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("AccountWallet", Schema = "FinanceApp")]
+    [Index(nameof(AccountId), Name = "IX_AccountWallet_AccountID")]
     [Index(nameof(DenominationSecurityId), nameof(AccountId), Name = "UNI_AccountWallet_RowDef", IsUnique = true)]
     public partial class AccountWallet
     {
@@ -15,20 +16,19 @@ namespace NjordFinance.Model
         public int AccountWalletId { get; set; }
         [Column("AccountID")]
         public int AccountId { get; set; }
+        [Required]
         [StringLength(256)]
-        [Unicode(false)]
-        public string AddressCode { get; set; } = null!;
+        public string AddressCode { get; set; }
         [StringLength(256)]
-        [Unicode(false)]
-        public string AddressTag { get; set; } = null!;
+        public string AddressTag { get; set; }
         [Column("DenominationSecurityID")]
         public int DenominationSecurityId { get; set; }
 
         [ForeignKey(nameof(AccountId))]
         [InverseProperty("AccountWallets")]
-        public virtual Account Account { get; set; } = null!;
+        public virtual Account Account { get; set; }
         [ForeignKey(nameof(DenominationSecurityId))]
         [InverseProperty(nameof(Security.AccountWallets))]
-        public virtual Security DenominationSecurity { get; set; } = null!;
+        public virtual Security DenominationSecurity { get; set; }
     }
 }

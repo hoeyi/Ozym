@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("Country", Schema = "FinanceApp")]
-    [Index(nameof(DisplayName), Name = "UNI_Country_DisplayName", IsUnique = true)]
-    [Index(nameof(IsoCode3), Name = "UNI_Country_IsoCode3", IsUnique = true)]
     public partial class Country
     {
         public Country()
@@ -19,11 +17,12 @@ namespace NjordFinance.Model
         [Key]
         [Column("CountryID")]
         public int CountryId { get; set; }
-        [StringLength(256)]
-        public string DisplayName { get; set; } = null!;
+        [Required]
+        [StringLength(72)]
+        public string DisplayName { get; set; }
+        [Required]
         [StringLength(3)]
-        [Unicode(false)]
-        public string IsoCode3 { get; set; } = null!;
+        public string IsoCode3 { get; set; }
 
         [InverseProperty(nameof(CountryAttributeMemberEntry.Country))]
         public virtual ICollection<CountryAttributeMemberEntry> CountryAttributeMemberEntries { get; set; }

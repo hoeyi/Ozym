@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("BankTransactionCode", Schema = "FinanceApp")]
-    [Index(nameof(DisplayName), Name = "UNI_BankTransactionCode_DisplayName", IsUnique = true)]
-    [Index(nameof(TransactionCode), Name = "UNI_BankTransactionCode_TransactionCode", IsUnique = true)]
     public partial class BankTransactionCode
     {
         public BankTransactionCode()
@@ -20,12 +18,12 @@ namespace NjordFinance.Model
         [Key]
         [Column("TransactionCodeID")]
         public int TransactionCodeId { get; set; }
-        [StringLength(16)]
-        [Unicode(false)]
-        public string TransactionCode { get; set; } = null!;
+        [Required]
+        [StringLength(12)]
+        public string TransactionCode { get; set; }
+        [Required]
         [StringLength(32)]
-        [Unicode(false)]
-        public string DisplayName { get; set; } = null!;
+        public string DisplayName { get; set; }
 
         [InverseProperty(nameof(BankTransactionCodeAttributeMemberEntry.TransactionCode))]
         public virtual ICollection<BankTransactionCodeAttributeMemberEntry> BankTransactionCodeAttributeMemberEntries { get; set; }

@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("SecuritySymbolType", Schema = "FinanceApp")]
-    [Index(nameof(SymbolTypeName), Name = "UNI_SecuritySymbolType_TypeName", IsUnique = true)]
     public partial class SecuritySymbolType
     {
         public SecuritySymbolType()
@@ -18,9 +17,9 @@ namespace NjordFinance.Model
         [Key]
         [Column("SymbolTypeID")]
         public int SymbolTypeId { get; set; }
+        [Required]
         [StringLength(32)]
-        [Unicode(false)]
-        public string SymbolTypeName { get; set; } = null!;
+        public string SymbolTypeName { get; set; }
 
         [InverseProperty(nameof(SecuritySymbol.SymbolType))]
         public virtual ICollection<SecuritySymbol> SecuritySymbols { get; set; }

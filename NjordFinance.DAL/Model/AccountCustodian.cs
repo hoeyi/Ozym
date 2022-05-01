@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("AccountCustodian", Schema = "FinanceApp")]
-    [Index(nameof(CustodianCode), Name = "UNI_AccountCustodian_CustodianCode", IsUnique = true)]
-    [Index(nameof(DisplayName), Name = "UNI_AccountCustodian_DisplayName", IsUnique = true)]
     public partial class AccountCustodian
     {
         public AccountCustodian()
@@ -20,12 +18,12 @@ namespace NjordFinance.Model
         [Key]
         [Column("AccountCustodianID")]
         public int AccountCustodianId { get; set; }
-        [StringLength(16)]
-        [Unicode(false)]
-        public string CustodianCode { get; set; } = null!;
+        [Required]
+        [StringLength(32)]
+        public string CustodianCode { get; set; }
+        [Required]
         [StringLength(72)]
-        [Unicode(false)]
-        public string DisplayName { get; set; } = null!;
+        public string DisplayName { get; set; }
 
         [InverseProperty(nameof(Account.AccountCustodian))]
         public virtual ICollection<Account> Accounts { get; set; }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("SecurityTypeGroup", Schema = "FinanceApp")]
-    [Index(nameof(SecurityTypeGroupName), Name = "UNI_SecurityTypeGroup_SecurityTypeGroupName", IsUnique = true)]
+    [Index(nameof(AttributeMemberId), Name = "IX_SecurityTypeGroup_AttributeMemberID")]
     public partial class SecurityTypeGroup
     {
         public SecurityTypeGroup()
@@ -18,11 +18,16 @@ namespace NjordFinance.Model
         [Key]
         [Column("SecurityTypeGroupID")]
         public int SecurityTypeGroupId { get; set; }
-        [StringLength(32)]
-        [Unicode(false)]
-        public string SecurityTypeGroupName { get; set; } = null!;
+        [Required]
+        [StringLength(72)]
+        public string SecurityTypeGroupName { get; set; }
         public byte DisplayOrder { get; set; }
+        [Column("AttributeMemberID")]
+        public int AttributeMemberId { get; set; }
 
+        [ForeignKey(nameof(AttributeMemberId))]
+        [InverseProperty(nameof(ModelAttributeMember.SecurityTypeGroups))]
+        public virtual ModelAttributeMember AttributeMember { get; set; }
         [InverseProperty(nameof(SecurityType.SecurityTypeGroup))]
         public virtual ICollection<SecurityType> SecurityTypes { get; set; }
     }

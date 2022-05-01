@@ -7,20 +7,17 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("ModelAttributeScope", Schema = "FinanceApp")]
-    [Index(nameof(AttributeId), nameof(ScopeCode), Name = "UNI_ModelAttributeScope_AttributeID_ScopeCode", IsUnique = true)]
     public partial class ModelAttributeScope
     {
         [Key]
-        [Column("AttributeScopeID")]
-        public int AttributeScopeId { get; set; }
         [Column("AttributeID")]
         public int AttributeId { get; set; }
-        [StringLength(1)]
-        [Unicode(false)]
-        public string ScopeCode { get; set; } = null!;
+        [Key]
+        [StringLength(3)]
+        public string ScopeCode { get; set; }
 
         [ForeignKey(nameof(AttributeId))]
         [InverseProperty(nameof(ModelAttribute.ModelAttributeScopes))]
-        public virtual ModelAttribute Attribute { get; set; } = null!;
+        public virtual ModelAttribute Attribute { get; set; }
     }
 }

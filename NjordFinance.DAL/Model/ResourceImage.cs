@@ -12,12 +12,13 @@ namespace NjordFinance.Model
         [Key]
         [Column("ImageID")]
         public int ImageId { get; set; }
+        [Required]
         [StringLength(128)]
-        [Unicode(false)]
-        public string ImageDescription { get; set; } = null!;
-        public byte[] ImageBinary { get; set; } = null!;
+        public string ImageDescription { get; set; }
+        [Required]
+        public byte[] ImageBinary { get; set; }
+        [Required]
         [StringLength(4)]
-        [Unicode(false)]
-        public string FileExtension { get; set; } = null!;
+        public string FileExtension { get; set; }
     }
 }

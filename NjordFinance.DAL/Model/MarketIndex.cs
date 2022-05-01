@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("MarketIndex", Schema = "FinanceApp")]
-    [Index(nameof(IndexCode), Name = "UNI_MarketIndex_IndexCode", IsUnique = true)]
     public partial class MarketIndex
     {
         public MarketIndex()
@@ -18,12 +17,12 @@ namespace NjordFinance.Model
         [Key]
         [Column("IndexID")]
         public int IndexId { get; set; }
-        [StringLength(10)]
-        [Unicode(false)]
-        public string IndexCode { get; set; } = null!;
+        [Required]
+        [StringLength(12)]
+        public string IndexCode { get; set; }
+        [Required]
         [StringLength(128)]
-        [Unicode(false)]
-        public string IndexDescription { get; set; } = null!;
+        public string IndexDescription { get; set; }
 
         [InverseProperty(nameof(MarketIndexPrice.MarketIndex))]
         public virtual ICollection<MarketIndexPrice> MarketIndexPrices { get; set; }

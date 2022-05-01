@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("SecurityExchange", Schema = "FinanceApp")]
-    [Index(nameof(ExchangeCode), Name = "UNI_SecurityExchange_ExchangeCode", IsUnique = true)]
     public partial class SecurityExchange
     {
         public SecurityExchange()
@@ -18,11 +17,12 @@ namespace NjordFinance.Model
         [Key]
         [Column("ExchangeID")]
         public int ExchangeId { get; set; }
+        [Required]
         [StringLength(16)]
-        [Unicode(false)]
-        public string ExchangeCode { get; set; } = null!;
+        public string ExchangeCode { get; set; }
+        [Required]
         [StringLength(128)]
-        public string? ExchangeDescription { get; set; }
+        public string ExchangeDescription { get; set; }
 
         [InverseProperty(nameof(Security.SecurityExchange))]
         public virtual ICollection<Security> Securities { get; set; }

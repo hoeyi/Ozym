@@ -17,45 +17,45 @@ namespace NjordFinance.Context
         {
         }
 
-        public virtual DbSet<Account> Accounts { get; set; } = null!;
-        public virtual DbSet<AccountAttributeMemberEntry> AccountAttributeMemberEntries { get; set; } = null!;
-        public virtual DbSet<AccountComposite> AccountComposites { get; set; } = null!;
-        public virtual DbSet<AccountCompositeMember> AccountCompositeMembers { get; set; } = null!;
-        public virtual DbSet<AccountCustodian> AccountCustodians { get; set; } = null!;
-        public virtual DbSet<AccountObject> AccountObjects { get; set; } = null!;
-        public virtual DbSet<AccountWallet> AccountWallets { get; set; } = null!;
-        public virtual DbSet<AuditEvent> AuditEvents { get; set; } = null!;
-        public virtual DbSet<BankTransaction> BankTransactions { get; set; } = null!;
-        public virtual DbSet<BankTransactionCode> BankTransactionCodes { get; set; } = null!;
-        public virtual DbSet<BankTransactionCodeAttributeMemberEntry> BankTransactionCodeAttributeMemberEntries { get; set; } = null!;
-        public virtual DbSet<BrokerTransaction> BrokerTransactions { get; set; } = null!;
-        public virtual DbSet<BrokerTransactionCode> BrokerTransactionCodes { get; set; } = null!;
-        public virtual DbSet<BrokerTransactionCodeAttributeMemberEntry> BrokerTransactionCodeAttributeMemberEntries { get; set; } = null!;
-        public virtual DbSet<Country> Countries { get; set; } = null!;
-        public virtual DbSet<CountryAttributeMemberEntry> CountryAttributeMemberEntries { get; set; } = null!;
-        public virtual DbSet<InvestmentPerformanceAttributeMemberEntry> InvestmentPerformanceAttributeMemberEntries { get; set; } = null!;
-        public virtual DbSet<InvestmentPerformanceEntry> InvestmentPerformanceEntries { get; set; } = null!;
-        public virtual DbSet<InvestmentStrategy> InvestmentStrategies { get; set; } = null!;
-        public virtual DbSet<InvestmentStrategyTarget> InvestmentStrategyTargets { get; set; } = null!;
-        public virtual DbSet<MarketHoliday> MarketHolidays { get; set; } = null!;
-        public virtual DbSet<MarketHolidaySchedule> MarketHolidaySchedules { get; set; } = null!;
-        public virtual DbSet<MarketIndex> MarketIndices { get; set; } = null!;
-        public virtual DbSet<MarketIndexPrice> MarketIndexPrices { get; set; } = null!;
-        public virtual DbSet<ModelAttribute> ModelAttributes { get; set; } = null!;
-        public virtual DbSet<ModelAttributeMember> ModelAttributeMembers { get; set; } = null!;
-        public virtual DbSet<ModelAttributeScope> ModelAttributeScopes { get; set; } = null!;
-        public virtual DbSet<ReportConfiguration> ReportConfigurations { get; set; } = null!;
-        public virtual DbSet<ReportStyleSheet> ReportStyleSheets { get; set; } = null!;
-        public virtual DbSet<ResourceImage> ResourceImages { get; set; } = null!;
-        public virtual DbSet<Security> Securities { get; set; } = null!;
-        public virtual DbSet<SecurityAttributeMemberEntry> SecurityAttributeMemberEntries { get; set; } = null!;
-        public virtual DbSet<SecurityExchange> SecurityExchanges { get; set; } = null!;
-        public virtual DbSet<SecurityPrice> SecurityPrices { get; set; } = null!;
-        public virtual DbSet<SecuritySymbol> SecuritySymbols { get; set; } = null!;
-        public virtual DbSet<SecuritySymbolMap> SecuritySymbolMaps { get; set; } = null!;
-        public virtual DbSet<SecuritySymbolType> SecuritySymbolTypes { get; set; } = null!;
-        public virtual DbSet<SecurityType> SecurityTypes { get; set; } = null!;
-        public virtual DbSet<SecurityTypeGroup> SecurityTypeGroups { get; set; } = null!;
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<AccountAttributeMemberEntry> AccountAttributeMemberEntries { get; set; }
+        public virtual DbSet<AccountComposite> AccountComposites { get; set; }
+        public virtual DbSet<AccountCompositeMember> AccountCompositeMembers { get; set; }
+        public virtual DbSet<AccountCustodian> AccountCustodians { get; set; }
+        public virtual DbSet<AccountObject> AccountObjects { get; set; }
+        public virtual DbSet<AccountWallet> AccountWallets { get; set; }
+        public virtual DbSet<AuditEvent> AuditEvents { get; set; }
+        public virtual DbSet<BankTransaction> BankTransactions { get; set; }
+        public virtual DbSet<BankTransactionCode> BankTransactionCodes { get; set; }
+        public virtual DbSet<BankTransactionCodeAttributeMemberEntry> BankTransactionCodeAttributeMemberEntries { get; set; }
+        public virtual DbSet<BrokerTransaction> BrokerTransactions { get; set; }
+        public virtual DbSet<BrokerTransactionCode> BrokerTransactionCodes { get; set; }
+        public virtual DbSet<BrokerTransactionCodeAttributeMemberEntry> BrokerTransactionCodeAttributeMemberEntries { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<CountryAttributeMemberEntry> CountryAttributeMemberEntries { get; set; }
+        public virtual DbSet<InvestmentPerformanceAttributeMemberEntry> InvestmentPerformanceAttributeMemberEntries { get; set; }
+        public virtual DbSet<InvestmentPerformanceEntry> InvestmentPerformanceEntries { get; set; }
+        public virtual DbSet<InvestmentStrategy> InvestmentStrategies { get; set; }
+        public virtual DbSet<InvestmentStrategyTarget> InvestmentStrategyTargets { get; set; }
+        public virtual DbSet<MarketHoliday> MarketHolidays { get; set; }
+        public virtual DbSet<MarketHolidaySchedule> MarketHolidaySchedules { get; set; }
+        public virtual DbSet<MarketIndex> MarketIndices { get; set; }
+        public virtual DbSet<MarketIndexPrice> MarketIndexPrices { get; set; }
+        public virtual DbSet<ModelAttribute> ModelAttributes { get; set; }
+        public virtual DbSet<ModelAttributeMember> ModelAttributeMembers { get; set; }
+        public virtual DbSet<ModelAttributeScope> ModelAttributeScopes { get; set; }
+        public virtual DbSet<ReportConfiguration> ReportConfigurations { get; set; }
+        public virtual DbSet<ReportStyleSheet> ReportStyleSheets { get; set; }
+        public virtual DbSet<ResourceImage> ResourceImages { get; set; }
+        public virtual DbSet<Security> Securities { get; set; }
+        public virtual DbSet<SecurityAttributeMemberEntry> SecurityAttributeMemberEntries { get; set; }
+        public virtual DbSet<SecurityExchange> SecurityExchanges { get; set; }
+        public virtual DbSet<SecurityPrice> SecurityPrices { get; set; }
+        public virtual DbSet<SecuritySymbol> SecuritySymbols { get; set; }
+        public virtual DbSet<SecuritySymbolMap> SecuritySymbolMaps { get; set; }
+        public virtual DbSet<SecuritySymbolType> SecuritySymbolTypes { get; set; }
+        public virtual DbSet<SecurityType> SecurityTypes { get; set; }
+        public virtual DbSet<SecurityTypeGroup> SecurityTypeGroups { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -72,18 +72,6 @@ namespace NjordFinance.Context
                 entity.Property(e => e.AccountId).ValueGeneratedNever();
 
                 entity.Property(e => e.AccountNumber).UseCollation("Latin1_General_BIN2");
-
-                entity.HasOne(d => d.AccountCustodian)
-                    .WithMany(p => p.Accounts)
-                    .HasForeignKey(d => d.AccountCustodianId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("FK_Account_AccountCustodian");
-
-                entity.HasOne(d => d.AccountNavigation)
-                    .WithOne(p => p.Account)
-                    .HasForeignKey<Account>(d => d.AccountId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Account_AccountObject");
             });
 
             modelBuilder.Entity<AccountAttributeMemberEntry>(entity =>
@@ -128,8 +116,23 @@ namespace NjordFinance.Context
                     .HasConstraintName("FK_AccountCommpositeMember_Account");
             });
 
+            modelBuilder.Entity<AccountCustodian>(entity =>
+            {
+                entity.HasIndex(e => e.CustodianCode, "UNI_AccountCustodian_CustodianCode")
+                    .IsUnique()
+                    .HasFilter("([CustodianCode] IS NOT NULL)");
+
+                entity.HasIndex(e => e.DisplayName, "UNI_AccountCustodian_DisplayName")
+                    .IsUnique()
+                    .HasFilter("([DisplayName] IS NOT NULL)");
+            });
+
             modelBuilder.Entity<AccountObject>(entity =>
             {
+                entity.HasIndex(e => e.AccountObjectCode, "UNI_AccountObject_AccountObjectCode")
+                    .IsUnique()
+                    .HasFilter("([AccountObjectCode] IS NOT NULL)");
+
                 entity.Property(e => e.ObjectType).IsFixedLength();
 
                 entity.Property(e => e.PrefixedObjectCode).HasComputedColumnSql("(case when [ObjectType]='c' then concat('+',[AccountObjectCode]) else [AccountObjectCode] end)", false);
@@ -182,6 +185,14 @@ namespace NjordFinance.Context
             {
                 entity.HasKey(e => e.TransactionCodeId)
                     .HasName("PK_BankTransactionSymbol");
+
+                entity.HasIndex(e => e.DisplayName, "UNI_BankTransactionCode_DisplayName")
+                    .IsUnique()
+                    .HasFilter("([DisplayName] IS NOT NULL)");
+
+                entity.HasIndex(e => e.TransactionCode, "UNI_BankTransactionCode_TransactionCode")
+                    .IsUnique()
+                    .HasFilter("([TransactionCode] IS NOT NULL)");
             });
 
             modelBuilder.Entity<BankTransactionCodeAttributeMemberEntry>(entity =>
@@ -225,11 +236,20 @@ namespace NjordFinance.Context
                 entity.HasOne(d => d.TransactionCode)
                     .WithMany(p => p.BrokerTransactions)
                     .HasForeignKey(d => d.TransactionCodeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_BrokerTransaction_BrokerTransactionCode");
             });
 
             modelBuilder.Entity<BrokerTransactionCode>(entity =>
             {
+                entity.HasIndex(e => e.DisplayName, "UNI_BrokerTransactionCode_DisplayName")
+                    .IsUnique()
+                    .HasFilter("([DisplayName] IS NOT NULL)");
+
+                entity.HasIndex(e => e.TransactionCode, "UNI_BrokerTransactionCode_TransactionCode")
+                    .IsUnique()
+                    .HasFilter("([TransactionCode] IS NOT NULL)");
+
                 entity.Property(e => e.TransactionCode).IsFixedLength();
             });
 
@@ -251,6 +271,14 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<Country>(entity =>
             {
+                entity.HasIndex(e => e.DisplayName, "UNI_Country_DisplayName")
+                    .IsUnique()
+                    .HasFilter("([DisplayName] IS NOT NULL)");
+
+                entity.HasIndex(e => e.IsoCode3, "UNI_Country_IsoCode3")
+                    .IsUnique()
+                    .HasFilter("([IsoCode3] IS NOT NULL)");
+
                 entity.Property(e => e.IsoCode3).IsFixedLength();
             });
 
@@ -289,6 +317,13 @@ namespace NjordFinance.Context
                     .HasConstraintName("FK_InvestmentPerformanceEntry_AccountObject");
             });
 
+            modelBuilder.Entity<InvestmentStrategy>(entity =>
+            {
+                entity.HasIndex(e => e.DisplayName, "UNI_InvestmentStrategy_DisplayName")
+                    .IsUnique()
+                    .HasFilter("([DisplayName] IS NOT NULL)");
+            });
+
             modelBuilder.Entity<InvestmentStrategyTarget>(entity =>
             {
                 entity.HasOne(d => d.AttributeMember)
@@ -303,6 +338,13 @@ namespace NjordFinance.Context
                     .HasConstraintName("FK_InvestmentStrategyTarget_InvestmentStrategy");
             });
 
+            modelBuilder.Entity<MarketHoliday>(entity =>
+            {
+                entity.HasIndex(e => e.MarketHolidayName, "UNI_MarketHoliday_MarketHolidayName")
+                    .IsUnique()
+                    .HasFilter("([MarketHolidayName] IS NOT NULL)");
+            });
+
             modelBuilder.Entity<MarketHolidaySchedule>(entity =>
             {
                 entity.HasKey(e => e.MarketHolidayEntryId)
@@ -314,8 +356,19 @@ namespace NjordFinance.Context
                     .HasConstraintName("FK_MarketHolidayScheduleMarketHoliday");
             });
 
+            modelBuilder.Entity<MarketIndex>(entity =>
+            {
+                entity.HasIndex(e => e.IndexCode, "UNI_MarketIndex_IndexCode")
+                    .IsUnique()
+                    .HasFilter("([IndexCode] IS NOT NULL)");
+            });
+
             modelBuilder.Entity<MarketIndexPrice>(entity =>
             {
+                entity.HasIndex(e => new { e.PriceDate, e.MarketIndexId, e.PriceCode }, "UNI_MarketIndexPrice_RowDef")
+                    .IsUnique()
+                    .HasFilter("([PriceCode] IS NOT NULL)");
+
                 entity.Property(e => e.PriceCode).IsFixedLength();
 
                 entity.HasOne(d => d.MarketIndex)
@@ -326,11 +379,17 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<ModelAttribute>(entity =>
             {
-                entity.Property(e => e.AttributeId).ValueGeneratedNever();
+                entity.HasIndex(e => e.DisplayName, "UNI_ModelAttribute_DisplayName")
+                    .IsUnique()
+                    .HasFilter("([DisplayName] IS NOT NULL)");
             });
 
             modelBuilder.Entity<ModelAttributeMember>(entity =>
             {
+                entity.HasIndex(e => new { e.DisplayName, e.AttributeId }, "UNI_ModelAttributeMember_RowDef")
+                    .IsUnique()
+                    .HasFilter("([DisplayName] IS NOT NULL)");
+
                 entity.Property(e => e.AttributeMemberId).ValueGeneratedNever();
 
                 entity.HasOne(d => d.Attribute)
@@ -341,6 +400,13 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<ModelAttributeScope>(entity =>
             {
+                entity.HasKey(e => new { e.AttributeId, e.ScopeCode })
+                    .HasName("PK_ModelAttributeScope_1");
+
+                entity.HasIndex(e => new { e.AttributeId, e.ScopeCode }, "UNI_ModelAttributeScope_AttributeID_ScopeCode")
+                    .IsUnique()
+                    .HasFilter("([ScopeCode] IS NOT NULL)");
+
                 entity.Property(e => e.ScopeCode).IsFixedLength();
 
                 entity.HasOne(d => d.Attribute)
@@ -353,6 +419,17 @@ namespace NjordFinance.Context
             {
                 entity.HasKey(e => e.ConfigurationId)
                     .HasName("PK_ReportSetting");
+
+                entity.HasIndex(e => e.ConfigurationCode, "UNI_ReportConfiguration_ConfigurationCode")
+                    .IsUnique()
+                    .HasFilter("([ConfigurationCode] IS NOT NULL)");
+            });
+
+            modelBuilder.Entity<ReportStyleSheet>(entity =>
+            {
+                entity.HasIndex(e => e.StyleSheetCode, "UNI_ReportStyleSheet_StyleSheetCode")
+                    .IsUnique()
+                    .HasFilter("([StyleSheetCode] IS NOT NULL)");
             });
 
             modelBuilder.Entity<Security>(entity =>
@@ -383,6 +460,13 @@ namespace NjordFinance.Context
                     .HasConstraintName("FK_SecurityAttributeMemberEntry_Security");
             });
 
+            modelBuilder.Entity<SecurityExchange>(entity =>
+            {
+                entity.HasIndex(e => e.ExchangeCode, "UNI_SecurityExchange_ExchangeCode")
+                    .IsUnique()
+                    .HasFilter("([ExchangeCode] IS NOT NULL)");
+            });
+
             modelBuilder.Entity<SecurityPrice>(entity =>
             {
                 entity.HasOne(d => d.Security)
@@ -395,7 +479,7 @@ namespace NjordFinance.Context
             {
                 entity.Property(e => e.Cusip).IsFixedLength();
 
-                entity.Property(e => e.SymbolCode).HasComputedColumnSql("(case when [SecuritySymbol].[SymbolTypeID]=(-10) then [SecuritySymbol].[Cusip] when [SecuritySymbol].[SymbolTypeID]=(-20) then [SecuritySymbol].[CustomSymbol] when [SecuritySymbol].[SymbolTypeID]=(-30) then [SecuritySymbol].[OptionTicker] when [SecuritySymbol].[SymbolTypeID]=(-40) then [SecuritySymbol].[Ticker]  end)", false);
+                entity.Property(e => e.SymbolCode).HasComputedColumnSql("(case when [SymbolTypeID]=(-10) then [Cusip] when [SymbolTypeID]=(-20) then [CustomSymbol] when [SymbolTypeID]=(-30) then [OptionTicker] when [SymbolTypeID]=(-40) then [Ticker]  end)", true);
 
                 entity.HasOne(d => d.Security)
                     .WithMany(p => p.SecuritySymbols)
@@ -426,8 +510,25 @@ namespace NjordFinance.Context
                     .HasConstraintName("FK_SecuritySymbolMap_SecuritySymbol");
             });
 
+            modelBuilder.Entity<SecuritySymbolType>(entity =>
+            {
+                entity.HasIndex(e => e.SymbolTypeName, "UNI_SecuritySymbolType_TypeName")
+                    .IsUnique()
+                    .HasFilter("([SymbolTypeName] IS NOT NULL)");
+            });
+
             modelBuilder.Entity<SecurityType>(entity =>
             {
+                entity.HasIndex(e => e.SecurityTypeName, "UNI_SecurityType_SecurityTypeName")
+                    .IsUnique()
+                    .HasFilter("([SecurityTypeName] IS NOT NULL)");
+
+                entity.HasOne(d => d.AttributeMember)
+                    .WithMany(p => p.SecurityTypes)
+                    .HasForeignKey(d => d.AttributeMemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SecurityType_ModelAttributeMember");
+
                 entity.HasOne(d => d.SecurityTypeGroup)
                     .WithMany(p => p.SecurityTypes)
                     .HasForeignKey(d => d.SecurityTypeGroupId)
@@ -435,7 +536,22 @@ namespace NjordFinance.Context
                     .HasConstraintName("FK_SecurityType_SecurityTypeGroup");
             });
 
+            modelBuilder.Entity<SecurityTypeGroup>(entity =>
+            {
+                entity.HasIndex(e => e.SecurityTypeGroupName, "UNI_SecurityTypeGroup_SecurityTypeGroupName")
+                    .IsUnique()
+                    .HasFilter("([SecurityTypeGroupName] IS NOT NULL)");
+
+                entity.HasOne(d => d.AttributeMember)
+                    .WithMany(p => p.SecurityTypeGroups)
+                    .HasForeignKey(d => d.AttributeMemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SecurityTypeGroup_ModelAttributeMember");
+            });
+
             modelBuilder.HasSequence("seqAuditEventID", "FinanceApp").HasMin(1);
+
+            modelBuilder.HasSequence<int>("seqModelAttributeMember", "FinanceApp");
 
             OnModelCreatingPartial(modelBuilder);
         }

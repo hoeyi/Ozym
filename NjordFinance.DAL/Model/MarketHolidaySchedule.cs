@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("MarketHolidaySchedule", Schema = "FinanceApp")]
+    [Index(nameof(MarketHolidayId), Name = "IX_MarketHolidaySchedule_MarketHolidayID")]
     [Index(nameof(ObservanceDate), nameof(MarketHolidayId), Name = "UNI_MarketHolidaySchedule_RowDef", IsUnique = true)]
     public partial class MarketHolidaySchedule
     {
@@ -20,6 +21,6 @@ namespace NjordFinance.Model
 
         [ForeignKey(nameof(MarketHolidayId))]
         [InverseProperty("MarketHolidaySchedules")]
-        public virtual MarketHoliday MarketHoliday { get; set; } = null!;
+        public virtual MarketHoliday MarketHoliday { get; set; }
     }
 }

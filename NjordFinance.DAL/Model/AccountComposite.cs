@@ -21,7 +21,7 @@ namespace NjordFinance.Model
 
         [ForeignKey(nameof(AccountCompositeId))]
         [InverseProperty(nameof(AccountObject.AccountComposite))]
-        public virtual AccountObject AccountCompositeNavigation { get; set; } = null!;
+        public virtual AccountObject AccountCompositeNavigation { get; set; }
         [InverseProperty(nameof(AccountCompositeMember.AccountComposite))]
         public virtual ICollection<AccountCompositeMember> AccountCompositeMembers { get; set; }
     }
