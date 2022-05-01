@@ -15,20 +15,13 @@ namespace NjordFinance.Context
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
 #pragma warning restore CA1822 // Mark members as static
         {
-            modelBuilder.SeedModelReferenceData();
-        }
+            modelBuilder.SeedDefaultReferenceData();
 
-        private static DateTime GetRandomDateTime(int minimumYearSeed, int maximumYearSeed)
-        {
-            Random random = new();
+            modelBuilder.SeedTestReferenceData();
 
-            return DateTime.Now
-                .AddYears(
-                    random.Next(
-                        minValue: minimumYearSeed < 0 ? 0 : minimumYearSeed, 
-                        maxValue: maximumYearSeed > 25 ? 25 : maximumYearSeed) * -1)
-                .AddMonths(random.Next(0, 12))
-                .AddDays(random.Next(0, 30));
+            modelBuilder.SeedTestSecurityData();
+
+            modelBuilder.SeedTestAccountData();
         }
     }
 }

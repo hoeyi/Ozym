@@ -11,13 +11,22 @@ namespace NjordFinance.Context.Configuration
     /// <summary>
     /// Represents the seed data and settings for development and production versions of
     /// <see cref="FinanceDbContext"/>.
+    /// <list type="bullet">Includes models for the following:
+    /// <item><see cref="ModelAttribute"/></item>
+    /// <item><see cref="ModelAttributeScope"/></item>
+    /// <item><see cref="ModelAttributeMember"/></item>
+    /// <item><see cref="SecurityTypeGroup"/></item>
+    /// <item><see cref="SecurityType"/></item>
+    /// <item><see cref="SecuritySymbolType"/></item>
+    /// </list>
+    /// Items are listed in the order they should be created.
     /// </summary>
-    public class DefaultModel : IDefaultModel
+    internal class DefaultReferenceDataModel
     {
         /// <summary>
-        /// Creates a new instance of <see cref="DefaultModel"/>.
+        /// Creates a new instance of <see cref="DefaultReferenceDataModel"/>.
         /// </summary>
-        public DefaultModel()
+        public DefaultReferenceDataModel()
         {
             ModelAttributes = new ModelAttribute[]
             {
@@ -64,28 +73,28 @@ namespace NjordFinance.Context.Configuration
 
             SecurityTypes = new SecurityType[]
             {
-                new(-300, -200, @"Common Stock", 1M, true, true, -300),
-                new(-301, -200, @"American Depository Receipt", 1M, true, true, -301),
-                new(-302, -201, @"Equity ETF", 1M, true, true, -302),
-                new(-303, -201, @"Equity Mutual Fund", 1M, true, false, -303),
-                new(-304, -202, @"Corporate Bonds", 1M, true, false, -304),
-                new(-305, -202, @"Municipal Bonds", 1M, true, false, -305),
-                new(-306, -202, @"U.S. Government Bonds & Bills", 1M, true, false, -306),
-                new(-307, -202, @"Certificate of Deposit", 1M, true, false, -307),
-                new(-308, -203, @"Bond ETF", 1M, true, true, -308),
-                new(-309, -203, @"Bond Mutual Fund", 1M, true, false, -309),
-                new(-310, -204, @"Call Option", 100M, true, false, -310),
-                new(-311, -204, @"Put Option", 100M, true, false, -311),
-                new(-312, -205, @"Cryptocurrency", 1M, true, false, -312),
-                new(-313, -206, @"Exchange-Traded Note", 1M, true, false, -313),
-                new(-314, -206, @"Retirement Plan", 1M, true, false, -314),
-                new(-315, -207, @"Revolving Debt", -1M, true, false, -315),
-                new(-316, -208, @"Student Debt", -1M, true, false, -316),
-                new(-317, -209, @"Money-Market Fund", 1M, true, false, -317),
-                new(-318, -209, @"Foreign Currency", 1M, true, false, -318),
-                new(-319, -210, @"Cash", 1M, true, false, -319),
-                new(-320, -211, @"Expense", 0M, false, false, -320),
-                new(-321, -212, @"None/External", 0M, false, false, -321)
+                new(-300, -200, "Common Stock", 1M, true, true, -300),
+                new(-301, -200, "American Depository Receipt", 1M, true, true, -301),
+                new(-302, -201, "Equity ETF", 1M, true, true, -302),
+                new(-303, -201, "Equity Mutual Fund", 1M, true, false, -303),
+                new(-304, -202, "Corporate Bonds", 0.01M, true, false, -304),
+                new(-305, -202, "Municipal Bonds", 0.01M, true, false, -305),
+                new(-306, -202, "U.S. Government Bonds & Bills", 0.1M, true, false, -306),
+                new(-307, -202, "Certificate of Deposit", 1M, true, false, -307),
+                new(-308, -203, "Bond ETF", 1M, true, true, -308),
+                new(-309, -203, "Bond Mutual Fund", 1M, true, false, -309),
+                new(-310, -204, "Call Option", 100M, true, false, -310),
+                new(-311, -204, "Put Option", 100M, true, false, -311),
+                new(-312, -205, "Cryptocurrency", 1M, true, false, -312),
+                new(-313, -206, "Exchange-Traded Note", 1M, true, false, -313),
+                new(-314, -206, "Retirement Plan", 1M, true, false, -314),
+                new(-315, -207, "Revolving Debt", -1M, true, false, -315),
+                new(-316, -208, "Student Debt", -1M, true, false, -316),
+                new(-317, -209, "Money-Market Fund", 1M, true, false, -317),
+                new(-318, -209, "Foreign Currency", 1M, true, false, -318),
+                new(-319, -210, "Cash", 1M, true, false, -319),
+                new(-320, -211, "Expense", 0M, false, false, -320),
+                new(-321, -212, "None/External", 0M, false, false, -321)
             };
 
             ModelAttributeMembers = assetClasses
@@ -114,22 +123,34 @@ namespace NjordFinance.Context.Configuration
             };
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the <see cref="ModelAttribute"/> seed models.
+        /// </summary>
         public ModelAttribute[] ModelAttributes { get; init; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the <see cref="ModelAttributeScope"/> seed models.
+        /// </summary>
         public ModelAttributeScope[] ModelAttributeScopes { get; init; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the <see cref="ModelAttributeMember"/> seed models.
+        /// </summary>
         public ModelAttributeMember[] ModelAttributeMembers { get; init; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the <see cref="SecurityTypeGroup"/> seed models.
+        /// </summary>
         public SecurityTypeGroup[] SecurityTypeGroups { get; init; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the <see cref="SecurityType"/> seed models.
+        /// </summary>
         public SecurityType[] SecurityTypes { get; init; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the <see cref="SecuritySymbolType"/> seed models.
+        /// </summary>
         public SecuritySymbolType[] SecuritySymbolTypes { get; init; }
     }
 }
