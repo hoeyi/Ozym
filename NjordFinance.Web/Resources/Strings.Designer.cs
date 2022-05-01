@@ -214,7 +214,7 @@ namespace NjordFinance.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to euler financial.
+        ///   Looks up a localized string similar to Njord Finance.
         /// </summary>
         internal static string Title_ApplicationName {
             get {
