@@ -28,5 +28,8 @@ echo Missing positional parameter 'event'
 
 :scriptexit
 
+REM Migration use is complete. Delete the migrations and model snapshot.
+rmdir Migrations /s
+
 REM Revert the working directory back to the parent.
 cd ..\
