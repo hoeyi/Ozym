@@ -21,7 +21,6 @@ namespace NjordFinance.Model
         [Required]
         [StringLength(72)]
         public string SecurityTypeGroupName { get; set; }
-        public byte DisplayOrder { get; set; }
         [Column("AttributeMemberID")]
         public int AttributeMemberId { get; set; }
 

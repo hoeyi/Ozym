@@ -28,7 +28,6 @@ namespace NjordFinance.Model
         public decimal ValuationFactor { get; set; }
         public bool CanHaveDerivative { get; set; }
         public bool CanHavePosition { get; set; }
-        public byte DisplayOrder { get; set; }
         [Column("AttributeMemberID")]
         public int AttributeMemberId { get; set; }
 
