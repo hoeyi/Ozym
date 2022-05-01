@@ -9,11 +9,13 @@ set migration=IdentityDbContext_%1
 
 REM Add the migration. Reference the IdentityDbContext with fully-qualified namespace.
 dotnet ef migrations add %migration% ^
-	--context NjordFinance.Web.Data.IdentityDbContext
+	--context NjordFinance.Web.Data.IdentityDbContext ^
+	--project NjordFinance.Web.csproj ^
 
 REM Update the database using the added migration.
 dotnet ef database update %migration% ^
 	--context NjordFinance.Web.Data.IdentityDbContext ^
+	--project NjordFinance.Web.csproj ^
 	--configuration Debug ^
 	--no-build
 
