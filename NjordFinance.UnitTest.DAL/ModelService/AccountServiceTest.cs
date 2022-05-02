@@ -72,6 +72,29 @@ namespace NjordFinance.UnitTest.ModelService
         }
 
         /// <summary>
+        /// Verifies the unit of work for deleting a single <see cref="Account"/>.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task DeleteAsync_Returns_True()
+        {
+            UnitTest.DbContextFactory.RefreshDbContext();
+
+            var service = CreateAccountService();
+
+            var query = await service.SelectAllAsync();
+
+            Account account = query.Where(a => a.AccountCode == "TESTSEED").First();
+
+            var result = await service.DeleteAsync(account);
+
+            using var tmpContext = UnitTest.DbContextFactory.CreateDbContext();
+
+            // Check delete action was successful and the account is not found in the DbContext.
+            Assert.IsTrue(result && !tmpContext.Accounts.Any(a => a.AccountId == account.AccountId));
+        }
+
+        /// <summary>
         /// Verifies a deletion request for a non-existent account yields a 
         /// <see cref="DbUpdateException"/>.
         /// </summary>
@@ -160,29 +183,6 @@ namespace NjordFinance.UnitTest.ModelService
 
             Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
                 savedAccount.AccountNavigation, account.AccountNavigation));
-        }
-
-        /// <summary>
-        /// Verifies the unit of work for deleting a single <see cref="Account"/>.
-        /// </summary>
-        /// <returns></returns>
-        [TestMethod]
-        public async Task DeleteAsync_Returns_True()
-        {
-            UnitTest.DbContextFactory.RefreshDbContext();
-            
-            var service = CreateAccountService();
-
-            var query = await service.SelectAllAsync();
-
-            Account account = query.Where(a => a.AccountCode == "TESTSEED").First();
-
-            var result = await service.DeleteAsync(account);
-
-            using var tmpContext = UnitTest.DbContextFactory.CreateDbContext();
-
-            // Check delete action was successful and the account is not found in the DbContext.
-            Assert.IsTrue(result && !tmpContext.Accounts.Any(a => a.AccountId == account.AccountId));
         }
 
         /// <summary>

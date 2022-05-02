@@ -60,6 +60,26 @@ namespace NjordFinance.UnitTest.ModelService
             tmpContext?.Dispose();
         }
 
+        /// <summary>
+        /// Clears the records created when running tests. Call after each model service class 
+        /// has completed its tests.
+        /// </summary>
+        /// <param name="context"></param>
+        internal static void ClearDbContextTestRecords(this TestDbContextFactory factory)
+        {
+            using var context = factory.CreateDbContext();
+
+            var accounts = context.Accounts.Where(a => a.AccountId > 0);
+
+            var accountObjects = context.AccountObjects.Where(a => a.AccountObjectId > 0);
+
+            context.Accounts.RemoveRange(accounts);
+            context.SaveChanges();
+
+            context.AccountObjects.RemoveRange(accountObjects);
+            context.SaveChanges();
+        }
+
         internal static FinanceDbContext WithSeedData(this FinanceDbContext context)
         {
             context
