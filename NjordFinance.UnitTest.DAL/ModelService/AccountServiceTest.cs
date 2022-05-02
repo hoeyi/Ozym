@@ -38,13 +38,11 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = CreateAccountService();
 
-            int initialID = 0;
-
             Account account = new()
             {
                 AccountNavigation = new()
                 {
-                    AccountObjectCode = "TEST001_CREATE",
+                    AccountObjectCode = "TESTCRE",
                     ObjectType = AccountObjectType.Account.ConvertToStringCode(),
                     ObjectDisplayName = "TEST ACCOUNT #001",
                     ObjectDescription = "Account used for testing purposes."
@@ -63,7 +61,7 @@ namespace NjordFinance.UnitTest.ModelService
                 .FirstOrDefault(a => a.AccountId == account.AccountId);
 
             // Verify the primary key is assigned.
-            Assert.IsTrue(account.AccountId > initialID);
+            Assert.IsTrue(account.AccountId > 0);
 
             // Check the return attributes match the submitted object.
             Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
@@ -80,6 +78,8 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task DeleteAsync_InvalidAccount_ThrowsModelUpdateException()
         {
+            UnitTest.DbContextFactory.RefreshDbContext();
+
             var service = CreateAccountService();
 
             Account account = new()
@@ -114,11 +114,11 @@ namespace NjordFinance.UnitTest.ModelService
             var accountID = tmpContext.Accounts
                 .Include(a => a.AccountNavigation)
                 .FirstOrDefault(
-                    a => a.AccountNavigation.AccountObjectCode == "TEST000_SEED")?.AccountId ?? 0;
+                    a => a.AccountNavigation.AccountObjectCode == "TESTBROKER")?.AccountId ?? 0;
 
             var account = await service.ReadAsync(accountID);
 
-            Assert.AreEqual("TEST000_SEED", account?.AccountNavigation?.AccountObjectCode);
+            Assert.AreEqual("TESTBROKER", account?.AccountNavigation?.AccountObjectCode);
             Assert.IsInstanceOfType(account, typeof(Account));
         }
 
@@ -129,30 +129,20 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task UpdateAsync_Returns_True()
         {
+            UnitTest.DbContextFactory.RefreshDbContext();
+
             var service = CreateAccountService();
 
-            Account account = new()
-            {
-                AccountNavigation = new()
-                {
-                    AccountObjectCode = "TEST002_UPDATE",
-                    ObjectType = AccountObjectType.Account.ConvertToStringCode(),
-                    ObjectDisplayName = "TEST ACCOUNT #002",
-                    ObjectDescription = "Account used for testing purposes.",
-                    StartDate = new DateTime(2020, 1, 1)
-                },
-                AccountNumber = "0000-0000-00"
-            };
+            var query = await service.SelectAllAsync();
 
-            // Create the new account record to be modified.
-            account = await service.CreateAsync(account);
+            Account account = query.Where(a => a.AccountCode == "TESTSEED").First();
 
             // Change a few attributes of the model.
             account.AccountNavigation.ObjectDisplayName = "TEST ACCOUNT #002 - UPDATED";
             account.IsComplianceTradable = !account.IsComplianceTradable;
             account.HasWallet = !account.HasWallet;
-            account.AccountNavigation.StartDate = account.AccountNavigation.StartDate.AddDays(-5);
-            account.AccountNavigation.CloseDate = account.AccountNavigation.StartDate.AddYears(2);
+            account.AccountNavigation.StartDate = account.AccountNavigation.StartDate.AddDays(-273);
+            account.AccountNavigation.CloseDate = account.AccountNavigation.StartDate.AddYears(5);
 
             // Send the updates to the database.
             var result = await service.UpdateAsync(account);
@@ -179,21 +169,13 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task DeleteAsync_Returns_True()
         {
+            UnitTest.DbContextFactory.RefreshDbContext();
+            
             var service = CreateAccountService();
 
-            Account account = new()
-            {
-                AccountNavigation = new()
-                {
-                    AccountObjectCode = "TEST003_DELETE",
-                    ObjectType = AccountObjectType.Account.ConvertToStringCode(),
-                    ObjectDisplayName = "TEST ACCOUNT #003",
-                    ObjectDescription = "Account used for testing purposes."
-                },
-                AccountNumber = "0000-0000-00"
-            };
+            var query = await service.SelectAllAsync();
 
-            account = await service.CreateAsync(account);
+            Account account = query.Where(a => a.AccountCode == "TESTSEED").First();
 
             var result = await service.DeleteAsync(account);
 
@@ -211,7 +193,7 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = CreateAccountService();
 
-            var result = service.ModelExists(id: 1);
+            var result = service.ModelExists(id: -1);
 
             Assert.IsTrue(result);
         }
@@ -226,7 +208,7 @@ namespace NjordFinance.UnitTest.ModelService
 
             var result = service.ModelExists(model: new()
             {
-                AccountId = 1
+                AccountId = -1
             });
 
             Assert.IsTrue(result);
@@ -242,11 +224,11 @@ namespace NjordFinance.UnitTest.ModelService
             var service = CreateAccountService();
 
             var result = await service.SelectWhereAysnc(
-                predicate: a => a.AccountNavigation.AccountObjectCode == "TEST000_SEED",
+                predicate: a => a.AccountNavigation.AccountObjectCode == "TESTBANK",
                 maxCount: 1);
 
             Assert.IsTrue(result.Count == 1);
-            Assert.IsTrue(result[0].AccountCode == "TEST000_SEED");
+            Assert.IsTrue(result[0].AccountCode == "TESTBANK");
         }
 
         /// <summary>

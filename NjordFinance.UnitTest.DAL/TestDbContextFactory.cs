@@ -3,6 +3,7 @@ using NjordFinance.Context;
 using Microsoft.EntityFrameworkCore;
 using NjordFinance.Model;
 using NjordFinance.ModelMetadata;
+using System;
 
 namespace NjordFinance.UnitTest.ModelService
 {
@@ -25,7 +26,7 @@ namespace NjordFinance.UnitTest.ModelService
                 {
                     using (var context = CreateDbContext())
                     {
-                        context.Database.EnsureDeleted();
+                        //context.Database.EnsureDeleted();
                         context.Database.EnsureCreated();
                     }
 
@@ -38,23 +39,10 @@ namespace NjordFinance.UnitTest.ModelService
         /// Creates a new <see cref="FinanceDbContext"/> instance for unit-testing.
         /// </summary>
         /// <inheritdoc/>
-        public FinanceDbContext CreateDbContext() => new FinanceDbContext(
+        public FinanceDbContext CreateDbContext() => new(
                 new DbContextOptionsBuilder<FinanceDbContext>()
-                    .UseSqlServer(UnitTest.Configuration["Connectionstrings:NjordFinance-DEV"])
-                    .Options)
-                .WithSeedData();
-
-        /// <summary>
-        /// Creates a new <see cref="FinanceDbContext"/> instance for unit-testing.
-        /// </summary>
-        /// <returns>A new instance.</returns>
-#pragma warning disable CA1822 // Mark members as static
-        public FinanceDbContext CreateDbContextNoSeed() => new(
-                new DbContextOptionsBuilder<FinanceDbContext>()
-                    .UseSqlServer(UnitTest.Configuration["Connectionstrings:NjordFinance-DEV"])
+                    .UseSqlServer(UnitTest.Configuration["Connectionstrings:NjordFinance"])
                     .Options);
-
-#pragma warning restore CA1822 // Mark members as static
     }
 
     /// <summary>
@@ -62,6 +50,16 @@ namespace NjordFinance.UnitTest.ModelService
     /// </summary>
     internal static class ContextExtensions
     {
+        /// <summary>
+        /// Refreshes the context by deleting test data and then disposing of itself.
+        /// </summary>
+        internal static void RefreshDbContext(this TestDbContextFactory factory)
+        {
+            using var tmpContext = factory.CreateDbContext().WithSeedData();
+
+            tmpContext?.Dispose();
+        }
+
         internal static FinanceDbContext WithSeedData(this FinanceDbContext context)
         {
             context
@@ -80,16 +78,29 @@ namespace NjordFinance.UnitTest.ModelService
         /// <returns>The <see cref="FinanceDbContext"/> instance, updated but not saved.</returns>
         internal static FinanceDbContext SeedSingleAccount(this FinanceDbContext context)
         {
-            if(!context.Accounts.Any(a => a.AccountNavigation.AccountObjectCode == "TEST000_SEED"))
+            var testAccounts = context.Accounts.Where(a => a.AccountId > 0);
+            var testAccountObjects = context.AccountObjects.Where(a => a.AccountObjectId > 0);
+
+            context.Accounts.RemoveRange(testAccounts);
+            context.SaveChanges();
+
+            context.AccountObjects.RemoveRange(testAccountObjects);
+            context.SaveChanges();
+
+            Random random = new();
+
+            if(!context.Accounts.Any(a => a.AccountNavigation.AccountObjectCode == "TESTSEED"))
             {
                 context.Accounts.Add(new()
                 {
                     AccountNavigation = new()
                     {
-                        AccountObjectCode = "TEST000_SEED",
+                        AccountObjectCode = "TESTSEED",
                         ObjectType = AccountObjectType.Account.ConvertToStringCode(),
                         ObjectDisplayName = "TEST ACCOUNT #000",
-                        ObjectDescription = "Account used for testing purposes."
+                        ObjectDescription = "Account used for testing purposes.",
+                        StartDate = new DateTime(
+                            random.Next(1975, 2022), random.Next(1,12), random.Next(1,28))
                     },
                     AccountNumber = "0000-0000-00"
                 });
