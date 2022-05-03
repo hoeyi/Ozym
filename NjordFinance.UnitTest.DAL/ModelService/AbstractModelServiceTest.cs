@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NjordFinance.Model;
-using NjordFinance.ModelMetadata;
 using NjordFinance.ModelService;
 using NjordFinance.Context;
 using Microsoft.EntityFrameworkCore;

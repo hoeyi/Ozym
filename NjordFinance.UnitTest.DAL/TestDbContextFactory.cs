@@ -1,9 +1,5 @@
-﻿using System.Linq;
-using NjordFinance.Context;
+﻿using NjordFinance.Context;
 using Microsoft.EntityFrameworkCore;
-using NjordFinance.Model;
-using NjordFinance.ModelMetadata;
-using System;
 
 namespace NjordFinance.UnitTest.ModelService
 {

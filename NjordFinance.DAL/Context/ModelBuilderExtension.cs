@@ -1,12 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NjordFinance.Model;
-using NjordFinance.ModelMetadata;
 using NjordFinance.Context.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NjordFinance.Context
 {

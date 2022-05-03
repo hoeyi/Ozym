@@ -1,9 +1,6 @@
 ﻿using NjordFinance.ModelMetadata;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NjordFinance.Model;
 
 namespace NjordFinance.Context.Configuration
