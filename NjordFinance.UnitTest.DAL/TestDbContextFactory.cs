@@ -26,7 +26,6 @@ namespace NjordFinance.UnitTest.ModelService
                 {
                     using (var context = CreateDbContext())
                     {
-                        //context.Database.EnsureDeleted();
                         context.Database.EnsureCreated();
                     }
 
@@ -43,111 +42,5 @@ namespace NjordFinance.UnitTest.ModelService
                 new DbContextOptionsBuilder<FinanceDbContext>()
                     .UseSqlServer(UnitTest.Configuration["Connectionstrings:NjordFinance"])
                     .Options);
-    }
-
-    /// <summary>
-    /// Extension class for initial data seed of a test <see cref="FinanceDbContext"/>.
-    /// </summary>
-    internal static class ContextExtensions
-    {
-        /// <summary>
-        /// Refreshes the context by deleting test data and then disposing of itself.
-        /// </summary>
-        internal static void RefreshDbContext(this TestDbContextFactory factory)
-        {
-            using var tmpContext = factory.CreateDbContext().WithSeedData();
-
-            tmpContext?.Dispose();
-        }
-
-        /// <summary>
-        /// Clears the records created when running tests. Call after each model service class 
-        /// has completed its tests.
-        /// </summary>
-        /// <param name="context"></param>
-        internal static void ClearDbContextTestRecords(this TestDbContextFactory factory)
-        {
-            using var context = factory.CreateDbContext();
-
-            var accounts = context.Accounts.Where(a => a.AccountId > 0);
-
-            var accountObjects = context.AccountObjects.Where(a => a.AccountObjectId > 0);
-
-            context.Accounts.RemoveRange(accounts);
-            context.SaveChanges();
-
-            context.AccountObjects.RemoveRange(accountObjects);
-            context.SaveChanges();
-        }
-
-        internal static FinanceDbContext WithSeedData(this FinanceDbContext context)
-        {
-            context
-                .SeedSingleAccount()
-                .SeedSingleAccountCustodian();
-
-            context.SaveChanges();
-
-            return context;
-        }
-
-        /// <summary>
-        /// Adds the test <see cref="Account"/> instance, if it is does not exist.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns>The <see cref="FinanceDbContext"/> instance, updated but not saved.</returns>
-        internal static FinanceDbContext SeedSingleAccount(this FinanceDbContext context)
-        {
-            var testAccounts = context.Accounts.Where(a => a.AccountId > 0);
-            var testAccountObjects = context.AccountObjects.Where(a => a.AccountObjectId > 0);
-
-            context.Accounts.RemoveRange(testAccounts);
-            context.SaveChanges();
-
-            context.AccountObjects.RemoveRange(testAccountObjects);
-            context.SaveChanges();
-
-            Random random = new();
-
-            if(!context.Accounts.Any(a => a.AccountNavigation.AccountObjectCode == "TESTSEED"))
-            {
-                context.Accounts.Add(new()
-                {
-                    AccountNavigation = new()
-                    {
-                        AccountObjectCode = "TESTSEED",
-                        ObjectType = AccountObjectType.Account.ConvertToStringCode(),
-                        ObjectDisplayName = "TEST ACCOUNT #000",
-                        ObjectDescription = "Account used for testing purposes.",
-                        StartDate = new DateTime(
-                            random.Next(1975, 2022), random.Next(1,12), random.Next(1,28))
-                    },
-                    AccountNumber = "0000-0000-00"
-                });
-
-            }
-
-            return context;
-        }
-
-        /// <summary>
-        /// Adds the test <see cref="AccountCustodian"/> instance, if it is does not exist.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns>The <see cref="FinanceDbContext"/> instance, updated but not saved.</returns>
-        internal static FinanceDbContext SeedSingleAccountCustodian(
-            this FinanceDbContext context)
-        {
-            if(!context.AccountCustodians.Any(a => a.CustodianCode == "SCHWAB"))
-            {
-                context.AccountCustodians.Add(new()
-                {
-                    CustodianCode = "SCHWAB",
-                    DisplayName = "Charles Schwab"
-                });
-            }
-
-            return context;
-        }
     }
 }
