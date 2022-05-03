@@ -221,7 +221,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task SelectWhereAsync_Returns_Accounts_List()
         {
-            Account expected = GetLast<Account>();
+            Account expected = GetLast<Account>(a => a.AccountNavigation);
 
             var service = CreateAccountService();
 
@@ -229,10 +229,6 @@ namespace NjordFinance.UnitTest.ModelService
                 predicate: a => a.AccountNavigation.AccountObjectId == expected.AccountId,
                 maxCount: 1))
                 .First();
-
-            // Overwrite the AccountNavigation for the expected account, since 
-            // GetLast<T> does not return related entities.
-            expected.AccountNavigation = observed.AccountNavigation;
 
             Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(expected, observed));
         }
