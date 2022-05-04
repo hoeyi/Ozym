@@ -2113,6 +2113,15 @@ namespace NjordFinance.ModelMetadata.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (no symbol).
+        /// </summary>
+        public static string Security_CurrentSecuritySymbol_Empty {
+            get {
+                return ResourceManager.GetString("Security_CurrentSecuritySymbol_Empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The current symbol of the security..
         /// </summary>
         public static string Security_CurrentSymbol_Description {
@@ -2707,24 +2716,6 @@ namespace NjordFinance.ModelMetadata.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The order the security type receives in reporting..
-        /// </summary>
-        public static string SecurityType_DisplayOrder_Description {
-            get {
-                return ResourceManager.GetString("SecurityType_DisplayOrder_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Display Order.
-        /// </summary>
-        public static string SecurityType_DisplayOrder_Name {
-            get {
-                return ResourceManager.GetString("SecurityType_DisplayOrder_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The security type group..
         /// </summary>
         public static string SecurityType_SecurityTypeGroupID_Description {
@@ -2775,24 +2766,6 @@ namespace NjordFinance.ModelMetadata.Resources {
         public static string SecurityType_ValuationFactor_Name {
             get {
                 return ResourceManager.GetString("SecurityType_ValuationFactor_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The order the security type group receives in reporting..
-        /// </summary>
-        public static string SecurityTypeGroup_DisplayOrder_Description {
-            get {
-                return ResourceManager.GetString("SecurityTypeGroup_DisplayOrder_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Display Order.
-        /// </summary>
-        public static string SecurityTypeGroup_DisplayOrder_Name {
-            get {
-                return ResourceManager.GetString("SecurityTypeGroup_DisplayOrder_Name", resourceCulture);
             }
         }
         

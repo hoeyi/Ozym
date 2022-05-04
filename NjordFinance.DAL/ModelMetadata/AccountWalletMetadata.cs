@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NjordFinance.Model
 {
+    /// <summary>
+    /// Defines the metadata for <see cref="AccountWallet"/>.
+    /// </summary>
     [Noun(
         Plural = nameof(ModelNoun.AccountWallet_Plural),
         PluralArticle = nameof(ModelNoun.AccountWallet_PluralArticle),

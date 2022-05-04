@@ -945,12 +945,6 @@
   <data name="SecuritySymbol_Ticker_Name" xml:space="preserve">
     <value>Ticker</value>
   </data>
-  <data name="SecurityTypeGroup_DisplayOrder_Description" xml:space="preserve">
-    <value>The order the security type group receives in reporting.</value>
-  </data>
-  <data name="SecurityTypeGroup_DisplayOrder_Name" xml:space="preserve">
-    <value>Display Order</value>
-  </data>
   <data name="SecurityTypeGroup_SecurityTypeGroupName_Description" xml:space="preserve">
     <value>The security type group name.</value>
   </data>
@@ -969,12 +963,6 @@
   <data name="SecurityType_CanHavePosition_Name" xml:space="preserve">
     <value>Enable Positions</value>
   </data>
-  <data name="SecurityType_DisplayOrder_Description" xml:space="preserve">
-    <value>The order the security type receives in reporting.</value>
-  </data>
-  <data name="SecurityType_DisplayOrder_Name" xml:space="preserve">
-    <value>Display Order</value>
-  </data>
   <data name="SecurityType_SecurityTypeGroupID_Description" xml:space="preserve">
     <value>The security type group.</value>
   </data>
@@ -992,6 +980,9 @@
   </data>
   <data name="SecurityType_ValuationFactor_Name" xml:space="preserve">
     <value>Valuation Factor</value>
+  </data>
+  <data name="Security_CurrentSecuritySymbol_Empty" xml:space="preserve">
+    <value>(no symbol)</value>
   </data>
   <data name="Security_CurrentSymbol_Description" xml:space="preserve">
     <value>The current symbol of the security.</value>
