@@ -5,7 +5,7 @@ namespace NjordFinance.Model
     /// <summary>
     /// Represents the supported values for <see cref="ModelAttributeScope.ScopeCode"/>.
     /// </summary>
-    public enum AttributeScopeCode
+    public enum ModelAttributeScopeCode
     {
         [EnumMember(Value = "acc")]
         Account,

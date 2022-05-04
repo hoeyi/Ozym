@@ -36,7 +36,7 @@ namespace NjordFinance.Context.Configuration
                     .Where(a => a.AttributeId is < 0 and > -4)
                     .Select(a => new ModelAttributeScope(
                         attributeId: a.AttributeId,
-                        scopeCode: AttributeScopeCode.Security.ConvertToStringCode()))
+                        scopeCode: ModelAttributeScopeCode.Security.ConvertToStringCode()))
                     .ToArray();
 
             ModelAttributeMember[] assetClasses =
