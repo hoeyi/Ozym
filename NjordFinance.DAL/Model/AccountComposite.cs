@@ -15,7 +15,6 @@ namespace NjordFinance.Model
         [Key]
         [Column("AccountCompositeID")]
         public int AccountCompositeId { get; set; }
-        public int DisplayOrder { get; set; }
 
         [ForeignKey(nameof(AccountCompositeId))]
         [InverseProperty(nameof(AccountObject.AccountComposite))]
