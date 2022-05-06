@@ -17,8 +17,8 @@ namespace NjordFinance.ModelService
     /// data store.
     /// </summary>
     public class AccountWalletService :
-        BatchModelServiceBase<AccountWallet, int>,
-        IBatchModelService<AccountWallet>
+        ChildModelService<AccountWallet, int>,
+        IChildModelService<AccountWallet>
     {
         /// <inheritdoc/>
         public AccountWalletService(

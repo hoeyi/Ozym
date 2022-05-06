@@ -17,10 +17,10 @@ namespace NjordFinance.Controllers
     public partial class AccountWalletsController 
         : ControllerBase, IBatchController<AccountWallet>
     {
-        private readonly IBatchModelService<AccountWallet> walletService;
+        private readonly IChildModelService<AccountWallet> walletService;
         private readonly ILogger logger;
         public AccountWalletsController(
-            IBatchModelService<AccountWallet> walletService,
+            IChildModelService<AccountWallet> walletService,
             ILogger logger)
         {
             this.walletService = walletService;

@@ -9,10 +9,10 @@ namespace NjordFinance.ModelService
 {
     /// <summary>
     /// Worker class for servicing CRUD requests against a data store of 
-    /// <typeparamref name="T"/> models.
+    /// <typeparamref name="T"/> models that are children of a parent object.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
-    public interface IBatchModelService<T>
+    public interface IChildModelService<T>
         where T : class, new()
     {
         /// <summary>

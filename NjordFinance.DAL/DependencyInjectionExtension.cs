@@ -18,7 +18,7 @@ namespace NjordFinance
             services.AddScoped<IReferenceDataService, ReferenceDataService>();
 
             services.AddScoped<IModelService<Account>, AccountService>();
-            services.AddScoped<IBatchModelService<AccountWallet>, AccountWalletService>();
+            services.AddScoped<IChildModelService<AccountWallet>, AccountWalletService>();
         }
 
         /// <summary>

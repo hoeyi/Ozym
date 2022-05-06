@@ -17,8 +17,8 @@ namespace NjordFinance.ModelService
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
     /// <typeparam name="TParentKey">The model's parent key type.</typeparam>
-    public abstract class BatchModelServiceBase<T, TParentKey> 
-        : ModelServiceBase, IBatchModelService<T>
+    public abstract class ChildModelService<T, TParentKey> 
+        : ModelServiceBase, IChildModelService<T>
         where T : class, new()
         where TParentKey : struct
     {
@@ -34,7 +34,7 @@ namespace NjordFinance.ModelService
         /// <param name="modelMetadata">The <see cref="IModelMetadataService"/> for this service.</param>
         /// <param name="logger">The <see cref="ILogger"/> for this service.</param>
         /// <exception cref="ArgumentNullException">A required parameter was null.</exception>
-        protected BatchModelServiceBase(
+        protected ChildModelService(
             IDbContextFactory<FinanceDbContext> contextFactory,
             IModelMetadataService modelMetadata,
             ILogger logger) : base(contextFactory, modelMetadata, logger)
