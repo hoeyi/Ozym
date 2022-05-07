@@ -55,7 +55,7 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = CreateAccountService();
 
-            var account = await service.GetDefaultAsync();
+            var account = await service.Writer.GetDefaultAsync();
 
             Assert.IsInstanceOfType(account, typeof(Account));
         }
@@ -68,7 +68,7 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = CreateAccountService();
 
-            Account account = await service.CreateAsync(CreateAccountSample);
+            Account account = await service.Writer.CreateAsync(CreateAccountSample);
 
             // Create a new context for checking results. Avoids dependency
             // on model service.
@@ -99,11 +99,11 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = CreateAccountService();
 
-            Account account = (await service.SelectWhereAysnc(a =>
+            Account account = (await service.Reader.SelectWhereAysnc(a =>
                 a.AccountNavigation.AccountObjectCode == "TESTDELPASS", 1))
                 .First();
 
-            var result = await service.DeleteAsync(account);
+            var result = await service.Writer.DeleteAsync(account);
 
             using var tmpContext = CreateDbContext();
 
@@ -123,7 +123,7 @@ namespace NjordFinance.UnitTest.ModelService
 
             await Assert.ThrowsExceptionAsync<ModelUpdateException>(async () =>
             {
-                await service.DeleteAsync(DeleteFailAccountSample);
+                await service.Writer.DeleteAsync(DeleteFailAccountSample);
             });
         }
 
@@ -142,7 +142,7 @@ namespace NjordFinance.UnitTest.ModelService
                 .FirstOrDefault(
                     a => a.AccountNavigation.AccountObjectCode == "TESTUPDATE")?.AccountId ?? 0;
 
-            var account = await service.ReadAsync(accountID);
+            var account = await service.Reader.ReadAsync(accountID);
 
             Assert.AreEqual("TESTUPDATE", account?.AccountNavigation?.AccountObjectCode);
             Assert.IsInstanceOfType(account, typeof(Account));
@@ -157,7 +157,7 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = CreateAccountService();
 
-            var query = await service.SelectAllAsync();
+            var query = await service.Reader.SelectAllAsync();
 
             Account account = query.Where(a => a.AccountCode == "TESTUPDATE").First();
 
@@ -169,7 +169,7 @@ namespace NjordFinance.UnitTest.ModelService
             account.AccountNavigation.CloseDate = account.AccountNavigation.StartDate.AddYears(5);
 
             // Send the updates to the database.
-            var result = await service.UpdateAsync(account);
+            var result = await service.Writer.UpdateAsync(account);
 
             // Open a context for checking results.
             using var tmpContext = CreateDbContext();
@@ -194,7 +194,7 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = CreateAccountService();
 
-            var result = service.ModelExists(id: -1);
+            var result = service.Reader.ModelExists(id: -1);
 
             Assert.IsTrue(result);
         }
@@ -209,7 +209,7 @@ namespace NjordFinance.UnitTest.ModelService
             
             // Use the servied to verify model existance.
             var service = CreateAccountService();
-            var result = service.ModelExists(model: account);
+            var result = service.Reader.ModelExists(model: account);
 
             Assert.IsTrue(result);
         }
@@ -225,7 +225,7 @@ namespace NjordFinance.UnitTest.ModelService
 
             var service = CreateAccountService();
 
-            var observed = (await service.SelectWhereAysnc(
+            var observed = (await service.Reader.SelectWhereAysnc(
                 predicate: a => a.AccountNavigation.AccountObjectId == expected.AccountId,
                 maxCount: 1))
                 .First();
@@ -241,7 +241,7 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = CreateAccountService();
 
-            var result = await service.SelectAllAsync();
+            var result = await service.Reader.SelectAllAsync();
 
             Assert.IsTrue(result.Count > 0);
         }

@@ -121,6 +121,14 @@
     <value>The type '{0}' does not have a noun attribute applied. The page title cannot be generated.</value>
     <comment>{0} is the type name</comment>
   </data>
+  <data name="ModelService_AddFailed_RequiredParentNotset" xml:space="preserve">
+    <value>Could not add {0}. The parent identifier was not set.</value>
+    <comment>{0} is the singlular model noun</comment>
+  </data>
+  <data name="ModelService_DelegateIsNull" xml:space="preserve">
+    <value>Member delegate '{0}' not set to instance of an object.</value>
+    <comment>{0} is the delegate member name</comment>
+  </data>
   <data name="ModelService_ParentKeyNotSet" xml:space="preserve">
     <value>The service parent key has not been set. This error occurs when a service method is called before a call to 'Initialize(TParentKey)'.</value>
   </data>

@@ -70,6 +70,24 @@ namespace NjordFinance.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not add {0}. The parent identifier was not set..
+        /// </summary>
+        internal static string ModelService_AddFailed_RequiredParentNotset {
+            get {
+                return ResourceManager.GetString("ModelService_AddFailed_RequiredParentNotset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Member delegate &apos;{0}&apos; not set to instance of an object..
+        /// </summary>
+        internal static string ModelService_DelegateIsNull {
+            get {
+                return ResourceManager.GetString("ModelService_DelegateIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The service parent key has not been set. This error occurs when a service method is called before a call to &apos;Initialize(TParentKey)&apos;..
         /// </summary>
         internal static string ModelService_ParentKeyNotSet {

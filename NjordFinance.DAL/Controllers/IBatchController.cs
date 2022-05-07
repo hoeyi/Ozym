@@ -16,13 +16,13 @@ namespace NjordFinance.Controllers
         /// <summary>
         /// Initializes the intance with the given parent key. Call this method before all others.
         /// </summary>
-        /// <param name="parentKey">The key for the parent of objects passed through this service.
+        /// <param name="parentId">The key for the parent of models worked by this service.
         /// </param>
         /// <returns>An <see cref="IActionResult"/> representing the returned status code.
         /// </returns>
         /// <remarks>Calls to other methods fail if this method has not been successfully called 
         /// first.</remarks>
-        IActionResult Initialize(object parentKey);
+        IActionResult ForParent(int parentId);
 
         /// <summary>
         /// Adds the model pending a call to <see cref="SaveChangesAsync"/>.

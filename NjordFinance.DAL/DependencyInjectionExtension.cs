@@ -3,6 +3,7 @@ using NjordFinance.Model;
 using NjordFinance.ModelService;
 using NjordFinance.Reference;
 using Microsoft.Extensions.DependencyInjection;
+using NjordFinance.ModelService.Abstractions;
 
 namespace NjordFinance
 {
@@ -17,8 +18,8 @@ namespace NjordFinance
             // Add reference data service for querying lookup lists.
             services.AddScoped<IReferenceDataService, ReferenceDataService>();
 
-            services.AddScoped<IModelService<Account>, AccountService>();
-            services.AddScoped<IChildModelService<AccountWallet>, AccountWalletService>();
+            services.AddScoped<IModelServiceSingle<Account>, AccountService>();
+            services.AddScoped<IModelServiceMultiple<AccountWallet>, AccountWalletService>();
         }
 
         /// <summary>

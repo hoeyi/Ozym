@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NjordFinance.Exceptions;
 using NjordFinance.Logging;
+using NjordFinance.ModelService.Abstractions;
 
 namespace NjordFinance.Controllers
 {
@@ -17,10 +18,10 @@ namespace NjordFinance.Controllers
     public partial class AccountWalletsController 
         : ControllerBase, IBatchController<AccountWallet>
     {
-        private readonly IChildModelService<AccountWallet> walletService;
+        private IModelServiceMultiple<AccountWallet> walletService;
         private readonly ILogger logger;
         public AccountWalletsController(
-            IChildModelService<AccountWallet> walletService,
+            IModelServiceMultiple<AccountWallet> walletService,
             ILogger logger)
         {
             this.walletService = walletService;
@@ -32,7 +33,7 @@ namespace NjordFinance.Controllers
         {
             IActionResult Add()
             {
-                if(walletService.AddPendingSave(model))
+                if(walletService.Writer.AddPendingSave(model))
                 {
                     return Ok();
                 }
@@ -52,12 +53,12 @@ namespace NjordFinance.Controllers
         {
             IActionResult Delete()
             {
-                if (!walletService.ModelExists(model))
+                if (!walletService.Reader.ModelExists(model))
                 {
                     return BadRequest();
                 }
 
-                if (walletService.DeletePendingSave(model))
+                if (walletService.Writer.DeletePendingSave(model))
                     return Ok();
                 else
                     return Conflict();
@@ -71,21 +72,21 @@ namespace NjordFinance.Controllers
         /// <inheritdoc/>
         public async Task<ActionResult<AccountWallet>> GetDefaultAsync()
         {
-            return await walletService.GetDefault();
+            return await walletService.Writer.GetDefaultAsync();
         }
 
         /// <inheritdoc/>
-        public IActionResult Initialize(object parentKey)
+        public IActionResult ForParent(int parentId)
         {
-            if (walletService.Initialize(parentKey))
+            if (walletService.ForParent(parentId))
                 return Ok();
             else
             {
-                logger.ModelServiceInitializationFailed(service: new
+                logger.ModelServiceParentSetFailed(service: new
                 {
                     Service = walletService.GetType().Name,
-                    KeyType = parentKey.GetType().Name,
-                    KeyValue = parentKey
+                    KeyType = parentId.GetType().Name,
+                    KeyValue = parentId
                 });
 
                 return Conflict();
@@ -97,7 +98,7 @@ namespace NjordFinance.Controllers
         {
             try
             {
-                var result = await walletService.SaveChanges();
+                var result = await walletService.Writer.SaveChanges();
 
                 return NoContent();
             }
@@ -111,7 +112,7 @@ namespace NjordFinance.Controllers
         public async Task<ActionResult<IList<AccountWallet>>> SelectWhereAysnc(
             Expression<Func<AccountWallet, bool>> predicate, int maxCount = 0)
         {
-            return await walletService.SelectWhereAysnc(predicate, maxCount);
+            return await walletService.Reader.SelectWhereAysnc(predicate, maxCount);
         }
     }
 }

@@ -1,52 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace NjordFinance.ModelService
+namespace NjordFinance.ModelService.Abstractions
 {
     /// <summary>
-    /// Worker class for servicing CRUD requests against 
-    /// a data store of <typeparamref name="T"/> models.
+    /// An implementation that provides read operations for <typeparamref name="T"/> models.
     /// </summary>
-    /// <typeparam name="T">The model type.</typeparam>
-    public interface IModelService<T>
-        where T : class, new()
+    /// <typeparam name="T"></typeparam>
+    public interface IModelReaderService<T>
+        where T: class, new()
     {
         /// <summary>
-        /// Creates the default instance of <typeparamref name="T"/>.
+        /// Adds the navigation path to the collection.
         /// </summary>
-        /// <returns>A model <typeparamref name="T"/> with default values.</returns>
-        Task<T> GetDefaultAsync();
-
-        /// <summary>
-        /// Creates the given <paramref name="model"/>.
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns>The added record, refreshed with data store values.</returns>
-        Task<T> CreateAsync(T model);
-
-        /// <summary>
-        /// Selects the instance of <typeparamref name="T"/> that matches the given
-        /// <paramref name="id"/>.
-        /// </summary>
-        /// <param name="id">The integer key to match.</param>
-        /// <returns></returns>
-        Task<T> ReadAsync(int? id);
-
-        /// <summary>
-        /// Updates the given <paramref name="model"/>.
-        /// </summary>
-        /// <param name="model">The <typeparamref name="T"/> model to update.</param>
-        /// <returns></returns>
-        Task<bool> UpdateAsync(T model);
-
-        /// <summary>
-        /// Deletes the given <paramref name="model"/>.
-        /// </summary>
-        /// <param name="model">The <typeparamref name="T"/> model to delete.</param>
-        /// <returns>True if the operation is successful, else false.</returns>
-        Task<bool> DeleteAsync(T model);
+        /// <param name="navigationPath">The path to add.</param>
+        /// <exception cref="NotSupportedException">Occurs when the addition of the path would 
+        /// cause the query to exceed its path limit.</exception>
+        void AddNavigationPath(Expression<Func<T, object>> navigationPath);
 
         /// <summary>
         /// Checks a model with the given <paramref name="id"/> exists.
@@ -61,6 +35,14 @@ namespace NjordFinance.ModelService
         /// <param name="model">The <typeparamref name="T"/> model to match.</param>
         /// <returns>True if <paramref name="model"/> is found, else false.</returns>
         bool ModelExists(T model);
+
+        /// <summary>
+        /// Selects the instance of <typeparamref name="T"/> that matches the given
+        /// <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">The integer key to match.</param>
+        /// <returns></returns>
+        Task<T> ReadAsync(int? id);
 
         /// <summary>
         /// Select all records.

@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 namespace NjordFinance.UnitTest.ModelService
 {
     /// <summary>
-    /// Represents the base class for testing <see cref="ModelService{T}"/> derived classes.
+    /// Represents the base class for testing <see cref="ModelServiceSingle{T}"/> derived classes.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
     public abstract class AbstractModelServiceTest

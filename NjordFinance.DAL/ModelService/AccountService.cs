@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using NjordFinance.ModelService.Abstractions;
 
 namespace NjordFinance.ModelService
 {
@@ -14,121 +15,117 @@ namespace NjordFinance.ModelService
     /// The class for servicing single CRUD requests against the <see cref="Account"/> 
     /// data store.
     /// </summary>
-    public class AccountService : ModelService<Account>, IModelService<Account>
+    public class AccountService : ModelServiceBase<Account>, IModelServiceSingle<Account>
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// Creates a new <see cref="AccountService"/> instance.
+        /// </summary>
+        /// <param name="contextFactory"></param>
+        /// <param name="modelMetadata"></param>
+        /// <param name="logger"></param>
         public AccountService(
-            IDbContextFactory<FinanceDbContext> contextFactory,
-            IModelMetadataService modelMetadata,
-            ILogger logger)
+                IDbContextFactory<FinanceDbContext> contextFactory,
+                IModelMetadataService modelMetadata,
+                ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
-            PathCollection.AddPath(a => a.AccountCustodian);
-            PathCollection.AddPath(a => a.AccountNavigation);
-        }
-
-        /// <inheritdoc/>
-        protected override Func<
-            FinanceDbContext, Account, Task<DbActionResult<Account>>
-            > CreateDelegate => async (context, model) =>
+            Reader = new ModelReaderService<Account>(contextFactory, modelMetadata, logger);
+            Writer = new ModelWriterService<Account>(contextFactory, modelMetadata, logger)
             {
-                using var transaction = await context.Database.BeginTransactionAsync();
-
-                context.AccountObjects.Add(model.AccountNavigation);
-
-                model.AccountId = model.AccountNavigation.AccountObjectId;
-                context.Accounts.Add(model);
-
-                var count = await context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-
-                var result = count > 0;
-
-                return new DbActionResult<Account>(model, result);
-            };
-
-        /// <inheritdoc/>
-        protected override Func<
-            FinanceDbContext, Account, Task<DbActionResult<bool>>
-            > DeleteDelegate => async (context, model) =>
-            {
-                bool deleteSuccessful = false;
-                using var transaction = await context.Database.BeginTransactionAsync();
-
-                // Remove bank transaction children.
-                if (context.BankTransactions.Any(bt => bt.AccountId == model.AccountId))
-                    context.BankTransactions.RemoveRange(
-                        context.BankTransactions.Where(bt => bt.AccountId == model.AccountId));
-
-                // Remove broker transaction children.
-                if (context.BrokerTransactions.Any(bt => bt.AccountId == model.AccountId))
-                    context.BrokerTransactions.RemoveRange(
-                        context.BrokerTransactions.Where(bt => bt.AccountId == model.AccountId));
-
-                // Remove account wallet children.
-                if (context.AccountWallets.Any(aw => aw.AccountId == model.AccountId))
-                    context.AccountWallets.RemoveRange(
-                        context.AccountWallets.Where(w => w.AccountId == model.AccountId));
-
-                // Remove account attribute children.
-                if (context.AccountAttributeMemberEntries.Any(gm => gm.AccountObjectId == model.AccountId))
-                    context.AccountAttributeMemberEntries.RemoveRange(
-                        context.AccountAttributeMemberEntries.Where(
-                            aa => aa.AccountObjectId == model.AccountId));
-
-                // Remove account group memberships.
-                if (context.AccountCompositeMembers.Any(gm => gm.AccountId == model.AccountId))
-                    context.AccountCompositeMembers.RemoveRange(
-                        context.AccountCompositeMembers.Where(agm => agm.AccountId == model.AccountId));
-
-                // Save changes because cascade delete is not used.
-                await context.SaveChangesAsync();
-
-                // Remove account.
-                context.Accounts.Remove(model);
-
-                // Save changes because cascade delete is not used.
-                await context.SaveChangesAsync();
-
-                // Remove account object.
-                context.AccountObjects.Remove(
-                    context.AccountObjects.Where(
-                        a => a.AccountObjectId == model.AccountId).First());
-
-                deleteSuccessful = await context.SaveChangesAsync() > 0;
-
-                await transaction.CommitAsync();
-
-                return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
-            };
-
-        /// <inheritdoc/>
-        protected override Func<
-            FinanceDbContext, Account, Task<DbActionResult<bool>>
-            > UpdateDelegate => async (context, model) =>
-            {
-                context.Entry(model).State = EntityState.Modified;
-                context.Entry(model.AccountNavigation).State = EntityState.Modified;
-
-                var count = await context.SaveChangesAsync();
-                var result = count > 0;
-
-                return new DbActionResult<bool>(result, result);
-            };
-
-        /// <inheritdoc/>
-        public override async Task<Account> GetDefaultAsync()
-        {
-            var defaultTask = Task.Run(() => new Account()
-            {
-                AccountNavigation = new AccountObject()
+                CreateDelegate = async (context, model) =>
                 {
-                    ObjectType = AccountObjectType.Account.ConvertToStringCode()
-                }
-            });
+                    using var transaction = await context.Database.BeginTransactionAsync();
 
-            return await defaultTask;
+                    context.AccountObjects.Add(model.AccountNavigation);
+
+                    model.AccountId = model.AccountNavigation.AccountObjectId;
+                    context.Accounts.Add(model);
+
+                    var count = await context.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+
+                    var result = count > 0;
+
+                    return new DbActionResult<Account>(model, result);
+                },
+                DeleteDelegate = async (context, model) =>
+                {
+                    bool deleteSuccessful = false;
+                    using var transaction = await context.Database.BeginTransactionAsync();
+
+                    // Remove bank transaction children.
+                    if (context.BankTransactions.Any(bt => bt.AccountId == model.AccountId))
+                        context.BankTransactions.RemoveRange(
+                            context.BankTransactions.Where(bt => bt.AccountId == model.AccountId));
+
+                    // Remove broker transaction children.
+                    if (context.BrokerTransactions.Any(bt => bt.AccountId == model.AccountId))
+                        context.BrokerTransactions.RemoveRange(
+                            context.BrokerTransactions.Where(bt => bt.AccountId == model.AccountId));
+
+                    // Remove account wallet children.
+                    if (context.AccountWallets.Any(aw => aw.AccountId == model.AccountId))
+                        context.AccountWallets.RemoveRange(
+                            context.AccountWallets.Where(w => w.AccountId == model.AccountId));
+
+                    // Remove account attribute children.
+                    if (context.AccountAttributeMemberEntries.Any(gm => gm.AccountObjectId == model.AccountId))
+                        context.AccountAttributeMemberEntries.RemoveRange(
+                            context.AccountAttributeMemberEntries.Where(
+                                aa => aa.AccountObjectId == model.AccountId));
+
+                    // Remove account group memberships.
+                    if (context.AccountCompositeMembers.Any(gm => gm.AccountId == model.AccountId))
+                        context.AccountCompositeMembers.RemoveRange(
+                            context.AccountCompositeMembers.Where(agm => agm.AccountId == model.AccountId));
+
+                    // Save changes because cascade delete is not used.
+                    await context.SaveChangesAsync();
+
+                    // Remove account.
+                    context.Accounts.Remove(model);
+
+                    // Save changes because cascade delete is not used.
+                    await context.SaveChangesAsync();
+
+                    // Remove account object.
+                    context.AccountObjects.Remove(
+                        context.AccountObjects.Where(
+                            a => a.AccountObjectId == model.AccountId).First());
+
+                    deleteSuccessful = await context.SaveChangesAsync() > 0;
+
+                    await transaction.CommitAsync();
+
+                    return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
+                },
+                GetDefaultDelegate = () => new Account()
+                {
+                    AccountNavigation = new AccountObject()
+                    {
+                        ObjectType = AccountObjectType.Account.ConvertToStringCode()
+                    }
+                },
+                UpdateDelegate = async (context, model) =>
+                {
+                    context.Entry(model).State = EntityState.Modified;
+                    context.Entry(model.AccountNavigation).State = EntityState.Modified;
+
+                    var count = await context.SaveChangesAsync();
+                    var result = count > 0;
+
+                    return new DbActionResult<bool>(result, result);
+                }
+            };
+
+            Reader.AddNavigationPath(a => a.AccountNavigation);
         }
+
+        /// <inheritdoc/>
+        public IModelReaderService<Account> Reader { get; private init; }
+
+        /// <inheritdoc/>
+        public IModelWriterService<Account> Writer { get; private init; }
     }
 }

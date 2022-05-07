@@ -5,67 +5,67 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using NjordFinance.ModelService.Abstractions;
 
 namespace NjordFinance.ModelService
 {
     /// <summary>
-    /// The class for servicing single CRUD requests against the <see cref="AccountCustodian"/> 
+    /// The class for servicing CRUD requests against the <see cref="AccountCustodian"/> 
     /// data store.
     /// </summary>
     public class AccountCustodianService :
-        ModelService<AccountCustodian>, IModelService<AccountCustodian>
+        ModelServiceBase<AccountCustodian>, IModelServiceSingle<AccountCustodian>
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// Creates a new <see cref="AccountCustodianService"/> instance.
+        /// </summary>
+        /// <param name="contextFactory"></param>
+        /// <param name="modelMetadata"></param>
+        /// <param name="logger"></param>
         public AccountCustodianService(
                 IDbContextFactory<FinanceDbContext> contextFactory,
                 IModelMetadataService modelMetadata,
                 ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
+            Reader = new ModelReaderService<AccountCustodian>(
+                contextFactory, modelMetadata, logger);
+
+            Writer = new ModelWriterService<AccountCustodian>(
+                contextFactory, modelMetadata, logger)
+            {
+                CreateDelegate = async (context, model) =>
+                {
+                    context.AccountCustodians.Add(model);
+
+                    var result = await context.SaveChangesAsync() > 0;
+
+                    return new DbActionResult<AccountCustodian>(model, result);
+                },
+                DeleteDelegate = async (context, model) =>
+                {
+                    context.AccountCustodians.Remove(model);
+
+                    var result = await context.SaveChangesAsync() > 0;
+
+                    return new DbActionResult<bool>(result, result);
+                },
+                GetDefaultDelegate = () => new AccountCustodian(),
+                UpdateDelegate = async (context, model) =>
+                {
+                    context.Entry(model).State = EntityState.Modified;
+
+                    var result = await context.SaveChangesAsync() > 0;
+
+                    return new DbActionResult<bool>(result, result);
+                }
+            };
         }
 
         /// <inheritdoc/>
-        protected override Func<
-            FinanceDbContext, AccountCustodian, Task<DbActionResult<AccountCustodian>>
-            > CreateDelegate => async (context, model) =>
-            {
-                context.AccountCustodians.Add(model);
-
-                var result = await context.SaveChangesAsync() > 0;
-
-                return new DbActionResult<AccountCustodian>(model, result);
-            };
+        public IModelReaderService<AccountCustodian> Reader { get; private init; }
 
         /// <inheritdoc/>
-        protected override Func<
-            FinanceDbContext, AccountCustodian, Task<DbActionResult<bool>>
-            > DeleteDelegate => async (context, model) =>
-            {
-                context.AccountCustodians.Remove(model);
-
-                var result = await context.SaveChangesAsync() > 0;
-
-                return new DbActionResult<bool>(result, result);
-            };
-
-        /// <inheritdoc/>
-        protected override Func<
-            FinanceDbContext, AccountCustodian, Task<DbActionResult<bool>>
-            > UpdateDelegate => async (context, model) =>
-            {
-                context.Entry(model).State = EntityState.Modified;
-
-                var result = await context.SaveChangesAsync() > 0;
-
-                return new DbActionResult<bool>(result, result);
-            };
-
-        /// <inheritdoc/>   
-        public override async Task<AccountCustodian> GetDefaultAsync()
-        {
-            var defaultTask = Task.Run(() => new AccountCustodian());
-
-            return await defaultTask;
-        }
+        public IModelWriterService<AccountCustodian> Writer { get; private init; }
     }
 }

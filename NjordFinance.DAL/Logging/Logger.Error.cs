@@ -53,7 +53,7 @@ namespace NjordFinance.Logging
                 LoggerMessage
                     .Define<object>(
                         logLevel: LogLevel.Error,
-                        eventId: new EventId(405, name: nameof(ModelServiceInitializationFailed)),
+                        eventId: new EventId(405, name: nameof(ModelServiceParentSetFailed)),
                         formatString: ExceptionMessage.ModelService_InitializationFailed);
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace NjordFinance.Logging
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="service">An object identifying the service that is the source of the error.</param>
-        public static void ModelServiceInitializationFailed(
+        public static void ModelServiceParentSetFailed(
             this ILogger logger,
             object service)
             => _modelServiceInitializationFailed(logger, service, null);

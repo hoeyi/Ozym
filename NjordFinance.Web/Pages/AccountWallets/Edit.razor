@@ -95,7 +95,7 @@ else
         parent = await ReferenceData.GetSingleAsync<Account>(a =>
                                 a.AccountId == (int)AccountId, nameof(Account.AccountNavigation));
 
-        var initResult = Controller.Initialize(parent.AccountId);
+        var initResult = Controller.ForParent(parent.AccountId);
 
 
         if (initResult is not OkResult)
