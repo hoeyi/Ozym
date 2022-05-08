@@ -11,49 +11,16 @@ using System.Threading.Tasks;
 
 namespace NjordFinance.UnitTest.ModelService
 {
-    /// <summary>
-    /// Test class for verifying each unit of work done by <see cref="AccountService"/>.
-    /// </summary>
     [TestClass]
-    public partial class AccountServiceTest : AbstractModelServiceTest
+    public partial class AccountServiceTest
     {
-        [TestInitialize]
-        public void Initialize()
-        {
-            using var context = CreateDbContext();
-
-            if(!context.AccountObjects
-                .Any(a => a.AccountObjectCode == DeleteSuccessAccountSample.AccountCode))
-            {
-                context.Add(DeleteSuccessAccountSample);
-            }
-
-            if(!context.AccountObjects
-                .Any(a => a.AccountObjectCode == UpdateAccountSample.AccountCode))
-            {
-                context.Add(UpdateAccountSample);
-            }
-
-            context.SaveChanges();
-        }
-
-        [TestCleanup]
-        public void CleanUp()
-        {
-            using var context = CreateDbContext();
-
-            context.Database.ExecuteSqlRaw(
-                "DELETE FROM NjordDbTest.FinanceApp.Account WHERE AccountID > 0;" +
-                "DELETE FROM NjordDbTest.FinanceApp.AccountObject WHERE AccountObjectID > 0");
-        }
-
         /// <summary>
         /// Verifies the unit of work for a reading a single <see cref="Account"/>.
         /// </summary>
         [TestMethod]
         public async Task GetDefaultAsync_Returns_Single_Account()
         {
-            var service = CreateAccountService();
+            var service = GetModelService();
 
             var account = await service.GetDefaultAsync();
 
@@ -66,9 +33,9 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task CreateAsync_Returns_Single_Account()
         {
-            var service = CreateAccountService();
+            var service = GetModelService();
 
-            Account account = await service.CreateAsync(CreateAccountSample);
+            Account account = await service.CreateAsync(CreateModelSuccessSample);
 
             // Create a new context for checking results. Avoids dependency
             // on model service.
@@ -97,7 +64,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task DeleteAsync_Returns_True()
         {
-            var service = CreateAccountService();
+            var service = GetModelService();
 
             Account account = (await service.SelectWhereAysnc(a =>
                 a.AccountNavigation.AccountObjectCode == "TESTDELPASS", 1))
@@ -119,11 +86,11 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task DeleteAsync_InvalidAccount_ThrowsModelUpdateException()
         {
-            var service = CreateAccountService();
+            var service = GetModelService();
 
             await Assert.ThrowsExceptionAsync<ModelUpdateException>(async () =>
             {
-                await service.DeleteAsync(DeleteFailAccountSample);
+                await service.DeleteAsync(DeleteModelFailSample);
             });
         }
 
@@ -133,7 +100,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task ReadAsync_Returns_Single_Account()
         {
-            var service = CreateAccountService();
+            var service = GetModelService();
 
             using var tmpContext = CreateDbContext();
 
@@ -155,7 +122,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task UpdateAsync_Returns_True()
         {
-            var service = CreateAccountService();
+            var service = GetModelService();
 
             var query = await service.SelectAllAsync();
 
@@ -192,7 +159,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public void ModelExists_UseKeyValue_Returns_True()
         {
-            var service = CreateAccountService();
+            var service = GetModelService();
 
             var result = service.ModelExists(id: -1);
 
@@ -205,10 +172,10 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public void ModelExists_UseModel_Returns_True()
         {
-            Account account = GetLast<Account>();
+            Account account = GetLast();
             
             // Use the servied to verify model existance.
-            var service = CreateAccountService();
+            var service = GetModelService();
             var result = service.ModelExists(model: account);
 
             Assert.IsTrue(result);
@@ -221,9 +188,9 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task SelectWhereAsync_Returns_Accounts_List()
         {
-            Account expected = GetLast<Account>(a => a.AccountNavigation);
+            Account expected = GetLast(a => a.AccountNavigation);
 
-            var service = CreateAccountService();
+            var service = GetModelService();
 
             var observed = (await service.SelectWhereAysnc(
                 predicate: a => a.AccountNavigation.AccountObjectId == expected.AccountId,
@@ -239,7 +206,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task SelectAllAsync_Returns_Accounts_List()
         {
-            var service = CreateAccountService();
+            var service = GetModelService();
 
             var result = await service.SelectAllAsync();
 
@@ -247,11 +214,13 @@ namespace NjordFinance.UnitTest.ModelService
         }
     }
 
-    public partial class AccountServiceTest
+    /// <inheritdoc/>
+    public partial class AccountServiceTest : ModelServiceBaseTest<Account>
     {
         private static readonly Random _random = new();
 
-        private static Account CreateAccountSample => new()
+        /// <inheritdoc/>
+        protected override Account CreateModelSuccessSample => new()
         {
             AccountNavigation = new()
             {
@@ -263,7 +232,8 @@ namespace NjordFinance.UnitTest.ModelService
             AccountNumber = "0000-0000-00"
         };
 
-        private static Account DeleteSuccessAccountSample => new()
+        /// <inheritdoc/>
+        protected override Account DeleteModelSuccessSample => new()
         {
             AccountNavigation = new()
             {
@@ -275,7 +245,8 @@ namespace NjordFinance.UnitTest.ModelService
             AccountNumber = "0000-0000-00",
         };
 
-        private static Account DeleteFailAccountSample => new()
+        /// <inheritdoc/>
+        protected override Account DeleteModelFailSample => new()
         {
             AccountNavigation = new()
             {
@@ -289,7 +260,8 @@ namespace NjordFinance.UnitTest.ModelService
             AccountId = -1000
         };
 
-        private static Account UpdateAccountSample => new()
+        /// <inheritdoc/>
+        protected override Account UpdateModelSuccessSample => new()
         {
             AccountNavigation = new()
             {
@@ -303,9 +275,43 @@ namespace NjordFinance.UnitTest.ModelService
             AccountNumber = "0000-0000-00"
         };
 
-        private static AccountService CreateAccountService() => new(
-            contextFactory: UnitTest.DbContextFactory,
-            modelMetadata: new ModelMetadataService(),
-            logger: UnitTest.Logger);
+        /// <inheritdoc/>
+        [TestInitialize]
+        public override void Initialize()
+        {
+            using var context = CreateDbContext();
+
+            if (!context.AccountObjects
+                .Any(a => a.AccountObjectCode == DeleteModelSuccessSample.AccountCode))
+            {
+                context.Add(DeleteModelSuccessSample);
+            }
+
+            if (!context.AccountObjects
+                .Any(a => a.AccountObjectCode == UpdateModelSuccessSample.AccountCode))
+            {
+                context.Add(UpdateModelSuccessSample);
+            }
+
+            context.SaveChanges();
+        }
+
+        /// <inheritdoc/>
+        [TestCleanup]
+        public override void CleanUp()
+        {
+            using var context = CreateDbContext();
+
+            context.Database.ExecuteSqlRaw(
+                "DELETE FROM NjordDbTest.FinanceApp.Account WHERE AccountID > 0;" +
+                "DELETE FROM NjordDbTest.FinanceApp.AccountObject WHERE AccountObjectID > 0");
+        }
+
+        /// <inheritdoc/>
+        protected override IModelService<Account> GetModelService() => 
+            new AccountService(
+                contextFactory: UnitTest.DbContextFactory,
+                modelMetadata: new ModelMetadataService(),
+                logger: UnitTest.Logger);
     }
 }

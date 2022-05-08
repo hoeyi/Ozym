@@ -111,7 +111,7 @@ partial class Program
     private static Serilog.ILogger BuildLogger()
     {
         // Define logger settings.
-        Log.Logger = new Serilog.LoggerConfiguration()
+        Log.Logger = new LoggerConfiguration()
             .Enrich.FromLogContext()
             .MinimumLevel.Information()
             .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Information)
