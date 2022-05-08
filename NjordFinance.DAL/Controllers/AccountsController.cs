@@ -8,7 +8,7 @@ namespace NjordFinance.Controllers
     /// <summary>
     /// A derived MVC controller for <see cref="Account"/> objects.
     /// </summary>
-    public partial class AccountsController : ModelController<Account>
+    public class AccountsController : ModelController<Account>
     {
         /// <summary>
         /// Creates a new <see cref="AccountsController"/> instance.

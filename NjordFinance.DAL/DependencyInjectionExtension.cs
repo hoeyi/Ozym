@@ -21,8 +21,10 @@ namespace NjordFinance
             // Add reference data service for querying lookup lists.
             services.AddScoped<IReferenceDataService, ReferenceDataService>();
 
-            services.AddScoped<IModelService<Account>, AccountService>();
-            services.AddScoped<IModelBatchService<AccountWallet>, AccountWalletService>();
+            services
+                .AddScoped<IModelService<Account>, AccountService>()
+                .AddScoped<IModelService<AccountCustodian>, AccountCustodianService>()
+                .AddScoped<IModelBatchService<AccountWallet>, AccountWalletService>();
         }
 
         /// <summary>
@@ -31,8 +33,10 @@ namespace NjordFinance
         /// <param name="services"></param>
         public static void AddModelControllers(this IServiceCollection services)
         {
-            services.AddScoped<IController<Account>, AccountsController>();
-            services.AddScoped<IBatchController<AccountWallet>, ModelBatchController<AccountWallet>>();
+            services
+                .AddScoped<IController<Account>, AccountsController>()
+                .AddScoped<IController<AccountCustodian>, AccountCustodiansController>()
+                .AddScoped<IBatchController<AccountWallet>, ModelBatchController<AccountWallet>>();
         }
     }
 }

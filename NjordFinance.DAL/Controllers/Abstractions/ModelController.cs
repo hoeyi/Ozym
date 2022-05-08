@@ -10,7 +10,7 @@ using NjordFinance.ModelService;
 namespace NjordFinance.Controllers.Abstractions
 {
     /// <summary>
-    /// Base class for 
+    /// Base class for MVC controllers responsible for <typeparamref name="T"/> models.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class ModelController<T> : ControllerBase, IController<T>
