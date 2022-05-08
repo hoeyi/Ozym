@@ -13,7 +13,7 @@ namespace NjordFinance.ModelService.Abstractions
     /// <summary>
     /// Base class from which model service classes are derived.
     /// </summary>
-    public abstract class ModelServiceBase<T>
+    public abstract class ModelServiceBase<T> : IModelBaseService<T>
         where T: class, new()
     {
         /// <summary>
@@ -56,6 +56,15 @@ namespace NjordFinance.ModelService.Abstractions
             _logger = logger;
         }
 
+        /// <inheritdoc/>
+        public int? GetKey(T model)
+        {
+            int key = GetKey<int>(model);
+
+            if (key == default) return null;
+            else return key;
+        }
+
         /// <summary>
         /// Gets the <typeparamref name="TKey"/> key value for the given 
         /// <typeparamref name="T"/>.
@@ -63,7 +72,7 @@ namespace NjordFinance.ModelService.Abstractions
         /// <typeparam name="TKey"></typeparam>
         /// <param name="model"></param>
         /// <returns></returns>
-        protected static TKey GetKey<TKey>(T model)
+        private static TKey GetKey<TKey>(T model)
         {
             if (model is null)
                 return default;
@@ -75,7 +84,9 @@ namespace NjordFinance.ModelService.Abstractions
                 .FirstOrDefault(p => p.GetCustomAttribute<KeyAttribute>() is not null
                 && p.PropertyType == keyType);
 
-            if (firstKey is null) return default;
+            var keyValue = firstKey?.GetValue(model);
+
+            if (keyValue is null) return default;
 
             return (TKey)firstKey.GetValue(model);
         }
@@ -112,5 +123,6 @@ namespace NjordFinance.ModelService.Abstractions
 
             return Expression.Lambda<Func<T, bool>>(expression, parameterExpression);
         }
+
     }
 }

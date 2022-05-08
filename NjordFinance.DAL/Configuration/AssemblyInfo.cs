@@ -1,5 +1,8 @@
 ﻿using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("NjordFinance.UnitTest")]
 
 namespace NjordFinance.Configuration
 {

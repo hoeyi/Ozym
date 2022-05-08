@@ -7,8 +7,10 @@ namespace NjordFinance.ModelService
     /// are processed as a batch for changed models.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IModelBatchService<T> :
-        IModelReaderService<T>, IModelWriterBatchService<T>
+    public interface IModelBatchService<T> : 
+            IModelBaseService<T>,
+            IModelReaderService<T>, 
+            IModelWriterBatchService<T>
         where T : class, new()
     {
         /// <summary>

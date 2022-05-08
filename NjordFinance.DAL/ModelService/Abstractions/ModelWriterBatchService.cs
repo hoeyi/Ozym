@@ -71,7 +71,7 @@ namespace NjordFinance.ModelService.Abstractions
             object m = new
             {
                 Type = typeof(T).Name,
-                Id = GetKey<int>(model)
+                Id = GetKey(model) ?? default
             };
 
             if (result)
@@ -97,7 +97,7 @@ namespace NjordFinance.ModelService.Abstractions
             object m = new
             {
                 Type = typeof(T).Name,
-                Id = GetKey<int>(model)
+                Id = GetKey(model) ?? default
             };
 
             if (result)

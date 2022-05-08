@@ -3,9 +3,6 @@ using NjordFinance.Model;
 using NjordFinance.ModelService;
 using NjordFinance.Reference;
 using Microsoft.Extensions.DependencyInjection;
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("NjordFinance.UnitTest")]
 
 namespace NjordFinance
 {
@@ -35,7 +32,7 @@ namespace NjordFinance
         public static void AddModelControllers(this IServiceCollection services)
         {
             services.AddScoped<IController<Account>, AccountsController>();
-            services.AddScoped<IBatchController<AccountWallet>, AccountWalletsController>();
+            services.AddScoped<IBatchController<AccountWallet>, ModelBatchController<AccountWallet>>();
         }
     }
 }

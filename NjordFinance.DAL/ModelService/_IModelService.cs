@@ -8,7 +8,9 @@ namespace NjordFinance.ModelService
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IModelService<T> : 
-        IModelReaderService<T>, IModelWriterService<T>
+            IModelBaseService<T>,
+            IModelReaderService<T>, 
+            IModelWriterService<T>
         where T : class, new()
     {
     }

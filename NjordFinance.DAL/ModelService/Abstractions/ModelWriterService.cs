@@ -46,8 +46,7 @@ namespace NjordFinance.ModelService.Abstractions
             var logModel = new
             {
                 Type = typeof(T).Name,
-                Id = GetKey<int>(model),
-                Guid = GetKey<Guid>(model)
+                Id = GetKey(model) ?? default
             };
 
             DbActionResult<T> createAction = await DoWriteOperationAsync(CreateDelegate, model);
@@ -86,8 +85,7 @@ namespace NjordFinance.ModelService.Abstractions
             var logModel = new
             {
                 Type = typeof(T).Name,
-                Id = GetKey<int>(model),
-                Guid = GetKey<Guid>(model)
+                Id = GetKey(model) ?? default
             };
 
             DbActionResult<bool> deleteAction = await DoWriteOperationAsync(DeleteDelegate, model);
@@ -115,8 +113,7 @@ namespace NjordFinance.ModelService.Abstractions
             var logModel = new
             {
                 Type = typeof(T).Name,
-                Id = GetKey<int>(model),
-                Guid = GetKey<Guid>(model)
+                Id = GetKey(model) ?? default
             };
 
             DbActionResult<bool> udpateAction = await DoWriteOperationAsync(UpdateDelegate, model);

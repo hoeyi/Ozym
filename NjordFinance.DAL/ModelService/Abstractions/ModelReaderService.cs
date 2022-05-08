@@ -59,9 +59,7 @@ namespace NjordFinance.ModelService.Abstractions
         /// <inheritdoc/>
         public virtual bool ModelExists(T model)
         {
-            int id = GetKey<int>(model);
-
-            return ModelExists(id);
+            return ModelExists(GetKey(model));
         }
 
         /// <inheritdoc/>
@@ -70,8 +68,7 @@ namespace NjordFinance.ModelService.Abstractions
             if (id is null)
                 return default;
 
-            int idInt = id ?? default;
-            var keySearch = GetKeySearchExpression(idInt);
+            var keySearch = GetKeySearchExpression(id ?? default);
 
             if (ParentExpression is not null)
                 keySearch = ParentExpression.AndAlso(keySearch);
@@ -90,7 +87,7 @@ namespace NjordFinance.ModelService.Abstractions
                         model: new
                         {
                             Type = typeof(T).Name,
-                            Id = idInt
+                            Id = (int)id
                         });
 
                 return result;
