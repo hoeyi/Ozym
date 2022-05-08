@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using NjordFinance.ModelService.Abstractions;
 
 namespace NjordFinance.Controllers
 {
@@ -16,9 +15,9 @@ namespace NjordFinance.Controllers
     /// </summary>
     public partial class AccountsController : ControllerBase, IController<Account>
     {
-        private readonly  IModelServiceSingle<Account> accountService;
+        private readonly IModelService<Account> accountService;
         private readonly ILogger logger;
-        public AccountsController(IModelServiceSingle<Account> accountService, ILogger logger)
+        public AccountsController(IModelService<Account> accountService, ILogger logger)
         {
             this.accountService = accountService;
             this.logger = logger;
@@ -27,7 +26,7 @@ namespace NjordFinance.Controllers
         /// <inheritdoc/>
         public async Task<ActionResult<Account>> GetDefaultAsync()
         {
-            return await accountService.Writer.GetDefaultAsync();
+            return await accountService.GetDefaultAsync();
         }
 
         /// <inheritdoc/>
@@ -35,7 +34,7 @@ namespace NjordFinance.Controllers
         {
             try
             {
-                var account = await accountService.Writer.CreateAsync(model);
+                var account = await accountService.CreateAsync(model);
                 
                 return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
             }
@@ -43,7 +42,7 @@ namespace NjordFinance.Controllers
             {
                 logger.LogError(exception: due, message: due.Message);
 
-                if (accountService.Reader.ModelExists(model?.AccountId))
+                if (accountService.ModelExists(model?.AccountId))
                 {
                     return Conflict();
                 }
@@ -57,7 +56,7 @@ namespace NjordFinance.Controllers
         /// <inheritdoc/>
         public async Task<ActionResult<Account>> ReadAsync(int? id)
         {
-            var account = await accountService.Reader.ReadAsync(id);
+            var account = await accountService.ReadAsync(id);
 
             if (account is null)
             {
@@ -77,7 +76,7 @@ namespace NjordFinance.Controllers
 
             try
             {
-                var updateTask = accountService.Writer.UpdateAsync(model);
+                var updateTask = accountService.UpdateAsync(model);
 
                 bool success = await updateTask;
 
@@ -86,7 +85,7 @@ namespace NjordFinance.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!accountService.Reader.ModelExists(id))
+                if (!accountService.ModelExists(id))
                 {
                     return NotFound();
                 }
@@ -101,12 +100,12 @@ namespace NjordFinance.Controllers
         /// <inheritdoc/>
         public async Task<IActionResult> DeleteAsync(Account model)
         {
-            if (!accountService.Reader.ModelExists(model))
+            if (!accountService.ModelExists(model))
             {
                 return NotFound();
             }
 
-            var deleteTask = accountService.Writer.DeleteAsync(model);
+            var deleteTask = accountService.DeleteAsync(model);
 
             var success = await deleteTask;
 
@@ -117,14 +116,14 @@ namespace NjordFinance.Controllers
         /// <inheritdoc/>
         public async Task<ActionResult<IList<Account>>> SelectAllAsync()
         {
-            return await accountService.Reader.SelectAllAsync();
+            return await accountService.SelectAllAsync();
         }
 
         /// <inheritdoc/>
         public async Task<ActionResult<IList<Account>>> SelectWhereAysnc(
             Expression<Func<Account, bool>> predicate, int maxCount = 0)
         {
-            return await accountService.Reader.SelectWhereAysnc(predicate, maxCount);
+            return await accountService.SelectWhereAysnc(predicate, maxCount);
         }
     }
 }

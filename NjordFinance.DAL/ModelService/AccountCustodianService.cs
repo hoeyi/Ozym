@@ -3,8 +3,6 @@ using NjordFinance.Model;
 using Ichosoft.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 using NjordFinance.ModelService.Abstractions;
 
 namespace NjordFinance.ModelService
@@ -13,8 +11,7 @@ namespace NjordFinance.ModelService
     /// The class for servicing CRUD requests against the <see cref="AccountCustodian"/> 
     /// data store.
     /// </summary>
-    public class AccountCustodianService :
-        ModelServiceBase<AccountCustodian>, IModelServiceSingle<AccountCustodian>
+    internal class AccountCustodianService : ModelService<AccountCustodian>
     {
         /// <summary>
         /// Creates a new <see cref="AccountCustodianService"/> instance.
@@ -61,11 +58,5 @@ namespace NjordFinance.ModelService
                 }
             };
         }
-
-        /// <inheritdoc/>
-        public IModelReaderService<AccountCustodian> Reader { get; private init; }
-
-        /// <inheritdoc/>
-        public IModelWriterService<AccountCustodian> Writer { get; private init; }
     }
 }

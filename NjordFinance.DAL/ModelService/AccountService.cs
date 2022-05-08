@@ -4,9 +4,7 @@ using NjordFinance.ModelMetadata;
 using Ichosoft.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Linq;
-using System.Threading.Tasks;
 using NjordFinance.ModelService.Abstractions;
 
 namespace NjordFinance.ModelService
@@ -15,7 +13,7 @@ namespace NjordFinance.ModelService
     /// The class for servicing single CRUD requests against the <see cref="Account"/> 
     /// data store.
     /// </summary>
-    public class AccountService : ModelServiceBase<Account>, IModelServiceSingle<Account>
+    internal class AccountService : ModelService<Account>
     {
         /// <summary>
         /// Creates a new <see cref="AccountService"/> instance.
@@ -121,11 +119,5 @@ namespace NjordFinance.ModelService
 
             Reader.AddNavigationPath(a => a.AccountNavigation);
         }
-
-        /// <inheritdoc/>
-        public IModelReaderService<Account> Reader { get; private init; }
-
-        /// <inheritdoc/>
-        public IModelWriterService<Account> Writer { get; private init; }
     }
 }

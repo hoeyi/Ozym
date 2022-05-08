@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NjordFinance.ModelMetadata.Resources;
+﻿using NjordFinance.ModelMetadata.Resources;
 using System.ComponentModel.DataAnnotations;
 using Ichosoft.DataModel.Annotations;
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using NjordFinance.ModelService;
 using NjordFinance.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;

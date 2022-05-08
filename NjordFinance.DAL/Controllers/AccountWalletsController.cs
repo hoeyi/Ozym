@@ -8,7 +8,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NjordFinance.Exceptions;
 using NjordFinance.Logging;
-using NjordFinance.ModelService.Abstractions;
 
 namespace NjordFinance.Controllers
 {
@@ -18,10 +17,10 @@ namespace NjordFinance.Controllers
     public partial class AccountWalletsController 
         : ControllerBase, IBatchController<AccountWallet>
     {
-        private IModelServiceMultiple<AccountWallet> walletService;
+        private readonly IModelBatchService<AccountWallet> walletService;
         private readonly ILogger logger;
         public AccountWalletsController(
-            IModelServiceMultiple<AccountWallet> walletService,
+            IModelBatchService<AccountWallet> walletService,
             ILogger logger)
         {
             this.walletService = walletService;
@@ -33,7 +32,7 @@ namespace NjordFinance.Controllers
         {
             IActionResult Add()
             {
-                if(walletService.Writer.AddPendingSave(model))
+                if(walletService.AddPendingSave(model))
                 {
                     return Ok();
                 }
@@ -53,12 +52,12 @@ namespace NjordFinance.Controllers
         {
             IActionResult Delete()
             {
-                if (!walletService.Reader.ModelExists(model))
+                if (!walletService.ModelExists(model))
                 {
                     return BadRequest();
                 }
 
-                if (walletService.Writer.DeletePendingSave(model))
+                if (walletService.DeletePendingSave(model))
                     return Ok();
                 else
                     return Conflict();
@@ -72,7 +71,7 @@ namespace NjordFinance.Controllers
         /// <inheritdoc/>
         public async Task<ActionResult<AccountWallet>> GetDefaultAsync()
         {
-            return await walletService.Writer.GetDefaultAsync();
+            return await walletService.GetDefaultAsync();
         }
 
         /// <inheritdoc/>
@@ -98,7 +97,7 @@ namespace NjordFinance.Controllers
         {
             try
             {
-                var result = await walletService.Writer.SaveChanges();
+                var result = await walletService.SaveChanges();
 
                 return NoContent();
             }
@@ -112,7 +111,7 @@ namespace NjordFinance.Controllers
         public async Task<ActionResult<IList<AccountWallet>>> SelectWhereAysnc(
             Expression<Func<AccountWallet, bool>> predicate, int maxCount = 0)
         {
-            return await walletService.Reader.SelectWhereAysnc(predicate, maxCount);
+            return await walletService.SelectWhereAysnc(predicate, maxCount);
         }
     }
 }
