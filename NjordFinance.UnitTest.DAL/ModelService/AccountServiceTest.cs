@@ -253,27 +253,6 @@ namespace NjordFinance.UnitTest.ModelService
         };
 
         /// <inheritdoc/>
-        [TestInitialize]
-        public override void Initialize()
-        {
-            using var context = CreateDbContext();
-
-            if (!context.AccountObjects
-                .Any(a => a.AccountObjectCode == DeleteModelSuccessSample.AccountCode))
-            {
-                context.Add(DeleteModelSuccessSample);
-            }
-
-            if (!context.AccountObjects
-                .Any(a => a.AccountObjectCode == UpdateModelSuccessSample.AccountCode))
-            {
-                context.Add(UpdateModelSuccessSample);
-            }
-
-            context.SaveChanges();
-        }
-
-        /// <inheritdoc/>
         [TestCleanup]
         public override void CleanUp()
         {
@@ -285,10 +264,23 @@ namespace NjordFinance.UnitTest.ModelService
         }
 
         /// <inheritdoc/>
-        protected override IModelService<Account> GetModelService() => 
-            new AccountService(
-                contextFactory: UnitTest.DbContextFactory,
-                modelMetadata: new ModelMetadataService(),
-                logger: UnitTest.Logger);
+        [TestInitialize]
+        public override void Initialize()
+        {
+            SeedModelsIfNotExists(
+                including: a => a.AccountNavigation,
+                (
+                    DeleteModelSuccessSample, 
+                    x => x.AccountNavigation.AccountObjectCode == 
+                        DeleteModelSuccessSample.AccountCode),
+                (
+                    UpdateModelSuccessSample, 
+                    x => x.AccountNavigation.AccountObjectCode == 
+                        UpdateModelSuccessSample.AccountCode));
+        }
+
+        /// <inheritdoc/>
+        protected override IModelService<Account> GetModelService() =>
+            BuildModelService<AccountService>();
     }
 }

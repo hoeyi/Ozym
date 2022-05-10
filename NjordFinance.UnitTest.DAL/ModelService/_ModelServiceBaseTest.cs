@@ -4,6 +4,8 @@ using NjordFinance.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using NjordFinance.ModelService;
+using Microsoft.Extensions.Logging;
+using Ichosoft.DataModel;
 
 namespace NjordFinance.UnitTest.ModelService
 {
@@ -34,6 +36,16 @@ namespace NjordFinance.UnitTest.ModelService
         /// modification.
         /// </summary>
         protected abstract T UpdateModelSuccessSample { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ILogger"/> instance for this service.
+        /// </summary>
+        protected ILogger Logger => UnitTest.Logger;
+
+        /// <summary>
+        /// Gets the <see cref="IDbContextFactory{TContext}"/> instace for this service.
+        /// </summary>
+        protected IDbContextFactory<FinanceDbContext> DbContextFactory => UnitTest.DbContextFactory;
 
         /// <summary>
         /// Executes set up action including seeding test samples to a shared context.
@@ -80,9 +92,50 @@ namespace NjordFinance.UnitTest.ModelService
         }
 
         /// <summary>
-        /// Creates the <see cref="IModelService{T}"/> to be tested.
+        /// Creates a new <see cref="IModelService{T}"/>. instance.
         /// </summary>
         /// <returns></returns>
         protected abstract IModelService<T> GetModelService();
+
+        /// <summary>
+        /// Creates the <see cref="IModelService{T}"/> to be tested.
+        /// </summary>
+        /// <returns></returns>
+        protected IModelService<T> BuildModelService<TService>()
+        {
+            return (IModelService<T>)Activator.CreateInstance(
+                typeof(TService), DbContextFactory,
+                new ModelMetadataService(),
+                Logger);
+        }
+
+        /// <summary>
+        /// Seeds the given <typeparamref name="T"/> models if their partner pattern matches 
+        /// no results.
+        /// </summary>
+        /// <param name="including">The navigation path to include.</param>
+        /// <param name="models">Collection of model/predicate pairs to add if the predicate 
+        /// does not yield a match.</param>
+        protected void SeedModelsIfNotExists(
+            Expression<Func<T, object>> including = null,
+            params (T model, Expression<Func<T, bool>> matchingFunc)[] models)
+        {
+            using var context = CreateDbContext();
+
+            IQueryable<T> dbset = context.Set<T>();
+
+            if (including is not null)
+                dbset = dbset.Include(including);
+
+            foreach(var (model, matchingFunc) in models)
+            {
+                if (!dbset.Any(matchingFunc))
+                {
+                    context.Add(model);
+                }
+            }
+
+            context.SaveChanges();
+        }
     }
 }

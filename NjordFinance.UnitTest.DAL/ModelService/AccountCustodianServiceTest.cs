@@ -1,5 +1,6 @@
 ﻿using Ichosoft.DataModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
@@ -89,16 +90,32 @@ namespace NjordFinance.UnitTest.ModelService
     public partial class AccountCustodianServiceTest : ModelServiceBaseTest<AccountCustodian>
     {
         /// <inheritdoc/>
-        protected override AccountCustodian CreateModelSuccessSample => throw new NotImplementedException();
+        protected override AccountCustodian CreateModelSuccessSample => new()
+        {
+            CustodianCode = "TESTCREATE",
+            DisplayName = "Test custodian create."
+        };
 
         /// <inheritdoc/>
-        protected override AccountCustodian DeleteModelSuccessSample => throw new NotImplementedException();
+        protected override AccountCustodian DeleteModelSuccessSample => new()
+        {
+            CustodianCode = "TESTDELPASS",
+            DisplayName = "Test custodian delete."
+        };
 
         /// <inheritdoc/>
-        protected override AccountCustodian DeleteModelFailSample => throw new NotImplementedException();
-        
+        protected override AccountCustodian DeleteModelFailSample => new()
+        {
+            CustodianCode = "TESTDELFAIL",
+            DisplayName = "Test custodian delete FAIL."
+        };
+
         /// <inheritdoc/>
-        protected override AccountCustodian UpdateModelSuccessSample => throw new NotImplementedException();
+        protected override AccountCustodian UpdateModelSuccessSample => new()
+        {
+            CustodianCode = "TESTUPDATE",
+            DisplayName = "Test custodian update."
+        };
 
         /// <inheritdoc/>
         [TestCleanup]
@@ -114,14 +131,18 @@ namespace NjordFinance.UnitTest.ModelService
         [TestInitialize]
         public override void Initialize()
         {
-            throw new NotImplementedException();
+            SeedModelsIfNotExists(
+                including: null,
+                (
+                    DeleteModelSuccessSample, 
+                    x => x.CustodianCode == DeleteModelSuccessSample.CustodianCode),
+                (
+                    UpdateModelSuccessSample, 
+                    x => x.CustodianCode == UpdateModelSuccessSample.CustodianCode));
         }
 
         /// <inheritdoc/>
         protected override IModelService<AccountCustodian> GetModelService() =>
-            new AccountCustodianService(
-                contextFactory: UnitTest.DbContextFactory,
-                modelMetadata: new ModelMetadataService(),
-                logger: UnitTest.Logger);
+            BuildModelService<AccountCustodianService>();
     }
 }
