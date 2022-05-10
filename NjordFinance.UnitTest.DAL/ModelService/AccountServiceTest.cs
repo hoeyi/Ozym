@@ -11,27 +11,13 @@ using System.Threading.Tasks;
 
 namespace NjordFinance.UnitTest.ModelService
 {
+    /// <inheritdoc/>
     [TestClass]
-    public partial class AccountServiceTest
+    public partial class AccountServiceTest : IModelServiceBaseTest<Account>
     {
-        /// <summary>
-        /// Verifies the unit of work for a reading a single <see cref="Account"/>.
-        /// </summary>
+        /// <inheritdoc/>
         [TestMethod]
-        public async Task GetDefaultAsync_Returns_Single_Account()
-        {
-            var service = GetModelService();
-
-            var account = await service.GetDefaultAsync();
-
-            Assert.IsInstanceOfType(account, typeof(Account));
-        }
-
-        /// <summary>
-        /// Verifies the unit of work for a creating a single <see cref="Account"/>.
-        /// </summary>
-        [TestMethod]
-        public async Task CreateAsync_Returns_Single_Account()
+        public async Task CreateAsync_ValidModel_Returns_Single_Model()
         {
             var service = GetModelService();
 
@@ -57,12 +43,21 @@ namespace NjordFinance.UnitTest.ModelService
                 savedAccount.AccountNavigation, account.AccountNavigation));
         }
 
-        /// <summary>
-        /// Verifies the unit of work for deleting a single <see cref="Account"/>.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [TestMethod]
-        public async Task DeleteAsync_Returns_True()
+        public async Task DeleteAsync_InvalidModel_ThrowsModelUpdateException()
+        {
+            var service = GetModelService();
+
+            await Assert.ThrowsExceptionAsync<ModelUpdateException>(async () =>
+            {
+                await service.DeleteAsync(DeleteModelFailSample);
+            });
+        }
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public async Task DeleteAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
@@ -79,26 +74,44 @@ namespace NjordFinance.UnitTest.ModelService
                 !tmpContext.Accounts.Any(a => a.AccountId == account.AccountId));
         }
 
-        /// <summary>
-        /// Verifies a deletion request for a non-existent account yields a 
-        /// <see cref="DbUpdateException"/>.
-        /// </summary>
+        /// <inheritdoc/>
         [TestMethod]
-        public async Task DeleteAsync_InvalidAccount_ThrowsModelUpdateException()
+        public async Task GetDefaultAsync_Returns_Single_Model()
         {
             var service = GetModelService();
 
-            await Assert.ThrowsExceptionAsync<ModelUpdateException>(async () =>
-            {
-                await service.DeleteAsync(DeleteModelFailSample);
-            });
+            var account = await service.GetDefaultAsync();
+
+            Assert.IsInstanceOfType(account, typeof(Account));
         }
 
-        /// <summary>
-        /// Verifies the unit of work for reading a single <see cref="Account"/>.
-        /// </summary>
+        /// <inheritdoc/>v
         [TestMethod]
-        public async Task ReadAsync_Returns_Single_Account()
+        public void ModelExists_KeyIsPresent_Returns_True()
+        {
+            var service = GetModelService();
+
+            var result = service.ModelExists(id: -1);
+
+            Assert.IsTrue(result);
+        }
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public void ModelExists_ModelIsPresent_Returns_True()
+        {
+            Account account = GetLast();
+            
+            // Use the servied to verify model existance.
+            var service = GetModelService();
+            var result = service.ModelExists(model: account);
+
+            Assert.IsTrue(result);
+        }
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public async Task ReadAsync_Returns_Single_Model()
         {
             var service = GetModelService();
 
@@ -115,12 +128,36 @@ namespace NjordFinance.UnitTest.ModelService
             Assert.IsInstanceOfType(account, typeof(Account));
         }
 
-        /// <summary>
-        /// Verifies the unit of work for updating a single <see cref="Account"/>.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [TestMethod]
-        public async Task UpdateAsync_Returns_True()
+        public async Task SelectAllAsync_Returns_Model_List()
+        {
+            var service = GetModelService();
+
+            var result = await service.SelectAllAsync();
+
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public async Task SelectWhereAsync_Returns_Model_List()
+        {
+            Account expected = GetLast(a => a.AccountNavigation);
+
+            var service = GetModelService();
+
+            var observed = (await service.SelectWhereAysnc(
+                predicate: a => a.AccountNavigation.AccountObjectId == expected.AccountId,
+                maxCount: 1))
+                .First();
+
+            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(expected, observed));
+        }
+
+        /// <inheritdoc/>s
+        [TestMethod]
+        public async Task UpdateAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
@@ -151,66 +188,6 @@ namespace NjordFinance.UnitTest.ModelService
 
             Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
                 savedAccount.AccountNavigation, account.AccountNavigation));
-        }
-
-        /// <summary>
-        /// Verifies the method used to check the existance of a model given an integer key value.
-        /// </summary>
-        [TestMethod]
-        public void ModelExists_UseKeyValue_Returns_True()
-        {
-            var service = GetModelService();
-
-            var result = service.ModelExists(id: -1);
-
-            Assert.IsTrue(result);
-        }
-
-        /// <summary>
-        /// Verifies the method used to check the existance of a model given a model instance.
-        /// </summary>
-        [TestMethod]
-        public void ModelExists_UseModel_Returns_True()
-        {
-            Account account = GetLast();
-            
-            // Use the servied to verify model existance.
-            var service = GetModelService();
-            var result = service.ModelExists(model: account);
-
-            Assert.IsTrue(result);
-        }
-
-        /// <summary>
-        /// Verifies the method used to return all <see cref="Account"/> objects matching 
-        /// the given predicate, limited to 1 result.
-        /// </summary>
-        [TestMethod]
-        public async Task SelectWhereAsync_Returns_Accounts_List()
-        {
-            Account expected = GetLast(a => a.AccountNavigation);
-
-            var service = GetModelService();
-
-            var observed = (await service.SelectWhereAysnc(
-                predicate: a => a.AccountNavigation.AccountObjectId == expected.AccountId,
-                maxCount: 1))
-                .First();
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(expected, observed));
-        }
-
-        /// <summary>
-        /// Verifies the method used to return all <see cref="Account"/> objects.
-        /// </summary>
-        [TestMethod]
-        public async Task SelectAllAsync_Returns_Accounts_List()
-        {
-            var service = GetModelService();
-
-            var result = await service.SelectAllAsync();
-
-            Assert.IsTrue(result.Count > 0);
         }
     }
 
