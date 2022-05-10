@@ -43,15 +43,16 @@ namespace NjordFinance.ModelService.Abstractions
 
             using var context = await _contextFactory.CreateDbContextAsync();
 
-            var logModel = new
-            {
-                Type = typeof(T).Name,
-                Id = GetKey(model) ?? default
-            };
 
             DbActionResult<T> createAction = await DoWriteOperationAsync(CreateDelegate, model);
             if (createAction.Successful)
             {
+                var logModel = new
+                {
+                    Type = typeof(T).Name,
+                    Id = GetKey(model) ?? default
+                };
+
                 _logger.ModelServiceCreatedModel(logModel);
                 return createAction.Result;
             }
