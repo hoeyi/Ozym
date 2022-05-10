@@ -1,5 +1,6 @@
 ﻿using Ichosoft.DataModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NjordFinance.Exceptions;
 using NjordFinance.Model;
@@ -62,7 +63,7 @@ namespace NjordFinance.UnitTest.ModelService
             var service = GetModelService();
 
             Account account = (await service.SelectWhereAysnc(a =>
-                a.AccountNavigation.AccountObjectCode == "TESTDELPASS", 1))
+                a.AccountNavigation.AccountObjectCode == DeleteModelSuccessSample.AccountCode, 1))
                 .First();
 
             var result = await service.DeleteAsync(account);
@@ -89,9 +90,11 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public void ModelExists_KeyIsPresent_Returns_True()
         {
+            Account account = GetLast();
+
             var service = GetModelService();
 
-            var result = service.ModelExists(id: -1);
+            var result = service.ModelExists(id: account.AccountId);
 
             Assert.IsTrue(result);
         }
@@ -104,6 +107,7 @@ namespace NjordFinance.UnitTest.ModelService
             
             // Use the servied to verify model existance.
             var service = GetModelService();
+
             var result = service.ModelExists(model: account);
 
             Assert.IsTrue(result);
@@ -113,18 +117,14 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public async Task ReadAsync_Returns_Single_Model()
         {
+            var accountId = GetLast()?.AccountId;
+
             var service = GetModelService();
 
             using var tmpContext = CreateDbContext();
 
-            var accountID = tmpContext.Accounts
-                .Include(a => a.AccountNavigation)
-                .FirstOrDefault(
-                    a => a.AccountNavigation.AccountObjectCode == "TESTUPDATE")?.AccountId ?? 0;
+            var account = await service.ReadAsync(accountId);
 
-            var account = await service.ReadAsync(accountID);
-
-            Assert.AreEqual("TESTUPDATE", account?.AccountNavigation?.AccountObjectCode);
             Assert.IsInstanceOfType(account, typeof(Account));
         }
 
@@ -163,7 +163,8 @@ namespace NjordFinance.UnitTest.ModelService
 
             var query = await service.SelectAllAsync();
 
-            Account account = query.Where(a => a.AccountCode == "TESTUPDATE").First();
+            Account account = query.Where(
+                a => a.AccountCode == UpdateModelSuccessSample.AccountCode).First();
 
             // Change a few attributes of the model.
             account.AccountNavigation.ObjectDisplayName = "TEST ACCOUNT #002 - UPDATED";
@@ -256,17 +257,34 @@ namespace NjordFinance.UnitTest.ModelService
         [TestCleanup]
         public override void CleanUp()
         {
+            Logger.LogInformation("Cleaning up {test}.", new { Name = nameof(AccountServiceTest) });
             using var context = CreateDbContext();
 
-            context.Database.ExecuteSqlRaw(
+            int recordsDeleted = context.Database.ExecuteSqlRaw(
                 "DELETE FROM NjordDbTest.FinanceApp.Account WHERE AccountID > 0;" +
                 "DELETE FROM NjordDbTest.FinanceApp.AccountObject WHERE AccountObjectID > 0");
+
+            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }
 
         /// <inheritdoc/>
         [TestInitialize]
         public override void Initialize()
         {
+            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
+            {
+                new
+                {
+                    DeleteModelSuccessSample.AccountId,
+                    DeleteModelSuccessSample.AccountCode
+                },
+                new
+                {
+                    UpdateModelSuccessSample.AccountId,
+                    UpdateModelSuccessSample.AccountCode
+                }
+            });
+
             SeedModelsIfNotExists(
                 including: a => a.AccountNavigation,
                 (
