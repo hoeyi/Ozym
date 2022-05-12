@@ -135,16 +135,34 @@ namespace NjordFinance.UnitTest.ModelService
         [TestCleanup]
         public override void CleanUp()
         {
+            Logger.LogInformation("Cleaning up {test}.", nameof(AccountCustodianServiceTest));
+
             using var context = CreateDbContext();
 
-            context.Database.ExecuteSqlRaw(
+            int recordsDeleted = context.Database.ExecuteSqlRaw(
                 "DELETE FROM NjordDbTest.FinanceApp.AccountCustodian WHERE AccountCustodianID > 0;");
+
+            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }
 
         /// <inheritdoc/>
         [TestInitialize]
         public override void Initialize()
         {
+            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
+                        {
+                new
+                {
+                    DeleteModelSuccessSample.CustodianCode,
+                    DeleteModelSuccessSample.DisplayName
+                },
+                new
+                {
+                    DeleteModelFailSample.CustodianCode,
+                    DeleteModelFailSample.DisplayName
+                }
+            });
+
             SeedModelsIfNotExists(
                 including: null,
                 (

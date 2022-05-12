@@ -185,7 +185,8 @@ namespace NjordFinance.UnitTest.ModelService
         [TestCleanup]
         public override void CleanUp()
         {
-            Logger.LogInformation("Cleaning up {test}.", new { Name = nameof(AccountServiceTest) });
+            Logger.LogInformation("Cleaning up {test}.", nameof(AccountServiceTest));
+
             using var context = CreateDbContext();
 
             int recordsDeleted = context.Database.ExecuteSqlRaw(

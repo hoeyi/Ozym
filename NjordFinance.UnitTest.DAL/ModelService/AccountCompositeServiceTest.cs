@@ -170,8 +170,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestCleanup]
         public override void CleanUp()
         {
-            Logger.LogInformation(
-                "Cleaning up {test}.", new { Name = nameof(AccountCompositeServiceTest) });
+            Logger.LogInformation("Cleaning up {test}.", nameof(AccountCompositeServiceTest));
 
             using var context = CreateDbContext();
 
