@@ -121,8 +121,6 @@ namespace NjordFinance.UnitTest.ModelService
 
             var service = GetModelService();
 
-            using var tmpContext = CreateDbContext();
-
             var account = await service.ReadAsync(accountId);
 
             Assert.IsInstanceOfType(account, typeof(Account));
