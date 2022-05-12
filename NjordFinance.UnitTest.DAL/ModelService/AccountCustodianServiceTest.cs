@@ -13,12 +13,13 @@ using System.Threading.Tasks;
 
 namespace NjordFinance.UnitTest.ModelService
 {
+    /// <inheritdoc/>
     [TestClass]
-    public partial class AccountCustodianServiceTest : IModelServiceBaseTest<AccountCustodian>
+    public partial class AccountCustodianServiceTest
     {
         /// <inheritdoc/>
         [TestMethod]
-        public async Task CreateAsync_ValidModel_Returns_Single_Model()
+        public override async Task CreateAsync_ValidModel_Returns_Single_Model()
         {
             var service = GetModelService();
 
@@ -39,19 +40,7 @@ namespace NjordFinance.UnitTest.ModelService
 
         /// <inheritdoc/>
         [TestMethod]
-        public async Task DeleteAsync_InvalidModel_ThrowsModelUpdateException()
-        {
-            var service = GetModelService();
-
-            await Assert.ThrowsExceptionAsync<ModelUpdateException>(async () =>
-            {
-                await service.DeleteAsync(DeleteModelFailSample);
-            });
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public async Task DeleteAsync_ValidModel_Returns_True()
+        public override async Task DeleteAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
@@ -70,68 +59,7 @@ namespace NjordFinance.UnitTest.ModelService
 
         /// <inheritdoc/>
         [TestMethod]
-        public async Task GetDefaultAsync_Returns_Single_Model()
-        {
-            var service = GetModelService();
-
-            var custodian = await service.GetDefaultAsync();
-
-            Assert.IsInstanceOfType(custodian, typeof(AccountCustodian));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public void ModelExists_KeyIsPresent_Returns_True()
-        {
-            AccountCustodian custodian = GetLast();
-
-            var service = GetModelService();
-
-            var result = service.ModelExists(id: custodian.AccountCustodianId);
-
-            Assert.IsTrue(result);
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public void ModelExists_ModelIsPresent_Returns_True()
-        {
-            AccountCustodian custodian = GetLast();
-
-            var service = GetModelService();
-
-            var result = service.ModelExists(model: custodian);
-
-            Assert.IsTrue(result);
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public async Task ReadAsync_Returns_Single_Model()
-        {
-            var custodianId = GetLast()?.AccountCustodianId;
-
-            var service = GetModelService();
-            
-            var custodian = await service.ReadAsync(custodianId);
-
-            Assert.IsInstanceOfType(custodian, typeof(AccountCustodian));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public async Task SelectAllAsync_Returns_Model_List()
-        {
-            var service = GetModelService();
-
-            var result = await service.SelectAllAsync();
-
-            Assert.IsTrue(result.Count > 0);
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public async Task SelectWhereAsync_Returns_Model_List()
+        public override async Task SelectWhereAsync_Returns_Model_List()
         {
             AccountCustodian expected = GetLast();
 
@@ -147,14 +75,15 @@ namespace NjordFinance.UnitTest.ModelService
 
         /// <inheritdoc/>
         [TestMethod]
-        public async Task UpdateAsync_ValidModel_Returns_True()
+        public override async Task UpdateAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
-            var query = await service.SelectAllAsync();
-
-            AccountCustodian custodian = query.Where(
-                a => a.CustodianCode == UpdateModelSuccessSample.CustodianCode).First();
+            AccountCustodian custodian = (await service.SelectWhereAysnc(
+                predicate: x =>
+                    x.CustodianCode == UpdateModelSuccessSample.CustodianCode,
+                maxCount: 1))
+                .First();
 
             custodian.DisplayName = "Test custodian UPDATED";
 
@@ -225,6 +154,9 @@ namespace NjordFinance.UnitTest.ModelService
                     UpdateModelSuccessSample, 
                     x => x.CustodianCode == UpdateModelSuccessSample.CustodianCode));
         }
+
+        /// <inheritdoc/>
+        protected override int GetKey(AccountCustodian model) => model.AccountCustodianId;
 
         /// <inheritdoc/>
         protected override IModelService<AccountCustodian> GetModelService() =>

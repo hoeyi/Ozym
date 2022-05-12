@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace NjordFinance.UnitTest.ModelService
 {
-    /// <inheritdoc/>
     [TestClass]
-    public partial class BankTransactionCodeServiceTest
+    public partial class BrokerTransactionCodeServiceTest
+        : IModelServiceBaseTest<BrokerTransactionCode>
     {
         /// <inheritdoc/>
         [TestMethod]
@@ -22,11 +22,11 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = GetModelService();
 
-            BankTransactionCode code = await service.CreateAsync(CreateModelSuccessSample);
+            var code = await service.CreateAsync(CreateModelSuccessSample);
 
             using var context = CreateDbContext();
 
-            var savedCode = context.BankTransactionCodes
+            var savedCode = context.BrokerTransactionCodes
                 .FirstOrDefault(x => x.TransactionCodeId == code.TransactionCodeId);
 
             Assert.IsTrue(code.TransactionCodeId > 0);
@@ -40,28 +40,29 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = GetModelService();
 
-            BankTransactionCode code = (await service.SelectWhereAysnc(x =>
-                x.TransactionCode == DeleteModelSuccessSample.TransactionCode, 1))
+            var code = (await service.SelectWhereAysnc(
+                predicate: x => x.TransactionCode == DeleteModelSuccessSample.TransactionCode,
+                maxCount: 1))
                 .First();
 
             var result = await service.DeleteAsync(code);
 
             using var context = CreateDbContext();
 
-            Assert.IsTrue(result && !context.BankTransactionCodes
-                .Any(x => x.TransactionCodeId == code.TransactionCodeId));
+            Assert.IsTrue(result &&
+                !context.BrokerTransactionCodes.Any(
+                    x => x.TransactionCodeId == code.TransactionCodeId));
         }
 
         /// <inheritdoc/>
         [TestMethod]
         public override async Task SelectWhereAsync_Returns_Model_List()
         {
-            BankTransactionCode expected = GetLast();
-
+            BrokerTransactionCode expected = GetLast();
             var service = GetModelService();
 
             var observed = (await service.SelectWhereAysnc(
-                predicate: x => x.TransactionCodeId == expected.TransactionCodeId,
+                predicate: a => a.TransactionCodeId == expected.TransactionCodeId,
                 maxCount: 1))
                 .First();
 
@@ -74,67 +75,78 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = GetModelService();
 
-            BankTransactionCode code = (await service.SelectWhereAysnc(
-                predicate: a => a.TransactionCode == UpdateModelSuccessSample.TransactionCode,
+            BrokerTransactionCode code = (await service.SelectWhereAysnc(
+                predicate: x => x.TransactionCode == UpdateModelSuccessSample.TransactionCode,
                 maxCount: 1))
                 .First();
 
-            code.DisplayName = "Test update pass EDIT";
+            code.DisplayName = $"{code.DisplayName} - updated";
 
             var result = await service.UpdateAsync(code);
 
             using var context = CreateDbContext();
 
-            var savedCode = context.BankTransactionCodes
-                .FirstOrDefault(a => a.TransactionCodeId == code.TransactionCodeId);
+            var savedCode = context.BrokerTransactionCodes
+                .FirstOrDefault(x => x.TransactionCodeId == code.TransactionCodeId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(savedCode, code));
+            Assert.IsTrue(result && UnitTest.SimplePropertiesAreEqual(savedCode, code));
         }
     }
-
-    public partial class BankTransactionCodeServiceTest 
-        : ModelServiceBaseTest<BankTransactionCode>
+    public partial class BrokerTransactionCodeServiceTest
+        : ModelServiceBaseTest<BrokerTransactionCode>
     {
         /// <inheritdoc/>
-        protected override BankTransactionCode CreateModelSuccessSample => new()
+        protected override BrokerTransactionCode CreateModelSuccessSample => new()
         {
-            TransactionCode = "CREATE",
-            DisplayName = "Test create pass."
+            TransactionCode = "TCP",
+            DisplayName = "Test create pass",
+            QuantityEffect = 1,
+            ContributionWithdrawalEffect = 1,
+            CashEffect = 1
         };
 
         /// <inheritdoc/>
-        protected override BankTransactionCode DeleteModelSuccessSample => new()
+        protected override BrokerTransactionCode DeleteModelSuccessSample => new()
         {
-            TransactionCode = "DELPASS",
-            DisplayName = "Test delete pass."
+            TransactionCode = "TDP",
+            DisplayName = "Test delete pass",
+            QuantityEffect = 1,
+            ContributionWithdrawalEffect = 1,
+            CashEffect = 1
         };
 
         /// <inheritdoc/>
-        protected override BankTransactionCode DeleteModelFailSample => new()
+        protected override BrokerTransactionCode DeleteModelFailSample => new()
         {
             TransactionCodeId = -1000,
-            TransactionCode = "DELFAIL",
-            DisplayName = "Test delete fail."
+            TransactionCode = "TDF",
+            DisplayName = "Test delete fail",
+            QuantityEffect = 1,
+            ContributionWithdrawalEffect = 1,
+            CashEffect = 1
         };
 
         /// <inheritdoc/>
-        protected override BankTransactionCode UpdateModelSuccessSample => new()
+        protected override BrokerTransactionCode UpdateModelSuccessSample => new()
         {
-            TransactionCode = "UPDATE",
-            DisplayName = "Test update pass."
+            TransactionCode = "TUP",
+            DisplayName = "Test update pass",
+            QuantityEffect = 1,
+            ContributionWithdrawalEffect = 1,
+            CashEffect = 1
         };
 
         /// <inheritdoc/>
         [TestCleanup]
         public override void CleanUp()
         {
-            Logger.LogInformation("Cleaning up {test}.",
-                new { Name = nameof(BankTransactionCodeServiceTest) });
+            Logger.LogInformation("Cleaning up {test}",
+                new { Name = nameof(BrokerTransactionCodeServiceTest) });
 
             using var context = CreateDbContext();
 
             int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM NjordDbTest.FinanceApp.BankTransactionCode WHERE TransactionCodeID > 0;");
+                "DELETE FROM NjordDbTest.FinanceApp.BrokerTransactionCode WHERE TransactionCodeId > 0;");
 
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }
@@ -147,13 +159,13 @@ namespace NjordFinance.UnitTest.ModelService
             {
                 new
                 {
-                    DeleteModelSuccessSample.TransactionCode,
-                    DeleteModelSuccessSample.DisplayName
+                    DeleteModelSuccessSample.TransactionCodeId,
+                    DeleteModelSuccessSample.TransactionCode
                 },
                 new
                 {
-                    DeleteModelFailSample.TransactionCode,
-                    DeleteModelFailSample.DisplayName
+                    UpdateModelSuccessSample.TransactionCodeId,
+                    UpdateModelSuccessSample.TransactionCode
                 }
             });
 
@@ -170,11 +182,10 @@ namespace NjordFinance.UnitTest.ModelService
         }
 
         /// <inheritdoc/>
-        protected override int GetKey(BankTransactionCode model) => model.TransactionCodeId;
+        protected override int GetKey(BrokerTransactionCode model) => model.TransactionCodeId;
 
         /// <inheritdoc/>
-        protected override IModelService<BankTransactionCode> GetModelService() =>
-            BuildModelService<BankTransactionCodeService>();
-
+        protected override IModelService<BrokerTransactionCode> GetModelService() =>
+            BuildModelService<BrokerTransactionCodeService>();
     }
 }

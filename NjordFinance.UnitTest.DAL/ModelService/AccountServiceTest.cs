@@ -14,11 +14,11 @@ namespace NjordFinance.UnitTest.ModelService
 {
     /// <inheritdoc/>
     [TestClass]
-    public partial class AccountServiceTest : IModelServiceBaseTest<Account>
+    public partial class AccountServiceTest
     {
         /// <inheritdoc/>
         [TestMethod]
-        public async Task CreateAsync_ValidModel_Returns_Single_Model()
+        public override async Task CreateAsync_ValidModel_Returns_Single_Model()
         {
             var service = GetModelService();
 
@@ -26,10 +26,9 @@ namespace NjordFinance.UnitTest.ModelService
 
             // Create a new context for checking results. Avoids dependency
             // on model service.
-            using var tmpContext = CreateDbContext();
+            using var context = CreateDbContext();
 
-            var savedAccount = tmpContext.Accounts
-                .Include(a => a.AccountCustodian)
+            var savedAccount = context.Accounts
                 .Include(a => a.AccountNavigation)
                 .FirstOrDefault(a => a.AccountId == account.AccountId);
 
@@ -46,100 +45,28 @@ namespace NjordFinance.UnitTest.ModelService
 
         /// <inheritdoc/>
         [TestMethod]
-        public async Task DeleteAsync_InvalidModel_ThrowsModelUpdateException()
+        public override async Task DeleteAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
-            await Assert.ThrowsExceptionAsync<ModelUpdateException>(async () =>
-            {
-                await service.DeleteAsync(DeleteModelFailSample);
-            });
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public async Task DeleteAsync_ValidModel_Returns_True()
-        {
-            var service = GetModelService();
-
-            Account account = (await service.SelectWhereAysnc(a =>
-                a.AccountNavigation.AccountObjectCode == DeleteModelSuccessSample.AccountCode, 1))
+            Account account = (await service.SelectWhereAysnc(
+                predicate: a => 
+                    a.AccountNavigation.AccountObjectCode == DeleteModelSuccessSample.AccountCode, 
+                maxCount: 1))
                 .First();
 
             var result = await service.DeleteAsync(account);
 
-            using var tmpContext = CreateDbContext();
+            using var context = CreateDbContext();
 
             // Check delete action was successful and the account is not found in the DbContext.
             Assert.IsTrue(result && 
-                !tmpContext.Accounts.Any(a => a.AccountId == account.AccountId));
+                !context.Accounts.Any(a => a.AccountId == account.AccountId));
         }
 
         /// <inheritdoc/>
         [TestMethod]
-        public async Task GetDefaultAsync_Returns_Single_Model()
-        {
-            var service = GetModelService();
-
-            var account = await service.GetDefaultAsync();
-
-            Assert.IsInstanceOfType(account, typeof(Account));
-        }
-
-        /// <inheritdoc/>v
-        [TestMethod]
-        public void ModelExists_KeyIsPresent_Returns_True()
-        {
-            Account account = GetLast();
-
-            var service = GetModelService();
-
-            var result = service.ModelExists(id: account.AccountId);
-
-            Assert.IsTrue(result);
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public void ModelExists_ModelIsPresent_Returns_True()
-        {
-            Account account = GetLast();
-            
-            // Use the servied to verify model existance.
-            var service = GetModelService();
-
-            var result = service.ModelExists(model: account);
-
-            Assert.IsTrue(result);
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public async Task ReadAsync_Returns_Single_Model()
-        {
-            var accountId = GetLast()?.AccountId;
-
-            var service = GetModelService();
-
-            var account = await service.ReadAsync(accountId);
-
-            Assert.IsInstanceOfType(account, typeof(Account));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public async Task SelectAllAsync_Returns_Model_List()
-        {
-            var service = GetModelService();
-
-            var result = await service.SelectAllAsync();
-
-            Assert.IsTrue(result.Count > 0);
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public async Task SelectWhereAsync_Returns_Model_List()
+        public override async Task SelectWhereAsync_Returns_Model_List()
         {
             Account expected = GetLast(a => a.AccountNavigation);
 
@@ -155,15 +82,16 @@ namespace NjordFinance.UnitTest.ModelService
 
         /// <inheritdoc/>s
         [TestMethod]
-        public async Task UpdateAsync_ValidModel_Returns_True()
+        public override async Task UpdateAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
-            var query = await service.SelectAllAsync();
-
-            Account account = query.Where(
-                a => a.AccountCode == UpdateModelSuccessSample.AccountCode).First();
-
+            Account account = (await service.SelectWhereAysnc(
+                predicate: x =>
+                    x.AccountNavigation.AccountObjectCode == UpdateModelSuccessSample.AccountCode,
+                maxCount: 1))
+                .First();
+            
             // Change a few attributes of the model.
             account.AccountNavigation.ObjectDisplayName = "TEST ACCOUNT #002 - UPDATED";
             account.IsComplianceTradable = !account.IsComplianceTradable;
@@ -175,9 +103,9 @@ namespace NjordFinance.UnitTest.ModelService
             var result = await service.UpdateAsync(account);
 
             // Open a context for checking results.
-            using var tmpContext = CreateDbContext();
+            using var context = CreateDbContext();
 
-            var savedAccount = tmpContext.Accounts
+            var savedAccount = context.Accounts
                 .Include(a => a.AccountNavigation)
                 .FirstOrDefault(a => a.AccountId == account.AccountId);
 
@@ -193,7 +121,9 @@ namespace NjordFinance.UnitTest.ModelService
     /// <inheritdoc/>
     public partial class AccountServiceTest : ModelServiceBaseTest<Account>
     {
-        private static readonly Random _random = new();
+        private readonly Random _random = new();
+
+        protected override int GetKey(Account model) => model.AccountId;
 
         /// <inheritdoc/>
         protected override Account CreateModelSuccessSample => new()
@@ -260,7 +190,7 @@ namespace NjordFinance.UnitTest.ModelService
 
             int recordsDeleted = context.Database.ExecuteSqlRaw(
                 "DELETE FROM NjordDbTest.FinanceApp.Account WHERE AccountID > 0;" +
-                "DELETE FROM NjordDbTest.FinanceApp.AccountObject WHERE AccountObjectID > 0");
+                "DELETE FROM NjordDbTest.FinanceApp.AccountObject WHERE AccountObjectID > 0;");
 
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }

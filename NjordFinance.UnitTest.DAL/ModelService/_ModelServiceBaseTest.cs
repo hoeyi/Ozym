@@ -6,14 +6,109 @@ using System.Linq.Expressions;
 using NjordFinance.ModelService;
 using Microsoft.Extensions.Logging;
 using Ichosoft.DataModel;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using NjordFinance.Exceptions;
 
 namespace NjordFinance.UnitTest.ModelService
 {
+    public abstract partial class ModelServiceBaseTest<T>
+    {
+        /// <inheritdoc/>
+        [TestMethod]
+        public abstract Task CreateAsync_ValidModel_Returns_Single_Model();
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public abstract Task DeleteAsync_ValidModel_Returns_True();
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public abstract Task SelectWhereAsync_Returns_Model_List();
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public abstract Task UpdateAsync_ValidModel_Returns_True();
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public virtual async Task GetDefaultAsync_Returns_Single_Model()
+        {
+            var service = GetModelService();
+
+            T model = await service.GetDefaultAsync();
+
+            Assert.IsInstanceOfType(model, typeof(T));
+        }
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public virtual async Task DeleteAsync_InvalidModel_ThrowsModelUpdateException()
+        {
+            var service = GetModelService();
+
+            await Assert.ThrowsExceptionAsync<ModelUpdateException>(async () =>
+            {
+                await service.DeleteAsync(DeleteModelFailSample);
+            });
+        }
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public virtual void ModelExists_KeyIsPresent_Returns_True()
+        {
+            T model = GetLast();
+
+            var service = GetModelService();
+
+            var result = service.ModelExists(id: GetKey(model));
+
+            Assert.IsTrue(result);
+        }
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public virtual void ModelExists_ModelIsPresent_Returns_True()
+        {
+            T model = GetLast();
+
+            // Use the servied to verify model existance.
+            var service = GetModelService();
+
+            var result = service.ModelExists(model);
+
+            Assert.IsTrue(result);
+        }
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public virtual async Task ReadAsync_Returns_Single_Model()
+        {
+            var id = GetKey(GetLast());
+
+            var service = GetModelService();
+
+            var account = await service.ReadAsync(id);
+
+            Assert.IsInstanceOfType(account, typeof(T));
+        }
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public virtual async Task SelectAllAsync_Returns_Model_List()
+        {
+            var service = GetModelService();
+
+            var result = await service.SelectAllAsync();
+
+            Assert.IsTrue(result.Count > 0);
+        }
+    }
     /// <summary>
     /// Base class for testing units of work done by <typeparamref name="T"/> model services.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
-    public abstract class ModelServiceBaseTest<T>
+    public abstract partial class ModelServiceBaseTest<T> : IModelServiceBaseTest<T>
         where T : class, new()
     {
         /// <summary>
@@ -90,6 +185,13 @@ namespace NjordFinance.UnitTest.ModelService
         {
             return UnitTest.DbContextFactory.CreateDbContext();
         }
+
+        /// <summary>
+        /// Gets the <see cref="int"/> key value for the given <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>The <see cref="int"/> key value.</returns>
+        protected abstract int GetKey(T model);
 
         /// <summary>
         /// Creates a new <see cref="IModelService{T}"/>. instance.
