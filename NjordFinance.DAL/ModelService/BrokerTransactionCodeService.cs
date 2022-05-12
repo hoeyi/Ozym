@@ -10,26 +10,28 @@ using System.Linq;
 namespace NjordFinance.ModelService
 {
     /// <summary>
-    /// The class for servicing single CRUD requests against the <see cref="BankTransactionCode"/> 
-    /// data store.
+    /// The class for servicing single CRUD requests against the 
+    /// <see cref="BrokerTransactionCode"/> data store.
     /// </summary>
-    internal class BankTransactionCodeService : ModelService<BankTransactionCode>
+    internal class BrokerTransactionCodeService : ModelService<BrokerTransactionCode>
     {
         /// <summary>
-        /// Creates a new <see cref="BankTransactionCodeService"/> instance.
+        /// Creates a new <see cref="BrokerTransactionCodeService"/> instance.
         /// </summary>
         /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
         /// instance.</param>
         /// <param name="modelMetadata">An <see cref="IModelMetadataService"/> instance.</param>
         /// <param name="logger">An <see cref="ILogger"/> instance.</param>
-        public BankTransactionCodeService(
+        public BrokerTransactionCodeService(
                 IDbContextFactory<FinanceDbContext> contextFactory,
                 IModelMetadataService modelMetadata,
                 ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
-            Reader = new ModelReaderService<BankTransactionCode>(contextFactory, modelMetadata, logger);
-            Writer = new ModelWriterService<BankTransactionCode>(contextFactory, modelMetadata, logger)
+            Reader = new ModelReaderService<BrokerTransactionCode>(
+                contextFactory, modelMetadata, logger);
+            Writer = new ModelWriterService<BrokerTransactionCode>(
+                contextFactory, modelMetadata, logger)
             {
                 CreateDelegate = async (context, model) =>
                 {
@@ -37,7 +39,7 @@ namespace NjordFinance.ModelService
                         .MarkForCreation(model)
                         .SaveChangesAsync() > 0;
 
-                    return new DbActionResult<BankTransactionCode>(model, result);
+                    return new DbActionResult<BrokerTransactionCode>(model, result);
                 },
                 DeleteDelegate = async (context, model) =>
                 {
@@ -47,7 +49,7 @@ namespace NjordFinance.ModelService
 
                     return new DbActionResult<bool>(result, result);
                 },
-                GetDefaultDelegate = () => new BankTransactionCode(),
+                GetDefaultDelegate = () => new BrokerTransactionCode(),
                 UpdateDelegate = async (context, model) =>
                 {
                     var result = await context
