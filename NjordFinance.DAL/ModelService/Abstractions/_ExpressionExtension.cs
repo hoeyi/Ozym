@@ -3,8 +3,18 @@ using System.Linq.Expressions;
 
 namespace NjordFinance.ModelService.Abstractions
 {
+    /// <summary>
+    /// Container class for expression extensions.
+    /// </summary>
     internal static class ExpressionExtension
     {
+        /// <summary>
+        /// Joins the given expression as with an AND operator.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="expr1"></param>
+        /// <param name="expr2"></param>
+        /// <returns></returns>
         public static Expression<Func<T, bool>> AndAlso<T>(
                 this Expression<Func<T, bool>> expr1,
                 Expression<Func<T, bool>> expr2)
@@ -21,6 +31,7 @@ namespace NjordFinance.ModelService.Abstractions
                 Expression.AndAlso(left, right), parameter);
         }
 
+        /// <inheritdoc/>
         private class ReplaceExpressionVisitor : ExpressionVisitor
         {
             private readonly Expression _oldValue;

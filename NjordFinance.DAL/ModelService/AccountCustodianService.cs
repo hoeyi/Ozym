@@ -16,9 +16,10 @@ namespace NjordFinance.ModelService
         /// <summary>
         /// Creates a new <see cref="AccountCustodianService"/> instance.
         /// </summary>
-        /// <param name="contextFactory"></param>
-        /// <param name="modelMetadata"></param>
-        /// <param name="logger"></param>
+        /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
+        /// instance.</param>
+        /// <param name="modelMetadata">An <see cref="IModelMetadataService"/> instance.</param>
+        /// <param name="logger">An <see cref="ILogger"/> instance.</param>
         public AccountCustodianService(
                 IDbContextFactory<FinanceDbContext> contextFactory,
                 IModelMetadataService modelMetadata,
@@ -33,26 +34,26 @@ namespace NjordFinance.ModelService
             {
                 CreateDelegate = async (context, model) =>
                 {
-                    context.AccountCustodians.Add(model);
-
-                    var result = await context.SaveChangesAsync() > 0;
+                    var result = await context
+                        .MarkForCreation(model)
+                        .SaveChangesAsync() > 0;
 
                     return new DbActionResult<AccountCustodian>(model, result);
                 },
                 DeleteDelegate = async (context, model) =>
                 {
-                    context.AccountCustodians.Remove(model);
-
-                    var result = await context.SaveChangesAsync() > 0;
+                    var result = await context
+                        .MarkForDeletion(model)
+                        .SaveChangesAsync() > 0;
 
                     return new DbActionResult<bool>(result, result);
                 },
                 GetDefaultDelegate = () => new AccountCustodian(),
                 UpdateDelegate = async (context, model) =>
                 {
-                    context.Entry(model).State = EntityState.Modified;
-
-                    var result = await context.SaveChangesAsync() > 0;
+                    var result = await context
+                        .MarkForUpdate(model)
+                        .SaveChangesAsync() > 0;
 
                     return new DbActionResult<bool>(result, result);
                 }

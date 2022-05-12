@@ -16,9 +16,10 @@ namespace NjordFinance.ModelService
         /// <summary>
         /// Creates a new <see cref="AccountWalletService"/> instance.
         /// </summary>
-        /// <param name="contextFactory"></param>
-        /// <param name="modelMetadata"></param>
-        /// <param name="logger"></param>
+        /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
+        /// instance.</param>
+        /// <param name="modelMetadata">An <see cref="IModelMetadataService"/> instance.</param>
+        /// <param name="logger">An <see cref="ILogger"/> instance.</param>
         public AccountWalletService(
             IDbContextFactory<FinanceDbContext> contextFactory,
             IModelMetadataService modelMetadata,
