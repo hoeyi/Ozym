@@ -31,34 +31,7 @@ namespace NjordFinance.ModelService
             Reader = new ModelReaderService<Country>(
                 contextFactory, modelMetadata, logger);
             Writer = new ModelWriterService<Country>(
-                contextFactory, modelMetadata, logger)
-            {
-                CreateDelegate = async (context, model) =>
-                {
-                    var result = await context
-                        .MarkForCreation(model)
-                        .SaveChangesAsync() > 0;
-
-                    return new DbActionResult<Country>(model, result);
-                },
-                DeleteDelegate = async (context, model) =>
-                {
-                    var result = await context
-                        .MarkForDeletion(model)
-                        .SaveChangesAsync() > 0;
-
-                    return new DbActionResult<bool>(result, result);
-                },
-                GetDefaultDelegate = () => new Country(),
-                UpdateDelegate = async (context, model) =>
-                {
-                    var result = await context
-                        .MarkForUpdate(model)
-                        .SaveChangesAsync() > 0;
-
-                    return new DbActionResult<bool>(result, result);
-                }
-            };
+                contextFactory, modelMetadata, logger);
         }
     }
 }

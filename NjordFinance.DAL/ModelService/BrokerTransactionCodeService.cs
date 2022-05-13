@@ -31,34 +31,7 @@ namespace NjordFinance.ModelService
             Reader = new ModelReaderService<BrokerTransactionCode>(
                 contextFactory, modelMetadata, logger);
             Writer = new ModelWriterService<BrokerTransactionCode>(
-                contextFactory, modelMetadata, logger)
-            {
-                CreateDelegate = async (context, model) =>
-                {
-                    var result = await context
-                        .MarkForCreation(model)
-                        .SaveChangesAsync() > 0;
-
-                    return new DbActionResult<BrokerTransactionCode>(model, result);
-                },
-                DeleteDelegate = async (context, model) =>
-                {
-                    var result = await context
-                        .MarkForDeletion(model)
-                        .SaveChangesAsync() > 0;
-
-                    return new DbActionResult<bool>(result, result);
-                },
-                GetDefaultDelegate = () => new BrokerTransactionCode(),
-                UpdateDelegate = async (context, model) =>
-                {
-                    var result = await context
-                        .MarkForUpdate(model)
-                        .SaveChangesAsync() > 0;
-
-                    return new DbActionResult<bool>(result, result);
-                }
-            };
+                contextFactory, modelMetadata, logger);
         }
     }
 }

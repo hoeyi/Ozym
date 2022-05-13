@@ -28,35 +28,10 @@ namespace NjordFinance.ModelService
                 ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
-            Reader = new ModelReaderService<BankTransactionCode>(contextFactory, modelMetadata, logger);
-            Writer = new ModelWriterService<BankTransactionCode>(contextFactory, modelMetadata, logger)
-            {
-                CreateDelegate = async (context, model) =>
-                {
-                    var result = await context
-                        .MarkForCreation(model)
-                        .SaveChangesAsync() > 0;
-
-                    return new DbActionResult<BankTransactionCode>(model, result);
-                },
-                DeleteDelegate = async (context, model) =>
-                {
-                    var result = await context
-                        .MarkForDeletion(model)
-                        .SaveChangesAsync() > 0;
-
-                    return new DbActionResult<bool>(result, result);
-                },
-                GetDefaultDelegate = () => new BankTransactionCode(),
-                UpdateDelegate = async (context, model) =>
-                {
-                    var result = await context
-                        .MarkForUpdate(model)
-                        .SaveChangesAsync() > 0;
-
-                    return new DbActionResult<bool>(result, result);
-                }
-            };
+            Reader = new ModelReaderService<BankTransactionCode>(
+                contextFactory, modelMetadata, logger);
+            Writer = new ModelWriterService<BankTransactionCode>(
+                contextFactory, modelMetadata, logger);
         }
     }
 }

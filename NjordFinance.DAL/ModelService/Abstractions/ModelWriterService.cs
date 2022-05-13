@@ -141,26 +141,47 @@ namespace NjordFinance.ModelService.Abstractions
         /// data store.
         /// </summary>
         public Func<FinanceDbContext, T, Task<DbActionResult<T>>> 
-            CreateDelegate { get; internal init; }
+            CreateDelegate { get; internal init; } = async (context, model) =>
+            {
+                var result = await context
+                    .MarkForCreation(model)
+                    .SaveChangesAsync() > 0;
+
+                return new DbActionResult<T>(model, result);
+            };
 
         /// <summary>
         /// Delegate responsible for deleting an existing <typeparamref name="T"/> model from 
         /// the data store.
         /// </summary>
-        public Func<FinanceDbContext, T, Task<DbActionResult<bool>>> 
-            DeleteDelegate { get; internal init; }
+        public Func<FinanceDbContext, T, Task<DbActionResult<bool>>>
+            DeleteDelegate { get; internal init; } = async (context, model) =>
+            {
+                var result = await context
+                    .MarkForDeletion(model)
+                    .SaveChangesAsync() > 0;
+
+                return new DbActionResult<bool>(result, result);
+            };
 
         /// <summary>
         /// Delegate responsible for creating a default <typeparamref name="T"/> instance.
         /// </summary>
-        public Func<T> GetDefaultDelegate { get; internal init; }
+        public Func<T> GetDefaultDelegate { get; internal init; } = () => new();
 
         /// <summary>
         /// Delegate responsible for updating existing an existing <typeparamref name="T"/> 
         /// model in the data store.
         /// </summary>
-        public Func<FinanceDbContext, T, Task<DbActionResult<bool>>> 
-            UpdateDelegate { get; internal init; }
+        public Func<FinanceDbContext, T, Task<DbActionResult<bool>>>
+            UpdateDelegate { get; internal init; } = async (context, model) =>
+            {
+                var result = await context
+                 .MarkForUpdate(model)
+                 .SaveChangesAsync() > 0;
+
+                return new DbActionResult<bool>(result, result);
+            };
 
         /// <summary>
         /// Invokes the given delegate to write data to the data store.
