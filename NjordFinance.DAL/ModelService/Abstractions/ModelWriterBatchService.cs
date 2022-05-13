@@ -15,7 +15,7 @@ namespace NjordFinance.ModelService.Abstractions
     /// Provides batch-write operations for <typeparamref name="T"/> models.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public partial class ModelWriterBatchService<T>
+    internal partial class ModelWriterBatchService<T>
         : ModelServiceBase<T>, IModelWriterBatchService<T>
         where T : class, new()
     {
@@ -142,7 +142,7 @@ namespace NjordFinance.ModelService.Abstractions
     }
 
     /// <inheritdoc/>
-    public partial class ModelWriterBatchService<T>
+    internal partial class ModelWriterBatchService<T>
     {
         /// <summary>
         /// Checks that a required parent identifier has been set for a given 

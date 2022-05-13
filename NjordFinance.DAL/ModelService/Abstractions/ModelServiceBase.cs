@@ -13,7 +13,7 @@ namespace NjordFinance.ModelService.Abstractions
     /// <summary>
     /// Base class from which model service classes are derived.
     /// </summary>
-    public abstract class ModelServiceBase<T> : IModelBaseService<T>
+    internal abstract class ModelServiceBase<T> : IModelBaseService<T>
         where T: class, new()
     {
         /// <summary>

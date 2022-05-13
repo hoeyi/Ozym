@@ -16,7 +16,7 @@ namespace NjordFinance.ModelService.Abstractions
     /// Variant <see cref="ModelServiceBase{T}"/> class that services write requests.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public partial class ModelWriterService<T> : ModelServiceBase<T>, IModelWriterService<T>
+    internal partial class ModelWriterService<T> : ModelServiceBase<T>, IModelWriterService<T>
         where T : class, new()
     {
         /// <summary>
@@ -134,7 +134,7 @@ namespace NjordFinance.ModelService.Abstractions
     }
 
     /// <inheritdoc/>
-    public partial class ModelWriterService<T>
+    internal partial class ModelWriterService<T>
     {
         /// <summary>
         /// Delegate repsonsible for writing a new <typeparamref name="T"/> model to the 

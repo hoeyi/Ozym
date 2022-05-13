@@ -16,7 +16,7 @@ namespace NjordFinance.ModelService.Abstractions
     /// Variant <see cref="ModelServiceBase{T}"/> class that services read and search requests.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public partial class ModelReaderService<T> : ModelServiceBase<T>, IModelReaderService<T>
+    internal partial class ModelReaderService<T> : ModelServiceBase<T>, IModelReaderService<T>
         where T: class, new()
     {
         /// <summary>
@@ -161,7 +161,7 @@ namespace NjordFinance.ModelService.Abstractions
     }
 
     /// <inheritdoc/>
-    public partial class ModelReaderService<T>
+    internal partial class ModelReaderService<T>
     {
         /// <summary>
         /// Gets the <see cref="NavigationPathCollection"/> instance for this service.
