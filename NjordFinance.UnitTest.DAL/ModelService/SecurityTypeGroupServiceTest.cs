@@ -113,7 +113,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestCleanup]
         public override void CleanUp()
         {
-            Logger.LogInformation("Cleaning up {test}.", nameof(MarketHolidayServiceTest));
+            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
 
             using var context = CreateDbContext();
 
@@ -121,7 +121,7 @@ namespace NjordFinance.UnitTest.ModelService
                 "DELETE FROM FinanceApp.SecurityTypeGroup " +
                 "WHERE SecurityTypeGroupID > 0;" +
                 "DELETE FROM FinanceApp.ModelAttributeMember " +
-                "WHERE AttributeMemberID > 0"); ;
+                "WHERE AttributeMemberID > 0");
 
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }
@@ -152,7 +152,7 @@ namespace NjordFinance.UnitTest.ModelService
                     x => x.SecurityTypeGroupName == UpdateModelSuccessSample.SecurityTypeGroupName
                 ));
 
-            Logger.LogInformation("{Test} initialized.", nameof(SecurityTypeGroupService));
+            Logger.LogInformation("{Test} initialized.", GetType().Name);
         }
 
         protected override int GetKey(SecurityTypeGroup model) => model.SecurityTypeGroupId;
