@@ -53,19 +53,19 @@ namespace NjordFinance.Context.Configuration
 
             SecurityTypeGroups = new SecurityTypeGroup[]
             {
-                new(-200, "Individual Stocks", -200),
-                new(-201, "Equity Funds & ETFs", -201),
-                new(-202, "Individual Bonds & CDs", -202),
-                new(-203, "Fixed Income Funds & ETFs", -203),
-                new(-204, "Option Contracts", -204),
-                new(-205, "Digital Assets", -205),
-                new(-206, "Other Funds & ETPs", -206),
-                new(-207, "Short-Term Debt", -207),
-                new(-208, "Long-Term Debt", -208),
-                new(-209, "Cash Funds & Currency", -209),
-                new(-210, "Cash Deposit", -210),
-                new(-211, "Expense", -211),
-                new(-212, "Not Classified", -212)
+                new(-200, "Individual Stocks"),
+                new(-201, "Equity Funds & ETFs"),
+                new(-202, "Individual Bonds & CDs"),
+                new(-203, "Fixed Income Funds & ETFs"),
+                new(-204, "Option Contracts"),
+                new(-205, "Digital Assets"),
+                new(-206, "Other Funds & ETPs"),
+                new(-207, "Short-Term Debt"),
+                new(-208, "Long-Term Debt"),
+                new(-209, "Cash Funds & Currency"),
+                new(-210, "Cash Deposit"),
+                new(-211, "Expense"),
+                new(-212, "Not Classified")
             };
 
             SecurityTypes = new SecurityType[]

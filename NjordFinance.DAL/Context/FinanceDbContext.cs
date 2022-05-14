@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using NjordFinance.Model;
 
 namespace NjordFinance.Context
@@ -401,17 +404,10 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<ModelAttributeScope>(entity =>
             {
-                entity.HasKey(e => new { e.AttributeId, e.ScopeCode })
-                    .HasName("PK_ModelAttributeScope");
-
-                entity.HasIndex(e => new { e.AttributeId, e.ScopeCode }, "UNI_ModelAttributeScope_AttributeID_ScopeCode")
-                    .IsUnique()
-                    .HasFilter("([ScopeCode] IS NOT NULL)");
-
+                entity.HasKey(e => new { e.AttributeId, e.ScopeCode });
                 entity.HasCheckConstraint(
-                    name: "CK_ModelAttributeScope_ScopeCode", 
+                    name: "CK_ModelAttributeScope_ScopeCode",
                     sql: "[ScopeCode] in ('acc', 'bnk', 'brk', 'cou', 'cus', 'exc', 'sec')");
-
                 entity.Property(e => e.ScopeCode).IsFixedLength();
 
                 entity.HasOne(d => d.Attribute)
@@ -528,17 +524,19 @@ namespace NjordFinance.Context
                     .IsUnique()
                     .HasFilter("([SecurityTypeName] IS NOT NULL)");
 
-                entity.HasOne(d => d.AttributeMember)
-                    .WithMany(p => p.SecurityTypes)
-                    .HasForeignKey(d => d.AttributeMemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SecurityType_ModelAttributeMember");
+                entity.Property(e => e.SecurityTypeId).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.SecurityTypeGroup)
                     .WithMany(p => p.SecurityTypes)
                     .HasForeignKey(d => d.SecurityTypeGroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SecurityType_SecurityTypeGroup");
+
+                entity.HasOne(d => d.SecurityTypeNavigation)
+                    .WithOne(p => p.SecurityType)
+                    .HasForeignKey<SecurityType>(d => d.SecurityTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SecurityType_ModelAttributeMember");
             });
 
             modelBuilder.Entity<SecurityTypeGroup>(entity =>
@@ -547,9 +545,11 @@ namespace NjordFinance.Context
                     .IsUnique()
                     .HasFilter("([SecurityTypeGroupName] IS NOT NULL)");
 
-                entity.HasOne(d => d.AttributeMember)
-                    .WithMany(p => p.SecurityTypeGroups)
-                    .HasForeignKey(d => d.AttributeMemberId)
+                entity.Property(e => e.SecurityTypeGroupId).ValueGeneratedOnAdd();
+
+                entity.HasOne(d => d.SecurityTypeGroupNavigation)
+                    .WithOne(p => p.SecurityTypeGroup)
+                    .HasForeignKey<SecurityTypeGroup>(d => d.SecurityTypeGroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SecurityTypeGroup_ModelAttributeMember");
             });

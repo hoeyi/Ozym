@@ -65,7 +65,6 @@ namespace NjordFinance.Model
             ValuationFactor = valuationFactor;
             CanHavePosition = canHavePosition;
             CanHaveDerivative = canHaveDerivative;
-            AttributeMemberId = attributeMemberId;
         }
     }
 }

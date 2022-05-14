@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Model
 {
@@ -11,7 +12,6 @@ namespace NjordFinance.Model
         public AccountObject()
         {
             AccountAttributeMemberEntries = new HashSet<AccountAttributeMemberEntry>();
-            Accounts = new HashSet<Account>();
             InvestmentPerformanceAttributeMemberEntries = new HashSet<InvestmentPerformanceAttributeMemberEntry>();
             InvestmentPerformanceEntries = new HashSet<InvestmentPerformanceEntry>();
         }
@@ -38,12 +38,12 @@ namespace NjordFinance.Model
         [StringLength(13)]
         public string PrefixedObjectCode { get; set; }
 
+        [InverseProperty("AccountNavigation")]
+        public virtual Account Account { get; set; }
         [InverseProperty("AccountCompositeNavigation")]
         public virtual AccountComposite AccountComposite { get; set; }
         [InverseProperty(nameof(AccountAttributeMemberEntry.AccountObject))]
         public virtual ICollection<AccountAttributeMemberEntry> AccountAttributeMemberEntries { get; set; }
-        [InverseProperty(nameof(Account.AccountNavigation))]
-        public virtual ICollection<Account> Accounts { get; set; }
         [InverseProperty(nameof(InvestmentPerformanceAttributeMemberEntry.AccountObject))]
         public virtual ICollection<InvestmentPerformanceAttributeMemberEntry> InvestmentPerformanceAttributeMemberEntries { get; set; }
         [InverseProperty(nameof(InvestmentPerformanceEntry.AccountObject))]

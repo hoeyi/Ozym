@@ -36,7 +36,7 @@ namespace NjordFinance.Model
         [InverseProperty("Accounts")]
         public virtual AccountCustodian AccountCustodian { get; set; }
         [ForeignKey(nameof(AccountId))]
-        [InverseProperty(nameof(AccountObject.Accounts))]
+        [InverseProperty(nameof(AccountObject.Account))]
         public virtual AccountObject AccountNavigation { get; set; }
         [InverseProperty(nameof(AccountCompositeMember.Account))]
         public virtual ICollection<AccountCompositeMember> AccountCompositeMembers { get; set; }

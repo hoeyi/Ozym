@@ -19,8 +19,6 @@ namespace NjordFinance.Model
             InvestmentPerformanceAttributeMemberEntries = new HashSet<InvestmentPerformanceAttributeMemberEntry>();
             InvestmentStrategyTargets = new HashSet<InvestmentStrategyTarget>();
             SecurityAttributeMemberEntries = new HashSet<SecurityAttributeMemberEntry>();
-            SecurityTypeGroups = new HashSet<SecurityTypeGroup>();
-            SecurityTypes = new HashSet<SecurityType>();
         }
 
         [Key]
@@ -36,6 +34,10 @@ namespace NjordFinance.Model
         [ForeignKey(nameof(AttributeId))]
         [InverseProperty(nameof(ModelAttribute.ModelAttributeMembers))]
         public virtual ModelAttribute Attribute { get; set; }
+        [InverseProperty("SecurityTypeNavigation")]
+        public virtual SecurityType SecurityType { get; set; }
+        [InverseProperty("SecurityTypeGroupNavigation")]
+        public virtual SecurityTypeGroup SecurityTypeGroup { get; set; }
         [InverseProperty(nameof(AccountAttributeMemberEntry.AttributeMember))]
         public virtual ICollection<AccountAttributeMemberEntry> AccountAttributeMemberEntries { get; set; }
         [InverseProperty(nameof(BankTransactionCodeAttributeMemberEntry.AttributeMember))]
@@ -50,9 +52,5 @@ namespace NjordFinance.Model
         public virtual ICollection<InvestmentStrategyTarget> InvestmentStrategyTargets { get; set; }
         [InverseProperty(nameof(SecurityAttributeMemberEntry.AttributeMember))]
         public virtual ICollection<SecurityAttributeMemberEntry> SecurityAttributeMemberEntries { get; set; }
-        [InverseProperty(nameof(SecurityTypeGroup.AttributeMember))]
-        public virtual ICollection<SecurityTypeGroup> SecurityTypeGroups { get; set; }
-        [InverseProperty(nameof(SecurityType.AttributeMember))]
-        public virtual ICollection<SecurityType> SecurityTypes { get; set; }
     }
 }

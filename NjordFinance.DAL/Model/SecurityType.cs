@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace NjordFinance.Model
 {
     [Table("SecurityType", Schema = "FinanceApp")]
-    [Index(nameof(AttributeMemberId), Name = "IX_SecurityType_AttributeMemberID")]
     [Index(nameof(SecurityTypeGroupId), Name = "IX_SecurityType_SecurityTypeGroupID")]
     public partial class SecurityType
     {
@@ -28,15 +27,13 @@ namespace NjordFinance.Model
         public decimal ValuationFactor { get; set; }
         public bool CanHaveDerivative { get; set; }
         public bool CanHavePosition { get; set; }
-        [Column("AttributeMemberID")]
-        public int AttributeMemberId { get; set; }
 
-        [ForeignKey(nameof(AttributeMemberId))]
-        [InverseProperty(nameof(ModelAttributeMember.SecurityTypes))]
-        public virtual ModelAttributeMember AttributeMember { get; set; }
         [ForeignKey(nameof(SecurityTypeGroupId))]
         [InverseProperty("SecurityTypes")]
         public virtual SecurityTypeGroup SecurityTypeGroup { get; set; }
+        [ForeignKey(nameof(SecurityTypeId))]
+        [InverseProperty(nameof(ModelAttributeMember.SecurityType))]
+        public virtual ModelAttributeMember SecurityTypeNavigation { get; set; }
         [InverseProperty(nameof(Security.SecurityType))]
         public virtual ICollection<Security> Securities { get; set; }
     }
