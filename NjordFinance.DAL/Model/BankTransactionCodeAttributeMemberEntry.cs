@@ -9,16 +9,16 @@ namespace NjordFinance.Model
     [Table("BankTransactionCodeAttributeMemberEntry", Schema = "FinanceApp")]
     [Index(nameof(AttributeMemberId), Name = "IX_BankTransactionCodeAttributeMemberEntry_AttributeMemberID")]
     [Index(nameof(TransactionCodeId), Name = "IX_BankTransactionCodeAttributeMemberEntry_TransactionCodeID")]
-    [Index(nameof(EffectiveDate), nameof(TransactionCodeId), nameof(AttributeMemberId), Name = "UNI_BankTransactionCodeAttributeMemberEntry_RowDef", IsUnique = true)]
     public partial class BankTransactionCodeAttributeMemberEntry
     {
         [Key]
-        [Column("EntryID")]
-        public int EntryId { get; set; }
         [Column("AttributeMemberID")]
         public int AttributeMemberId { get; set; }
+        
+        [Key]
         [Column("TransactionCodeID")]
         public int TransactionCodeId { get; set; }
+        [Key]
         [Column(TypeName = "date")]
         public DateTime EffectiveDate { get; set; }
         [Column(TypeName = "decimal(5, 4)")]

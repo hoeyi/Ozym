@@ -76,6 +76,9 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<AccountAttributeMemberEntry>(entity =>
             {
+                entity.HasKey(e => 
+                    new { e.AttributeMemberId, e.AccountObjectId, e.EffectiveDate });
+
                 entity.HasOne(d => d.AccountObject)
                     .WithMany(p => p.AccountAttributeMemberEntries)
                     .HasForeignKey(d => d.AccountObjectId)
@@ -100,8 +103,8 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<AccountCompositeMember>(entity =>
             {
-                entity.HasKey(e => e.MemberId)
-                    .HasName("PK_AccountCommpositeMember");
+                entity.HasKey(e => 
+                    new { e.AccountCompositeId, e.AccountId, e.EntryDate });
 
                 entity.HasOne(d => d.AccountComposite)
                     .WithMany(p => p.AccountCompositeMembers)
@@ -201,6 +204,9 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<BankTransactionCodeAttributeMemberEntry>(entity =>
             {
+                entity.HasKey(e => 
+                    new { e.AttributeMemberId, e.TransactionCodeId, e.EffectiveDate });
+
                 entity.HasOne(d => d.AttributeMember)
                     .WithMany(p => p.BankTransactionCodeAttributeMemberEntries)
                     .HasForeignKey(d => d.AttributeMemberId)
@@ -259,8 +265,8 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<BrokerTransactionCodeAttributeMemberEntry>(entity =>
             {
-                entity.HasKey(e => e.EntryId)
-                    .HasName("PK_BrokerTransactionAttributeMemberEntry");
+                entity.HasKey(e =>
+                    new { e.AttributeMemberId, e.TransactionCodeId, e.EffectiveDate });
 
                 entity.HasOne(d => d.AttributeMember)
                     .WithMany(p => p.BrokerTransactionCodeAttributeMemberEntries)
@@ -288,6 +294,9 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<CountryAttributeMemberEntry>(entity =>
             {
+                entity.HasKey(e =>
+                    new { e.AttributeMemberId, e.CountryId, e.EffectiveDate });
+
                 entity.HasOne(d => d.AttributeMember)
                     .WithMany(p => p.CountryAttributeMemberEntries)
                     .HasForeignKey(d => d.AttributeMemberId)
@@ -301,6 +310,9 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<InvestmentPerformanceAttributeMemberEntry>(entity =>
             {
+                entity.HasKey(e =>
+                    new { e.AccountObjectId, e.AttributeMemberId, e.FromDate });
+
                 entity.HasOne(d => d.AccountObject)
                     .WithMany(p => p.InvestmentPerformanceAttributeMemberEntries)
                     .HasForeignKey(d => d.AccountObjectId)
@@ -448,6 +460,9 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<SecurityAttributeMemberEntry>(entity =>
             {
+                entity.HasKey(e =>
+                    new { e.AttributeMemberId, e.SecurityId, e.EffectiveDate });
+
                 entity.HasOne(d => d.AttributeMember)
                     .WithMany(p => p.SecurityAttributeMemberEntries)
                     .HasForeignKey(d => d.AttributeMemberId)

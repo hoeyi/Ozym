@@ -9,16 +9,15 @@ namespace NjordFinance.Model
     [Table("AccountCompositeMember", Schema = "FinanceApp")]
     [Index(nameof(AccountCompositeId), Name = "IX_AccountCompositeMember_AccountCompositeID")]
     [Index(nameof(AccountId), Name = "IX_AccountCompositeMember_AccountID")]
-    [Index(nameof(EntryDate), nameof(AccountId), nameof(AccountCompositeId), Name = "UNI_AccountCompositeMember_RowDef")]
     public partial class AccountCompositeMember
     {
         [Key]
-        [Column("MemberID")]
-        public int MemberId { get; set; }
         [Column("AccountCompositeID")]
         public int AccountCompositeId { get; set; }
+        [Key]
         [Column("AccountID")]
         public int AccountId { get; set; }
+        [Key]
         [Column(TypeName = "date")]
         public DateTime EntryDate { get; set; }
         [Column(TypeName = "date")]

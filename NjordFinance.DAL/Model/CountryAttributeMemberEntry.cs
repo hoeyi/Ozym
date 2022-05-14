@@ -8,16 +8,15 @@ namespace NjordFinance.Model
 {
     [Table("CountryAttributeMemberEntry", Schema = "FinanceApp")]
     [Index(nameof(CountryId), Name = "IX_CountryAttributeMemberEntry_CountryID")]
-    [Index(nameof(AttributeMemberId), nameof(CountryId), nameof(EffectiveDate), Name = "UNI_CountryAttributeMemberEntry_RowDef", IsUnique = true)]
     public partial class CountryAttributeMemberEntry
     {
         [Key]
-        [Column("EntryID")]
-        public int EntryId { get; set; }
         [Column("AttributeMemberID")]
         public int AttributeMemberId { get; set; }
+        [Key]
         [Column("CountryID")]
         public int CountryId { get; set; }
+        [Key]
         [Column(TypeName = "date")]
         public DateTime EffectiveDate { get; set; }
         [Column(TypeName = "decimal(5, 4)")]
