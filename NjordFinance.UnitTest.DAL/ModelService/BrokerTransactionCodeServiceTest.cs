@@ -95,7 +95,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestCleanup]
         public override void CleanUp()
         {
-            Logger.LogInformation("Cleaning up {test}", nameof(BrokerTransactionCodeServiceTest));
+            Logger.LogInformation("Cleaning up {test}", GetType().Name);
 
             using var context = CreateDbContext();
 
@@ -132,6 +132,8 @@ namespace NjordFinance.UnitTest.ModelService
                     UpdateModelSuccessSample,
                     x => x.TransactionCode == UpdateModelSuccessSample.TransactionCode
                 ));
+
+            Logger.LogInformation("{Test} initialized.", GetType().Name);
         }
 
         protected override int GetKey(BrokerTransactionCode model) => model.TransactionCodeId;

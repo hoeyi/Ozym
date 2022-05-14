@@ -80,7 +80,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestCleanup]
         public override void CleanUp()
         {
-            Logger.LogInformation("Cleaning up {test}.", nameof(ModelAttributeServiceTest));
+            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
 
             using var context = CreateDbContext();
 
@@ -116,7 +116,7 @@ namespace NjordFinance.UnitTest.ModelService
                     x => x.DisplayName == UpdateModelSuccessSample.DisplayName
                 ));
 
-            Logger.LogInformation("{Test} initialized.", nameof(ModelAttributeServiceTest));
+            Logger.LogInformation("{Test} initialized.", GetType().Name);
         }
 
         protected override int GetKey(ModelAttribute model) => model.AttributeId;

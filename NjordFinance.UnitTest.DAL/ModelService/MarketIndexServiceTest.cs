@@ -85,7 +85,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestCleanup]
         public override void CleanUp()
         {
-            Logger.LogInformation("Cleaning up {test}.", nameof(MarketIndexServiceTest));
+            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
 
             using var context = CreateDbContext();
 
@@ -122,7 +122,7 @@ namespace NjordFinance.UnitTest.ModelService
                     x => x.IndexCode == UpdateModelSuccessSample.IndexCode
                 ));
 
-            Logger.LogInformation("{Test} initialized.", nameof(MarketIndexServiceTest));
+            Logger.LogInformation("{Test} initialized.", GetType().Name);
         }
 
         protected override int GetKey(MarketIndex model) => model.IndexId;

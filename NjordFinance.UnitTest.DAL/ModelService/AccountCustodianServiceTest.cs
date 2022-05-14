@@ -84,7 +84,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestCleanup]
         public override void CleanUp()
         {
-            Logger.LogInformation("Cleaning up {test}.", nameof(AccountCustodianServiceTest));
+            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
 
             using var context = CreateDbContext();
 
@@ -119,6 +119,8 @@ namespace NjordFinance.UnitTest.ModelService
                 (
                     UpdateModelSuccessSample, 
                     x => x.CustodianCode == UpdateModelSuccessSample.CustodianCode));
+
+            Logger.LogInformation("{Test} initialized.", GetType().Name);
         }
 
         protected override int GetKey(AccountCustodian model) => model.AccountCustodianId;

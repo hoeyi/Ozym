@@ -129,7 +129,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestCleanup]
         public override void CleanUp()
         {
-            Logger.LogInformation("Cleaning up {test}.", nameof(AccountCompositeServiceTest));
+            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
 
             using var context = CreateDbContext();
 
@@ -170,6 +170,8 @@ namespace NjordFinance.UnitTest.ModelService
                     x => x.AccountCompositeNavigation.AccountObjectCode ==
                         UpdateModelSuccessSample.AccountCompositeNavigation.AccountObjectCode
                 ));
+
+            Logger.LogInformation("{Test} initialized.", GetType().Name);
         }
 
         protected override Expression<Func<AccountComposite, object>>[] IncludePaths =>
