@@ -60,7 +60,7 @@ namespace NjordFinance.UnitTest.ModelService
         /// Verifies the method used to return all <typeparamref name="T"/> models matching 
         /// the given predicate, limited to 1 result.
         /// </summary>
-        Task SelectWhereAsync_Returns_Model_List();
+        Task SelectWhereAsync_Returns_Model_Single();
 
         /// <summary>
         /// Verifies the unit of work for updating a single <typeparamref name="T"/>.

@@ -19,36 +19,15 @@ namespace NjordFinance.UnitTest.ModelService
     {
         /// <inheritdoc/>
         [TestMethod]
-        public override async Task CreateAsync_ValidModel_Returns_Single_Model()
-        {
-            var service = GetModelService();
-
-            AccountCustodian custodian = await service.CreateAsync(CreateModelSuccessSample);
-
-            using var context = CreateDbContext();
-
-            // Verify the primary key assigned.
-            var savedCustodian = context.AccountCustodians
-                .First(a => a.AccountCustodianId == custodian.AccountCustodianId);
-
-            // Check the return object attributes match the submitted object.
-            Assert.IsTrue(savedCustodian.AccountCustodianId > 0);
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
-                savedCustodian, custodian));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
         public override async Task DeleteAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
-            AccountCustodian custodian = (await service.SelectWhereAysnc(a =>
+            AccountCustodian deleted = (await service.SelectWhereAysnc(a =>
                 a.CustodianCode == DeleteModelSuccessSample.CustodianCode, 1))
                 .First();
 
-            var result = await service.DeleteAsync(custodian);
+            var result = await service.DeleteAsync(deleted);
 
             using var context = CreateDbContext();
 
@@ -59,43 +38,27 @@ namespace NjordFinance.UnitTest.ModelService
 
         /// <inheritdoc/>
         [TestMethod]
-        public override async Task SelectWhereAsync_Returns_Model_List()
-        {
-            AccountCustodian expected = GetLast();
-
-            var service = GetModelService();
-
-            var observed = (await service.SelectWhereAysnc(
-                predicate: a => a.CustodianCode == expected.CustodianCode,
-                maxCount: 1))
-                .First();
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(expected, observed));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
         public override async Task UpdateAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
-            AccountCustodian custodian = (await service.SelectWhereAysnc(
+            AccountCustodian original = (await service.SelectWhereAysnc(
                 predicate: x =>
                     x.CustodianCode == UpdateModelSuccessSample.CustodianCode,
                 maxCount: 1))
                 .First();
 
-            custodian.DisplayName = "Test custodian UPDATED";
+            original.DisplayName = "Test custodian UPDATED";
 
-            var result = await service.UpdateAsync(custodian);
+            var result = await service.UpdateAsync(original);
 
             using var context = CreateDbContext();
 
-            var savedCustodian = context.AccountCustodians.FirstOrDefault(a =>
-                a.AccountCustodianId == custodian.AccountCustodianId);
+            var updated = context.AccountCustodians.FirstOrDefault(a =>
+                a.AccountCustodianId == original.AccountCustodianId);
 
             Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
-                savedCustodian, custodian));
+                updated, original));
         }
     }
 

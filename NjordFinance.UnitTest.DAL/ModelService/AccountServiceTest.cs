@@ -18,66 +18,23 @@ namespace NjordFinance.UnitTest.ModelService
     {
         /// <inheritdoc/>
         [TestMethod]
-        public override async Task CreateAsync_ValidModel_Returns_Single_Model()
-        {
-            var service = GetModelService();
-
-            Account account = await service.CreateAsync(CreateModelSuccessSample);
-
-            // Create a new context for checking results. Avoids dependency
-            // on model service.
-            using var context = CreateDbContext();
-
-            var savedAccount = context.Accounts
-                .Include(a => a.AccountNavigation)
-                .FirstOrDefault(a => a.AccountId == account.AccountId);
-
-            // Verify the primary key is assigned.
-            Assert.IsTrue(account.AccountId > 0);
-
-            // Check the return attributes match the submitted object.
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
-                savedAccount, account));
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
-                savedAccount.AccountNavigation, account.AccountNavigation));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
         public override async Task DeleteAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
-            Account account = (await service.SelectWhereAysnc(
+            Account deleted = (await service.SelectWhereAysnc(
                 predicate: a => 
                     a.AccountNavigation.AccountObjectCode == DeleteModelSuccessSample.AccountCode, 
                 maxCount: 1))
                 .First();
 
-            var result = await service.DeleteAsync(account);
+            var result = await service.DeleteAsync(deleted);
 
             using var context = CreateDbContext();
 
             // Check delete action was successful and the account is not found in the DbContext.
             Assert.IsTrue(result && 
-                !context.Accounts.Any(a => a.AccountId == account.AccountId));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public override async Task SelectWhereAsync_Returns_Model_List()
-        {
-            Account expected = GetLast(a => a.AccountNavigation);
-
-            var service = GetModelService();
-
-            var observed = (await service.SelectWhereAysnc(
-                predicate: a => a.AccountNavigation.AccountObjectId == expected.AccountId,
-                maxCount: 1))
-                .First();
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(expected, observed));
+                !context.Accounts.Any(a => a.AccountId == deleted.AccountId));
         }
 
         /// <inheritdoc/>s
@@ -86,35 +43,35 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = GetModelService();
 
-            Account account = (await service.SelectWhereAysnc(
+            Account original = (await service.SelectWhereAysnc(
                 predicate: x =>
                     x.AccountNavigation.AccountObjectCode == UpdateModelSuccessSample.AccountCode,
                 maxCount: 1))
                 .First();
             
             // Change a few attributes of the model.
-            account.AccountNavigation.ObjectDisplayName = "TEST ACCOUNT #002 - UPDATED";
-            account.IsComplianceTradable = !account.IsComplianceTradable;
-            account.HasWallet = !account.HasWallet;
-            account.AccountNavigation.StartDate = account.AccountNavigation.StartDate.AddDays(-273);
-            account.AccountNavigation.CloseDate = account.AccountNavigation.StartDate.AddYears(5);
+            original.AccountNavigation.ObjectDisplayName = "TEST ACCOUNT #002 - UPDATED";
+            original.IsComplianceTradable = !original.IsComplianceTradable;
+            original.HasWallet = !original.HasWallet;
+            original.AccountNavigation.StartDate = original.AccountNavigation.StartDate.AddDays(-273);
+            original.AccountNavigation.CloseDate = original.AccountNavigation.StartDate.AddYears(5);
 
             // Send the updates to the database.
-            var result = await service.UpdateAsync(account);
+            var result = await service.UpdateAsync(original);
 
             // Open a context for checking results.
             using var context = CreateDbContext();
 
-            var savedAccount = context.Accounts
+            var updated = context.Accounts
                 .Include(a => a.AccountNavigation)
-                .FirstOrDefault(a => a.AccountId == account.AccountId);
+                .FirstOrDefault(a => a.AccountId == original.AccountId);
 
             // Check the return attributes match the submitted object.
             Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
-                savedAccount, account));
+                updated, original));
 
             Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
-                savedAccount.AccountNavigation, account.AccountNavigation));
+                updated.AccountNavigation, original.AccountNavigation));
         }
     }
 

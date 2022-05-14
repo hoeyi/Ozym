@@ -18,54 +18,20 @@ namespace NjordFinance.UnitTest.ModelService
     {
         /// <inheritdoc/>
         [TestMethod]
-        public override async Task CreateAsync_ValidModel_Returns_Single_Model()
-        {
-            var service = GetModelService();
-
-            BankTransactionCode code = await service.CreateAsync(CreateModelSuccessSample);
-
-            using var context = CreateDbContext();
-
-            var savedCode = context.BankTransactionCodes
-                .FirstOrDefault(x => x.TransactionCodeId == code.TransactionCodeId);
-
-            Assert.IsTrue(code.TransactionCodeId > 0);
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(savedCode, code));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
         public override async Task DeleteAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
-            BankTransactionCode code = (await service.SelectWhereAysnc(x =>
+            BankTransactionCode deleted = (await service.SelectWhereAysnc(x =>
                 x.TransactionCode == DeleteModelSuccessSample.TransactionCode, 1))
                 .First();
 
-            var result = await service.DeleteAsync(code);
+            var result = await service.DeleteAsync(deleted);
 
             using var context = CreateDbContext();
 
             Assert.IsTrue(result && !context.BankTransactionCodes
-                .Any(x => x.TransactionCodeId == code.TransactionCodeId));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public override async Task SelectWhereAsync_Returns_Model_List()
-        {
-            BankTransactionCode expected = GetLast();
-
-            var service = GetModelService();
-
-            var observed = (await service.SelectWhereAysnc(
-                predicate: x => x.TransactionCodeId == expected.TransactionCodeId,
-                maxCount: 1))
-                .First();
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(expected, observed));
+                .Any(x => x.TransactionCodeId == deleted.TransactionCodeId));
         }
 
         /// <inheritdoc/>
@@ -74,21 +40,21 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = GetModelService();
 
-            BankTransactionCode code = (await service.SelectWhereAysnc(
+            BankTransactionCode original = (await service.SelectWhereAysnc(
                 predicate: a => a.TransactionCode == UpdateModelSuccessSample.TransactionCode,
                 maxCount: 1))
                 .First();
 
-            code.DisplayName = "Test update pass EDIT";
+            original.DisplayName = "Test update pass EDIT";
 
-            var result = await service.UpdateAsync(code);
+            var result = await service.UpdateAsync(original);
 
             using var context = CreateDbContext();
 
-            var savedCode = context.BankTransactionCodes
-                .FirstOrDefault(a => a.TransactionCodeId == code.TransactionCodeId);
+            var updated = context.BankTransactionCodes
+                .FirstOrDefault(a => a.TransactionCodeId == original.TransactionCodeId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(savedCode, code));
+            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(updated, original));
         }
     }
 

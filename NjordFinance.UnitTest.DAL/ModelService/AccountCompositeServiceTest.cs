@@ -18,64 +18,24 @@ namespace NjordFinance.UnitTest.ModelService
     {
         /// <inheritdoc/>
         [TestMethod]
-        public override async Task CreateAsync_ValidModel_Returns_Single_Model()
-        {
-            var service = GetModelService();
-
-            AccountComposite composite = await service.CreateAsync(CreateModelSuccessSample);
-
-            using var context = CreateDbContext();
-
-            var savedComposite = context.AccountComposites
-                .Include(a => a.AccountCompositeNavigation)
-                .FirstOrDefault(a => a.AccountCompositeId == composite.AccountCompositeId);
-
-            Assert.IsTrue(composite.AccountCompositeId > 0);
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
-                savedComposite, composite));
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
-                savedComposite.AccountCompositeNavigation, composite.AccountCompositeNavigation));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
         public override async Task DeleteAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
-            AccountComposite composite = (await service.SelectWhereAysnc(
+            AccountComposite deleted = (await service.SelectWhereAysnc(
                 predicate: a =>
                     a.AccountCompositeNavigation.AccountObjectCode ==
                         DeleteModelSuccessSample.AccountCompositeNavigation.AccountObjectCode,
                 maxCount: 1))
                 .First();
 
-            var result = await service.DeleteAsync(composite);
+            var result = await service.DeleteAsync(deleted);
 
             using var context = CreateDbContext();
 
             Assert.IsTrue(result &&
                 !context.AccountComposites.Any(
-                    a => a.AccountCompositeId == composite.AccountCompositeId));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public override async Task SelectWhereAsync_Returns_Model_List()
-        {
-            AccountComposite expected = GetLast(a => a.AccountCompositeNavigation);
-
-            var service = GetModelService();
-
-            var observed = (await service.SelectWhereAysnc(
-                predicate: a => a.AccountCompositeNavigation.AccountObjectId
-                    == expected.AccountCompositeId,
-                maxCount: 1))
-                .First();
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(expected, observed));
+                    a => a.AccountCompositeId == deleted.AccountCompositeId));
         }
 
         /// <inheritdoc/>
@@ -84,29 +44,29 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = GetModelService();
 
-            AccountComposite composite = (await service.SelectWhereAysnc(
+            AccountComposite original = (await service.SelectWhereAysnc(
                 predicate: x =>
                     x.AccountCompositeNavigation.AccountObjectCode ==
                         UpdateModelSuccessSample.AccountCompositeNavigation.AccountObjectCode,
                 maxCount: 1))
                 .First();
 
-            composite.AccountCompositeNavigation.ObjectDisplayName =
-                $"{composite.AccountCompositeNavigation.ObjectDisplayName} - updated";
+            original.AccountCompositeNavigation.ObjectDisplayName =
+                $"{original.AccountCompositeNavigation.ObjectDisplayName} - updated";
 
-            var result = await service.UpdateAsync(composite);
+            var result = await service.UpdateAsync(original);
 
             using var context = CreateDbContext();
 
-            var savedComposite = context.AccountComposites
+            var updated = context.AccountComposites
                 .Include(a => a.AccountCompositeNavigation)
-                .FirstOrDefault(a => a.AccountCompositeId == composite.AccountCompositeId);
+                .FirstOrDefault(a => a.AccountCompositeId == original.AccountCompositeId);
 
             Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
-                savedComposite, composite));
+                updated, original));
 
             Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
-                savedComposite.AccountCompositeNavigation, composite.AccountCompositeNavigation));
+                updated.AccountCompositeNavigation, original.AccountCompositeNavigation));
         }
     }
 

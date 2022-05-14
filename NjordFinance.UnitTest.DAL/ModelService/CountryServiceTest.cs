@@ -17,56 +17,21 @@ namespace NjordFinance.UnitTest.ModelService
     {
         /// <inheritdoc/>
         [TestMethod]
-        public override async Task CreateAsync_ValidModel_Returns_Single_Model()
-        {
-            var service = GetModelService();
-
-            Country country = await service.CreateAsync(CreateModelSuccessSample);
-
-            using var context = CreateDbContext();
-
-            var savedCountry = context.Countries
-                .FirstOrDefault(a => a.CountryId == country.CountryId);
-
-            Assert.IsTrue(country.CountryId > 0);
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
-                savedCountry, country));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
         public override async Task DeleteAsync_ValidModel_Returns_True()
         {
             var service = GetModelService();
 
-            Country country = (await service.SelectWhereAysnc(
+            Country deleted = (await service.SelectWhereAysnc(
                 predicate: x => x.IsoCode3 == DeleteModelSuccessSample.IsoCode3,
                 maxCount: 1))
                 .First();
 
-            var result = await service.DeleteAsync(country);
+            var result = await service.DeleteAsync(deleted);
 
             using var context = CreateDbContext();
 
             Assert.IsTrue(result && !context.CountryAttributeMemberEntries
-                .Any(x => x.CountryId == country.CountryId));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public override async Task SelectWhereAsync_Returns_Model_List()
-        {
-            Country expected = GetLast();
-
-            var service = GetModelService();
-
-            var observed = (await service.SelectWhereAysnc(
-                predicate: x => x.CountryId == expected.CountryId,
-                maxCount: 1))
-                .First();
-
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(expected, observed));
+                .Any(x => x.CountryId == deleted.CountryId));
         }
 
         /// <inheritdoc/>
@@ -75,21 +40,21 @@ namespace NjordFinance.UnitTest.ModelService
         {
             var service = GetModelService();
 
-            Country country = (await service.SelectWhereAysnc(
+            Country original = (await service.SelectWhereAysnc(
                 predicate: x => x.IsoCode3 == UpdateModelSuccessSample.IsoCode3,
                 maxCount: 1))
                 .First();
 
-            country.DisplayName = $"{country.DisplayName} - updated";
+            original.DisplayName = $"{original.DisplayName} - updated";
 
-            var result = await service.UpdateAsync(country);
+            var result = await service.UpdateAsync(original);
 
             using var context = CreateDbContext();
 
-            var savedCountry = context.Countries
-                .FirstOrDefault(a => a.CountryId == country.CountryId);
+            var updated = context.Countries
+                .FirstOrDefault(a => a.CountryId == original.CountryId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(savedCountry, country));
+            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(updated, original));
         }
         
     }
@@ -153,8 +118,8 @@ namespace NjordFinance.UnitTest.ModelService
                 },
                 new
                 {
-                    DeleteModelFailSample.IsoCode3,
-                    DeleteModelFailSample.DisplayName
+                    UpdateModelSuccessSample.IsoCode3,
+                    UpdateModelSuccessSample.DisplayName
                 }
             });
 
