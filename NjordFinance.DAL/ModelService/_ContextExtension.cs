@@ -62,7 +62,7 @@ namespace NjordFinance.ModelService
         /// <param name="models">The <typeparamref name="T"/> model collection 
         /// to be created.</param>
         /// <returns>The <see cref="FinanceDbContext"/> instance, modified.</returns>
-        public static FinanceDbContext MarkForCreation<T>(
+        public static FinanceDbContext MarkRangeForCreation<T>(
             this FinanceDbContext context,
             params T[] models)
             where T : class, new()
@@ -98,7 +98,7 @@ namespace NjordFinance.ModelService
         /// <param name="models">The <typeparamref name="T"/> model collection 
         /// to be deleted.</param>
         /// <returns>The <see cref="FinanceDbContext"/> instance, modified.</returns>
-        public static FinanceDbContext MarkForDeletion<T>(
+        public static FinanceDbContext MarkRangeForDeletion<T>(
             this FinanceDbContext context, params T[] models)
             where T : class, new()
         {
@@ -134,7 +134,7 @@ namespace NjordFinance.ModelService
         /// <param name="models">The <typeparamref name="T"/> model collection 
         /// to be updated.</param>
         /// <returns>The <see cref="FinanceDbContext"/> instance, modified.</returns>
-        public static FinanceDbContext MarkForUpdate<T>(
+        public static FinanceDbContext MarkRangeForUpdate<T>(
             this FinanceDbContext context,
             params T[] models)
             where T : class, new()
