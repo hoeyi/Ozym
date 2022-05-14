@@ -394,8 +394,6 @@ namespace NjordFinance.Context
                     .IsUnique()
                     .HasFilter("([DisplayName] IS NOT NULL)");
 
-                entity.Property(e => e.AttributeMemberId).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Attribute)
                     .WithMany(p => p.ModelAttributeMembers)
                     .HasForeignKey(d => d.AttributeId)
@@ -496,8 +494,6 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<SecuritySymbolMap>(entity =>
             {
-                entity.Property(e => e.SymbolMapId).ValueGeneratedNever();
-
                 entity.HasOne(d => d.AccountCustodian)
                     .WithMany(p => p.SecuritySymbolMaps)
                     .HasForeignKey(d => d.AccountCustodianId)
@@ -524,7 +520,7 @@ namespace NjordFinance.Context
                     .IsUnique()
                     .HasFilter("([SecurityTypeName] IS NOT NULL)");
 
-                entity.Property(e => e.SecurityTypeId).ValueGeneratedOnAdd();
+                entity.Property(e => e.SecurityTypeId).ValueGeneratedNever();
 
                 entity.HasOne(d => d.SecurityTypeGroup)
                     .WithMany(p => p.SecurityTypes)
@@ -545,7 +541,7 @@ namespace NjordFinance.Context
                     .IsUnique()
                     .HasFilter("([SecurityTypeGroupName] IS NOT NULL)");
 
-                entity.Property(e => e.SecurityTypeGroupId).ValueGeneratedOnAdd();
+                entity.Property(e => e.SecurityTypeGroupId).ValueGeneratedNever();
 
                 entity.HasOne(d => d.SecurityTypeGroupNavigation)
                     .WithOne(p => p.SecurityTypeGroup)
