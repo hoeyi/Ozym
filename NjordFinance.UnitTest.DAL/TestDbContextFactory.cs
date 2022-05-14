@@ -37,6 +37,7 @@ namespace NjordFinance.UnitTest.ModelService
         public FinanceDbContext CreateDbContext() => new(
                 new DbContextOptionsBuilder<FinanceDbContext>()
                     .UseSqlServer(UnitTest.Configuration["Connectionstrings:NjordFinance"])
+                    .EnableSensitiveDataLogging()
                     .Options);
     }
 }

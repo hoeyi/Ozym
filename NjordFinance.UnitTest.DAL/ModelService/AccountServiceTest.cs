@@ -118,9 +118,9 @@ namespace NjordFinance.UnitTest.ModelService
         {
             AccountNavigation = new()
             {
-                AccountObjectCode = "TESTUPDATE",
+                AccountObjectCode = "TESTUPDPASS",
                 ObjectType = AccountObjectType.Account.ConvertToStringCode(),
-                ObjectDisplayName = "TEST UPDATE",
+                ObjectDisplayName = "TEST UPDATE PASS",
                 ObjectDescription = "sed do eiusmod ",
                 StartDate = new DateTime(
                             _random.Next(1975, 2022), _random.Next(1, 12), _random.Next(1, 28))
@@ -130,9 +130,9 @@ namespace NjordFinance.UnitTest.ModelService
 
         protected override Expression<Func<Account, object>>[] IncludePaths => 
             new Expression<Func<Account, object>>[]
-        {
-            a => a.AccountNavigation
-        };
+            {
+                a => a.AccountNavigation
+            };
 
         [TestCleanup]
         public override void CleanUp()
@@ -142,8 +142,8 @@ namespace NjordFinance.UnitTest.ModelService
             using var context = CreateDbContext();
 
             int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM NjordDbTest.FinanceApp.Account WHERE AccountID > 0;" +
-                "DELETE FROM NjordDbTest.FinanceApp.AccountObject WHERE AccountObjectID > 0;");
+                "DELETE FROM FinanceApp.Account WHERE AccountID > 0;" +
+                "DELETE FROM FinanceApp.AccountObject WHERE AccountObjectID > 0;");
 
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }

@@ -88,7 +88,7 @@ namespace NjordFinance.UnitTest.ModelService
             using var context = CreateDbContext();
 
             int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM NjordDbTest.FinanceApp.Country WHERE CountryID > 0;");
+                "DELETE FROM FinanceApp.Country WHERE CountryID > 0;");
 
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }

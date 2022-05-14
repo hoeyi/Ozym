@@ -87,7 +87,7 @@ namespace NjordFinance.UnitTest.ModelService
             using var context = CreateDbContext();
 
             int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM NjordDbTest.FinanceApp.BankTransactionCode WHERE TransactionCodeID > 0;");
+                "DELETE FROM FinanceApp.BankTransactionCode WHERE TransactionCodeID > 0;");
 
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }

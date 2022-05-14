@@ -319,13 +319,12 @@ namespace NjordFinance.UnitTest.ModelService
             if (including is not null)
                 dbset = dbset.Include(including);
 
-            foreach(var (model, matchingFunc) in models)
-            {
-                if (!dbset.Any(matchingFunc))
-                {
-                    context.Add(model);
-                }
-            }
+            var newModels = models
+                .Where(a => !dbset.Any(a.matchingFunc))
+                .Select(a => a.model)
+                .ToArray();
+
+            context.AddRange(newModels);
 
             context.SaveChanges();
         }

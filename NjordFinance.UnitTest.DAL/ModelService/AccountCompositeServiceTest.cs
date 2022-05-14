@@ -134,8 +134,8 @@ namespace NjordFinance.UnitTest.ModelService
             using var context = CreateDbContext();
 
             int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM NjordDbTest.FinanceApp.AccountComposite WHERE AccountCompositeID > 0;" +
-                "DELETE FROM NjordDbTest.FinanceApp.AccountObject WHERE AccountObjectID > 0;");
+                "DELETE FROM FinanceApp.AccountComposite WHERE AccountCompositeID > 0;" +
+                "DELETE FROM FinanceApp.AccountObject WHERE AccountObjectID > 0;");
 
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }
