@@ -1,22 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordFinance.Exceptions;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NjordFinance.UnitTest.ModelService
 {
     [TestClass]
     public partial class BrokerTransactionCodeServiceTest
-        : IModelServiceBaseTest<BrokerTransactionCode>
     {
-        /// <inheritdoc/>
         [TestMethod]
         public override async Task DeleteAsync_ValidModel_Returns_True()
         {
@@ -36,7 +30,6 @@ namespace NjordFinance.UnitTest.ModelService
                     x => x.TransactionCodeId == deleted.TransactionCodeId));
         }
 
-        /// <inheritdoc/>
         [TestMethod]
         public override async Task UpdateAsync_ValidModel_Returns_True()
         {
@@ -62,7 +55,6 @@ namespace NjordFinance.UnitTest.ModelService
     public partial class BrokerTransactionCodeServiceTest
         : ModelServiceBaseTest<BrokerTransactionCode>
     {
-        /// <inheritdoc/>
         protected override BrokerTransactionCode CreateModelSuccessSample => new()
         {
             TransactionCode = "TCP",
@@ -72,7 +64,6 @@ namespace NjordFinance.UnitTest.ModelService
             CashEffect = 1
         };
 
-        /// <inheritdoc/>
         protected override BrokerTransactionCode DeleteModelSuccessSample => new()
         {
             TransactionCode = "TDP",
@@ -82,7 +73,6 @@ namespace NjordFinance.UnitTest.ModelService
             CashEffect = 1
         };
 
-        /// <inheritdoc/>
         protected override BrokerTransactionCode DeleteModelFailSample => new()
         {
             TransactionCodeId = -1000,
@@ -93,7 +83,6 @@ namespace NjordFinance.UnitTest.ModelService
             CashEffect = 1
         };
 
-        /// <inheritdoc/>
         protected override BrokerTransactionCode UpdateModelSuccessSample => new()
         {
             TransactionCode = "TUP",
@@ -103,7 +92,6 @@ namespace NjordFinance.UnitTest.ModelService
             CashEffect = 1
         };
 
-        /// <inheritdoc/>
         [TestCleanup]
         public override void CleanUp()
         {
@@ -117,7 +105,6 @@ namespace NjordFinance.UnitTest.ModelService
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }
 
-        /// <inheritdoc/>
         [TestInitialize]
         public override void Initialize()
         {
@@ -147,10 +134,8 @@ namespace NjordFinance.UnitTest.ModelService
                 ));
         }
 
-        /// <inheritdoc/>
         protected override int GetKey(BrokerTransactionCode model) => model.TransactionCodeId;
 
-        /// <inheritdoc/>
         protected override IModelService<BrokerTransactionCode> GetModelService() =>
             BuildModelService<BrokerTransactionCodeService>();
     }

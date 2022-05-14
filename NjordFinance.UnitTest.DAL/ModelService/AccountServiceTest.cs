@@ -1,22 +1,19 @@
-﻿using Ichosoft.DataModel;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordFinance.Exceptions;
 using NjordFinance.Model;
 using NjordFinance.ModelMetadata;
 using NjordFinance.ModelService;
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace NjordFinance.UnitTest.ModelService
 {
-    /// <inheritdoc/>
     [TestClass]
     public partial class AccountServiceTest
     {
-        /// <inheritdoc/>
         [TestMethod]
         public override async Task DeleteAsync_ValidModel_Returns_True()
         {
@@ -37,7 +34,6 @@ namespace NjordFinance.UnitTest.ModelService
                 !context.Accounts.Any(a => a.AccountId == deleted.AccountId));
         }
 
-        /// <inheritdoc/>s
         [TestMethod]
         public override async Task UpdateAsync_ValidModel_Returns_True()
         {
@@ -75,14 +71,11 @@ namespace NjordFinance.UnitTest.ModelService
         }
     }
 
-    /// <inheritdoc/>
     public partial class AccountServiceTest : ModelServiceBaseTest<Account>
     {
         private readonly Random _random = new();
 
-        protected override int GetKey(Account model) => model.AccountId;
 
-        /// <inheritdoc/>
         protected override Account CreateModelSuccessSample => new()
         {
             AccountNavigation = new()
@@ -95,7 +88,6 @@ namespace NjordFinance.UnitTest.ModelService
             AccountNumber = "0000-0000-00"
         };
 
-        /// <inheritdoc/>
         protected override Account DeleteModelSuccessSample => new()
         {
             AccountNavigation = new()
@@ -108,7 +100,6 @@ namespace NjordFinance.UnitTest.ModelService
             AccountNumber = "0000-0000-00",
         };
 
-        /// <inheritdoc/>
         protected override Account DeleteModelFailSample => new()
         {
             AccountNavigation = new()
@@ -123,7 +114,6 @@ namespace NjordFinance.UnitTest.ModelService
             AccountId = -1000
         };
 
-        /// <inheritdoc/>
         protected override Account UpdateModelSuccessSample => new()
         {
             AccountNavigation = new()
@@ -138,7 +128,12 @@ namespace NjordFinance.UnitTest.ModelService
             AccountNumber = "0000-0000-00"
         };
 
-        /// <inheritdoc/>
+        protected override Expression<Func<Account, object>>[] IncludePaths => 
+            new Expression<Func<Account, object>>[]
+        {
+            a => a.AccountNavigation
+        };
+
         [TestCleanup]
         public override void CleanUp()
         {
@@ -153,7 +148,8 @@ namespace NjordFinance.UnitTest.ModelService
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }
 
-        /// <inheritdoc/>
+        protected override int GetKey(Account model) => model.AccountId;
+
         [TestInitialize]
         public override void Initialize()
         {
@@ -183,7 +179,6 @@ namespace NjordFinance.UnitTest.ModelService
                         UpdateModelSuccessSample.AccountCode));
         }
 
-        /// <inheritdoc/>
         protected override IModelService<Account> GetModelService() =>
             BuildModelService<AccountService>();
     }

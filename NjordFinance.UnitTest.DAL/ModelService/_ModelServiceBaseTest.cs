@@ -35,8 +35,7 @@ namespace NjordFinance.UnitTest.ModelService
 
             using var context = CreateDbContext();
 
-            var savedModel = context.Set<T>()
-                .FirstOrDefault(GetKeySearchExpression(GetKey(model)));
+            var savedModel = GetModel(GetKey(model), IncludePaths);
 
             Assert.IsTrue(GetKey(model) > 0);
 
@@ -123,7 +122,7 @@ namespace NjordFinance.UnitTest.ModelService
         [TestMethod]
         public virtual async Task SelectWhereAsync_Returns_Model_Single()
         {
-            T expected = GetLast();
+            T expected = GetLast(IncludePaths);
 
             var service = GetModelService();
 
@@ -164,6 +163,12 @@ namespace NjordFinance.UnitTest.ModelService
         protected abstract T UpdateModelSuccessSample { get; }
 
         /// <summary>
+        /// Gets the collection of navigation paths to include in the test.
+        /// </summary>
+        protected virtual Expression<Func<T, object>>[] IncludePaths { get; } = 
+            Array.Empty<Expression<Func<T, object>>>();
+
+        /// <summary>
         /// Gets the <see cref="ILogger"/> instance for this service.
         /// </summary>
         protected ILogger Logger => UnitTest.Logger;
@@ -184,35 +189,10 @@ namespace NjordFinance.UnitTest.ModelService
         public abstract void CleanUp();
 
         /// <summary>
-        /// Gets the last item in the data store collection.
-        /// </summary>
-        /// <returns>The <typeparamref name="T"/> instance.</returns>
-        protected static T GetLast(
-            params Expression<Func<T, object>>[] paths)
-        {
-            if(paths.Length > 3)
-            {
-                throw new ArgumentException(
-                    $"Included navigation paths exceed.\nLimit: 3, Given: {paths.Length}");
-            }
-
-            using var context = UnitTest.DbContextFactory.CreateDbContext();
-
-            IQueryable<T> query = context.Set<T>();
-
-            foreach(var path in paths)
-            {
-                query = query.Include(path);
-            }
-
-            return query.OrderBy(a => a).Last();
-        }
-
-        /// <summary>
         /// Utility method for creating new <see cref="FinanceDbContext"/> instances.
         /// </summary>
         /// <returns>A new <see cref="FinanceDbContext"/> instance.</returns>
-        protected static FinanceDbContext CreateDbContext()
+        protected FinanceDbContext CreateDbContext()
         {
             return UnitTest.DbContextFactory.CreateDbContext();
         }
@@ -231,10 +211,56 @@ namespace NjordFinance.UnitTest.ModelService
         protected abstract IModelService<T> GetModelService();
 
         /// <summary>
+        /// Gets the last item in the data store collection.
+        /// </summary>
+        /// <returns>The <typeparamref name="T"/> instance.</returns>
+        protected static T GetLast(
+            params Expression<Func<T, object>>[] paths)
+        {
+            if (paths.Length > 3)
+                throw new InvalidOperationException($"'{paths}' parameter cannot exceed 3.");
+
+            using var context = UnitTest.DbContextFactory.CreateDbContext();
+
+            IQueryable<T> dbSet = context.Set<T>();
+
+            foreach (var path in paths)
+            {
+                dbSet = dbSet.Include(path);
+            }
+
+            return dbSet.OrderBy(a => a).Last();
+        }
+
+        /// <summary>
+        /// Gets the model with the given <paramref name="id"/>, including the given 
+        /// navigation paths.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="paths"></param>
+        /// <returns></returns>
+        private T GetModel(int id, params Expression<Func<T, object>>[] paths)
+        {
+            if (paths.Length > 3)
+                throw new InvalidOperationException($"'{paths}' parameter cannot exceed 3.");
+
+            using var context = CreateDbContext();
+
+            IQueryable<T> dbSet = context.Set<T>();
+
+            foreach(var path in paths)
+            {
+                dbSet = dbSet.Include(path);
+            }
+
+            return dbSet.FirstOrDefault(GetKeySearchExpression(id));
+        }
+
+        /// <summary>
         /// Creates the <see cref="IModelService{T}"/> to be tested.
         /// </summary>
         /// <returns></returns>
-        protected static IModelService<T> BuildModelService<TService>()
+        protected IModelService<T> BuildModelService<TService>()
         {
             return (IModelService<T>)Activator.CreateInstance(
                 typeof(TService), DbContextFactory,

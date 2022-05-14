@@ -5,9 +5,8 @@ using NjordFinance.Model;
 using NjordFinance.ModelMetadata;
 using NjordFinance.ModelService;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace NjordFinance.UnitTest.ModelService
@@ -173,10 +172,14 @@ namespace NjordFinance.UnitTest.ModelService
                 ));
         }
 
-        /// <inheritdoc/>
+        protected override Expression<Func<AccountComposite, object>>[] IncludePaths =>
+            new Expression<Func<AccountComposite, object>>[]
+        {
+            a => a.AccountCompositeNavigation
+        };
+
         protected override int GetKey(AccountComposite model) => model.AccountCompositeId;
 
-        /// <inheritdoc/>
         protected override IModelService<AccountComposite> GetModelService() =>
             BuildModelService<AccountCompositeService>();
     }

@@ -1,22 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordFinance.Exceptions;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NjordFinance.UnitTest.ModelService
 {
-    /// <inheritdoc/>
     [TestClass]
     public partial class BankTransactionCodeServiceTest
     {
-        /// <inheritdoc/>
         [TestMethod]
         public override async Task DeleteAsync_ValidModel_Returns_True()
         {
@@ -34,7 +28,6 @@ namespace NjordFinance.UnitTest.ModelService
                 .Any(x => x.TransactionCodeId == deleted.TransactionCodeId));
         }
 
-        /// <inheritdoc/>
         [TestMethod]
         public override async Task UpdateAsync_ValidModel_Returns_True()
         {
@@ -61,21 +54,18 @@ namespace NjordFinance.UnitTest.ModelService
     public partial class BankTransactionCodeServiceTest 
         : ModelServiceBaseTest<BankTransactionCode>
     {
-        /// <inheritdoc/>
         protected override BankTransactionCode CreateModelSuccessSample => new()
         {
             TransactionCode = "CREATE",
             DisplayName = "Test create pass."
         };
 
-        /// <inheritdoc/>
         protected override BankTransactionCode DeleteModelSuccessSample => new()
         {
             TransactionCode = "DELPASS",
             DisplayName = "Test delete pass."
         };
 
-        /// <inheritdoc/>
         protected override BankTransactionCode DeleteModelFailSample => new()
         {
             TransactionCodeId = -1000,
@@ -83,14 +73,12 @@ namespace NjordFinance.UnitTest.ModelService
             DisplayName = "Test delete fail."
         };
 
-        /// <inheritdoc/>
         protected override BankTransactionCode UpdateModelSuccessSample => new()
         {
             TransactionCode = "UPDATE",
             DisplayName = "Test update pass."
         };
 
-        /// <inheritdoc/>
         [TestCleanup]
         public override void CleanUp()
         {
@@ -104,7 +92,6 @@ namespace NjordFinance.UnitTest.ModelService
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }
 
-        /// <inheritdoc/>
         [TestInitialize]
         public override void Initialize()
         {
@@ -134,12 +121,9 @@ namespace NjordFinance.UnitTest.ModelService
                 ));
         }
 
-        /// <inheritdoc/>
         protected override int GetKey(BankTransactionCode model) => model.TransactionCodeId;
 
-        /// <inheritdoc/>
         protected override IModelService<BankTransactionCode> GetModelService() =>
             BuildModelService<BankTransactionCodeService>();
-
     }
 }

@@ -1,23 +1,16 @@
-﻿using Ichosoft.DataModel;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordFinance.Exceptions;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NjordFinance.UnitTest.ModelService
 {
-    /// <inheritdoc/>
     [TestClass]
     public partial class AccountCustodianServiceTest
     {
-        /// <inheritdoc/>
         [TestMethod]
         public override async Task DeleteAsync_ValidModel_Returns_True()
         {
@@ -36,7 +29,6 @@ namespace NjordFinance.UnitTest.ModelService
                     a => a.AccountCustodianId == DeleteModelSuccessSample.AccountCustodianId));
         }
 
-        /// <inheritdoc/>
         [TestMethod]
         public override async Task UpdateAsync_ValidModel_Returns_True()
         {
@@ -62,24 +54,20 @@ namespace NjordFinance.UnitTest.ModelService
         }
     }
 
-    /// <inheritdoc/>
     public partial class AccountCustodianServiceTest : ModelServiceBaseTest<AccountCustodian>
     {
-        /// <inheritdoc/>
         protected override AccountCustodian CreateModelSuccessSample => new()
         {
             CustodianCode = "TESTCREATE",
             DisplayName = "Test custodian create."
         };
 
-        /// <inheritdoc/>
         protected override AccountCustodian DeleteModelSuccessSample => new()
         {
             CustodianCode = "TESTDELPASS",
             DisplayName = "Test custodian delete."
         };
 
-        /// <inheritdoc/>
         protected override AccountCustodian DeleteModelFailSample => new()
         {
             AccountCustodianId = -1000,
@@ -87,14 +75,12 @@ namespace NjordFinance.UnitTest.ModelService
             DisplayName = "Test custodian delete FAIL."
         };
 
-        /// <inheritdoc/>
         protected override AccountCustodian UpdateModelSuccessSample => new()
         {
             CustodianCode = "TESTUPDATE",
             DisplayName = "Test custodian update."
         };
 
-        /// <inheritdoc/>
         [TestCleanup]
         public override void CleanUp()
         {
@@ -108,7 +94,6 @@ namespace NjordFinance.UnitTest.ModelService
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }
 
-        /// <inheritdoc/>
         [TestInitialize]
         public override void Initialize()
         {
@@ -136,10 +121,8 @@ namespace NjordFinance.UnitTest.ModelService
                     x => x.CustodianCode == UpdateModelSuccessSample.CustodianCode));
         }
 
-        /// <inheritdoc/>
         protected override int GetKey(AccountCustodian model) => model.AccountCustodianId;
 
-        /// <inheritdoc/>
         protected override IModelService<AccountCustodian> GetModelService() =>
             BuildModelService<AccountCustodianService>();
     }
