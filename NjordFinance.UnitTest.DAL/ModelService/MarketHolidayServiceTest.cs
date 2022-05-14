@@ -115,7 +115,7 @@ namespace NjordFinance.UnitTest.ModelService
                     x => x.MarketHolidayName == UpdateModelSuccessSample.MarketHolidayName
                 ));
 
-            Logger.LogInformation("{Test} initialized.", nameof(MarketHolidayService));
+            Logger.LogInformation("{Test} initialized.", nameof(MarketHolidayServiceTest));
         }
 
         protected override int GetKey(MarketHoliday model) => model.MarketHolidayId;
