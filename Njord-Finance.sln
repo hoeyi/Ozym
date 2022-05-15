@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48E6F909-E1C0-4187-A79B-BD2019FDF31B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordFinance.DAL", "NjordFinance.DAL\NjordFinance.DAL.csproj", "{F4F5B69C-A774-4412-9464-5AFC878AD5FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordFinance.UnitTest.DAL", "NjordFinance.UnitTest.DAL\NjordFinance.UnitTest.DAL.csproj", "{AEB6D616-508A-4AA3-B490-F90AF1D4E169}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordFinance.Web", "NjordFinance.Web\NjordFinance.Web.csproj", "{C56BA965-51AA-4913-94D7-AF19DC2E1243}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordFinance.UnitTest.Web", "NjordFinance.UnitTest.Web\NjordFinance.UnitTest.Web.csproj", "{2AAD1729-E635-4A53-9F58-914A2A81220A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScripts", "{4BFBE020-17A3-4116-B9E7-E0A23D93CD74}"
+	ProjectSection(SolutionItems) = preProject
+		AddNjordFinanceModelMigration.bat = AddNjordFinanceModelMigration.bat
+		MigrateNjordFinanceModel.bat = MigrateNjordFinanceModel.bat
+		MigrateNjordIdentityModel.bat = MigrateNjordIdentityModel.bat
+		ScaffoldNjordDbContext.bat = ScaffoldNjordDbContext.bat
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F4F5B69C-A774-4412-9464-5AFC878AD5FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4F5B69C-A774-4412-9464-5AFC878AD5FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4F5B69C-A774-4412-9464-5AFC878AD5FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4F5B69C-A774-4412-9464-5AFC878AD5FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEB6D616-508A-4AA3-B490-F90AF1D4E169}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEB6D616-508A-4AA3-B490-F90AF1D4E169}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEB6D616-508A-4AA3-B490-F90AF1D4E169}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEB6D616-508A-4AA3-B490-F90AF1D4E169}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C56BA965-51AA-4913-94D7-AF19DC2E1243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C56BA965-51AA-4913-94D7-AF19DC2E1243}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C56BA965-51AA-4913-94D7-AF19DC2E1243}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C56BA965-51AA-4913-94D7-AF19DC2E1243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C6E1D3C-5606-4AC9-88DC-2007F80638AD}
+	EndGlobalSection
+EndGlobal

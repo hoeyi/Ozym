@@ -1,0 +1,153 @@
+﻿@inherits ModelCRUD<Account>
+
+@if (Model is null || AccountCustodians is null)
+{
+    <p><em>"@Resources.Strings.Caption_Page_Loading"</em></p>
+}
+else
+{
+    <EditForm Model="@Model">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <dl class="row">
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.AccountNumber)))">
+                    @(ModelMetadata.NameFor<Account>(nameof(Account.AccountNumber)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.AccountNumber
+                }
+                else
+                {
+                    <InputText id="account-number" class="form-control"
+                       @bind-Value=Model.AccountNumber
+                       disable="@Disabled" />
+                    <ValidationMessage For="@(() => Model.AccountNumber)" />
+                }
+            </dd>
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.AccountCustodianId)))">
+                    @(ModelMetadata.NameFor<Account>(nameof(Account.AccountCustodianId)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.AccountCustodian?.DisplayName
+                }
+                else
+                {
+                    <InputSelect id="account-custodian" class="form-control"
+                         DisplayName="Model.AccountCustodian.CustodianCode"
+                         @bind-Value="Model.AccountCustodianId" 
+                         disabled="@Disabled">
+                        @foreach (var custodian in AccountCustodians)
+                        {
+                            <option value=@custodian.AccountCustodianId>@custodian.DisplayName</option>
+                        }
+            </InputSelect>
+                    <ValidationMessage For="@(() => Model.AccountCustodianId)" />
+                }
+            </dd>
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.BooksClosedDate)))">
+                    @(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.BooksClosedDate?.ToShortDateString()
+                }
+                else
+                {
+                    <InputDate id="account-bookscloseddate" class="form-control"
+                       @bind-Value=Model.BooksClosedDate 
+                       disabled="@Disabled"/>
+                    <ValidationMessage For="@(() => Model.BooksClosedDate)" />
+                }
+            </dd>
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.IsComplianceTradable)))">
+                    @(ModelMetadata.NameFor<Account>(nameof(Account.IsComplianceTradable)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.IsComplianceTradable
+                }
+                else
+                {
+                    <InputCheckbox id="account-iscompliancetradable"
+                           @bind-Value=Model.IsComplianceTradable
+                           disabled="@Disabled"/>
+                    <ValidationMessage For="@(() => Model.IsComplianceTradable)" />
+                }
+            </dd>
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.HasWallet)))">
+                    @(ModelMetadata.NameFor<Account>(nameof(Account.HasWallet)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.HasWallet
+                }
+                else
+                {
+                    <InputCheckbox id="account-haswallet"
+                           @bind-Value=Model.HasWallet 
+                           disabled="@Disabled"/>
+                    <ValidationMessage For="@(() => Model.HasWallet)" />
+                }
+            </dd>
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata
+                    .DescriptionFor<Account>(nameof(Account.HasBankTransaction)))">
+                    @(ModelMetadata.NameFor<Account>(nameof(Account.HasBankTransaction)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.HasBankTransaction
+                }
+                else
+                {
+                    <InputCheckbox id="account-hasbanktransaction"
+                           @bind-Value=Model.HasBankTransaction 
+                           disabled="@Disabled"/>
+                    <ValidationMessage For="@(() => Model.HasBankTransaction)" />
+                }
+            </dd>
+            <dt class="col-sm-2">
+                <ToolTip Text="@(ModelMetadata
+                    .DescriptionFor<Account>(nameof(Account.HasBrokerTransaction)))">
+                    @(ModelMetadata.NameFor<Account>(nameof(Account.HasBrokerTransaction)))
+                </ToolTip>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Readonly)
+                {
+                    @Model.HasBrokerTransaction
+                }
+                else
+                {
+                    <InputCheckbox id="account-hasbrokertransaction"
+                           @bind-Value=Model.HasBrokerTransaction 
+                           disabled="@Disabled"/>
+                    <ValidationMessage For="@(() => Model.HasBrokerTransaction)" />
+                }
+            </dd>
+        </dl>
+    </EditForm>
+}
+@code {
+    [Parameter]
+    public IEnumerable<AccountCustodian>? AccountCustodians { get; set; }
+}
