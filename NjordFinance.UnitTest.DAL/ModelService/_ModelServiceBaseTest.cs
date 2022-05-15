@@ -205,7 +205,7 @@ namespace NjordFinance.UnitTest.ModelService
         protected abstract int GetKey(T model);
 
         /// <summary>
-        /// Creates a new <see cref="IModelService{T}"/>. instance.
+        /// Creates a new <see cref="IModelService{T}"/> instance.
         /// </summary>
         /// <returns></returns>
         protected abstract IModelService<T> GetModelService();

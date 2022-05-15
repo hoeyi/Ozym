@@ -61,14 +61,14 @@ namespace NjordFinance.UnitTest.ModelService
         {
             StyleSheetCode = "TestCreatePass",
             StyleSheetDescription = "Test create pass",
-            XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+            XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
         };
 
         protected override ReportStyleSheet DeleteModelSuccessSample => new()
         {
             StyleSheetCode = "TestDeletePass",
             StyleSheetDescription = "Test delete pass",
-            XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+            XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
         };
 
         protected override ReportStyleSheet DeleteModelFailSample => new()
@@ -76,14 +76,14 @@ namespace NjordFinance.UnitTest.ModelService
             StyleSheetId = -1000,
             StyleSheetCode = "TestDeleteFail",
             StyleSheetDescription = "Test delete fail",
-            XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+            XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
         };
 
         protected override ReportStyleSheet UpdateModelSuccessSample => new()
         {
             StyleSheetCode = "TestUpdatePass",
             StyleSheetDescription = "Test update pass",
-            XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+            XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
         };
 
         [TestCleanup]
@@ -94,7 +94,7 @@ namespace NjordFinance.UnitTest.ModelService
             using var context = CreateDbContext();
 
             int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.ReportConfiguration WHERE ConfigurationID > 0;");
+                "DELETE FROM FinanceApp.ReportStyleSheet WHERE StyleSheetID > 0;");
 
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }
