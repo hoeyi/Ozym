@@ -75,6 +75,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>InformationMessage.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Images.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Images.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\UserInterfaceString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -118,6 +123,10 @@
     <EmbeddedResource Update="Logging\Templates\InformationMessage.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>InformationMessage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Images.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\UserInterfaceString.resx">
       <Generator>ResXFileCodeGenerator</Generator>
