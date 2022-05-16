@@ -19,7 +19,8 @@ namespace NjordFinance.UnitTest.ModelService
     /// Base class for testing units of work done by <typeparamref name="T"/> model services.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
-    public abstract partial class ModelServiceTest<T>
+    public abstract partial class ModelServiceTest<T> : IModelServiceTest<T>
+        where T : class, new()
     {
         /// <inheritdoc/>
         [TestMethod]
@@ -143,8 +144,7 @@ namespace NjordFinance.UnitTest.ModelService
     /// Base class for testing units of work done by <typeparamref name="T"/> model services.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
-    public abstract partial class ModelServiceTest<T> : IModelServiceTest<T>
-        where T : class, new()
+    public abstract partial class ModelServiceTest<T>
     {
         /// <summary>
         /// Gets the <typeparamref name="T"/> instance used for testing successful model creation.
