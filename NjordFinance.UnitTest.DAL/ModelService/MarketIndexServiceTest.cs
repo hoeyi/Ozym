@@ -11,7 +11,7 @@ namespace NjordFinance.UnitTest.ModelService
 {
     [TestClass]
     public partial class MarketIndexServiceTest
-        : ModelServiceBaseTest<MarketIndex>
+        : ModelServiceTest<MarketIndex>
     {
         [TestMethod]
         public override async Task DeleteAsync_ValidModel_Returns_True()

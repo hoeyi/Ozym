@@ -52,7 +52,7 @@ namespace NjordFinance.UnitTest.ModelService
     }
 
     public partial class BankTransactionCodeServiceTest 
-        : ModelServiceBaseTest<BankTransactionCode>
+        : ModelServiceTest<BankTransactionCode>
     {
         protected override BankTransactionCode CreateModelSuccessSample => new()
         {

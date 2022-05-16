@@ -53,7 +53,7 @@ namespace NjordFinance.UnitTest.ModelService
     }
 
     public partial class InvestmentStrategyServiceTest
-        : ModelServiceBaseTest<InvestmentStrategy>
+        : ModelServiceTest<InvestmentStrategy>
     {
         protected override InvestmentStrategy CreateModelSuccessSample => new()
         {

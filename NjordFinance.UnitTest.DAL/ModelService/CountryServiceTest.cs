@@ -53,7 +53,7 @@ namespace NjordFinance.UnitTest.ModelService
         
     }
 
-    public partial class CountryServiceTest : ModelServiceBaseTest<Country>
+    public partial class CountryServiceTest : ModelServiceTest<Country>
     {
         protected override Country CreateModelSuccessSample => new()
         {

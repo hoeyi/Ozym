@@ -55,7 +55,7 @@ namespace NjordFinance.UnitTest.ModelService
     }
 
     public partial class ResourceImageServiceTest
-        : ModelServiceBaseTest<ResourceImage>
+        : ModelServiceTest<ResourceImage>
     {
         protected override ResourceImage CreateModelSuccessSample => new()
         {

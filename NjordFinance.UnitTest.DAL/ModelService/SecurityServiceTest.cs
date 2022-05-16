@@ -58,7 +58,7 @@ namespace NjordFinance.UnitTest.ModelService
     }
 
     public partial class SecurityServiceTest
-        : ModelServiceBaseTest<Security>
+        : ModelServiceTest<Security>
     {
         protected override Security CreateModelSuccessSample => new()
         {

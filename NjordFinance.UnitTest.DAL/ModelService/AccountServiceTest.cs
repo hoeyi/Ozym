@@ -71,7 +71,7 @@ namespace NjordFinance.UnitTest.ModelService
         }
     }
 
-    public partial class AccountServiceTest : ModelServiceBaseTest<Account>
+    public partial class AccountServiceTest : ModelServiceTest<Account>
     {
         private readonly Random _random = new();
 

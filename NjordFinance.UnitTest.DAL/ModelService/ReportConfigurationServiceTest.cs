@@ -55,7 +55,7 @@ namespace NjordFinance.UnitTest.ModelService
     }
 
     public partial class ReportConfigurationServiceTest
-        : ModelServiceBaseTest<ReportConfiguration>
+        : ModelServiceTest<ReportConfiguration>
     {
         protected override ReportConfiguration CreateModelSuccessSample => new()
         {

@@ -5,10 +5,10 @@ using NjordFinance.Exceptions;
 namespace NjordFinance.UnitTest.ModelService
 {
     /// <summary>
-    /// Required implementation for testing <see cref="IModelService{T}"/>.
+    /// Required tests for classes implementing <see cref="IModelService{T}"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IModelServiceBaseTest<T>
+    public interface IModelServiceTest<T>
     {
         /// <summary>
         /// Verifies the unit of work for creating a single <typeparamref name="T"/> model.

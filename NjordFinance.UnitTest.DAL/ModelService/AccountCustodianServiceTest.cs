@@ -54,7 +54,7 @@ namespace NjordFinance.UnitTest.ModelService
         }
     }
 
-    public partial class AccountCustodianServiceTest : ModelServiceBaseTest<AccountCustodian>
+    public partial class AccountCustodianServiceTest : ModelServiceTest<AccountCustodian>
     {
         protected override AccountCustodian CreateModelSuccessSample => new()
         {

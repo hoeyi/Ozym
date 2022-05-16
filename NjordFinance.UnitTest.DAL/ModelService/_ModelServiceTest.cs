@@ -15,7 +15,11 @@ using System.Collections.Generic;
 
 namespace NjordFinance.UnitTest.ModelService
 {
-    public abstract partial class ModelServiceBaseTest<T>
+    /// <summary>
+    /// Base class for testing units of work done by <typeparamref name="T"/> model services.
+    /// </summary>
+    /// <typeparam name="T">The model type.</typeparam>
+    public abstract partial class ModelServiceTest<T>
     {
         /// <inheritdoc/>
         [TestMethod]
@@ -134,11 +138,12 @@ namespace NjordFinance.UnitTest.ModelService
             Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(expected, observed));
         }
     }
+
     /// <summary>
     /// Base class for testing units of work done by <typeparamref name="T"/> model services.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
-    public abstract partial class ModelServiceBaseTest<T> : IModelServiceBaseTest<T>
+    public abstract partial class ModelServiceTest<T> : IModelServiceTest<T>
         where T : class, new()
     {
         /// <summary>

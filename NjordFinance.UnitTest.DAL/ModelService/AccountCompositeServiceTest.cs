@@ -70,7 +70,7 @@ namespace NjordFinance.UnitTest.ModelService
     }
 
     /// <inheritdoc/>
-    public partial class AccountCompositeServiceTest : ModelServiceBaseTest<AccountComposite>
+    public partial class AccountCompositeServiceTest : ModelServiceTest<AccountComposite>
     {
         private readonly Random _random = new();
 

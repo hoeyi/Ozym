@@ -53,7 +53,7 @@ namespace NjordFinance.UnitTest.ModelService
         }
     }
 
-    public partial class MarketHolidayServiceTest : ModelServiceBaseTest<MarketHoliday>
+    public partial class MarketHolidayServiceTest : ModelServiceTest<MarketHoliday>
     {
         protected override MarketHoliday CreateModelSuccessSample => new()
         {

@@ -54,7 +54,7 @@ namespace NjordFinance.UnitTest.ModelService
         
     }
     public partial class ModelAttributeServiceTest
-        : ModelServiceBaseTest<ModelAttribute>
+        : ModelServiceTest<ModelAttribute>
     {
         protected override ModelAttribute CreateModelSuccessSample => new()
         {
