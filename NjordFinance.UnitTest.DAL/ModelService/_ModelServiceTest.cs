@@ -268,9 +268,7 @@ namespace NjordFinance.UnitTest.ModelService
         protected IModelService<T> BuildModelService<TService>()
         {
             return (IModelService<T>)Activator.CreateInstance(
-                typeof(TService), DbContextFactory,
-                new ModelMetadataService(),
-                Logger);
+                typeof(TService), DbContextFactory, new ModelMetadataService(), Logger);
         }
 
         /// <summary>
