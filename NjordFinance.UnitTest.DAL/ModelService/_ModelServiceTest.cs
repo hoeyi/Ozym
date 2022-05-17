@@ -179,11 +179,6 @@ namespace NjordFinance.UnitTest.ModelService
         protected ILogger Logger => UnitTest.Logger;
 
         /// <summary>
-        /// Gets the <see cref="IDbContextFactory{TContext}"/> instace for this service.
-        /// </summary>
-        protected IDbContextFactory<FinanceDbContext> DbContextFactory => UnitTest.DbContextFactory;
-
-        /// <summary>
         /// Executes set up action including seeding test samples to a shared context.
         /// </summary>
         public abstract void Initialize();
@@ -268,7 +263,7 @@ namespace NjordFinance.UnitTest.ModelService
         protected IModelService<T> BuildModelService<TService>()
         {
             return (IModelService<T>)Activator.CreateInstance(
-                typeof(TService), DbContextFactory, new ModelMetadataService(), Logger);
+                typeof(TService), UnitTest.DbContextFactory, new ModelMetadataService(), Logger);
         }
 
         /// <summary>

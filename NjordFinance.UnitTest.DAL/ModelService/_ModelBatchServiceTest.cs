@@ -80,11 +80,6 @@ namespace NjordFinance.UnitTest.ModelService
         public abstract void CleanUp();
 
         /// <summary>
-        /// Gets the <see cref="IDbContextFactory{TContext}"/> instace for this service.
-        /// </summary>
-        protected IDbContextFactory<FinanceDbContext> DbContextFactory => UnitTest.DbContextFactory;
-
-        /// <summary>
         /// Gets the <see cref="ILogger"/> instance for this service.
         /// </summary>
         protected ILogger Logger => UnitTest.Logger;
@@ -96,7 +91,7 @@ namespace NjordFinance.UnitTest.ModelService
         protected IModelBatchService<T> BuildModelService<TService>()
         {
             return (IModelBatchService<T>)Activator.CreateInstance(
-                typeof(TService), DbContextFactory, new ModelMetadataService(), Logger);
+                typeof(TService), UnitTest.DbContextFactory, new ModelMetadataService(), Logger);
         }
 
         /// <summary>
