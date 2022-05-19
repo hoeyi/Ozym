@@ -6,6 +6,7 @@ using NjordFinance.ModelService;
 using System;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace NjordFinance.UnitTest.ModelService
 {
@@ -67,7 +68,7 @@ namespace NjordFinance.UnitTest.ModelService
         /// Gets the collection of <typeparamref name="T"/> models to add to the 
         /// database for test purposes.
         /// </summary>
-        protected abstract T[] TestModels { get; }
+        protected abstract IReadOnlyDictionary<string, T> TestModels { get; }
 
         /// <summary>
         /// Executes set up action including seeding test samples to a shared context.
@@ -85,9 +86,16 @@ namespace NjordFinance.UnitTest.ModelService
         protected ILogger Logger => UnitTest.Logger;
 
         /// <summary>
+        /// Creates a new instance implementing <see cref="IModelBatchService{T}"/> for 
+        /// testing.
+        /// </summary>
+        /// <returns>An instance implementing <see cref="IModelBatchService{T}"/>.</returns>
+        protected abstract IModelBatchService<T> GetModelService();
+
+        /// <summary>
         /// Creates the <see cref="IModelBatchService{T}"/> to be tested.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An instance implementing <see cref="IModelBatchService{T}"/>.</returns>
         protected IModelBatchService<T> BuildModelService<TService>()
         {
             return (IModelBatchService<T>)Activator.CreateInstance(
