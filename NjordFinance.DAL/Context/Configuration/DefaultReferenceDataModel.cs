@@ -15,6 +15,7 @@ namespace NjordFinance.Context.Configuration
     /// <item><see cref="SecurityTypeGroup"/></item>
     /// <item><see cref="SecurityType"/></item>
     /// <item><see cref="SecuritySymbolType"/></item>
+    /// <item><see cref="BrokerTransactionCode"/></item>
     /// </list>
     /// Items are listed in the order they should be created.
     /// </summary>
@@ -25,6 +26,7 @@ namespace NjordFinance.Context.Configuration
         /// </summary>
         public DefaultReferenceDataModel()
         {
+            #region Model attributes and scope
             ModelAttributes = new ModelAttribute[]
             {
                     new(attributeId: -1, displayName: "AssetClass"),
@@ -39,6 +41,9 @@ namespace NjordFinance.Context.Configuration
                         scopeCode: ModelAttributeScopeCode.Security.ConvertToStringCode()))
                     .ToArray();
 
+            #endregion
+
+            #region Security types, type groups, and asset class attribute members
             ModelAttributeMember[] assetClasses =
             {
                 new(attributeMemberId: -10, attributeId: -1, displayName: "Equities", displayOrder: 0),
@@ -110,13 +115,156 @@ namespace NjordFinance.Context.Configuration
                     DisplayOrder = (short)Array.IndexOf(SecurityTypes, s)
                 }))
                 .ToArray();
+            #endregion
 
+            #region Security symbol type
             SecuritySymbolTypes = new SecuritySymbolType[]
             {
                 new() { SymbolTypeId = -10, SymbolTypeName = "CUSIP" },
                 new() { SymbolTypeId = -20, SymbolTypeName = "Custom Identifier" },
                 new() { SymbolTypeId = -30, SymbolTypeName = "Option Ticker" },
                 new() { SymbolTypeId = -40, SymbolTypeName = "Ticker" }
+            };
+            #endregion
+
+            BrokerTransactionCodes = new BrokerTransactionCode[]
+            {
+                new() 
+                { 
+                    TransactionCode = "btc", 
+                    DisplayName = "Buy to cover", 
+                    CashEffect = -1, 
+                    ContributionWithdrawalEffect = 0, 
+                    QuantityEffect = 1 
+                },
+                new() 
+                { 
+                    TransactionCode = "buy", 
+                    DisplayName = "Buy", 
+                    CashEffect = -1, 
+                    ContributionWithdrawalEffect = 0, 
+                    QuantityEffect = 1 
+                },
+                new() 
+                { 
+                    TransactionCode = "dep", 
+                    DisplayName = "Deposit", 
+                    CashEffect = 1, 
+                    ContributionWithdrawalEffect = 1, 
+                    QuantityEffect = 0 
+                },
+                new() 
+                { 
+                    TransactionCode = "div", 
+                    DisplayName = "Dividend", 
+                    CashEffect = 1, 
+                    ContributionWithdrawalEffect = 0, 
+                    QuantityEffect = 0 
+                },
+                new() 
+                { 
+                    TransactionCode = "exp", 
+                    DisplayName = "Expense", 
+                    CashEffect = -1, 
+                    ContributionWithdrawalEffect = -1, 
+                    QuantityEffect = 0 
+                },
+                new() 
+                { 
+                    TransactionCode = "frt", 
+                    DisplayName = "Forfeit shares", 
+                    CashEffect = 0, 
+                    ContributionWithdrawalEffect = -1, 
+                    QuantityEffect = -1 
+                },
+                new() 
+                { 
+                    TransactionCode = "int", 
+                    DisplayName = "Interest", 
+                    CashEffect = 1, 
+                    ContributionWithdrawalEffect = 0, 
+                    QuantityEffect = 0 
+                },
+                new() 
+                { 
+                    TransactionCode = "dli", 
+                    DisplayName = "Deliver-in", 
+                    CashEffect = 0, 
+                    ContributionWithdrawalEffect = 1, 
+                    QuantityEffect = 1 
+                },
+                new() 
+                { 
+                    TransactionCode = "dlo", 
+                    DisplayName = "Deliver-out", 
+                    CashEffect = 0, 
+                    ContributionWithdrawalEffect = -1, 
+                    QuantityEffect = -1 
+                },
+                new() 
+                { 
+                    TransactionCode = "pdn", 
+                    DisplayName = "Pay-down", 
+                    CashEffect = -1, 
+                    ContributionWithdrawalEffect = 0, 
+                    QuantityEffect = -1 
+                },
+                new() 
+                { 
+                    TransactionCode = "sll", 
+                    DisplayName = "Sale", 
+                    CashEffect = 1, 
+                    ContributionWithdrawalEffect = 0, 
+                    QuantityEffect = -1 
+                },
+                new() 
+                { 
+                    TransactionCode = "ssl", 
+                    DisplayName = "Short sale", 
+                    CashEffect = 1, 
+                    ContributionWithdrawalEffect = 0, 
+                    QuantityEffect = -1 
+                },
+                new()
+                { 
+                    TransactionCode = "wth", 
+                    DisplayName = "Withdrawal", 
+                    CashEffect = -1, 
+                    ContributionWithdrawalEffect = -1, 
+                    QuantityEffect = 0 
+                },
+                new() 
+                { 
+                    TransactionCode = "chn", 
+                    DisplayName = "Change in value", 
+                    CashEffect = 1, 
+                    ContributionWithdrawalEffect = 1, 
+                    QuantityEffect = 1 
+                },
+                new() 
+                { 
+                    TransactionCode = "plc", 
+                    DisplayName = "Plan contribution", 
+                    CashEffect = 1, 
+                    ContributionWithdrawalEffect = 1, 
+                    QuantityEffect = 0 
+                },
+                new() 
+                { 
+                    TransactionCode = "ain", 
+                    DisplayName = "Accrued interest", 
+                    CashEffect = -1, 
+                    ContributionWithdrawalEffect = -1, 
+                    QuantityEffect = 0 
+                },
+                new() 
+                { 
+                    TransactionCode = "cap", 
+                    DisplayName = "Capital return", 
+                    CashEffect = 1, 
+                    ContributionWithdrawalEffect = 0, 
+                    QuantityEffect = 0 
+                }
             };
         }
 
@@ -149,5 +297,10 @@ namespace NjordFinance.Context.Configuration
         /// Gets the <see cref="SecuritySymbolType"/> seed models.
         /// </summary>
         public SecuritySymbolType[] SecuritySymbolTypes { get; init; }
+
+        /// <summary>
+        /// Gets the <see cref="BrokerTransactionCode"/> seed models.
+        /// </summary>
+        public BrokerTransactionCode[] BrokerTransactionCodes { get; }
     }
 }
