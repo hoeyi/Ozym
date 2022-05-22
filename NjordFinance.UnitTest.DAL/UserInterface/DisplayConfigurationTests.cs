@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace NjordFinance.UnitTest.UserInterface
+namespace NjordFinance.Test.UserInterface
 {
     [TestClass]
     public class DisplayConfigurationTests

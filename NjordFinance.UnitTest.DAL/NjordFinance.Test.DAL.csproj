@@ -5,9 +5,9 @@
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>NjordFinance.UnitTest</AssemblyName>
+    <AssemblyName>NjordFinance.Test</AssemblyName>
 
-    <RootNamespace>NjordFinance.UnitTest</RootNamespace>
+    <RootNamespace>NjordFinance.Test</RootNamespace>
 
     <UserSecretsId>9a018f40-5dd0-457f-b030-29e9febfa89c</UserSecretsId>
   </PropertyGroup>
@@ -29,6 +29,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NjordFinance.DAL\NjordFinance.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Context\" />
   </ItemGroup>
 
 </Project>

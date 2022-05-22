@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("NjordFinance.UnitTest")]
+[assembly: InternalsVisibleTo("NjordFinance.Test")]
 
 namespace NjordFinance.Configuration
 {

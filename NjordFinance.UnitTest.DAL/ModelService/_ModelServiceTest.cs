@@ -13,7 +13,7 @@ using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace NjordFinance.UnitTest.ModelService
+namespace NjordFinance.Test.ModelService
 {
     /// <summary>
     /// Base class for testing units of work done by <typeparamref name="T"/> model services.

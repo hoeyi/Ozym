@@ -2,7 +2,7 @@
 using NjordFinance.ModelService;
 using NjordFinance.Exceptions;
 
-namespace NjordFinance.UnitTest.ModelService
+namespace NjordFinance.Test.ModelService
 {
     /// <summary>
     /// Required tests for classes implementing <see cref="IModelService{T}"/>.

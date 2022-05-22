@@ -2,7 +2,7 @@
 using NjordFinance.ModelMetadata;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NjordFinance.UnitTest
+namespace NjordFinance.Test
 {
     [TestClass]
     public class SimplePropertiesAreEqualTest

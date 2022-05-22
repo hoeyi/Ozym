@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NjordFinance.ModelService;
 
-namespace NjordFinance.UnitTest.ModelService
+namespace NjordFinance.Test.ModelService
 {
     /// <summary>
     /// Required tests for classes implementing <see cref="IModelBatchService{T}"/>.

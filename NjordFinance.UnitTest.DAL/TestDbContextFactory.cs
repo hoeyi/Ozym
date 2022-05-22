@@ -1,7 +1,7 @@
 ﻿using NjordFinance.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace NjordFinance.UnitTest.ModelService
+namespace NjordFinance.Test.ModelService
 {
     /// <summary>
     /// Implements <see cref="IDbContextFactory{TContext}"/> for testing model services.

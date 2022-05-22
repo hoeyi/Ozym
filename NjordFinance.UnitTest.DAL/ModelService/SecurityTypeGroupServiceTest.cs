@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordFinance.UnitTest.ModelService
+namespace NjordFinance.Test.ModelService
 {
     [TestClass]
     public partial class SecurityTypeGroupServiceTest

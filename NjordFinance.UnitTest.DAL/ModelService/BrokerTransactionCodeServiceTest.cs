@@ -6,7 +6,7 @@ using NjordFinance.ModelService;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NjordFinance.UnitTest.ModelService
+namespace NjordFinance.Test.ModelService
 {
     [TestClass]
     public partial class BrokerTransactionCodeServiceTest
