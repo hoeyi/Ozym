@@ -271,32 +271,32 @@ namespace NjordFinance.Context.Configuration
         /// <summary>
         /// Gets the <see cref="ModelAttribute"/> seed models.
         /// </summary>
-        public ModelAttribute[] ModelAttributes { get; init; }
+        public ModelAttribute[] ModelAttributes { get; }
 
         /// <summary>
         /// Gets the <see cref="ModelAttributeScope"/> seed models.
         /// </summary>
-        public ModelAttributeScope[] ModelAttributeScopes { get; init; }
+        public ModelAttributeScope[] ModelAttributeScopes { get; }
 
         /// <summary>
         /// Gets the <see cref="ModelAttributeMember"/> seed models.
         /// </summary>
-        public ModelAttributeMember[] ModelAttributeMembers { get; init; }
+        public ModelAttributeMember[] ModelAttributeMembers { get; }
 
         /// <summary>
         /// Gets the <see cref="SecurityTypeGroup"/> seed models.
         /// </summary>
-        public SecurityTypeGroup[] SecurityTypeGroups { get; init; }
+        public SecurityTypeGroup[] SecurityTypeGroups { get; }
 
         /// <summary>
         /// Gets the <see cref="SecurityType"/> seed models.
         /// </summary>
-        public SecurityType[] SecurityTypes { get; init; }
+        public SecurityType[] SecurityTypes { get; }
 
         /// <summary>
         /// Gets the <see cref="SecuritySymbolType"/> seed models.
         /// </summary>
-        public SecuritySymbolType[] SecuritySymbolTypes { get; init; }
+        public SecuritySymbolType[] SecuritySymbolTypes { get; }
 
         /// <summary>
         /// Gets the <see cref="BrokerTransactionCode"/> seed models.

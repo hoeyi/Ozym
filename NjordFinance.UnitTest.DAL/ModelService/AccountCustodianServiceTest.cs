@@ -49,7 +49,7 @@ namespace NjordFinance.Test.ModelService
             var updated = context.AccountCustodians.FirstOrDefault(a =>
                 a.AccountCustodianId == original.AccountCustodianId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(
                 updated, original));
         }
     }

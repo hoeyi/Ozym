@@ -52,7 +52,7 @@ namespace NjordFinance.Test.ModelService
             var updated = context.SecurityTypeGroups
                 .FirstOrDefault(a => a.SecurityTypeGroupId == original.SecurityTypeGroupId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(updated, original));
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(updated, original));
         }
     }
 

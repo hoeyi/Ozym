@@ -49,7 +49,7 @@ namespace NjordFinance.Test.ModelService
             var updated = context.ResourceImages
                 .FirstOrDefault(a => a.ImageId == original.ImageId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(updated, original));
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(updated, original));
         }
 
     }

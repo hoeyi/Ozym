@@ -51,7 +51,7 @@ namespace NjordFinance.Test.ModelService
             var updated = context.MarketIndices
                 .FirstOrDefault(a => a.IndexId == original.IndexId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(updated, original));
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(updated, original));
         }
     }
 

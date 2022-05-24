@@ -63,10 +63,10 @@ namespace NjordFinance.Test.ModelService
                 .FirstOrDefault(a => a.AccountId == original.AccountId);
 
             // Check the return attributes match the submitted object.
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(
                 updated, original));
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(
                 updated.AccountNavigation, original.AccountNavigation));
         }
     }
@@ -141,9 +141,11 @@ namespace NjordFinance.Test.ModelService
 
             using var context = CreateDbContext();
 
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.Account WHERE AccountID > 0;" +
-                "DELETE FROM FinanceApp.AccountObject WHERE AccountObjectID > 0;");
+            //int recordsDeleted = context.Database.ExecuteSqlRaw(
+            //    "DELETE FROM FinanceApp.Account WHERE AccountID > 0;" +
+            //    "DELETE FROM FinanceApp.AccountObject WHERE AccountObjectID > 0;");
+
+            int recordsDeleted = 0;
 
             Logger.LogInformation("Deleted {count} records.", recordsDeleted);
         }
@@ -166,17 +168,6 @@ namespace NjordFinance.Test.ModelService
                     UpdateModelSuccessSample.AccountCode
                 }
             });
-
-            SeedModelsIfNotExists(
-                including: a => a.AccountNavigation,
-                (
-                    DeleteModelSuccessSample, 
-                    x => x.AccountNavigation.AccountObjectCode == 
-                        DeleteModelSuccessSample.AccountCode),
-                (
-                    UpdateModelSuccessSample, 
-                    x => x.AccountNavigation.AccountObjectCode == 
-                        UpdateModelSuccessSample.AccountCode));
 
             Logger.LogInformation("{Test} initialized.", GetType().Name);
         }

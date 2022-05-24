@@ -1,5 +1,6 @@
 ﻿using NjordFinance.Context;
 using Microsoft.EntityFrameworkCore;
+using NjordFinance.Test.Configuration;
 
 namespace NjordFinance.Test.ModelService
 {
@@ -20,8 +21,9 @@ namespace NjordFinance.Test.ModelService
             {
                 if (!_databaseInitialized)
                 {
-                    using (var context = CreateDbContext())
+                    using (var context = InitializeTestDbContext())
                     {
+                        context.Database.EnsureDeleted();
                         context.Database.EnsureCreated();
                     }
 
@@ -36,8 +38,15 @@ namespace NjordFinance.Test.ModelService
         /// <inheritdoc/>
         public FinanceDbContext CreateDbContext() => new(
                 new DbContextOptionsBuilder<FinanceDbContext>()
-                    .UseSqlServer(UnitTest.Configuration["Connectionstrings:NjordFinance"])
+                    .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordFinance"])
                     .EnableSensitiveDataLogging()
                     .Options);
+
+        private static FinanceDbContext InitializeTestDbContext() => new(
+            options: new DbContextOptionsBuilder<FinanceDbContext>()
+                    .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordFinance"])
+                    .EnableSensitiveDataLogging()
+                    .Options,
+            seedData: new ModelServiceTestDataModel());
     }
 }

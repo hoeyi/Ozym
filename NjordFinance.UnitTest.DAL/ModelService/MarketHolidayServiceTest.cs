@@ -49,7 +49,7 @@ namespace NjordFinance.Test.ModelService
             var updated = context.MarketHolidays
                 .FirstOrDefault(a => a.MarketHolidayId == original.MarketHolidayId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(updated, original));
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(updated, original));
         }
     }
 

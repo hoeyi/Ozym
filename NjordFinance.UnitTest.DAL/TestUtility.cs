@@ -5,33 +5,41 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Reflection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NjordFinance.Test
 {
     /// <summary>
-    /// Container class for unit-test helper methods.
+    /// Container class for test helper methods.
     /// </summary>
-    internal class UnitTest
+    [TestClass]
+    public class TestUtility
     {
+        //[AssemblyInitialize]
+        //public void RefreshTestDatabase()
+        //{
+        //    DbContextFactory = new();
+        //}
+
         /// <summary>
         /// Getst the configuration used by unit tests.
         /// </summary>
         internal static IConfiguration Configuration { get; } =
             new ConfigurationBuilder()
-            .AddUserSecrets<UnitTest>()
+            .AddUserSecrets<TestUtility>()
             .Build();
 
         /// <summary>
         /// Gets the <see cref="IDbContextFactory{TContext}"/> for creating test contexts.
         /// </summary>
-        internal static TestDbContextFactory DbContextFactory = new();
+        internal static TestDbContextFactory DbContextFactory { get; private set; } = new();
 
         /// <summary>
         /// The <see cref="ILogger"/> instance for this project.
         /// </summary>
         internal static readonly ILogger Logger = LoggerFactory
             .Create(builder => builder.AddConsole().AddDebug())
-            .CreateLogger<UnitTest>();
+            .CreateLogger<TestUtility>();
 
         /// <summary>
         /// Checks public instance property values are equal two <typeparamref name="T"/> instances.

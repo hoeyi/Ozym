@@ -48,7 +48,7 @@ namespace NjordFinance.Test.ModelService
             var updated = context.Countries
                 .FirstOrDefault(a => a.CountryId == original.CountryId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(updated, original));
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(updated, original));
         }
         
     }

@@ -61,10 +61,10 @@ namespace NjordFinance.Test.ModelService
                 .Include(a => a.AccountCompositeNavigation)
                 .FirstOrDefault(a => a.AccountCompositeId == original.AccountCompositeId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(
                 updated, original));
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(
                 updated.AccountCompositeNavigation, original.AccountCompositeNavigation));
         }
     }

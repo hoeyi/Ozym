@@ -44,7 +44,7 @@ namespace NjordFinance.Test.ModelService
 
             Assert.IsTrue(GetKey(model) > 0);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(
                 savedModel, model));
         }
 
@@ -136,7 +136,7 @@ namespace NjordFinance.Test.ModelService
                 maxCount: 1))
                 .First();
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(expected, observed));
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(expected, observed));
         }
     }
 
@@ -176,7 +176,7 @@ namespace NjordFinance.Test.ModelService
         /// <summary>
         /// Gets the <see cref="ILogger"/> instance for this service.
         /// </summary>
-        protected ILogger Logger => UnitTest.Logger;
+        protected ILogger Logger => TestUtility.Logger;
 
         /// <summary>
         /// Executes set up action including seeding test samples to a shared context.
@@ -192,10 +192,8 @@ namespace NjordFinance.Test.ModelService
         /// Utility method for creating new <see cref="FinanceDbContext"/> instances.
         /// </summary>
         /// <returns>A new <see cref="FinanceDbContext"/> instance.</returns>
-        protected FinanceDbContext CreateDbContext()
-        {
-            return UnitTest.DbContextFactory.CreateDbContext();
-        }
+        protected FinanceDbContext CreateDbContext() => 
+            TestUtility.DbContextFactory.CreateDbContext();
 
         /// <summary>
         /// Gets the <see cref="int"/> key value for the given <typeparamref name="T"/>.
@@ -220,7 +218,7 @@ namespace NjordFinance.Test.ModelService
             if (paths.Length > 3)
                 throw new InvalidOperationException($"'{paths}' parameter cannot exceed 3.");
 
-            using var context = UnitTest.DbContextFactory.CreateDbContext();
+            using var context = TestUtility.DbContextFactory.CreateDbContext();
 
             IQueryable<T> dbSet = context.Set<T>();
 
@@ -263,7 +261,7 @@ namespace NjordFinance.Test.ModelService
         protected IModelService<T> BuildModelService<TService>()
         {
             return (IModelService<T>)Activator.CreateInstance(
-                typeof(TService), UnitTest.DbContextFactory, new ModelMetadataService(), Logger);
+                typeof(TService), TestUtility.DbContextFactory, new ModelMetadataService(), Logger);
         }
 
         /// <summary>

@@ -49,7 +49,7 @@ namespace NjordFinance.Test.ModelService
             var updated = context.ReportStyleSheets
                 .FirstOrDefault(a => a.StyleSheetId == original.StyleSheetId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(updated, original));
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(updated, original));
         }
 
     }

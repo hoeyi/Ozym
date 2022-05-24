@@ -14,74 +14,59 @@ namespace NjordFinance.Context
         /// Seeds this <see cref="ModelBuilder"/> with the default entries for reference data.
         /// </summary>
         /// <param name="modelBuilder"></param>
-        public static void SeedDefaultReferenceData(this ModelBuilder modelBuilder)
+        public static ModelBuilder SeedDefaultReferenceData(this ModelBuilder modelBuilder)
         {
             DefaultReferenceDataModel defaultReferenceModel = new();
 
-            modelBuilder.Entity<ModelAttribute>()
-                .HasData(defaultReferenceModel.ModelAttributes);
+            modelBuilder.SeedEntityData(defaultReferenceModel.ModelAttributes);
 
-            modelBuilder.Entity<ModelAttributeScope>()
-                .HasData(defaultReferenceModel.ModelAttributeScopes);
+            modelBuilder.SeedEntityData(defaultReferenceModel.ModelAttributeScopes);
 
-            modelBuilder.Entity<ModelAttributeMember>()
-                .HasData(defaultReferenceModel.ModelAttributeMembers);
+            modelBuilder.SeedEntityData(defaultReferenceModel.ModelAttributeMembers);
 
-            modelBuilder.Entity<SecurityTypeGroup>()
-                .HasData(defaultReferenceModel.SecurityTypeGroups);
+            modelBuilder.SeedEntityData(defaultReferenceModel.SecurityTypeGroups);
 
-            modelBuilder.Entity<SecurityType>()
-                .HasData(defaultReferenceModel.SecurityTypes);
+            modelBuilder.SeedEntityData(defaultReferenceModel.SecurityTypes);
 
-            modelBuilder.Entity<SecuritySymbolType>()
-                .HasData(defaultReferenceModel.SecuritySymbolTypes);
+            modelBuilder.SeedEntityData(defaultReferenceModel.SecuritySymbolTypes);
+
+            return modelBuilder;
         }
 
-        /// <summary>
-        /// Seeds this <see cref="ModelBuilder"/> with the test entries for accounts and 
-        /// related models.
-        /// </summary>
-        /// <param name="modelBuilder"></param>
-        public static void SeedTestAccountData(this ModelBuilder modelBuilder)
+        public static ModelBuilder SeedInitialData(
+            this ModelBuilder modelBuilder, ISeedData seedData)
         {
-            TestAccountDataModel testAccountDataModel = new();
-            
-            modelBuilder.Entity<AccountCustodian>()
-                .HasData(testAccountDataModel.AccountCustodians);
+            modelBuilder.SeedEntityData(seedData.AccountCustodians);
 
-            modelBuilder.Entity<AccountObject>()
-                .HasData(testAccountDataModel.AccountObjects);
+            modelBuilder.SeedEntityData(seedData.AccountObjects);
 
-            modelBuilder.Entity<Account>()
-                .HasData(testAccountDataModel.Accounts);
+            modelBuilder.SeedEntityData(seedData.Accounts);
+
+            modelBuilder.SeedEntityData(seedData.BankTransactionCodes);
+
+            modelBuilder.SeedEntityData(seedData.Countries);
+
+            modelBuilder.SeedEntityData(seedData.Securities);
+
+            modelBuilder.SeedEntityData(seedData.SecurityExchanges);
+
+            modelBuilder.SeedEntityData(seedData.SecuritySymbols);
+
+            return modelBuilder;
         }
-
         /// <summary>
-        /// Seeds this <see cref="ModelBuilder"/> with the test entries for reference data.
+        /// Seeds this <see cref="ModelBuilder"/> with the given <typeparamref name="T"/> entries.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="modelBuilder"></param>
-        public static void SeedTestReferenceData(this ModelBuilder modelBuilder)
+        /// <param name="data">The collection of <typeparamref name="T"/> models to 
+        /// insert.</param>
+        public static void SeedEntityData<T>(
+            this ModelBuilder modelBuilder,
+            params T[] data)
+            where T : class, new()
         {
-            TestReferenceDataModel testReferenceDataModel = new();
-
-            modelBuilder.Entity<Country>().HasData(testReferenceDataModel.Countries);
-        }
-
-        /// <summary>
-        /// Seeds this <see cref="ModelBuilder"/> with the test entries for securities and 
-        /// related models.
-        /// </summary>
-        /// <param name="modelBuilder"></param>
-        public static void SeedTestSecurityData(this ModelBuilder modelBuilder)
-        {
-            TestSecurityDataModel testSecurityDataModel = new();
-
-            modelBuilder.Entity<SecurityExchange>()
-                .HasData(testSecurityDataModel.SecurityExchanges);
-
-            modelBuilder.Entity<Security>().HasData(testSecurityDataModel.Securities);
-
-            modelBuilder.Entity<SecuritySymbol>().HasData(testSecurityDataModel.SecuritySymbols);
+            modelBuilder.Entity<T>().HasData(data);
         }
     }
 }

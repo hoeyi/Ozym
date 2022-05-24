@@ -50,7 +50,7 @@ namespace NjordFinance.Test.ModelService
             var updated = context.SecurityExchanges
                 .FirstOrDefault(a => a.ExchangeId == original.ExchangeId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(updated, original));
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(updated, original));
         }
 
     }

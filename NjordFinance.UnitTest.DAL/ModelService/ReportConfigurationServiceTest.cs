@@ -49,7 +49,7 @@ namespace NjordFinance.Test.ModelService
             var updated = context.ReportConfigurations
                 .FirstOrDefault(a => a.ConfigurationId == original.ConfigurationId);
 
-            Assert.IsTrue(UnitTest.SimplePropertiesAreEqual(updated, original));
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(updated, original));
         }
 
     }
