@@ -7,7 +7,7 @@ namespace NjordFinance.Test.ModelService
     /// <summary>
     /// Implements <see cref="IDbContextFactory{TContext}"/> for testing model services.
     /// </summary>
-    internal class TestDbContextFactory : IDbContextFactory<FinanceDbContext>
+    internal sealed class TestDbContextFactory : IDbContextFactory<FinanceDbContext>
     {
         private static readonly object _lock = new();
         private static bool _databaseInitialized;
@@ -48,5 +48,21 @@ namespace NjordFinance.Test.ModelService
                     .EnableSensitiveDataLogging()
                     .Options,
             seedData: new ModelServiceTestDataModel());
+
+        /// <summary>
+        /// Resets the test database to its initial state.
+        /// </summary>
+        public static void ResetTestDatabase()
+        {
+            lock(_lock)
+            {
+                using var context = InitializeTestDbContext();
+
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                _databaseInitialized = true;
+            }
+        }
     }
 }

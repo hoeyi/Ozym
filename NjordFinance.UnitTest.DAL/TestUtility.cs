@@ -10,16 +10,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace NjordFinance.Test
 {
     /// <summary>
-    /// Container class for test helper methods.
+    /// Container class for test helper methods and assembly-level resource 
+    /// initialization/cleanup.
     /// </summary>
     [TestClass]
     public class TestUtility
     {
-        //[AssemblyInitialize]
-        //public void RefreshTestDatabase()
-        //{
-        //    DbContextFactory = new();
-        //}
+        /// <summary>
+        /// Resets the test 
+        /// </summary>
+        [AssemblyCleanup]
+        public static void ResetDatabaseToInitialState() => 
+            TestDbContextFactory.ResetTestDatabase();
 
         /// <summary>
         /// Getst the configuration used by unit tests.
