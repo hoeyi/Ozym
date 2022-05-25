@@ -56,8 +56,7 @@ namespace NjordFinance.Model
             string securityTypeName,
             decimal valuationFactor, 
             bool canHavePosition,
-            bool canHaveDerivative,
-            int attributeMemberId)
+            bool canHaveDerivative)
         {
             SecurityTypeId = securityTypeId;
             SecurityTypeGroupId = securityTypeGroupId;

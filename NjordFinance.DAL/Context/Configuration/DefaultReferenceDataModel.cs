@@ -29,13 +29,13 @@ namespace NjordFinance.Context.Configuration
             #region Model attributes and scope
             ModelAttributes = new ModelAttribute[]
             {
-                    new(attributeId: -1, displayName: "AssetClass"),
-                    new(attributeId: -2, displayName: "Security Type Group"),
-                    new(attributeId: -3, displayName: "SecurityType")
+                    new(attributeId: -10, displayName: "AssetClass"),
+                    new(attributeId: -20, displayName: "Security Type Group"),
+                    new(attributeId: -30, displayName: "SecurityType")
             };
 
             ModelAttributeScopes = ModelAttributes
-                    .Where(a => a.AttributeId is < 0 and > -4)
+                    .Where(a => a.AttributeId is <= -10 and >= -30)
                     .Select(a => new ModelAttributeScope(
                         attributeId: a.AttributeId,
                         scopeCode: ModelAttributeScopeCode.Security.ConvertToStringCode()))
@@ -46,14 +46,14 @@ namespace NjordFinance.Context.Configuration
             #region Security types, type groups, and asset class attribute members
             ModelAttributeMember[] assetClasses =
             {
-                new(attributeMemberId: -10, attributeId: -1, displayName: "Equities", displayOrder: 0),
-                new(attributeMemberId: -11, attributeId: -1, displayName: "Fixed Income", displayOrder: 1),
-                new(attributeMemberId: -12, attributeId: -1, displayName: "Derivatives", displayOrder: 2),
-                new(attributeMemberId: -13, attributeId: -1, displayName: "Other", displayOrder: 3),
-                new(attributeMemberId: -14, attributeId: -1, displayName: "Cash & Equivalents", displayOrder: 4),
-                new(attributeMemberId: -15, attributeId: -1, displayName: "Blended Funds & Products", displayOrder: 5),
-                new(attributeMemberId: -16, attributeId: -1, displayName: "Debt & Liability", displayOrder: 6),
-                new(attributeMemberId: -17, attributeId: -1, displayName: "Not classified", displayOrder: 7)
+                new(attributeMemberId: -100, attributeId: -10, displayName: "Equities", displayOrder: 0),
+                new(attributeMemberId: -101, attributeId: -10, displayName: "Fixed Income", displayOrder: 1),
+                new(attributeMemberId: -102, attributeId: -10, displayName: "Derivatives", displayOrder: 2),
+                new(attributeMemberId: -103, attributeId: -10, displayName: "Other", displayOrder: 3),
+                new(attributeMemberId: -104, attributeId: -10, displayName: "Cash & Equivalents", displayOrder: 4),
+                new(attributeMemberId: -105, attributeId: -10, displayName: "Blended Funds & Products", displayOrder: 5),
+                new(attributeMemberId: -106, attributeId: -10, displayName: "Debt & Liability", displayOrder: 6),
+                new(attributeMemberId: -107, attributeId: -10, displayName: "Not classified", displayOrder: 7)
             };
 
             SecurityTypeGroups = new SecurityTypeGroup[]
@@ -75,41 +75,41 @@ namespace NjordFinance.Context.Configuration
 
             SecurityTypes = new SecurityType[]
             {
-                new(-300, -200, "Common Stock", 1M, true, true, -300),
-                new(-301, -200, "American Depository Receipt", 1M, true, true, -301),
-                new(-302, -201, "Equity ETF", 1M, true, true, -302),
-                new(-303, -201, "Equity Mutual Fund", 1M, true, false, -303),
-                new(-304, -202, "Corporate Bonds", 0.01M, true, false, -304),
-                new(-305, -202, "Municipal Bonds", 0.01M, true, false, -305),
-                new(-306, -202, "U.S. Government Bonds & Bills", 0.1M, true, false, -306),
-                new(-307, -202, "Certificate of Deposit", 1M, true, false, -307),
-                new(-308, -203, "Bond ETF", 1M, true, true, -308),
-                new(-309, -203, "Bond Mutual Fund", 1M, true, false, -309),
-                new(-310, -204, "Call Option", 100M, true, false, -310),
-                new(-311, -204, "Put Option", 100M, true, false, -311),
-                new(-312, -205, "Cryptocurrency", 1M, true, false, -312),
-                new(-313, -206, "Exchange-Traded Note", 1M, true, false, -313),
-                new(-314, -206, "Retirement Plan", 1M, true, false, -314),
-                new(-315, -207, "Revolving Debt", -1M, true, false, -315),
-                new(-316, -208, "Student Debt", -1M, true, false, -316),
-                new(-317, -209, "Money-Market Fund", 1M, true, false, -317),
-                new(-318, -209, "Foreign Currency", 1M, true, false, -318),
-                new(-319, -210, "Cash", 1M, true, false, -319),
-                new(-320, -211, "Expense", 0M, false, false, -320),
-                new(-321, -212, "None/External", 0M, false, false, -321)
+                new(-300, -200, "Common Stock", 1M, true, true),
+                new(-301, -200, "American Depository Receipt", 1M, true, true),
+                new(-302, -201, "Equity ETF", 1M, true, true),
+                new(-303, -201, "Equity Mutual Fund", 1M, true, false),
+                new(-304, -202, "Corporate Bonds", 0.01M, true, false),
+                new(-305, -202, "Municipal Bonds", 0.01M, true, false),
+                new(-306, -202, "U.S. Government Bonds & Bills", 0.1M, true, false),
+                new(-307, -202, "Certificate of Deposit", 1M, true, false),
+                new(-308, -203, "Bond ETF", 1M, true, true),
+                new(-309, -203, "Bond Mutual Fund", 1M, true, false),
+                new(-310, -204, "Call Option", 100M, true, false),
+                new(-311, -204, "Put Option", 100M, true, false),
+                new(-312, -205, "Cryptocurrency", 1M, true, false),
+                new(-313, -206, "Exchange-Traded Note", 1M, true, false),
+                new(-314, -206, "Retirement Plan", 1M, true, false),
+                new(-315, -207, "Revolving Debt", -1M, true, false),
+                new(-316, -208, "Student Debt", -1M, true, false),
+                new(-317, -209, "Money-Market Fund", 1M, true, false),
+                new(-318, -209, "Foreign Currency", 1M, true, false),
+                new(-319, -210, "Cash", 1M, true, false),
+                new(-320, -211, "Expense", 0M, false, false),
+                new(-321, -212, "None/External", 0M, false, false)
             };
 
             ModelAttributeMembers = assetClasses
                 .Concat(SecurityTypeGroups.Select(s => new ModelAttributeMember
                 {
-                    AttributeId = -2,
+                    AttributeId = -20,
                     AttributeMemberId = s.SecurityTypeGroupId,
                     DisplayName = s.SecurityTypeGroupName,
                     DisplayOrder = (short)Array.IndexOf(SecurityTypeGroups, s)
                 }))
                 .Concat(SecurityTypes.Select(s => new ModelAttributeMember()
                 {
-                    AttributeId = -3,
+                    AttributeId = -30,
                     AttributeMemberId = s.SecurityTypeId,
                     DisplayName = s.SecurityTypeName,
                     DisplayOrder = (short)Array.IndexOf(SecurityTypes, s)
@@ -131,6 +131,7 @@ namespace NjordFinance.Context.Configuration
             {
                 new() 
                 { 
+                    TransactionCodeId = -10,
                     TransactionCode = "btc", 
                     DisplayName = "Buy to cover", 
                     CashEffect = -1, 
@@ -138,7 +139,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 1 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -11,
                     TransactionCode = "buy", 
                     DisplayName = "Buy", 
                     CashEffect = -1, 
@@ -146,7 +148,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 1 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -12,
                     TransactionCode = "dep", 
                     DisplayName = "Deposit", 
                     CashEffect = 1, 
@@ -154,7 +157,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 0 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -13,
                     TransactionCode = "div", 
                     DisplayName = "Dividend", 
                     CashEffect = 1, 
@@ -162,7 +166,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 0 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -14,
                     TransactionCode = "exp", 
                     DisplayName = "Expense", 
                     CashEffect = -1, 
@@ -170,7 +175,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 0 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -15,
                     TransactionCode = "frt", 
                     DisplayName = "Forfeit shares", 
                     CashEffect = 0, 
@@ -178,7 +184,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = -1 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -16,
                     TransactionCode = "int", 
                     DisplayName = "Interest", 
                     CashEffect = 1, 
@@ -186,7 +193,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 0 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -17,
                     TransactionCode = "dli", 
                     DisplayName = "Deliver-in", 
                     CashEffect = 0, 
@@ -194,7 +202,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 1 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -18,
                     TransactionCode = "dlo", 
                     DisplayName = "Deliver-out", 
                     CashEffect = 0, 
@@ -202,7 +211,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = -1 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -19,
                     TransactionCode = "pdn", 
                     DisplayName = "Pay-down", 
                     CashEffect = -1, 
@@ -210,7 +220,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = -1 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -20,
                     TransactionCode = "sll", 
                     DisplayName = "Sale", 
                     CashEffect = 1, 
@@ -218,7 +229,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = -1 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -21,
                     TransactionCode = "ssl", 
                     DisplayName = "Short sale", 
                     CashEffect = 1, 
@@ -226,7 +238,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = -1 
                 },
                 new()
-                { 
+                {
+                    TransactionCodeId = -22,
                     TransactionCode = "wth", 
                     DisplayName = "Withdrawal", 
                     CashEffect = -1, 
@@ -234,7 +247,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 0 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -23,
                     TransactionCode = "chn", 
                     DisplayName = "Change in value", 
                     CashEffect = 1, 
@@ -242,7 +256,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 1 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -24,
                     TransactionCode = "plc", 
                     DisplayName = "Plan contribution", 
                     CashEffect = 1, 
@@ -250,7 +265,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 0 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -25,
                     TransactionCode = "ain", 
                     DisplayName = "Accrued interest", 
                     CashEffect = -1, 
@@ -258,7 +274,8 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 0 
                 },
                 new() 
-                { 
+                {
+                    TransactionCodeId = -26,
                     TransactionCode = "cap", 
                     DisplayName = "Capital return", 
                     CashEffect = 1, 

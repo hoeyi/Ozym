@@ -18,17 +18,14 @@ namespace NjordFinance.Context
         {
             DefaultReferenceDataModel defaultReferenceModel = new();
 
-            modelBuilder.SeedEntityData(defaultReferenceModel.ModelAttributes);
-
-            modelBuilder.SeedEntityData(defaultReferenceModel.ModelAttributeScopes);
-
-            modelBuilder.SeedEntityData(defaultReferenceModel.ModelAttributeMembers);
-
-            modelBuilder.SeedEntityData(defaultReferenceModel.SecurityTypeGroups);
-
-            modelBuilder.SeedEntityData(defaultReferenceModel.SecurityTypes);
-
-            modelBuilder.SeedEntityData(defaultReferenceModel.SecuritySymbolTypes);
+            modelBuilder
+                .SeedEntityData(defaultReferenceModel.BrokerTransactionCodes)
+                .SeedEntityData(defaultReferenceModel.ModelAttributes)
+                .SeedEntityData(defaultReferenceModel.ModelAttributeScopes)
+                .SeedEntityData(defaultReferenceModel.ModelAttributeMembers)
+                .SeedEntityData(defaultReferenceModel.SecurityTypeGroups)
+                .SeedEntityData(defaultReferenceModel.SecurityTypes)
+                .SeedEntityData(defaultReferenceModel.SecuritySymbolTypes);
 
             return modelBuilder;
         }
@@ -36,21 +33,28 @@ namespace NjordFinance.Context
         public static ModelBuilder SeedInitialData(
             this ModelBuilder modelBuilder, ISeedData seedData)
         {
-            modelBuilder.SeedEntityData(seedData.AccountCustodians);
-
-            modelBuilder.SeedEntityData(seedData.AccountObjects);
-
-            modelBuilder.SeedEntityData(seedData.Accounts);
-
-            modelBuilder.SeedEntityData(seedData.BankTransactionCodes);
-
-            modelBuilder.SeedEntityData(seedData.Countries);
-
-            modelBuilder.SeedEntityData(seedData.Securities);
-
-            modelBuilder.SeedEntityData(seedData.SecurityExchanges);
-
-            modelBuilder.SeedEntityData(seedData.SecuritySymbols);
+            modelBuilder
+                .SeedEntityData(seedData.AccountCustodians)
+                .SeedEntityData(seedData.AccountObjects)
+                .SeedEntityData(seedData.Accounts)
+                .SeedEntityData(seedData.AccountComposites)
+                .SeedEntityData(seedData.BankTransactionCodes)
+                .SeedEntityData(seedData.BrokerTransactionCodes)
+                .SeedEntityData(seedData.Countries)
+                .SeedEntityData(seedData.InvestmentStrategies)
+                .SeedEntityData(seedData.MarketHolidays)
+                .SeedEntityData(seedData.MarketIndices)
+                .SeedEntityData(seedData.ModelAttributes)
+                .SeedEntityData(seedData.ModelAttributeMembers)
+                .SeedEntityData(seedData.ReportConfigurations)
+                .SeedEntityData(seedData.ReportStyleSheets)
+                .SeedEntityData(seedData.ResourceImages)
+                .SeedEntityData(seedData.SecurityExchanges)
+                .SeedEntityData(seedData.SecurityTypeGroups)
+                .SeedEntityData(seedData.SecurityTypes)
+                .SeedEntityData(seedData.SecuritySymbolTypes)
+                .SeedEntityData(seedData.Securities)
+                .SeedEntityData(seedData.SecuritySymbols);
 
             return modelBuilder;
         }
@@ -61,12 +65,14 @@ namespace NjordFinance.Context
         /// <param name="modelBuilder"></param>
         /// <param name="data">The collection of <typeparamref name="T"/> models to 
         /// insert.</param>
-        public static void SeedEntityData<T>(
+        public static ModelBuilder SeedEntityData<T>(
             this ModelBuilder modelBuilder,
             params T[] data)
             where T : class, new()
         {
             modelBuilder.Entity<T>().HasData(data);
+
+            return modelBuilder;
         }
     }
 }

@@ -22,6 +22,8 @@ namespace NjordFinance.Context
         /// </summary>
         AccountObject[] AccountObjects { get; }
 
+        AccountComposite[] AccountComposites { get; }
+
         /// <summary>
         /// Gets the <see cref="AccountCustodian"/> models to seed.
         /// </summary>
@@ -32,10 +34,32 @@ namespace NjordFinance.Context
         /// </summary>
         BankTransactionCode[] BankTransactionCodes { get; }
 
+        BrokerTransactionCode[] BrokerTransactionCodes { get; }
+
         /// <summary>
         /// Gets the <see cref="Country"/> models to seed.
         /// </summary>
         Country[] Countries { get; }
+
+        InvestmentStrategy[] InvestmentStrategies { get; }
+
+        MarketHoliday[] MarketHolidays { get; }
+
+        MarketIndex[] MarketIndices { get; }
+
+        ModelAttribute[] ModelAttributes { get; }
+
+        ModelAttributeMember[] ModelAttributeMembers { get; }
+
+        ReportConfiguration[] ReportConfigurations { get; }
+
+        ReportStyleSheet[] ReportStyleSheets { get; }
+
+        ResourceImage[] ResourceImages { get; }
+
+        SecurityTypeGroup[] SecurityTypeGroups { get; }
+
+        SecurityType[] SecurityTypes { get; }
 
         /// <summary>
         /// Gets the <see cref="Security"/> models to seed.
@@ -51,5 +75,7 @@ namespace NjordFinance.Context
         /// Gets the <see cref="SecuritySymbol"/> models to seed.
         /// </summary>
         SecuritySymbol[] SecuritySymbols { get; }
+
+        SecuritySymbolType[] SecuritySymbolTypes { get; }
     }
 }
