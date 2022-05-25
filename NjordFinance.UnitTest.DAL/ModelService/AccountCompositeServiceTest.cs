@@ -91,10 +91,7 @@ namespace NjordFinance.Test.ModelService
         {
             AccountCompositeNavigation = new()
             {
-                AccountObjectCode = "TESTDELPASSC",
-                ObjectType = AccountObjectType.Composite.ConvertToStringCode(),
-                ObjectDisplayName = "TEST DELETE PASS (C)",
-                ObjectDescription = "Lorem ipsum dolor sit amet"
+                AccountObjectCode = "TESTDELPASSC"
             }
         };
 
@@ -116,63 +113,9 @@ namespace NjordFinance.Test.ModelService
         {
             AccountCompositeNavigation = new()
             {
-                AccountObjectCode = "TESTUPDATEC",
-                ObjectType = AccountObjectType.Account.ConvertToStringCode(),
-                ObjectDisplayName = "TEST UPDATE PASS (C)",
-                ObjectDescription = "sed do eiusmod ",
-                StartDate = new DateTime(
-                            _random.Next(1975, 2022), _random.Next(1, 12), _random.Next(1, 28))
+                AccountObjectCode = "TESTUPDATEC"
             }
         };
-
-        /// <inheritdoc/>
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.AccountComposite WHERE AccountCompositeID > 0;" +
-                "DELETE FROM FinanceApp.AccountObject WHERE AccountObjectID > 0;");
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
-        /// <inheritdoc/>
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.AccountCompositeId,
-                    DeleteModelSuccessSample.AccountCompositeNavigation.AccountObjectCode
-                },
-                new
-                {
-                    UpdateModelSuccessSample.AccountCompositeId,
-                    UpdateModelSuccessSample.AccountCompositeNavigation.AccountObjectCode
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: a => a.AccountCompositeNavigation,
-                (
-                    DeleteModelSuccessSample,
-                    x => x.AccountCompositeNavigation.AccountObjectCode ==
-                        DeleteModelSuccessSample.AccountCompositeNavigation.AccountObjectCode
-                ),
-                (
-                    UpdateModelSuccessSample,
-                    x => x.AccountCompositeNavigation.AccountObjectCode ==
-                        UpdateModelSuccessSample.AccountCompositeNavigation.AccountObjectCode
-                ));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
 
         protected override Expression<Func<AccountComposite, object>>[] IncludePaths =>
             new Expression<Func<AccountComposite, object>>[]

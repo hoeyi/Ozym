@@ -179,16 +179,6 @@ namespace NjordFinance.Test.ModelService
         protected ILogger Logger => TestUtility.Logger;
 
         /// <summary>
-        /// Executes set up action including seeding test samples to a shared context.
-        /// </summary>
-        public abstract void Initialize();
-
-        /// <summary>
-        /// Executes clean-up action including clearing test cases from a shared context.
-        /// </summary>
-        public abstract void CleanUp();
-
-        /// <summary>
         /// Utility method for creating new <see cref="FinanceDbContext"/> instances.
         /// </summary>
         /// <returns>A new <see cref="FinanceDbContext"/> instance.</returns>
@@ -295,34 +285,6 @@ namespace NjordFinance.Test.ModelService
             Expression expression = Expression.Equal(expressionLeft, expressionRight);
 
             return Expression.Lambda<Func<T, bool>>(expression, parameterExpression);
-        }
-
-        /// <summary>
-        /// Seeds the given <typeparamref name="T"/> models if their partner pattern matches 
-        /// no results.
-        /// </summary>
-        /// <param name="including">The navigation path to include.</param>
-        /// <param name="models">Collection of model/predicate pairs to add if the predicate 
-        /// does not yield a match.</param>
-        protected void SeedModelsIfNotExists(
-            Expression<Func<T, object>> including = null,
-            params (T model, Expression<Func<T, bool>> matchingFunc)[] models)
-        {
-            using var context = CreateDbContext();
-
-            IQueryable<T> dbset = context.Set<T>();
-
-            if (including is not null)
-                dbset = dbset.Include(including);
-
-            var newModels = models
-                .Where(a => !dbset.Any(a.matchingFunc))
-                .Select(a => a.model)
-                .ToArray();
-
-            context.AddRange(newModels);
-
-            context.SaveChanges();
         }
     }
 }

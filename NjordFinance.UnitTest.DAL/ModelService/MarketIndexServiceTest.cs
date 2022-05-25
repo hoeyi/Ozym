@@ -65,8 +65,7 @@ namespace NjordFinance.Test.ModelService
 
         protected override MarketIndex DeleteModelSuccessSample => new()
         {
-            IndexCode = "DELETEPASS",
-            IndexDescription = "Test delete pass"
+            IndexCode = "DELETEPASS"
         };
 
         protected override MarketIndex DeleteModelFailSample => new()
@@ -78,52 +77,8 @@ namespace NjordFinance.Test.ModelService
 
         protected override MarketIndex UpdateModelSuccessSample => new()
         {
-            IndexCode = "UPDATEPASS",
-            IndexDescription = "Test update pass"
+            IndexCode = "UPDATEPASS"
         };
-
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.MarketIndex WHERE IndexID > 0;");
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.IndexCode,
-                },
-                new
-                {
-                    UpdateModelSuccessSample.IndexCode
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: null,
-                (
-                    DeleteModelSuccessSample,
-                    x => x.IndexCode == DeleteModelSuccessSample.IndexCode
-                ),
-                (
-                    UpdateModelSuccessSample,
-                    x => x.IndexCode == UpdateModelSuccessSample.IndexCode
-                ));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
 
         protected override int GetKey(MarketIndex model) => model.IndexId;
 

@@ -64,8 +64,7 @@ namespace NjordFinance.Test.ModelService
 
         protected override AccountCustodian DeleteModelSuccessSample => new()
         {
-            CustodianCode = "TESTDELPASS",
-            DisplayName = "Test custodian delete."
+            CustodianCode = "TESTDELPASS"
         };
 
         protected override AccountCustodian DeleteModelFailSample => new()
@@ -77,51 +76,8 @@ namespace NjordFinance.Test.ModelService
 
         protected override AccountCustodian UpdateModelSuccessSample => new()
         {
-            CustodianCode = "TESTUPDATE",
-            DisplayName = "Test custodian update."
+            CustodianCode = "TESTUPDATE"
         };
-
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.AccountCustodian WHERE AccountCustodianID > 0;");
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-                        {
-                new
-                {
-                    DeleteModelSuccessSample.CustodianCode,
-                    DeleteModelSuccessSample.DisplayName
-                },
-                new
-                {
-                    DeleteModelFailSample.CustodianCode,
-                    DeleteModelFailSample.DisplayName
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: null,
-                (
-                    DeleteModelSuccessSample, 
-                    x => x.CustodianCode == DeleteModelSuccessSample.CustodianCode),
-                (
-                    UpdateModelSuccessSample, 
-                    x => x.CustodianCode == UpdateModelSuccessSample.CustodianCode));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
 
         protected override int GetKey(AccountCustodian model) => model.AccountCustodianId;
 

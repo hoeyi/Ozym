@@ -56,14 +56,13 @@ namespace NjordFinance.Test.ModelService
     {
         protected override BankTransactionCode CreateModelSuccessSample => new()
         {
-            TransactionCode = "CREATE",
+            TransactionCode = "NEWPASS",
             DisplayName = "Test create pass."
         };
 
         protected override BankTransactionCode DeleteModelSuccessSample => new()
         {
-            TransactionCode = "DELPASS",
-            DisplayName = "Test delete pass."
+            TransactionCode = "DELPASS"
         };
 
         protected override BankTransactionCode DeleteModelFailSample => new()
@@ -75,53 +74,8 @@ namespace NjordFinance.Test.ModelService
 
         protected override BankTransactionCode UpdateModelSuccessSample => new()
         {
-            TransactionCode = "UPDATE",
-            DisplayName = "Test update pass."
+            TransactionCode = "UPDPASS"
         };
-
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.BankTransactionCode WHERE TransactionCodeID > 0;");
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.TransactionCode,
-                    DeleteModelSuccessSample.DisplayName
-                },
-                new
-                {
-                    DeleteModelFailSample.TransactionCode,
-                    DeleteModelFailSample.DisplayName
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: null,
-                (
-                    DeleteModelSuccessSample,
-                    x => x.TransactionCode == DeleteModelSuccessSample.TransactionCode
-                ),
-                (
-                    UpdateModelSuccessSample,
-                    x => x.TransactionCode == UpdateModelSuccessSample.TransactionCode
-                ));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
 
         protected override int GetKey(BankTransactionCode model) => model.TransactionCodeId;
 

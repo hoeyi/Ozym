@@ -110,51 +110,6 @@ namespace NjordFinance.Test.ModelService
                 a => a.SecurityTypeGroupNavigation
             };
 
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.SecurityTypeGroup " +
-                "WHERE SecurityTypeGroupID > 0;" +
-                "DELETE FROM FinanceApp.ModelAttributeMember " +
-                "WHERE AttributeMemberID > 0");
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.SecurityTypeGroupName,
-                },
-                new
-                {
-                    UpdateModelSuccessSample.SecurityTypeGroupName
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: a => a.SecurityTypeGroupNavigation,
-                (
-                    DeleteModelSuccessSample,
-                    x => x.SecurityTypeGroupName == DeleteModelSuccessSample.SecurityTypeGroupName
-                ),
-                (
-                    UpdateModelSuccessSample,
-                    x => x.SecurityTypeGroupName == UpdateModelSuccessSample.SecurityTypeGroupName
-                ));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
-
         protected override int GetKey(SecurityTypeGroup model) => model.SecurityTypeGroupId;
 
         protected override IModelService<SecurityTypeGroup> GetModelService() =>

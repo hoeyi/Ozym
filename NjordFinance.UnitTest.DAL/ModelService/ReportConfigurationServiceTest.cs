@@ -86,49 +86,6 @@ namespace NjordFinance.Test.ModelService
             XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
         };
 
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.ReportConfiguration WHERE ConfigurationID > 0;");
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.ConfigurationCode,
-                },
-                new
-                {
-                    UpdateModelSuccessSample.ConfigurationCode
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: null,
-                (
-                    DeleteModelSuccessSample,
-                    x => x.ConfigurationCode == DeleteModelSuccessSample.ConfigurationCode
-                ),
-                (
-                    UpdateModelSuccessSample,
-                    x => x.ConfigurationCode == UpdateModelSuccessSample.ConfigurationCode
-                ));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
-
-
         protected override int GetKey(ReportConfiguration model) => model.ConfigurationId;
 
         protected override IModelService<ReportConfiguration> GetModelService() =>

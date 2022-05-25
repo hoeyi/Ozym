@@ -73,50 +73,8 @@ namespace NjordFinance.Test.ModelService
 
         protected override InvestmentStrategy UpdateModelSuccessSample => new()
         {
-            DisplayName = "Test update success"
+            DisplayName = "Test update pass"
         };
-
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.InvestmentStrategy WHERE InvestmentStrategyID > 0;");
-
-            Logger.LogInformation("Deleted {count} records", recordsDeleted);
-        }
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.DisplayName
-                },
-                new
-                {
-                    UpdateModelSuccessSample.DisplayName
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: null,
-                (
-                    DeleteModelSuccessSample,
-                    x => x.DisplayName == DeleteModelSuccessSample.DisplayName
-                ),
-                (
-                    UpdateModelSuccessSample,
-                    x => x.DisplayName == UpdateModelSuccessSample.DisplayName
-                ));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
 
         protected override int GetKey(InvestmentStrategy model) => model.InvestmentStrategyId;
 

@@ -86,49 +86,6 @@ namespace NjordFinance.Test.ModelService
             XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
         };
 
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.ReportStyleSheet WHERE StyleSheetID > 0;");
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.StyleSheetCode,
-                },
-                new
-                {
-                    UpdateModelSuccessSample.StyleSheetCode
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: null,
-                (
-                    DeleteModelSuccessSample,
-                    x => x.StyleSheetCode == DeleteModelSuccessSample.StyleSheetCode
-                ),
-                (
-                    UpdateModelSuccessSample,
-                    x => x.StyleSheetCode == UpdateModelSuccessSample.StyleSheetCode
-                ));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
-
-
         protected override int GetKey(ReportStyleSheet model) => model.StyleSheetId;
 
         protected override IModelService<ReportStyleSheet> GetModelService() =>

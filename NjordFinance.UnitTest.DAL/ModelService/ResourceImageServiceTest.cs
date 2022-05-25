@@ -66,9 +66,7 @@ namespace NjordFinance.Test.ModelService
 
         protected override ResourceImage DeleteModelSuccessSample => new()
         {
-            ImageDescription = "Test delete pass",
-            ImageBinary = Resources.Images.fractal_circle_icon_dark,
-            FileExtension = "PNG"
+            ImageDescription = "Test delete pass"
         };
 
         protected override ResourceImage DeleteModelFailSample => new()
@@ -81,52 +79,8 @@ namespace NjordFinance.Test.ModelService
 
         protected override ResourceImage UpdateModelSuccessSample => new()
         {
-            ImageDescription = "Test update pass",
-            ImageBinary = Resources.Images.fractal_circle_icon_dark,
-            FileExtension = "JPG"
+            ImageDescription = "Test update pass"
         };
-
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.ResourceImage WHERE ImageID > 0;");
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.ImageDescription,
-                },
-                new
-                {
-                    UpdateModelSuccessSample.ImageDescription
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: null,
-                (
-                    DeleteModelSuccessSample,
-                    x => x.ImageDescription == DeleteModelSuccessSample.ImageDescription
-                ),
-                (
-                    UpdateModelSuccessSample,
-                    x => x.ImageDescription == UpdateModelSuccessSample.ImageDescription
-                ));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
 
         protected override int GetKey(ResourceImage model) => model.ImageId;
 

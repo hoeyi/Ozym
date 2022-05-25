@@ -35,10 +35,7 @@ namespace NjordFinance.Test.ModelService
         {
             var service = GetModelService();
 
-            MarketHoliday original = (await service.SelectWhereAysnc(
-                predicate: x => x.MarketHolidayName == UpdateModelSuccessSample.MarketHolidayName,
-                maxCount: 1))
-                .First();
+            MarketHoliday original = await service.ReadAsync(id: -2);
 
             original.MarketHolidayName = $"{original.MarketHolidayName} - u";
 
@@ -75,48 +72,6 @@ namespace NjordFinance.Test.ModelService
         {
             MarketHolidayName = "Test update pass"
         };
-
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.MarketHoliday WHERE MarketHolidayID > 0;");
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.MarketHolidayName,
-                },
-                new
-                {
-                    UpdateModelSuccessSample.MarketHolidayName
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: null,
-                (
-                    DeleteModelSuccessSample,
-                    x => x.MarketHolidayName == DeleteModelSuccessSample.MarketHolidayName
-                ),
-                (
-                    UpdateModelSuccessSample,
-                    x => x.MarketHolidayName == UpdateModelSuccessSample.MarketHolidayName
-                ));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
 
         protected override int GetKey(MarketHoliday model) => model.MarketHolidayId;
 

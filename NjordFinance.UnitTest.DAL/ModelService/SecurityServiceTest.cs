@@ -94,48 +94,6 @@ namespace NjordFinance.Test.ModelService
             SecurityTypeId = -310
         };
 
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.SecurityExchange WHERE ExchangeID > 0;");
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.SecurityDescription,
-                },
-                new
-                {
-                    UpdateModelSuccessSample.SecurityDescription
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: null,
-                (
-                    DeleteModelSuccessSample,
-                    x => x.SecurityDescription == DeleteModelSuccessSample.SecurityDescription
-                ),
-                (
-                    UpdateModelSuccessSample,
-                    x => x.SecurityDescription == UpdateModelSuccessSample.SecurityDescription
-                ));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
-
         protected override int GetKey(Security model) => model.SecurityId;
 
         protected override IModelService<Security> GetModelService() =>

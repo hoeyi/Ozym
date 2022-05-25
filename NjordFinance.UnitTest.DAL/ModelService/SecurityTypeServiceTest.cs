@@ -62,7 +62,7 @@ namespace NjordFinance.Test.ModelService
         {
             SecurityTypeNavigation = new()
             {
-                AttributeId = -3,
+                AttributeId = -30,
                 DisplayName = "Test create pass",
                 DisplayOrder = 0,
             },
@@ -116,52 +116,6 @@ namespace NjordFinance.Test.ModelService
             ValuationFactor = 1M,
             SecurityTypeGroupId = -203
         };
-
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            int recordsDeleted = context.Database.ExecuteSqlRaw(
-                "DELETE FROM FinanceApp.SecurityType " +
-                "WHERE SecurityTypeID > 0;" +
-                "DELETE FROM FinanceApp.ModelAttributeMember " +
-                "WHERE AttributeMemberID > 0");
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.SecurityTypeName,
-                },
-                new
-                {
-                    UpdateModelSuccessSample.SecurityTypeName
-                }
-            });
-
-            SeedModelsIfNotExists(
-                including: a => a.SecurityTypeNavigation,
-                (
-                    DeleteModelSuccessSample,
-                    x => x.SecurityTypeName == DeleteModelSuccessSample.SecurityTypeName
-                ),
-                (
-                    UpdateModelSuccessSample,
-                    x => x.SecurityTypeName == UpdateModelSuccessSample.SecurityTypeName
-                ));
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
 
         protected override int GetKey(SecurityType model) => model.SecurityTypeId;
 

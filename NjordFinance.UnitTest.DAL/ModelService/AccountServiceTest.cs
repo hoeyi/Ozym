@@ -92,12 +92,8 @@ namespace NjordFinance.Test.ModelService
         {
             AccountNavigation = new()
             {
-                AccountObjectCode = "TESTDELPASS",
-                ObjectType = AccountObjectType.Account.ConvertToStringCode(),
-                ObjectDisplayName = "TEST DELETE PASS",
-                ObjectDescription = "Lorem ipsum dolor sit amet"
-            },
-            AccountNumber = "0000-0000-00",
+                AccountObjectCode = "TESTDELPASS"
+            }
         };
 
         protected override Account DeleteModelFailSample => new()
@@ -118,14 +114,8 @@ namespace NjordFinance.Test.ModelService
         {
             AccountNavigation = new()
             {
-                AccountObjectCode = "TESTUPDPASS",
-                ObjectType = AccountObjectType.Account.ConvertToStringCode(),
-                ObjectDisplayName = "TEST UPDATE PASS",
-                ObjectDescription = "sed do eiusmod ",
-                StartDate = new DateTime(
-                            _random.Next(1975, 2022), _random.Next(1, 12), _random.Next(1, 28))
-            },
-            AccountNumber = "0000-0000-00"
+                AccountObjectCode = "TESTUPDPASS"
+            }
         };
 
         protected override Expression<Func<Account, object>>[] IncludePaths => 
@@ -134,45 +124,10 @@ namespace NjordFinance.Test.ModelService
                 a => a.AccountNavigation
             };
 
-        [TestCleanup]
-        public override void CleanUp()
-        {
-            Logger.LogInformation("Cleaning up {test}.", GetType().Name);
-
-            using var context = CreateDbContext();
-
-            //int recordsDeleted = context.Database.ExecuteSqlRaw(
-            //    "DELETE FROM FinanceApp.Account WHERE AccountID > 0;" +
-            //    "DELETE FROM FinanceApp.AccountObject WHERE AccountObjectID > 0;");
-
-            int recordsDeleted = 0;
-
-            Logger.LogInformation("Deleted {count} records.", recordsDeleted);
-        }
-
         protected override int GetKey(Account model) => model.AccountId;
-
-        [TestInitialize]
-        public override void Initialize()
-        {
-            Logger.LogInformation("Seeding with test data {list}.", (object)new[]
-            {
-                new
-                {
-                    DeleteModelSuccessSample.AccountId,
-                    DeleteModelSuccessSample.AccountCode
-                },
-                new
-                {
-                    UpdateModelSuccessSample.AccountId,
-                    UpdateModelSuccessSample.AccountCode
-                }
-            });
-
-            Logger.LogInformation("{Test} initialized.", GetType().Name);
-        }
 
         protected override IModelService<Account> GetModelService() =>
             BuildModelService<AccountService>();
+
     }
 }
