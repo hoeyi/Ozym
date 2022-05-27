@@ -70,6 +70,9 @@ namespace NjordFinance.Context
             params T[] data)
             where T : class, new()
         {
+            if (data is null || data.Length == 0)
+                return modelBuilder;
+
             modelBuilder.Entity<T>().HasData(data);
 
             return modelBuilder;
