@@ -190,7 +190,7 @@ namespace NjordFinance.Test.ModelService
         /// </summary>
         /// <param name="model"></param>
         /// <returns>The <see cref="int"/> key value.</returns>
-        protected abstract int GetKey(T model);
+        protected int GetKey(T model) => ModelServiceTestUtility.GetKey<T, int>(model);
 
         /// <summary>
         /// Creates a new <see cref="IModelService{T}"/> instance.

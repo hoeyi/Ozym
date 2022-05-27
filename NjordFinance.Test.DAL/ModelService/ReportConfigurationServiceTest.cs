@@ -86,8 +86,6 @@ namespace NjordFinance.Test.ModelService
             XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
         };
 
-        protected override int GetKey(ReportConfiguration model) => model.ConfigurationId;
-
         protected override IModelService<ReportConfiguration> GetModelService() =>
             BuildModelService<ReportConfigurationService>();
     }

@@ -79,8 +79,6 @@ namespace NjordFinance.Test.ModelService
             CustodianCode = "TESTUPDATE"
         };
 
-        protected override int GetKey(AccountCustodian model) => model.AccountCustodianId;
-
         protected override IModelService<AccountCustodian> GetModelService() =>
             BuildModelService<AccountCustodianService>();
     }

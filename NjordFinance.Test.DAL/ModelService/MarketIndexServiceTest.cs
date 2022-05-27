@@ -80,8 +80,6 @@ namespace NjordFinance.Test.ModelService
             IndexCode = "UPDATEPASS"
         };
 
-        protected override int GetKey(MarketIndex model) => model.IndexId;
-
         protected override IModelService<MarketIndex> GetModelService() =>
             BuildModelService<MarketIndexService>();
     }

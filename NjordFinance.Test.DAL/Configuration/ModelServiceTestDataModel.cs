@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NjordFinance.Context;
 using NjordFinance.Context.Configuration;
 using NjordFinance.Model;
 using NjordFinance.ModelMetadata;
@@ -149,6 +148,15 @@ namespace NjordFinance.Test.Configuration
                     AccountId = -5,
                     AccountNumber = "0000-0000-00"
                 }
+            };
+
+            AccountWallets = new AccountWallet[]
+            {
+                new(){ 
+                    AccountWalletId = -1, AccountId = -3, DenominationSecurityId = -5,
+                    AddressCode = "5F32C68C-415C-4612-AA29-14D6FE0940C6", AddressTag = "ABC"},
+                new(){ AccountWalletId = -2, AccountId = -3, DenominationSecurityId = -6,
+                    AddressCode= "2E34D0C0-6DC7-4DC6-86C4-F0B3A4A1BEBE"}
             };
 
             AccountComposites = new AccountComposite[]
@@ -548,6 +556,10 @@ namespace NjordFinance.Test.Configuration
 
         /// <inheritdoc/>
         public Account[] Accounts { get; }
+
+        /// <inheritdoc/>
+        public AccountWallet[] AccountWallets { get; }
+
         /// <inheritdoc/>
         public BankTransactionCode[] BankTransactionCodes { get; }
 

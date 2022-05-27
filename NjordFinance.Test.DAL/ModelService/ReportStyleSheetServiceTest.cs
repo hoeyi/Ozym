@@ -86,8 +86,6 @@ namespace NjordFinance.Test.ModelService
             XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
         };
 
-        protected override int GetKey(ReportStyleSheet model) => model.StyleSheetId;
-
         protected override IModelService<ReportStyleSheet> GetModelService() =>
             BuildModelService<ReportStyleSheetService>();
     }

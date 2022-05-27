@@ -94,8 +94,6 @@ namespace NjordFinance.Test.ModelService
             SecurityTypeId = -310
         };
 
-        protected override int GetKey(Security model) => model.SecurityId;
-
         protected override IModelService<Security> GetModelService() =>
             BuildModelService<SecurityService>();
     }

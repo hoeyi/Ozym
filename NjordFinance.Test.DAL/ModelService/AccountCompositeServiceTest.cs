@@ -123,8 +123,6 @@ namespace NjordFinance.Test.ModelService
             a => a.AccountCompositeNavigation
         };
 
-        protected override int GetKey(AccountComposite model) => model.AccountCompositeId;
-
         protected override IModelService<AccountComposite> GetModelService() =>
             BuildModelService<AccountCompositeService>();
     }

@@ -78,8 +78,6 @@ namespace NjordFinance.Test.ModelService
             SymbolTypeName = "TestUpdatePass"
         };
 
-        protected override int GetKey(SecuritySymbolType model) => model.SymbolTypeId;
-
         protected override IModelService<SecuritySymbolType> GetModelService() =>
             BuildModelService<SecuritySymbolTypeService>();
     }

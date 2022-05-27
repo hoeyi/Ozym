@@ -110,8 +110,6 @@ namespace NjordFinance.Test.ModelService
                 a => a.SecurityTypeGroupNavigation
             };
 
-        protected override int GetKey(SecurityTypeGroup model) => model.SecurityTypeGroupId;
-
         protected override IModelService<SecurityTypeGroup> GetModelService() =>
             BuildModelService<SecurityTypeGroupService>();
     }

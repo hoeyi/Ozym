@@ -76,8 +76,6 @@ namespace NjordFinance.Test.ModelService
             DisplayName = "Test update pass"
         };
 
-        protected override int GetKey(InvestmentStrategy model) => model.InvestmentStrategyId;
-
         protected override IModelService<InvestmentStrategy> GetModelService() =>
             BuildModelService<InvestmentStrategyService>();
 

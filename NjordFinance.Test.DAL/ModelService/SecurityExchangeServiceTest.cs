@@ -83,8 +83,6 @@ namespace NjordFinance.Test.ModelService
             ExchangeDescription = "Test update pass"
         };
 
-        protected override int GetKey(SecurityExchange model) => model.ExchangeId;
-
         protected override IModelService<SecurityExchange> GetModelService() =>
             BuildModelService<SecurityExchangeService>();
     }

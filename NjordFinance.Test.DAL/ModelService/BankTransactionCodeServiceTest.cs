@@ -77,8 +77,6 @@ namespace NjordFinance.Test.ModelService
             TransactionCode = "UPDPASS"
         };
 
-        protected override int GetKey(BankTransactionCode model) => model.TransactionCodeId;
-
         protected override IModelService<BankTransactionCode> GetModelService() =>
             BuildModelService<BankTransactionCodeService>();
     }

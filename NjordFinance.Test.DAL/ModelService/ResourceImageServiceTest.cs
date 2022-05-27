@@ -82,8 +82,6 @@ namespace NjordFinance.Test.ModelService
             ImageDescription = "Test update pass"
         };
 
-        protected override int GetKey(ResourceImage model) => model.ImageId;
-
         protected override IModelService<ResourceImage> GetModelService() =>
             BuildModelService<ResourceImageService>();
     }

@@ -73,8 +73,6 @@ namespace NjordFinance.Test.ModelService
             MarketHolidayName = "Test update pass"
         };
 
-        protected override int GetKey(MarketHoliday model) => model.MarketHolidayId;
-
         protected override IModelService<MarketHoliday> GetModelService() =>
             BuildModelService<MarketHolidayService>();
     }

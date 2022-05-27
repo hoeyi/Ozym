@@ -84,8 +84,6 @@ namespace NjordFinance.Test.ModelService
             TransactionCode = "TUP"
         };
 
-        protected override int GetKey(BrokerTransactionCode model) => model.TransactionCodeId;
-
         protected override IModelService<BrokerTransactionCode> GetModelService() =>
             BuildModelService<BrokerTransactionCodeService>();
     }

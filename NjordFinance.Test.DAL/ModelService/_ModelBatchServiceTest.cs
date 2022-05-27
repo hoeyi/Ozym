@@ -71,16 +71,6 @@ namespace NjordFinance.Test.ModelService
         protected abstract IReadOnlyDictionary<string, T> TestModels { get; }
 
         /// <summary>
-        /// Executes set up action including seeding test samples to a shared context.
-        /// </summary>
-        public abstract void Initialize();
-
-        /// <summary>
-        /// Executes clean-up action including clearing test cases from a shared context.
-        /// </summary>
-        public abstract void CleanUp();
-
-        /// <summary>
         /// Gets the <see cref="ILogger"/> instance for this service.
         /// </summary>
         protected ILogger Logger => TestUtility.Logger;
@@ -96,32 +86,15 @@ namespace NjordFinance.Test.ModelService
         /// Creates the <see cref="IModelBatchService{T}"/> to be tested.
         /// </summary>
         /// <returns>An instance implementing <see cref="IModelBatchService{T}"/>.</returns>
-        protected IModelBatchService<T> BuildModelService<TService>()
-        {
-            return (IModelBatchService<T>)Activator.CreateInstance(
+        protected IModelBatchService<T> BuildModelService<TService>() =>
+            (IModelBatchService<T>)Activator.CreateInstance(
                 typeof(TService), TestUtility.DbContextFactory, new ModelMetadataService(), Logger);
-        }
 
         /// <summary>
         /// Utility method for creating new <see cref="FinanceDbContext"/> instances.
         /// </summary>
         /// <returns>A new <see cref="FinanceDbContext"/> instance.</returns>
         protected FinanceDbContext CreateDbContext()
-        {
-            return TestUtility.DbContextFactory.CreateDbContext();
-        }
-
-        /// <summary>
-        /// Seeds the given <typeparamref name="T"/> models.
-        /// </summary>
-        /// <param name="models"></param>
-        protected void SeedTestData(params T[] models)
-        {
-            using var context = CreateDbContext();
-
-            context.AddRange(models);
-
-            context.SaveChanges();
-        }
+            => TestUtility.DbContextFactory.CreateDbContext();
     }
 }

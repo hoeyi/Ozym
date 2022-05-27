@@ -78,8 +78,6 @@ namespace NjordFinance.Test.ModelService
             IsoCode3 = "USA"
         };
 
-        protected override int GetKey(Country model) => model.CountryId;
-
         protected override IModelService<Country> GetModelService() =>
             BuildModelService<CountryService>();
     }

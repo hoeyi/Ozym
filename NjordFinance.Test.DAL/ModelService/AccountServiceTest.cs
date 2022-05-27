@@ -124,8 +124,6 @@ namespace NjordFinance.Test.ModelService
                 a => a.AccountNavigation
             };
 
-        protected override int GetKey(Account model) => model.AccountId;
-
         protected override IModelService<Account> GetModelService() =>
             BuildModelService<AccountService>();
 
