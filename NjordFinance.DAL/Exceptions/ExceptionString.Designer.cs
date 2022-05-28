@@ -61,6 +61,15 @@ namespace NjordFinance.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The required context for this service has not initialized..
+        /// </summary>
+        internal static string ModelBatchService_SharedContextNotSet {
+            get {
+                return ResourceManager.GetString("ModelBatchService_SharedContextNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The type &apos;{0}&apos; does not have a noun attribute applied. The page title cannot be generated..
         /// </summary>
         internal static string ModelNoun_NotFound {

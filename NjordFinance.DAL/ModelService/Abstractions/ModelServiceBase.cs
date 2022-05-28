@@ -17,6 +17,11 @@ namespace NjordFinance.ModelService.Abstractions
         where T: class, new()
     {
         /// <summary>
+        /// The shared context for this instance.
+        /// </summary>
+        protected readonly ISharedContext _sharedContext;
+
+        /// <summary>
         /// The data context factory for this service.
         /// </summary>
         protected readonly IDbContextFactory<FinanceDbContext> _contextFactory;
@@ -56,6 +61,33 @@ namespace NjordFinance.ModelService.Abstractions
             _logger = logger;
         }
 
+        /// <summary>
+        /// Base constructor for <see cref="ModelBatchService{T}"/>-derived classes where a
+        /// shared context is used.
+        /// </summary>
+        /// <param name="sharedContext"></param>
+        /// <param name="metadataService"></param>
+        /// <param name="logger"></param>
+        protected ModelServiceBase(
+            ISharedContext sharedContext,
+            IModelMetadataService metadataService,
+            ILogger logger)
+        {
+            _sharedContext = sharedContext;
+            _modelMetadata = metadataService;
+            _logger = logger;
+        }
+
+        ~ModelServiceBase()
+        {
+            SharedContext?.Context?.Dispose();
+        }
+
+        public bool HasSharedContext
+        {
+            get { return SharedContext is not null; }
+        }
+
         /// <inheritdoc/>
         public int? GetKey(T model)
         {
@@ -66,9 +98,12 @@ namespace NjordFinance.ModelService.Abstractions
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="FinanceDbContext"/> for this instance.
+        /// Gets or sets the shared context for this service instance.
         /// </summary>
-        protected FinanceDbContext Context { get; set; }
+        protected ISharedContext SharedContext
+        {
+            get { return _sharedContext; }
+        }
 
         /// <summary>
         /// Gets the <typeparamref name="TKey"/> key value for the given 

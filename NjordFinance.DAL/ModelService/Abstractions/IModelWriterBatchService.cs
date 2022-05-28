@@ -19,11 +19,6 @@ namespace NjordFinance.ModelService.Abstractions
         bool IsDirty { get; }
 
         /// <summary>
-        /// Refreshes the service context.
-        /// </summary>
-        void Refresh();
-
-        /// <summary>
         /// Attaches the given model to the service context as an addition.
         /// </summary>
         /// <param name="model">The model to add.</param>

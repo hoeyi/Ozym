@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ModelBatchService_SharedContextNotSet" xml:space="preserve">
+    <value>The required context for this service has not initialized.</value>
+  </data>
   <data name="ModelNoun_NotFound" xml:space="preserve">
     <value>The type '{0}' does not have a noun attribute applied. The page title cannot be generated.</value>
     <comment>{0} is the type name</comment>

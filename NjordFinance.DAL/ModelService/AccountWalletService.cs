@@ -31,13 +31,13 @@ namespace NjordFinance.ModelService
         public override bool ForParent(int parentId)
         {
             Reader = new ModelReaderService<AccountWallet>(
-                _contextFactory, _modelMetadata, _logger)
+                this, _modelMetadata, _logger)
             {
                 ParentExpression = x => x.AccountId == parentId
             };
 
             Writer = new ModelWriterBatchService<AccountWallet>(
-                _contextFactory, _modelMetadata, _logger)
+                this, _modelMetadata, _logger)
             {
                 ParentExpression = x => x.AccountId == parentId,
                 GetDefaultModelDelegate = () => new AccountWallet() { AccountId = parentId }

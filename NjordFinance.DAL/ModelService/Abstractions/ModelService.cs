@@ -29,7 +29,7 @@ namespace NjordFinance.ModelService.Abstractions
                 : base(contextFactory, metadataService, logger)
         {
         }
-
+        
         /// <summary>
         /// Gets or sets the service that handles read requests for this service.
         /// </summary>
