@@ -66,6 +66,11 @@ namespace NjordFinance.ModelService.Abstractions
         }
 
         /// <summary>
+        /// Gets or sets the <see cref="FinanceDbContext"/> for this instance.
+        /// </summary>
+        protected FinanceDbContext Context { get; set; }
+
+        /// <summary>
         /// Gets the <typeparamref name="TKey"/> key value for the given 
         /// <typeparamref name="T"/>.
         /// </summary>

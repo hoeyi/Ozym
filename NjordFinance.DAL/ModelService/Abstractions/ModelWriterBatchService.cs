@@ -169,11 +169,5 @@ namespace NjordFinance.ModelService.Abstractions
         /// Delegate responsible for creating a default <typeparamref name="T"/> instance.
         /// </summary>
         public Func<T> GetDefaultModelDelegate { get; internal init; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="FinanceDbContext"/> used for batch operations 
-        /// using this service.
-        /// </summary>
-        private FinanceDbContext Context { get; set; }
     }
 }
