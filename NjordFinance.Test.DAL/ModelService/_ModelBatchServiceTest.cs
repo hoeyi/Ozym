@@ -19,11 +19,25 @@ namespace NjordFinance.Test.ModelService
     {
         /// <inheritdoc/>
         [TestMethod]
-        public abstract void AddPendingSave_IsDirty_Is_True();
+        public virtual void AddPendingSave_IsDirty_Is_True()
+        {
+            var service = GetModelService();
+
+            var model = GetModelService().GetDefaultAsync().Result;
+
+            service.AddPendingSave(model);
+
+            Assert.IsTrue(service.IsDirty);
+        }
 
         /// <inheritdoc/>
         [TestMethod]
-        public abstract Task GetDefault_Yields_Model_Instance();
+        public virtual async Task GetDefault_Yields_Model_Instance()
+        {
+            var model = await GetModelService().GetDefaultAsync();
+
+            Assert.IsInstanceOfType(model, typeof(T));
+        }
 
         /// <inheritdoc/>
         [TestMethod]
@@ -39,7 +53,18 @@ namespace NjordFinance.Test.ModelService
 
         /// <inheritdoc/>
         [TestMethod]
-        public abstract void RemovePendingAdd_IsDirty_Is_False();
+        public virtual void RemovePendingAdd_IsDirty_Is_False()
+        {
+            var service = GetModelService();
+
+            var model = GetModelService().GetDefaultAsync().Result;
+
+            service.AddPendingSave(model);
+
+            service.DeletePendingSave(model);
+
+            Assert.IsFalse(service.IsDirty);
+        }
 
         /// <inheritdoc/>
         [TestMethod]
@@ -64,12 +89,6 @@ namespace NjordFinance.Test.ModelService
     /// <typeparam name="T">The model type.</typeparam>
     public abstract partial class ModelBatchServiceTest<T>
     {
-        /// <summary>
-        /// Gets the collection of <typeparamref name="T"/> models to add to the 
-        /// database for test purposes.
-        /// </summary>
-        protected abstract IReadOnlyDictionary<string, T> TestModels { get; }
-
         /// <summary>
         /// Gets the <see cref="ILogger"/> instance for this service.
         /// </summary>
