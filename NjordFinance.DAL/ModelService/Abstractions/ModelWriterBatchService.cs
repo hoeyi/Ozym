@@ -52,7 +52,7 @@ namespace NjordFinance.ModelService.Abstractions
         }
 
         /// <inheritdoc/>
-        public bool IsDirty => SharedContext?.Context?.ChangeTracker.HasChanges() ?? false;
+        public bool IsDirty => SharedContext.Context.ChangeTracker?.HasChanges() ?? false;
 
         /// <inheritdoc/>
         public bool AddPendingSave(T model)
