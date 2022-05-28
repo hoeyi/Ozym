@@ -54,7 +54,8 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.SecurityTypes)
                 .SeedEntityData(seedData.SecuritySymbolTypes)
                 .SeedEntityData(seedData.Securities)
-                .SeedEntityData(seedData.SecuritySymbols);
+                .SeedEntityData(seedData.SecuritySymbols)
+                .SeedEntityData(seedData.AccountWallets);
 
             return modelBuilder;
         }
