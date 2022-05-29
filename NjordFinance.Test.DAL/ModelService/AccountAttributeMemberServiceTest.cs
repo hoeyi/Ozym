@@ -26,7 +26,7 @@ namespace NjordFinance.Test.ModelService
 
             var model = service.SelectAllAsync().Result.FirstOrDefault();
 
-            model.Weight = model.Weight * 0.5M;
+            model.Weight *= 0.5M;
 
             Assert.IsTrue(service.IsDirty);
         }
