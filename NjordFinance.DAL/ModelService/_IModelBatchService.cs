@@ -18,7 +18,7 @@ namespace NjordFinance.ModelService
         /// with an id equal to value of <paramref name="parentId"/>.
         /// </summary>
         /// <param name="parentId"></param>
-        /// <returns></returns>
+        /// <returns>True, if the operation is successful, else false.</returns>
         bool ForParent(int parentId);
     }
 }
