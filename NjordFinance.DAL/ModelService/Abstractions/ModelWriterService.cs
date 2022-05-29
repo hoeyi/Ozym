@@ -16,7 +16,7 @@ namespace NjordFinance.ModelService.Abstractions
     /// Variant <see cref="ModelServiceBase{T}"/> class that services write requests.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal partial class ModelWriterService<T> : ModelServiceBase<T>, IModelWriterService<T>
+    internal sealed partial class ModelWriterService<T> : ModelServiceBase<T>, IModelWriterService<T>
         where T : class, new()
     {
         /// <summary>
@@ -36,6 +36,21 @@ namespace NjordFinance.ModelService.Abstractions
         {
         }
 
+        /// <summary>
+        /// Base constructor for <see cref="ModelWriterService{T}"/> instances where a
+        /// shared context is used.
+        /// </summary>
+        /// <param name="sharedContext"></param>
+        /// <param name="metadataService"></param>
+        /// <param name="logger"></param>
+        public ModelWriterService(
+            ISharedContext sharedContext,
+            IModelMetadataService metadataService,
+            ILogger logger)
+            : base(sharedContext, metadataService, logger)
+        {
+        }
+
         /// <inheritdoc/>
         public async Task<T> CreateAsync(T model)
         {
@@ -44,10 +59,18 @@ namespace NjordFinance.ModelService.Abstractions
                     string.Format(
                         ExceptionString.ModelService_DelegateIsNull, nameof(CreateDelegate)));
 
-            using var context = await _contextFactory.CreateDbContextAsync();
+            DbActionResult<T> createAction;
+            
+            if(HasSharedContext)
+                createAction = await DoWriteOperationAsync(
+                    SharedContext.Context, CreateDelegate, model);
+            else
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+                createAction = await DoWriteOperationAsync(
+                    context, CreateDelegate, model);
+            }
 
-
-            DbActionResult<T> createAction = await DoWriteOperationAsync(CreateDelegate, model);
             if (createAction.Successful)
             {
                 var logModel = new
@@ -84,15 +107,24 @@ namespace NjordFinance.ModelService.Abstractions
                     string.Format(
                         ExceptionString.ModelService_DelegateIsNull, nameof(DeleteDelegate)));
 
-            using var context = await _contextFactory.CreateDbContextAsync();
-
             var logModel = new
             {
                 Type = typeof(T).Name,
                 Id = GetKey(model) ?? default
             };
 
-            DbActionResult<bool> deleteAction = await DoWriteOperationAsync(DeleteDelegate, model);
+            DbActionResult<bool> deleteAction;
+
+            if (HasSharedContext)
+                deleteAction = await DoWriteOperationAsync(
+                    SharedContext.Context, DeleteDelegate, model);
+            else
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+                deleteAction = await DoWriteOperationAsync(
+                    context, DeleteDelegate, model);
+            }
+
             if (deleteAction.Successful)
             {
                 _logger.ModelServiceDeletedModel(logModel);
@@ -112,15 +144,24 @@ namespace NjordFinance.ModelService.Abstractions
                     string.Format(
                         ExceptionString.ModelService_DelegateIsNull, nameof(UpdateDelegate)));
 
-            using var context = await _contextFactory.CreateDbContextAsync();
-
             var logModel = new
             {
                 Type = typeof(T).Name,
                 Id = GetKey(model) ?? default
             };
 
-            DbActionResult<bool> udpateAction = await DoWriteOperationAsync(UpdateDelegate, model);
+            DbActionResult<bool> udpateAction;
+
+            if (HasSharedContext)
+                udpateAction = await DoWriteOperationAsync(
+                    SharedContext.Context, UpdateDelegate, model);
+            else
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+                udpateAction = await DoWriteOperationAsync(
+                    context, UpdateDelegate, model);
+            }
+
             if (udpateAction.Successful)
             {
                 _logger.ModelServiceUpdatedModel(logModel);
@@ -193,13 +234,15 @@ namespace NjordFinance.ModelService.Abstractions
         /// <returns>A <typeparamref name="TResult"/> representing the outcome of the write operation.</returns>
         /// <exception cref="ModelUpdateException"></exception>
         private async Task<DbActionResult<TResult>> DoWriteOperationAsync<TResult>(
+            FinanceDbContext context,
             Func<FinanceDbContext, T, Task<DbActionResult<TResult>>> writeDelegate,
             T model)
         {
+            if (context is null)
+                throw new ArgumentNullException(paramName: nameof(context));
+
             try
             {
-                using var context = await _contextFactory.CreateDbContextAsync();
-
                 return await writeDelegate.Invoke(context, model);
             }
             catch (DbUpdateConcurrencyException duc)

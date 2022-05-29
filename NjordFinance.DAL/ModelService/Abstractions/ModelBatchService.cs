@@ -13,9 +13,12 @@ namespace NjordFinance.ModelService.Abstractions
     /// Base class for <typeparamref name="T"/> model batch service.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal abstract class ModelBatchService<T> : ModelServiceBase<T>, IModelBatchService<T>
+    internal abstract class ModelBatchService<T> 
+        : ModelServiceBase<T>, IModelBatchService<T>, ISharedContext
         where T : class, new()
     {
+        public FinanceDbContext Context { get; private set; }
+
         /// <summary>
         /// Abstract constructor for <see cref="ModelBatchService{T}"/>.
         /// </summary>
@@ -28,6 +31,7 @@ namespace NjordFinance.ModelService.Abstractions
             ILogger logger)
                 : base(contextFactory, metadataService, logger)
         {
+            Context = _contextFactory.CreateDbContext();
         }
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace NjordFinance.ModelService.Abstractions
         protected IModelWriterBatchService<T> Writer { get; set; }
 
         /// <inheritdoc/>
-        public bool IsDirty => Writer.IsDirty;
+        public bool IsDirty => Context?.ChangeTracker?.HasChanges() ?? false;
 
         /// <inheritdoc/>
         public abstract bool ForParent(int parentId);
@@ -69,15 +73,14 @@ namespace NjordFinance.ModelService.Abstractions
         public async Task<T> ReadAsync(int? id) => await Reader.ReadAsync(id);
 
         /// <inheritdoc/>
-        public void Refresh() => Writer.Refresh();
-
-        /// <inheritdoc/>
-        public async Task<int> SaveChanges() => await Writer.SaveChanges();
+        public async Task<int> SaveChanges()
+        {
+            return await Writer.SaveChanges();
+        }
 
         /// <inheritdoc/>
         public async Task<List<T>> SelectAllAsync()
         {
-            Refresh();
             return await Reader.SelectAllAsync();
         }
 
@@ -85,7 +88,6 @@ namespace NjordFinance.ModelService.Abstractions
         public async Task<List<T>> SelectWhereAysnc(
             Expression<Func<T, bool>> predicate, int maxCount = 0)
         {
-            Refresh();
             return await Reader.SelectWhereAysnc(predicate, maxCount);
         }
     }

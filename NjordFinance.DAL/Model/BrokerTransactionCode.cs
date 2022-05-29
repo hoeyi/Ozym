@@ -24,9 +24,9 @@ namespace NjordFinance.Model
         [Required]
         [StringLength(32)]
         public string DisplayName { get; set; }
-        public byte CashEffect { get; set; }
-        public byte ContributionWithdrawalEffect { get; set; }
-        public byte QuantityEffect { get; set; }
+        public short CashEffect { get; set; }
+        public short ContributionWithdrawalEffect { get; set; }
+        public short QuantityEffect { get; set; }
 
         [InverseProperty(nameof(BrokerTransactionCodeAttributeMemberEntry.TransactionCode))]
         public virtual ICollection<BrokerTransactionCodeAttributeMemberEntry> BrokerTransactionCodeAttributeMemberEntries { get; set; }

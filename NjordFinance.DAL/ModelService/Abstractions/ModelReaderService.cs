@@ -16,7 +16,7 @@ namespace NjordFinance.ModelService.Abstractions
     /// Variant <see cref="ModelServiceBase{T}"/> class that services read and search requests.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal partial class ModelReaderService<T> : ModelServiceBase<T>, IModelReaderService<T>
+    internal sealed partial class ModelReaderService<T> : ModelServiceBase<T>, IModelReaderService<T>
         where T: class, new()
     {
         /// <summary>
@@ -35,6 +35,22 @@ namespace NjordFinance.ModelService.Abstractions
         {
         }
 
+
+        /// <summary>
+        /// Base constructor for <see cref="ModelReaderService{T}"/> instances where a
+        /// shared context is used.
+        /// </summary>
+        /// <param name="sharedContext"></param>
+        /// <param name="metadataService"></param>
+        /// <param name="logger"></param>
+        public ModelReaderService(
+            ISharedContext sharedContext,
+            IModelMetadataService metadataService,
+            ILogger logger)
+            : base(sharedContext, metadataService, logger)
+        {
+        }
+
         /// <inheritdoc/>
         public void AddNavigationPath(Expression<Func<T, object>> navigationPath)
         {
@@ -42,7 +58,7 @@ namespace NjordFinance.ModelService.Abstractions
         }
 
         /// <inheritdoc/>
-        public virtual bool ModelExists(int? id)
+        public bool ModelExists(int? id)
         {
             if (id is null)
                 return false;
@@ -51,19 +67,22 @@ namespace NjordFinance.ModelService.Abstractions
             if (ParentExpression is not null)
                 keySearch = ParentExpression.AndAlso(keySearch);
 
-            using var context = _contextFactory.CreateDbContext();
+            if (HasSharedContext)
+                return Exists(SharedContext.Context, keySearch);
 
-            return context.Set<T>().Any(keySearch);
+            using var context = SharedContext?.Context ?? _contextFactory.CreateDbContext();
+
+            return Exists(context, keySearch);
         }
 
         /// <inheritdoc/>
-        public virtual bool ModelExists(T model)
+        public bool ModelExists(T model)
         {
             return ModelExists(GetKey(model));
         }
 
         /// <inheritdoc/>
-        public virtual async Task<T> ReadAsync(int? id)
+        public async Task<T> ReadAsync(int? id)
         {
             if (id is null)
                 return default;
@@ -72,8 +91,6 @@ namespace NjordFinance.ModelService.Abstractions
 
             if (ParentExpression is not null)
                 keySearch = ParentExpression.AndAlso(keySearch);
-
-            using var context = _contextFactory.CreateDbContext();
 
             try
             {
@@ -107,7 +124,7 @@ namespace NjordFinance.ModelService.Abstractions
         }
 
         /// <inheritdoc/>
-        public virtual async Task<List<T>> SelectAllAsync()
+        public async Task<List<T>> SelectAllAsync()
         {
             Expression<Func<T, bool>> predicate = x => true;
 
@@ -120,7 +137,7 @@ namespace NjordFinance.ModelService.Abstractions
         }
 
         /// <inheritdoc/>
-        public virtual async Task<List<T>> SelectWhereAysnc(
+        public async Task<List<T>> SelectWhereAysnc(
             Expression<Func<T, bool>> predicate, int maxCount = 0)
         {
             maxCount = maxCount < 0 ? int.MaxValue : maxCount;
@@ -128,6 +145,17 @@ namespace NjordFinance.ModelService.Abstractions
             if (ParentExpression is not null)
                 predicate = ParentExpression.AndAlso(predicate);
 
+            if (HasSharedContext)
+                return await ReadAsync(SharedContext.Context, predicate, maxCount);
+
+            using var context = await _contextFactory.CreateDbContextAsync();
+
+            return await ReadAsync(context, predicate, maxCount);
+        }
+
+        private async Task<List<T>> ReadAsync(
+            FinanceDbContext context, Expression<Func<T, bool>> predicate, int maxCount = 0)
+        {
             var searchGuid = Guid.NewGuid();
 
             _logger.ModelServiceSearchRequestAccepted(
@@ -135,8 +163,6 @@ namespace NjordFinance.ModelService.Abstractions
                 type: typeof(T),
                 predicate: predicate.Body,
                 recordLimit: maxCount);
-
-            using var context = _contextFactory.CreateDbContext();
 
             IQueryable<T> queryable = context.Set<T>();
 
@@ -157,6 +183,14 @@ namespace NjordFinance.ModelService.Abstractions
                 resultCount: result?.Count ?? default);
 
             return result;
+        }
+
+        private bool Exists(FinanceDbContext context, Expression<Func<T, bool>> predicate)
+        {
+            if (context is null)
+                throw new ArgumentNullException(paramName: nameof(context));
+
+            return context.Set<T>().Any(predicate);
         }
     }
 

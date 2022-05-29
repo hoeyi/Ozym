@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace NjordFinance.ModelService.Abstractions
@@ -15,11 +17,6 @@ namespace NjordFinance.ModelService.Abstractions
         /// Returns true if changes have not been saved.
         /// </summary>
         bool IsDirty { get; }
-
-        /// <summary>
-        /// Refreshes the service context.
-        /// </summary>
-        void Refresh();
 
         /// <summary>
         /// Attaches the given model to the service context as an addition.
