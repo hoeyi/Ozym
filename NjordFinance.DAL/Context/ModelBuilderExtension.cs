@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NjordFinance.Model;
 using NjordFinance.Context.Configuration;
+using System.Linq;
 
 namespace NjordFinance.Context
 {
@@ -63,7 +64,7 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.Securities)
                 .SeedEntityData(seedData.SecuritySymbols)
                 .SeedEntityData(seedData.BankTransactions)
-                .SeedEntityData(seedData.BrokerTransactionCodes)
+                .SeedEntityData(seedData.BrokerTransactions)
                 .SeedEntityData(seedData.InvestmentPerformanceEntries)
                 // Seed attributes for applicable objects.
                 .SeedEntityData(seedData.AccountAttributes)
@@ -89,10 +90,12 @@ namespace NjordFinance.Context
             params T[] data)
             where T : class, new()
         {
-            if (data is null || data.Length == 0)
+            T[] nonNullItems = data?.Where(m => m is not null)?.ToArray();
+
+            if (nonNullItems is null || nonNullItems.Length == 0)
                 return modelBuilder;
 
-            modelBuilder.Entity<T>().HasData(data);
+            modelBuilder.Entity<T>().HasData(nonNullItems);
 
             return modelBuilder;
         }
