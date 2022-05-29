@@ -253,7 +253,8 @@ namespace NjordFinance.Test.ModelService.Configuration
             ModelAttributes = new ModelAttribute[]
             {
                 new(){ AttributeId = -1, DisplayName = "Test delete pass" },
-                new(){ AttributeId = -2, DisplayName = "Test update pass" }
+                new(){ AttributeId = -2, DisplayName = "Test update pass" },
+                new(){ AttributeId = -3, DisplayName = "Account Type" }
             };
 
             ReportConfigurations = new ReportConfiguration[]
@@ -547,7 +548,31 @@ namespace NjordFinance.Test.ModelService.Configuration
                     DisplayName = s.SecurityTypeName,
                     DisplayOrder = (short)Array.IndexOf(SecurityTypes, s)
                 }))
+                .Concat(new ModelAttributeMember[]
+                {
+                    new(){ AttributeMemberId = -10, AttributeId = -3, DisplayName = "IRA" },
+                    new(){ AttributeMemberId = -11, AttributeId = -3, DisplayName = "ROTH" },
+                    new(){ AttributeMemberId = -12, AttributeId = -3, DisplayName = "401K" }
+                })
                 .ToArray();
+
+            AccountAttributes = new AccountAttributeMemberEntry[]
+            {
+                new()
+                {
+                    AccountObjectId = -3,
+                    AttributeMemberId = -10,
+                    EffectiveDate = GetRandomDateTime(),
+                    Weight = 1M
+                },
+                new()
+                {
+                    AccountObjectId = -4,
+                    AttributeMemberId = -11,
+                    EffectiveDate = GetRandomDateTime(),
+                    Weight = 1M
+                }
+            };
         }
 
         /// <inheritdoc/>
