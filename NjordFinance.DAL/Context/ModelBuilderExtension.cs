@@ -34,16 +34,15 @@ namespace NjordFinance.Context
             this ModelBuilder modelBuilder, ISeedData seedData)
         {
             modelBuilder
+                // Seed reference tables first.
                 .SeedEntityData(seedData.AccountCustodians)
-                .SeedEntityData(seedData.AccountObjects)
-                .SeedEntityData(seedData.Accounts)
-                .SeedEntityData(seedData.AccountComposites)
                 .SeedEntityData(seedData.BankTransactionCodes)
                 .SeedEntityData(seedData.BrokerTransactionCodes)
                 .SeedEntityData(seedData.Countries)
+                .SeedEntityData(seedData.CountryAttributes)
                 .SeedEntityData(seedData.InvestmentStrategies)
                 .SeedEntityData(seedData.MarketHolidays)
-                .SeedEntityData(seedData.MarketIndices)
+                .SeedEntityData(seedData.MarketHolidaySchedules)
                 .SeedEntityData(seedData.ModelAttributes)
                 .SeedEntityData(seedData.ModelAttributeMembers)
                 .SeedEntityData(seedData.ReportConfigurations)
@@ -53,9 +52,28 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.SecurityTypeGroups)
                 .SeedEntityData(seedData.SecurityTypes)
                 .SeedEntityData(seedData.SecuritySymbolTypes)
+                .SeedEntityData(seedData.MarketIndices)
+                // Seed parent objects and other objects that are 
+                // referenced by foreign keys.
+                .SeedEntityData(seedData.AccountObjects)
+                .SeedEntityData(seedData.Accounts)
+                .SeedEntityData(seedData.AccountWallets)
+                .SeedEntityData(seedData.AccountComposites)
+                .SeedEntityData(seedData.AccountCompositeMemnbers)
                 .SeedEntityData(seedData.Securities)
                 .SeedEntityData(seedData.SecuritySymbols)
-                .SeedEntityData(seedData.AccountWallets);
+                .SeedEntityData(seedData.BankTransactions)
+                .SeedEntityData(seedData.BrokerTransactionCodes)
+                .SeedEntityData(seedData.InvestmentPerformanceEntries)
+                // Seed attributes for applicable objects.
+                .SeedEntityData(seedData.AccountAttributes)
+                .SeedEntityData(seedData.BankTransactionCodeAttributes)
+                .SeedEntityData(seedData.BrokerTransactionCodeAttributes)
+                .SeedEntityData(seedData.CountryAttributes)
+                .SeedEntityData(seedData.SecurityAttributes)
+                // Seed attribute-specific transactional data.
+                .SeedEntityData(seedData.InvestmentStrategyTargets)
+                .SeedEntityData(seedData.InvestmentPerformanceAttributeEntries);
 
             return modelBuilder;
         }
