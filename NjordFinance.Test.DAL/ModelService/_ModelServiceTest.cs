@@ -144,7 +144,7 @@ namespace NjordFinance.Test.ModelService
     /// Base class for testing units of work done by <typeparamref name="T"/> model services.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
-    public abstract partial class ModelServiceTest<T>
+    public abstract partial class ModelServiceTest<T> : ModelServiceTestBase<T>
     {
         /// <summary>
         /// Gets the <typeparamref name="T"/> instance used for testing successful model creation.
@@ -179,72 +179,6 @@ namespace NjordFinance.Test.ModelService
         protected ILogger Logger => TestUtility.Logger;
 
         /// <summary>
-        /// Utility method for creating new <see cref="FinanceDbContext"/> instances.
-        /// </summary>
-        /// <returns>A new <see cref="FinanceDbContext"/> instance.</returns>
-        protected FinanceDbContext CreateDbContext() => 
-            TestUtility.DbContextFactory.CreateDbContext();
-
-        /// <summary>
-        /// Gets the <see cref="int"/> key value for the given <typeparamref name="T"/>.
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns>The <see cref="int"/> key value.</returns>
-        protected int GetKey(T model) => ModelServiceTestUtility.GetKey<T, int>(model);
-
-        /// <summary>
-        /// Creates a new <see cref="IModelService{T}"/> instance.
-        /// </summary>
-        /// <returns></returns>
-        protected abstract IModelService<T> GetModelService();
-
-        /// <summary>
-        /// Gets the last item in the data store collection.
-        /// </summary>
-        /// <returns>The <typeparamref name="T"/> instance.</returns>
-        protected static T GetLast(
-            params Expression<Func<T, object>>[] paths)
-        {
-            if (paths.Length > 3)
-                throw new InvalidOperationException($"'{paths}' parameter cannot exceed 3.");
-
-            using var context = TestUtility.DbContextFactory.CreateDbContext();
-
-            IQueryable<T> dbSet = context.Set<T>();
-
-            foreach (var path in paths)
-            {
-                dbSet = dbSet.Include(path);
-            }
-
-            return dbSet.OrderBy(a => a).Last();
-        }
-
-        /// <summary>
-        /// Gets the model with the given <paramref name="id"/>, including the given 
-        /// navigation paths.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="paths"></param>
-        /// <returns></returns>
-        private T GetModel(int id, params Expression<Func<T, object>>[] paths)
-        {
-            if (paths.Length > 3)
-                throw new InvalidOperationException($"'{paths}' parameter cannot exceed 3.");
-
-            using var context = CreateDbContext();
-
-            IQueryable<T> dbSet = context.Set<T>();
-
-            foreach(var path in paths)
-            {
-                dbSet = dbSet.Include(path);
-            }
-
-            return dbSet.FirstOrDefault(GetKeySearchExpression(id));
-        }
-
-        /// <summary>
         /// Creates the <see cref="IModelService{T}"/> to be tested.
         /// </summary>
         /// <returns></returns>
@@ -255,36 +189,10 @@ namespace NjordFinance.Test.ModelService
         }
 
         /// <summary>
-        /// Gets an <see cref="Expression"/> used to find the model with the key equal to 
-        /// the <typeparamref name="TKey"/> value.
+        /// Creates a new instance implementing <see cref="IModelService{T}"/> for 
+        /// testing.
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        /// <exception cref="NotSupportedException"></exception>
-        protected static Expression<Func<T, bool>> GetKeySearchExpression<TKey>(TKey key)
-        {
-            // Get the first property info that matches the expected type and has 
-            // the key attribute applied.
-
-            Type modelType = typeof(T);
-            Type keyType = typeof(TKey);
-
-            var firstKey = modelType.GetProperties()
-                .FirstOrDefault(p => p.GetCustomAttribute<KeyAttribute>() is not null
-                && p.PropertyType == keyType);
-
-            if (firstKey is default(PropertyInfo))
-                throw new NotSupportedException(message: nameof(GetKeySearchExpression));
-
-            // Construct the base elements of the left-hand side of the expression.
-            ParameterExpression parameterExpression = Expression.Parameter(modelType, "x");
-            Expression expressionLeft = Expression.Property(parameterExpression, propertyName: firstKey.Name);
-            Expression expressionRight = Expression.Constant(key, keyType);
-
-            Expression expression = Expression.Equal(expressionLeft, expressionRight);
-
-            return Expression.Lambda<Func<T, bool>>(expression, parameterExpression);
-        }
+        /// <returns>An instance implementing <see cref="IModelService{T}"/>.</returns>
+        protected abstract IModelService<T> GetModelService();
     }
 }

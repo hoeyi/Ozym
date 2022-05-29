@@ -19,13 +19,13 @@ namespace NjordFinance.Test.ModelService
         /// Verifies that removing a model pending save sets the <em>IsDirty</em> state 
         /// to true.
         /// </summary>
-        void RemovePendingSave_IsDirty_Is_True();
+        void DeletePendingSave_IsDirty_Is_True();
 
         /// <summary>
         /// Verifies that removing an added model pending save sets the <em>IsDirty</em> state 
         /// to true.
         /// </summary>
-        void RemovePendingAdd_IsDirty_Is_False();
+        void DeletePendingAdd_IsDirty_Is_False();
 
         /// <summary>
         /// Verifies that updating a model pending save sets the <em>IsDirty</em> state 
