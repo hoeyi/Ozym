@@ -13,7 +13,7 @@ namespace NjordFinance.Controllers.Abstractions
     /// Base class for MVC controllers responsible for <typeparamref name="T"/> models.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class ModelController<T> : ControllerBase, IController<T>
+    public class ModelController<T> : ControllerBase, IController<T>
         where T : class, new()
     {
         protected readonly IModelService<T> _modelService;
@@ -34,7 +34,7 @@ namespace NjordFinance.Controllers.Abstractions
         /// <summary>
         /// Gets the <see cref="CreatedAtActionResult"/> action name.
         /// </summary>
-        protected abstract string CreatedActionName { get; }
+        protected string CreatedActionName { get; } = $"Get{typeof(T).Name}";
 
         /// <inheritdoc/>
         public async Task<ActionResult<T>> CreateAsync(T model)

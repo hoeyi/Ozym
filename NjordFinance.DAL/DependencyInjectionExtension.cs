@@ -1,4 +1,5 @@
 ﻿using NjordFinance.Controllers;
+using NjordFinance.Controllers.Abstractions;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
 using NjordFinance.Reference;
@@ -34,8 +35,8 @@ namespace NjordFinance
         public static void AddModelControllers(this IServiceCollection services)
         {
             services
-                .AddScoped<IController<Account>, AccountsController>()
-                .AddScoped<IController<AccountCustodian>, AccountCustodiansController>()
+                .AddScoped<IController<Account>, ModelController<Account>>()
+                .AddScoped<IController<AccountCustodian>, ModelController<AccountCustodian>>()
                 .AddScoped<IBatchController<AccountWallet>, ModelBatchController<AccountWallet>>();
         }
     }
