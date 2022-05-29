@@ -9,10 +9,14 @@ using NjordFinance.ModelMetadata;
 
 namespace NjordFinance.Test.Configuration
 {
+    /// <summary>
+    /// A collection of models to seed for integration testing.
+    /// </summary>
     internal class ModelServiceTestDataModel : ISeedData
     {
-        private static readonly Random _random = new();
+        private readonly Random _random = new();
 
+        /// <inheritdoc/>
         public ModelServiceTestDataModel()
         {
             AccountCustodians = new AccountCustodian[]
@@ -152,7 +156,7 @@ namespace NjordFinance.Test.Configuration
 
             AccountWallets = new AccountWallet[]
             {
-                new(){ 
+                new(){
                     AccountWalletId = -1, AccountId = -3, DenominationSecurityId = -5,
                     AddressCode = "5F32C68C-415C-4612-AA29-14D6FE0940C6", AddressTag = "ABC"},
                 new(){ AccountWalletId = -2, AccountId = -3, DenominationSecurityId = -6,
@@ -545,14 +549,21 @@ namespace NjordFinance.Test.Configuration
                 }))
                 .ToArray();
         }
+
+        /// <inheritdoc/>
+        public AccountAttributeMemberEntry[] AccountAttributes { get; }
+
+        /// <inheritdoc/>
+        public AccountCompositeMember AccountCompositeMemnbers { get; }
+
+        /// <inheritdoc/>
+        public AccountComposite[] AccountComposites { get; }
+
         /// <inheritdoc/>
         public AccountCustodian[] AccountCustodians { get; }
 
         /// <inheritdoc/>
         public AccountObject[] AccountObjects { get; }
-
-        /// <inheritdoc/>
-        public AccountComposite[] AccountComposites { get; } 
 
         /// <inheritdoc/>
         public Account[] Accounts { get; }
@@ -561,26 +572,58 @@ namespace NjordFinance.Test.Configuration
         public AccountWallet[] AccountWallets { get; }
 
         /// <inheritdoc/>
-        public BankTransactionCode[] BankTransactionCodes { get; }
+        public BankTransactionCodeAttributeMemberEntry[] BankTransactionCodeAttributes { get; }
 
-        public BrokerTransactionCode[] BrokerTransactionCodes { get; }
+        /// <inheritdoc/>
+        public BankTransactionCode[] BankTransactionCodes { get; }
         
         /// <inheritdoc/>
+        public BankTransaction[] BankTransactions { get; }
+
+        /// <inheritdoc/>
+        public BrokerTransactionCodeAttributeMemberEntry[] BrokerTransactionCodeAttributes { get; }
+
+        /// <inheritdoc/>
+        public BrokerTransactionCode[] BrokerTransactionCodes { get; }
+
+        /// <inheritdoc/>
+        public BrokerTransaction[] BrokerTransactions { get; }
+
+        /// <inheritdoc/>
         public Country[] Countries { get; }
+
+        /// <inheritdoc/>
+        public CountryAttributeMemberEntry[] CountryAttributes { get; }
+        
+        /// <inheritdoc/>
+        public InvestmentPerformanceAttributeMemberEntry[] InvestmentPerformanceAttributeEntries { get; }
+
+        /// <inheritdoc/>
+        public InvestmentPerformanceEntry[] InvestmentPerformanceEntries { get; }
 
         /// <inheritdoc/>
         public InvestmentStrategy[] InvestmentStrategies { get; }
 
         /// <inheritdoc/>
+        public InvestmentStrategyTarget[] InvestmentStrategyTargets { get; }
+
+        /// <inheritdoc/>
         public MarketHoliday[] MarketHolidays { get; }
+
+        /// <inheritdoc/>
+        public MarketHolidaySchedule[] MarketHolidaySchedules { get; }
+
+        /// <inheritdoc/>
+        public MarketIndexPrice[] MarketIndexPrices { get; }
 
         /// <inheritdoc/>
         public MarketIndex[] MarketIndices { get; }
 
         /// <inheritdoc/>
-        public ModelAttribute[] ModelAttributes { get; }
-
         public ModelAttributeMember[] ModelAttributeMembers { get; }
+
+        /// <inheritdoc/>
+        public ModelAttribute[] ModelAttributes { get; }
 
         /// <inheritdoc/>
         public ReportConfiguration[] ReportConfigurations { get; }
@@ -595,7 +638,13 @@ namespace NjordFinance.Test.Configuration
         public Security[] Securities { get; }
 
         /// <inheritdoc/>
+        public SecurityAttributeMemberEntry[] SecurityAttributes { get; }
+
+        /// <inheritdoc/>
         public SecurityExchange[] SecurityExchanges { get; }
+
+        /// <inheritdoc/>
+        public SecurityPrice[] SecurityPrices { get; }
 
         /// <inheritdoc/>
         public SecuritySymbol[] SecuritySymbols { get; }
@@ -609,11 +658,7 @@ namespace NjordFinance.Test.Configuration
         /// <inheritdoc/>
         public SecurityType[] SecurityTypes { get; }
 
-        private static DateTime GetRandomDateTime()
-        {
-            Random random = new();
-
-            return DateTime.Now.AddDays(random.Next(0, 7200) * -1);
-        }
+        private DateTime GetRandomDateTime()
+            => DateTime.Now.AddDays(_random.Next(0, 7200) * -1);
     }
 }
