@@ -7,7 +7,7 @@ using NjordFinance.Context.Configuration;
 using NjordFinance.Model;
 using NjordFinance.ModelMetadata;
 
-namespace NjordFinance.Test.Configuration
+namespace NjordFinance.Test.ModelService.Configuration
 {
     /// <summary>
     /// A collection of models to seed for integration testing.

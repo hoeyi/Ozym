@@ -1,6 +1,6 @@
 ﻿using NjordFinance.Context;
 using Microsoft.EntityFrameworkCore;
-using NjordFinance.Test.Configuration;
+using NjordFinance.Test.ModelService.Configuration;
 
 namespace NjordFinance.Test.ModelService
 {
