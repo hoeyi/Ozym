@@ -60,7 +60,7 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.Accounts)
                 .SeedEntityData(seedData.AccountWallets)
                 .SeedEntityData(seedData.AccountComposites)
-                .SeedEntityData(seedData.AccountCompositeMemnbers)
+                .SeedEntityData(seedData.AccountCompositeMembers)
                 .SeedEntityData(seedData.Securities)
                 .SeedEntityData(seedData.SecuritySymbols)
                 .SeedEntityData(seedData.BankTransactions)
