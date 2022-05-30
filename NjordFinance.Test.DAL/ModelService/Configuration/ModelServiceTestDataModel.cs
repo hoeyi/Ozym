@@ -57,7 +57,7 @@ namespace NjordFinance.Test.ModelService.Configuration
             {
                 new()
                 {
-                    AccountObjectId = -1,
+                    AccountObjectId = -5,
                     AccountObjectCode = "TESTBROKER",
                     ObjectType = AccountObjectType.Account.ConvertToStringCode(),
                     ObjectDisplayName = "Test Broker Account",
@@ -65,7 +65,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
                 new()
                 {
-                    AccountObjectId = -2,
+                    AccountObjectId = -6,
                     AccountObjectCode = "TESTBANK",
                     ObjectType = AccountObjectType.Account.ConvertToStringCode(),
                     ObjectDisplayName = "Test Bank Account",
@@ -73,7 +73,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
                 new()
                 {
-                    AccountObjectId = -3,
+                    AccountObjectId = -7,
                     AccountObjectCode = "TESTCRYPTO",
                     ObjectType = AccountObjectType.Account.ConvertToStringCode(),
                     ObjectDisplayName = "Test Crypto Account",
@@ -81,7 +81,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
                 new()
                 {
-                    AccountObjectId = -4,
+                    AccountObjectId = -1,
                     AccountObjectCode = "TESTDELPASS",
                     ObjectType = AccountObjectType.Account.ConvertToStringCode(),
                     ObjectDisplayName = "TEST DELETE PASS",
@@ -89,7 +89,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
                 new()
                 {
-                    AccountObjectId = -5,
+                    AccountObjectId = -2,
                     AccountObjectCode = "TESTUPDPASS",
                     ObjectType = AccountObjectType.Account.ConvertToStringCode(),
                     ObjectDisplayName = "TEST UPDATE PASS",
@@ -99,7 +99,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
                 new()
                 {
-                    AccountObjectId = -6,
+                    AccountObjectId = -3,
                     AccountObjectCode = "TESTDELPASSC",
                     ObjectType = AccountObjectType.Composite.ConvertToStringCode(),
                     ObjectDisplayName = "TEST DELETE PASS",
@@ -109,13 +109,23 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
                 new()
                 {
-                    AccountObjectId = -7,
+                    AccountObjectId = -4,
                     AccountObjectCode = "TESTUPDATEC",
                     ObjectType = AccountObjectType.Composite.ConvertToStringCode(),
                     ObjectDisplayName = "TEST UPDATE PASS",
                     ObjectDescription = "sed fafdjuq dsfaplkokn",
                     StartDate = new DateTime(
                                     _random.Next(1975, 2022), _random.Next(1, 12), _random.Next(1,28))
+                },
+                new()
+                {
+                    AccountObjectId = -8,
+                    AccountObjectCode = "TESTMEMBERS",
+                    ObjectType = AccountObjectType.Composite.ConvertToStringCode(),
+                    ObjectDisplayName = "TEST HAS MEMBERS",
+                    ObjectDescription = "sed aadfg asfijgc",
+                    StartDate = new DateTime(
+                        _random.Next(1975, 2022), _random.Next(1,12), _random.Next(1,28))
                 }
             };
 
@@ -123,20 +133,20 @@ namespace NjordFinance.Test.ModelService.Configuration
             {
                 new Account()
                 {
-                    AccountId = -1,
+                    AccountId = -5,
                     IsComplianceTradable = true,
                     HasBrokerTransaction = true,
                     AccountCustodianId = -2
                 },
                 new Account()
                 {
-                    AccountId = -2,
+                    AccountId = -6,
                     IsComplianceTradable = false,
                     HasBankTransaction = true
                 },
                 new Account()
                 {
-                    AccountId = -3,
+                    AccountId = -7,
                     IsComplianceTradable = true,
                     HasBrokerTransaction = true,
                     HasWallet = true,
@@ -144,12 +154,12 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
                 new Account()
                 {
-                    AccountId = -4,
+                    AccountId = -1,
                     AccountNumber = "0000-0000-00"
                 },
                 new Account()
                 {
-                    AccountId = -5,
+                    AccountId = -2,
                     AccountNumber = "0000-0000-00"
                 }
             };
@@ -157,29 +167,70 @@ namespace NjordFinance.Test.ModelService.Configuration
             AccountWallets = new AccountWallet[]
             {
                 new(){
-                    AccountWalletId = -1, AccountId = -3, DenominationSecurityId = -5,
+                    AccountWalletId = -1, AccountId = -7, DenominationSecurityId = -5,
                     AddressCode = "5F32C68C-415C-4612-AA29-14D6FE0940C6", AddressTag = "ABC"},
-                new(){ AccountWalletId = -2, AccountId = -3, DenominationSecurityId = -6,
+                new(){ AccountWalletId = -2, AccountId = -7, DenominationSecurityId = -6,
                     AddressCode= "2E34D0C0-6DC7-4DC6-86C4-F0B3A4A1BEBE"}
             };
 
             AccountComposites = new AccountComposite[]
             {
-                new(){ AccountCompositeId = -6 },
-                new(){ AccountCompositeId = -7 }
+                new(){ AccountCompositeId = -3 },
+                new(){ AccountCompositeId = -4 },
+                new() { AccountCompositeId = -8 }
+            };
+
+            AccountCompositeMembers = new AccountCompositeMember[]
+            {
+                new()
+                { 
+                    AccountId = -5, 
+                    AccountCompositeId = -8, 
+                    EntryDate = GetRandomDateTime(), 
+                    Comment = "Test #1" 
+                },
+                new()
+                {
+                    AccountId = -6,
+                    AccountCompositeId = -8,
+                    EntryDate = GetRandomDateTime(),
+                    Comment = "Test #2"
+                }
             };
 
             BankTransactionCodes = new BankTransactionCode[]
             {
-                new() { TransactionCodeId = -1, TransactionCode = "401k", DisplayName = "401k Contribution" },
-                new() { TransactionCodeId = -2, TransactionCode = "auto", DisplayName = "Automotive" },
+                new() { TransactionCodeId = -2, TransactionCode = "UPDPASS", DisplayName = "Test update pass" },
+                new() { TransactionCodeId = -1, TransactionCode = "DELPASS", DisplayName = "Test delete pass"},
                 new() { TransactionCodeId = -3, TransactionCode = "balance", DisplayName = "Initial Balance" },
                 new() { TransactionCodeId = -4, TransactionCode = "salary", DisplayName = "Salary/Wage" },
                 new() { TransactionCodeId = -5, TransactionCode = "statetax", DisplayName = "State Tax Paid" },
                 new() { TransactionCodeId = -6, TransactionCode = "timeoff", DisplayName = "Unused Paid Time-Off" },
                 new() { TransactionCodeId = -7, TransactionCode = "travel", DisplayName = "Travel" },
-                new() { TransactionCodeId = -8, TransactionCode = "UPDPASS", DisplayName = "Test update pass" },
-                new() { TransactionCodeId = -9, TransactionCode = "DELPASS", DisplayName = "Test delete pass"}
+                new() { TransactionCodeId = -8, TransactionCode = "401k", DisplayName = "401k Contribution" },
+                new() { TransactionCodeId = -9, TransactionCode = "auto", DisplayName = "Automotive" }
+            };
+
+            BankTransactions = new BankTransaction[]
+            {
+                new()
+                {
+                    TransactionId = -1,
+                    AccountId = -6, 
+                    TransactionDate = GetRandomDateTime(),
+                    TransactionCodeId = -8, 
+                    Comment = "Test remove", 
+                    Amount = 100M
+                },
+                new()
+                {
+                    TransactionId = -2,
+                    AccountId = -6,
+                    TransactionDate = GetRandomDateTime(),
+                    TransactionCodeId = -7,
+                    Comment = "Test add",
+                    Amount = 100M
+                },
             };
 
             BrokerTransactionCodes = new BrokerTransactionCode[]
@@ -579,7 +630,7 @@ namespace NjordFinance.Test.ModelService.Configuration
         public AccountAttributeMemberEntry[] AccountAttributes { get; }
 
         /// <inheritdoc/>
-        public AccountCompositeMember AccountCompositeMemnbers { get; }
+        public AccountCompositeMember[] AccountCompositeMembers { get; }
 
         /// <inheritdoc/>
         public AccountComposite[] AccountComposites { get; }

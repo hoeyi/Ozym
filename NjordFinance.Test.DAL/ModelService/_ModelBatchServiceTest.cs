@@ -130,10 +130,21 @@ namespace NjordFinance.Test.ModelService
 
             var service = GetModelService();
 
-            var models = await service.SelectWhereAysnc(
-                GetKeySearchExpression(GetKey(model)), maxCount: 1);
+            Expression<Func<T, bool>> expression;
+            if(TestExpressions.TryGetValue(
+                nameof(SelectWhereAsync_Returns_Model_ExpectedCollection),
+                out Func<T, Expression<Func<T, bool>>> exp))
+            {
+                expression = exp.Invoke(model);
+            }
+            else
+            {
+                expression = GetKeySearchExpression(GetKey(model));
+            }
 
-            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.First(), model));
+            var models = await service.SelectWhereAysnc(predicate: expression, maxCount: 1);
+
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
         }
 
         /// <inheritdoc/>
@@ -157,6 +168,9 @@ namespace NjordFinance.Test.ModelService
         /// </summary>
         protected abstract Expression<Func<T, bool>> ParentExpression { get; }
 
+        protected IDictionary<string, Func<T,Expression<Func<T, bool>>>> TestExpressions { get; } =
+            new Dictionary<string, Func<T, Expression<Func<T, bool>>>>();
+
         /// <summary>
         /// Creates the <see cref="IModelBatchService{T}"/> to be tested.
         /// </summary>
@@ -165,6 +179,16 @@ namespace NjordFinance.Test.ModelService
         {
             return (IModelBatchService<T>)Activator.CreateInstance(
                 typeof(TService), TestUtility.DbContextFactory, new ModelMetadataService(), Logger);
+        }
+
+        /// <summary>
+        /// Creates a search expression using the given model.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        protected virtual Expression<Func<T, bool>> SelectWhereDelegate(T model)
+        {
+            return GetKeySearchExpression(GetKey(model));
         }
 
         /// <summary>
