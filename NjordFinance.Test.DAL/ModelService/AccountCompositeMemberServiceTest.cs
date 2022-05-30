@@ -29,6 +29,8 @@ namespace NjordFinance.Test.ModelService
                 nameof(SelectWhereAsync_Returns_Model_ExpectedCollection),
                 SelectWhereExpression);
         }
+
+        [TestMethod]
         public override Task ReadAsync_Returns_Single_Model()
         {
             TestUtility.Logger.LogInformation(

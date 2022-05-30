@@ -182,16 +182,6 @@ namespace NjordFinance.Test.ModelService
         }
 
         /// <summary>
-        /// Creates a search expression using the given model.
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        protected virtual Expression<Func<T, bool>> SelectWhereDelegate(T model)
-        {
-            return GetKeySearchExpression(GetKey(model));
-        }
-
-        /// <summary>
         /// Creates a new instance implementing <see cref="IModelBatchService{T}"/> for 
         /// testing.
         /// </summary>
