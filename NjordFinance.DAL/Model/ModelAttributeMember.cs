@@ -30,14 +30,15 @@ namespace NjordFinance.Model
         [StringLength(72)]
         public string DisplayName { get; set; }
         public short DisplayOrder { get; set; }
-
         [ForeignKey(nameof(AttributeId))]
         [InverseProperty(nameof(ModelAttribute.ModelAttributeMembers))]
         public virtual ModelAttribute Attribute { get; set; }
-        [InverseProperty("SecurityTypeNavigation")]
+        [InverseProperty("AttributeMemberNavigation")]
         public virtual SecurityType SecurityType { get; set; }
-        [InverseProperty("SecurityTypeGroupNavigation")]
+        [InverseProperty("AttributeMemberNavigation")]
         public virtual SecurityTypeGroup SecurityTypeGroup { get; set; }
+        [InverseProperty("AttributeMemberNavigation")]
+        public virtual Country Country { get; set; }
         [InverseProperty(nameof(AccountAttributeMemberEntry.AttributeMember))]
         public virtual ICollection<AccountAttributeMemberEntry> AccountAttributeMemberEntries { get; set; }
         [InverseProperty(nameof(BankTransactionCodeAttributeMemberEntry.AttributeMember))]

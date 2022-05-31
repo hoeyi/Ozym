@@ -23,7 +23,7 @@ namespace NjordFinance.Model
 
         [ForeignKey(nameof(SecurityTypeGroupId))]
         [InverseProperty(nameof(ModelAttributeMember.SecurityTypeGroup))]
-        public virtual ModelAttributeMember SecurityTypeGroupNavigation { get; set; }
+        public virtual ModelAttributeMember AttributeMemberNavigation { get; set; }
         [InverseProperty(nameof(SecurityType.SecurityTypeGroup))]
         public virtual ICollection<SecurityType> SecurityTypes { get; set; }
     }

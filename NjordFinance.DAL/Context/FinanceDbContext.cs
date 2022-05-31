@@ -290,6 +290,12 @@ namespace NjordFinance.Context
                     .HasFilter("([IsoCode3] IS NOT NULL)");
 
                 entity.Property(e => e.IsoCode3).IsFixedLength();
+
+                entity.HasOne(d => d.AttributeMemberNavigation)
+                    .WithOne(p => p.Country)
+                    .HasForeignKey<Country>(d => d.CountryId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_Country_ModelAttributeMember");
             });
 
             modelBuilder.Entity<CountryAttributeMemberEntry>(entity =>
@@ -542,7 +548,7 @@ namespace NjordFinance.Context
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SecurityType_SecurityTypeGroup");
 
-                entity.HasOne(d => d.SecurityTypeNavigation)
+                entity.HasOne(d => d.AttributeMemberNavigation)
                     .WithOne(p => p.SecurityType)
                     .HasForeignKey<SecurityType>(d => d.SecurityTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -557,7 +563,7 @@ namespace NjordFinance.Context
 
                 entity.Property(e => e.SecurityTypeGroupId).ValueGeneratedNever();
 
-                entity.HasOne(d => d.SecurityTypeGroupNavigation)
+                entity.HasOne(d => d.AttributeMemberNavigation)
                     .WithOne(p => p.SecurityTypeGroup)
                     .HasForeignKey<SecurityTypeGroup>(d => d.SecurityTypeGroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)

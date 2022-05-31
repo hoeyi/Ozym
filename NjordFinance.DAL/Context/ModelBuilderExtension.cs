@@ -22,6 +22,7 @@ namespace NjordFinance.Context
             modelBuilder
                 .SeedEntityData(defaultReferenceModel.BrokerTransactionCodes)
                 .SeedEntityData(defaultReferenceModel.BrokerTransactionCodeAttributes)
+                .SeedEntityData(defaultReferenceModel.Countries)
                 .SeedEntityData(defaultReferenceModel.MarketHolidays)
                 .SeedEntityData(defaultReferenceModel.MarketHolidayObservances)
                 .SeedEntityData(defaultReferenceModel.ModelAttributes)
