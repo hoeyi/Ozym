@@ -21,6 +21,7 @@ namespace NjordFinance.Context
 
             modelBuilder
                 .SeedEntityData(defaultReferenceModel.BrokerTransactionCodes)
+                .SeedEntityData(defaultReferenceModel.BrokerTransactionCodeAttributes)
                 .SeedEntityData(defaultReferenceModel.ModelAttributes)
                 .SeedEntityData(defaultReferenceModel.ModelAttributeScopes)
                 .SeedEntityData(defaultReferenceModel.ModelAttributeMembers)

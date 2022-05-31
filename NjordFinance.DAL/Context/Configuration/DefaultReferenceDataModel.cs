@@ -29,9 +29,11 @@ namespace NjordFinance.Context.Configuration
             #region Model attributes and scope
             ModelAttributes = new ModelAttribute[]
             {
-                    new(attributeId: -10, displayName: "AssetClass"),
-                    new(attributeId: -20, displayName: "Security Type Group"),
-                    new(attributeId: -30, displayName: "SecurityType")
+                new(){ AttributeId = -10, DisplayName = "Asset Class" },
+                new(){ AttributeId = -20, DisplayName = "Security Type Group" },
+                new(){ AttributeId = -30, DisplayName = "Security Type" },
+                new(){ AttributeId = -40, DisplayName = "Broker Transaction Category" },
+                new(){ AttributeId = -50, DisplayName = "Broker Transaction Class" }
             };
 
             ModelAttributeScopes = ModelAttributes
@@ -39,21 +41,55 @@ namespace NjordFinance.Context.Configuration
                     .Select(a => new ModelAttributeScope(
                         attributeId: a.AttributeId,
                         scopeCode: ModelAttributeScopeCode.Security.ConvertToStringCode()))
+                    .Concat(
+                        ModelAttributes.Where(a => a.AttributeId is <= -40 and >= -41)
+                        .Select(a => new ModelAttributeScope()
+                        {
+                            AttributeId = a.AttributeId,
+                            ScopeCode = ModelAttributeScopeCode.BrokerTransactionCode.ConvertToStringCode()
+                        }))
                     .ToArray();
 
             #endregion
 
-            #region Security types, type groups, and asset class attribute members
+            ModelAttributeMember[] brokerTransactionAttributes =
+            {
+                // Transaction categories
+                new(){ AttributeMemberId = -401, AttributeId = -40, DisplayName = "Interest Charge", DisplayOrder = 0 },
+                new(){ AttributeMemberId = -402, AttributeId = -40, DisplayName = "Purchases", DisplayOrder = 0 },
+                new(){ AttributeMemberId = -403, AttributeId = -40, DisplayName = "Margin Purchases", DisplayOrder = 1 },
+                new(){ AttributeMemberId = -404, AttributeId = -40, DisplayName = "Gain/Loss", DisplayOrder = 2 },
+                new(){ AttributeMemberId = -405, AttributeId = -40, DisplayName = "Starting Balance", DisplayOrder = 0 },
+                new(){ AttributeMemberId = -406, AttributeId = -40, DisplayName = "Contributions", DisplayOrder = 0 },
+                new(){ AttributeMemberId = -407, AttributeId = -40, DisplayName = "Withdrawals", DisplayOrder = 1 },
+                new(){ AttributeMemberId = -408, AttributeId = -40, DisplayName = "Dividends", DisplayOrder = 0 },
+                new(){ AttributeMemberId = -409, AttributeId = -40, DisplayName = "Expenses", DisplayOrder = 2 },
+                new(){ AttributeMemberId = -410, AttributeId = -40, DisplayName = "Writeoffs", DisplayOrder = 0 },
+                new(){ AttributeMemberId = -411, AttributeId = -40, DisplayName = "Interest", DisplayOrder = 1 },
+                new(){ AttributeMemberId = -412, AttributeId = -40, DisplayName = "Principal Pay-Down", DisplayOrder = 1 },
+                new(){ AttributeMemberId = -413, AttributeId = -40, DisplayName = "Sales", DisplayOrder = 3 },
+                new(){ AttributeMemberId = -414, AttributeId = -40, DisplayName = "Margin Sales", DisplayOrder = 2 },
+
+                // Transaction classes
+                new(){ AttributeMemberId =-501, AttributeId = -50, DisplayName = "Expense", DisplayOrder = 4 },
+                new(){ AttributeMemberId =-502, AttributeId = -50, DisplayName = "Trade", DisplayOrder = 1 },
+                new(){ AttributeMemberId =-503, AttributeId = -50, DisplayName = "Income", DisplayOrder = 2 },
+                new(){ AttributeMemberId =-504, AttributeId = -50, DisplayName = "Balance", DisplayOrder = 0 },
+                new(){ AttributeMemberId =-505, AttributeId = -50, DisplayName = "Transfer", DisplayOrder = 3 },
+                new(){ AttributeMemberId =-506, AttributeId = -50, DisplayName = "Writeoff", DisplayOrder = 5 },
+            };
+
+            #region Security types, type groups, asset class, and broker transaction attribute members
             ModelAttributeMember[] assetClasses =
             {
-                new(attributeMemberId: -100, attributeId: -10, displayName: "Equities", displayOrder: 0),
-                new(attributeMemberId: -101, attributeId: -10, displayName: "Fixed Income", displayOrder: 1),
-                new(attributeMemberId: -102, attributeId: -10, displayName: "Derivatives", displayOrder: 2),
-                new(attributeMemberId: -103, attributeId: -10, displayName: "Other", displayOrder: 3),
-                new(attributeMemberId: -104, attributeId: -10, displayName: "Cash & Equivalents", displayOrder: 4),
-                new(attributeMemberId: -105, attributeId: -10, displayName: "Blended Funds & Products", displayOrder: 5),
-                new(attributeMemberId: -106, attributeId: -10, displayName: "Debt & Liability", displayOrder: 6),
-                new(attributeMemberId: -107, attributeId: -10, displayName: "Not classified", displayOrder: 7)
+                new(){ AttributeMemberId = -100, AttributeId = -10, DisplayName = "Equities", DisplayOrder = 0 },
+                new(){ AttributeMemberId = -101, AttributeId = -10, DisplayName = "Fixed Income", DisplayOrder = 1 },
+                new(){ AttributeMemberId = -102, AttributeId = -10, DisplayName = "Derivatives", DisplayOrder = 2 },
+                new(){ AttributeMemberId = -103, AttributeId = -10, DisplayName = "Other", DisplayOrder = 3 },
+                new(){ AttributeMemberId = -104, AttributeId = -10, DisplayName = "Cash & Equivalents", DisplayOrder = 4 },
+                new(){ AttributeMemberId = -105, AttributeId = -10, DisplayName = "Blended Funds & Products", DisplayOrder = 5 },
+                new(){ AttributeMemberId = -106, AttributeId = -10, DisplayName = "Debt & Liability", DisplayOrder = 6 },
+                new(){ AttributeMemberId = -107, AttributeId = -10, DisplayName = "Not Classified", DisplayOrder = 7 },
             };
 
             SecurityTypeGroups = new SecurityTypeGroup[]
@@ -114,6 +150,7 @@ namespace NjordFinance.Context.Configuration
                     DisplayName = s.SecurityTypeName,
                     DisplayOrder = (short)Array.IndexOf(SecurityTypes, s)
                 }))
+                .Concat(brokerTransactionAttributes)
                 .ToArray();
             #endregion
 
@@ -127,6 +164,7 @@ namespace NjordFinance.Context.Configuration
             };
             #endregion
 
+            #region Broker transaction codes and categorizations
             BrokerTransactionCodes = new BrokerTransactionCode[]
             {
                 new() 
@@ -283,7 +321,97 @@ namespace NjordFinance.Context.Configuration
                     QuantityEffect = 0 
                 }
             };
+
+            BrokerTransactionCodeAttributes = new BrokerTransactionCodeAttributeMemberEntry[]
+            {
+                // Transaction category attribute assignment
+                new(){ AttributeMemberId = -401, TransactionCodeId = -25, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -402, TransactionCodeId = -11, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -403, TransactionCodeId = -10, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -404, TransactionCodeId = -26, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -405, TransactionCodeId = -23, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -406, TransactionCodeId = -17, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -407, TransactionCodeId = -18, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -406, TransactionCodeId = -12, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -408, TransactionCodeId = -13, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -409, TransactionCodeId = -14, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -410, TransactionCodeId = -15, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -411, TransactionCodeId = -16, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -412, TransactionCodeId = -19, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -406, TransactionCodeId = -24, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -414, TransactionCodeId = -20, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -407, TransactionCodeId = -21, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -407, TransactionCodeId = -22, EffectiveDate = DateTime.MinValue, Weight = 1M },
+
+                // Transaction class attribute assignment
+                new(){ AttributeMemberId = -501, TransactionCodeId = -25, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -502, TransactionCodeId = -11, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -502, TransactionCodeId = -10, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -503, TransactionCodeId = -26, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -504, TransactionCodeId = -23, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -505, TransactionCodeId = -17, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -505, TransactionCodeId = -18, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -505, TransactionCodeId = -12, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -503, TransactionCodeId = -13, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -501, TransactionCodeId = -14, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -506, TransactionCodeId = -15, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -503, TransactionCodeId = -16, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -503, TransactionCodeId = -19, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -505, TransactionCodeId = -24, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -502, TransactionCodeId = -20, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -502, TransactionCodeId = -21, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                new(){ AttributeMemberId = -505, TransactionCodeId = -22, EffectiveDate = DateTime.MinValue, Weight = 1M }
+            };
+            #endregion 
+
+            #region Market Holiday information
+            MarketHolidays = new MarketHoliday[]
+            {
+                new(){ MarketHolidayId = -10, MarketHolidayName = "Christmas Day" },
+                new(){ MarketHolidayId = -11, MarketHolidayName = "Good Friday" },
+                new(){ MarketHolidayId = -12, MarketHolidayName = "Independence Day" },
+                new(){ MarketHolidayId = -13, MarketHolidayName = "Labor Day" },
+                new(){ MarketHolidayId = -14, MarketHolidayName = "Martin Luther King, Jr. Day" },
+                new(){ MarketHolidayId = -15, MarketHolidayName = "Memorial Day" },
+                new(){ MarketHolidayId = -16, MarketHolidayName = "New Years Day" },
+                new(){ MarketHolidayId = -17, MarketHolidayName = "President's Day" },
+                new(){ MarketHolidayId = -18, MarketHolidayName = "Thanksgiving Day" }
+            };
+
+            MarketHolidayObservances = new MarketHolidaySchedule[]
+            {
+                new(){ MarketHolidayEntryId = -10, MarketHolidayId = -10, ObservanceDate = new(2022, 12, 16) },
+                new(){ MarketHolidayEntryId = -11, MarketHolidayId = -11, ObservanceDate = new(2022, 4, 15) },
+                new(){ MarketHolidayEntryId = -12, MarketHolidayId = -12, ObservanceDate = new(2022, 7, 4) },
+                new(){ MarketHolidayEntryId = -13, MarketHolidayId = -13, ObservanceDate = new(2022, 9, 5) },
+                new(){ MarketHolidayEntryId = -14, MarketHolidayId = -14, ObservanceDate = new(2022, 1, 17) },
+                new(){ MarketHolidayEntryId = -15, MarketHolidayId = -15, ObservanceDate = new(2022, 5, 30) },
+                new(){ MarketHolidayEntryId = -16, MarketHolidayId = -16, ObservanceDate = new(2022, 1, 1) },
+                new(){ MarketHolidayEntryId = -17, MarketHolidayId = -17, ObservanceDate = new(2022, 2, 21) },
+                new(){ MarketHolidayEntryId = -17, MarketHolidayId = -17, ObservanceDate = new(2022, 11, 24) }
+            };
+            #endregion
         }
+
+        /// <summary>
+        /// Gets the <see cref="BrokerTransactionCode"/> seed models.
+        /// </summary>
+        public BrokerTransactionCode[] BrokerTransactionCodes { get; }
+
+        /// <summary>
+        /// Gets the <see cref="BrokerTransactionCodeAttributeMemberEntry"/> seed models.
+        /// </summary>
+        public BrokerTransactionCodeAttributeMemberEntry[] BrokerTransactionCodeAttributes { get; }
+
+        /// <summary>
+        /// Gets the <see cref="MarketHoliday"/> seed models.
+        /// </summary>
+        public MarketHoliday[] MarketHolidays { get; }
+
+        /// <summary>
+        /// Gets the <see cref="MarketHolidaySchedule"/> seed models.
+        /// </summary>
+        public MarketHolidaySchedule[] MarketHolidayObservances { get; }
 
         /// <summary>
         /// Gets the <see cref="ModelAttribute"/> seed models.
@@ -314,10 +442,5 @@ namespace NjordFinance.Context.Configuration
         /// Gets the <see cref="SecuritySymbolType"/> seed models.
         /// </summary>
         public SecuritySymbolType[] SecuritySymbolTypes { get; }
-
-        /// <summary>
-        /// Gets the <see cref="BrokerTransactionCode"/> seed models.
-        /// </summary>
-        public BrokerTransactionCode[] BrokerTransactionCodes { get; }
     }
 }
