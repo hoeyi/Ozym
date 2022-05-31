@@ -113,9 +113,9 @@ namespace NjordFinance.Context.Configuration
         MarketHoliday[] MarketHolidays { get; }
 
         /// <summary>
-        /// Gets the <see cref="MarketHolidaySchedule"/> models to seed.
+        /// Gets the <see cref="MarketHolidayObservance"/> models to seed.
         /// </summary>
-        MarketHolidaySchedule[] MarketHolidaySchedules { get; }
+        MarketHolidayObservance[] MarketHolidayObservances { get; }
 
         /// <summary>
         /// Gets the <see cref="MarketIndexPrice"/> models to seed.

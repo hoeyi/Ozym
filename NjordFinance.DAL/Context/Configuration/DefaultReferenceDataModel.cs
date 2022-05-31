@@ -378,17 +378,17 @@ namespace NjordFinance.Context.Configuration
                 new(){ MarketHolidayId = -18, MarketHolidayName = "Thanksgiving Day" }
             };
 
-            MarketHolidayObservances = new MarketHolidaySchedule[]
+            MarketHolidayObservances = new MarketHolidayObservance[]
             {
-                new(){ MarketHolidayEntryId = -10, MarketHolidayId = -10, ObservanceDate = new(2022, 12, 16) },
-                new(){ MarketHolidayEntryId = -11, MarketHolidayId = -11, ObservanceDate = new(2022, 4, 15) },
-                new(){ MarketHolidayEntryId = -12, MarketHolidayId = -12, ObservanceDate = new(2022, 7, 4) },
-                new(){ MarketHolidayEntryId = -13, MarketHolidayId = -13, ObservanceDate = new(2022, 9, 5) },
-                new(){ MarketHolidayEntryId = -14, MarketHolidayId = -14, ObservanceDate = new(2022, 1, 17) },
-                new(){ MarketHolidayEntryId = -15, MarketHolidayId = -15, ObservanceDate = new(2022, 5, 30) },
-                new(){ MarketHolidayEntryId = -16, MarketHolidayId = -16, ObservanceDate = new(2022, 1, 1) },
-                new(){ MarketHolidayEntryId = -17, MarketHolidayId = -17, ObservanceDate = new(2022, 2, 21) },
-                new(){ MarketHolidayEntryId = -17, MarketHolidayId = -17, ObservanceDate = new(2022, 11, 24) }
+                new(){ MarketHolidayId = -10, ObservanceDate = new(2022, 12, 16) },
+                new(){ MarketHolidayId = -11, ObservanceDate = new(2022, 4, 15) },
+                new(){ MarketHolidayId = -12, ObservanceDate = new(2022, 7, 4) },
+                new(){ MarketHolidayId = -13, ObservanceDate = new(2022, 9, 5) },
+                new(){ MarketHolidayId = -14, ObservanceDate = new(2022, 1, 17) },
+                new(){ MarketHolidayId = -15, ObservanceDate = new(2022, 5, 30) },
+                new(){ MarketHolidayId = -16, ObservanceDate = new(2022, 1, 1) },
+                new(){ MarketHolidayId = -17, ObservanceDate = new(2022, 2, 21) },
+                new(){ MarketHolidayId = -18, ObservanceDate = new(2022, 11, 24) }
             };
             #endregion
         }
@@ -409,9 +409,9 @@ namespace NjordFinance.Context.Configuration
         public MarketHoliday[] MarketHolidays { get; }
 
         /// <summary>
-        /// Gets the <see cref="MarketHolidaySchedule"/> seed models.
+        /// Gets the <see cref="MarketHolidayObservance"/> seed models.
         /// </summary>
-        public MarketHolidaySchedule[] MarketHolidayObservances { get; }
+        public MarketHolidayObservance[] MarketHolidayObservances { get; }
 
         /// <summary>
         /// Gets the <see cref="ModelAttribute"/> seed models.

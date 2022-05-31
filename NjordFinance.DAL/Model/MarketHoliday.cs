@@ -11,7 +11,7 @@ namespace NjordFinance.Model
     {
         public MarketHoliday()
         {
-            MarketHolidaySchedules = new HashSet<MarketHolidaySchedule>();
+            MarketHolidaySchedules = new HashSet<MarketHolidayObservance>();
         }
 
         [Key]
@@ -21,7 +21,7 @@ namespace NjordFinance.Model
         [StringLength(72)]
         public string MarketHolidayName { get; set; }
 
-        [InverseProperty(nameof(MarketHolidaySchedule.MarketHoliday))]
-        public virtual ICollection<MarketHolidaySchedule> MarketHolidaySchedules { get; set; }
+        [InverseProperty(nameof(MarketHolidayObservance.MarketHoliday))]
+        public virtual ICollection<MarketHolidayObservance> MarketHolidaySchedules { get; set; }
     }
 }

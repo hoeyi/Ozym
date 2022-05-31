@@ -6,16 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Model
 {
-    [Table("MarketHolidaySchedule", Schema = "FinanceApp")]
+    [Table("MarketHolidayObservance", Schema = "FinanceApp")]
     [Index(nameof(MarketHolidayId), Name = "IX_MarketHolidaySchedule_MarketHolidayID")]
-    [Index(nameof(ObservanceDate), nameof(MarketHolidayId), Name = "UNI_MarketHolidaySchedule_RowDef", IsUnique = true)]
-    public partial class MarketHolidaySchedule
+    public partial class MarketHolidayObservance
     {
         [Key]
-        [Column("MarketHolidayEntryID")]
-        public int MarketHolidayEntryId { get; set; }
         [Column("MarketHolidayID")]
         public int MarketHolidayId { get; set; }
+        [Key]
         [Column(TypeName = "date")]
         public DateTime ObservanceDate { get; set; }
 

@@ -22,6 +22,8 @@ namespace NjordFinance.Context
             modelBuilder
                 .SeedEntityData(defaultReferenceModel.BrokerTransactionCodes)
                 .SeedEntityData(defaultReferenceModel.BrokerTransactionCodeAttributes)
+                .SeedEntityData(defaultReferenceModel.MarketHolidays)
+                .SeedEntityData(defaultReferenceModel.MarketHolidayObservances)
                 .SeedEntityData(defaultReferenceModel.ModelAttributes)
                 .SeedEntityData(defaultReferenceModel.ModelAttributeScopes)
                 .SeedEntityData(defaultReferenceModel.ModelAttributeMembers)
@@ -44,7 +46,7 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.CountryAttributes)
                 .SeedEntityData(seedData.InvestmentStrategies)
                 .SeedEntityData(seedData.MarketHolidays)
-                .SeedEntityData(seedData.MarketHolidaySchedules)
+                .SeedEntityData(seedData.MarketHolidayObservances)
                 .SeedEntityData(seedData.ModelAttributes)
                 .SeedEntityData(seedData.ModelAttributeMembers)
                 .SeedEntityData(seedData.ReportConfigurations)

@@ -38,7 +38,7 @@ namespace NjordFinance.Context
         public virtual DbSet<InvestmentStrategy> InvestmentStrategies { get; set; }
         public virtual DbSet<InvestmentStrategyTarget> InvestmentStrategyTargets { get; set; }
         public virtual DbSet<MarketHoliday> MarketHolidays { get; set; }
-        public virtual DbSet<MarketHolidaySchedule> MarketHolidaySchedules { get; set; }
+        public virtual DbSet<MarketHolidayObservance> MarketHolidaySchedules { get; set; }
         public virtual DbSet<MarketIndex> MarketIndices { get; set; }
         public virtual DbSet<MarketIndexPrice> MarketIndexPrices { get; set; }
         public virtual DbSet<ModelAttribute> ModelAttributes { get; set; }
@@ -361,15 +361,14 @@ namespace NjordFinance.Context
                     .HasFilter("([MarketHolidayName] IS NOT NULL)");
             });
 
-            modelBuilder.Entity<MarketHolidaySchedule>(entity =>
+            modelBuilder.Entity<MarketHolidayObservance>(entity =>
             {
-                entity.HasKey(e => e.MarketHolidayEntryId)
-                    .HasName("PK_MarketHolidayScheduleEntry");
+                entity.HasKey(e => new { e.MarketHolidayId, e.ObservanceDate });
 
                 entity.HasOne(d => d.MarketHoliday)
                     .WithMany(p => p.MarketHolidaySchedules)
                     .HasForeignKey(d => d.MarketHolidayId)
-                    .HasConstraintName("FK_MarketHolidayScheduleMarketHoliday");
+                    .HasConstraintName("FK_MarketHolidayObservance_MarketHoliday");
             });
 
             modelBuilder.Entity<MarketIndex>(entity =>

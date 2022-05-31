@@ -687,7 +687,7 @@ namespace NjordFinance.Test.ModelService.Configuration
         public MarketHoliday[] MarketHolidays { get; }
 
         /// <inheritdoc/>
-        public MarketHolidaySchedule[] MarketHolidaySchedules { get; }
+        public MarketHolidayObservance[] MarketHolidayObservances { get; }
 
         /// <inheritdoc/>
         public MarketIndexPrice[] MarketIndexPrices { get; }
