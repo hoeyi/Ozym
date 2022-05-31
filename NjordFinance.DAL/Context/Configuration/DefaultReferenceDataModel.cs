@@ -52,6 +52,7 @@ namespace NjordFinance.Context.Configuration
 
             #endregion
 
+            #region Security types, type groups, asset class, and broker transaction attribute members
             ModelAttributeMember[] brokerTransactionAttributes =
             {
                 // Transaction categories
@@ -79,7 +80,6 @@ namespace NjordFinance.Context.Configuration
                 new(){ AttributeMemberId =-506, AttributeId = -50, DisplayName = "Writeoff", DisplayOrder = 5 },
             };
 
-            #region Security types, type groups, asset class, and broker transaction attribute members
             ModelAttributeMember[] assetClasses =
             {
                 new(){ AttributeMemberId = -100, AttributeId = -10, DisplayName = "Equities", DisplayOrder = 0 },
