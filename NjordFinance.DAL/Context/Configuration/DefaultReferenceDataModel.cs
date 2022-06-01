@@ -43,7 +43,7 @@ namespace NjordFinance.Context.Configuration
                         attributeId: a.AttributeId,
                         scopeCode: ModelAttributeScopeCode.Security.ConvertToStringCode()))
                     .Concat(
-                        ModelAttributes.Where(a => a.AttributeId is <= -40 and >= -41)
+                        ModelAttributes.Where(a => a.AttributeId is <= -40 and >= -50)
                         .Select(a => new ModelAttributeScope()
                         {
                             AttributeId = a.AttributeId,

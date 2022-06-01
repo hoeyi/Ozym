@@ -50,13 +50,17 @@ namespace NjordFinance.Test.ModelService
             seedData: new ModelServiceTestDataModel());
 
         /// <summary>
-        /// Resets the test database to its initial state.
+        /// Resets the test database to its state before seeding test data.
         /// </summary>
         public static void ResetTestDatabase()
         {
             lock(_lock)
             {
-                using var context = InitializeTestDbContext();
+                using var context = new FinanceDbContext(
+                    new DbContextOptionsBuilder<FinanceDbContext>()
+                        .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordFinance"])
+                        .EnableSensitiveDataLogging()
+                    .Options);
 
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();

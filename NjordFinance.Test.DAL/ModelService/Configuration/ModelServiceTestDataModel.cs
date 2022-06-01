@@ -255,34 +255,6 @@ namespace NjordFinance.Test.ModelService.Configuration
                 }
             };
 
-            Countries = new Country[]
-            {
-                new Country()
-                {
-                    CountryId = -1,
-                    IsoCode3 = "USA",
-                    DisplayName = "United States of America"
-                },
-                new Country()
-                {
-                    CountryId = -2,
-                    IsoCode3 = "DEU",
-                    DisplayName = "Germany"
-                },
-                new Country()
-                {
-                    CountryId = -3,
-                    IsoCode3 = "CAN",
-                    DisplayName = "Canada"
-                },
-                new Country()
-                {
-                    CountryId = -4,
-                    IsoCode3 = "JPN",
-                    DisplayName = "Japan"
-                }
-            };
-
             InvestmentStrategies = new InvestmentStrategy[]
             {
                 new(){ InvestmentStrategyId = -1, DisplayName = "Test delete pass" },

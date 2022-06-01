@@ -61,7 +61,7 @@ namespace NjordFinance.Test.ModelService
     {
         protected override SecurityTypeGroup CreateModelSuccessSample => new()
         {
-            SecurityTypeGroupNavigation = new()
+            AttributeMemberNavigation = new()
             {
                 AttributeId = -2,
                 DisplayOrder = 0
@@ -71,7 +71,7 @@ namespace NjordFinance.Test.ModelService
 
         protected override SecurityTypeGroup DeleteModelSuccessSample => new()
         {
-            SecurityTypeGroupNavigation = new()
+            AttributeMemberNavigation = new()
             {
                 AttributeId = -2,
                 DisplayName = "Test delete pass",
@@ -82,7 +82,7 @@ namespace NjordFinance.Test.ModelService
 
         protected override SecurityTypeGroup DeleteModelFailSample => new()
         {
-            SecurityTypeGroupNavigation = new()
+            AttributeMemberNavigation = new()
             {
                 AttributeMemberId = -1000,
                 AttributeId = -2,
@@ -95,7 +95,7 @@ namespace NjordFinance.Test.ModelService
 
         protected override SecurityTypeGroup UpdateModelSuccessSample => new()
         {
-            SecurityTypeGroupNavigation = new()
+            AttributeMemberNavigation = new()
             {
                 AttributeId = -2,
                 DisplayName = "Test update pass",
@@ -107,7 +107,7 @@ namespace NjordFinance.Test.ModelService
         protected override Expression<Func<SecurityTypeGroup, object>>[] IncludePaths =>
             new Expression<Func<SecurityTypeGroup, object>>[]
             {
-                a => a.SecurityTypeGroupNavigation
+                a => a.AttributeMemberNavigation
             };
 
         protected override IModelService<SecurityTypeGroup> GetModelService() =>

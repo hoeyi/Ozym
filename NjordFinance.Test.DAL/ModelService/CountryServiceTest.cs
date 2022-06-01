@@ -57,8 +57,14 @@ namespace NjordFinance.Test.ModelService
     {
         protected override Country CreateModelSuccessSample => new()
         {
-            IsoCode3 = "FRA",
-            DisplayName = "France"
+            AttributeMemberNavigation = new()
+            {
+                AttributeId = -60,
+                DisplayName = "ZZZ",
+                DisplayOrder = 0
+            },
+            IsoCode3 = "ZZZ",
+            DisplayName = "ZanzibarbarianLand"
         };
 
         protected override Country DeleteModelSuccessSample => new()

@@ -120,6 +120,7 @@ namespace NjordFinance.Test.ModelService
 
             return dbSet.Where(predicate ?? defaultExpression).OrderBy(a => a).Last();
         }
+
         /// <summary>
         /// Creates a new <see cref="IModelService{T}"/> instance.
         /// </summary>

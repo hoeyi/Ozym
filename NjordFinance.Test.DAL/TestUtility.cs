@@ -20,7 +20,7 @@ namespace NjordFinance.Test
         /// Resets the test 
         /// </summary>
         [AssemblyCleanup]
-        public static void ResetDatabaseToInitialState() => 
+        public static void ResetDatabaseToInitialState() =>
             TestDbContextFactory.ResetTestDatabase();
 
         /// <summary>
