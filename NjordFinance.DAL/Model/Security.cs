@@ -52,7 +52,7 @@ namespace NjordFinance.Model
         public virtual ICollection<SecurityAttributeMemberEntry> SecurityAttributeMemberEntries { get; set; }
         [InverseProperty(nameof(SecurityPrice.Security))]
         public virtual ICollection<SecurityPrice> SecurityPrices { get; set; }
-        [InverseProperty(nameof(SecuritySymbol.Security))]
+        [InverseProperty("Security")]
         public virtual ICollection<SecuritySymbol> SecuritySymbols { get; set; }
     }
 }
