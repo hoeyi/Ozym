@@ -69,11 +69,13 @@ namespace NjordFinance.Model
     [MetadataType(typeof(AccountMetadata))]
     public partial class Account
     {
+
         /// <summary>
         /// Gets the short code for this account.
         /// </summary>
         [NotMapped]
-        public string AccountCode
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+        public string? AccountCode
         {
             get { return AccountNavigation?.AccountObjectCode; }
         }
@@ -82,14 +84,15 @@ namespace NjordFinance.Model
         /// Gets the display name for this account.
         /// </summary>
         [NotMapped]
-        public string AccountName
+        public string? AccountName
         {
             get { return AccountNavigation?.ObjectDisplayName; }
         }
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
         public override string ToString()
         {
-            return $"{{Type = {typeof(Account)}; AccountCode = {AccountCode}}}";
+            return $"{{{nameof(AccountId)} = {AccountId};  {nameof(AccountCode)} = {AccountCode}}}";
         }
     }
 }
