@@ -183,11 +183,11 @@ namespace NjordFinance.Test.ModelService.Configuration
             AccountCompositeMembers = new AccountCompositeMember[]
             {
                 new()
-                { 
-                    AccountId = -5, 
-                    AccountCompositeId = -8, 
-                    EntryDate = GetRandomDateTime(), 
-                    Comment = "Test #1" 
+                {
+                    AccountId = -5,
+                    AccountCompositeId = -8,
+                    EntryDate = GetRandomDateTime(),
+                    Comment = "Test #1"
                 },
                 new()
                 {
@@ -213,24 +213,32 @@ namespace NjordFinance.Test.ModelService.Configuration
 
             BankTransactions = new BankTransaction[]
             {
-                new()
-                {
-                    TransactionId = -1,
-                    AccountId = -6, 
-                    TransactionDate = GetRandomDateTime(),
-                    TransactionCodeId = -8, 
-                    Comment = "Test remove", 
-                    Amount = 100M
-                },
-                new()
-                {
-                    TransactionId = -2,
-                    AccountId = -6,
-                    TransactionDate = GetRandomDateTime(),
-                    TransactionCodeId = -7,
-                    Comment = "Test add",
-                    Amount = 100M
-                },
+                new(){ TransactionId = -2, AccountId = -6, TransactionDate = new DateTime(2002, 9, 21), TransactionCodeId = -7, Amount = 100M, Comment = "Test add"},
+                new(){ TransactionId = -1, AccountId = -6, TransactionDate = new DateTime(2003, 1, 15), TransactionCodeId = -8, Amount = 100M, Comment = "Test remove"},
+                new(){ TransactionId = -3, AccountId = -6, TransactionDate = new DateTime(2007, 3, 6), TransactionCodeId = -6, Amount = 64.97M, Comment = "Example: Unused Paid Time-Off"},
+                new(){ TransactionId = -4, AccountId = -6, TransactionDate = new DateTime(2004, 4, 10), TransactionCodeId = -6, Amount = 67.24M, Comment = "Example: Unused Paid Time-Off"},
+                new(){ TransactionId = -5, AccountId = -6, TransactionDate = new DateTime(2020, 8, 13), TransactionCodeId = -4, Amount = 12.29M, Comment = "Example: Salary/Wage"},
+                new(){ TransactionId = -6, AccountId = -6, TransactionDate = new DateTime(2022, 10, 14), TransactionCodeId = -6, Amount = 20.59M, Comment = "Example: Unused Paid Time-Off"},
+                new(){ TransactionId = -7, AccountId = -6, TransactionDate = new DateTime(2002, 12, 8), TransactionCodeId = -5, Amount = 95.76M, Comment = "Example: State Tax Paid"},
+                new(){ TransactionId = -8, AccountId = -6, TransactionDate = new DateTime(2017, 9, 9), TransactionCodeId = -6, Amount = 25.59M, Comment = "Example: Unused Paid Time-Off"},
+                new(){ TransactionId = -9, AccountId = -6, TransactionDate = new DateTime(2000, 8, 13), TransactionCodeId = -4, Amount = 64.28M, Comment = "Example: Salary/Wage"},
+                new(){ TransactionId = -10, AccountId = -6, TransactionDate = new DateTime(2010, 2, 8), TransactionCodeId = -8, Amount = 97.73M, Comment = "Example: 401k Contribution"},
+                new(){ TransactionId = -11, AccountId = -6, TransactionDate = new DateTime(2008, 8, 3), TransactionCodeId = -5, Amount = 95.95M, Comment = "Example: State Tax Paid"},
+                new(){ TransactionId = -12, AccountId = -6, TransactionDate = new DateTime(2015, 10, 9), TransactionCodeId = -4, Amount = 69.21M, Comment = "Example: Salary/Wage"},
+                new(){ TransactionId = -13, AccountId = -6, TransactionDate = new DateTime(2017, 9, 26), TransactionCodeId = -8, Amount = 53.99M, Comment = "Example: 401k Contribution"},
+                new(){ TransactionId = -14, AccountId = -6, TransactionDate = new DateTime(2003, 3, 17), TransactionCodeId = -4, Amount = 79.99M, Comment = "Example: Salary/Wage"},
+                new(){ TransactionId = -15, AccountId = -6, TransactionDate = new DateTime(2003, 11, 27), TransactionCodeId = -7, Amount = 12.86M, Comment = "Example: Travel"},
+                new(){ TransactionId = -16, AccountId = -6, TransactionDate = new DateTime(2006, 10, 4), TransactionCodeId = -5, Amount = 27.25M, Comment = "Example: State Tax Paid"},
+                new(){ TransactionId = -17, AccountId = -6, TransactionDate = new DateTime(2002, 3, 1), TransactionCodeId = -7, Amount = 56.77M, Comment = "Example: Travel"},
+                new(){ TransactionId = -18, AccountId = -6, TransactionDate = new DateTime(2016, 9, 28), TransactionCodeId = -7, Amount = 4.39M, Comment = "Example: Travel"},
+                new(){ TransactionId = -19, AccountId = -6, TransactionDate = new DateTime(2010, 11, 16), TransactionCodeId = -7, Amount = 42.37M, Comment = "Example: Travel"},
+                new(){ TransactionId = -20, AccountId = -6, TransactionDate = new DateTime(2011, 8, 20), TransactionCodeId = -7, Amount = 59.36M, Comment = "Example: Travel"},
+                new(){ TransactionId = -21, AccountId = -6, TransactionDate = new DateTime(2015, 6, 21), TransactionCodeId = -6, Amount = 74.64M, Comment = "Example: Unused Paid Time-Off"},
+                new(){ TransactionId = -22, AccountId = -6, TransactionDate = new DateTime(2015, 6, 12), TransactionCodeId = -8, Amount = 22.38M, Comment = "Example: 401k Contribution"},
+                new(){ TransactionId = -23, AccountId = -6, TransactionDate = new DateTime(2000, 7, 21), TransactionCodeId = -4, Amount = 1.77M, Comment = "Example: Salary/Wage"},
+                new(){ TransactionId = -24, AccountId = -6, TransactionDate = new DateTime(2001, 7, 10), TransactionCodeId = -9, Amount = -5.22M, Comment = "Example: Automotive"},
+                new(){ TransactionId = -25, AccountId = -6, TransactionDate = new DateTime(2021, 2, 15), TransactionCodeId = -6, Amount = -7.7M, Comment = "Example: Unused Paid Time-Off"},
+                new(){ TransactionId = -26, AccountId = -6, TransactionDate = new DateTime(2003, 1, 3), TransactionCodeId = -9, Amount = -7.71M, Comment = "Example: Automotive"},
             };
 
             BrokerTransactionCodes = new BrokerTransactionCode[]
@@ -624,7 +632,7 @@ namespace NjordFinance.Test.ModelService.Configuration
 
         /// <inheritdoc/>
         public BankTransactionCode[] BankTransactionCodes { get; }
-        
+
         /// <inheritdoc/>
         public BankTransaction[] BankTransactions { get; }
 
@@ -642,7 +650,7 @@ namespace NjordFinance.Test.ModelService.Configuration
 
         /// <inheritdoc/>
         public CountryAttributeMemberEntry[] CountryAttributes { get; }
-        
+
         /// <inheritdoc/>
         public InvestmentPerformanceAttributeMemberEntry[] InvestmentPerformanceAttributeEntries { get; }
 
