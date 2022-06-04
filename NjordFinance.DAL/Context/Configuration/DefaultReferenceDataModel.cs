@@ -39,9 +39,12 @@ namespace NjordFinance.Context.Configuration
 
             ModelAttributeScopes = ModelAttributes
                     .Where(a => a.AttributeId is <= -10 and >= -30)
-                    .Select(a => new ModelAttributeScope(
-                        attributeId: a.AttributeId,
-                        scopeCode: ModelAttributeScopeCode.Security.ConvertToStringCode()))
+                    .Select(a => new ModelAttributeScope()
+                    {
+                        AttributeId = a.AttributeId,
+                        ScopeCode = ModelAttributeScopeCode.Security.ConvertToStringCode()
+                    }
+                    )
                     .Concat(
                         ModelAttributes.Where(a => a.AttributeId is <= -40 and >= -50)
                         .Select(a => new ModelAttributeScope()
@@ -354,45 +357,221 @@ namespace NjordFinance.Context.Configuration
 
             SecurityTypeGroups = new SecurityTypeGroup[]
             {
-                new(-200, "Individual Stocks"),
-                new(-201, "Equity Funds & ETFs"),
-                new(-202, "Individual Bonds & CDs"),
-                new(-203, "Fixed Income Funds & ETFs"),
-                new(-204, "Option Contracts"),
-                new(-205, "Digital Assets"),
-                new(-206, "Other Funds & ETPs"),
-                new(-207, "Short-Term Debt"),
-                new(-208, "Long-Term Debt"),
-                new(-209, "Cash Funds & Currency"),
-                new(-210, "Cash Deposit"),
-                new(-211, "Expense"),
-                new(-212, "Not Classified")
+                new(){ SecurityTypeGroupId = -200, SecurityTypeGroupName = "Individual Stocks" },
+                new(){ SecurityTypeGroupId = -201, SecurityTypeGroupName = "Equity Funds & ETFs" },
+                new(){ SecurityTypeGroupId = -202, SecurityTypeGroupName = "Individual Bonds & CDs" },
+                new(){ SecurityTypeGroupId = -203, SecurityTypeGroupName = "Fixed Icome Funds & ETFs" },
+                new(){ SecurityTypeGroupId = -204, SecurityTypeGroupName = "Option Contracts" },
+                new(){ SecurityTypeGroupId = -205, SecurityTypeGroupName = "Digital Assets" },
+                new(){ SecurityTypeGroupId = -206, SecurityTypeGroupName = "Other Funds & ETPs" },
+                new(){ SecurityTypeGroupId = -207, SecurityTypeGroupName = "Short-Term Debt" },
+                new(){ SecurityTypeGroupId = -208, SecurityTypeGroupName = "Long-Term Debt" },
+                new(){ SecurityTypeGroupId = -209, SecurityTypeGroupName = "Cash Funds & Currency" },
+                new(){ SecurityTypeGroupId = -210, SecurityTypeGroupName = "Cash Deposit" },
+                new(){ SecurityTypeGroupId = -211, SecurityTypeGroupName = "Expense" },
+                new(){ SecurityTypeGroupId = -212, SecurityTypeGroupName = "Not Applicable" }
             };
 
             SecurityTypes = new SecurityType[]
             {
-                new(-300, -200, "Common Stock", 1M, true, true),
-                new(-301, -200, "American Depository Receipt", 1M, true, true),
-                new(-302, -201, "Equity ETF", 1M, true, true),
-                new(-303, -201, "Equity Mutual Fund", 1M, true, false),
-                new(-304, -202, "Corporate Bonds", 0.01M, true, false),
-                new(-305, -202, "Municipal Bonds", 0.01M, true, false),
-                new(-306, -202, "U.S. Government Bonds & Bills", 0.1M, true, false),
-                new(-307, -202, "Certificate of Deposit", 1M, true, false),
-                new(-308, -203, "Bond ETF", 1M, true, true),
-                new(-309, -203, "Bond Mutual Fund", 1M, true, false),
-                new(-310, -204, "Call Option", 100M, true, false),
-                new(-311, -204, "Put Option", 100M, true, false),
-                new(-312, -205, "Cryptocurrency", 1M, true, false),
-                new(-313, -206, "Exchange-Traded Note", 1M, true, false),
-                new(-314, -206, "Retirement Plan", 1M, true, false),
-                new(-315, -207, "Revolving Debt", -1M, true, false),
-                new(-316, -208, "Student Debt", -1M, true, false),
-                new(-317, -209, "Money-Market Fund", 1M, true, false),
-                new(-318, -209, "Foreign Currency", 1M, true, false),
-                new(-319, -210, "Cash", 1M, true, false),
-                new(-320, -211, "Expense", 0M, false, false),
-                new(-321, -212, "None/External", 0M, false, false)
+                new()
+                {
+                    SecurityTypeId = -300,
+                    SecurityTypeGroupId = -200,
+                    SecurityTypeName = "Common Stock",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = true,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -301,
+                    SecurityTypeGroupId = -200,
+                    SecurityTypeName = "American Depository Receipt",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = true,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -302,
+                    SecurityTypeGroupId = -201,
+                    SecurityTypeName = "Equity ETF",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = true,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -303,
+                    SecurityTypeGroupId = -201,
+                    SecurityTypeName = "Equity Mutual Fund",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -304,
+                    SecurityTypeGroupId = -202,
+                    SecurityTypeName = "Corporate Bond",
+                    ValuationFactor = 0.01M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -305,
+                    SecurityTypeGroupId = -202,
+                    SecurityTypeName = "Municipal Bond",
+                    ValuationFactor = 0.01M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -306,
+                    SecurityTypeGroupId = -202,
+                    SecurityTypeName = "U.S. Goverment Bond/Bill",
+                    ValuationFactor = 0.01M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -307,
+                    SecurityTypeGroupId = -202,
+                    SecurityTypeName = "Certificate of Deposit",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -308,
+                    SecurityTypeGroupId = -203,
+                    SecurityTypeName = "Bond ETF",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = true,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -309,
+                    SecurityTypeGroupId = -203,
+                    SecurityTypeName = "Bond Mutual Fund",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -310,
+                    SecurityTypeGroupId = -204,
+                    SecurityTypeName = "Call Option",
+                    ValuationFactor = 100M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -311,
+                    SecurityTypeGroupId = -204,
+                    SecurityTypeName = "Put Option",
+                    ValuationFactor = 100M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -312,
+                    SecurityTypeGroupId = -205,
+                    SecurityTypeName = "Cryptocurrency",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -313,
+                    SecurityTypeGroupId = -206,
+                    SecurityTypeName = "Exchange-Traded Note",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -314,
+                    SecurityTypeGroupId = -206,
+                    SecurityTypeName = "Retirement Plan",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -315,
+                    SecurityTypeGroupId = -207,
+                    SecurityTypeName = "Revolving Debt",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -316,
+                    SecurityTypeGroupId = -208,
+                    SecurityTypeName = "Student Debt",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -317,
+                    SecurityTypeGroupId = -209,
+                    SecurityTypeName = "Money-Market Fund",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -318,
+                    SecurityTypeGroupId = -209,
+                    SecurityTypeName = "Fiat Currency",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -319,
+                    SecurityTypeGroupId = -210,
+                    SecurityTypeName = "Cash",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = true
+                },
+                new()
+                {
+                    SecurityTypeId = -320,
+                    SecurityTypeGroupId = -211,
+                    SecurityTypeName = "Expense",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition = false
+                },
+                new ()
+                {
+                    SecurityTypeId = -321,
+                    SecurityTypeGroupId = -212,
+                    SecurityTypeName = "None/External",
+                    ValuationFactor = 1M,
+                    CanHaveDerivative = false,
+                    CanHavePosition  = false
+                }
             };
 
             ModelAttributeMembers = assetClasses
@@ -434,158 +613,158 @@ namespace NjordFinance.Context.Configuration
             #region Broker transaction codes and categorizations
             BrokerTransactionCodes = new BrokerTransactionCode[]
             {
-                new() 
-                { 
+                new()
+                {
                     TransactionCodeId = -10,
-                    TransactionCode = "btc", 
-                    DisplayName = "Buy to cover", 
-                    CashEffect = -1, 
-                    ContributionWithdrawalEffect = 0, 
-                    QuantityEffect = 1 
+                    TransactionCode = "btc",
+                    DisplayName = "Buy to cover",
+                    CashEffect = -1,
+                    ContributionWithdrawalEffect = 0,
+                    QuantityEffect = 1
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -11,
-                    TransactionCode = "buy", 
-                    DisplayName = "Buy", 
-                    CashEffect = -1, 
-                    ContributionWithdrawalEffect = 0, 
-                    QuantityEffect = 1 
+                    TransactionCode = "buy",
+                    DisplayName = "Buy",
+                    CashEffect = -1,
+                    ContributionWithdrawalEffect = 0,
+                    QuantityEffect = 1
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -12,
-                    TransactionCode = "dep", 
-                    DisplayName = "Deposit", 
-                    CashEffect = 1, 
-                    ContributionWithdrawalEffect = 1, 
-                    QuantityEffect = 0 
+                    TransactionCode = "dep",
+                    DisplayName = "Deposit",
+                    CashEffect = 1,
+                    ContributionWithdrawalEffect = 1,
+                    QuantityEffect = 0
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -13,
-                    TransactionCode = "div", 
-                    DisplayName = "Dividend", 
-                    CashEffect = 1, 
-                    ContributionWithdrawalEffect = 0, 
-                    QuantityEffect = 0 
+                    TransactionCode = "div",
+                    DisplayName = "Dividend",
+                    CashEffect = 1,
+                    ContributionWithdrawalEffect = 0,
+                    QuantityEffect = 0
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -14,
-                    TransactionCode = "exp", 
-                    DisplayName = "Expense", 
-                    CashEffect = -1, 
-                    ContributionWithdrawalEffect = -1, 
-                    QuantityEffect = 0 
+                    TransactionCode = "exp",
+                    DisplayName = "Expense",
+                    CashEffect = -1,
+                    ContributionWithdrawalEffect = -1,
+                    QuantityEffect = 0
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -15,
-                    TransactionCode = "frt", 
-                    DisplayName = "Forfeit shares", 
-                    CashEffect = 0, 
-                    ContributionWithdrawalEffect = -1, 
-                    QuantityEffect = -1 
+                    TransactionCode = "frt",
+                    DisplayName = "Forfeit shares",
+                    CashEffect = 0,
+                    ContributionWithdrawalEffect = -1,
+                    QuantityEffect = -1
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -16,
-                    TransactionCode = "int", 
-                    DisplayName = "Interest", 
-                    CashEffect = 1, 
-                    ContributionWithdrawalEffect = 0, 
-                    QuantityEffect = 0 
+                    TransactionCode = "int",
+                    DisplayName = "Interest",
+                    CashEffect = 1,
+                    ContributionWithdrawalEffect = 0,
+                    QuantityEffect = 0
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -17,
-                    TransactionCode = "dli", 
-                    DisplayName = "Deliver-in", 
-                    CashEffect = 0, 
-                    ContributionWithdrawalEffect = 1, 
-                    QuantityEffect = 1 
+                    TransactionCode = "dli",
+                    DisplayName = "Deliver-in",
+                    CashEffect = 0,
+                    ContributionWithdrawalEffect = 1,
+                    QuantityEffect = 1
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -18,
-                    TransactionCode = "dlo", 
-                    DisplayName = "Deliver-out", 
-                    CashEffect = 0, 
-                    ContributionWithdrawalEffect = -1, 
-                    QuantityEffect = -1 
+                    TransactionCode = "dlo",
+                    DisplayName = "Deliver-out",
+                    CashEffect = 0,
+                    ContributionWithdrawalEffect = -1,
+                    QuantityEffect = -1
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -19,
-                    TransactionCode = "pdn", 
-                    DisplayName = "Pay-down", 
-                    CashEffect = -1, 
-                    ContributionWithdrawalEffect = 0, 
-                    QuantityEffect = -1 
+                    TransactionCode = "pdn",
+                    DisplayName = "Pay-down",
+                    CashEffect = -1,
+                    ContributionWithdrawalEffect = 0,
+                    QuantityEffect = -1
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -20,
-                    TransactionCode = "sll", 
-                    DisplayName = "Sale", 
-                    CashEffect = 1, 
-                    ContributionWithdrawalEffect = 0, 
-                    QuantityEffect = -1 
+                    TransactionCode = "sll",
+                    DisplayName = "Sale",
+                    CashEffect = 1,
+                    ContributionWithdrawalEffect = 0,
+                    QuantityEffect = -1
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -21,
-                    TransactionCode = "ssl", 
-                    DisplayName = "Short sale", 
-                    CashEffect = 1, 
-                    ContributionWithdrawalEffect = 0, 
-                    QuantityEffect = -1 
+                    TransactionCode = "ssl",
+                    DisplayName = "Short sale",
+                    CashEffect = 1,
+                    ContributionWithdrawalEffect = 0,
+                    QuantityEffect = -1
                 },
                 new()
                 {
                     TransactionCodeId = -22,
-                    TransactionCode = "wth", 
-                    DisplayName = "Withdrawal", 
-                    CashEffect = -1, 
-                    ContributionWithdrawalEffect = -1, 
-                    QuantityEffect = 0 
+                    TransactionCode = "wth",
+                    DisplayName = "Withdrawal",
+                    CashEffect = -1,
+                    ContributionWithdrawalEffect = -1,
+                    QuantityEffect = 0
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -23,
-                    TransactionCode = "chn", 
-                    DisplayName = "Change in value", 
-                    CashEffect = 1, 
-                    ContributionWithdrawalEffect = 1, 
-                    QuantityEffect = 1 
+                    TransactionCode = "chn",
+                    DisplayName = "Change in value",
+                    CashEffect = 1,
+                    ContributionWithdrawalEffect = 1,
+                    QuantityEffect = 1
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -24,
-                    TransactionCode = "plc", 
-                    DisplayName = "Plan contribution", 
-                    CashEffect = 1, 
-                    ContributionWithdrawalEffect = 1, 
-                    QuantityEffect = 0 
+                    TransactionCode = "plc",
+                    DisplayName = "Plan contribution",
+                    CashEffect = 1,
+                    ContributionWithdrawalEffect = 1,
+                    QuantityEffect = 0
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -25,
-                    TransactionCode = "ain", 
-                    DisplayName = "Accrued interest", 
-                    CashEffect = -1, 
-                    ContributionWithdrawalEffect = -1, 
-                    QuantityEffect = 0 
+                    TransactionCode = "ain",
+                    DisplayName = "Accrued interest",
+                    CashEffect = -1,
+                    ContributionWithdrawalEffect = -1,
+                    QuantityEffect = 0
                 },
-                new() 
+                new()
                 {
                     TransactionCodeId = -26,
-                    TransactionCode = "cap", 
-                    DisplayName = "Capital return", 
-                    CashEffect = 1, 
-                    ContributionWithdrawalEffect = 0, 
-                    QuantityEffect = 0 
+                    TransactionCode = "cap",
+                    DisplayName = "Capital return",
+                    CashEffect = 1,
+                    ContributionWithdrawalEffect = 0,
+                    QuantityEffect = 0
                 }
             };
 

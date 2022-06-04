@@ -27,10 +27,5 @@ namespace NjordFinance.Model
     [MetadataType(typeof(SecuritySymbolTypeMetadata))]
     public partial class SecuritySymbolType
     {
-        internal SecuritySymbolType(int symbolTypeId, string symbolTypeName)
-        {
-            SymbolTypeId = symbolTypeId;
-            SymbolTypeName = symbolTypeName;
-        }
     }
 }
