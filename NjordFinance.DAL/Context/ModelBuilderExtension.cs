@@ -45,7 +45,6 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.BankTransactionCodes)
                 .SeedEntityData(seedData.BrokerTransactionCodes)
                 .SeedEntityData(seedData.Countries)
-                .SeedEntityData(seedData.CountryAttributes)
                 .SeedEntityData(seedData.InvestmentStrategies)
                 .SeedEntityData(seedData.MarketHolidays)
                 .SeedEntityData(seedData.MarketHolidayObservances)

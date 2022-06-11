@@ -138,6 +138,11 @@ namespace NjordFinance.Context.Configuration
         ModelAttribute[] ModelAttributes { get; }
 
         /// <summary>
+        /// Gets the <see cref="ModelAttributeScope"/> models to seed.
+        /// </summary>
+        ModelAttributeScope[] ModelAttributeScopes { get; }
+
+        /// <summary>
         /// Gets the <see cref="ReportConfiguration"/> models to seed.
         /// </summary>
         ReportConfiguration[] ReportConfigurations { get; }
