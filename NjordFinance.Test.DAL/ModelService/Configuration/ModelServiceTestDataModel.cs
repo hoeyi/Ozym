@@ -295,8 +295,8 @@ namespace NjordFinance.Test.ModelService.Configuration
             {
                 new(){ AttributeId = -1, ScopeCode = ModelAttributeScopeCode.Account.ConvertToStringCode() },
                 new(){ AttributeId = -2, ScopeCode = ModelAttributeScopeCode.Exchange.ConvertToStringCode() },
-                new(){ AttributeId = -3, ScopeCode = ModelAttributeScopeCode.Country.ConvertToStringCode() },
-                new(){ AttributeId = -4, ScopeCode = ModelAttributeScopeCode.Account.ConvertToStringCode() },
+                new(){ AttributeId = -3, ScopeCode = ModelAttributeScopeCode.Account.ConvertToStringCode() },
+                new(){ AttributeId = -4, ScopeCode = ModelAttributeScopeCode.Country.ConvertToStringCode() },
                 new(){ AttributeId = -5, ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode() },
                 new(){ AttributeId = -6, ScopeCode = ModelAttributeScopeCode.BrokerTransactionCode.ConvertToStringCode() },
             };
