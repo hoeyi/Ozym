@@ -20,7 +20,7 @@ namespace NjordFinance.ModelService
             this IModelBatchService<T> service, int parentId)
             where T : class, new()
         {
-            if (service.ForParent(parentId))
+            if (service.ForParent(parentId, out NotSupportedException _))
                 return service;
             else
                 throw new InvalidOperationException();

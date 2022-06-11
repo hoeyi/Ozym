@@ -72,7 +72,7 @@ namespace NjordFinance.Controllers.Abstractions
         /// <inheritdoc/>
         public IActionResult ForParent(int parentId)
         {
-            if (_modelService.ForParent(parentId))
+            if (_modelService.ForParent(parentId, out NotSupportedException e))
                 return Ok();
             else
             {
@@ -80,7 +80,8 @@ namespace NjordFinance.Controllers.Abstractions
                 {
                     Service = _modelService.GetType().Name,
                     KeyType = parentId.GetType().Name,
-                    KeyValue = parentId
+                    KeyValue = parentId,
+                    Message = e?.Message ?? string.Empty
                 });
 
                 return Conflict();

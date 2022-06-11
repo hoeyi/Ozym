@@ -29,7 +29,7 @@ namespace NjordFinance.ModelService
         {
         }
 
-        public override bool ForParent(int parentId)
+        public override bool ForParent(int parentId, out NotSupportedException e)
         {
             Reader = new ModelReaderService<ModelAttributeMember>(
                 this, _modelMetadata, _logger)
@@ -47,6 +47,7 @@ namespace NjordFinance.ModelService
                 }
             };
 
+            e = null;
             return true;
         }
     }

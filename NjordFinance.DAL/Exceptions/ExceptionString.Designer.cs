@@ -106,6 +106,15 @@ namespace NjordFinance.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parents for this service are not supported..
+        /// </summary>
+        internal static string ModelService_ParentNotSupported {
+            get {
+                return ResourceManager.GetString("ModelService_ParentNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Query complexity limit ({0}) reached. Consider increasing the navigation path limit or re-writing the query..
         /// </summary>
         internal static string ModelService_QueryComplexityNotSupported {

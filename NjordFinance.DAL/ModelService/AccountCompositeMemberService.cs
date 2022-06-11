@@ -5,6 +5,7 @@ using NjordFinance.Context;
 using NjordFinance.Model;
 using NjordFinance.ModelMetadata;
 using NjordFinance.ModelService.Abstractions;
+using System;
 using System.Linq;
 
 namespace NjordFinance.ModelService
@@ -30,7 +31,7 @@ namespace NjordFinance.ModelService
         {
         }
 
-        public override bool ForParent(int parentId)
+        public override bool ForParent(int parentId, out NotSupportedException e)
         {
             Reader = new ModelReaderService<AccountCompositeMember>(
                 this, _modelMetadata, _logger)
@@ -47,7 +48,8 @@ namespace NjordFinance.ModelService
                     AccountCompositeId = parentId
                 }
             };
-
+            
+            e = null;
             return true;
         }
     }

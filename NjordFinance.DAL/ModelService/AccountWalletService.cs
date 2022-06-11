@@ -4,6 +4,7 @@ using Ichosoft.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordFinance.ModelService.Abstractions;
+using System;
 
 namespace NjordFinance.ModelService
 {
@@ -28,7 +29,7 @@ namespace NjordFinance.ModelService
         {
         }
 
-        public override bool ForParent(int parentId)
+        public override bool ForParent(int parentId, out NotSupportedException e)
         {
             Reader = new ModelReaderService<AccountWallet>(
                 this, _modelMetadata, _logger)
@@ -43,6 +44,7 @@ namespace NjordFinance.ModelService
                 GetDefaultModelDelegate = () => new AccountWallet() { AccountId = parentId }
             };
 
+            e = null;
             return true;
         }
     }

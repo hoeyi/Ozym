@@ -9,46 +9,42 @@ using System;
 namespace NjordFinance.ModelService
 {
     /// <summary>
-    /// The class for servicing single CRUD requests against the <see cref="CountryAttributeMemberEntry"/> 
+    /// The class for servicing single CRUD requests against the <see cref="MarketHolidayObservance"/> 
     /// data store.
     /// </summary>
-    internal class CountryAttributeService : ModelBatchService<CountryAttributeMemberEntry>
+    internal class MarketHolidayObservanceService : ModelBatchService<MarketHolidayObservance>
     {
         /// <summary>
-        /// Creates a new <see cref="CountryAttributeService"/> instance.
+        /// Creates a new <see cref="MarketHolidayObservanceService"/> instance.
         /// </summary>
         /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
         /// instance.</param>
         /// <param name="modelMetadata">An <see cref="IModelMetadataService"/> instance.</param>
         /// <param name="logger">An <see cref="ILogger"/> instance.</param>
-        public CountryAttributeService(
+        public MarketHolidayObservanceService(
                 IDbContextFactory<FinanceDbContext> contextFactory,
                 IModelMetadataService modelMetadata,
                 ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
+            Reader = new ModelReaderService<MarketHolidayObservance>(
+                this, _modelMetadata, _logger)
+            {
+                ParentExpression = null
+            };
+
+            Writer = new ModelWriterBatchService<MarketHolidayObservance>(
+                this, _modelMetadata, _logger)
+            {
+                ParentExpression = null,
+                GetDefaultModelDelegate = () => new()
+            };
         }
 
         public override bool ForParent(int parentId, out NotSupportedException e)
         {
-            Reader = new ModelReaderService<CountryAttributeMemberEntry>(
-                this, _modelMetadata, _logger)
-            {
-                ParentExpression = x => x.CountryId == parentId
-            };
-
-            Writer = new ModelWriterBatchService<CountryAttributeMemberEntry>(
-                this, _modelMetadata, _logger)
-            {
-                ParentExpression = x => x.CountryId == parentId,
-                GetDefaultModelDelegate = () => new CountryAttributeMemberEntry()
-                {
-                    CountryId = parentId
-                }
-            };
-
-            e = null;
-            return true;
+            e = new(message: Exceptions.ExceptionString.ModelService_ParentNotSupported);
+            return false;
         }
     }
 }

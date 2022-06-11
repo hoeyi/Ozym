@@ -48,7 +48,7 @@ namespace NjordFinance.ModelService.Abstractions
         public bool IsDirty => Context?.ChangeTracker?.HasChanges() ?? false;
 
         /// <inheritdoc/>
-        public abstract bool ForParent(int parentId);
+        public abstract bool ForParent(int parentId, out NotSupportedException e);
 
         /// <inheritdoc/>
         public void AddNavigationPath(Expression<Func<T, object>> navigationPath) =>

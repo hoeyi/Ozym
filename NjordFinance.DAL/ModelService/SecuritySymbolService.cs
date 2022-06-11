@@ -9,19 +9,19 @@ using System;
 namespace NjordFinance.ModelService
 {
     /// <summary>
-    /// The class for servicing single CRUD requests against the <see cref="CountryAttributeMemberEntry"/> 
+    /// The class for servicing single CRUD requests against the <see cref="SecuritySymbol"/> 
     /// data store.
     /// </summary>
-    internal class CountryAttributeService : ModelBatchService<CountryAttributeMemberEntry>
+    internal class SecuritySymbolService : ModelBatchService<SecuritySymbol>
     {
         /// <summary>
-        /// Creates a new <see cref="CountryAttributeService"/> instance.
+        /// Creates a new <see cref="SecuritySymbolService"/> instance.
         /// </summary>
         /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
         /// instance.</param>
         /// <param name="modelMetadata">An <see cref="IModelMetadataService"/> instance.</param>
         /// <param name="logger">An <see cref="ILogger"/> instance.</param>
-        public CountryAttributeService(
+        public SecuritySymbolService(
                 IDbContextFactory<FinanceDbContext> contextFactory,
                 IModelMetadataService modelMetadata,
                 ILogger logger)
@@ -31,19 +31,19 @@ namespace NjordFinance.ModelService
 
         public override bool ForParent(int parentId, out NotSupportedException e)
         {
-            Reader = new ModelReaderService<CountryAttributeMemberEntry>(
+            Reader = new ModelReaderService<SecuritySymbol>(
                 this, _modelMetadata, _logger)
             {
-                ParentExpression = x => x.CountryId == parentId
+                ParentExpression = x => x.SecurityId == parentId
             };
 
-            Writer = new ModelWriterBatchService<CountryAttributeMemberEntry>(
+            Writer = new ModelWriterBatchService<SecuritySymbol>(
                 this, _modelMetadata, _logger)
             {
-                ParentExpression = x => x.CountryId == parentId,
-                GetDefaultModelDelegate = () => new CountryAttributeMemberEntry()
+                ParentExpression = x => x.SecurityId == parentId,
+                GetDefaultModelDelegate = () => new()
                 {
-                    CountryId = parentId
+                    SecurityId = parentId
                 }
             };
 

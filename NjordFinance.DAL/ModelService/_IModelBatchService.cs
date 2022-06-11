@@ -1,4 +1,5 @@
 ﻿using NjordFinance.ModelService.Abstractions;
+using System;
 
 namespace NjordFinance.ModelService
 {
@@ -18,7 +19,9 @@ namespace NjordFinance.ModelService
         /// with an id equal to value of <paramref name="parentId"/>.
         /// </summary>
         /// <param name="parentId"></param>
+        /// <param name="e">The exception describing the reason configuration failed, or null 
+        /// if successful.</param>
         /// <returns>True, if the operation is successful, else false.</returns>
-        bool ForParent(int parentId);
+        bool ForParent(int parentId, out NotSupportedException e);
     }
 }
