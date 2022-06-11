@@ -49,6 +49,7 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.MarketHolidays)
                 .SeedEntityData(seedData.MarketHolidayObservances)
                 .SeedEntityData(seedData.ModelAttributes)
+                .SeedEntityData(seedData.ModelAttributeScopes)
                 .SeedEntityData(seedData.ModelAttributeMembers)
                 .SeedEntityData(seedData.ReportConfigurations)
                 .SeedEntityData(seedData.ReportStyleSheets)
