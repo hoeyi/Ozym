@@ -19,6 +19,32 @@ namespace NjordFinance.Test.ModelService
         protected override Expression<Func<AccountAttributeMemberEntry, bool>> ParentExpression =>
             x => x.AccountObjectId == _accountObjectId;
 
+        /// <summary>
+        /// Not applicable since this model does not have a single entity key.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public override Task ReadAsync_Returns_Single_Model()
+        {
+            return Task.CompletedTask;
+        }
+
+        [TestMethod]
+        public override async Task SelectWhereAsync_Returns_Model_ExpectedCollection()
+        {
+            var model = GetLast(ParentExpression);
+
+            var service = GetModelService();
+
+            Expression<Func<AccountAttributeMemberEntry, bool>> expression = x =>
+                x.AccountObjectId == model.AccountObjectId && x.AttributeMemberId == model.AttributeMemberId
+                && x.EffectiveDate == model.EffectiveDate;
+
+            var models = await service.SelectWhereAysnc(predicate: expression, maxCount: 1);
+
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
+        }
+
         [TestMethod]
         public override void UpdatePendingSave_IsDirty_Is_True()
         {
