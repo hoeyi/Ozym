@@ -14,16 +14,50 @@ namespace NjordFinance.Test.ModelService
     public class BankTransactionCodeAttributeServiceTest
         : ModelBatchServiceTest<BankTransactionCodeAttributeMemberEntry>
     {
-        protected override Expression<Func<BankTransactionCodeAttributeMemberEntry, bool>> ParentExpression => throw new NotImplementedException();
+        private const int _transactionCodeId = -9;
+        protected override Expression<Func<BankTransactionCodeAttributeMemberEntry, bool>> ParentExpression =>
+            x => x.TransactionCodeId == _transactionCodeId;
 
+        /// <summary>
+        /// Not applicable since this model does not have a single entity key.
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public override Task ReadAsync_Returns_Single_Model()
+        {
+            return Task.CompletedTask;
+        }
+
+        [TestMethod]
+        public override async Task SelectWhereAsync_Returns_Model_ExpectedCollection()
+        {
+            var model = GetLast(ParentExpression);
+
+            var service = GetModelService();
+
+            Expression<Func<BankTransactionCodeAttributeMemberEntry, bool>> expression = x =>
+                x.TransactionCodeId == model.TransactionCodeId && x.AttributeMemberId == model.AttributeMemberId
+                && x.EffectiveDate == model.EffectiveDate;
+
+            var models = await service.SelectWhereAysnc(predicate: expression, maxCount: 1);
+
+            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
+        }
+
+        [TestMethod]
         public override void UpdatePendingSave_IsDirty_Is_True()
         {
-            throw new NotImplementedException();
+            var service = GetModelService();
+
+            var model = service.SelectAllAsync().Result.FirstOrDefault();
+
+            model.Weight *= 0.5M;
+
+            Assert.IsTrue(service.IsDirty);
         }
 
-        protected override IModelBatchService<BankTransactionCodeAttributeMemberEntry> GetModelService()
-        {
-            throw new NotImplementedException();
-        }
+        protected override IModelBatchService<BankTransactionCodeAttributeMemberEntry> GetModelService() =>
+            BuildModelService<BankTransactionCodeAttributeService>().WithParent(parentId: _transactionCodeId);
+
     }
 }
