@@ -28,6 +28,7 @@ namespace NjordFinance.Context
                 .SeedEntityData(defaultReferenceModel.ModelAttributes)
                 .SeedEntityData(defaultReferenceModel.ModelAttributeScopes)
                 .SeedEntityData(defaultReferenceModel.ModelAttributeMembers)
+                .SeedEntityData(defaultReferenceModel.Securities)
                 .SeedEntityData(defaultReferenceModel.SecurityTypeGroups)
                 .SeedEntityData(defaultReferenceModel.SecurityTypes)
                 .SeedEntityData(defaultReferenceModel.SecuritySymbolTypes);
@@ -82,6 +83,7 @@ namespace NjordFinance.Context
 
             return modelBuilder;
         }
+
         /// <summary>
         /// Seeds this <see cref="ModelBuilder"/> with the given <typeparamref name="T"/> entries.
         /// </summary>

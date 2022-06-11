@@ -598,6 +598,34 @@ namespace NjordFinance.Context.Configuration
                 }))
                 .Concat(brokerTransactionAttributes)
                 .ToArray();
+            
+            Securities = new Security[]
+            {
+                new()
+                {
+                    SecurityId = -100,
+                    SecurityTypeId = -321,
+                    SecurityDescription = "None",
+                    HasPerpetualMarket = false,
+                    HasPerpetualPrice = false,
+                },
+                new()
+                {
+                    SecurityId = -101,
+                    SecurityDescription = "Broker cash",
+                    HasPerpetualMarket = false,
+                    HasPerpetualPrice = true,
+                    SecurityTypeId = -319
+                },
+                new()
+                {
+                    SecurityId = -102,
+                    SecurityDescription = "Foreign tax withholding",
+                    HasPerpetualMarket = false,
+                    HasPerpetualPrice = false,
+                    SecurityTypeId = -320
+                }
+            };
             #endregion
 
             #region Security symbol type
@@ -608,6 +636,7 @@ namespace NjordFinance.Context.Configuration
                 new() { SymbolTypeId = -30, SymbolTypeName = "Option Ticker" },
                 new() { SymbolTypeId = -40, SymbolTypeName = "Ticker" }
             };
+
             #endregion
 
             #region Broker transaction codes and categorizations
@@ -878,6 +907,11 @@ namespace NjordFinance.Context.Configuration
         /// Gets the <see cref="ModelAttributeMember"/> seed models.
         /// </summary>
         public ModelAttributeMember[] ModelAttributeMembers { get; }
+
+        /// <summary>
+        /// Gets the <see cref="Security"/> seed models.
+        /// </summary>
+        public Security[] Securities { get; }
 
         /// <summary>
         /// Gets the <see cref="SecurityTypeGroup"/> seed models.
