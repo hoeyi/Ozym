@@ -286,9 +286,9 @@ namespace NjordFinance.Test.ModelService.Configuration
                 new(){ AttributeId = -1, DisplayName = "Test delete pass" },
                 new(){ AttributeId = -2, DisplayName = "Test update pass" },
                 new(){ AttributeId = -3, DisplayName = "Account Type" },
-                new(){ AttributeId = -4, DisplayName = "Economic Development"},
-                new(){ AttributeId = -5, DisplayName = "Class"},
-                new(){ AttributeId = -6, DisplayName = "Category"}
+                new(){ AttributeId = -4, DisplayName = "Economic Development" },
+                new(){ AttributeId = -5, DisplayName = "Class" },
+                new(){ AttributeId = -6, DisplayName = "Category" }
             };
 
             ModelAttributeScopes = new ModelAttributeScope[]
@@ -643,6 +643,16 @@ namespace NjordFinance.Test.ModelService.Configuration
                     { 
                         AttributeMemberId = -19, AttributeId = -6, DisplayName = "Expenses",
                         DisplayOrder = 2
+                    },
+                    new()
+                    {
+                        AttributeMemberId = -21, AttributeId = -2, DisplayName = "Test delete",
+                        DisplayOrder = 0
+                    },
+                    new()
+                    {
+                        AttributeMemberId = -22, AttributeId = -2, DisplayName = "Test update",
+                        DisplayOrder = 1
                     }
                 })
                 .ToArray();
@@ -744,6 +754,31 @@ namespace NjordFinance.Test.ModelService.Configuration
                     CountryId = -750,
                     AttributeMemberId = -14,
                     EffectiveDate = GetRandomDateTime(),
+                    Weight = 1M
+                }
+            };
+
+            SecurityAttributes = new SecurityAttributeMemberEntry[]
+            {
+                new()
+                {
+                    SecurityId = -1,
+                    AttributeMemberId = -662,
+                    EffectiveDate = DateTime.MinValue,
+                    Weight = 1M
+                },
+                new()
+                {
+                    SecurityId = -1,
+                    AttributeMemberId = -662,
+                    EffectiveDate = GetRandomDateTime(),
+                    Weight = 1M
+                },
+                new()
+                {
+                    SecurityId = -7,
+                    AttributeMemberId = -682,
+                    EffectiveDate = DateTime.MinValue,
                     Weight = 1M
                 }
             };
