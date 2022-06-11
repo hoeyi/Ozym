@@ -285,7 +285,20 @@ namespace NjordFinance.Test.ModelService.Configuration
             {
                 new(){ AttributeId = -1, DisplayName = "Test delete pass" },
                 new(){ AttributeId = -2, DisplayName = "Test update pass" },
-                new(){ AttributeId = -3, DisplayName = "Account Type" }
+                new(){ AttributeId = -3, DisplayName = "Account Type" },
+                new(){ AttributeId = -4, DisplayName = "Economic Development"},
+                new(){ AttributeId = -5, DisplayName = "Class"},
+                new(){ AttributeId = -6, DisplayName = "Category"}
+            };
+
+            ModelAttributeScopes = new ModelAttributeScope[]
+            {
+                new(){ AttributeId = -1, ScopeCode = ModelAttributeScopeCode.Account.ConvertToStringCode() },
+                new(){ AttributeId = -2, ScopeCode = ModelAttributeScopeCode.Exchange.ConvertToStringCode() },
+                new(){ AttributeId = -3, ScopeCode = ModelAttributeScopeCode.Country.ConvertToStringCode() },
+                new(){ AttributeId = -4, ScopeCode = ModelAttributeScopeCode.Account.ConvertToStringCode() },
+                new(){ AttributeId = -5, ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode() },
+                new(){ AttributeId = -6, ScopeCode = ModelAttributeScopeCode.BrokerTransactionCode.ConvertToStringCode() },
             };
 
             ReportConfigurations = new ReportConfiguration[]
@@ -581,29 +594,161 @@ namespace NjordFinance.Test.ModelService.Configuration
                 }))
                 .Concat(new ModelAttributeMember[]
                 {
-                    new(){ AttributeMemberId = -10, AttributeId = -3, DisplayName = "IRA" },
-                    new(){ AttributeMemberId = -11, AttributeId = -3, DisplayName = "ROTH" },
-                    new(){ AttributeMemberId = -12, AttributeId = -3, DisplayName = "401K" }
+                    new()
+                    { 
+                        AttributeMemberId = -10, AttributeId = -3, DisplayName = "IRA",
+                        DisplayOrder = 0
+                    },
+                    new()
+                    { 
+                        AttributeMemberId = -11, AttributeId = -3, DisplayName = "ROTH",
+                        DisplayOrder = 1
+                    },
+                    new()
+                    { 
+                        AttributeMemberId = -12, AttributeId = -3, DisplayName = "401K",
+                        DisplayOrder = 2
+                    },
+                    new()
+                    { 
+                        AttributeMemberId = -13, AttributeId = -4, DisplayName = "Developed", 
+                        DisplayOrder = 0 
+                    },
+                    new()
+                    { 
+                        AttributeMemberId = -14, AttributeId = -4, DisplayName = "Emerging",
+                        DisplayOrder = 1
+                    },
+                    new()
+                    { 
+                        AttributeMemberId = -15, AttributeId = -5, DisplayName = "Necessary",
+                        DisplayOrder = 0
+                    },
+                    new()
+                    { 
+                        AttributeMemberId = -16, AttributeId = -5, DisplayName = "Discetionary",
+                        DisplayOrder = 1
+                    },
+                    new()
+                    { 
+                        AttributeMemberId = -17, AttributeId = -6, DisplayName = "Trading",
+                        DisplayOrder = 0
+                    },
+                    new()
+                    { 
+                        AttributeMemberId = -18, AttributeId = -6, DisplayName = "Contributions",
+                        DisplayOrder = 1
+                    },
+                    new()
+                    { 
+                        AttributeMemberId = -19, AttributeId = -6, DisplayName = "Expenses",
+                        DisplayOrder = 2
+                    }
                 })
                 .ToArray();
 
+            #region Attribute member entry
             AccountAttributes = new AccountAttributeMemberEntry[]
             {
                 new()
                 {
                     AccountObjectId = -3,
                     AttributeMemberId = -10,
-                    EffectiveDate = GetRandomDateTime(),
+                    EffectiveDate = DateTime.MinValue,
                     Weight = 1M
                 },
                 new()
                 {
                     AccountObjectId = -4,
                     AttributeMemberId = -11,
+                    EffectiveDate = DateTime.MinValue,
+                    Weight = 1M
+                }
+            };
+
+            BankTransactionCodeAttributes = new BankTransactionCodeAttributeMemberEntry[]
+            {
+                new()
+                {
+                    TransactionCodeId = -9,
+                    AttributeMemberId = -15,
+                    EffectiveDate = DateTime.MinValue,
+                    Weight = 1M
+                },
+                new()
+                {
+                    TransactionCodeId = -9,
+                    AttributeMemberId = -16,
+                    EffectiveDate = GetRandomDateTime(),
+                    Weight = 1M
+                },
+                new()
+                {
+                    TransactionCodeId = -8,
+                    AttributeMemberId = -16,
+                    EffectiveDate = DateTime.MinValue,
+                    Weight = 1M
+                }
+            };
+
+            BrokerTransactionCodeAttributes = new BrokerTransactionCodeAttributeMemberEntry[]
+            {
+                new()
+                {
+                    TransactionCodeId = -20,
+                    AttributeMemberId = -17,
+                    EffectiveDate = DateTime.MinValue,
+                    Weight = 1M
+                },
+                new()
+                {
+                    TransactionCodeId = -20,
+                    AttributeMemberId = -17,
+                    EffectiveDate = GetRandomDateTime(),
+                    Weight = 1M
+                },
+                new()
+                {
+                    TransactionCodeId = -24,
+                    AttributeMemberId = -18,
+                    EffectiveDate = DateTime.MinValue,
+                    Weight = 1M
+                },
+                new()
+                {
+                    TransactionCodeId = -14,
+                    AttributeMemberId = -19,
+                    EffectiveDate = DateTime.MinValue,
+                    Weight = 1M
+                }
+            };
+
+            CountryAttributes = new CountryAttributeMemberEntry[]
+            {
+                new()
+                {
+                    CountryId = -682,
+                    AttributeMemberId = -13,
+                    EffectiveDate = DateTime.MinValue,
+                    Weight = 1M
+                },
+                new()
+                {
+                    CountryId = -682,
+                    AttributeMemberId = -13,
+                    EffectiveDate = GetRandomDateTime(),
+                    Weight = 1M
+                },
+                new()
+                {
+                    CountryId = -750,
+                    AttributeMemberId = -14,
                     EffectiveDate = GetRandomDateTime(),
                     Weight = 1M
                 }
             };
+
+            #endregion
 
             BrokerTransactions = new BrokerTransaction[]
             {
@@ -703,6 +848,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                     SecurityId = -6, Quantity = 3M, Amount = 965M, DepSecurityId = -100, TaxLotId = -15 
                 },
             };
+
         }
 
         /// <inheritdoc/>
@@ -779,6 +925,9 @@ namespace NjordFinance.Test.ModelService.Configuration
 
         /// <inheritdoc/>
         public ModelAttribute[] ModelAttributes { get; }
+
+        /// <inheritdoc/>
+        public ModelAttributeScope[] ModelAttributeScopes { get; }
 
         /// <inheritdoc/>
         public ReportConfiguration[] ReportConfigurations { get; }
