@@ -604,6 +604,105 @@ namespace NjordFinance.Test.ModelService.Configuration
                     Weight = 1M
                 }
             };
+
+            BrokerTransactions = new BrokerTransaction[]
+            {
+                new()
+                { 
+                    TransactionId = -1, AccountId = -5, TransactionCodeId = -12, 
+                    TradeDate = new DateTime(2021, 2, 27), SettleDate = new DateTime(2021, 2, 27), 
+                    SecurityId = -101, Amount = 10000M, DepSecurityId = -100  
+                },
+                new()
+                { 
+                    TransactionId = -2, AccountId = -5, TransactionCodeId = -11, 
+                    TradeDate = new DateTime(2017, 11, 6), SettleDate = new DateTime(2017, 11, 8), 
+                    SecurityId = -1, Quantity = 100M, Amount = 5000M, Fee = 4.95M, DepSecurityId = -101 
+                },
+                new()
+                { 
+                    TransactionId = -3, AccountId = -5, TransactionCodeId = -13, 
+                    TradeDate = new DateTime(2020, 12, 12), SettleDate = new DateTime(2020, 12, 12), 
+                    SecurityId = -1, Amount = 500M, DepSecurityId = -101 
+                },
+                new()
+                { 
+                    TransactionId = -4, AccountId = -5, TransactionCodeId = -16, 
+                    TradeDate = new DateTime(2018, 10, 8), SettleDate = new DateTime(2018, 10, 8), 
+                    SecurityId = -101, Amount = 4.78M, DepSecurityId = -101 
+                },
+                new()
+                { 
+                    TransactionId = -5, AccountId = -5, TransactionCodeId = -14, 
+                    TradeDate = new DateTime(2017, 3, 3), SettleDate = new DateTime(2017, 3, 3), 
+                    SecurityId = -102, Amount = 5M, DepSecurityId = -101 
+                },
+                new()
+                { 
+                    TransactionId = -6, AccountId = -5, TransactionCodeId = -11, 
+                    TradeDate = new DateTime(2017, 8, 2), SettleDate = new DateTime(2017, 8, 4), 
+                    SecurityId = -3, Quantity = 5M, Amount = 764M, Fee = 4.95M, DepSecurityId = -101 
+                },
+                new()
+                { 
+                    TransactionId = -7, AccountId = -5, TransactionCodeId = -11, 
+                    TradeDate = new DateTime(2020, 3, 18), SettleDate = new DateTime(2020, 3, 20), 
+                    SecurityId = -2, Quantity = 2M, Amount = 854M, Fee = 4.95M, DepSecurityId = -101 
+                },
+                new()
+                { 
+                    TransactionId = -8, AccountId = -5, TransactionCodeId = -20, 
+                    TradeDate = new DateTime(2017, 5, 3), SettleDate = new DateTime(2022, 5, 5), 
+                    SecurityId = -1, Quantity = 30M, Amount = 6579M, Fee = 4.95M, DepSecurityId = -101, TaxLotId = -2 
+                },
+                new()
+                { 
+                    TransactionId = -9, AccountId = -5, TransactionCodeId = -21, 
+                    TradeDate = new DateTime(2022, 3, 4), SettleDate = new DateTime(2015, 3, 5), 
+                    SecurityId = -7, Quantity = 50M, Amount = 4316M, Fee = 4.95M, DepSecurityId = -101 
+                },
+                new()
+                { 
+                    TransactionId = -10, AccountId = -5, TransactionCodeId = -22, 
+                    TradeDate = new DateTime(2022, 3, 8), SettleDate = new DateTime(2022, 3, 8), 
+                    SecurityId = -101, Amount = 1000M, DepSecurityId = -100 
+                },
+                new()
+                { 
+                    TransactionId = -11, AccountId = -5, TransactionCodeId = -14, 
+                    TradeDate = new DateTime(2022, 8, 2), SettleDate = new DateTime(2022, 8, 2), 
+                    SecurityId = -102, Amount = 1.01M, DepSecurityId = -101 
+                },
+                new()
+                { 
+                    TransactionId = -12, AccountId = -5, TransactionCodeId = -13, 
+                    TradeDate = new DateTime(2020, 2, 2), SettleDate = new DateTime(2020, 2, 2), 
+                    SecurityId = -3, Amount = 44M, DepSecurityId = -101 
+                },
+                new()
+                { 
+                    TransactionId = -13, AccountId = -5, TransactionCodeId = -10, 
+                    TradeDate = new DateTime(2020, 3, 12), SettleDate = new DateTime(2020, 3, 14), 
+                    SecurityId = -7, Quantity = 40M, Amount = 3580M, Fee = 4.95M,DepSecurityId = -101, TaxLotId = -9 
+                },
+                new()
+                { 
+                    TransactionId = -14, AccountId = -5, TransactionCodeId = -17, 
+                    TradeDate = new DateTime(2017, 11, 3), SettleDate = new DateTime(2017, 11, 3), 
+                    SecurityId = -1, Quantity = 50M, Amount = 3500M, DepSecurityId = -100 
+                },
+                new()
+                { 
+                    TransactionId = -15, AccountId = -5, TransactionCodeId = -17, 
+                    TradeDate = new DateTime(2019, 8, 1), SettleDate = new DateTime(2019, 8, 1), 
+                    SecurityId = -6, Quantity = 4.56798M, Amount = 1200M, DepSecurityId = -100 
+                },
+                new(){ 
+                    TransactionId = -16, AccountId = -5, TransactionCodeId = -18, 
+                    TradeDate = new DateTime(2020, 6, 1), SettleDate = new DateTime(2020, 6, 1), 
+                    SecurityId = -6, Quantity = 3M, Amount = 965M, DepSecurityId = -100, TaxLotId = -15 
+                },
+            };
         }
 
         /// <inheritdoc/>
