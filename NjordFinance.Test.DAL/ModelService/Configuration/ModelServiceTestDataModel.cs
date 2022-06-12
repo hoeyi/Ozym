@@ -989,7 +989,6 @@ namespace NjordFinance.Test.ModelService.Configuration
             {
                 new()
                 {
-                    InvestmentStrategyTargetId = -1,
                     InvestmentStrategyId = -3,
                     AttributeMemberId = -13,
                     EffectiveDate = GetRandomDateTime(),
@@ -997,7 +996,6 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
                 new()
                 {
-                    InvestmentStrategyTargetId = -2,
                     InvestmentStrategyId = -3,
                     AttributeMemberId = -14,
                     EffectiveDate = GetRandomDateTime(),
