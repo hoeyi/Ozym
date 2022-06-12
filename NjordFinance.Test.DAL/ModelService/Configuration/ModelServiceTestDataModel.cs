@@ -609,6 +609,44 @@ namespace NjordFinance.Test.ModelService.Configuration
                 }
             };
 
+            SecurityPrices = new SecurityPrice[]
+            {
+                new()
+                {
+                    PriceId = -1,
+                    SecurityId = -9,
+                    PriceDate = GetRandomDateTime(),
+                    PriceClose = (decimal)(_random.NextDouble() * 100),
+                    PriceOpen = (decimal)(_random.NextDouble() * 100),
+                    PriceHigh = (decimal)(_random.NextDouble() * 100),
+                    PriceLow = (decimal)(_random.NextDouble() * 100)
+                },
+                new()
+                {
+                    PriceId = -2,
+                    SecurityId = -17,
+                    PriceDate = GetRandomDateTime(),
+                    PriceClose = (decimal)(_random.NextDouble() * 100),
+                    PriceOpen = (decimal)(_random.NextDouble() * 100),
+                    PriceHigh = (decimal)(_random.NextDouble() * 100),
+                    PriceLow = (decimal)(_random.NextDouble() * 100)
+                },
+                new()
+                {
+                    PriceId = -3,
+                    SecurityId = -5,
+                    PriceDate = GetRandomDateTime(),
+                    PriceClose = (decimal)(_random.NextDouble() * 1000),
+                },
+                new()
+                {
+                    PriceId = -4,
+                    SecurityId = -4,
+                    PriceDate = GetRandomDateTime(),
+                    PriceClose = (decimal)(_random.NextDouble() * 100),
+                }
+            };
+
             SecurityTypeGroups = new SecurityTypeGroup[]
             {
                 new()
@@ -946,6 +984,25 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
             };
 
+            InvestmentStrategyTargets = new InvestmentStrategyTarget[]
+            {
+                new()
+                {
+                    InvestmentStrategyTargetId = -1,
+                    InvestmentStrategyId = -2,
+                    AttributeMemberId = -13,
+                    EffectiveDate = GetRandomDateTime(),
+                    TargetPercent = 70
+                },
+                new()
+                {
+                    InvestmentStrategyTargetId = -1,
+                    InvestmentStrategyId = -2,
+                    AttributeMemberId = -14,
+                    EffectiveDate = GetRandomDateTime(),
+                    TargetPercent = 30
+                }
+            };
         }
 
         /// <inheritdoc/>
