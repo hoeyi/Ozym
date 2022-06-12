@@ -33,15 +33,11 @@ namespace NjordFinance.ModelService
     /// </summary>
     /// <typeparam name="T">The record type.</typeparam>
     /// <typeparam name="TParent">The parent type.</typeparam>
-    public interface IModelBatchService<T, TParent> :
-            IModelBaseService<T>,
-            IModelReaderService<T>, 
-            IModelWriterBatchService<T>
+    public interface IModelBatchService<T, TParent> : IModelBatchService<T>
         where T : class, new ()
     {
         /// <summary>
-        /// Configures the service to work all models as children of a model 
-        /// with an id equal to value of <paramref name="parentId"/>.
+        /// Configures the service to work all models as children of a composite
         /// </summary>
         /// <param name="parent">The parent record.</param>
         /// <param name="e">The exception describing the reason configuration failed, or null 
