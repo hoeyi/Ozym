@@ -18,10 +18,9 @@ namespace NjordFinance.Test.ModelService
         protected override Expression<Func<SecurityAttributeMemberEntry, bool>> ParentExpression =>
             x => x.SecurityId == _securityId;
 
-        /// <summary>
-        /// Not applicable since this model does not have a single entity key.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
+        /// <remarks>Always passes because <see cref="ReadAsync_Returns_Single_Model"/> the 
+        /// <see cref="SecurityAttributeMemberEntry"/> entity does not have a single-integer key.</remarks>
         [TestMethod]
         public override Task ReadAsync_Returns_Single_Model()
         {

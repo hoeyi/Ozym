@@ -17,6 +17,9 @@ namespace NjordFinance.Test.ModelService
         protected override Expression<Func<CountryAttributeMemberEntry, bool>> ParentExpression =>
             x => x.CountryId == _countryId;
 
+        /// <inheritdoc/>
+        /// <remarks>Always passes because <see cref="v"/> the 
+        /// <see cref="CountryAttributeMemberEntry"/> entity does not have a single-integer key.</remarks>
         [TestMethod]
         public override Task ReadAsync_Returns_Single_Model()
         {

@@ -21,7 +21,6 @@ namespace NjordFinance.Test.ModelService
         protected override Expression<Func<AccountCompositeMember, bool>> ParentExpression =>
             x => x.AccountCompositeId == _parentID;
 
-
         [TestInitialize]
         public void Initialize()
         {
@@ -37,7 +36,6 @@ namespace NjordFinance.Test.ModelService
                 $"{nameof(ReadAsync_Returns_Single_Model)} passed, because base method " +
                 $"does not apply.");
 
-            Assert.IsTrue(true);
             return Task.CompletedTask;
         }
 

@@ -24,7 +24,7 @@ namespace NjordFinance.Test.ModelService
 
             var model = service.SelectAllAsync().Result.FirstOrDefault();
 
-            model.Amount = model.Amount * 1.37M;
+            model.Amount *= 1.37M;
 
             Assert.IsTrue(service.IsDirty);
         }

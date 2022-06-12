@@ -11,11 +11,12 @@ using System.Threading.Tasks;
 namespace NjordFinance.Test.ModelService
 {
     [TestClass]
-    public class BrokerTransactionServiceTest : ModelBatchServiceTest<BrokerTransaction>
+    public class SecuritySymbolServiceTest
+        : ModelBatchServiceTest<SecuritySymbol>
     {
-        private const int _accountId = -5;
-        protected override Expression<Func<BrokerTransaction, bool>> ParentExpression =>
-               x => x.AccountId == _accountId;
+        private const int _securityId = -1;
+        protected override Expression<Func<SecuritySymbol, bool>> ParentExpression =>
+            x => x.SecurityId == _securityId;
 
         [TestMethod]
         public override void UpdatePendingSave_IsDirty_Is_True()
@@ -24,12 +25,13 @@ namespace NjordFinance.Test.ModelService
 
             var model = service.SelectAllAsync().Result.FirstOrDefault();
 
-            model.Amount *= 1.37M;
+            model.Ticker = $"{model.Ticker}-u";
 
             Assert.IsTrue(service.IsDirty);
         }
 
-        protected override IModelBatchService<BrokerTransaction> GetModelService() => 
-            BuildModelService<BrokerTransactionService>().WithParent(_accountId);
+        protected override IModelBatchService<SecuritySymbol> GetModelService() =>
+            BuildModelService<SecuritySymbolService>().WithParent(parentId: _securityId);
+
     }
 }
