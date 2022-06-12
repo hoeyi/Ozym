@@ -72,6 +72,11 @@ namespace NjordFinance.Context
                 entity.Property(e => e.AccountId).ValueGeneratedNever();
 
                 entity.Property(e => e.AccountNumber).UseCollation("Latin1_General_BIN2");
+
+                entity.HasOne(e => e.AccountCustodian)
+                    .WithMany(c => c.Accounts)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_Account_AccountCustodian");
             });
 
             modelBuilder.Entity<AccountAttributeMemberEntry>(entity =>
