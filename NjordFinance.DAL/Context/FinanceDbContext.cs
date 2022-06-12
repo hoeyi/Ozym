@@ -399,7 +399,7 @@ namespace NjordFinance.Context
 
                 entity.HasCheckConstraint(
                     name: "CK_MarketIndexPrice_PriceCode",
-                    sql: "[ObjectType] IN ('c','a')");
+                    sql: "[PriceCode] IN ('p','t')");
             });
 
             modelBuilder.Entity<ModelAttribute>(entity =>
