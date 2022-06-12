@@ -266,7 +266,8 @@ namespace NjordFinance.Test.ModelService.Configuration
             InvestmentStrategies = new InvestmentStrategy[]
             {
                 new(){ InvestmentStrategyId = -1, DisplayName = "Test delete pass" },
-                new(){ InvestmentStrategyId = -2, DisplayName = "Test update pass" }
+                new(){ InvestmentStrategyId = -2, DisplayName = "Test update pass" },
+                new(){ InvestmentStrategyId = -3, DisplayName = "Global Equity" }
             };
 
             MarketHolidays = new MarketHoliday[]
@@ -989,7 +990,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 new()
                 {
                     InvestmentStrategyTargetId = -1,
-                    InvestmentStrategyId = -2,
+                    InvestmentStrategyId = -3,
                     AttributeMemberId = -13,
                     EffectiveDate = GetRandomDateTime(),
                     TargetPercent = 70
@@ -997,7 +998,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 new()
                 {
                     InvestmentStrategyTargetId = -2,
-                    InvestmentStrategyId = -2,
+                    InvestmentStrategyId = -3,
                     AttributeMemberId = -14,
                     EffectiveDate = GetRandomDateTime(),
                     TargetPercent = 30
