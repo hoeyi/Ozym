@@ -17,8 +17,9 @@ namespace NjordFinance.Test.ModelService
         private const int _accountObjectId = -5;
         private const int _attributeMemberId = -100;
 
-        protected override Expression<Func<InvestmentPerformanceAttributeMemberEntry, bool>> 
-            ParentExpression => x => x.AccountObjectId == _accountObjectId;
+        protected override Expression<Func<InvestmentPerformanceAttributeMemberEntry, bool>>
+            ParentExpression => x => x.AccountObjectId == _accountObjectId &&
+                x.AttributeMemberId == _attributeMemberId;
 
         /// <inheritdoc/>
         /// <remarks>Always passes because <see cref="ReadAsync_Returns_Single_Model"/> the 
