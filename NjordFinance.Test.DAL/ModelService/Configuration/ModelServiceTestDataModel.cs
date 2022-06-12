@@ -625,7 +625,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 new()
                 {
                     PriceId = -2,
-                    SecurityId = -17,
+                    SecurityId = -7,
                     PriceDate = GetRandomDateTime(),
                     PriceClose = (decimal)(_random.NextDouble() * 100),
                     PriceOpen = (decimal)(_random.NextDouble() * 100),
