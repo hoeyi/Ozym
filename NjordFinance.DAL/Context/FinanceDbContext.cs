@@ -396,6 +396,10 @@ namespace NjordFinance.Context
                     .WithMany(p => p.MarketIndexPrices)
                     .HasForeignKey(d => d.MarketIndexId)
                     .HasConstraintName("FK_MarketIndexPrice_MarketIndex");
+
+                entity.HasCheckConstraint(
+                    name: "CK_MarketIndexPrice_PriceCode",
+                    sql: "[ObjectType] IN ('c','a')");
             });
 
             modelBuilder.Entity<ModelAttribute>(entity =>
