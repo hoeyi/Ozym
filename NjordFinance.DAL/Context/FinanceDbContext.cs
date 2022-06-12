@@ -333,6 +333,9 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<InvestmentPerformanceEntry>(entity =>
             {
+                entity.HasKey(e =>
+                    new { e.AccountObjectId, e.FromDate });
+
                 entity.HasOne(d => d.AccountObject)
                     .WithMany(p => p.InvestmentPerformanceEntries)
                     .HasForeignKey(d => d.AccountObjectId)
