@@ -351,6 +351,9 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<InvestmentStrategyTarget>(entity =>
             {
+                entity.HasKey(e =>
+                    new { e.InvestmentStrategyId, e.AttributeMemberId, e.EffectiveDate });
+
                 entity.HasOne(d => d.AttributeMember)
                     .WithMany(p => p.InvestmentStrategyTargets)
                     .HasForeignKey(d => d.AttributeMemberId)
