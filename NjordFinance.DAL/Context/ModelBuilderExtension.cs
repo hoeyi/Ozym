@@ -59,8 +59,7 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.SecurityTypes)
                 .SeedEntityData(seedData.SecuritySymbolTypes)
                 .SeedEntityData(seedData.MarketIndices)
-                // Seed parent objects and other objects that are 
-                // referenced by foreign keys.
+                // Seed parent objects and other objects that are referenced by foreign keys.
                 .SeedEntityData(seedData.AccountObjects)
                 .SeedEntityData(seedData.Accounts)
                 .SeedEntityData(seedData.AccountWallets)
@@ -68,9 +67,12 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.AccountCompositeMembers)
                 .SeedEntityData(seedData.Securities)
                 .SeedEntityData(seedData.SecuritySymbols)
+                // Seed non-attribute-specific transactional data.
                 .SeedEntityData(seedData.BankTransactions)
                 .SeedEntityData(seedData.BrokerTransactions)
                 .SeedEntityData(seedData.InvestmentPerformanceEntries)
+                .SeedEntityData(seedData.MarketIndexPrices)
+                .SeedEntityData(seedData.SecurityPrices)
                 // Seed attributes for applicable objects.
                 .SeedEntityData(seedData.AccountAttributes)
                 .SeedEntityData(seedData.BankTransactionCodeAttributes)
@@ -79,9 +81,7 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.SecurityAttributes)
                 // Seed attribute-specific transactional data.
                 .SeedEntityData(seedData.InvestmentStrategyTargets)
-                .SeedEntityData(seedData.InvestmentPerformanceAttributeEntries)
-                .SeedEntityData(seedData.MarketIndexPrices)
-                .SeedEntityData(seedData.SecurityPrices);
+                .SeedEntityData(seedData.InvestmentPerformanceAttributeEntries);
                 
             return modelBuilder;
         }
