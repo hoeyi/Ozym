@@ -41,9 +41,10 @@ namespace NjordFinance.ModelService
             };
         }
 
-        public override bool ForParent(int parentId, out NotSupportedException e)
+        public override bool ForParent(int parentId, out Exception e)
         {
-            e = new(message: Exceptions.ExceptionString.ModelService_ParentNotSupported);
+            e = new NotSupportedException(
+                message: Exceptions.ExceptionString.ModelService_ParentNotSupported);
             return false;
         }
     }

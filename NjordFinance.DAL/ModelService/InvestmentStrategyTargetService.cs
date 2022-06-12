@@ -29,7 +29,7 @@ namespace NjordFinance.ModelService
         {
         }
 
-        public override bool ForParent(int parentId, out NotSupportedException e)
+        public override bool ForParent(int parentId, out Exception e)
         {
             Reader = new ModelReaderService<InvestmentStrategyTarget>(
                 this, _modelMetadata, _logger)

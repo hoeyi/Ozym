@@ -9,7 +9,7 @@ using System;
 namespace NjordFinance.ModelService
 {
     /// <summary>
-    /// The class for servicing single CRUD requests against the <see cref="MODEL"/> 
+    /// The class for servicing single CRUD requests against the <see cref="MarketIndexPrice"/> 
     /// data store.
     /// </summary>
     internal class MarketIndexPriceService : ModelBatchService<MarketIndexPrice>
@@ -29,7 +29,7 @@ namespace NjordFinance.ModelService
         {
         }
 
-        public override bool ForParent(int parentId, out NotSupportedException e)
+        public override bool ForParent(int parentId, out Exception e)
         {
             Reader = new ModelReaderService<MarketIndexPrice>(
                 this, _modelMetadata, _logger)

@@ -35,7 +35,7 @@ namespace NjordFinance.ModelService
                 contextFactory, modelMetadata, logger);
         }
 
-        public override bool ForParent(int parentId, out NotSupportedException e)
+        public override bool ForParent(int parentId, out Exception e)
         {
             Reader = new ModelReaderService<AccountAttributeMemberEntry>(
                 this, _modelMetadata, _logger)

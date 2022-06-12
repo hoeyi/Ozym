@@ -72,7 +72,7 @@ namespace NjordFinance.Controllers.Abstractions
         /// <inheritdoc/>
         public IActionResult ForParent(int parentId)
         {
-            if (_modelService.ForParent(parentId, out NotSupportedException e))
+            if (_modelService.ForParent(parentId, out Exception e))
                 return Ok();
             else
             {

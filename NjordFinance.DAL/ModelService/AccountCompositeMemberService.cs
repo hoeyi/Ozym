@@ -11,7 +11,7 @@ using System.Linq;
 namespace NjordFinance.ModelService
 {
     /// <summary>
-    /// The class for servicing single CRUD requests against the <see cref="MODEL"/> 
+    /// The class for servicing single CRUD requests against the <see cref="AccountCompositeMember"/> 
     /// data store.
     /// </summary>
     internal class AccountCompositeMemberService : ModelBatchService<AccountCompositeMember>
@@ -31,7 +31,7 @@ namespace NjordFinance.ModelService
         {
         }
 
-        public override bool ForParent(int parentId, out NotSupportedException e)
+        public override bool ForParent(int parentId, out Exception e)
         {
             Reader = new ModelReaderService<AccountCompositeMember>(
                 this, _modelMetadata, _logger)
