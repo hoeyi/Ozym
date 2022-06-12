@@ -278,7 +278,69 @@ namespace NjordFinance.Test.ModelService.Configuration
             MarketIndices = new MarketIndex[]
             {
                 new(){ IndexId = -1, IndexCode = "DELETEPASS", IndexDescription = "Test delete pass" },
-                new(){ IndexId = -2, IndexCode = "UPDATEPASS", IndexDescription = "Test update pass" }
+                new(){ IndexId = -2, IndexCode = "UPDATEPASS", IndexDescription = "Test update pass" },
+                new(){ IndexId = -3, IndexCode = "NYSE", IndexDescription = "New York Stock Exchange", },
+                new(){ IndexId = -4, IndexCode = "DAX", IndexDescription = "Deutscher Aktienindex" }
+            };
+
+            MarketIndexPrices = new MarketIndexPrice[]
+            {
+                new()
+                {
+                    IndexPriceId = -1,
+                    MarketIndexId = -4,
+                    PriceCode = MarketIndexPriceCode.PriceReturn.ConvertToStringCode(),
+                    PriceDate = GetRandomDateTime(),
+                    Price = (decimal)(_random.NextDouble() / Math.PI * 1000)
+                },
+                new()
+                {
+                    IndexPriceId = -2,
+                    MarketIndexId = -4,
+                    PriceCode = MarketIndexPriceCode.PriceReturn.ConvertToStringCode(),
+                    PriceDate = GetRandomDateTime(),
+                    Price = (decimal)(_random.NextDouble() / Math.PI * 1000)
+                },
+                new()
+                {
+                    IndexPriceId = -3,
+                    MarketIndexId = -4,
+                    PriceCode = MarketIndexPriceCode.PriceReturn.ConvertToStringCode(),
+                    PriceDate = GetRandomDateTime(),
+                    Price = (decimal)(_random.NextDouble() / Math.PI * 1000)
+                },
+                new()
+                {
+                    IndexPriceId = -4,
+                    MarketIndexId = -4,
+                    PriceCode = MarketIndexPriceCode.PriceReturn.ConvertToStringCode(),
+                    PriceDate = GetRandomDateTime(),
+                    Price = (decimal)(_random.NextDouble() / Math.PI * 1000)
+                },
+                new()
+                {
+                    IndexPriceId = -5,
+                    MarketIndexId = -4,
+                    PriceCode = MarketIndexPriceCode.PriceReturn.ConvertToStringCode(),
+                    PriceDate = GetRandomDateTime(),
+                    Price = (decimal)(_random.NextDouble() / Math.PI * 1000)
+                },
+                new()
+                {
+                    IndexPriceId = -6,
+                    MarketIndexId = -4,
+                    PriceCode = MarketIndexPriceCode.TotalReturn.ConvertToStringCode(),
+                    PriceDate = GetRandomDateTime(),
+                    Price = (decimal)(_random.NextDouble() / Math.PI * 1000)
+                },
+                new()
+                {
+                    IndexPriceId = -7,
+                    MarketIndexId = -4,
+                    PriceCode = MarketIndexPriceCode.TotalReturn.ConvertToStringCode(),
+                    PriceDate = GetRandomDateTime(),
+                    Price = (decimal)(_random.NextDouble() / Math.PI * 1000)
+                }
             };
 
             ModelAttributes = new ModelAttribute[]
