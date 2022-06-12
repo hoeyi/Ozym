@@ -79,8 +79,10 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.SecurityAttributes)
                 // Seed attribute-specific transactional data.
                 .SeedEntityData(seedData.InvestmentStrategyTargets)
-                .SeedEntityData(seedData.InvestmentPerformanceAttributeEntries);
-
+                .SeedEntityData(seedData.InvestmentPerformanceAttributeEntries)
+                .SeedEntityData(seedData.MarketIndexPrices)
+                .SeedEntityData(seedData.SecurityPrices);
+                
             return modelBuilder;
         }
 
