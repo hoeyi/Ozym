@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 

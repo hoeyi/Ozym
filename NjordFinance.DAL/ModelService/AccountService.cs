@@ -4,7 +4,6 @@ using NjordFinance.ModelMetadata;
 using Ichosoft.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 using NjordFinance.ModelService.Abstractions;
 
 namespace NjordFinance.ModelService

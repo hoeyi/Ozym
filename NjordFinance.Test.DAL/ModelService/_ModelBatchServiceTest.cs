@@ -1,7 +1,5 @@
 ﻿using Ichosoft.DataModel;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NjordFinance.Context;
 using NjordFinance.ModelService;
 using System;
 using System.Threading.Tasks;

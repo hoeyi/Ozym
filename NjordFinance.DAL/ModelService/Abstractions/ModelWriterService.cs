@@ -5,9 +5,6 @@ using NjordFinance.Context;
 using NjordFinance.Exceptions;
 using NjordFinance.Logging;
 using System;
-using System.Collections;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace NjordFinance.ModelService.Abstractions

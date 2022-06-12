@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Model;
-using NjordFinance.ModelMetadata;
 using NjordFinance.ModelService.Abstractions;
-using System.Linq;
 
 namespace NjordFinance.ModelService
 {

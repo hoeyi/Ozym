@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using NjordFinance.Context;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using NjordFinance.ModelService;
 using Microsoft.Extensions.Logging;
@@ -9,8 +7,6 @@ using Ichosoft.DataModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using NjordFinance.Exceptions;
-using System.Reflection;
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
 namespace NjordFinance.Test.ModelService
