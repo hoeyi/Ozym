@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordFinance.Controllers
+namespace NjordFinance.Controllers.Abstractions
 {
     public class ModelBatchController<T> : ControllerBase, IBatchController<T>
         where T : class, new()
@@ -72,7 +72,7 @@ namespace NjordFinance.Controllers
         /// <inheritdoc/>
         public IActionResult ForParent(int parentId)
         {
-            if (_modelService.ForParent(parentId))
+            if (_modelService.ForParent(parentId, out Exception e))
                 return Ok();
             else
             {
@@ -80,7 +80,8 @@ namespace NjordFinance.Controllers
                 {
                     Service = _modelService.GetType().Name,
                     KeyType = parentId.GetType().Name,
-                    KeyValue = parentId
+                    KeyValue = parentId,
+                    Message = e?.Message ?? string.Empty
                 });
 
                 return Conflict();

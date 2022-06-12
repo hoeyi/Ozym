@@ -20,7 +20,23 @@ namespace NjordFinance.ModelService
             this IModelBatchService<T> service, int parentId)
             where T : class, new()
         {
-            if (service.ForParent(parentId))
+            if (service.ForParent(parentId, out Exception _))
+                return service;
+            else
+                throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Configures the service to work all models as children of a composite
+        /// </summary>
+        /// <param name="parent">The parent record.</param>
+        /// if successful.</param>
+        /// <returns>True, if the operation is successful, else false.</returns>
+        public static IModelBatchService<T, TParent> WithParent<T, TParent>(
+            this IModelBatchService<T, TParent> service, TParent parent)
+                        where T : class, new()
+        {
+            if (service.ForParent(parent, out Exception _))
                 return service;
             else
                 throw new InvalidOperationException();

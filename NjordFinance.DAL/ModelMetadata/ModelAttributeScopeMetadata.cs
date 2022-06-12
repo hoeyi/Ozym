@@ -27,14 +27,5 @@ namespace NjordFinance.Model
     [MetadataType(typeof(ModelAttributeScopeMetadata))]
     public partial class ModelAttributeScope
     {
-        public ModelAttributeScope()
-        {
-        }
-
-        internal ModelAttributeScope(int attributeId, string scopeCode)
-        {
-            AttributeId = attributeId;
-            ScopeCode = scopeCode;
-        }
     }
 }

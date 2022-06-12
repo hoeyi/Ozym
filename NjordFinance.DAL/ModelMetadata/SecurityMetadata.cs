@@ -3,6 +3,7 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using NjordFinance.ModelMetadata.Resources;
 using Ichosoft.DataModel.Annotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NjordFinance.Model
 {
@@ -59,17 +60,20 @@ namespace NjordFinance.Model
     public partial class Security
     {
         /// <summary>
-        /// Gets the effective <see cref="SecuritySymbol.SymbolCode"/> for this security 
-        /// as of the current date and time.
+        /// Gets the effective <see cref="SecuritySymbol.SymbolCode"/> for this security as of 
+        /// the current system date and time.
         /// </summary>
-        /// <returns>A <see cref="string"/> representation of the symbol.</returns>
-        public string GetCurrentSymbol()
+        [NotMapped]
+        public string SecuritySymbol
         {
-            return SecuritySymbols?.
-                Where(s => s.EffectiveDate > DateTime.Now)
-                ?.OrderBy(s => s.EffectiveDate)
-                ?.FirstOrDefault()
-                ?.SymbolCode ?? ModelDisplay.Security_CurrentSecuritySymbol_Empty;
+            get
+            {
+                return SecuritySymbols?.
+                    Where(s => s.EffectiveDate > DateTime.Now)
+                    ?.OrderBy(s => s.EffectiveDate)
+                    ?.FirstOrDefault()
+                    ?.SymbolCode ?? ModelDisplay.Security_CurrentSecuritySymbol_Empty;
+            }
         }
     }
 }

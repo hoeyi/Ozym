@@ -1,6 +1,7 @@
 ﻿using NjordFinance.ModelMetadata.Resources;
 using System.ComponentModel.DataAnnotations;
 using Ichosoft.DataModel.Annotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NjordFinance.Model
 {
@@ -21,5 +22,32 @@ namespace NjordFinance.Model
     [MetadataType(typeof(AccountCompositeMetadata))]
     public partial class AccountComposite
     {
+        /// <summary>
+        /// Gets the short code for this composite.
+        /// </summary>
+        [NotMapped]
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+        public string? AccountCompositeCode
+        {
+            get { return AccountCompositeNavigation?.AccountObjectCode; }
+        }
+
+        /// <summary>
+        /// Getst the display name for this composite.
+        /// </summary>
+        [NotMapped]
+        public string? AccountCompositeName
+        {
+            get { return AccountCompositeNavigation?.ObjectDisplayName; }
+        }
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+
+        public override string ToString()
+        {
+            return $"{{{nameof(AccountCompositeId)} = {AccountCompositeId};  " +
+                $"{nameof(AccountCompositeCode)} = {AccountCompositeCode}}}";
+        }
     }
+
+
 }

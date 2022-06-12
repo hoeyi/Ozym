@@ -13,16 +13,23 @@ namespace NjordFinance.Test.ModelService
     [TestClass]
     public class BankTransactionServiceTest : ModelBatchServiceTest<BankTransaction>
     {
-        protected override Expression<Func<BankTransaction, bool>> ParentExpression => throw new NotImplementedException();
+        private const int _accountId = -6;
+        protected override Expression<Func<BankTransaction, bool>> ParentExpression =>
+            x => x.AccountId == _accountId;
 
+        [TestMethod]
         public override void UpdatePendingSave_IsDirty_Is_True()
         {
-            throw new NotImplementedException();
+            var service = GetModelService();
+
+            var model = service.SelectAllAsync().Result.FirstOrDefault();
+
+            model.Amount *= 1.37M;
+
+            Assert.IsTrue(service.IsDirty);
         }
 
         protected override IModelBatchService<BankTransaction> GetModelService()
-        {
-            throw new NotImplementedException();
-        }
+            => BuildModelService<BankTransactionService>().WithParent(_accountId);
     }
 }

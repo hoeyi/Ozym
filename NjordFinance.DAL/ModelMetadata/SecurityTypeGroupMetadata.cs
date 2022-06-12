@@ -26,12 +26,5 @@ namespace NjordFinance.Model
     [MetadataType(typeof(SecurityTypeGroupMetadata))]
     public partial class SecurityTypeGroup
     {
-        internal SecurityTypeGroup(
-            int securityTypeGroupId,
-            string securityTypeGroupName)
-        {
-            SecurityTypeGroupId = securityTypeGroupId;
-            SecurityTypeGroupName = securityTypeGroupName;
-        }
     }
 }

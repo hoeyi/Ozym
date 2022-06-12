@@ -38,7 +38,7 @@ namespace NjordFinance.Context
         public virtual DbSet<InvestmentStrategy> InvestmentStrategies { get; set; }
         public virtual DbSet<InvestmentStrategyTarget> InvestmentStrategyTargets { get; set; }
         public virtual DbSet<MarketHoliday> MarketHolidays { get; set; }
-        public virtual DbSet<MarketHolidaySchedule> MarketHolidaySchedules { get; set; }
+        public virtual DbSet<MarketHolidayObservance> MarketHolidaySchedules { get; set; }
         public virtual DbSet<MarketIndex> MarketIndices { get; set; }
         public virtual DbSet<MarketIndexPrice> MarketIndexPrices { get; set; }
         public virtual DbSet<ModelAttribute> ModelAttributes { get; set; }
@@ -290,6 +290,12 @@ namespace NjordFinance.Context
                     .HasFilter("([IsoCode3] IS NOT NULL)");
 
                 entity.Property(e => e.IsoCode3).IsFixedLength();
+
+                entity.HasOne(d => d.AttributeMemberNavigation)
+                    .WithOne(p => p.Country)
+                    .HasForeignKey<Country>(d => d.CountryId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_Country_ModelAttributeMember");
             });
 
             modelBuilder.Entity<CountryAttributeMemberEntry>(entity =>
@@ -327,6 +333,9 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<InvestmentPerformanceEntry>(entity =>
             {
+                entity.HasKey(e =>
+                    new { e.AccountObjectId, e.FromDate });
+
                 entity.HasOne(d => d.AccountObject)
                     .WithMany(p => p.InvestmentPerformanceEntries)
                     .HasForeignKey(d => d.AccountObjectId)
@@ -342,6 +351,9 @@ namespace NjordFinance.Context
 
             modelBuilder.Entity<InvestmentStrategyTarget>(entity =>
             {
+                entity.HasKey(e =>
+                    new { e.InvestmentStrategyId, e.AttributeMemberId, e.EffectiveDate });
+
                 entity.HasOne(d => d.AttributeMember)
                     .WithMany(p => p.InvestmentStrategyTargets)
                     .HasForeignKey(d => d.AttributeMemberId)
@@ -361,15 +373,14 @@ namespace NjordFinance.Context
                     .HasFilter("([MarketHolidayName] IS NOT NULL)");
             });
 
-            modelBuilder.Entity<MarketHolidaySchedule>(entity =>
+            modelBuilder.Entity<MarketHolidayObservance>(entity =>
             {
-                entity.HasKey(e => e.MarketHolidayEntryId)
-                    .HasName("PK_MarketHolidayScheduleEntry");
+                entity.HasKey(e => new { e.MarketHolidayId, e.ObservanceDate });
 
                 entity.HasOne(d => d.MarketHoliday)
                     .WithMany(p => p.MarketHolidaySchedules)
                     .HasForeignKey(d => d.MarketHolidayId)
-                    .HasConstraintName("FK_MarketHolidayScheduleMarketHoliday");
+                    .HasConstraintName("FK_MarketHolidayObservance_MarketHoliday");
             });
 
             modelBuilder.Entity<MarketIndex>(entity =>
@@ -391,6 +402,10 @@ namespace NjordFinance.Context
                     .WithMany(p => p.MarketIndexPrices)
                     .HasForeignKey(d => d.MarketIndexId)
                     .HasConstraintName("FK_MarketIndexPrice_MarketIndex");
+
+                entity.HasCheckConstraint(
+                    name: "CK_MarketIndexPrice_PriceCode",
+                    sql: "[PriceCode] IN ('p','t')");
             });
 
             modelBuilder.Entity<ModelAttribute>(entity =>
@@ -543,7 +558,7 @@ namespace NjordFinance.Context
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SecurityType_SecurityTypeGroup");
 
-                entity.HasOne(d => d.SecurityTypeNavigation)
+                entity.HasOne(d => d.AttributeMemberNavigation)
                     .WithOne(p => p.SecurityType)
                     .HasForeignKey<SecurityType>(d => d.SecurityTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -558,7 +573,7 @@ namespace NjordFinance.Context
 
                 entity.Property(e => e.SecurityTypeGroupId).ValueGeneratedNever();
 
-                entity.HasOne(d => d.SecurityTypeGroupNavigation)
+                entity.HasOne(d => d.AttributeMemberNavigation)
                     .WithOne(p => p.SecurityTypeGroup)
                     .HasForeignKey<SecurityTypeGroup>(d => d.SecurityTypeGroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)

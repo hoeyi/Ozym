@@ -13,7 +13,7 @@ namespace NjordFinance.Test.ModelService
     [TestClass]
     public class AccountWalletServiceTest : ModelBatchServiceTest<AccountWallet>
     {
-        private const int _accountId = -3;
+        private const int _accountId = -7;
         protected override Expression<Func<AccountWallet, bool>> ParentExpression =>
             x => x.AccountId == _accountId;
 

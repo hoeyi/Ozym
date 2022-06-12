@@ -27,10 +27,5 @@ namespace NjordFinance.Model
     [MetadataType(typeof(ModelAttributeMetadata))]
     public partial class ModelAttribute
     {
-        internal ModelAttribute(int attributeId, string displayName)
-        {
-            AttributeId = attributeId;
-            DisplayName = displayName;
-        }
     }
 }

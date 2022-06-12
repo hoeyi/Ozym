@@ -24,6 +24,10 @@ namespace NjordFinance.Model
         [StringLength(3)]
         public string IsoCode3 { get; set; }
 
+        [ForeignKey(nameof(CountryId))]
+        [InverseProperty(nameof(ModelAttributeMember.Country))]
+        public virtual ModelAttributeMember AttributeMemberNavigation { get; set; }
+
         [InverseProperty(nameof(CountryAttributeMemberEntry.Country))]
         public virtual ICollection<CountryAttributeMemberEntry> CountryAttributeMemberEntries { get; set; }
     }

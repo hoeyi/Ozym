@@ -30,7 +30,7 @@ namespace NjordFinance.ModelService
         {
         }
 
-        public override bool ForParent(int parentId)
+        public override bool ForParent(int parentId, out Exception e)
         {
             Reader = new ModelReaderService<BankTransactionCodeAttributeMemberEntry>(
                 this, _modelMetadata, _logger)
@@ -48,6 +48,7 @@ namespace NjordFinance.ModelService
                 }
             };
 
+            e = null;
             return true;
         }
     }

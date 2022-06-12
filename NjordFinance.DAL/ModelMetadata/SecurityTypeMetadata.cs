@@ -50,20 +50,5 @@ namespace NjordFinance.Model
     [MetadataType(typeof(SecurityTypeMetadata))]
     public partial class SecurityType
     {
-        internal SecurityType(
-            int securityTypeId,
-            int securityTypeGroupId,
-            string securityTypeName,
-            decimal valuationFactor, 
-            bool canHavePosition,
-            bool canHaveDerivative)
-        {
-            SecurityTypeId = securityTypeId;
-            SecurityTypeGroupId = securityTypeGroupId;
-            SecurityTypeName = securityTypeName;
-            ValuationFactor = valuationFactor;
-            CanHavePosition = canHavePosition;
-            CanHaveDerivative = canHaveDerivative;
-        }
     }
 }

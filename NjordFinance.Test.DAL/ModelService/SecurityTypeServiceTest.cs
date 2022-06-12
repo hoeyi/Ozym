@@ -60,7 +60,7 @@ namespace NjordFinance.Test.ModelService
     {
         protected override SecurityType CreateModelSuccessSample => new()
         {
-            SecurityTypeNavigation = new()
+            AttributeMemberNavigation = new()
             {
                 AttributeId = -30,
                 DisplayName = "Test create pass",
@@ -75,7 +75,7 @@ namespace NjordFinance.Test.ModelService
 
         protected override SecurityType DeleteModelSuccessSample => new()
         {
-            SecurityTypeNavigation = new()
+            AttributeMemberNavigation = new()
             {
                 AttributeId = -3,
                 DisplayName = "Test delete pass",
@@ -90,7 +90,7 @@ namespace NjordFinance.Test.ModelService
 
         protected override SecurityType DeleteModelFailSample => new()
         {
-            SecurityTypeNavigation = new()
+            AttributeMemberNavigation = new()
             {
                 AttributeMemberId = -1000,
                 AttributeId = -3,
@@ -104,7 +104,7 @@ namespace NjordFinance.Test.ModelService
 
         protected override SecurityType UpdateModelSuccessSample => new()
         {
-            SecurityTypeNavigation = new()
+            AttributeMemberNavigation = new()
             {
                 AttributeId = -3,
                 DisplayName = "Test update pass",

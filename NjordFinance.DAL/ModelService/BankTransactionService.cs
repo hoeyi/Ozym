@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Model;
 using NjordFinance.ModelService.Abstractions;
+using System;
 
 namespace NjordFinance.ModelService
 {
@@ -28,7 +29,7 @@ namespace NjordFinance.ModelService
         {
         }
 
-        public override bool ForParent(int parentId)
+        public override bool ForParent(int parentId, out Exception e)
         {
             Reader = new ModelReaderService<BankTransaction>(
                 this, _modelMetadata, _logger)
@@ -46,6 +47,7 @@ namespace NjordFinance.ModelService
                 }
             };
 
+            e = null;
             return true;
         }
     }

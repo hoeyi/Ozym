@@ -132,8 +132,14 @@
     <value>Member delegate '{0}' not set to instance of an object.</value>
     <comment>{0} is the delegate member name</comment>
   </data>
+  <data name="ModelService_ParentKeyAlreadySet" xml:space="preserve">
+    <value>The parent key for this service has already been set and cannot be modified.</value>
+  </data>
   <data name="ModelService_ParentKeyNotSet" xml:space="preserve">
     <value>The service parent key has not been set. This error occurs when a service method is called before a call to 'Initialize(TParentKey)'.</value>
+  </data>
+  <data name="ModelService_ParentNotSupported" xml:space="preserve">
+    <value>Parents for this service are not supported.</value>
   </data>
   <data name="ModelService_QueryComplexityNotSupported" xml:space="preserve">
     <value>Query complexity limit ({0}) reached. Consider increasing the navigation path limit or re-writing the query.</value>

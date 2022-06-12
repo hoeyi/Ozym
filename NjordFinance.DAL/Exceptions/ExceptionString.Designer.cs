@@ -97,11 +97,29 @@ namespace NjordFinance.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The parent key for this service has already been set and cannot be modified..
+        /// </summary>
+        internal static string ModelService_ParentKeyAlreadySet {
+            get {
+                return ResourceManager.GetString("ModelService_ParentKeyAlreadySet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The service parent key has not been set. This error occurs when a service method is called before a call to &apos;Initialize(TParentKey)&apos;..
         /// </summary>
         internal static string ModelService_ParentKeyNotSet {
             get {
                 return ResourceManager.GetString("ModelService_ParentKeyNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parents for this service are not supported..
+        /// </summary>
+        internal static string ModelService_ParentNotSupported {
+            get {
+                return ResourceManager.GetString("ModelService_ParentNotSupported", resourceCulture);
             }
         }
         

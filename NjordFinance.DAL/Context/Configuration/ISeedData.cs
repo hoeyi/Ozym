@@ -13,14 +13,14 @@ namespace NjordFinance.Context.Configuration
     public interface ISeedData
     {
         /// <summary>
-        /// Gets the <see cref="AccountAttributeMemberEntry"/> to seed.
+        /// Gets the <see cref="AccountAttributeMemberEntry"/> models to seed.
         /// </summary>
         AccountAttributeMemberEntry[] AccountAttributes { get; }
 
         /// <summary>
-        /// Gets the <see cref="AccountCompositeMember"/> to seed.
+        /// Gets the <see cref="AccountCompositeMember"/> models to seed.
         /// </summary>
-        AccountCompositeMember AccountCompositeMemnbers { get; }
+        AccountCompositeMember[] AccountCompositeMembers { get; }
 
         /// <summary>
         /// Gets the <see cref="AccountComposite"/> models to seed.
@@ -48,7 +48,7 @@ namespace NjordFinance.Context.Configuration
         AccountWallet[] AccountWallets { get; }
 
         /// <summary>
-        /// Gets the <see cref="BankTransactionCodeAttributeMemberEntry"/> to seed.
+        /// Gets the <see cref="BankTransactionCodeAttributeMemberEntry"/> models to seed.
         /// </summary>
         BankTransactionCodeAttributeMemberEntry[] BankTransactionCodeAttributes { get; }
 
@@ -58,12 +58,12 @@ namespace NjordFinance.Context.Configuration
         BankTransactionCode[] BankTransactionCodes { get; }
 
         /// <summary>
-        /// Gets the <see cref="BankTransaction"/> to seed.
+        /// Gets the <see cref="BankTransaction"/> models to seed.
         /// </summary>
         BankTransaction[] BankTransactions { get; }
 
         /// <summary>
-        /// Gets the <see cref="BrokerTransactionCodeAttributeMemberEntry"/> to seed.
+        /// Gets the <see cref="BrokerTransactionCodeAttributeMemberEntry"/> models to seed.
         /// </summary>
         BrokerTransactionCodeAttributeMemberEntry[] BrokerTransactionCodeAttributes { get; }
 
@@ -73,7 +73,7 @@ namespace NjordFinance.Context.Configuration
         BrokerTransactionCode[] BrokerTransactionCodes { get; }
 
         /// <summary>
-        /// Gets the <see cref="BrokerTransaction"/> to seed.
+        /// Gets the <see cref="BrokerTransaction"/> models to seed.
         /// </summary>
         BrokerTransaction[] BrokerTransactions { get; }
 
@@ -83,17 +83,17 @@ namespace NjordFinance.Context.Configuration
         Country[] Countries { get; }
 
         /// <summary>
-        /// Gets the <see cref="CountryAttributeMemberEntry"/> to seed.
+        /// Gets the <see cref="CountryAttributeMemberEntry"/> models to seed.
         /// </summary>
         CountryAttributeMemberEntry[] CountryAttributes { get; }
 
         /// <summary>
-        /// Gets the <see cref="InvestmentPerformanceAttributeMemberEntry"/> to seed.
+        /// Gets the <see cref="InvestmentPerformanceAttributeMemberEntry"/> models to seed.
         /// </summary>
         InvestmentPerformanceAttributeMemberEntry[] InvestmentPerformanceAttributeEntries { get; }
 
         /// <summary>
-        /// Gets the <see cref="InvestmentPerformanceEntry"/> to seed.
+        /// Gets the <see cref="InvestmentPerformanceEntry"/> models to seed.
         /// </summary>
         InvestmentPerformanceEntry[] InvestmentPerformanceEntries { get; }
 
@@ -103,7 +103,7 @@ namespace NjordFinance.Context.Configuration
         InvestmentStrategy[] InvestmentStrategies { get; }
 
         /// <summary>
-        /// Gets the <see cref="InvestmentStrategyTarget"/> to seed.
+        /// Gets the <see cref="InvestmentStrategyTarget"/> models to seed.
         /// </summary>
         InvestmentStrategyTarget[] InvestmentStrategyTargets { get; }
 
@@ -113,12 +113,12 @@ namespace NjordFinance.Context.Configuration
         MarketHoliday[] MarketHolidays { get; }
 
         /// <summary>
-        /// Gets the <see cref="MarketHolidaySchedule"/> to seed.
+        /// Gets the <see cref="MarketHolidayObservance"/> models to seed.
         /// </summary>
-        MarketHolidaySchedule[] MarketHolidaySchedules { get; }
+        MarketHolidayObservance[] MarketHolidayObservances { get; }
 
         /// <summary>
-        /// Gets the <see cref="MarketIndexPrice"/> to seed.
+        /// Gets the <see cref="MarketIndexPrice"/> models to seed.
         /// </summary>
         MarketIndexPrice[] MarketIndexPrices { get; }
 
@@ -136,6 +136,11 @@ namespace NjordFinance.Context.Configuration
         /// Gets the <see cref="ModelAttribute"/> models to seed.
         /// </summary>
         ModelAttribute[] ModelAttributes { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ModelAttributeScope"/> models to seed.
+        /// </summary>
+        ModelAttributeScope[] ModelAttributeScopes { get; }
 
         /// <summary>
         /// Gets the <see cref="ReportConfiguration"/> models to seed.
@@ -158,7 +163,7 @@ namespace NjordFinance.Context.Configuration
         Security[] Securities { get; }
 
         /// <summary>
-        /// Gets the <see cref="SecurityAttributeMemberEntry"/> to seed.
+        /// Gets the <see cref="SecurityAttributeMemberEntry"/> models to seed.
         /// </summary>
         SecurityAttributeMemberEntry[] SecurityAttributes { get; }
 
@@ -168,7 +173,7 @@ namespace NjordFinance.Context.Configuration
         SecurityExchange[] SecurityExchanges { get; }
 
         /// <summary>
-        /// Gets the <see cref="SecurityPrice"/> to seed.
+        /// Gets the <see cref="SecurityPrice"/> models to seed.
         /// </summary>
         SecurityPrice[] SecurityPrices { get; }
 

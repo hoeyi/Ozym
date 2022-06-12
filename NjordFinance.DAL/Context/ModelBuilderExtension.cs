@@ -21,9 +21,14 @@ namespace NjordFinance.Context
 
             modelBuilder
                 .SeedEntityData(defaultReferenceModel.BrokerTransactionCodes)
+                .SeedEntityData(defaultReferenceModel.BrokerTransactionCodeAttributes)
+                .SeedEntityData(defaultReferenceModel.Countries)
+                .SeedEntityData(defaultReferenceModel.MarketHolidays)
+                .SeedEntityData(defaultReferenceModel.MarketHolidayObservances)
                 .SeedEntityData(defaultReferenceModel.ModelAttributes)
                 .SeedEntityData(defaultReferenceModel.ModelAttributeScopes)
                 .SeedEntityData(defaultReferenceModel.ModelAttributeMembers)
+                .SeedEntityData(defaultReferenceModel.Securities)
                 .SeedEntityData(defaultReferenceModel.SecurityTypeGroups)
                 .SeedEntityData(defaultReferenceModel.SecurityTypes)
                 .SeedEntityData(defaultReferenceModel.SecuritySymbolTypes);
@@ -40,11 +45,11 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.BankTransactionCodes)
                 .SeedEntityData(seedData.BrokerTransactionCodes)
                 .SeedEntityData(seedData.Countries)
-                .SeedEntityData(seedData.CountryAttributes)
                 .SeedEntityData(seedData.InvestmentStrategies)
                 .SeedEntityData(seedData.MarketHolidays)
-                .SeedEntityData(seedData.MarketHolidaySchedules)
+                .SeedEntityData(seedData.MarketHolidayObservances)
                 .SeedEntityData(seedData.ModelAttributes)
+                .SeedEntityData(seedData.ModelAttributeScopes)
                 .SeedEntityData(seedData.ModelAttributeMembers)
                 .SeedEntityData(seedData.ReportConfigurations)
                 .SeedEntityData(seedData.ReportStyleSheets)
@@ -54,18 +59,20 @@ namespace NjordFinance.Context
                 .SeedEntityData(seedData.SecurityTypes)
                 .SeedEntityData(seedData.SecuritySymbolTypes)
                 .SeedEntityData(seedData.MarketIndices)
-                // Seed parent objects and other objects that are 
-                // referenced by foreign keys.
+                // Seed parent objects and other objects that are referenced by foreign keys.
                 .SeedEntityData(seedData.AccountObjects)
                 .SeedEntityData(seedData.Accounts)
                 .SeedEntityData(seedData.AccountWallets)
                 .SeedEntityData(seedData.AccountComposites)
-                .SeedEntityData(seedData.AccountCompositeMemnbers)
+                .SeedEntityData(seedData.AccountCompositeMembers)
                 .SeedEntityData(seedData.Securities)
                 .SeedEntityData(seedData.SecuritySymbols)
+                // Seed non-attribute-specific transactional data.
                 .SeedEntityData(seedData.BankTransactions)
                 .SeedEntityData(seedData.BrokerTransactions)
                 .SeedEntityData(seedData.InvestmentPerformanceEntries)
+                .SeedEntityData(seedData.MarketIndexPrices)
+                .SeedEntityData(seedData.SecurityPrices)
                 // Seed attributes for applicable objects.
                 .SeedEntityData(seedData.AccountAttributes)
                 .SeedEntityData(seedData.BankTransactionCodeAttributes)
@@ -75,9 +82,10 @@ namespace NjordFinance.Context
                 // Seed attribute-specific transactional data.
                 .SeedEntityData(seedData.InvestmentStrategyTargets)
                 .SeedEntityData(seedData.InvestmentPerformanceAttributeEntries);
-
+                
             return modelBuilder;
         }
+
         /// <summary>
         /// Seeds this <see cref="ModelBuilder"/> with the given <typeparamref name="T"/> entries.
         /// </summary>

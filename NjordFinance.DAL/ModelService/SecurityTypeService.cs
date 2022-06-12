@@ -35,7 +35,7 @@ namespace NjordFinance.ModelService
             {
                 CreateDelegate = async (context, model) =>
                 {
-                    model.SecurityTypeNavigation.DisplayName = model.SecurityTypeName;
+                    model.AttributeMemberNavigation.DisplayName = model.SecurityTypeName;
 
                     var result = await context
                         .MarkForCreation(model)
@@ -45,7 +45,7 @@ namespace NjordFinance.ModelService
                 },
                 UpdateDelegate = async (context, model) =>
                 {
-                    model.SecurityTypeNavigation.DisplayName = model.SecurityTypeName;
+                    model.AttributeMemberNavigation.DisplayName = model.SecurityTypeName;
 
                     var result = await context
                         .MarkForUpdate(model)
@@ -55,7 +55,7 @@ namespace NjordFinance.ModelService
                 }
             };
 
-            Reader.AddNavigationPath(a => a.SecurityTypeNavigation);
+            Reader.AddNavigationPath(a => a.AttributeMemberNavigation);
         }
     }
 }
