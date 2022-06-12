@@ -175,11 +175,17 @@ namespace NjordFinance.Test.ModelService
         /// Creates the <see cref="IModelBatchService{T}"/> to be tested.
         /// </summary>
         /// <returns></returns>
-        protected IModelBatchService<T> BuildModelService<TService>()
-        {
-            return (IModelBatchService<T>)Activator.CreateInstance(
+        protected IModelBatchService<T> BuildModelService<TService>() =>
+            (IModelBatchService<T>)Activator.CreateInstance(
                 typeof(TService), TestUtility.DbContextFactory, new ModelMetadataService(), Logger);
-        }
+
+        /// <summary>
+        /// Creates the <see cref="IModelBatchService{T,TParent}"/> to be tested.
+        /// </summary>
+        /// <returns></returns>
+        protected IModelBatchService<T, TParent> BuildModelService<TService, TParent>() =>
+            (IModelBatchService<T, TParent>)Activator.CreateInstance(
+                typeof(TService), TestUtility.DbContextFactory, new ModelMetadataService(), Logger);
 
         /// <summary>
         /// Creates a new instance implementing <see cref="IModelBatchService{T}"/> for 
