@@ -1187,7 +1187,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
                 new()
                 { 
-                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2019, 12, 31), 
+                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2019, 12, 31), 
                     ToDate = new DateTime(2020, 1, 1), MarketValue = 483.6172M, NetContribution = 0M, 
                     AverageCapital = 483.6172M, Gain = 0M, Irr = -0.0004M 
                 },
