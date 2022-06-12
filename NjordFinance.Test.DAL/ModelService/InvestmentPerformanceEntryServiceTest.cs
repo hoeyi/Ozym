@@ -31,6 +31,6 @@ namespace NjordFinance.Test.ModelService
         }
 
         protected override IModelBatchService<InvestmentPerformanceEntry> GetModelService() =>
-            BuildModelService<InvestmentPerformanceEntryService>().WithParent(_accountObjectId);
+            BuildModelService<InvestmentPerformanceService>().WithParent(_accountObjectId);
     }
 }

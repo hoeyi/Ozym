@@ -12,16 +12,16 @@ namespace NjordFinance.ModelService
     /// The class for servicing single CRUD requests against the <see cref="InvestmentPerformanceEntry"/> 
     /// data store.
     /// </summary>
-    internal class InvestmentPerformanceEntryService : ModelBatchService<InvestmentPerformanceEntry>
+    internal class InvestmentPerformanceService : ModelBatchService<InvestmentPerformanceEntry>
     {
         /// <summary>
-        /// Creates a new <see cref="InvestmentPerformanceEntryService"/> instance.
+        /// Creates a new <see cref="InvestmentPerformanceService"/> instance.
         /// </summary>
         /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
         /// instance.</param>
         /// <param name="modelMetadata">An <see cref="IModelMetadataService"/> instance.</param>
         /// <param name="logger">An <see cref="ILogger"/> instance.</param>
-        public InvestmentPerformanceEntryService(
+        public InvestmentPerformanceService(
                 IDbContextFactory<FinanceDbContext> contextFactory,
                 IModelMetadataService modelMetadata,
                 ILogger logger)
