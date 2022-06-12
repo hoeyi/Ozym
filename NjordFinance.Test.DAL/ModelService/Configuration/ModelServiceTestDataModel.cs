@@ -288,7 +288,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 new()
                 {
                     IndexPriceId = -1,
-                    MarketIndexId = -4,
+                    MarketIndexId = -3,
                     PriceCode = MarketIndexPriceCode.PriceReturn.ConvertToStringCode(),
                     PriceDate = GetRandomDateTime(),
                     Price = (decimal)(_random.NextDouble() / Math.PI * 1000)
@@ -328,7 +328,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 new()
                 {
                     IndexPriceId = -6,
-                    MarketIndexId = -4,
+                    MarketIndexId = -3,
                     PriceCode = MarketIndexPriceCode.TotalReturn.ConvertToStringCode(),
                     PriceDate = GetRandomDateTime(),
                     Price = (decimal)(_random.NextDouble() / Math.PI * 1000)
@@ -996,7 +996,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
                 new()
                 {
-                    InvestmentStrategyTargetId = -1,
+                    InvestmentStrategyTargetId = -2,
                     InvestmentStrategyId = -2,
                     AttributeMemberId = -14,
                     EffectiveDate = GetRandomDateTime(),
