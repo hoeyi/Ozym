@@ -11,9 +11,6 @@ namespace NjordFinance.Model
     public partial class InvestmentPerformanceEntry
     {
         [Key]
-        [Column("EntryID")]
-        public int EntryId { get; set; }
-        [Key]
         [Column("AccountObjectID")]
         public int AccountObjectId { get; set; }
         [Key]
