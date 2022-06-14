@@ -127,19 +127,19 @@
     "0": {
       "IconKey": null,
       "Caption": "Accounts",
-      "UriStem": "/Accounts",
+      "UriStem": null,
       "Children": {
         "1": {
           "IconKey": null,
-          "Caption": "Groups",
-          "UriStem": "/UnderConstruction",
+          "Caption": "Accounts",
+          "UriStem": "/Accounts",
           "Children": {},
           "HasChildren": false
         },
-        "2": {
+"2": {
           "IconKey": null,
-          "Caption": "New",
-          "UriStem": "/UnderConstruction",
+          "Caption": "Composites",
+          "UriStem": "/Composites",
           "Children": {},
           "HasChildren": false
         }

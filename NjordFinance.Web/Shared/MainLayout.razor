@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
+@using System.Text.Json
 @using NjordFinance.Web.Components.Shared
 
 <PageTitle>NjordFinance.Web</PageTitle>
@@ -18,7 +19,7 @@
                         @Resources.Strings.Title_ApplicationName
                     </a>
                 </div>
-                <NavigationMenu />
+                <NavigationMenu Menu="@MainMenu" />
             </div>
             <div class="right">
                 <LoginDisplay />
@@ -33,6 +34,14 @@
 
 @code {
 
+    private Menu? MainMenu { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        MainMenu = JsonSerializer.Deserialize<Menu>(Resources.DefaultConfiguration.NavigationMenu);
+    }
     private readonly IReadOnlySet<AppMenuItem> menuItems = new HashSet<AppMenuItem>()
     {
         new(){ IconKey = "calendar", Caption = "Calendar" , UriStem = "/PageUnderConstruction" },

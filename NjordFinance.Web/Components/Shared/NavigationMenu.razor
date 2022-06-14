@@ -39,11 +39,4 @@
 @code {
     [Parameter]
     public Menu? Menu { get; set; }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        Menu = JsonSerializer.Deserialize<Menu>(Resources.DefaultConfiguration.NavigationMenu);
-    }
 }

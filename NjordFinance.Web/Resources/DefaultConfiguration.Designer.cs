@@ -70,18 +70,19 @@ namespace NjordFinance.Web.Resources {
         ///    &quot;0&quot;: {
         ///      &quot;IconKey&quot;: null,
         ///      &quot;Caption&quot;: &quot;Accounts&quot;,
-        ///      &quot;UriStem&quot;: &quot;/Accounts&quot;,
+        ///      &quot;UriStem&quot;: null,
         ///      &quot;Children&quot;: {
         ///        &quot;1&quot;: {
         ///          &quot;IconKey&quot;: null,
-        ///          &quot;Caption&quot;: &quot;Groups&quot;,
-        ///          &quot;UriStem&quot;: &quot;/UnderConstruction&quot;,
+        ///          &quot;Caption&quot;: &quot;Accounts&quot;,
+        ///          &quot;UriStem&quot;: &quot;/Accounts&quot;,
         ///          &quot;Children&quot;: {},
         ///          &quot;HasChildren&quot;: false
         ///        },
-        ///        &quot;2&quot;: {
+        ///&quot;2&quot;: {
         ///          &quot;IconKey&quot;: null,
-        ///          &quot;Caption&quot;: &quot;Ne [rest of string was truncated]&quot;;.
+        ///          &quot;Caption&quot;: &quot;Composites&quot;,
+        ///           [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string NavigationMenu {
             get {
