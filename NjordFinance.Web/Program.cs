@@ -2,9 +2,9 @@ using NjordFinance;
 using NjordFinance.Web.Areas.Identity;
 using NjordFinance.Web.Areas.Identity.Data;
 using NjordFinance.Web.Data;
-using Ichosoft.DataModel;
-using Ichosoft.DataModel.Expressions;
-using Ichosoft.Extensions.Configuration;
+using Ichosys.DataModel;
+using Ichosys.DataModel.Expressions;
+using Ichosys.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +15,7 @@ using Serilog;
 using Serilog.Extensions.Logging;
 using Serilog.Formatting.Compact;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
-using Ichosoft.Blazor.Ionicons;
+using Ichosys.Blazor.Ionicons;
 
 var builder = WebApplication.CreateBuilder(args);
 

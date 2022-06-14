@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ichosoft.Blazor.Ionicons" Version="1.1.3.3291" />
-    <PackageReference Include="Ichosoft.DataModel" Version="2.1.2.4848" />
-    <PackageReference Include="Ichosoft.Extensions.Common" Version="1.3.0.3319" />
-    <PackageReference Include="Ichosoft.Extensions.Configuration" Version="2.1.1.689" />
     <PackageReference Include="Ichosys.Blazor.Ionicons" Version="1.2.0.4133" />
     <PackageReference Include="Ichosys.DataModel" Version="2.2.0.4558" />
     <PackageReference Include="Ichosys.Extensions.Common" Version="1.4.0.4711" />

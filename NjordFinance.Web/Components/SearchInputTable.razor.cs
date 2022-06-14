@@ -1,4 +1,4 @@
-﻿using Ichosoft.DataModel.Expressions;
+﻿using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System;

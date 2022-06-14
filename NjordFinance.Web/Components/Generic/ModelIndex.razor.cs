@@ -1,5 +1,5 @@
 ﻿using NjordFinance.Controllers;
-using Ichosoft.DataModel.Expressions;
+using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using System;
