@@ -88,7 +88,7 @@ namespace NjordFinance.ModelMetadata.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Acct. #.
+        ///   Looks up a localized string similar to Account Number.
         /// </summary>
         public static string Account_AccountNumber_Name {
             get {

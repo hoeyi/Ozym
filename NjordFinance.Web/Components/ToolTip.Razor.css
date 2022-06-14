@@ -1,21 +1,22 @@
-﻿.tooltip {
-    position: relative;
-    display: inline-block;
+﻿.custom-tooltip {
+    position: static;
+    display: inline;
+    /*overflow: visible;*/
+    width: 100%;
 }
 
+    .custom-tooltip .custom-tooltip-text {
+        visibility: hidden;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px 5px 5px 5px;
+        border-radius: 6px;
+        
+        margin-left: 20px;
+        position: absolute;
+    }
 
-.tooltip-text {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 1;
-}
-
-.tooltip:hover .tooltip-text {
-    visibility: visible;
-}
+    .custom-tooltip:hover .custom-tooltip-text {
+        visibility: visible;
+    }
