@@ -8,7 +8,7 @@
 
 <div class="page">
     <div class="sidebar">
-        <AppMenu MenuItems="@menuItems" NavigationHelper="@NavigationManager"/>
+        <MenuButtonGrid MenuItems="@menuItems" NavigationHelper="@NavigationManager"/>
     </div>
 
     <main>
@@ -19,7 +19,7 @@
                         @Resources.Strings.Title_ApplicationName
                     </a>
                 </div>
-                <NavigationMenu Menu="@MainMenu" />
+                <MenuStrip Menu="@MainMenu" />
             </div>
             <div class="right">
                 <LoginDisplay />
@@ -42,7 +42,7 @@
 
         MainMenu = JsonSerializer.Deserialize<Menu>(Resources.DefaultConfiguration.NavigationMenu);
     }
-    private readonly IReadOnlySet<AppMenuItem> menuItems = new HashSet<AppMenuItem>()
+    private readonly IReadOnlySet<MenuItem> menuItems = new HashSet<MenuItem>()
     {
         new(){ IconKey = "calendar", Caption = "Calendar" , UriStem = "/PageUnderConstruction" },
         new(){ IconKey = "newspaper", Caption = "News" , UriStem = "/PageUnderConstruction" },
