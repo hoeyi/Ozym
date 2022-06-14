@@ -139,6 +139,9 @@
     <value>Add {0}</value>
     <comment>{0} is the singular noun of the bound model type</comment>
   </data>
+  <data name="Caption_InputSelect_Prompt" xml:space="preserve">
+    <value>&lt;select&gt;</value>
+  </data>
   <data name="Caption_InputSelect_SearchField" xml:space="preserve">
     <value>Search for:</value>
   </data>

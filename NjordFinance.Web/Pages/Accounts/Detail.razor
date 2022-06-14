@@ -2,6 +2,7 @@
 
 @inherits ModelDetail<Account>
 
+@inject IReferenceDataService ReferenceData
 
 @if (Model is null)
 {
@@ -36,7 +37,7 @@ else
             Disabled="@_disabled" Readonly="@_readonly" />
     </div>
     <div>
-        <AccountCRUD Model="@Model" AccountCustodians=@custodians 
+        <AccountCRUD Model="@Model" AccountCustodians=@Custodians 
             Disabled="@_disabled" Readonly="@_readonly" />
     </div>
 }
@@ -44,7 +45,7 @@ else
     [Parameter]
     public int? AccountId { get; set; }
 
-    private IEnumerable<AccountCustodian> custodians = new AccountCustodian[0];
+    private IEnumerable<AccountCustodian> Custodians { get; set; }
 
     private string WalletsUri
     {
@@ -65,6 +66,8 @@ else
         {
             Model = account;
         }
+
+        Custodians = await ReferenceData.GetAllAsync<AccountCustodian>();
 
         // TODO: Take corrective action here, accountQuery.Value should be Account
     }

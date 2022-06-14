@@ -124,6 +124,15 @@ namespace NjordFinance.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;select&gt;.
+        /// </summary>
+        internal static string Caption_InputSelect_Prompt {
+            get {
+                return ResourceManager.GetString("Caption_InputSelect_Prompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search for:.
         /// </summary>
         internal static string Caption_InputSelect_SearchField {

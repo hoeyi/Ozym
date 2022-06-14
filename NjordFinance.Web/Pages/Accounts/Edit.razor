@@ -65,8 +65,7 @@ else
             Model = account;
         }
 
-        var custodiansQuery = await ReferenceData.GetAllAsync<AccountCustodian>();
-        Custodians = custodiansQuery;
+        Custodians = await ReferenceData.GetAllAsync<AccountCustodian>();
     }
 
     private async Task HandleDelete(MouseEventArgs args)
