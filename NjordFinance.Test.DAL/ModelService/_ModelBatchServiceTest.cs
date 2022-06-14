@@ -1,4 +1,4 @@
-﻿using Ichosoft.DataModel;
+﻿using Ichosys.DataModel;
 using Microsoft.Extensions.Logging;
 using NjordFinance.ModelService;
 using System;

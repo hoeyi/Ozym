@@ -1,7 +1,7 @@
 ﻿using NjordFinance.Context;
 using NjordFinance.Model;
 using NjordFinance.ModelMetadata;
-using Ichosoft.DataModel;
+using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordFinance.ModelService.Abstractions;

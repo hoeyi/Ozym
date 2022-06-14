@@ -1,5 +1,5 @@
-﻿using Ichosoft.DataModel;
-using Ichosoft.DataModel.Annotations;
+﻿using Ichosys.DataModel;
+using Ichosys.DataModel.Annotations;
 using System;
 using System.Runtime.Serialization;
 

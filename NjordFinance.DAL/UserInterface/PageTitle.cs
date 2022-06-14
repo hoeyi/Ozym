@@ -1,8 +1,8 @@
-﻿using Ichosoft.DataModel;
-using Ichosoft.DataModel.Annotations;
+﻿using Ichosys.DataModel;
+using Ichosys.DataModel.Annotations;
 using System;
 using NjordFinance.Resources;
-using Ichosoft.Extensions.Common.Localization;
+using Ichosys.Extensions.Common.Localization;
 
 namespace NjordFinance.UserInterface
 {
