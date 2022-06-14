@@ -24,7 +24,7 @@
     /// Gets or sets the collection of <see cref="AppMenuItem" /> objects to add.
     /// </summary>
     [Parameter]
-    public IReadOnlySet<AppMenuItem>? MenuItems { get; set; }
+    public IReadOnlySet<MenuItem>? MenuItems { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="NavigationManager" /> instance for this collection.
@@ -62,7 +62,7 @@
     /// </summary>
     /// <param name="menuItem"></param>
     /// <param name="args"></param>
-    private void OnItemClick(AppMenuItem menuItem, MouseEventArgs args)
+    private void OnItemClick(MenuItem menuItem, MouseEventArgs args)
     {
         // TODO: Add some logic for different behavior when shift click is used.
         if (args.Button == 0)

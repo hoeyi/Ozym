@@ -7,7 +7,7 @@ namespace EulerFinancial.UnitTest.Web
     [TestClass]
     public class MenuTest
     {
-        private static readonly AppMenuItem _menuItemsOneLevel = new()
+        private static readonly MenuItem _menuItemsOneLevel = new()
         {
             Caption = "Menu",
             Children = new()
@@ -17,7 +17,7 @@ namespace EulerFinancial.UnitTest.Web
             }
         };
 
-        private static readonly AppMenuItem _menuItemsTwoLevel = new()
+        private static readonly MenuItem _menuItemsTwoLevel = new()
         {
             Caption = "MenuTwoLevel",
             Children = new()
@@ -28,7 +28,7 @@ namespace EulerFinancial.UnitTest.Web
             }
         };
 
-        private static readonly AppMenuItem _menuItemsThreeLevel = new()
+        private static readonly MenuItem _menuItemsThreeLevel = new()
         {
             Caption = "MenuThreeLevel",
             Children = new()

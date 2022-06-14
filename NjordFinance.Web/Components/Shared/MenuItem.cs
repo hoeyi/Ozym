@@ -5,22 +5,22 @@ namespace NjordFinance.Web.Components.Shared
     /// <summary>
     /// Represents the base element for items in a traditional tiered navigation menu.
     /// </summary>
-    public class AppMenuItem
+    public class MenuItem
     {
         /// <summary>
-        /// Create an <see cref="AppMenuItem"/>.
+        /// Create an <see cref="MenuItem"/>.
         /// </summary>
-        public AppMenuItem()
+        public MenuItem()
         {
         }
 
         /// <summary>
-        /// Creates an <see cref="AppMenuItem"/>.
+        /// Creates an <see cref="MenuItem"/>.
         /// </summary>
         /// <param name="iconKey">The </param>
         /// <param name="caption"></param>
         /// <param name="uriStem"></param>
-        public AppMenuItem(string iconKey, string caption, string uriStem)
+        public MenuItem(string iconKey, string caption, string uriStem)
         {
             IconKey = iconKey;
             Caption = caption;
@@ -43,9 +43,9 @@ namespace NjordFinance.Web.Components.Shared
         public string? UriStem { get; init; }
 
         /// <summary>
-        /// Gets or sets the children <see cref="AppMenuItem"/> of this item.
+        /// Gets or sets the children <see cref="MenuItem"/> of this item.
         /// </summary>
-        public SortedList<int, AppMenuItem> Children { get; init; } = new();
+        public SortedList<int, MenuItem> Children { get; init; } = new();
 
         /// <summary>
         /// Gets whether this item has children.
@@ -58,7 +58,7 @@ namespace NjordFinance.Web.Components.Shared
         /// <inheritdoc />
         public override bool Equals(object? obj)
         {
-            if (obj is AppMenuItem navIcon)
+            if (obj is MenuItem navIcon)
                 return navIcon.GetHashCode() == GetHashCode();
             else
                 return false;
@@ -70,12 +70,12 @@ namespace NjordFinance.Web.Components.Shared
             return System.HashCode.Combine(IconKey, Caption, UriStem);
         }
 
-        public static bool operator ==(AppMenuItem left, AppMenuItem right)
+        public static bool operator ==(MenuItem left, MenuItem right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(AppMenuItem left, AppMenuItem right)
+        public static bool operator !=(MenuItem left, MenuItem right)
         {
             return !(left == right);
         }
