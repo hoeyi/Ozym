@@ -32,6 +32,9 @@ namespace NjordFinance.ModelService
             {
                 CreateDelegate = async (context, model) =>
                 {
+                    model.AccountCustodianId = model.AccountCustodianId == 0 ? 
+                        null : model.AccountCustodianId;
+
                     var result = await context
                         .MarkForCreation(model)
                         .SaveChangesAsync() > 0;
@@ -74,6 +77,9 @@ namespace NjordFinance.ModelService
                 },
                 UpdateDelegate = async (context, model) =>
                 {
+                    model.AccountCustodianId = model.AccountCustodianId == 0 ?
+                                            null : model.AccountCustodianId;
+
                     var result = await context
                         .MarkForUpdate(model)
                         .SaveChangesAsync() > 0;
