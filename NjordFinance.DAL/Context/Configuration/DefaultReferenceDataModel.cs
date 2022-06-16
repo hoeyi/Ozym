@@ -495,7 +495,8 @@ namespace NjordFinance.Context.Configuration
                     SecurityTypeName = "Cryptocurrency",
                     ValuationFactor = 1M,
                     CanHaveDerivative = false,
-                    CanHavePosition  = true
+                    CanHavePosition  = true,
+                    HeldInWallet = true
                 },
                 new()
                 {
