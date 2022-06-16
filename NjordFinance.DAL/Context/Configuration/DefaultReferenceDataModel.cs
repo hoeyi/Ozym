@@ -367,9 +367,15 @@ namespace NjordFinance.Context.Configuration
                 new(){ SecurityTypeGroupId = -207, SecurityTypeGroupName = "Short-Term Debt" },
                 new(){ SecurityTypeGroupId = -208, SecurityTypeGroupName = "Long-Term Debt" },
                 new(){ SecurityTypeGroupId = -209, SecurityTypeGroupName = "Cash Funds & Currency" },
-                new(){ SecurityTypeGroupId = -210, SecurityTypeGroupName = "Cash Deposit" },
+                new(){ SecurityTypeGroupId = -210, SecurityTypeGroupName = "Cash Deposit", DepositSource = true  },
                 new(){ SecurityTypeGroupId = -211, SecurityTypeGroupName = "Expense" },
-                new(){ SecurityTypeGroupId = -212, SecurityTypeGroupName = "None/External" }
+                new()
+                { 
+                    SecurityTypeGroupId = -212, 
+                    SecurityTypeGroupName = "None/External", 
+                    DepositSource = true, 
+                    Transactable = false 
+                }
             };
 
             SecurityTypes = new SecurityType[]
