@@ -8,4 +8,22 @@
     /// </summary>
     [Inject]
     protected IModelMetadataService ModelMetadata { get; set; } = default!;
+
+    /// <summary>
+    /// Gets the description for the given member and type.
+    /// </summary>
+    /// <typeparam name="T">The model type.</typeparam>
+    /// <param name="memberName">The member name.</param>
+    /// <returns></returns>
+    protected string DescriptionFor<T>(string memberName) => 
+        ModelMetadata?.DescriptionFor<T>(memberName) ?? string.Empty;
+
+    /// <summary>
+    /// Gets the display name for the given member and type.
+    /// </summary>
+    /// <typeparam name="T">The model type.</typeparam>
+    /// <param name="memberName">The member name.</param>
+    /// <returns></returns>
+    protected string NameFor<T>(string memberName) => 
+        ModelMetadata?.NameFor<T>(memberName);
 }

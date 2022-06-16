@@ -13,8 +13,8 @@ else
             <tbody>
                 <tr>
                     <td class="col-sm-2">
-                        <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.AccountNumber)))">
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.AccountNumber)))
+                        <ToolTip Text="@(DescriptionFor(nameof(Account.AccountNumber)))">
+                            @(NameFor(nameof(Account.AccountNumber)))
                         </ToolTip>
                     </td>
                     <td class="col-sm-10">
@@ -33,8 +33,8 @@ else
                 </tr>
                 <tr>
                     <td>
-                        <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.AccountCustodianId)))">
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.AccountCustodianId)))
+                        <ToolTip Text="@(DescriptionFor(nameof(Account.AccountCustodianId)))">
+                            @(NameFor(nameof(Account.AccountCustodianId)))
                         </ToolTip>
                     </td>
                     <td>
@@ -59,8 +59,8 @@ else
                 </tr>
                 <tr>
                     <td>
-                        <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.BooksClosedDate)))">
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.BooksClosedDate)))
+                        <ToolTip Text="@(DescriptionFor(nameof(Account.BooksClosedDate)))">
+                            @(NameFor(nameof(Account.BooksClosedDate)))
                         </ToolTip>
                     </td>
                     <td>
@@ -79,8 +79,8 @@ else
                 </tr>
                 <tr>
                     <td>
-                        <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.IsComplianceTradable)))">
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.IsComplianceTradable)))
+                        <ToolTip Text="@(DescriptionFor(nameof(Account.IsComplianceTradable)))">
+                            @(NameFor(nameof(Account.IsComplianceTradable)))
                         </ToolTip>
                     </td>
                     <td>
@@ -99,8 +99,8 @@ else
                 </tr>
                 <tr>
                     <td>
-                        <ToolTip Text="@(ModelMetadata.DescriptionFor<Account>(nameof(Account.HasWallet)))">
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.HasWallet)))
+                        <ToolTip Text="@(DescriptionFor(nameof(Account.HasWallet)))">
+                            @(NameFor(nameof(Account.HasWallet)))
                         </ToolTip>
                     </td>
                     <td>
@@ -119,9 +119,8 @@ else
                 </tr>
                 <tr>
                     <td>
-                        <ToolTip Text="@(ModelMetadata
-                    .DescriptionFor<Account>(nameof(Account.HasBankTransaction)))">
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.HasBankTransaction)))
+                        <ToolTip Text="@(DescriptionFor(nameof(Account.HasBankTransaction)))">
+                            @(NameFor(nameof(Account.HasBankTransaction)))
                         </ToolTip>
                     </td>
                     <td>
@@ -140,9 +139,8 @@ else
                 </tr>
                 <tr>
                     <td>
-                        <ToolTip Text="@(ModelMetadata
-                    .DescriptionFor<Account>(nameof(Account.HasBrokerTransaction)))">
-                            @(ModelMetadata.NameFor<Account>(nameof(Account.HasBrokerTransaction)))
+                        <ToolTip Text="@(DescriptionFor(nameof(Account.HasBrokerTransaction)))">
+                            @(NameFor(nameof(Account.HasBrokerTransaction)))
                         </ToolTip>
                     </td>
                     <td>
