@@ -369,7 +369,7 @@ namespace NjordFinance.Context.Configuration
                 new(){ SecurityTypeGroupId = -209, SecurityTypeGroupName = "Cash Funds & Currency" },
                 new(){ SecurityTypeGroupId = -210, SecurityTypeGroupName = "Cash Deposit" },
                 new(){ SecurityTypeGroupId = -211, SecurityTypeGroupName = "Expense" },
-                new(){ SecurityTypeGroupId = -212, SecurityTypeGroupName = "Not Applicable" }
+                new(){ SecurityTypeGroupId = -212, SecurityTypeGroupName = "None/External" }
             };
 
             SecurityTypes = new SecurityType[]
@@ -563,7 +563,7 @@ namespace NjordFinance.Context.Configuration
                     CanHaveDerivative = false,
                     CanHavePosition = false
                 },
-                new ()
+                new()
                 {
                     SecurityTypeId = -321,
                     SecurityTypeGroupId = -212,
