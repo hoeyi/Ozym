@@ -12,16 +12,16 @@ namespace NjordFinance.ModelService
     /// The class for servicing single CRUD requests against the 
     /// <see cref="SecurityAttributeMemberEntry"/> data store.
     /// </summary>
-    internal class SecurityAttributeMemberservice : ModelBatchService<SecurityAttributeMemberEntry>
+    internal class SecurityAttributeService : ModelBatchService<SecurityAttributeMemberEntry>
     {
         /// <summary>
-        /// Creates a new <see cref="SecurityAttributeMemberservice"/> instance.
+        /// Creates a new <see cref="SecurityAttributeService"/> instance.
         /// </summary>
         /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
         /// instance.</param>
         /// <param name="modelMetadata">An <see cref="IModelMetadataService"/> instance.</param>
         /// <param name="logger">An <see cref="ILogger"/> instance.</param>
-        public SecurityAttributeMemberservice(
+        public SecurityAttributeService(
                 IDbContextFactory<FinanceDbContext> contextFactory,
                 IModelMetadataService modelMetadata,
                 ILogger logger)

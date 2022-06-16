@@ -54,7 +54,7 @@ namespace NjordFinance.Test.ModelService
         }
 
         protected override IModelBatchService<SecurityAttributeMemberEntry> GetModelService() =>
-            BuildModelService<SecurityAttributeMemberservice>().WithParent(parentId: _securityId);
+            BuildModelService<SecurityAttributeService>().WithParent(parentId: _securityId);
 
     }
 }
