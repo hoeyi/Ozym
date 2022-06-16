@@ -69,7 +69,7 @@ namespace NjordFinance.Model
             get
             {
                 return SecuritySymbols?.
-                    Where(s => s.EffectiveDate > DateTime.Now)
+                    Where(s => s.EffectiveDate < DateTime.Now)
                     ?.OrderBy(s => s.EffectiveDate)
                     ?.FirstOrDefault()
                     ?.SymbolCode ?? ModelDisplay.Security_CurrentSecuritySymbol_Empty;
