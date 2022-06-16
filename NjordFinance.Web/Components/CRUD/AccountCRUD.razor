@@ -48,10 +48,9 @@ else
                                  DisplayName="Model.AccountCustodian.CustodianCode"
                                  @bind-Value="Model.AccountCustodianId"
                                  disabled="@Disabled">
-                                <option value="@_defaultCustodianId">@Resources.Strings.Caption_InputSelect_Prompt</option>
                                 @foreach (var custodian in AccountCustodians)
                                 {
-                                    <option value=@custodian.AccountCustodianId>@custodian.DisplayName</option>
+                                    <option value=@custodian.Key>@custodian.Display</option>
                                 }
                     </InputSelect>
                             <ValidationMessage For="@(() => Model.AccountCustodianId)" />
@@ -172,7 +171,5 @@ else
 }
 @code {
     [Parameter]
-    public IEnumerable<AccountCustodian>? AccountCustodians { get; set; }
-
-    private int? _defaultCustodianId;
+    public IEnumerable<LookupModel> AccountCustodians { get; set; }
 }

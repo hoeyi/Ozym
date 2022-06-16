@@ -42,7 +42,7 @@ else
     [Parameter]
     public Guid RequestGuid { get; set; }
 
-    private IEnumerable<AccountCustodian>? Custodians { get; set; }
+    private IEnumerable<LookupModel> Custodians { get; set; }
 
     private const bool _disabled = false;
     private const bool _readonly = false;
@@ -51,7 +51,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         var modelQuery = Controller.GetDefaultAsync();
-        var custodiansQuery = ReferenceData.GetAllAsync<AccountCustodian>();
+        var custodiansQuery = ReferenceData.AccountCustodianListAsync();
 
         await custodiansQuery;
         await modelQuery;

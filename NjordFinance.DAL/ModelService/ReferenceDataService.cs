@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace NjordFinance.ModelService
 {
-    public class ReferenceDataService<T> : IReferenceDataService<IDictionary<int, string>>
+    
+    public class ReferenceDataService : IReferenceDataService
     {
         private readonly FinanceDbContext _context;
         public ReferenceDataService(FinanceDbContext context)
@@ -22,98 +23,119 @@ namespace NjordFinance.ModelService
             _context = context;   
         }
 
-        public async Task<IDictionary<int, string>> AccountCustodianListAsync()
+        public async Task<IList<LookupModel>> AccountCustodianListAsync()
         {
             var result = await _context.AccountCustodians
-                .ToDictionaryAsync(a => a.AccountCustodianId, b => b.CustodianCode);
+                .Select(c => new LookupModel(c.AccountCustodianId, c.DisplayName))
+                .ToListAsync();
 
-            result.Add(0, Resources.UserInterfaceString.Caption_InputSelect_Placeholder);
+            result.Insert(0, LookupModel.PlaceHolder());
 
             return result;
         }
 
-        public async Task<IDictionary<int, string>> AccountListAsync()
+        public async Task<IList<LookupModel>> AccountListAsync()
         {
             var result = await _context.Accounts
                 .Include(a => a.AccountNavigation)
-                .ToDictionaryAsync(a => a.AccountId, b => b.AccountNavigation.AccountObjectCode);
+                .Select(a => new LookupModel(a.AccountId, a.AccountNavigation.AccountObjectCode))
+                .ToListAsync();
 
-            result.Add(0, Resources.UserInterfaceString.Caption_InputSelect_Placeholder);
+            result.Insert(0, LookupModel.PlaceHolder());
 
             return result;
         }
 
-        public async Task<IDictionary<int, string>> CashOrExternalSecurityListAsync()
+        public async Task<IList<LookupModel>> CashOrExternalSecurityListAsync()
         {
             var result = await _context.Securities
                 .Include(s => s.SecuritySymbols)
                 .Include(s => s.SecurityType)
                 .ThenInclude(s => s.SecurityTypeGroup)
                 .Where(s => s.SecurityType.SecurityTypeGroup.Transactable)
-                .ToDictionaryAsync(a => a.SecurityId, b => b.SecuritySymbol);
+                .Select(s => new LookupModel(s.SecurityId, s.SecuritySymbol))
+                .ToListAsync();
 
-            result.Add(0, Resources.UserInterfaceString.Caption_InputSelect_Placeholder);
+            result.Insert(0, LookupModel.PlaceHolder());
 
             return result;
         }
 
-        public async Task<IDictionary<int, string>> CountryListAsync()
+        public async Task<IList<LookupModel>> CountryListAsync()
         {
             var result = await _context.Countries
-                .ToDictionaryAsync(a => a.CountryId, a => $"{a.DisplayName}");
+                .Select(c => new LookupModel(c.CountryId, c.DisplayName))
+                .ToListAsync();
 
-            result.Add(0, Resources.UserInterfaceString.Caption_InputSelect_Placeholder);
+            result.Insert(0, LookupModel.PlaceHolder());
 
             return result;
         }
 
-        public async Task<IDictionary<int, string>> CryptocurrencyListAsync()
+        public async Task<IList<LookupModel>> CryptocurrencyListAsync()
         {
             var result = await _context.Securities
                 .Include(s => s.SecuritySymbols)
                 .Include(s => s.SecurityType)
                 .Where(s => s.SecurityType.HeldInWallet)
-                .ToDictionaryAsync(a => a.SecurityId, b => b.SecuritySymbol);
+                .Select(s => new LookupModel(s.SecurityId, s.SecuritySymbol))
+                .ToListAsync();
 
-            result.Add(0, Resources.UserInterfaceString.Caption_InputSelect_Placeholder);
+            result.Insert(0, LookupModel.PlaceHolder());
 
             return result;
         }
 
-        public async Task<IDictionary<int, string>> ModelAttributeMemberListAsync(int attributeId)
+        public async Task<T> GetSingleAsync<T>(
+            Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null)
+            where T : class, new()
+        {
+            if (include is null)
+                return await _context.Set<T>()
+                                .SingleAsync();
+            else
+                return await _context.Set<T>()
+                                .Include(include)
+                                .SingleAsync(predicate);
+        }
+
+        public async Task<IList<LookupModel>> ModelAttributeMemberListAsync(int attributeId)
         {
             var result = await _context.ModelAttributeMembers
                 .Where(a => a.AttributeId == attributeId)
-                .ToDictionaryAsync(a => a.AttributeMemberId, b => b.DisplayName);
+                .Select(a => new LookupModel(a.AttributeMemberId, a.DisplayName))
+                .ToListAsync();
 
-            result.Add(0, Resources.UserInterfaceString.Caption_InputSelect_Placeholder);
+            result.Insert(0, LookupModel.PlaceHolder());
 
             return result;
         }
 
-        public async Task<IDictionary<int, string>> ModelAttributeListAsync(ModelAttributeScopeCode scopeCode)
+        public async Task<IList<LookupModel>> ModelAttributeListAsync(ModelAttributeScopeCode scopeCode)
         {
             var result = await _context.ModelAttributes
                 .Include(a => a.ModelAttributeScopes)
                 .Where(a => a.ModelAttributeScopes.Any(
                     b => b.ScopeCode == scopeCode.ConvertToStringCode()))
-                .ToDictionaryAsync(a => a.AttributeId, b => b.DisplayName);
+                .Select(a => new LookupModel(a.AttributeId, a.DisplayName))
+                .ToListAsync();
 
-            result.Add(0, Resources.UserInterfaceString.Caption_InputSelect_Placeholder);
+            result.Insert(0, LookupModel.PlaceHolder());
 
             return result;
         }
 
-        public async Task<IDictionary<int, string>> TransactableSecurityListAsync()
+        public async Task<IList<LookupModel>> TransactableSecurityListAsync()
         {
             var result = await _context.Securities
                 .Include(s => s.SecuritySymbols)
                 .Include(s => s.SecurityType)
                 .ThenInclude(s => s.SecurityTypeGroup)
                 .Where(s => s.SecurityType.SecurityTypeGroup.Transactable)
-                .ToDictionaryAsync(a => a.SecurityId, b => b.SecuritySymbol);
+                .Select(s => new LookupModel(s.SecurityId, s.SecuritySymbol))
+                .ToListAsync();
 
-            result.Add(0, Resources.UserInterfaceString.Caption_InputSelect_Placeholder);
+            result.Insert(0, LookupModel.PlaceHolder());
 
             return result;
         }

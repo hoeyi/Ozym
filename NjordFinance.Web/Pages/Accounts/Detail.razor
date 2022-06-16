@@ -45,7 +45,7 @@ else
     [Parameter]
     public int? AccountId { get; set; }
 
-    private IEnumerable<AccountCustodian> Custodians { get; set; }
+    private IEnumerable<LookupModel> Custodians { get; set; }
 
     private string WalletsUri
     {
@@ -67,7 +67,7 @@ else
             Model = account;
         }
 
-        Custodians = await ReferenceData.GetAllAsync<AccountCustodian>();
+        Custodians = await ReferenceData.AccountCustodianListAsync();
 
         // TODO: Take corrective action here, accountQuery.Value should be Account
     }

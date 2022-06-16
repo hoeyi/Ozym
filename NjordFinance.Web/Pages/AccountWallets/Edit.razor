@@ -5,7 +5,6 @@
 @inject IBatchController<AccountWallet> Controller
 @inject IReferenceDataService ReferenceData
 
-
 @if (Wallets is null || parent is null)
 {
     <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
@@ -42,7 +41,7 @@ else
                         <InputSelect class="form-control" id="denomination-select" @bind-Value="@model.DenominationSecurityId">
                             @foreach (var security in DenominationSecurities)
                                     {
-                                    <option value=@security.SecurityId>@security.SecurityDescription</option>
+                                    <option value=@security.Key>@security.Display</option>
                                     }
                             </InputSelect>
                             <ValidationMessage For=@(()=> model.DenominationSecurityId) />
@@ -72,43 +71,29 @@ else
 }
 
 @code {
-
     [Parameter]
     public int AccountId { get; set; }
 
-    /// <summary>
-    /// Gets or sets the <see cref="AccountWallet"/> collection for this component.
-    /// </summary>
-    private IList<AccountWallet> Wallets { get; set; } = Array.Empty<AccountWallet>();
+    private IList<AccountWallet> Wallets { get; set; }
 
-    /// <summary>
-    /// Gets or sets the <see cref="Security"/> collection for this component.
-    /// </summary>
-    private IEnumerable<Security> DenominationSecurities { get; set; } = Array.Empty<Security>();
+    private IEnumerable<LookupModel> DenominationSecurities { get; set; }
 
-    private Account parent = default!;
+    private Account parent;
 
     private string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
-        parent = await ReferenceData.GetSingleAsync<Account>(a =>
-                                a.AccountId == (int)AccountId, nameof(Account.AccountNavigation));
+        parent = ReferenceData.GetSingleAsync<Account>(
+            a => a.AccountId == AccountId, include: a => a.AccountNavigation).Result;
 
         var initResult = Controller.ForParent(parent.AccountId);
-
 
         if (initResult is not OkResult)
             return; // TODO: Redirect to error page.
 
-        DenominationSecurities = await ReferenceData.GetAllAsync<Security>();
-
-        Task<ActionResult<IList<AccountWallet>>> actionResult =
-            Controller.SelectWhereAysnc(aw => aw.AccountId == parent.AccountId, maxCount: -1);
-
-        await actionResult;
-
-        Wallets = actionResult.Result?.Value ?? Array.Empty<AccountWallet>();
+        DenominationSecurities = await ReferenceData.CryptocurrencyListAsync();
+        Wallets = (await Controller.SelectAllAsync()).Value;
 
         if (Wallets.Count() == 0)
         {
