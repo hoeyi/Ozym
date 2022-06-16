@@ -84,8 +84,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        parent = ReferenceData.GetSingleAsync<Account>(
-            a => a.AccountId == AccountId, include: a => a.AccountNavigation).Result;
+        parent = await ReferenceData.GetSingleAsync<Account>(
+            a => a.AccountId == AccountId, include: a => a.AccountNavigation);
 
         var initResult = Controller.ForParent(parent.AccountId);
 
