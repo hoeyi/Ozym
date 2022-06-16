@@ -61,6 +61,15 @@ namespace NjordFinance.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt; Select &gt;.
+        /// </summary>
+        internal static string Caption_InputSelect_Placeholder {
+            get {
+                return ResourceManager.GetString("Caption_InputSelect_Placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New {0}.
         /// </summary>
         internal static string CreateModel {

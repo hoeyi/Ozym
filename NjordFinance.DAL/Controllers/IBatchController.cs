@@ -60,6 +60,13 @@ namespace NjordFinance.Controllers
         /// </exception>
         Task<ActionResult> SaveChangesAsync();
 
+
+        /// <summary>
+        /// Selects all records accessible to this controller.
+        /// </summary>
+        /// <returns>A <see cref="IList{T}"/> representing the records.</returns>
+        Task<ActionResult<IList<T>>> SelectAllAsync();
+
         /// <summary>
         /// Selects records matching the given <paramref name="predicate"/>, 
         /// with the count limited to the value of <paramref name="maxCount"/>.

@@ -110,6 +110,10 @@ namespace NjordFinance.Controllers.Abstractions
         }
 
         /// <inheritdoc/>
+        public async Task<ActionResult<IList<T>>> SelectAllAsync()
+            => await SelectWhereAysnc(predicate: x => true, maxCount: -1);
+
+        /// <inheritdoc/>
         public async Task<ActionResult<IList<T>>> SelectWhereAysnc(
             Expression<Func<T, bool>> predicate, int maxCount = 0)
         {

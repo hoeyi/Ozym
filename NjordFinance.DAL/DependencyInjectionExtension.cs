@@ -2,7 +2,6 @@
 using NjordFinance.Controllers.Abstractions;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
-using NjordFinance.Reference;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace NjordFinance

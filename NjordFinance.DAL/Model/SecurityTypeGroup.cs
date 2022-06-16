@@ -18,7 +18,8 @@ namespace NjordFinance.Model
         [Required]
         [StringLength(72)]
         public string SecurityTypeGroupName { get; set; }
-
+        public bool Transactable { get; set; } = true;
+        public bool DepositSource { get; set; } = false;
         [ForeignKey(nameof(SecurityTypeGroupId))]
         [InverseProperty(nameof(ModelAttributeMember.SecurityTypeGroup))]
         public virtual ModelAttributeMember AttributeMemberNavigation { get; set; }

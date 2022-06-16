@@ -367,9 +367,15 @@ namespace NjordFinance.Context.Configuration
                 new(){ SecurityTypeGroupId = -207, SecurityTypeGroupName = "Short-Term Debt" },
                 new(){ SecurityTypeGroupId = -208, SecurityTypeGroupName = "Long-Term Debt" },
                 new(){ SecurityTypeGroupId = -209, SecurityTypeGroupName = "Cash Funds & Currency" },
-                new(){ SecurityTypeGroupId = -210, SecurityTypeGroupName = "Cash Deposit" },
+                new(){ SecurityTypeGroupId = -210, SecurityTypeGroupName = "Cash Deposit", DepositSource = true  },
                 new(){ SecurityTypeGroupId = -211, SecurityTypeGroupName = "Expense" },
-                new(){ SecurityTypeGroupId = -212, SecurityTypeGroupName = "Not Applicable" }
+                new()
+                { 
+                    SecurityTypeGroupId = -212, 
+                    SecurityTypeGroupName = "None/External", 
+                    DepositSource = true, 
+                    Transactable = false 
+                }
             };
 
             SecurityTypes = new SecurityType[]
@@ -489,7 +495,8 @@ namespace NjordFinance.Context.Configuration
                     SecurityTypeName = "Cryptocurrency",
                     ValuationFactor = 1M,
                     CanHaveDerivative = false,
-                    CanHavePosition  = true
+                    CanHavePosition  = true,
+                    HeldInWallet = true
                 },
                 new()
                 {
@@ -563,7 +570,7 @@ namespace NjordFinance.Context.Configuration
                     CanHaveDerivative = false,
                     CanHavePosition = false
                 },
-                new ()
+                new()
                 {
                     SecurityTypeId = -321,
                     SecurityTypeGroupId = -212,

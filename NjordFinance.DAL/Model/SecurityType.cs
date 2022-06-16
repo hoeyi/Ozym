@@ -27,7 +27,7 @@ namespace NjordFinance.Model
         public decimal ValuationFactor { get; set; }
         public bool CanHaveDerivative { get; set; }
         public bool CanHavePosition { get; set; }
-
+        public bool HeldInWallet { get; set; } = false;
         [ForeignKey(nameof(SecurityTypeGroupId))]
         [InverseProperty("SecurityTypes")]
         public virtual SecurityTypeGroup SecurityTypeGroup { get; set; }

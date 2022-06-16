@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Caption_InputSelect_Placeholder" xml:space="preserve">
+    <value>&lt; Select &gt;</value>
+  </data>
   <data name="CreateModel" xml:space="preserve">
     <value>New {0}</value>
     <comment>{0} is the model noun singular</comment>
