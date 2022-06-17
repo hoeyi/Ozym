@@ -11,24 +11,25 @@
     </a>
 </div>
 
-@if (Models is null)
+
+<PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
+<h3>@(PageTitle.Index())</h3>
+<hr/>
+
+<div>
+    <SearchInputTable TModel=@Account
+                    ComparisonOperators=@ComparisonOperators
+                    ExpressionBuilder=@ExpressionBuilder
+                    SearchFields=@SearchFields
+                    OnSearchClick=@(args => SearchClicked(args))>
+    </SearchInputTable>
+</div>
+@if (IsLoading)
 {
-    <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
+    <LoadingSvg />
 }
 else
 {
-    <PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
-    <h3>@(PageTitle.Index())</h3>
-    <hr/>
-
-    <div>
-        <SearchInputTable TModel=@Account
-                      ComparisonOperators=@ComparisonOperators
-                      ExpressionBuilder=@ExpressionBuilder
-                      SearchFields=@SearchFields
-                      OnSearchClick=@(args => SearchClicked(args))>
-        </SearchInputTable>
-    </div>
     <span>
         <DataGrid Data="@Models" class="datagrid">
             <DataGridColumn Property=@nameof(Account.AccountNavigation.AccountObjectCode)

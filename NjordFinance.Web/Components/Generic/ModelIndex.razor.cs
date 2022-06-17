@@ -40,7 +40,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <summary>
         /// Gets the model collection that matches the search expression for this component.
         /// </summary>
-        protected IEnumerable<TModel> Models { get; private set; } = Array.Empty<TModel>();
+        protected IEnumerable<TModel> Models { get; private set; } = default!;
 
         /// <summary>
         /// Gets or sets the collection of searchables fields for the type: <typeparamref name="TModel"/>.
@@ -58,39 +58,55 @@ namespace NjordFinance.Web.Components.Generic
         /// <inheritdoc/>   
         protected override async Task OnInitializedAsync()
         {
-            if (ExpressionBuilder is null)
-                throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
+            try
+            {
+                IsLoading = true;
+                if (ExpressionBuilder is null)
+                    throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
 
-            if (Controller is null)
-                throw new ArgumentNullException(paramName: nameof(Controller));
+                if (Controller is null)
+                    throw new ArgumentNullException(paramName: nameof(Controller));
 
-            SearchFields = ExpressionBuilder!.GetSearchableMembers<TModel>();
-            ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
+                SearchFields = ExpressionBuilder!.GetSearchableMembers<TModel>();
+                ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
-            Task<ActionResult<IList<TModel>>> actionResult =
-                Controller!.SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+                Task<ActionResult<IList<TModel>>> actionResult =
+                    Controller!.SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
 
-            await actionResult;
-            Models = actionResult.Result?.Value ?? Array.Empty<TModel>();
+                await actionResult;
+                Models = actionResult.Result?.Value ?? Array.Empty<TModel>();
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         /// <summary>
         /// Handles search submission events that that contain 
-        /// <see cref="Generic.SearchSubmittedEventArgs{TModel}"/> data.
+        /// <see cref="SearchSubmittedEventArgs{TModel}"/> data.
         /// </summary>
-        /// <param name="args">The <see cref="Generic.SearchSubmittedEventArgs{TModel}"/> that 
+        /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that 
         /// containst the data for the invoked event.</param>
         /// <returns>A task representing an asynchronous operator. Successful ooperation will 
         /// cause <see cref="Models"/> to updates to the collection matching the event arguments 
         /// search expression.</returns>
         protected async Task SearchClicked(SearchSubmittedEventArgs<TModel> args)
         {
-            if (args is not null)
+            try
             {
-                var actionResult = await Controller!.SelectWhereAysnc(
-                        predicate: args.SearchExpression, maxCount: MaxRecordCount);
+                IsLoading = true;
+                if (args is not null)
+                {
+                    var actionResult = await Controller!.SelectWhereAysnc(
+                            predicate: args.SearchExpression, maxCount: MaxRecordCount);
 
-                Models = actionResult.Value ?? Array.Empty<TModel>();
+                    Models = actionResult.Value ?? Array.Empty<TModel>();
+                }
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
     }
