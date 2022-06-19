@@ -1,23 +1,78 @@
-﻿.menu-bar {
+﻿/*#region Local variables */
+.menu-bar, .sub-menu {
     --fore-color: var(--euler-hexcolor-fore-0, black);
     --hover-color: var(--euler-hexcolor-back-1-alt, white);
     --hover-color-detail: var(--euler-hexcolor-back-1, blue);
     --background-color: var(--euler-hexcolor-back-0, white);
+    --menu-fontfamily-default: var(--euler-fontfamily-default)
+}
+/*#endregion*/
+
+.menu-bar {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
-::deep .menu-item.root:hover {
+.menu-bar > .menu-item {
+    /*height: 24px;*/
+    line-height: 100%;
+    font-size: 0.75rem;
+}
+
+::deep .menu-item {
+    position: relative;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+::deep .sub-menu {
+    display: none;
+    margin: 0;
+    padding: 0;
+    min-width: 10vw;
+    max-width: 20vw;
     background-color: var(--hover-color);
 }
 
-::deep .menu-item.child > .menu-item.child {
+::deep .sub-menu > .menu-item {
+    /*height: 32px;*/
+    font-size: 0.75rem;
+}
+
+::deep .sub-menu.level-0 {
     left: 100%;
     position: absolute;
     top: 0;
+    list-style-type: none;
 }
 
-:deep li.dropdown:hover > ul {
+    ::deep .sub-menu.level-n {
+        left: 100%;
+        position: absolute;
+        top: 0;
+        list-style-type: none;
+    }
+
+/*#region Hover behavior*/
+::deep .parent:hover > .sub-menu {
     display: block;
 }
+
+::deep .menu-item.parent:hover{
+    background-color: var(--hover-color);
+}
+
+::deep .menu-item:hover {
+    background-color: var(--hover-color-detail);
+}
+
+::deep .sub-menu > .menu-item:hover {
+    background-color: var(--hover-color-detail);
+}
+/*#endregion*/
 
 /*#region Ion-Iconsvg formatting */
 /* Change the fill color to light shade if not 'none' or 'transparent'. */
@@ -33,60 +88,17 @@
 /* Set the default background color for IonIcons.*/
 ::deep .ion-icon svg {
     background: none;
-    height: 32px;
+}
+
+/* Set the height of child menu item icons. */
+
+::deep .icon.left .ion-icon {
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+::deep .icon.right .ion-icon {
+    width: 100%;
     aspect-ratio: 1/1;
 }
 /*#endregion */
-
-
-/*
-    Custom drop-down menu.
-*/
-::deep .dropdown {
-    /* Border */
-    display: flex;
-    /* Reset list styles */
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-    ::deep .dropdown li {
-        /* Spacing */
-        /* Used to position the sub dropdown */
-        position: relative;
-    }
-
-    /* The sub dropdown */
-    ::deep .dropdown ul {
-        background-color: var(--hover-color);
-        /* Hidden by default */
-        display: none;
-        /* Absolute position */
-        left: 0;
-        position: absolute;
-        top: 100%;
-        /* Reset styles */
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        /* Width */
-        width: 15vw;
-    }
-
-        /* The second level sub dropdown */
-        ::deep .dropdown ul ul {
-            left: 100%;
-            position: absolute;
-            top: 0;
-        }
-
-    /* Change background color of list item when being hovered */
-    ::deep .dropdown li:hover {
-        background-color: var(--hover-color-detail);
-    }
-
-        /* Show the direct sub dropdown when hovering the list item */
-        ::deep .dropdown:hover > ul {
-            display: block;
-        }

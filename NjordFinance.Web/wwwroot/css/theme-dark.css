@@ -41,6 +41,10 @@
     --euler-hexcolor-control-border: #424242;
     --euler-hexcolor-fore-0: #E6E6E6;
     --euler-hexcolor-fore-1: #D2D2D2;
+
+    /*#region Fonts */
+    --euler-fontfamily-default: 'Cambria Math';
+    /*#endregion */
 }
 
 body {
