@@ -19,9 +19,3 @@ a {
     display: inline-block;
     vertical-align: middle;
 }
-
-::deep .menu-item.child > .menu-item.child {
-    left: 100%;
-    position: absolute;
-    top: 0;
-}

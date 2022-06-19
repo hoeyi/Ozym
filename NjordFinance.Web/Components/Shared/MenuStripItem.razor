@@ -21,7 +21,7 @@
     }
     @if(MenuItem.HasChildren)
     {
-        <ul class="menu-item dropdown">
+        <ul>
             @foreach(var child in MenuItem.Children)
             {
                 <MenuStripItem MenuItem=@child.Value />
@@ -34,6 +34,5 @@
     [Parameter]
     public MenuItem MenuItem { get; set; }
 
-    [Parameter]
-    public string Class { get; set; } = "dropdown";
+    private string Class => MenuItem.HasChildren ? "dropdown" : "";
 }
