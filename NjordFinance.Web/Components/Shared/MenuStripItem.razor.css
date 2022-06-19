@@ -4,22 +4,10 @@ a {
     font-family: inherit !important;
     font-size: inherit !important;
     color: inherit !important;
-    background-color: inherit !important;
+    /*background-color: inherit !important;*/
     padding: inherit !important;
     margin: inherit !important;
     display: block;
-}
-/*
-.menu-item {
-    display: inline-block;
-}*/
-
-    .menu-item:hover .menu-item.children {
-        display: block;
-    }
-
-.menu-item.children {
-    display: none;
 }
 
 .menu-item .icon, .caption {
@@ -32,13 +20,8 @@ a {
     vertical-align: middle;
 }
 
-
-/*::deep .ion-icon {
-    position: relative;*/
-/*padding: 5px;*/
-/*    height: 10%;
-    width: 10%;*/
-/*    left: 0%;
-    top: 0%;*/
-/*z-index: 1;
-}*/
+::deep .menu-item.child > .menu-item.child {
+    left: 100%;
+    position: absolute;
+    top: 0;
+}

@@ -1,52 +1,75 @@
 ﻿.menu-bar {
     --fore-color: var(--euler-hexcolor-fore-0, black);
     --hover-color: var(--euler-hexcolor-back-1-alt, white);
-    --hover-color-alt: var(--euler-hexcolor-back-1, blue);
-    --background-color: var(--euler-hexcolor-back-1, white);
+    --hover-color-detail: var(--euler-hexcolor-back-1, blue);
+    --background-color: var(--euler-hexcolor-back-0, white);
 }
 
 .menu-bar {
     position: static;
-    width: 100%;
+    display: block;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* The second level sub dropdown */
+.dropdown ul ul {
+    left: 100%;
+    position: absolute;
+    top: 0;
+}
+
+/* Change background color of list item when being hovered */
+.dropdown li:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+    /* Show the direct sub dropdown when hovering the list item */
+    .dropdown li:hover > ul {
+        display: block;
+    }
+
+
+::deep ul {
+    list-style-type: none;
 }
 
 ::deep .menu-item {
-    height: 32px;
+    border: none;
+}
+
+::deep .menu-item.root {
+    background-color: var(--background-color);
+    color: var(--fore-color);
     height: 32px;
     font-size: 0.75rem;
+    position: static;
+    display: inline-block;
+    padding-right: 5px;
 }
 
-::deep .menu-item.children {
-    display: none;
-}
+    ::deep .menu-item:hover > .menu-item.dropdown {
+        display: block;
+    }
 
-::deep .menu-bar .menu-item {
-    background-color: var(--background-color) !important;
-    color: var(--fore-color) !important;
-}
+    ::deep .dropdown {
+        background-color: var(--hover-color);
+        position: relative;
+        display: none;
+        width: 15vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-decoration: none;
+        z-index: 3;
+    }
 
 ::deep .ion-icon > svg {
-    height:32px;
+    height: 32px;
     aspect-ratio: 1/1;
 }
-::deep .menu-item:hover {
-    background-color: var(--hover-color);
-}
 
-::deep .menu-item .menu-item {
-    color: inherit;
-    border: none;
-    background-color: inherit;
-    padding-bottom: 2px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-decoration: none;
-    width: 15vw;
-    height: 24px;
-    z-index: 3;
-}
-
-::deep .menu-item:hover > .menu-item {
+::deep .menu-item.root:hover {
     background-color: var(--hover-color);
 }
 

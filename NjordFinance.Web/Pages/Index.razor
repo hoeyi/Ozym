@@ -25,7 +25,23 @@
         Children = new()
         {
             { 0, new MenuItem(){ Caption = "Do thing one", UriStem = "/Accounts" } },
-            { 1, new MenuItem(){ Caption = "Do thing two", UriStem = "/Accounts" } }
+            { 1, new MenuItem()
+                { 
+                    Caption = "Do thing two", 
+                    UriStem = "/Accounts",
+                    Children = new()
+                    {
+                        { 
+                            0, 
+                            new MenuItem()
+                            { 
+                                Caption = "Do subthing one", 
+                                UriStem = "/UnderConstruction" 
+                            }
+                        }
+                    }
+                } 
+            }
         }
     };
 }
