@@ -1,0 +1,39 @@
+﻿<div id="@Id" class="menu-item">
+    @if(string.IsNullOrEmpty(MenuItem.UriStem))
+    {
+        <div class="icon">
+            <IonIcon Name="@MenuItem.IconKey" class="@MenuItem.IconKey" />
+        </div>
+        <div class="caption">
+            @MenuItem.Caption
+        </div>
+    }
+    else
+    {
+        <a class="nav-link" href="@MenuItem.UriStem">
+            <div class="icon">
+                <IonIcon Name="@MenuItem.IconKey" class="@MenuItem.IconKey" />
+            </div>
+            <div class="caption">
+                @MenuItem.Caption
+            </div>
+        </a>
+    }
+    <div class="menu-item chidren">
+        @if(MenuItem.HasChildren)
+        {
+            foreach(var child in MenuItem.Children)
+            {
+                <MenuStripItem MenuItem=@child.Value Id="@child.Key.ToString()"/>
+            }
+        }
+    </div>
+</div>
+
+@code{
+    [Parameter]
+    public MenuItem MenuItem { get; set; }
+
+    [Parameter]
+    public string Id { get; set; } = Guid.NewGuid().ToString();
+}

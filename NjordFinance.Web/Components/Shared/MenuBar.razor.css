@@ -1,0 +1,66 @@
+﻿.menu-bar {
+    --fore-color: var(--euler-hexcolor-fore-0, black);
+    --hover-color: var(--euler-hexcolor-back-1-alt, white);
+    --hover-color-alt: var(--euler-hexcolor-back-1, blue);
+    --background-color: var(--euler-hexcolor-back-1, white);
+}
+
+.menu-bar {
+    position: static;
+    width: 100%;
+}
+
+::deep .menu-item {
+    height: 32px;
+    height: 32px;
+    font-size: 0.75rem;
+}
+
+::deep .menu-item.children {
+    display: none;
+}
+
+::deep .menu-bar .menu-item {
+    background-color: var(--background-color) !important;
+    color: var(--fore-color) !important;
+}
+
+::deep .ion-icon > svg {
+    height:32px;
+    aspect-ratio: 1/1;
+}
+::deep .menu-item:hover {
+    background-color: var(--hover-color);
+}
+
+::deep .menu-item .menu-item {
+    color: inherit;
+    border: none;
+    background-color: inherit;
+    padding-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    width: 15vw;
+    height: 24px;
+    z-index: 3;
+}
+
+::deep .menu-item:hover > .menu-item {
+    background-color: var(--hover-color);
+}
+
+/* Change the fill color to light shade if not 'none' or 'transparent'. */
+::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
+    fill: var(--euler-hexcolor-fore-0, black);
+}
+
+/* Change the stroke color to light shade if not 'none' or 'transparent'. */
+::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
+    stroke: var(--euler-hexcolor-fore-0, black);
+}
+
+/* Set the default background color for IonIcons.*/
+::deep .ion-icon svg {
+    background: none;
+}

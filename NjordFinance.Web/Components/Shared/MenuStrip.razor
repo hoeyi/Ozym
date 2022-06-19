@@ -2,18 +2,20 @@
 
 <div class="menu">
     <div class="menu-root">
-        @if(!string.IsNullOrEmpty(Menu?.IconKey))
-        {
-            <IonIcon Name="@Menu.IconKey" class="@Menu.IconKey" />
-        }
-        @if (!string.IsNullOrEmpty(Menu?.Caption))
-        {
-            <div class="menu-item">
-                <a href="@Menu.UriStem">
-                    @Menu.Caption
-                </a>
+        <div class="menu-item">
+            <div class="icon">
+                @if(!string.IsNullOrEmpty(Menu?.IconKey))
+                {
+                    <IonIcon Name="@Menu.IconKey" class="@Menu.IconKey" />
+                }
             </div>
-        }
+            <div class="menu-item-caption">
+                @if (!string.IsNullOrEmpty(Menu?.Caption))
+                {
+                    @Menu.Caption
+                }   
+            </div>
+        </div>
         @if (Menu is not null && Menu.HasChildren)
         {
             @foreach (var item in Menu.Children)

@@ -75,7 +75,10 @@ a {
         background-color: var(--euler-hexcolor-back-1, white);
     }
 
-
+.menu-item.icon {
+    /*width: 64px;*/
+    aspect-ratio: 1/1;
+}
 /* Change the fill color to light shade if not 'none' or 'transparent'. */
 ::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
     fill: var(--euler-hexcolor-fore-0, black);

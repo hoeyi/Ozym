@@ -3,21 +3,25 @@
 @inherits ModelIndex<Account>
 
 
-<div>
+@*<div>
     <a class="link-button" href="@($"{PageIndexUri}/Create")"
        @onclick="@(args => NavigateToCreate($"{Guid.NewGuid()}"))"
        @onclick:preventDefault>
         @Resources.Strings.Caption_Button_Create
     </a>
+</div>*@
+
+<PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
+
+<div class="top-row">
+    <div class="header-item">
+        <MenuStrip Menu="@menu" />
+    </div>
+    <div class="header-item">
+        @(PageTitle.Index())
+    </div>
 </div>
 
-
-<div style="display:inline-block">
-    <MenuStrip Menu="@menu" />
-
-    <PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
-</div>
-<h3>@(PageTitle.Index())</h3>
 <hr/>
 
 <div>

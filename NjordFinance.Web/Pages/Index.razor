@@ -4,6 +4,28 @@
 
 <PageTitle>@Resources.Strings.Title_ApplicationHome.AsPageTitle()</PageTitle>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+@*<h1>Hello, world!</h1>*@
+
+<div class="top-row px-4 auth">
+    <div class="left">
+        <MenuBar Menu="@menu" />
+    </div>
+    <span>
+        Welcome to your new app.
+    </span>
+</div>
+
+@code{
+    private Menu menu = new()
+    {
+        IconKey = "reorder-four",
+        UriStem = "/Accounts",
+        Caption = "Base",
+        Children = new()
+        {
+            { 0, new MenuItem(){ Caption = "Do thing one", UriStem = "/Accounts" } },
+            { 1, new MenuItem(){ Caption = "Do thing two", UriStem = "/Accounts" } }
+        }
+    };
+}
