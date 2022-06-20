@@ -1,0 +1,98 @@
+﻿/*#region Local variables */
+.menu-bar, .sub-menu {
+    --fore-color: var(--euler-hexcolor-fore-0, black);
+    --hover-color: var(--euler-hexcolor-back-1-alt, white);
+    --hover-color-detail: var(--euler-hexcolor-back-1, blue);
+    --background-color: var(--euler-hexcolor-back-0, white);
+    --menu-fontfamily-default: var(--euler-fontfamily-actionmenu, 'Arial');
+    --default-height: 32px;
+}
+/*#endregion*/
+
+.menu-bar {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--menu-fontfamily-default);
+}
+
+::deep .menu-item {
+    position: relative;
+    font-size: 0.75rem;
+    height: var(--default-height, 32px);
+    display: flex;
+}
+
+    ::deep .menu-item.root-node {
+        position: relative;
+        display: flex;
+        height: calc(0.75 * var(--default-height, 32px));
+    }
+
+::deep .icon.root {
+    max-width: 24px;
+    height: 100%;
+    aspect-ratio: 1/1;
+}
+
+/*#region sub-menu class and variants*/
+::deep .sub-menu {
+    display: none;
+    margin: 0;
+    padding: 0;
+    min-width: 15vw;
+    max-width: 25vw;
+    background-color: var(--hover-color);
+}
+
+::deep .sub-menu.level-0 {
+    left: 100%;
+    position: absolute;
+    top: 0;
+    list-style-type: none;
+}
+
+    ::deep .sub-menu.level-n {
+        left: 100%;
+        position: absolute;
+        top: 0;
+        list-style-type: none;
+    }
+/*#endregion*/
+
+/*#region Hover behavior*/
+::deep .parent:hover > .sub-menu {
+    display: block;
+}
+
+::deep .menu-item.parent:hover{
+    background-color: var(--hover-color);
+}
+
+::deep .menu-item:hover {
+    background-color: var(--hover-color-detail);
+}
+
+::deep .sub-menu > .menu-item:hover {
+    background-color: var(--hover-color-detail);
+}
+/*#endregion*/
+
+/*#region Ion-Iconsvg formatting */
+/* Change the fill color to light shade if not 'none' or 'transparent'. */
+::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
+    fill: var(--euler-hexcolor-fore-0, black);
+}
+
+/* Change the stroke color to light shade if not 'none' or 'transparent'. */
+::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
+    stroke: var(--euler-hexcolor-fore-0, black);
+}
+
+/* Set the default background color for IonIcons.*/
+::deep .ion-icon svg {
+    background: none;
+}
+
+/*#endregion*/

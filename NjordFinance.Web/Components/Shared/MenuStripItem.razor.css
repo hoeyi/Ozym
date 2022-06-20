@@ -1,0 +1,51 @@
+﻿/* Override the a element rules so that value inherits from parent. */
+a {
+    color: inherit !important;
+    display: block;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    margin: inherit !important;
+    padding: inherit !important;
+    text-decoration: inherit !important;
+}
+
+.grid-container {
+    width: 100%;
+    height: 100%;
+    min-height: 24px;
+    max-height: 32px;
+    display: inline-grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-areas: "a b c";
+    gap: 0px;
+}
+
+    .grid-container > .icon {
+        max-width: 24px;
+        aspect-ratio: 1/1;
+    }
+
+    .grid-container > * {
+        align-self: center;
+    }
+
+.icon.left {
+    grid-area: a;
+    margin-right: auto;
+    margin-left: 20%;
+    max-height: 60%;
+}
+
+.caption {
+    grid-area: b;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.icon.right {
+    grid-area: c;
+    margin-left: auto;
+    margin-right: 10%;
+    max-height: 12px;
+}

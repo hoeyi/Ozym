@@ -14,18 +14,18 @@ namespace NjordFinance.Web.Components.Shared
         {
         }
 
-        /// <summary>
-        /// Creates an <see cref="MenuItem"/>.
-        /// </summary>
-        /// <param name="iconKey">The </param>
-        /// <param name="caption"></param>
-        /// <param name="uriStem"></param>
-        public MenuItem(string iconKey, string caption, string uriStem)
-        {
-            IconKey = iconKey;
-            Caption = caption;
-            UriStem = uriStem;
-        }
+        ///// <summary>
+        ///// Creates an <see cref="MenuItem"/>.
+        ///// </summary>
+        ///// <param name="iconKey">The </param>
+        ///// <param name="caption"></param>
+        ///// <param name="uriStem"></param>
+        //public MenuItem(string iconKey, string caption, string uriStem)
+        //{
+        //    IconKey = iconKey;
+        //    Caption = caption;
+        //    UriStem = uriStem;
+        //}
 
         /// <summary>
         /// Gets or sets the key for the navigation menu item.
@@ -54,6 +54,11 @@ namespace NjordFinance.Web.Components.Shared
         {
             get { return Children.Count > 0; }
         }
+
+        /// <summary>
+        /// Gets whether this menu item is part of the first level of menu items.
+        /// </summary>
+        public bool IsRoot { get; init; } = false;
 
         /// <inheritdoc />
         public override bool Equals(object? obj)
