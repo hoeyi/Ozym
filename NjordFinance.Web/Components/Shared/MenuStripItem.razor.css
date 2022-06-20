@@ -15,7 +15,7 @@ a {
     min-height: 24px;
     max-height: 32px;
     display: inline-grid;
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-columns: 1fr 7fr 1fr;
     grid-template-areas: "a b c";
     gap: 0px;
 }
