@@ -2,22 +2,13 @@
 
 @inherits ModelIndex<Account>
 
-
-@*<div>
-    <a class="link-button" href="@($"{PageIndexUri}/Create")"
-       @onclick="@(args => NavigateToCreate($"{Guid.NewGuid()}"))"
-       @onclick:preventDefault>
-        @Resources.Strings.Caption_Button_Create
-    </a>
-</div>*@
-
 <PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
 
-<MenuStrip Menu="@menu" />
 
-<div class="header-item">
+<h3 style="display:flex; padding:5px;bottom:0px;">
+    <MenuBar Menu="@AccountMenu" />
     @(PageTitle.Index())
-</div>
+</h3>
 
 <hr/>
 
@@ -118,13 +109,23 @@ else
 
 @code {
 
-    private Menu menu = new()
+    private Menu AccountMenu => new()
     {
         IconKey = "reorder-four",
+        Caption = "Accounts",
         Children = new()
         {
+            { 0, new MenuItem()
+                { 
+                    IconKey = "create", 
+                    Caption = $"Create new {AccountNoun.GetSingular()}", 
+                    UriStem = $"/Accounts/Create/{Guid.NewGuid()}" 
+                } 
+            }
         }
     };
+
+    private NounAttribute AccountNoun => ModelMetadata.NounFor(typeof(Account));
 
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()
