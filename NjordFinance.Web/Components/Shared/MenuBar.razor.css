@@ -4,7 +4,8 @@
     --hover-color: var(--euler-hexcolor-back-1-alt, white);
     --hover-color-detail: var(--euler-hexcolor-back-1, blue);
     --background-color: var(--euler-hexcolor-back-0, white);
-    --menu-fontfamily-default: var(--euler-fontfamily-actionmenu, 'Arial')
+    --menu-fontfamily-default: var(--euler-fontfamily-actionmenu, 'Arial');
+    --default-height: 32px;
 }
 /*#endregion*/
 
@@ -19,20 +20,19 @@
 ::deep .menu-item {
     position: relative;
     font-size: 0.75rem;
-    height: 32px;
+    height: var(--default-height, 32px);
     display: flex;
-    margin: 0;
 }
 
-::deep .menu-item.root-node {
-    position: relative;
-    display: flex;
-    height: 24px;
-}
+    ::deep .menu-item.root-node {
+        position: relative;
+        display: flex;
+        height: calc(0.75 * var(--default-height, 32px));
+    }
 
 ::deep .icon.root {
     max-width: 24px;
-    height: 32px;
+    height: 100%;
     aspect-ratio: 1/1;
 }
 

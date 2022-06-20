@@ -13,13 +13,10 @@
 
 <PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
 
-<div class="top-row">
-    <div class="header-item">
-        <MenuStrip Menu="@menu" />
-    </div>
-    <div class="header-item">
-        @(PageTitle.Index())
-    </div>
+<MenuStrip Menu="@menu" />
+
+<div class="header-item">
+    @(PageTitle.Index())
 </div>
 
 <hr/>
