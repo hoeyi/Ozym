@@ -1,43 +1,52 @@
 ﻿@using System.Text
 <li class="@GetItemClass()">
-    @if(string.IsNullOrEmpty(MenuItem.UriStem))
+    @if (MenuItem.IsRoot)
     {
-        <div class="grid-container" >
-            <div class="icon left">
-                <IonIcon Name="@MenuItem.IconKey" />
-            </div>
-            <div class="caption left">
-                @MenuItem.Caption
-            </div>
-            @if(!MenuItem.IsRoot && MenuItem.HasChildren)
-            {
-                <div class="icon right">
-                    <IonIcon Name="caret-forward" class="caret-forward" />
-                </div>
-            }
+        <div class="icon root">
+            <IonIcon Name="@MenuItem.IconKey" />
         </div>
     }
     else
     {
-        <a class="grid-container nav-link" href="@MenuItem.UriStem">
-            <div class="icon left">
-                <IonIcon Name="@MenuItem.IconKey" />
-            </div>
-            <div class="caption">
-                @MenuItem.Caption
-            </div>
-            @if(!MenuItem.IsRoot && MenuItem.HasChildren)
-            {
-                <div class="icon right">
-                    <IonIcon Name="caret-forward" class="caret-forward" />
+        @if(string.IsNullOrEmpty(MenuItem.UriStem))
+        {
+            <div class="grid-container">
+                <div class="icon left">
+                    <IonIcon Name="@MenuItem.IconKey" />
                 </div>
-            }
-        </a>
+                <div class="caption left">
+                    @MenuItem.Caption
+                </div>
+                @if (!MenuItem.IsRoot && MenuItem.HasChildren)
+                {
+                    <div class="icon right">
+                        <IonIcon Name="caret-forward" class="caret-forward" />
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <a class="grid-container nav-link" href="@MenuItem.UriStem">
+                <div class="icon left">
+                    <IonIcon Name="@MenuItem.IconKey" />
+                </div>
+                <div class="caption">
+                    @MenuItem.Caption
+                </div>
+                @if (!MenuItem.IsRoot && MenuItem.HasChildren)
+                {
+                    <div class="icon right">
+                        <IonIcon Name="caret-forward" class="caret-forward" />
+                    </div>
+                }
+            </a>
+        }
     }
-    @if(MenuItem.HasChildren)
+    @if (MenuItem.HasChildren)
     {
         <ul class="@GetChildMenuClass()">
-            @foreach(var child in MenuItem.Children)
+            @foreach (var child in MenuItem.Children)
             {
                 <MenuStripItem MenuItem=@child.Value />
             }
@@ -45,23 +54,29 @@
     }
 </li>
 
-@code{
+@code {
     [Parameter]
     public MenuItem MenuItem { get; set; }
 
     private const string MenuLevelRoot = "level-0";
     private const string MenuLevelChild = "level-n";
+    private const string MenuItemClass = "menu-item";
 
-    private string GetChildMenuClass() => 
+    private string GetChildMenuClass() =>
         $"sub-menu {(MenuItem.IsRoot ? MenuLevelRoot : MenuLevelChild)}";
 
     private string GetItemClass()
     {
         StringBuilder sb = new();
-        sb.Append("menu-item");
+        sb.Append(MenuItemClass);
 
-        if (MenuItem?.HasChildren ?? false)
+        if (MenuItem.HasChildren)
             sb.Append(" parent");
+
+        if (MenuItem.IsRoot)
+        {
+            sb.Append(" root-node");
+        }
 
         return string.Join(" ", sb);
     }

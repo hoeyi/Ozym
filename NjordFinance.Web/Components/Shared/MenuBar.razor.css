@@ -16,17 +16,24 @@
     font-family: var(--menu-fontfamily-default);
 }
 
-    ::deep .menu-bar > .menu-item > .grid-container {
-        grid-template-columns: 1fr;
-        grid-template-areas: "a";
-    }
-
 ::deep .menu-item {
     position: relative;
     font-size: 0.75rem;
     height: 32px;
     display: flex;
     margin: 0;
+}
+
+::deep .menu-item.root-node {
+    position: relative;
+    display: flex;
+    height: 24px;
+}
+
+::deep .icon.root {
+    max-width: 24px;
+    height: 32px;
+    aspect-ratio: 1/1;
 }
 
 /*#region sub-menu class and variants*/
