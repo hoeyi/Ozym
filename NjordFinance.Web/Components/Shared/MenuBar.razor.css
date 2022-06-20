@@ -4,7 +4,7 @@
     --hover-color: var(--euler-hexcolor-back-1-alt, white);
     --hover-color-detail: var(--euler-hexcolor-back-1, blue);
     --background-color: var(--euler-hexcolor-back-0, white);
-    --menu-fontfamily-default: var(--euler-fontfamily-default)
+    --menu-fontfamily-default: var(--euler-fontfamily-actionmenu, 'Arial')
 }
 /*#endregion*/
 
@@ -13,33 +13,30 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
+    font-family: var(--menu-fontfamily-default);
 }
 
-.menu-bar > .menu-item {
-    /*height: 24px;*/
-    line-height: 100%;
-    font-size: 0.75rem;
-}
+    ::deep .menu-bar > .menu-item > .grid-container {
+        grid-template-columns: 1fr;
+        grid-template-areas: "a";
+    }
 
 ::deep .menu-item {
     position: relative;
+    font-size: 0.75rem;
+    height: 32px;
     display: flex;
     margin: 0;
-    padding: 0;
 }
 
+/*#region sub-menu class and variants*/
 ::deep .sub-menu {
     display: none;
     margin: 0;
     padding: 0;
-    min-width: 10vw;
-    max-width: 20vw;
+    min-width: 15vw;
+    max-width: 25vw;
     background-color: var(--hover-color);
-}
-
-::deep .sub-menu > .menu-item {
-    /*height: 32px;*/
-    font-size: 0.75rem;
 }
 
 ::deep .sub-menu.level-0 {
@@ -55,6 +52,7 @@
         top: 0;
         list-style-type: none;
     }
+/*#endregion*/
 
 /*#region Hover behavior*/
 ::deep .parent:hover > .sub-menu {
@@ -90,15 +88,4 @@
     background: none;
 }
 
-/* Set the height of child menu item icons. */
-
-::deep .icon.left .ion-icon {
-    width: 100%;
-    aspect-ratio: 1/1;
-}
-
-::deep .icon.right .ion-icon {
-    width: 100%;
-    aspect-ratio: 1/1;
-}
-/*#endregion */
+/*#endregion*/

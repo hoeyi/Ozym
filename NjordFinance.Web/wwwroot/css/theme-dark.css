@@ -44,6 +44,7 @@
 
     /*#region Fonts */
     --euler-fontfamily-default: 'Cambria Math';
+    --euler-fontfamily-actionmenu: 'Arial';
     /*#endregion */
 }
 
