@@ -4,30 +4,24 @@
 
 @inject IReferenceDataService ReferenceData
 
-
-@if (Model is null || Custodians is null)
+@if (IsLoading)
 {
-    <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
+    <LoadingSvg />
 }
 else
 {
     <PageTitle>@(PageTitle.Update(Model.AccountCode).AsPageTitle())</PageTitle>
-    <h3>@(PageTitle.Update(Model.AccountCode))</h3>
-    <hr/>
 
-    <div>
-        <a class="link-button" href="@($"{PageIndexUri}")"
-            @onclick="@(args => NavigateToIndex(args))"
-            @onclick:preventDefault>
-            @Resources.Strings.Caption_Button_Index
-        </a>
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Update(Model.AccountCode))" />
+
+@*    <div>
         <a class="link-button" href=""
             @onclick=@(args => HandleDelete(args))
             @onclick:preventDefault>
             @Resources.Strings.Caption_Button_Delete
         </a>
-    </div>
-    <hr />
+    </div>*@
+
     <EditForm Model=@Model>
         <DataAnnotationsValidator/>
         <ValidationSummary/>
@@ -58,14 +52,47 @@ else
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
-    {   
-        var accountQuery = await Controller.ReadAsync(AccountId);
-        if (accountQuery.Value is Account account)
+    {
+        ActionMenu = new()
         {
-            Model = account;
-        }
+            IconKey = "reorder-four",
+            Children = new()
+            {
+                // Add index button.
+                { 0, new MenuItem()
+                    {
+                        IconKey = "list",
+                        Caption = $"{Resources.Strings.Caption_Button_Index}",
+                        UriStem = $"{PageIndexUri}"
+                    }
+                },
+                // Add delete button.
+                { 1, new MenuItem()
+                    {
+                        IconKey = "close",
+                        Caption = $"{Resources.Strings.Caption_Button_Delete} {ModelNoun.GetSingular()}",
+                        UriStem = $"#"
+                    }
+                }
+            }
+        };            
 
-        Custodians = await ReferenceData.AccountCustodianListAsync();
+        IsLoading = true;
+
+        try
+        {
+            var accountQuery = await Controller.ReadAsync(AccountId);
+            if (accountQuery.Value is Account account)
+            {
+                Model = account;
+            }
+
+            Custodians = await ReferenceData.AccountCustodianListAsync();
+        }
+        finally
+        {
+            IsLoading = Model is null || Custodians is null;
+        }
     }
 
     private async Task HandleDelete(MouseEventArgs args)

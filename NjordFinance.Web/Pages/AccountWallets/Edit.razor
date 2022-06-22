@@ -5,9 +5,9 @@
 @inject IBatchController<AccountWallet> Controller
 @inject IReferenceDataService ReferenceData
 
-@if (Wallets is null || parent is null)
+@if (IsLoading)
 {
-    <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
+    <LoadingSvg />
 }
 else
 {   
@@ -84,20 +84,29 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        parent = await ReferenceData.GetSingleAsync<Account>(
-            a => a.AccountId == AccountId, include: a => a.AccountNavigation);
+        IsLoading = true;
 
-        var initResult = Controller.ForParent(parent.AccountId);
-
-        if (initResult is not OkResult)
-            return; // TODO: Redirect to error page.
-
-        DenominationSecurities = await ReferenceData.CryptocurrencyListAsync();
-        Wallets = (await Controller.SelectAllAsync()).Value;
-
-        if (Wallets.Count() == 0)
+        try
         {
-            await AddNewAsync(args: null);
+            parent = await ReferenceData.GetSingleAsync<Account>(
+                a => a.AccountId == AccountId, include: a => a.AccountNavigation);
+
+            var initResult = Controller.ForParent(parent.AccountId);
+
+            if (initResult is not OkResult)
+                return; // TODO: Redirect to error page.
+
+            DenominationSecurities = await ReferenceData.CryptocurrencyListAsync();
+            Wallets = (await Controller.SelectAllAsync()).Value;
+
+            if (Wallets.Count() == 0)
+            {
+                await AddNewAsync(args: null);
+            }
+        }
+        finally
+        {
+            IsLoading = Wallets is null || parent is null;
         }
     }
 

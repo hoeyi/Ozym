@@ -3,11 +3,16 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 using System;
 using NjordFinance.UserInterface;
+using NjordFinance.Web.Components.Shared;
+using Ichosys.DataModel.Annotations;
+using NjordFinance.ModelMetadata;
 
 namespace NjordFinance.Web.Components.Generic
 {
     public partial class ModelPage<TModel> : LocalizableComponent, INavigationSource
     {
+        private NounAttribute _modelNoun;
+
         /// <summary>
         /// Gets or sets the <see cref="ILogger"/> used by this component.
         /// </summary>
@@ -19,6 +24,23 @@ namespace NjordFinance.Web.Components.Generic
         /// </summary>
         [Inject]
         public NavigationManager NavigationHelper { get; set; } = default!;
+
+        /// <summary>
+        /// Gets or sets the <see cref="Menu"/> containing available actions for this component.
+        /// </summary>
+        protected Menu ActionMenu { get; set; }
+
+        /// <summary>
+        /// Gets the <see cref="NounAttribute"/> associated with <typeparamref name="TModel"/>.
+        /// </summary>
+        protected NounAttribute ModelNoun
+        {
+            get
+            {
+                _modelNoun ??= ModelMetadata.NounFor(typeof(TModel));
+                return _modelNoun;
+            }
+        }
 
         /// <summary>
         /// Gets the <see cref="IPageTitle"/> instance for this page.

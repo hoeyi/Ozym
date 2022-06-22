@@ -1,10 +1,13 @@
 ﻿h3 {
     display: inline-flex;
     flex-direction: row;
+    border-bottom: 1px solid var(--euler-hexcolor-fore-0, black);
+    padding: 0.25rem;
+    width: 100%;
 }
 
     h3 > span {
-        padding-left: 5%;
+        padding-left: 10px;
     }
 
 ::deep .menu-item.root-node {

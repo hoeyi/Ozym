@@ -4,14 +4,14 @@
 
 <PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
 
-<ModelPageMenuHeader ActionMenu="@AccountMenu" Header="@(PageTitle.Index())" />
+<ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Index())" />
 
 <div>
     <SearchInputTable TModel=@Account
-                    ComparisonOperators=@ComparisonOperators
-                    ExpressionBuilder=@ExpressionBuilder
-                    SearchFields=@SearchFields
-                    OnSearchClick=@(args => SearchClicked(args))>
+                      ComparisonOperators=@ComparisonOperators
+                      ExpressionBuilder=@ExpressionBuilder
+                      SearchFields=@SearchFields
+                      OnSearchClick=@(args => SearchClicked(args))>
     </SearchInputTable>
 </div>
 @if (IsLoading)
@@ -102,28 +102,25 @@ else
 }
 
 @code {
-
-    private Menu AccountMenu => new()
-    {
-        IconKey = "reorder-four",
-        //Caption = "Actions",
-        Children = new()
-        {
-            { 0, new MenuItem()
-                { 
-                    IconKey = "create", 
-                    Caption = $"Create new {AccountNoun.GetSingular()}", 
-                    UriStem = $"/Accounts/Create/{Guid.NewGuid()}" 
-                } 
-            }
-        }
-    };
-
-    private NounAttribute AccountNoun => ModelMetadata.NounFor(typeof(Account));
-
+    
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
+        ActionMenu = new()
+        {
+            IconKey = "reorder-four",
+            Children = new()
+            {
+                { 0, new MenuItem()
+                    {
+                        IconKey = "create",
+                        Caption = $"Create new {ModelNoun.GetSingular()}",
+                        UriStem = $"/{PageIndexUri}/Create/{Guid.NewGuid()}"
+                    }
+                }
+            }
+        };
+
         MaxRecordCount = -1;
 
         return base.OnInitializedAsync();

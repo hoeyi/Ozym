@@ -115,6 +115,15 @@ namespace NjordFinance.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        internal static string Caption_Button_View {
+            get {
+                return ResourceManager.GetString("Caption_Button_View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add {0}.
         /// </summary>
         internal static string Caption_DataGrid_NewLine {

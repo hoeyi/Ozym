@@ -135,6 +135,9 @@
   <data name="Caption_Button_Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="Caption_Button_View" xml:space="preserve">
+    <value>View</value>
+  </data>
   <data name="Caption_DataGrid_NewLine" xml:space="preserve">
     <value>Add {0}</value>
     <comment>{0} is the singular noun of the bound model type</comment>

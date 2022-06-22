@@ -4,34 +4,16 @@
 
 @inject IReferenceDataService ReferenceData
 
-@if (Model is null)
+@if (IsLoading)
 {
-    <p><em>@Resources.Strings.Caption_Page_Loading</em></p>
+    <LoadingSvg />
 }
 else
 {
     <PageTitle>@(PageTitle.Read(Model.AccountCode).AsPageTitle())</PageTitle>
-    <h3>@(PageTitle.Read(Model.AccountCode))</h3>
-    <hr/>
 
-    <div>
-        <a class="link-button" href="@($"{PageIndexUri}")"
-            @onclick="@(args => NavigateToIndex(args))"
-            @onclick:preventDefault>
-            @Resources.Strings.Caption_Button_Index
-        </a>
-        <a class="link-button" href="@($"{PageIndexUri}/Accounts/Edit/{Model.AccountId}")"
-            @onclick=@(args => NavigateToEdit(args))
-            @onclick:preventDefault>
-            @Resources.Strings.Caption_Button_Edit
-        </a>
-        <a class="link-button" href="@NavigationHelper.ToAbsoluteUri($"AccountWallets/Edit/{Model.AccountId}").AbsoluteUri"
-            @onclick=@(args => NavigateToWallets(args))
-            @onclick:preventDefault>
-            @(ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()?.ToTitleCase())
-        </a>
-    </div>
-    <hr />
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Read(Model.AccountCode))" />
+
     <div>
         <AccountObjectCRUD Model="@Model.AccountNavigation"
             Disabled="@_disabled" Readonly="@_readonly" />
@@ -61,21 +43,58 @@ else
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        var accountQuery = await Controller.ReadAsync(AccountId);
-        if (accountQuery.Value is Account account)
+
+        IsLoading = true;
+
+        try
         {
-            Model = account;
+            var accountQuery = await Controller.ReadAsync(AccountId);
+            if (accountQuery.Value is Account account)
+            {
+                Model = account;
+            }
+
+            ActionMenu = new()
+            {
+                IconKey = "reorder-four",
+                Children = new()
+                {
+                    // Add index button.
+                    { 0, new MenuItem()
+                        {
+                            IconKey = "list",
+                            Caption = $"{Resources.Strings.Caption_Button_Index}",
+                            UriStem = $"{PageIndexUri}"
+                        }
+                    },
+                    // Add delete button.
+                    { 1, new MenuItem()
+                        {
+                            IconKey = "pencil",
+                            Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetSingular()}",
+                            UriStem = $"{PageIndexUri}/Edit/{Model.AccountId}"
+                        }
+                    },
+                    // Add delete button.
+                    { 2, new MenuItem()
+                        {
+                            IconKey = "wallet",
+                            Caption = $"{Resources.Strings.Caption_Button_View} " +
+                                $"{ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()}",
+                            UriStem = $"{WalletsUri}/Edit/{Model.AccountId}"
+                        }
+                    }
+                }
+            };  
+
+            Custodians = await ReferenceData.AccountCustodianListAsync();
+        }
+        finally
+        {
+            IsLoading = Custodians is null;
         }
 
-        Custodians = await ReferenceData.AccountCustodianListAsync();
-
         // TODO: Take corrective action here, accountQuery.Value should be Account
-    }
-
-    private void NavigateToWallets(MouseEventArgs args)
-    {
-        if (AccountId is int id)
-            NavigationHelper.NavigateTo($"{WalletsUri}/Edit/{id}");
     }
 
     private void NavigateToEdit(MouseEventArgs args)
