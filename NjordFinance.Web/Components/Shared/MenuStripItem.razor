@@ -78,6 +78,9 @@
             sb.Append(" root-node");
         }
 
+        if(!string.IsNullOrEmpty(MenuItem?.IconKey))
+            sb.Append(" has-icon-key");
+
         return string.Join(" ", sb);
     }
 }

@@ -6,6 +6,7 @@
     --background-color: var(--euler-hexcolor-back-0, white);
     --menu-fontfamily-default: var(--euler-fontfamily-actionmenu, 'Arial');
     --default-height: 32px;
+    --icon-max-width: 32px;
 }
 /*#endregion*/
 
@@ -31,7 +32,7 @@
     }
 
 ::deep .icon.root {
-    max-width: 24px;
+    max-width: var(--icon-max-width, 32px);
     height: 100%;
     aspect-ratio: 1/1;
 }
@@ -47,9 +48,9 @@
 }
 
 ::deep .sub-menu.level-0 {
-    left: 100%;
+    left: 0;
     position: absolute;
-    top: 0;
+    top: 100%;
     list-style-type: none;
 }
 

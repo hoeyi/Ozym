@@ -4,13 +4,7 @@
 
 <PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
 
-
-<h3 style="display:flex; padding:5px;bottom:0px;">
-    <MenuBar Menu="@AccountMenu" />
-    @(PageTitle.Index())
-</h3>
-
-<hr/>
+<ModelPageMenuHeader ActionMenu="@AccountMenu" Header="@(PageTitle.Index())" />
 
 <div>
     <SearchInputTable TModel=@Account
@@ -112,7 +106,7 @@ else
     private Menu AccountMenu => new()
     {
         IconKey = "reorder-four",
-        Caption = "Accounts",
+        //Caption = "Actions",
         Children = new()
         {
             { 0, new MenuItem()

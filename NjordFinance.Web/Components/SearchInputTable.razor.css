@@ -3,7 +3,6 @@
     background-color: var(--euler-hexcolor-back-0, white);
 }
 
-
 ::deep .form-control{
     color: var(--euler-hexcolor-fore-0, black);
     outline: none !important;

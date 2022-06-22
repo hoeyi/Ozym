@@ -2,13 +2,13 @@
 
 @inherits LocalizableComponent
 
-<div class="search-input-table-row">
+<div class="search-input-table">
     <label hidden=@SearchIsValid class="alert-info">@InvalidSearchMessage</label>
     <div>
         <EditForm Model="@this">
             <table class="table search-parameter-table">
                 <tbody>
-                    <tr>
+                    <tr class="search-input-table-row">
                         <td>
                             <label class="form-control label">
                                 @Resources.Strings.Caption_InputSelect_SearchField
