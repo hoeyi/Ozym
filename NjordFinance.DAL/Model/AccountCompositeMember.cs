@@ -11,13 +11,13 @@ namespace NjordFinance.Model
     public partial class AccountCompositeMember
     {
         [Key]
-        [Column("AccountCompositeID")]
+        [Column("AccountCompositeID", Order = 0)]
         public int AccountCompositeId { get; set; }
         [Key]
-        [Column("AccountID")]
+        [Column("AccountID", Order = 1)]
         public int AccountId { get; set; }
         [Key]
-        [Column(TypeName = "date")]
+        [Column(TypeName = "date", Order = 2)]
         public DateTime EntryDate { get; set; }
         [Column(TypeName = "date")]
         public DateTime? ExitDate { get; set; }

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace NjordFinance.ModelService.Abstractions
 {
@@ -9,7 +13,7 @@ namespace NjordFinance.ModelService.Abstractions
     internal static class ExpressionExtension
     {
         /// <summary>
-        /// Joins the given expression as with an AND operator.
+        /// Joins the given expression with an AND operator.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="expr1"></param>
@@ -50,5 +54,57 @@ namespace NjordFinance.ModelService.Abstractions
                 return base.Visit(node);
             }
         }
+
+
+        public static Expression<Func<T, bool>> GetKeyExpression<T>(this T model)
+        {
+            var keyProperties = typeof(T)
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Select(p =>
+                    {
+                        return new
+                        {
+                            Property = p,
+                            KeyAttribute = p.GetCustomAttribute<KeyAttribute>(),
+                            ColumnAttribute = p.GetCustomAttribute<ColumnAttribute>()
+                        };
+                    })
+                .Where(p => p.KeyAttribute is not null && p.ColumnAttribute is not null)
+                .OrderBy(p => p.ColumnAttribute.Order)
+                .ToArray();
+
+            Expression<Func<T, bool>> expression = default;
+            foreach(var keyProp in keyProperties)
+            {
+                if (expression is null)
+                    expression = GetExpression<T>(
+                        property: keyProp.Property, 
+                        keyValue: keyProp.Property.GetValue(model));
+                else
+                    expression = expression.AndAlso(
+                        GetExpression<T>(
+                            property: keyProp.Property,
+                            keyValue: keyProp.Property.GetValue(model)));
+            }
+
+            return expression;
+
+        }
+
+        private static Expression<Func<T, bool>> GetExpression<T>(PropertyInfo property, object keyValue)
+        {
+            // Get the first property info that matches the expected type and has 
+            // the key attribute applied.
+
+            // Construct the base elements of the left-hand side of the expression.
+            ParameterExpression parameterExpression = Expression.Parameter(typeof(T), "x");
+            Expression expressionLeft = Expression.Property(parameterExpression, propertyName: property.Name);
+            Expression expressionRight = Expression.Constant(keyValue, property.PropertyType);
+
+            Expression expression = Expression.Equal(expressionLeft, expressionRight);
+
+            return Expression.Lambda<Func<T, bool>>(expression, parameterExpression);
+        }
+
     }
 }

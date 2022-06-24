@@ -10,10 +10,10 @@ namespace NjordFinance.Model
     public partial class InvestmentPerformanceEntry
     {
         [Key]
-        [Column("AccountObjectID")]
+        [Column("AccountObjectID", Order = 0)]
         public int AccountObjectId { get; set; }
         [Key]
-        [Column(TypeName = "date")]
+        [Column(TypeName = "date", Order = 1)]
         public DateTime FromDate { get; set; }
         [Column(TypeName = "date")]
         public DateTime ToDate { get; set; }

@@ -7,10 +7,11 @@ namespace NjordFinance.Model
     public partial class ModelAttributeScope
     {
         [Key]
-        [Column("AttributeID")]
+        [Column("AttributeID", Order = 0)]
         public int AttributeId { get; set; }
         [Key]
         [StringLength(3)]
+        [Column(nameof(ScopeCode), Order = 1)]
         public string ScopeCode { get; set; }
 
         [ForeignKey(nameof(AttributeId))]

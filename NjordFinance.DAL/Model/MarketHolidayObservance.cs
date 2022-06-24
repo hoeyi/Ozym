@@ -10,10 +10,10 @@ namespace NjordFinance.Model
     public partial class MarketHolidayObservance
     {
         [Key]
-        [Column("MarketHolidayID")]
+        [Column("MarketHolidayID", Order = 0)]
         public int MarketHolidayId { get; set; }
         [Key]
-        [Column(TypeName = "date")]
+        [Column(TypeName = "date", Order = 1)]
         public DateTime ObservanceDate { get; set; }
 
         [ForeignKey(nameof(MarketHolidayId))]
