@@ -11,13 +11,13 @@ namespace NjordFinance.Model
     public partial class SecurityAttributeMemberEntry
     {
         [Key]
-        [Column("AttributeMemberID")]
+        [Column("AttributeMemberID", Order = 0)]
         public int AttributeMemberId { get; set; }
         [Key]
-        [Column("SecurityID")]
+        [Column("SecurityID", Order = 1)]
         public int SecurityId { get; set; }
         [Key]
-        [Column(TypeName = "date")]
+        [Column(TypeName = "date", Order = 12)]
         public DateTime EffectiveDate { get; set; }
         [Column(TypeName = "decimal(5, 4)")]
         public decimal Weight { get; set; }
