@@ -9,10 +9,10 @@ namespace NjordFinance.Model
     /// Defines the metadata for <see cref="AccountComposite"/>.
     /// </summary>
     [Noun(
-        Plural = nameof(ModelNoun.AccountCompositeMember_Plural),
-        PluralArticle = nameof(ModelNoun.AccountCompositeMember_PluralArticle),
-        Singular = nameof(ModelNoun.AccountCompositeMember_Singular),
-        SingularArticle = nameof(ModelNoun.AccountCompositeMember_SingularArticle),
+        Plural = nameof(ModelNoun.AccountComposite_Plural),
+        PluralArticle = nameof(ModelNoun.AccountComposite_PluralArticle),
+        Singular = nameof(ModelNoun.AccountComposite_Singular),
+        SingularArticle = nameof(ModelNoun.AccountComposite_SingularArticle),
         ResourceType = typeof(ModelNoun)
         )]
     public class AccountCompositeMetadata
