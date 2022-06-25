@@ -61,14 +61,10 @@ else
 
         try
         {
-            var modelQuery = Controller.GetDefaultAsync();
-            var custodiansQuery = ReferenceData.AccountCustodianListAsync();
+            var modelActionResult = await Controller.GetDefaultAsync();
+            Custodians = await ReferenceData.AccountCustodianListAsync();
 
-            await custodiansQuery;
-            await modelQuery;
-
-            Custodians = custodiansQuery.Result;
-            if (modelQuery.Result.Value is Account account)
+            if (modelActionResult.Value is Account account)
                 Model = account;
 
         }

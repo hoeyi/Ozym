@@ -70,11 +70,10 @@ namespace NjordFinance.Web.Components.Generic
                 SearchFields = ExpressionBuilder!.GetSearchableMembers<TModel>();
                 ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
-                Task<ActionResult<IList<TModel>>> actionResult =
-                    Controller!.SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+                ActionResult<IList<TModel>> actionResult =
+                    await Controller!.SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
 
-                await actionResult;
-                Models = actionResult.Result?.Value ?? Array.Empty<TModel>();
+                Models = actionResult.Value ?? Array.Empty<TModel>();
             }
             finally
             {
