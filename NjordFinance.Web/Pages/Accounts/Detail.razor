@@ -14,15 +14,22 @@ else
 
     <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Read(Model.AccountCode))" />
 
-    <div>
-        <AccountObjectCRUD Model="@Model.AccountNavigation"
-            Disabled="@_disabled" Readonly="@_readonly" />
-    </div>
-    <div>
-        <AccountCRUD Model="@Model" AccountCustodians=@Custodians 
-            Disabled="@_disabled" Readonly="@_readonly" />
-    </div>
+    <ThemedComponent>
+        <EditForm class="model-editor" Model=@Model>
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <div>
+                <AccountObjectCRUD Model="@Model.AccountNavigation"
+                    Disabled="@_disabled" Readonly="@_readonly" />
+            </div>
+            <div>
+                <AccountCRUD Model="@Model" AccountCustodians="@Custodians"
+                    Disabled="@_disabled" Readonly="@_readonly" />
+            </div>
+        </EditForm>
+    </ThemedComponent>
 }
+
 @code {
     [Parameter]
     public int? AccountId { get; set; }
@@ -64,7 +71,7 @@ else
                         {
                             IconKey = "list",
                             Caption = $"{Resources.Strings.Caption_Button_Index}",
-                            UriStem = $"{PageIndexUri}"
+                            UriStem = $"{IndexUriRelativePath}"
                         }
                     },
                     // Add delete button.
@@ -72,7 +79,7 @@ else
                         {
                             IconKey = "pencil",
                             Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetSingular()}",
-                            UriStem = $"{PageIndexUri}/Edit/{Model.AccountId}"
+                            UriStem = $"{IndexUriRelativePath}/Edit/{Model.AccountId}"
                         }
                     },
                     // Add delete button.

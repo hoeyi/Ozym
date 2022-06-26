@@ -18,7 +18,7 @@ else
                         </ToolTip>
                     </td>
                     <td class="col-sm-10">
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.AccountObjectCode
                         }
@@ -39,7 +39,7 @@ else
                         </ToolTip>
                     </td>
                     <td>
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.ObjectDisplayName
                         }
@@ -60,7 +60,7 @@ else
                         </ToolTip>
                     </td>
                     <td>
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.ObjectDescription
                         }
@@ -81,7 +81,7 @@ else
                         </ToolTip>
                     </td>
                     <td>
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.StartDate.ToShortDateString()
                         }
@@ -101,7 +101,7 @@ else
                         </ToolTip>
                     </td>
                     <td>
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.CloseDate?.ToShortDateString()
                         }

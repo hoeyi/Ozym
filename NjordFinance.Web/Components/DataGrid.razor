@@ -4,31 +4,33 @@
 @inherits ComponentBase
 @inject IModelMetadataService ModelMetadata
 
-<CascadingValue IsFixed=true Value=this>
-    <CascadingValue IsFixed=true Value="@EditContext">
+<ThemedComponent>
+    <CascadingValue IsFixed=true Value=this>
+        <CascadingValue IsFixed=true Value="@EditContext">
 
-        @ChildContent
+            @ChildContent
 
-        <table class="datagrid" @attributes="TableAttributes">
-            <thead>
-                <tr class="datagrid-header-row">
-                    @foreach (var column in Columns.Where(c => c.Visible).OrderBy(c => c.Index))
+            <table class="datagrid" @attributes="TableAttributes">
+                <thead>
+                    <tr class="datagrid-header-row">
+                        @foreach (var column in Columns.Where(c => c.Visible).OrderBy(c => c.Index))
+                        {
+                            <th @attributes="column.ColumnAttributes">
+                                @(column.Caption ?? column.Property)
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var model in Data)
                     {
-                        <th @attributes="column.ColumnAttributes">
-                            @(column.Caption ?? column.Property)
-                        </th>
+                        <DataGridRow Model="@model" />
                     }
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var model in Data)
-                {
-                    <DataGridRow Model="@model" />
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </CascadingValue>
     </CascadingValue>
-</CascadingValue>
+</ThemedComponent>
 
 
 

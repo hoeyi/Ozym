@@ -12,6 +12,7 @@ namespace NjordFinance.Web.Components.Generic
     public partial class ModelPage<TModel> : LocalizableComponent, INavigationSource
     {
         private NounAttribute _modelNoun;
+        private string _indexUriRelativePath;
 
         /// <summary>
         /// Gets or sets the <see cref="ILogger"/> used by this component.
@@ -48,23 +49,28 @@ namespace NjordFinance.Web.Components.Generic
         protected IPageTitle PageTitle => DisplayHelper.GetPagetTitle<TModel>();
 
         /// <summary>
-        /// Gets the absolute uri for the index page that represents this model.
+        /// Gets the relative uri for the index page that represents this model.
         /// Model pages use the index page as the base relative path for other model pages.
-        /// Ex. {BaseUri}/Accounts
+        /// Ex. /Accounts
         /// </summary>
-        protected string PageIndexUri
+        protected string IndexUriRelativePath
         {
             get
             {
-                string relativePath = NavigationHelper.ToBaseRelativePath(NavigationHelper.Uri);
+                if (string.IsNullOrEmpty(_indexUriRelativePath))
+                {
+                    string relativePath = NavigationHelper.ToBaseRelativePath(NavigationHelper.Uri);
 
-                string[] pathElements = relativePath.Split("/");
+                    string[] pathElements = relativePath.Split("/");
 
-                if (pathElements.Length > 0)
-                    return NavigationHelper.ToAbsoluteUri(pathElements[0]).AbsoluteUri;
-                else
-                    throw new InvalidOperationException(Resources.Strings.Exception_Navigation_BaseUriNotValid);
+                    if (pathElements.Length > 0)
+                        _indexUriRelativePath = $"/{pathElements[0]}";
+                    else
+                        throw new InvalidOperationException(
+                            Resources.Strings.Exception_Navigation_BaseUriNotValid);
+                }
 
+                return _indexUriRelativePath;
             }
         }
 
@@ -73,7 +79,7 @@ namespace NjordFinance.Web.Components.Generic
         /// </summary>
         protected virtual void NavigateToIndex(MouseEventArgs args)
         {
-            NavigationHelper.NavigateTo($"{PageIndexUri}");
+            NavigationHelper.NavigateTo($"{IndexUriRelativePath}");
         }
 
         /// <summary>
@@ -85,7 +91,7 @@ namespace NjordFinance.Web.Components.Generic
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException(paramName: nameof(id));
 
-            NavigationHelper.NavigateTo($"{PageIndexUri}/Create/{id}");
+            NavigationHelper.NavigateTo($"{IndexUriRelativePath}/Create/{id}");
         }
 
         /// <summary>
@@ -97,7 +103,7 @@ namespace NjordFinance.Web.Components.Generic
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException(paramName: nameof(id));
 
-            NavigationHelper.NavigateTo($"{PageIndexUri}/Edit/{id}");
+            NavigationHelper.NavigateTo($"{IndexUriRelativePath}/Edit/{id}");
         }
 
         /// <summary>
@@ -109,7 +115,7 @@ namespace NjordFinance.Web.Components.Generic
             if (string.IsNullOrEmpty(id))
                 throw new ArgumentNullException(paramName: nameof(id));
 
-            NavigationHelper.NavigateTo($"{PageIndexUri}/Detail/{id}");
+            NavigationHelper.NavigateTo($"{IndexUriRelativePath}/Detail/{id}");
         }
     }
 }

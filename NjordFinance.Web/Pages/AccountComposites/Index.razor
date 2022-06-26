@@ -6,57 +6,53 @@
 
 <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Index())" />
 
-<div>
-    <SearchInputTable TModel=@AccountComposite
-                      ComparisonOperators=@ComparisonOperators
-                      ExpressionBuilder=@ExpressionBuilder
-                      SearchFields=@SearchFields
-                      OnSearchClick=@(args => SearchClicked(args))>
-    </SearchInputTable>
-</div>
+<SearchInputTable TModel=@AccountComposite
+                    ComparisonOperators=@ComparisonOperators
+                    ExpressionBuilder=@ExpressionBuilder
+                    SearchFields=@SearchFields
+                    OnSearchClick=@(args => SearchClicked(args))>
+</SearchInputTable>
 @if (IsLoading)
 {
     <LoadingSvg />
 }
 else
 {
-    <span>
-        <DataGrid Data="@Models" class="datagrid">
-            <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.AccountObjectCode)
-                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))>
-                <CellTemplate Context="model">
-                    <a href="@($"{PageIndexUri}/Details/{model.AccountCompositeId}")" @onclick="@(args => NavigateToDetail(model, args))"
-                   @onclick:preventDefault>
-                        @model.AccountCompositeNavigation.AccountObjectCode.ToUpper()
-                    </a>
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDisplayName)
-                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))>
-                <CellTemplate Context="model">
-                    @model.AccountCompositeNavigation.ObjectDisplayName
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDescription)
-                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDescription)))>
-                <CellTemplate Context="model">
-                    @model.AccountCompositeNavigation.ObjectDescription
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.StartDate)
-                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.StartDate)))>
-                <CellTemplate Context="model">
-                    @model.AccountCompositeNavigation.StartDate.ToShortDateString()
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.CloseDate)
-                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.CloseDate)))>
-                <CellTemplate Context="model">
-                    @model.AccountCompositeNavigation.CloseDate?.ToShortDateString()
-                </CellTemplate>
-            </DataGridColumn>
-        </DataGrid>
-    </span>
+    <DataGrid Data="@Models" class="datagrid">
+        <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.AccountObjectCode)
+                    Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))>
+            <CellTemplate Context="model">
+                <a href="@($"{IndexUriRelativePath}/Details/{model.AccountCompositeId}")" @onclick="@(args => NavigateToDetail(model, args))"
+                @onclick:preventDefault>
+                    @model.AccountCompositeNavigation.AccountObjectCode.ToUpper()
+                </a>
+            </CellTemplate>
+        </DataGridColumn>
+        <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDisplayName)
+                    Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))>
+            <CellTemplate Context="model">
+                @model.AccountCompositeNavigation.ObjectDisplayName
+            </CellTemplate>
+        </DataGridColumn>
+        <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDescription)
+                    Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDescription)))>
+            <CellTemplate Context="model">
+                @model.AccountCompositeNavigation.ObjectDescription
+            </CellTemplate>
+        </DataGridColumn>
+        <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.StartDate)
+                    Caption=@(NameFor<AccountObject>(nameof(AccountObject.StartDate)))>
+            <CellTemplate Context="model">
+                @model.AccountCompositeNavigation.StartDate.ToShortDateString()
+            </CellTemplate>
+        </DataGridColumn>
+        <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.CloseDate)
+                    Caption=@(NameFor<AccountObject>(nameof(AccountObject.CloseDate)))>
+            <CellTemplate Context="model">
+                @model.AccountCompositeNavigation.CloseDate?.ToShortDateString()
+            </CellTemplate>
+        </DataGridColumn>
+    </DataGrid>
 }
 
 @code {
@@ -73,7 +69,7 @@ else
                     {
                         IconKey = "create",
                         Caption = $"Create new {ModelNoun.GetSingular()}",
-                        UriStem = $"/{PageIndexUri}/Create/{Guid.NewGuid()}"
+                        UriStem = $"Composites/Create/{Guid.NewGuid()}"
                     }
                 }
             }

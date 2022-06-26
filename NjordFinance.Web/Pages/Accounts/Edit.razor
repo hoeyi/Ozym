@@ -14,31 +14,25 @@ else
 
     <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Update(Model.AccountCode))" />
 
-@*    <div>
-        <a class="link-button" href=""
-            @onclick=@(args => HandleDelete(args))
-            @onclick:preventDefault>
-            @Resources.Strings.Caption_Button_Delete
-        </a>
-    </div>*@
-
-    <EditForm Model=@Model>
-        <DataAnnotationsValidator/>
-        <ValidationSummary/>
-        <div>
-            <AccountObjectCRUD Model="@Model.AccountNavigation"
-                Disabled="@_disabled" Readonly="@_readonly" />
-        </div>
-        <div>
-            <AccountCRUD Model="@Model" AccountCustodians="@Custodians"
-                Disabled="@_disabled" Readonly="@_readonly" />
-        </div>
-        <div>
-            <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
-                @Resources.Strings.Caption_Button_Save
-            </button>
-        </div>
-    </EditForm>
+    <ThemedComponent>
+        <EditForm class="model-editor" Model=@Model>
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <div>
+                <AccountObjectCRUD Model="@Model.AccountNavigation"
+                    Disabled="@_disabled" Readonly="@_readonly" />
+            </div>
+            <div>
+                <AccountCRUD Model="@Model" AccountCustodians="@Custodians"
+                    Disabled="@_disabled" Readonly="@_readonly" />
+            </div>
+            <div>
+                <button class="form-control button" @onclick="@(args => HandleValidSubmit(args))">
+                    @Resources.Strings.Caption_Button_Save
+                </button>
+            </div>
+        </EditForm>
+    </ThemedComponent>
 }
 
 @code {
@@ -63,7 +57,7 @@ else
                     {
                         IconKey = "list",
                         Caption = $"{Resources.Strings.Caption_Button_Index}",
-                        UriStem = $"{PageIndexUri}"
+                        UriStem = $"{IndexUriRelativePath}"
                     }
                 },
                 // Add delete button.

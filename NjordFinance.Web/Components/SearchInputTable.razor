@@ -4,7 +4,7 @@
 
 <div class="search-input-table">
     <label hidden=@SearchIsValid class="alert-info">@InvalidSearchMessage</label>
-    <div>
+    <ThemedComponent>
         <EditForm Model="@this">
             <table class="table search-parameter-table">
                 <tbody>
@@ -44,5 +44,5 @@
                 </tbody>
             </table>
         </EditForm>
-    </div>
+    </ThemedComponent>
 </div>

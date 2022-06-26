@@ -18,7 +18,7 @@ else
                         </ToolTip>
                     </td>
                     <td class="col-sm-10">
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.AccountNumber
                         }
@@ -38,7 +38,7 @@ else
                         </ToolTip>
                     </td>
                     <td>
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.AccountCustodian?.DisplayName
                         }
@@ -64,7 +64,7 @@ else
                         </ToolTip>
                     </td>
                     <td>
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.BooksClosedDate?.ToShortDateString()
                         }
@@ -84,7 +84,7 @@ else
                         </ToolTip>
                     </td>
                     <td>
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.IsComplianceTradable
                         }
@@ -104,7 +104,7 @@ else
                         </ToolTip>
                     </td>
                     <td>
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.HasWallet
                         }
@@ -124,7 +124,7 @@ else
                         </ToolTip>
                     </td>
                     <td>
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.HasBankTransaction
                         }
@@ -144,7 +144,7 @@ else
                         </ToolTip>
                     </td>
                     <td>
-                        @if (Readonly)
+                        @if (ReadOnly)
                         {
                             @Model.HasBrokerTransaction
                         }
