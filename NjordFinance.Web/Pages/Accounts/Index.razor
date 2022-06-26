@@ -102,9 +102,9 @@ else
 }
 
 @code {
-    
+
     /// <inheritdoc/>
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         ActionMenu = new()
         {
@@ -123,7 +123,7 @@ else
 
         MaxRecordCount = -1;
 
-        return base.OnInitializedAsync();
+        await base.OnInitializedAsync();
     }
 
     private void NavigateToDetail(Account model, MouseEventArgs args)
