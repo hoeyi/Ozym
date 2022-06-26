@@ -45,10 +45,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <summary>
         /// Gets the <see cref="IPageTitle"/> instance for this page.
         /// </summary>
-        protected IPageTitle PageTitle
-        {
-            get => DisplayHelper.GetPagetTitle<TModel>();
-        }
+        protected IPageTitle PageTitle => DisplayHelper.GetPagetTitle<TModel>();
 
         /// <summary>
         /// Gets the absolute uri for the index page that represents this model.

@@ -2,6 +2,7 @@ using NjordFinance;
 using NjordFinance.Web.Areas.Identity;
 using NjordFinance.Web.Areas.Identity.Data;
 using NjordFinance.Web.Data;
+using NjordFinance.Messaging;
 using Ichosys.DataModel;
 using Ichosys.DataModel.Expressions;
 using Ichosys.Extensions.Configuration;
@@ -55,9 +56,10 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 #region Data-access service configuration
 
-// Add metadata and search services.
+// Add metadata, search, and message services.
 builder.Services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
 builder.Services.AddSingleton<IModelMetadataService, ModelMetadataService>();
+builder.Services.AddSingleton<IMessageService, MessageService>();
 
 // Add database service.
 builder.Services.AddDbContextFactory<NjordFinance.Context.FinanceDbContext>(options =>
