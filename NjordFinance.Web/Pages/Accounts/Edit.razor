@@ -18,6 +18,14 @@ else
         <EditForm class="model-editor" Model=@Model>
             <DataAnnotationsValidator/>
             <ValidationSummary/>
+            <ActionButtonMenu>
+                <button class="form-control button" @onclick="@(() => NavigateToDetail(AccountId?.ToString()))">
+                    @Resources.Strings.Caption_Button_Cancel
+                </button>
+                <button class="form-control button" @onclick="@(args => HandleValidSubmit(args))">
+                    @Resources.Strings.Caption_Button_Save
+                </button>
+            </ActionButtonMenu>
             <div>
                 <AccountObjectCRUD Model="@Model.AccountNavigation"
                     Disabled="@_disabled" Readonly="@_readonly" />
@@ -26,16 +34,14 @@ else
                 <AccountCRUD Model="@Model" AccountCustodians="@Custodians"
                     Disabled="@_disabled" Readonly="@_readonly" />
             </div>
-            <div>
-                <button class="form-control button" @onclick="@(args => HandleValidSubmit(args))">
-                    @Resources.Strings.Caption_Button_Save
-                </button>
-            </div>
         </EditForm>
     </ThemedComponent>
 }
 
 @code {
+    /// <summary>
+    /// Gets or sets the identifier <see cref="Account" /> worked using this page.
+    /// </summary>
     [Parameter]
     public int? AccountId { get; set; }
 

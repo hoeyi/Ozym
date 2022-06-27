@@ -75,6 +75,11 @@ namespace NjordFinance.Web.Components.Generic
         }
 
         /// <summary>
+        /// Gets or sets the current text describing this page's error state.
+        /// </summary>
+        protected string ErrorMessage { get; set; }
+
+        /// <summary>
         /// Redirects the focus to the model index page.
         /// </summary>
         protected virtual void NavigateToIndex(MouseEventArgs args)

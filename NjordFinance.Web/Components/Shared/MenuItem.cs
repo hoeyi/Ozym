@@ -14,19 +14,6 @@ namespace NjordFinance.Web.Components.Shared
         {
         }
 
-        ///// <summary>
-        ///// Creates an <see cref="MenuItem"/>.
-        ///// </summary>
-        ///// <param name="iconKey">The </param>
-        ///// <param name="caption"></param>
-        ///// <param name="uriStem"></param>
-        //public MenuItem(string iconKey, string caption, string uriStem)
-        //{
-        //    IconKey = iconKey;
-        //    Caption = caption;
-        //    UriStem = uriStem;
-        //}
-
         /// <summary>
         /// Gets or sets the key for the navigation menu item.
         /// </summary>
@@ -63,8 +50,8 @@ namespace NjordFinance.Web.Components.Shared
         /// <inheritdoc />
         public override bool Equals(object? obj)
         {
-            if (obj is MenuItem navIcon)
-                return navIcon.GetHashCode() == GetHashCode();
+            if (obj is MenuItem item)
+                return item.GetHashCode() == GetHashCode();
             else
                 return false;
         }

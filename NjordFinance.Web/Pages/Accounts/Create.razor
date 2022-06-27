@@ -1,4 +1,5 @@
 ﻿@page "/Accounts/Create/{RequestGuid:guid}"
+@using NjordFinance.Exceptions
 
 @inherits ModelDetail<Account>
 
@@ -18,6 +19,14 @@ else
         <EditForm class="model-editor" Model=@Model>
             <DataAnnotationsValidator/>
             <ValidationSummary/>
+            <ActionButtonMenu>
+                <button class="form-control button" @onclick="NavigateToIndex">
+                    @Resources.Strings.Caption_Button_Cancel
+                </button>
+                <button class="form-control button" @onclick="@(args => HandleValidSubmit(args))">
+                    @Resources.Strings.Caption_Button_Save
+                </button>
+            </ActionButtonMenu>
             <div>
                 <AccountObjectCRUD Model="@Model.AccountNavigation"
                     Disabled="@_disabled" Readonly="@_readonly" />
@@ -25,11 +34,6 @@ else
             <div>
                 <AccountCRUD Model="@Model" AccountCustodians="@Custodians"
                     Disabled="@_disabled" Readonly="@_readonly" />
-            </div>
-            <div>
-                <button class="form-control button" @onclick="@(args => HandleValidSubmit(args))">
-                    @Resources.Strings.Caption_Button_Save
-                </button>
             </div>
         </EditForm>
     </ThemedComponent>
@@ -82,14 +86,11 @@ else
 
     private async Task HandleValidSubmit(MouseEventArgs args)
     {
-        int defaultId = Model!.AccountId;
-
         var result = await Controller.CreateAsync(Model);
+        
         var createResult = result.Result as CreatedAtActionResult;
 
-        if (result.Result is CreatedAtActionResult caar &&
-            caar.Value is Account account &&
-            account.AccountId != defaultId)
-            NavigateToDetail($"{account.AccountId}");
+        if (result?.Value is not null)
+            NavigateToDetail($"{result.Value.AccountId}");
     }
 }

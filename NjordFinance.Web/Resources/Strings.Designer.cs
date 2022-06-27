@@ -61,6 +61,15 @@ namespace NjordFinance.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Caption_Button_Cancel {
+            get {
+                return ResourceManager.GetString("Caption_Button_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New.
         /// </summary>
         internal static string Caption_Button_Create {

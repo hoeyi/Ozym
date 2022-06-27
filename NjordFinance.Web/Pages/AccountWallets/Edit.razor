@@ -15,59 +15,57 @@ else
     <h3>@(PageTitle.Update(parent.AccountCode))</h3>
     <hr/>
 
-    if(!string.IsNullOrEmpty(errorMessage))
+    if(!string.IsNullOrEmpty(ErrorMessage))
     {
-        <div class="error-text">@errorMessage</div>
+        <div class="error-text">@ErrorMessage</div>
     }
     <ThemedComponent>
-        <EditForm Model="@Wallets">
-            <button class="form-control button" @onclick="@(args => HandleSubmit(context, args))">
-                    @Resources.Strings.Caption_Button_Save
-            </button>
-            <div>
-                <button class="btn btn-primary" @onclick=@(args => AddNewAsync(args))>
+        <EditForm width="100%" Model="@Wallets">
+            <ActionButtonMenu>
+                <button class="form-control button" @onclick="@(args => HandleSubmit(context, args))">
+                        @Resources.Strings.Caption_Button_Save
+                </button>
+                <button class="form-control button" @onclick=@(args => AddNewAsync(args))>
                     @Resources.Strings.Caption_DataGrid_NewLine.Format(
                 ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
                 </button>
-            </div>
+            </ActionButtonMenu>
             <DataAnnotationsValidator/>
             <ValidationSummary/>
-            <span>
-                <DataGrid Data="@Wallets" class="datagrid-editable" >
-                    <DataGridColumn 
-                        Property=@nameof(AccountWallet.DenominationSecurityId)
-                        Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
-                        width="20%">
+            <DataGrid Data="@Wallets">
+                <DataGridColumn 
+                    Property=@nameof(AccountWallet.DenominationSecurityId)
+                    Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
+                    width="20%">
+                    <CellEditTemplate Context="model">
+                        <InputSelect class="form-control" id="denomination-select" @bind-Value="@model.DenominationSecurityId">
+                            @foreach (var security in DenominationSecurities)
+                                    {
+                                    <option value=@security.Key>@security.Display</option>
+                                    }
+                            </InputSelect>
+                            <ValidationMessage For=@(()=> model.DenominationSecurityId) />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                <DataGridColumn 
+                    Property=@nameof(AccountWallet.AddressCode)
+                    Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
+                    width="45%">
                         <CellEditTemplate Context="model">
-                            <InputSelect class="form-control" id="denomination-select" @bind-Value="@model.DenominationSecurityId">
-                                @foreach (var security in DenominationSecurities)
-                                        {
-                                        <option value=@security.Key>@security.Display</option>
-                                        }
-                                </InputSelect>
-                                <ValidationMessage For=@(()=> model.DenominationSecurityId) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    <DataGridColumn 
-                        Property=@nameof(AccountWallet.AddressCode)
-                        Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
-                        width="45%">
-                            <CellEditTemplate Context="model">
-                                <InputText class="form-control" id="addresscode-text" @bind-Value="@model.AddressCode" />
-                                <ValidationMessage For=@(()=> model.AddressCode) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    <DataGridColumn 
-                        Property=@nameof(AccountWallet.AddressTag)
-                        Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
-                        width="35%">
-                            <CellEditTemplate Context="model">
-                                <InputText class="form-control" id="addresscode-text" @bind-Value="@model.AddressTag" />
-                                <ValidationMessage For=@(()=> model.AddressTag) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
-            </span>
+                            <InputText class="form-control" id="addresscode-text" @bind-Value="@model.AddressCode" />
+                            <ValidationMessage For=@(()=> model.AddressCode) />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                <DataGridColumn 
+                    Property=@nameof(AccountWallet.AddressTag)
+                    Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
+                    width="35%">
+                        <CellEditTemplate Context="model">
+                            <InputText class="form-control" id="addresscode-text" @bind-Value="@model.AddressTag" />
+                            <ValidationMessage For=@(()=> model.AddressTag) />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                </DataGrid>
         </EditForm>
     </ThemedComponent>
 }
@@ -81,8 +79,6 @@ else
     private IEnumerable<LookupModel> DenominationSecurities { get; set; }
 
     private Account parent;
-
-    private string? errorMessage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -141,7 +137,7 @@ else
                 return;
 
             else if (saveResult is ObjectResult objectResult)
-                errorMessage = (objectResult.Value as Exception)?.Message;
+                ErrorMessage = (objectResult.Value as Exception)?.Message;
         }
     }
 }

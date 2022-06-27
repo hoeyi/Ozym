@@ -1,0 +1,10 @@
+﻿.action-button-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min-content, 20%));
+    grid-gap: 10px;
+}
+
+::deep .action-button-menu > button {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

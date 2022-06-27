@@ -4,15 +4,13 @@
     position: static;
 }
 
-::deep .themed-component table.model-attributes {
-    position: relative;
-    width: 100%;
+::deep form.model-editor {
+    width: 50%;
 }
 
-    ::deep .themed-component table.model-attributes td {
-        padding: 0.25rem;
-    }
-
+::deep form.model-editor td {
+    padding: 0.25rem;
+}
 ::deep .datagrid {
     width: 100%;
     overflow: scroll;
@@ -62,7 +60,6 @@
     background-color: var(--euler-hexcolor-primary-0, inherit) !important;
     border-color: var(--euler-hexcolor-back-1, inherit) !important;
     color: var(--euler-hexcolor-fore-0, white) !important;
-    padding: 0.25rem;
 }
 
     ::deep .form-control.button:hover {
