@@ -47,7 +47,7 @@ namespace NjordFinance.Controllers.Abstractions
                 var createdModel = await _modelService.CreateAsync(model);
 
                 return CreatedAtAction(
-                    CreatedActionName,
+                    nameof(ReadAsync),
                     new { id = _modelService.GetKey(createdModel) },
                     createdModel);
             }
