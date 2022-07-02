@@ -31,17 +31,9 @@ namespace NjordFinance.Controllers.Abstractions
             _logger = logger;
         }
 
-        /// <summary>
-        /// Gets the <see cref="CreatedAtActionResult"/> action name.
-        /// </summary>
-        protected string CreatedActionName { get; } = $"Get{typeof(T).Name}";
-
         /// <inheritdoc/>
         public async Task<ActionResult<T>> CreateAsync(T model)
         {
-            if (string.IsNullOrEmpty(CreatedActionName))
-                throw new InvalidOperationException();
-
             try
             {
                 var createdModel = await _modelService.CreateAsync(model);
