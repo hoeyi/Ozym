@@ -1,0 +1,29 @@
+﻿@typeparam TModel
+
+@if(Model is not null && !string.IsNullOrEmpty(MemberName))
+{
+    <tr>
+        <td class="col-sm-2">
+            <ToolTip Text="@ParentForm.DescriptionFor(MemberName)">
+                @(ParentForm.NameFor(MemberName))
+            </ToolTip>
+        </td>
+        <td class="col-sm-10">
+            @ChildContent
+        </td>
+    </tr>
+}
+
+@code {
+    [CascadingParameter]
+    public TModel Model { get; set; }
+
+    [CascadingParameter]
+    private ModelForm<TModel> ParentForm { get; set; }
+
+    [Parameter] 
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string MemberName { get; set; }
+}
