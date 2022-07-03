@@ -5,24 +5,16 @@
 @attribute [CascadingTypeParameter(nameof(TModel))]
 
 <ThemedComponent>
-    <EditForm Model="@Model">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <CascadingValue Value="@this">
-            <CascadingValue Value="@Model">
-                <table class="model-attributes">
-                    <tbody>
-                        @ChildContent
-                    </tbody>
-                </table>
-            </CascadingValue>
-        </CascadingValue>
-    </EditForm>
+    <CascadingValue Value="@this">
+            <table class="model-attributes">
+                <tbody>
+                    @ChildContent
+                </tbody>
+            </table>
+    </CascadingValue>
 </ThemedComponent>
 
 @code {
-    [Parameter]
-    public TModel Model { get; set; }
 
     [Parameter] 
     public RenderFragment? ChildContent { get; set; }

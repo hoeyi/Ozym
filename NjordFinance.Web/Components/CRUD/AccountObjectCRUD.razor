@@ -6,73 +6,66 @@
 }
 else
 {
-    <ModelForm Model="@Model">
-        <ModelFormLineItem MemberName="@nameof(AccountObject.AccountObjectCode)">
+    <ModelForm TModel="AccountObject" Model="@Model">
+        <ModelFormLineItem MemberName="@nameof(AccountObject.AccountObjectCode)"
+            ValidationMessageDelegate="@(() => Model.AccountObjectCode)">
             @if (ReadOnly)
             {
                 @Model.AccountObjectCode
             }
             else
             {
-                <InputText id="accountobject-shortcode" class="form-control"
-                    @bind-Value=Model.AccountObjectCode
+                <InputText class="form-control" @bind-Value=Model.AccountObjectCode
                     disable="@Disabled"
                     DisplayName=@(NameFor(nameof(AccountObject.AccountObjectCode))) />
-                <ValidationMessage For="@(() => Model.AccountObjectCode)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountObject.ObjectDisplayName)">
+        <ModelFormLineItem MemberName="@nameof(AccountObject.ObjectDisplayName)"
+            ValidationMessageDelegate="@(() => Model.ObjectDisplayName)">
             @if (ReadOnly)
             {
                 @Model.ObjectDisplayName
             }
             else
             {
-                <InputText id="accountobject-objectdisplayname" class="form-control"
-                    @bind-Value=Model.ObjectDisplayName
+                <InputText class="form-control" @bind-Value=Model.ObjectDisplayName
                     disable="@Disabled"
                     DisplayName=@(NameFor(nameof(AccountObject.ObjectDisplayName))) />
-                <ValidationMessage For="@(() => Model.ObjectDisplayName)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountObject.ObjectDescription)">
+        <ModelFormLineItem MemberName="@nameof(AccountObject.ObjectDescription)"
+            ValidationMessageDelegate="@(() => Model.ObjectDescription)">
             @if (ReadOnly)
             {
                 @Model.ObjectDescription
             }
             else
             {
-                <InputText id="accountobject-objectdescription" class="form-control"
-                    @bind-Value=Model.ObjectDescription
+                <InputText class="form-control" @bind-Value=Model.ObjectDescription
                     disable="@Disabled"
                     DisplayName=@(NameFor(nameof(AccountObject.ObjectDescription))) />
-                <ValidationMessage For="@(() => Model.ObjectDescription)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountObject.StartDate)">
+        <ModelFormLineItem MemberName="@nameof(AccountObject.StartDate)"
+            ValidationMessageDelegate="@(() => Model.StartDate)">
             @if (ReadOnly)
             {
                 @Model.StartDate.ToShortDateString()
             }
             else
             {
-                <InputDate id="accountobect-startdate" class="form-control"
-                    @bind-Value=Model.StartDate
-                    disable="@Disabled" />
-                <ValidationMessage For="@(() => Model.StartDate)" />
+                <InputDate class="form-control" @bind-Value=Model.StartDate disable="@Disabled" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountObject.CloseDate)">
+        <ModelFormLineItem MemberName="@nameof(AccountObject.CloseDate)"
+            ValidationMessageDelegate="@(() => Model.CloseDate)">
             @if (ReadOnly)
             {
                 @Model.CloseDate?.ToShortDateString()
             }
             else
             {
-                <InputDate id="account-number" class="form-control"
-                    @bind-Value=Model.CloseDate
-                    disable="@Disabled" />
-                <ValidationMessage For="@(() => Model.CloseDate)" />
+                <InputDate class="form-control" @bind-Value=Model.CloseDate disable="@Disabled" />
             }
         </ModelFormLineItem>
     </ModelForm>

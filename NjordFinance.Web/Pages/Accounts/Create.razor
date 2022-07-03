@@ -1,5 +1,4 @@
 ﻿@page "/Accounts/Create/{RequestGuid:guid}"
-@using NjordFinance.Exceptions
 
 @inherits ModelDetail<Account>
 
@@ -7,7 +6,7 @@
 
 <PageTitle>@(PageTitle.Create().AsPageTitle())</PageTitle>
 
-<ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Create())" />
+<ModelPageMenuHeader Header="@(PageTitle.Create())" />
 
 @if (IsLoading)
 {
@@ -16,67 +15,67 @@
 else
 {
     <ThemedComponent>
-        <EditForm class="model-editor" Model=@Model>
-            <DataAnnotationsValidator/>
+        <EditForm class="model-editor" Model="@ViewModel" 
+            OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
             <ValidationSummary/>
             <ActionButtonMenu>
-                <button class="form-control button" @onclick="NavigateToIndex">
+                <button class="form-control button" @onclick=NavigateToIndex
+                    @onclick:preventDefault >
                     @Resources.Strings.Caption_Button_Cancel
                 </button>
-                <button class="form-control button" @onclick="@(args => HandleValidSubmit(args))">
+                <button type="submit" class="form-control button">
                     @Resources.Strings.Caption_Button_Save
                 </button>
             </ActionButtonMenu>
             <div>
+                <AccountViewModelCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
+                    Disabled="@_disabled" ReadOnly="@_readonly" />
+            </div>
+@*            <div>
                 <AccountObjectCRUD Model="@Model.AccountNavigation"
                     Disabled="@_disabled" Readonly="@_readonly" />
             </div>
             <div>
                 <AccountCRUD Model="@Model" AccountCustodians="@Custodians"
                     Disabled="@_disabled" Readonly="@_readonly" />
-            </div>
+            </div>*@
         </EditForm>
     </ThemedComponent>
 }
 
 @code {
     [Parameter]
-    public Guid RequestGuid { get; set; }
+    public Guid RequestGuid { get; init; }
 
     private IEnumerable<LookupModel> Custodians { get; set; }
+    private EditContext AccountViewModelContext { get; set; }
+    private AccountViewModel ViewModel { get; set; }
 
     private const bool _disabled = false;
     private const bool _readonly = false;
 
+
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        ActionMenu = new()
-        {
-            IconKey = "reorder-four",
-            Children = new()
-            {
-                // Add index button.
-                { 0, new MenuItem()
-                    {
-                        IconKey = "list",
-                        Caption = $"{Resources.Strings.Caption_Button_Index}",
-                        UriStem = $"{IndexUriRelativePath}"
-                    }
-                }
-            }
-        };    
-
         IsLoading = true;
 
         try
         {
-            var modelActionResult = await Controller.GetDefaultAsync();
-            Custodians = await ReferenceData.AccountCustodianListAsync();
+            var getDefaultModelTask = Controller.GetDefaultAsync();
+            var refreshCustodianListTask = ReferenceData.AccountCustodianListAsync();
 
-            if (modelActionResult.Value is Account account)
-                Model = account;
+            await Task.WhenAll(getDefaultModelTask, refreshCustodianListTask);
 
+            Model = getDefaultModelTask.Result.Value;
+            Custodians = refreshCustodianListTask.Result;
+
+            ViewModel = new(Model);
+
+            AccountViewModelContext = new(ViewModel);
+
+            AccountViewModelContext.EnableDataAnnotationsValidation();
         }
         finally
         {
@@ -84,10 +83,13 @@ else
         }
     }
 
-    private async Task HandleValidSubmit(MouseEventArgs args)
+    private async Task HandleSubmit()
     {
+        //if (!AccountContext.Validate())
+        //    return;
+
         var result = await Controller.CreateAsync(Model);
-        
+
         var createResult = result.Result as CreatedAtActionResult;
 
         if (result?.Value is not null)

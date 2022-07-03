@@ -1,6 +1,6 @@
 ﻿@typeparam TModel
 
-@if(Model is not null && !string.IsNullOrEmpty(MemberName))
+@if(!string.IsNullOrEmpty(MemberName))
 {
     <tr>
         <td class="col-sm-2">
@@ -10,14 +10,12 @@
         </td>
         <td class="col-sm-10">
             @ChildContent
+            @*<ValidationMessage For="@ValidationMessageDelegate" />*@
         </td>
     </tr>
 }
 
 @code {
-    [CascadingParameter]
-    public TModel Model { get; set; }
-
     [CascadingParameter]
     private ModelForm<TModel> ParentForm { get; set; }
 
@@ -26,4 +24,7 @@
 
     [Parameter]
     public string MemberName { get; set; }
+
+    [Parameter]
+    public Expression<Func<object>> ValidationMessageDelegate { get; set; }
 }

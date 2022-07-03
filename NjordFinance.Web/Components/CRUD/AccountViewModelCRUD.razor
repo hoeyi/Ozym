@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<Account>
+﻿@inherits ModelCRUD<AccountViewModel>
 
 @if (Model is null || AccountCustodians is null)
 {
@@ -6,8 +6,72 @@
 }
 else
 {
-    <ModelForm TModel="Account" Model="@Model">
-        <ModelFormLineItem MemberName="@nameof(Account.AccountNumber)" 
+    <ModelForm TModel="AccountViewModel">
+        @*AccountObject inputs*@
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountCode)"
+            ValidationMessageDelegate="@(() => Model.AccountCode)">
+            @if (ReadOnly)
+            {
+                @Model.AccountCode
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=Model.AccountCode
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(nameof(AccountViewModel.AccountCode))) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.DisplayName)"
+            ValidationMessageDelegate="@(() => Model.DisplayName)">
+            @if (ReadOnly)
+            {
+                @Model.DisplayName
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=Model.DisplayName
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(nameof(AccountViewModel.DisplayName))) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.Description)"
+            ValidationMessageDelegate="@(() => Model.Description)">
+            @if (ReadOnly)
+            {
+                @Model.Description
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=Model.Description
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(nameof(AccountViewModel.Description))) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.StartDate)"
+            ValidationMessageDelegate="@(() => Model.StartDate)">
+            @if (ReadOnly)
+            {
+                @Model.StartDate.ToShortDateString()
+            }
+            else
+            {
+                <InputDate class="form-control" @bind-Value=Model.StartDate disable="@Disabled" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.CloseDate)"
+            ValidationMessageDelegate="@(() => Model.CloseDate)">
+            @if (ReadOnly)
+            {
+                @Model.CloseDate?.ToShortDateString()
+            }
+            else
+            {
+                <InputDate class="form-control" @bind-Value=Model.CloseDate disable="@Disabled" />
+            }
+        </ModelFormLineItem>
+
+        @*Account inputs*@
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountNumber)" 
             ValidationMessageDelegate="@(() => Model.AccountNumber)">
             @if (ReadOnly)
             {
@@ -19,7 +83,7 @@ else
                         disable="@Disabled" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(Account.AccountCustodianId)"
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountCustodianId)"
             ValidationMessageDelegate="@(() => Model.AccountCustodianId)">
             @if (ReadOnly)
             {
@@ -38,7 +102,7 @@ else
                 </InputSelect>
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(Account.BooksClosedDate)"
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.BooksClosedDate)"
             ValidationMessageDelegate="@(() => Model.BooksClosedDate)">
             @if (ReadOnly)
             {
@@ -50,7 +114,7 @@ else
                         disabled="@Disabled" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(Account.IsComplianceTradable)"
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.IsComplianceTradable)"
             ValidationMessageDelegate="@(() => Model.IsComplianceTradable)">
             @if (ReadOnly)
             {
@@ -61,7 +125,7 @@ else
                 <InputCheckbox @bind-Value=Model.IsComplianceTradable disabled="@Disabled" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(Account.HasWallet)"
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.HasWallet)"
             ValidationMessageDelegate="@(() => Model.HasWallet)">
             @if (ReadOnly)
             {
@@ -73,7 +137,7 @@ else
                 <ValidationMessage For="@(() => Model.HasWallet)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(Account.HasBankTransaction)"
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.HasBankTransaction)"
             ValidationMessageDelegate="@(() => Model.HasBankTransaction)">
             @if (ReadOnly)
             {
@@ -85,7 +149,7 @@ else
                 <ValidationMessage For="@(() => Model.HasBankTransaction)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(Account.HasBrokerTransaction)"
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.HasBrokerTransaction)"
             ValidationMessageDelegate="@(() => Model.HasBrokerTransaction)">
             @if (ReadOnly)
             {
