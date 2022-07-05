@@ -15,18 +15,23 @@ else
     <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Update(Model.AccountCode))" />
 
     <ThemedComponent>
-        <EditForm class="model-editor" Model="@Model" 
-            OnValidSubmit="HandleValidSubmit" >
+        <EditForm class="model-editor" Model="@ViewModel" 
+            OnSubmit="HandleValidSubmit">
+            @*OnValidSubmit="HandleValidSubmit" >*@
             <DataAnnotationsValidator/>
             @*<ValidationSummary/>*@
             <ActionButtonMenu>
-                <button class="form-control button" 
-                    @onclick="@(() => NavigateToDetail(AccountId?.ToString()))"
-                    @onclick:preventDefault>
+                <button type="button" class="form-control button" 
+                    @onclick="@(() => NavigateToDetail(AccountId.ToString()))"
+                    @onclick:preventDefault >
                     @Resources.Strings.Caption_Button_Cancel
                 </button>
-                <button class="form-control button"
-                    @onclick:preventDefault>
+                <button type="button" class="form-control button" 
+                    @onclick="HandleDelete"
+                    @onclick:preventDefault >
+                    @Resources.Strings.Caption_Button_Delete
+                </button>
+                <button type="submit" class="form-control button">
                     @Resources.Strings.Caption_Button_Save
                 </button>
             </ActionButtonMenu>
@@ -43,9 +48,11 @@ else
     /// Gets or sets the identifier <see cref="Account" /> worked using this page.
     /// </summary>
     [Parameter]
-    public int? AccountId { get; set; }
+    public int AccountId { get; set; }
 
     private IEnumerable<LookupModel> Custodians { get; set; }
+
+    private AccountViewModel ViewModel { get; set; }
 
     private const bool _disabled = false;
     private const bool _readonly = false;
@@ -81,13 +88,16 @@ else
 
         try
         {
-            var accountQuery = await Controller.ReadAsync(AccountId);
-            if (accountQuery.Value is Account account)
+            var accountQuery = Controller.ReadAsync(AccountId);
+            var custodiansQuery = ReferenceData.AccountCustodianListAsync();
+            if ((await accountQuery).Value is Account account)
             {
                 Model = account;
             }
 
-            Custodians = await ReferenceData.AccountCustodianListAsync();
+            Custodians = await custodiansQuery;
+
+            ViewModel = new(Model);
         }
         finally
         {
@@ -99,15 +109,17 @@ else
     {
         var result = await Controller.DeleteAsync(Model!);
 
-        if (result is NoContentResult)
-            NavigateToIndex(args);
+        if (result is NoContentResult ncr)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
     private async Task HandleValidSubmit()
     {
+        Model = ViewModel.ToAccount();
+
         var result = await Controller.UpdateAsync(AccountId, Model);
 
-        if (result.Value?.AccountId == AccountId)
-            NavigateToDetail($"{Model?.AccountId}");
+        if(result.Value is not null)
+            NavigateToDetail($"{result.Value.AccountId}");
     }
 }

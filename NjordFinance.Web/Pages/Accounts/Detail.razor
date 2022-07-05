@@ -15,7 +15,7 @@ else
     <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Read(Model.AccountCode))" />
 
     <ThemedComponent>
-        <EditForm class="model-editor" Model=@Model>
+        <EditForm class="model-editor" Model="@ViewModel" >
             <DataAnnotationsValidator/>
             @*<ValidationSummary/>*@
             <div>
@@ -28,17 +28,16 @@ else
 
 @code {
     [Parameter]
-    public int? AccountId { get; set; }
+    public int AccountId { get; set; }
 
     private IEnumerable<LookupModel> Custodians { get; set; }
 
-    private string WalletsUri
-    {
-        get
-        {
-            return NavigationHelper.ToAbsoluteUri("AccountWallets").AbsoluteUri;
-        }
-    }
+    private AccountViewModel ViewModel { get; set; }
+
+    /// <summary>
+    /// Gets the base uri for <see cref="AccountWallet"/> records.
+    /// </summary>
+    private string WalletsBaseUri => "AccountWallets";
 
     private const bool _disabled = false;
     private const bool _readonly = true;
@@ -70,7 +69,7 @@ else
                             UriStem = $"{IndexUriRelativePath}"
                         }
                     },
-                    // Add delete button.
+                    // Add edit button.
                     { 1, new MenuItem()
                         {
                             IconKey = "pencil",
@@ -78,31 +77,27 @@ else
                             UriStem = $"{IndexUriRelativePath}/Edit/{Model.AccountId}"
                         }
                     },
-                    // Add delete button.
+                    // Add view wallets button.
                     { 2, new MenuItem()
                         {
                             IconKey = "wallet",
                             Caption = $"{Resources.Strings.Caption_Button_View} " +
                                 $"{ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()}",
-                            UriStem = $"{WalletsUri}/Edit/{Model.AccountId}"
+                            UriStem = $"{WalletsBaseUri}/Edit/{Model.AccountId}"
                         }
                     }
                 }
             };  
 
             Custodians = await ReferenceData.AccountCustodianListAsync();
+
+            ViewModel = new(Model);
         }
         finally
         {
-            IsLoading = Custodians is null;
+            IsLoading = Custodians is null || Model is null;
         }
 
         // TODO: Take corrective action here, accountQuery.Value should be Account
     }
-
-    private void NavigateToEdit(MouseEventArgs args)
-    {
-        NavigateToEdit($"{Model.AccountId}");
-    }
-
 }

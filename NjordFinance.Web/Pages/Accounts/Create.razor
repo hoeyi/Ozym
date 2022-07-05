@@ -41,7 +41,7 @@ else
     public Guid RequestGuid { get; init; }
 
     private IEnumerable<LookupModel> Custodians { get; set; }
-    
+
     private AccountViewModel ViewModel { get; set; }
 
     private const bool _disabled = false;
@@ -72,11 +72,11 @@ else
 
     private async Task HandleValidSubmit()
     {
+        Model = ViewModel.ToAccount();
+
         var result = await Controller.CreateAsync(Model);
 
-        var createResult = result.Result as CreatedAtActionResult;
-
-        if (result?.Value is not null)
-            NavigateToDetail($"{result.Value.AccountId}");
+        if (result.Result is CreatedAtActionResult cr)
+            NavigateToDetail($"{cr.RouteValues["id"]}");
     }
 }

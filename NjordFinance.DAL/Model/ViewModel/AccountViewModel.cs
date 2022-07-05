@@ -6,6 +6,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NjordFinance.Model.ViewModel
 {
+    // TODO: Implement INotifyPropertyChanged and keep 
+    // an instance of Account/AccountNavigation in sync 
+    // with the view model.
+
     /// <summary>
     /// Provides a flattened view-object for working with complex type <see cref="Account"/>.
     /// </summary>
