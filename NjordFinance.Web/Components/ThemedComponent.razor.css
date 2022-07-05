@@ -21,9 +21,9 @@
     color: var(--euler-hexcolor-fore-0, black);
     font-weight: bold;
     text-decoration: none;
-    text-align: center;
+    text-align: left;
     display: inline-block;
-    width: auto;
+    width: 100%;
 }
 
 ::deep .datagrid a:hover {

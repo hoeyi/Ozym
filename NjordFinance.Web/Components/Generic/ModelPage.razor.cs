@@ -80,47 +80,39 @@ namespace NjordFinance.Web.Components.Generic
         protected string ErrorMessage { get; set; }
 
         /// <summary>
-        /// Redirects the focus to the model index page.
+        /// Creates a new string representing the resource detail page URI for the given 
+        /// <paramref name="id"/>.
         /// </summary>
-        protected virtual void NavigateToIndex(MouseEventArgs args)
-        {
-            NavigationHelper.NavigateTo($"{IndexUriRelativePath}");
-        }
+        /// <typeparam name="T">The id type, typically <see cref="int"/> or <see cref="Guid"/>.
+        /// </typeparam>
+        /// <param name="id">The id of the requested resource.</param>
+        /// <returns>The formatted <see cref="string"/>.</returns>
+        /// <remarks>Expects page to have root index paths defined by 
+        /// <see cref="IndexUriRelativePath"/>.</remarks>
+        protected string FormatDetailUri<T>(T id) => $"{IndexUriRelativePath}/Detail/{id}";
 
         /// <summary>
-        /// Redirects the focus to the model creation page.
+        /// Creates a new string representing the resource creation page URI for the given 
+        /// <paramref name="id"/>.
         /// </summary>
-        /// <param name="id">The identifier representing the request.</param>
-        protected virtual void NavigateToCreate(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentNullException(paramName: nameof(id));
-
-            NavigationHelper.NavigateTo($"{IndexUriRelativePath}/Create/{id}");
-        }
+        /// <typeparam name="T">The id type, typically <see cref="int"/> or <see cref="Guid"/>.
+        /// </typeparam>
+        /// <param name="id">The id of the requested resource.</param>
+        /// <returns>The formatted <see cref="string"/>.</returns>
+        /// <remarks>Expects page to have root index paths defined by 
+        /// <see cref="IndexUriRelativePath"/>.</remarks>
+        protected string FormatCreateUri<T>(T id) => $"{IndexUriRelativePath}/Create/{id}";
 
         /// <summary>
-        /// Redirects the focus to the model edit page.
+        /// Creates a new string representing the resource edit page URI for the given 
+        /// <paramref name="id"/>.
         /// </summary>
-        /// <param name="id">The identifier representing the request.</param>
-        protected virtual void NavigateToEdit(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentNullException(paramName: nameof(id));
-
-            NavigationHelper.NavigateTo($"{IndexUriRelativePath}/Edit/{id}");
-        }
-
-        /// <summary>
-        /// Redirects the focus to the model details page.
-        /// </summary>
-        /// <param name="id">The identifier representing the request.</param>
-        protected virtual void NavigateToDetail(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentNullException(paramName: nameof(id));
-
-            NavigationHelper.NavigateTo($"{IndexUriRelativePath}/Detail/{id}");
-        }
+        /// <typeparam name="T">The id type, typically <see cref="int"/> or <see cref="Guid"/>.
+        /// </typeparam>
+        /// <param name="id">The id of the requested resource.</param>
+        /// <returns>The formatted <see cref="string"/>.</returns>
+        /// <remarks>Expects page to have root index paths defined by 
+        /// <see cref="IndexUriRelativePath"/>.</remarks>
+        protected string FormatEditUri<T>(T id) => $"{IndexUriRelativePath}/Edit/{id}";
     }
 }

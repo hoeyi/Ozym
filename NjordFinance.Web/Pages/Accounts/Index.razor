@@ -2,9 +2,9 @@
 
 @inherits ModelIndex<Account>
 
-<PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-<ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Index())" />
+<ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
 <SearchInputTable TModel=@Account
                     ComparisonOperators=@ComparisonOperators
@@ -23,8 +23,7 @@ else
         <DataGridColumn Property=@nameof(Account.AccountNavigation.AccountObjectCode)
                     Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))>
             <CellTemplate Context="model">
-                <a href="@($"{IndexUriRelativePath}/Details/{model.AccountId}")" @onclick="@(args => NavigateToDetail(model, args))"
-                @onclick:preventDefault>
+                <a href=@(FormatDetailUri(model.AccountId))>
                     @model.AccountNavigation.AccountObjectCode.ToUpper()
                 </a>
             </CellTemplate>
@@ -99,7 +98,6 @@ else
 }
 
 @code {
-
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
@@ -123,8 +121,8 @@ else
         await base.OnInitializedAsync();
     }
 
-    private void NavigateToDetail(Account model, MouseEventArgs args)
+    private void Detail_OnClick(Account model, MouseEventArgs args)
     {
-        NavigateToDetail($"{model.AccountId}");
+        NavigationHelper.NavigateTo(FormatDetailUri(model.AccountId));
     }
 }

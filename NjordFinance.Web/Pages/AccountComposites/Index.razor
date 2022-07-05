@@ -2,9 +2,9 @@
 
 @inherits ModelIndex<AccountComposite>
 
-<PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-<ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Index())" />
+<ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
 <SearchInputTable TModel=@AccountComposite
                     ComparisonOperators=@ComparisonOperators
@@ -22,8 +22,8 @@ else
         <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.AccountObjectCode)
                     Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))>
             <CellTemplate Context="model">
-                <a href="@($"{IndexUriRelativePath}/Details/{model.AccountCompositeId}")" @onclick="@(args => NavigateToDetail(model, args))"
-                @onclick:preventDefault>
+                <a href="@(FormatDetailUri(model.AccountCompositeId))" @onclick="@(args => Detail_OnClick(model, args))"
+                    @onclick:preventDefault>
                     @model.AccountCompositeNavigation.AccountObjectCode.ToUpper()
                 </a>
             </CellTemplate>
@@ -69,7 +69,7 @@ else
                     {
                         IconKey = "create",
                         Caption = $"Create new {ModelNoun.GetSingular()}",
-                        UriStem = $"Composites/Create/{Guid.NewGuid()}"
+                        UriStem = FormatCreateUri(Guid.NewGuid())
                     }
                 }
             }
@@ -78,8 +78,8 @@ else
         MaxRecordCount = -1;
     }
 
-    private void NavigateToDetail(AccountComposite model, MouseEventArgs args)
+    private void Detail_OnClick(AccountComposite model, MouseEventArgs args)
     {
-        NavigateToDetail($"{model.AccountCompositeId}");
+        NavigationHelper.NavigateTo(FormatDetailUri(model.AccountCompositeId));
     }
 }

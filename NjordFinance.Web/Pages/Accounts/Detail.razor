@@ -10,9 +10,9 @@
 }
 else
 {
-    <PageTitle>@(PageTitle.Read(Model.AccountCode).AsPageTitle())</PageTitle>
+    <PageTitle>@(PageTitle.ReadSingle(Model.AccountCode).AsPageTitle())</PageTitle>
 
-    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Read(Model.AccountCode))" />
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadSingle(Model.AccountCode))" />
 
     <ThemedComponent>
         <EditForm class="model-editor" Model="@ViewModel" >
@@ -57,9 +57,9 @@ else
             }
 
             ActionMenu = new()
-            {
-                IconKey = "reorder-four",
-                Children = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
                 {
                     // Add index button.
                     { 0, new MenuItem()
@@ -74,7 +74,7 @@ else
                         {
                             IconKey = "pencil",
                             Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetSingular()}",
-                            UriStem = $"{IndexUriRelativePath}/Edit/{Model.AccountId}"
+                            UriStem = FormatEditUri(Model.AccountId)
                         }
                     },
                     // Add view wallets button.
@@ -83,7 +83,7 @@ else
                             IconKey = "wallet",
                             Caption = $"{Resources.Strings.Caption_Button_View} " +
                                 $"{ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()}",
-                            UriStem = $"{WalletsBaseUri}/Edit/{Model.AccountId}"
+                            UriStem = $"{IndexUriRelativePath}/{Model.AccountId}/AccountWallets/Edit"
                         }
                     }
                 }

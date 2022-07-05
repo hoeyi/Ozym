@@ -4,9 +4,9 @@
 
 @inject IReferenceDataService ReferenceData
 
-<PageTitle>@(PageTitle.Create().AsPageTitle())</PageTitle>
+<PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
-<ModelPageMenuHeader Header="@(PageTitle.Create())" />
+<ModelPageMenuHeader Header="@(PageTitle.CreateSingle())" />
 
 @if (IsLoading)
 {
@@ -20,7 +20,7 @@ else
             <DataAnnotationsValidator />
             @*<ValidationSummary/>*@
             <ActionButtonMenu>
-                <button class="form-control button" @onclick="NavigateToIndex"
+                <button class="form-control button" @onclick="Cancel_OnClick"
                     @onclick:preventDefault >
                     @Resources.Strings.Caption_Button_Cancel
                 </button>
@@ -70,6 +70,11 @@ else
         }
     }
 
+    private void Cancel_OnClick()
+    {
+        NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
     private async Task HandleValidSubmit()
     {
         Model = ViewModel.ToAccount();
@@ -77,6 +82,6 @@ else
         var result = await Controller.CreateAsync(Model);
 
         if (result.Result is CreatedAtActionResult cr)
-            NavigateToDetail($"{cr.RouteValues["id"]}");
+            NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
     }
 }

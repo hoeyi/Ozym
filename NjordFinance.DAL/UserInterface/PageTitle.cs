@@ -12,30 +12,37 @@ namespace NjordFinance.UserInterface
     public interface IPageTitle
     {
         /// <summary>
-        /// Gets the index title.
+        /// Gets the title indicating a many records are being read.
         /// </summary>
         /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
-        string Index();
+        string ReadMany();
 
         /// <summary>
-        /// Gets the new model title.
+        /// Gets the title indicating a single record is being created.
         /// </summary>
         /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
-        string Create();
+        string CreateSingle();
 
         /// <summary>
-        /// Gets the details title.
+        /// Gets the title indicating a single record is being read.
         /// </summary>
-        /// <param name="id">The identifier for the model.</param>
+        /// <param name="heading">The display text for the model.</param>
         /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
-        string Read(string id);
+        string ReadSingle(string heading);
 
         /// <summary>
-        /// Gets the modify title.
+        /// Gets the title indicating a single record is being edited.
         /// </summary>
-        /// <param name="id">The identifier for the model.</param>
+        /// <param name="heading">The display text for the model.</param>
         /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
-        string Update(string id);
+        string UpdateSingle(string heading);
+
+        /// <summary>
+        /// Gets the title indicating editing a records as a batch.
+        /// </summary>
+        /// <param name="id">The display text for the parent of the collection.</param>
+        /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
+        string UpdateMany(string parentHeading);
     }
 
     class PageTitle<TModel> : IPageTitle
@@ -51,31 +58,38 @@ namespace NjordFinance.UserInterface
         }
 
         /// <inheritdoc/>
-        public string Create()
+        public string CreateSingle()
         {
             return UserInterfaceString.CreateModel.Format(_noun.GetSingular());
         }
 
         /// <inheritdoc/>
-        public string Index()
+        public string ReadMany()
         {
             return UserInterfaceString.IndexModel.Format(_noun.GetPlural()?.ToTitleCase());
         }
 
         /// <inheritdoc/>   
-        public string Read(string id)
+        public string ReadSingle(string heading)
         {
-            id ??= string.Empty;
+            heading ??= string.Empty;
 
-            return UserInterfaceString.ReadModel.Format(_noun.GetSingular()?.ToTitleCase(), id);
+            return UserInterfaceString.ReadModel.Format(_noun.GetSingular()?.ToTitleCase(), heading);
+        }
+
+        public string UpdateMany(string parentHeading)
+        {
+            parentHeading ??= string.Empty;
+
+            return UserInterfaceString.UpdateModel.Format(_noun.GetPlural(), parentHeading);
         }
 
         /// <inheritdoc/>
-        public string Update(string id)
+        public string UpdateSingle(string heading)
         {
-            id ??= string.Empty;
+            heading ??= string.Empty;
 
-            return UserInterfaceString.UpdateModel.Format(_noun.GetSingular(), id);
+            return UserInterfaceString.UpdateModel.Format(_noun.GetSingular(), heading);
         }
 
     }

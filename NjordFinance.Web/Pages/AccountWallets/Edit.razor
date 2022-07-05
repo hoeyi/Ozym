@@ -1,4 +1,4 @@
-﻿@page "/AccountWallets/Edit/{AccountId:int}"
+﻿@page "/Accounts/{AccountId:int}/AccountWallets/Edit"
 
 @inherits ModelPage<AccountWallet>
 
@@ -11,9 +11,9 @@
 }
 else
 {   
-    <PageTitle>@(PageTitle.Update(parent.AccountCode).AsPageTitle())</PageTitle>
-    <h3>@(PageTitle.Update(parent.AccountCode))</h3>
-    <hr/>
+    <PageTitle>@(PageTitle.UpdateSingle(parent.AccountCode).AsPageTitle())</PageTitle>
+
+    <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(parent.AccountCode))" />
 
     if(!string.IsNullOrEmpty(ErrorMessage))
     {
@@ -22,12 +22,13 @@ else
     <ThemedComponent>
         <EditForm width="100%" Model="@Wallets">
             <ActionButtonMenu>
-                <button class="form-control button" @onclick="@(args => HandleSubmit(context, args))">
-                        @Resources.Strings.Caption_Button_Save
+                <button class="form-control button" 
+                    @onclick="@(args => Submit_OnClick(context, args))">
+                    @Resources.Strings.Caption_Button_Save
                 </button>
                 <button class="form-control button" @onclick=@(args => AddNewAsync(args))>
                     @Resources.Strings.Caption_DataGrid_NewLine.Format(
-                ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
+                        ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
                 </button>
             </ActionButtonMenu>
             <DataAnnotationsValidator/>
@@ -38,13 +39,14 @@ else
                     Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
                     width="20%">
                     <CellEditTemplate Context="model">
-                        <InputSelect class="form-control" id="denomination-select" @bind-Value="@model.DenominationSecurityId">
+                        <InputSelect class="form-control" id="denomination-select" 
+                            @bind-Value="@model.DenominationSecurityId">
                             @foreach (var security in DenominationSecurities)
-                                    {
-                                    <option value=@security.Key>@security.Display</option>
-                                    }
-                            </InputSelect>
-                            <ValidationMessage For=@(()=> model.DenominationSecurityId) />
+                            {
+                                <option value=@security.Key>@security.Display</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For=@(()=> model.DenominationSecurityId) />
                         </CellEditTemplate>
                     </DataGridColumn>
                 <DataGridColumn 
@@ -126,7 +128,7 @@ else
         // TODO: interpret the response.
     }
 
-    private async Task HandleSubmit(EditContext context, MouseEventArgs args)
+    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
     {
         bool isValid = context.Validate();
         if (isValid)

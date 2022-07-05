@@ -10,24 +10,23 @@
 }
 else
 {
-    <PageTitle>@(PageTitle.Update(Model.AccountCode).AsPageTitle())</PageTitle>
+    <PageTitle>@(PageTitle.UpdateSingle(Model.AccountCode).AsPageTitle())</PageTitle>
 
-    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Update(Model.AccountCode))" />
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.UpdateSingle(Model.AccountCode))" />
 
     <ThemedComponent>
         <EditForm class="model-editor" Model="@ViewModel" 
-            OnSubmit="HandleValidSubmit">
-            @*OnValidSubmit="HandleValidSubmit" >*@
+            OnValidSubmit="HandleValidSubmit" >
             <DataAnnotationsValidator/>
             @*<ValidationSummary/>*@
             <ActionButtonMenu>
                 <button type="button" class="form-control button" 
-                    @onclick="@(() => NavigateToDetail(AccountId.ToString()))"
+                    @onclick="Cancel_OnClick"
                     @onclick:preventDefault >
                     @Resources.Strings.Caption_Button_Cancel
                 </button>
                 <button type="button" class="form-control button" 
-                    @onclick="HandleDelete"
+                    @onclick="Delete_OnClick"
                     @onclick:preventDefault >
                     @Resources.Strings.Caption_Button_Delete
                 </button>
@@ -105,7 +104,12 @@ else
         }
     }
 
-    private async Task HandleDelete()
+    private void Cancel_OnClick()
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(AccountId));
+    }
+
+    private async Task Delete_OnClick()
     {
         var result = await Controller.DeleteAsync(Model!);
 
@@ -119,7 +123,7 @@ else
 
         var result = await Controller.UpdateAsync(AccountId, Model);
 
-        if(result.Value is not null)
-            NavigateToDetail($"{result.Value.AccountId}");
+        if (result.Value is not null)
+            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.AccountId));
     }
 }
