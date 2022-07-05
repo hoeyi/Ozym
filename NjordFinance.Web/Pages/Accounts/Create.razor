@@ -16,11 +16,11 @@ else
 {
     <ThemedComponent>
         <EditForm class="model-editor" Model="@ViewModel" 
-            OnValidSubmit="HandleSubmit">
+            OnValidSubmit="HandleValidSubmit" >
             <DataAnnotationsValidator />
-            <ValidationSummary/>
+            @*<ValidationSummary/>*@
             <ActionButtonMenu>
-                <button class="form-control button" @onclick=NavigateToIndex
+                <button class="form-control button" @onclick="NavigateToIndex"
                     @onclick:preventDefault >
                     @Resources.Strings.Caption_Button_Cancel
                 </button>
@@ -32,14 +32,6 @@ else
                 <AccountViewModelCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
                     Disabled="@_disabled" ReadOnly="@_readonly" />
             </div>
-@*            <div>
-                <AccountObjectCRUD Model="@Model.AccountNavigation"
-                    Disabled="@_disabled" Readonly="@_readonly" />
-            </div>
-            <div>
-                <AccountCRUD Model="@Model" AccountCustodians="@Custodians"
-                    Disabled="@_disabled" Readonly="@_readonly" />
-            </div>*@
         </EditForm>
     </ThemedComponent>
 }
@@ -49,12 +41,11 @@ else
     public Guid RequestGuid { get; init; }
 
     private IEnumerable<LookupModel> Custodians { get; set; }
-    private EditContext AccountViewModelContext { get; set; }
+    
     private AccountViewModel ViewModel { get; set; }
 
     private const bool _disabled = false;
     private const bool _readonly = false;
-
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
@@ -72,10 +63,6 @@ else
             Custodians = refreshCustodianListTask.Result;
 
             ViewModel = new(Model);
-
-            AccountViewModelContext = new(ViewModel);
-
-            AccountViewModelContext.EnableDataAnnotationsValidation();
         }
         finally
         {
@@ -83,11 +70,8 @@ else
         }
     }
 
-    private async Task HandleSubmit()
+    private async Task HandleValidSubmit()
     {
-        //if (!AccountContext.Validate())
-        //    return;
-
         var result = await Controller.CreateAsync(Model);
 
         var createResult = result.Result as CreatedAtActionResult;

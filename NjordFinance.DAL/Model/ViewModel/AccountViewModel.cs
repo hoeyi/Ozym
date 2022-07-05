@@ -4,13 +4,21 @@ using NjordFinance.ModelMetadata.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NjordFinance.Web.ViewModel
+namespace NjordFinance.Model.ViewModel
 {
     /// <summary>
-    /// View-object for performing CRUD operations on <see cref="Account"/> models.
+    /// Provides a flattened view-object for working with complex type <see cref="Account"/>.
     /// </summary>
     public class AccountViewModel
     {
+        /// <summary>
+        /// Initializes a new <see cref="AccountViewModel"/> instance from the given 
+        /// <see cref="Account"/> instance.
+        /// </summary>
+        /// <param name="account"></param>
+        /// <remarks>Member <see cref="Account.AccountNavigation"/> must be defined, 
+        /// and <see cref="Account.AccountCustodian"/> <em>should</em> be defined, if 
+        /// it exists.</remarks>
         public AccountViewModel(Account account)
             : this(account, account.AccountNavigation)
         {

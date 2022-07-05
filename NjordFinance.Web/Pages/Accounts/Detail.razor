@@ -17,14 +17,10 @@ else
     <ThemedComponent>
         <EditForm class="model-editor" Model=@Model>
             <DataAnnotationsValidator/>
-            <ValidationSummary/>
+            @*<ValidationSummary/>*@
             <div>
-                <AccountObjectCRUD Model="@Model.AccountNavigation"
-                    Disabled="@_disabled" Readonly="@_readonly" />
-            </div>
-            <div>
-                <AccountCRUD Model="@Model" AccountCustodians="@Custodians"
-                    Disabled="@_disabled" Readonly="@_readonly" />
+                <AccountViewModelCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
+                    Disabled="@_disabled" ReadOnly="@_readonly" />
             </div>
         </EditForm>
     </ThemedComponent>
