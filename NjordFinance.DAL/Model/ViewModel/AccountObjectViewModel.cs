@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace NjordFinance.Model.ViewModel
 {
-    public class AccountObjectViewModel
+    /// <summary>
+    /// Provides a flattened view-object for working with complex type <see cref="AccountObject"/>.
+    /// </summary>
+    public abstract class AccountObjectViewModel
     {
         public int AccountObjectId { get; set; }
 
