@@ -39,8 +39,7 @@ namespace NjordFinance.Test.Unit
             document.LoadXml(testXml);
 
             // add a node so that the document is no longer valid
-            XPathNavigator navigator = document.CreateNavigator();
-
+            
             var styleSheetNode = document.SelectSingleNode("//StyleSheet");
             var fontsNode = document.SelectSingleNode("//Fonts");
 
