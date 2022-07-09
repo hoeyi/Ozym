@@ -7,11 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\ReportStyleSheet.xsd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\ReportStyleSheet.xsd" />
+    <EmbeddedResource Include="ModelMetadata\Resources\ReportStyleSheet.xsd" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,7 +56,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionString.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\DefaultConfiguration.Designer.cs">
+    <Compile Update="Configuration\DefaultConfiguration.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DefaultConfiguration.resx</DependentUpon>
@@ -75,15 +71,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>InformationMessage.resx</DependentUpon>
     </Compile>
-    <Compile Update="Resources\Images.Designer.cs">
+    <Compile Update="UserInterface\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Images.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\UserInterfaceString.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>UserInterfaceString.resx</DependentUpon>
+      <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -112,7 +103,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\DefaultConfiguration.resx">
+    <EmbeddedResource Update="Configuration\DefaultConfiguration.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DefaultConfiguration.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -124,13 +115,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>InformationMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Images.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Images.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\UserInterfaceString.resx">
+    <EmbeddedResource Update="UserInterface\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>UserInterfaceString.Designer.cs</LastGenOutput>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

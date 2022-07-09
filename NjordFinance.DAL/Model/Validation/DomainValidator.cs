@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace NjordFinance.Validation
+namespace NjordFinance.Model.Validation
 {
 
     class DomainValidator : IDomainValidator

@@ -58,14 +58,14 @@ namespace NjordFinance.Test.ModelService
         {
             ConfigurationCode = "TestCreatePass",
             ConfigurationDescription = "Test create pass",
-            XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+            XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_Parameters
         };
 
         protected override ReportConfiguration DeleteModelSuccessSample => new()
         {
             ConfigurationCode = "TestDeletePass",
             ConfigurationDescription = "Test delete pass",
-            XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+            XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_Parameters
         };
 
         protected override ReportConfiguration DeleteModelFailSample => new()
@@ -73,14 +73,14 @@ namespace NjordFinance.Test.ModelService
             ConfigurationId = -1000,
             ConfigurationCode = "TestDeleteFail",
             ConfigurationDescription = "Test delete fail",
-            XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+            XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_Parameters
         };
 
         protected override ReportConfiguration UpdateModelSuccessSample => new()
         {
             ConfigurationCode = "TestUpdatePass",
             ConfigurationDescription = "Test update pass",
-            XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+            XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_Parameters
         };
 
         protected override IModelService<ReportConfiguration> GetModelService() =>

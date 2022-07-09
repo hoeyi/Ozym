@@ -1,7 +1,6 @@
 ﻿using Ichosys.DataModel;
 using Ichosys.DataModel.Annotations;
 using System;
-using NjordFinance.Resources;
 using Ichosys.Extensions.Common.Localization;
 
 namespace NjordFinance.UserInterface
@@ -60,13 +59,13 @@ namespace NjordFinance.UserInterface
         /// <inheritdoc/>
         public string CreateSingle()
         {
-            return UserInterfaceString.CreateModel.Format(_noun.GetSingular());
+            return Strings.CreateModel.Format(_noun.GetSingular());
         }
 
         /// <inheritdoc/>
         public string ReadMany()
         {
-            return UserInterfaceString.IndexModel.Format(_noun.GetPlural()?.ToTitleCase());
+            return Strings.IndexModel.Format(_noun.GetPlural()?.ToTitleCase());
         }
 
         /// <inheritdoc/>   
@@ -74,14 +73,14 @@ namespace NjordFinance.UserInterface
         {
             heading ??= string.Empty;
 
-            return UserInterfaceString.ReadModel.Format(_noun.GetSingular()?.ToTitleCase(), heading);
+            return Strings.ReadModel.Format(_noun.GetSingular()?.ToTitleCase(), heading);
         }
 
         public string UpdateMany(string parentHeading)
         {
             parentHeading ??= string.Empty;
 
-            return UserInterfaceString.UpdateModel.Format(_noun.GetPlural(), parentHeading);
+            return Strings.UpdateModel.Format(_noun.GetPlural(), parentHeading);
         }
 
         /// <inheritdoc/>
@@ -89,7 +88,7 @@ namespace NjordFinance.UserInterface
         {
             heading ??= string.Empty;
 
-            return UserInterfaceString.UpdateModel.Format(_noun.GetSingular(), heading);
+            return Strings.UpdateModel.Format(_noun.GetSingular(), heading);
         }
 
     }

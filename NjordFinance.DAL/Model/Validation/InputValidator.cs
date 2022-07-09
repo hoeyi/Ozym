@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace NjordFinance.Validation
+namespace NjordFinance.Model.Validation
 {
     public static class InputValidator
     {
@@ -18,7 +18,7 @@ namespace NjordFinance.Validation
         public static bool InputIsValid(string s, Type expectedType, out object parsedValue, out bool updateValue)
         {
             Type underlying = Nullable.GetUnderlyingType(expectedType);
-            bool isNullable = !(underlying is null);
+            bool isNullable = underlying is not null;
             updateValue = false;
             parsedValue = null;
 

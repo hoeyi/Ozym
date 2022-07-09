@@ -368,14 +368,14 @@ namespace NjordFinance.Test.ModelService.Configuration
                     ConfigurationId = -1,
                     ConfigurationCode = "TestDeletePass",
                     ConfigurationDescription = "Test delete pass",
-                    XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+                    XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_Parameters
                 },
                 new()
                 {
                     ConfigurationId = -2,
                     ConfigurationCode = "TestUpdatePass",
                     ConfigurationDescription = "Test update pass",
-                    XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+                    XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_Parameters
                 }
             };
 
@@ -386,14 +386,14 @@ namespace NjordFinance.Test.ModelService.Configuration
                     StyleSheetId = -1,
                     StyleSheetCode = "TestDeletePass",
                     StyleSheetDescription = "Test delete pass",
-                    XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
+                    XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_StyleSheet
                 },
                 new()
                 {
                     StyleSheetId = -2,
                     StyleSheetCode = "TestUpdatePass",
                     StyleSheetDescription = "Test update pass",
-                    XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
+                    XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_StyleSheet
                 }
             };
 

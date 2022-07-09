@@ -118,7 +118,7 @@ namespace NjordFinance.ModelService
         {
             return new LookupModel(
                 key: default,
-                display: Resources.UserInterfaceString.Caption_InputSelect_Placeholder);
+                display: UserInterface.Strings.Caption_InputSelect_Placeholder);
         }
     }
 }

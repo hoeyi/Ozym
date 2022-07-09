@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NjordFinance.Resources {
+namespace NjordFinance.Configuration {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace NjordFinance.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordFinance.Resources.DefaultConfiguration", typeof(DefaultConfiguration).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordFinance.Configuration.DefaultConfiguration", typeof(DefaultConfiguration).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -80,7 +80,18 @@ namespace NjordFinance.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;ReportConfiguration xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;&lt;Settings&gt;&lt;Setting Name=&quot;CurrencyPrecision&quot; Label=&quot;Currency Precision&quot; Value=&quot;c&quot; /&gt;&lt;Setting Name=&quot;IncludeClosed&quot; Label=&quot;Include Closed&quot; Value=&quot;false&quot; /&gt;&lt;Setting Name=&quot;TradableAccountsOnly&quot; Label=&quot;Tradable Accounts Only&quot; Value=&quot;true&quot; /&gt;&lt;Setting Name=&quot;Theme&quot; Label=&quot;Theme&quot; Value=&quot;Default&quot; /&gt;&lt;/Settings&gt;&lt;/ReportConfiguration&gt;.
+        ///   Looks up a localized string similar to &lt;ReportConfiguration xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot;
+        ///                     xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+        ///    &lt;Settings&gt;
+        ///        &lt;Setting Name=&quot;CurrencyPrecision&quot;
+        ///                 Label=&quot;Currency Precision&quot;
+        ///                 Value=&quot;c&quot;/&gt;
+        ///        &lt;Setting Name=&quot;IncludeClosed&quot;
+        ///                 Label=&quot;Include Closed&quot;
+        ///                 Value=&quot;false&quot;/&gt;
+        ///        &lt;Setting Name=&quot;TradableAccountsOnly&quot;
+        ///                 Label=&quot;Tradable Accounts Only&quot;
+        ///                 Value=&quot;t [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Report_Parameters {
             get {
@@ -89,7 +100,20 @@ namespace NjordFinance.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;StyleSheet xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;&lt;Fonts&gt;&lt;Font Name=&quot;TableGroupHeader&quot; FontFamily=&quot;Arial&quot; FontWeight=&quot;Bold&quot; TextDecoration=&quot;Default&quot; FontStyle=&quot;Default&quot; FontSize=&quot;8pt&quot; Color=&quot;gray5&quot; BackColor=&quot;blue&quot; /&gt;&lt;Font Name=&quot;TableSubGroupHeader&quot; FontFamily=&quot;Arial&quot; FontWeight=&quot;SemiBold&quot; TextDecoration=&quot;Default&quot; FontStyle=&quot;Default&quot; FontSize=&quot;8pt&quot; Color=&quot;gray1&quot; BackColor=&quot;No Color&quot; /&gt;&lt;Font Name=&quot;TableColumnHeader&quot; FontFamily=&quot;Arial&quot; FontWeight=&quot;S [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;StyleSheet xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot;
+        ///            xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+        ///    &lt;Fonts&gt;
+        ///        &lt;Font Name=&quot;TableGroupHeader&quot;
+        ///              FontFamily=&quot;Arial&quot;
+        ///              FontWeight=&quot;Bold&quot;
+        ///              TextDecoration=&quot;Default&quot;
+        ///              FontStyle=&quot;Default&quot;
+        ///              FontSize=&quot;8pt&quot;
+        ///              Color=&quot;gray5&quot;
+        ///              BackColor=&quot;blue&quot;/&gt;
+        ///        &lt;Font Name=&quot;TableSubGroupHeader&quot;
+        ///              FontFamily=&quot;Arial&quot;
+        ///              FontWeigh [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Report_StyleSheet {
             get {
