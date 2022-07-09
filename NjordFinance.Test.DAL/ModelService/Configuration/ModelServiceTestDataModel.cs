@@ -403,14 +403,14 @@ namespace NjordFinance.Test.ModelService.Configuration
                 {
                     ImageId = -1,
                     ImageDescription = "Test delete pass",
-                    ImageBinary = Resources.Images.fractal_circle_icon_dark,
+                    ImageBinary = NjordFinance.UserInterface.Images.fractal_circle_icon_dark,
                     FileExtension = "PNG"
                 },
                 new()
                 {
                     ImageId = -2,
                     ImageDescription = "Test update pass",
-                    ImageBinary = Resources.Images.fractal_circle_icon_dark,
+                    ImageBinary = NjordFinance.UserInterface.Images.fractal_circle_icon_dark,
                     FileExtension = "JPG"
                 }
             };

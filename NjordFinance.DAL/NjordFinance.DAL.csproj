@@ -26,6 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="UserInterface\Images.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Images.resx</DependentUpon>
+    </Compile>
     <Compile Update="Logging\Templates\WarningMessage.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -79,6 +84,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="UserInterface\Images.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Logging\Templates\WarningMessage.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WarningMessage.Designer.cs</LastGenOutput>
