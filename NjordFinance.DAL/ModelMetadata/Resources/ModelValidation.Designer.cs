@@ -61,6 +61,33 @@ namespace NjordFinance.ModelMetadata.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} type is not supported..
+        /// </summary>
+        internal static string ExactValueAttribute_InvalidType {
+            get {
+                return ResourceManager.GetString("ExactValueAttribute_InvalidType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OperandType must be set..
+        /// </summary>
+        internal static string ExactValueAttribute_OperandType_MustBeSet {
+            get {
+                return ResourceManager.GetString("ExactValueAttribute_OperandType_MustBeSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} must be equal to {1}..
+        /// </summary>
+        internal static string ExactValueAttribute_ValidationError {
+            get {
+                return ResourceManager.GetString("ExactValueAttribute_ValidationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is required..
         /// </summary>
         internal static string RequiredAttribute_ValidationError {

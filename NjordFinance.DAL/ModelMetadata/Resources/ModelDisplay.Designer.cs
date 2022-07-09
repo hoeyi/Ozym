@@ -2248,6 +2248,33 @@ namespace NjordFinance.ModelMetadata.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Effective Date.
+        /// </summary>
+        public static string SecurityAttributeEntryViewModel_EffectiveDate {
+            get {
+                return ResourceManager.GetString("SecurityAttributeEntryViewModel_EffectiveDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attribute.
+        /// </summary>
+        public static string SecurityAttributeEntryViewModel_ModelAttributeId {
+            get {
+                return ResourceManager.GetString("SecurityAttributeEntryViewModel_ModelAttributeId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sum of member classification weights.
+        /// </summary>
+        public static string SecurityAttributeEntryViewModel_SumOfWeights {
+            get {
+                return ResourceManager.GetString("SecurityAttributeEntryViewModel_SumOfWeights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The member value for the entry..
         /// </summary>
         public static string SecurityAttributeMemberEntry_AttributeMemberID_Description {

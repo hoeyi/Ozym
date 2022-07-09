@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExactValueAttribute_InvalidType" xml:space="preserve">
+    <value>{0} type is not supported.</value>
+    <comment>{0} is the validated data type.</comment>
+  </data>
+  <data name="ExactValueAttribute_OperandType_MustBeSet" xml:space="preserve">
+    <value>OperandType must be set.</value>
+  </data>
+  <data name="ExactValueAttribute_ValidationError" xml:space="preserve">
+    <value>{0} must be equal to {1}.</value>
+    <comment>{0} is the member display name
+{1} is the required value</comment>
+  </data>
   <data name="RequiredAttribute_ValidationError" xml:space="preserve">
     <value>{0} is required.</value>
     <comment>{0} is the display name of the member</comment>

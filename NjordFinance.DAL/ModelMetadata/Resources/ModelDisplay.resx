@@ -801,6 +801,15 @@
   <data name="ResourceImage_ImageDescription_Name" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="SecurityAttributeEntryViewModel_EffectiveDate" xml:space="preserve">
+    <value>Effective Date</value>
+  </data>
+  <data name="SecurityAttributeEntryViewModel_ModelAttributeId" xml:space="preserve">
+    <value>Attribute</value>
+  </data>
+  <data name="SecurityAttributeEntryViewModel_SumOfWeights" xml:space="preserve">
+    <value>Sum of member classification weights</value>
+  </data>
   <data name="SecurityAttributeMemberEntry_AttributeMemberID_Description" xml:space="preserve">
     <value>The member value for the entry.</value>
   </data>
