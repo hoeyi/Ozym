@@ -10,7 +10,9 @@ namespace NjordFinance.Model
         [Column("AttributeID", Order = 0)]
         public int AttributeId { get; set; }
         [Key]
-        [StringLength(3)]
+        [StringLength(3,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [Column(nameof(ScopeCode), Order = 1)]
         public string ScopeCode { get; set; }
 

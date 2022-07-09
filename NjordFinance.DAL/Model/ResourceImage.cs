@@ -12,7 +12,9 @@ namespace NjordFinance.Model
         [Required(
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
-        [StringLength(128)]
+        [StringLength(128,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string ImageDescription { get; set; }
         [Required(
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
@@ -21,7 +23,9 @@ namespace NjordFinance.Model
         [Required(
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
-        [StringLength(4)]
+        [StringLength(4,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string FileExtension { get; set; }
     }
 }

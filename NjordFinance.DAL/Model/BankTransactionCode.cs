@@ -19,12 +19,16 @@ namespace NjordFinance.Model
         [Required(
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
-        [StringLength(12)]
+        [StringLength(12,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string TransactionCode { get; set; }
         [Required(
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
-        [StringLength(32)]
+        [StringLength(32,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string DisplayName { get; set; }
 
         [InverseProperty(nameof(BankTransactionCodeAttributeMemberEntry.TransactionCode))]

@@ -18,9 +18,13 @@ namespace NjordFinance.Model
         [Required(
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
-        [StringLength(256)]
+        [StringLength(256,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string AddressCode { get; set; }
-        [StringLength(256)]
+        [StringLength(256,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string AddressTag { get; set; }
         [Column("DenominationSecurityID")]
         public int DenominationSecurityId { get; set; }

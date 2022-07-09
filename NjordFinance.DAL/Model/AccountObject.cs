@@ -21,12 +21,16 @@ namespace NjordFinance.Model
         [Required(
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
-        [StringLength(12)]
+        [StringLength(12,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string AccountObjectCode { get; set; }
         [Required(
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
-        [StringLength(1)]
+        [StringLength(1,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string ObjectType { get; set; }
         [Column(TypeName = "date")]
         public DateTime StartDate { get; set; }
@@ -35,14 +39,20 @@ namespace NjordFinance.Model
         [Required(
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
-        [StringLength(72)]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string ObjectDisplayName { get; set; }
-        [StringLength(128)]
+        [StringLength(128,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string ObjectDescription { get; set; }
         [Required(
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
-        [StringLength(13)]
+        [StringLength(13,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string PrefixedObjectCode { get; set; }
 
         [InverseProperty("AccountNavigation")]

@@ -23,7 +23,9 @@ namespace NjordFinance.Model
         [Required(
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
-        [StringLength(72)]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string SecurityTypeName { get; set; }
         [Column(TypeName = "decimal(7, 4)")]
         public decimal ValuationFactor { get; set; }

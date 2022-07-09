@@ -25,15 +25,25 @@ namespace NjordFinance.Model
         public DateTime EffectiveDate { get; set; }
         [Column("SymbolTypeID")]
         public int SymbolTypeId { get; set; }
-        [StringLength(32)]
+        [StringLength(32,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string SymbolCode { get; set; }
-        [StringLength(9)]
+        [StringLength(9,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string Cusip { get; set; }
-        [StringLength(32)]
+        [StringLength(32,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string CustomSymbol { get; set; }
-        [StringLength(24)]
+        [StringLength(24,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string OptionTicker { get; set; }
-        [StringLength(8)]
+        [StringLength(8,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string Ticker { get; set; }
 
         [ForeignKey(nameof(SecurityId))]

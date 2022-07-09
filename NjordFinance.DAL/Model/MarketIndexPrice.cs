@@ -16,7 +16,9 @@ namespace NjordFinance.Model
         public int MarketIndexId { get; set; }
         [Column(TypeName = "date")]
         public DateTime PriceDate { get; set; }
-        [StringLength(1)]
+        [StringLength(1,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string PriceCode { get; set; }
         [Column(TypeName = "decimal(19, 4)")]
         public decimal Price { get; set; }

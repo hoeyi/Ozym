@@ -22,7 +22,9 @@ namespace NjordFinance.Model
         [Column(TypeName = "date")]
         public DateTime? ExitDate { get; set; }
         public int DisplayOrder { get; set; }
-        [StringLength(72)]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string Comment { get; set; }
 
         [ForeignKey(nameof(AccountId))]

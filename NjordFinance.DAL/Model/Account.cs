@@ -21,7 +21,9 @@ namespace NjordFinance.Model
         [Key]
         [Column("AccountID")]
         public int AccountId { get; set; }
-        [StringLength(72)]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string AccountNumber { get; set; }
         [Column("AccountCustodianID")]
         public int? AccountCustodianId { get; set; }
