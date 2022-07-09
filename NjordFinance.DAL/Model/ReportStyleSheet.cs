@@ -9,13 +9,19 @@ namespace NjordFinance.Model
         [Key]
         [Column("StyleSheetID")]
         public int StyleSheetId { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [StringLength(32)]
         public string StyleSheetCode { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [StringLength(128)]
         public string StyleSheetDescription { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [Column(TypeName = "xml")]
         public string XmlDefinition { get; set; }
     }

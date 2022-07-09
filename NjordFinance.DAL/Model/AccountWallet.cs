@@ -15,7 +15,9 @@ namespace NjordFinance.Model
         public int AccountWalletId { get; set; }
         [Column("AccountID")]
         public int AccountId { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [StringLength(256)]
         public string AddressCode { get; set; }
         [StringLength(256)]

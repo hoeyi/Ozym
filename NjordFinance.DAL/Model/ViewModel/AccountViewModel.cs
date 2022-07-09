@@ -15,6 +15,8 @@ namespace NjordFinance.Model.ViewModel
     /// </summary>
     public class AccountViewModel : AccountObjectViewModel
     {
+        private readonly string _objectType = AccountObjectType.Account.ConvertToStringCode();
+
         /// <summary>
         /// Initializes a new <see cref="AccountViewModel"/> instance from the given 
         /// <see cref="Account"/> instance.
@@ -36,8 +38,8 @@ namespace NjordFinance.Model.ViewModel
             if (accountObject is null)
                 throw new ArgumentNullException(paramName: nameof(accountObject));
 
-            AccountId = account.AccountId;
             AccountNumber = account.AccountNumber;
+            AccountCustodian = account.AccountCustodian;
             AccountCustodianId = account.AccountCustodianId;
             BooksClosedDate = account.BooksClosedDate;
             IsComplianceTradable = account.IsComplianceTradable;
@@ -45,22 +47,21 @@ namespace NjordFinance.Model.ViewModel
             HasBankTransaction = account.HasBankTransaction;
             HasBrokerTransaction = account.HasBrokerTransaction;
 
-            AccountCustodian = account.AccountCustodian;
-
-            AccountCode = accountObject.AccountObjectCode;
+            AccountObjectId = account.AccountId;
+            AccountObjectCode = accountObject.AccountObjectCode;
             DisplayName = accountObject.ObjectDisplayName;
             Description = accountObject.ObjectDescription;
             StartDate = accountObject.StartDate;
             CloseDate = accountObject.CloseDate;
         }
 
-        public int AccountId { get; set; }
-
         [Display(
             Name = nameof(ModelDisplay.Account_AccountNumber_Name),
             Description = nameof(ModelDisplay.Account_AccountNumber_Description),
             ResourceType = typeof(ModelDisplay))]
-        [StringLength(72)]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string AccountNumber { get; set; }
 
         [Display(
@@ -101,13 +102,11 @@ namespace NjordFinance.Model.ViewModel
 
         public AccountCustodian? AccountCustodian { get; init; }
 
-        private readonly string _objectType = AccountObjectType.Account.ConvertToStringCode();
-
         public Account ToAccount()
         {
             return new()
             {
-                AccountId = AccountId,
+                AccountId = AccountObjectId,
                 AccountNumber = AccountNumber,
                 AccountCustodianId = AccountCustodianId,
                 BooksClosedDate = BooksClosedDate,
@@ -118,8 +117,8 @@ namespace NjordFinance.Model.ViewModel
 
                 AccountNavigation = new()
                 {
-                    AccountObjectId = AccountId,
-                    AccountObjectCode = AccountCode,
+                    AccountObjectId = AccountObjectId,
+                    AccountObjectCode = AccountObjectCode,
                     ObjectDisplayName = DisplayName,
                     ObjectDescription = Description,
                     StartDate = StartDate,

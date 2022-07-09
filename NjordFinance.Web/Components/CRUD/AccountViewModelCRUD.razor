@@ -8,17 +8,17 @@ else
 {
     <ModelForm TModel="AccountViewModel">
         @*AccountObject inputs*@
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountCode)"
-            ValidationMessageDelegate="@(() => Model.AccountCode)">
+        <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountObjectCode)"
+            ValidationMessageDelegate="@(() => Model.AccountObjectCode)">
             @if (ReadOnly)
             {
-                @Model.AccountCode
+                @Model.AccountObjectCode
             }
             else
             {
-                <InputText class="form-control" @bind-Value=Model.AccountCode
+                <InputText class="form-control" @bind-Value=Model.AccountObjectCode
                     disable="@Disabled"
-                    DisplayName=@(NameFor(nameof(AccountViewModel.AccountCode))) />
+                    DisplayName=@(NameFor(nameof(AccountViewModel.AccountObjectCode))) />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.DisplayName)"

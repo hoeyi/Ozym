@@ -15,7 +15,9 @@ namespace NjordFinance.Model
         public int SymbolMapId { get; set; }
         [Column("AccountCustodianID")]
         public int AccountCustodianId { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [StringLength(72)]
         public string CustodianSymbol { get; set; }
         [Column("SecuritySymbolID")]

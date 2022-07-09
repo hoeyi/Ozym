@@ -15,7 +15,9 @@ namespace NjordFinance.Model
         [Key]
         [Column("SecurityTypeGroupID")]
         public int SecurityTypeGroupId { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [StringLength(72)]
         public string SecurityTypeGroupName { get; set; }
         public bool Transactable { get; set; } = true;

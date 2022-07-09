@@ -61,6 +61,24 @@ namespace NjordFinance.ModelMetadata.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is required..
+        /// </summary>
+        internal static string RequiredAttribute_ValidationError {
+            get {
+                return ResourceManager.GetString("RequiredAttribute_ValidationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} may not be more than {1} characters..
+        /// </summary>
+        internal static string StringLengthAttribute_ValidationError {
+            get {
+                return ResourceManager.GetString("StringLengthAttribute_ValidationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; must be a date..
         /// </summary>
         internal static string Validation_Date_General {

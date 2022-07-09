@@ -15,7 +15,9 @@ namespace NjordFinance.Model
         [Key]
         [Column("MarketHolidayID")]
         public int MarketHolidayId { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [StringLength(72)]
         public string MarketHolidayName { get; set; }
 

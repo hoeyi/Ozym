@@ -20,7 +20,9 @@ namespace NjordFinance.Model
         public int SecurityTypeId { get; set; }
         [Column("SecurityTypeGroupID")]
         public int SecurityTypeGroupId { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [StringLength(72)]
         public string SecurityTypeName { get; set; }
         [Column(TypeName = "decimal(7, 4)")]

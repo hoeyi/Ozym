@@ -26,7 +26,9 @@ namespace NjordFinance.Model
         public int AttributeMemberId { get; set; }
         [Column("AttributeID")]
         public int AttributeId { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [StringLength(72)]
         public string DisplayName { get; set; }
         public short DisplayOrder { get; set; }

@@ -23,7 +23,9 @@ namespace NjordFinance.Model
         public decimal Amount { get; set; }
         [StringLength(72)]
         public string Comment { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public byte[] TransactionVersion { get; set; }
 
         [ForeignKey(nameof(AccountId))]

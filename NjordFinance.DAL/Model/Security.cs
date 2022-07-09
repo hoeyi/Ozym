@@ -28,7 +28,9 @@ namespace NjordFinance.Model
         public int SecurityTypeId { get; set; }
         [Column("SecurityExchangeID")]
         public int? SecurityExchangeId { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [StringLength(72)]
         public string SecurityDescription { get; set; }
         [StringLength(96)]

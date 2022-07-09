@@ -10,21 +10,31 @@ namespace NjordFinance.Model.ViewModel
 {
     public class AccountObjectViewModel
     {
+        public int AccountObjectId { get; set; }
+
         [Display(
             Name = nameof(ModelDisplay.AccountObject_AccountObjectCode_Name),
             Description = nameof(ModelDisplay.AccountObject_AccountObjectCode_Description),
             ResourceType = typeof(ModelDisplay))]
-        [Required]
-        [StringLength(12)]
-        public string AccountCode { get; set; }
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(12,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        public string AccountObjectCode { get; set; }
 
         [Display(
             Name = nameof(ModelDisplay.AccountObject_ObjectDisplayName_Name),
             Description = nameof(ModelDisplay.AccountObject_ObjectDipslayName_Description),
             ResourceType = typeof(ModelDisplay)
             )]
-        [Required]
-        [StringLength(72)]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string DisplayName { get; set; }
 
         [Display(
@@ -32,7 +42,9 @@ namespace NjordFinance.Model.ViewModel
             Description = nameof(ModelDisplay.AccountObject_ObjectDescription_Description),
             ResourceType = typeof(ModelDisplay)
             )]
-        [StringLength(128)]
+        [StringLength(128,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string Description { get; set; }
 
         [Display(

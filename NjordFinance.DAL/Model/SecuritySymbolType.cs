@@ -15,7 +15,9 @@ namespace NjordFinance.Model
         [Key]
         [Column("SymbolTypeID")]
         public int SymbolTypeId { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [StringLength(32)]
         public string SymbolTypeName { get; set; }
 

@@ -15,7 +15,9 @@ namespace NjordFinance.Model
         [Key]
         [Column("InvestmentStrategyID")]
         public int InvestmentStrategyId { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         [StringLength(32)]
         public string DisplayName { get; set; }
 
