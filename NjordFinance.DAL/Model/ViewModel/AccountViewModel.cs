@@ -13,7 +13,7 @@ namespace NjordFinance.Model.ViewModel
     /// <summary>
     /// Provides a flattened view-object for working with complex type <see cref="Account"/>.
     /// </summary>
-    public class AccountViewModel
+    public class AccountViewModel : AccountObjectViewModel
     {
         /// <summary>
         /// Initializes a new <see cref="AccountViewModel"/> instance from the given 
@@ -98,46 +98,6 @@ namespace NjordFinance.Model.ViewModel
             Description = nameof(ModelDisplay.Account_HasBrokerTransaction_Description),
             ResourceType = typeof(ModelDisplay))]
         public bool HasBrokerTransaction { get; set; }
-
-        // AccountObject attrtibutes
-        [Display(
-            Name = nameof(ModelDisplay.AccountObject_AccountObjectCode_Name),
-            Description = nameof(ModelDisplay.AccountObject_AccountObjectCode_Description),
-            ResourceType = typeof(ModelDisplay))]
-        [Required]
-        [StringLength(12)]
-        public string AccountCode { get; set; }
-
-        [Display(
-            Name = nameof(ModelDisplay.AccountObject_ObjectDisplayName_Name),
-            Description = nameof(ModelDisplay.AccountObject_ObjectDipslayName_Description),
-            ResourceType = typeof(ModelDisplay)
-            )]
-        [Required]
-        [StringLength(72)]
-        public string DisplayName { get; set; }
-
-        [Display(
-            Name = nameof(ModelDisplay.AccountObject_ObjectDescription_Name),
-            Description = nameof(ModelDisplay.AccountObject_ObjectDescription_Description),
-            ResourceType = typeof(ModelDisplay)
-            )]
-        [StringLength(128)]
-        public string Description { get; set; }
-
-        [Display(
-            Name = nameof(ModelDisplay.AccountObject_StartDate_Name),
-            Description = nameof(ModelDisplay.AccountObject_StartDate_Description),
-            ResourceType = typeof(ModelDisplay)
-            )]
-        public DateTime StartDate { get; set; }
-
-        [Display(
-            Name = nameof(ModelDisplay.AccountObject_CloseDate_Name),
-            Description = nameof(ModelDisplay.AccountObject_CloseDate_Description),
-            ResourceType = typeof(ModelDisplay)
-            )]
-        public DateTime? CloseDate { get; set; }
 
         public AccountCustodian? AccountCustodian { get; init; }
 
