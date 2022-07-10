@@ -601,6 +601,33 @@ namespace NjordFinance.ModelMetadata.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sum of member classification weights.
+        /// </summary>
+        public static string AttributeEntryCollectionViewModel_SumOfWeights {
+            get {
+                return ResourceManager.GetString("AttributeEntryCollectionViewModel_SumOfWeights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Effective Date.
+        /// </summary>
+        public static string AttributeEntryViewModel_EffectiveDate {
+            get {
+                return ResourceManager.GetString("AttributeEntryViewModel_EffectiveDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attribute.
+        /// </summary>
+        public static string AttributeEntryViewModel_ModelAttributeId {
+            get {
+                return ResourceManager.GetString("AttributeEntryViewModel_ModelAttributeId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The account for the transaction..
         /// </summary>
         public static string BankTransaction_AccountID_Description {
@@ -2244,33 +2271,6 @@ namespace NjordFinance.ModelMetadata.Resources {
         public static string Security_SecurityTypeID_Name {
             get {
                 return ResourceManager.GetString("Security_SecurityTypeID_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Effective Date.
-        /// </summary>
-        public static string SecurityAttributeEntryViewModel_EffectiveDate {
-            get {
-                return ResourceManager.GetString("SecurityAttributeEntryViewModel_EffectiveDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Attribute.
-        /// </summary>
-        public static string SecurityAttributeEntryViewModel_ModelAttributeId {
-            get {
-                return ResourceManager.GetString("SecurityAttributeEntryViewModel_ModelAttributeId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sum of member classification weights.
-        /// </summary>
-        public static string SecurityAttributeEntryViewModel_SumOfWeights {
-            get {
-                return ResourceManager.GetString("SecurityAttributeEntryViewModel_SumOfWeights", resourceCulture);
             }
         }
         

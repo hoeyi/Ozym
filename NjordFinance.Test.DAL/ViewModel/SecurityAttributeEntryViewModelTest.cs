@@ -15,9 +15,9 @@ namespace NjordFinance.Test.ViewModel
         [TestMethod]
         public void ViewModel_AddEntry_KeyNotExists_AddsToCollection()
         {
-            var viewModel = new SecurityAttributeEntryViewModel(1, 1, DateTime.Now);
+            var viewModel = new SecurityAttributeViewModel(1, 1, DateTime.Now);
 
-            viewModel.AddEntry(1, 12.75M);
+            viewModel.Add(1, 12.75M);
 
             Assert.IsTrue(viewModel.MemberEntries.First().Value == 12.75M);
         }
@@ -25,20 +25,20 @@ namespace NjordFinance.Test.ViewModel
         [TestMethod]
         public void ViewModel_AddEntry_KeyExists_ThrowsException()
         {
-            var viewModel = new SecurityAttributeEntryViewModel(1, 1, DateTime.Now);
+            var viewModel = new SecurityAttributeViewModel(1, 1, DateTime.Now);
 
-            viewModel.AddEntry(1, 12.75M);
+            viewModel.Add(1, 12.75M);
 
-            Assert.ThrowsException<ArgumentException>(() => viewModel.AddEntry(1, 12.75M));
+            Assert.ThrowsException<ArgumentException>(() => viewModel.Add(1, 12.75M));
         }
 
         [TestMethod]
         public void ViewModel_ValidCollection_YieldsValidatedState()
         {
-            var viewModel = new SecurityAttributeEntryViewModel(1, 1, DateTime.Now);
+            var viewModel = new SecurityAttributeViewModel(1, 1, DateTime.Now);
 
-            viewModel.AddEntry(1, 65.5M);
-            viewModel.AddEntry(2, 34.5M);
+            viewModel.Add(1, 65.5M);
+            viewModel.Add(2, 34.5M);
 
             var context = new ValidationContext(viewModel, serviceProvider: null, items: null);
             var validationResults = new List<ValidationResult>();
@@ -49,9 +49,9 @@ namespace NjordFinance.Test.ViewModel
         [TestMethod]
         public void ViewModel_InvalidCollection_YieldsInvalidState()
         {
-            var viewModel = new SecurityAttributeEntryViewModel(1, 1, DateTime.Now);
+            var viewModel = new SecurityAttributeViewModel(1, 1, DateTime.Now);
 
-            viewModel.AddEntry(1, 12.75M);
+            viewModel.Add(1, 12.75M);
 
             var context = new ValidationContext(viewModel, serviceProvider: null, items: null);
             var validationResults = new List<ValidationResult>();
@@ -62,12 +62,12 @@ namespace NjordFinance.Test.ViewModel
         [TestMethod]
         public void ViewModel_ValidCollection_ToEntityEntries_YieldsValidCollection()
         {
-            var viewModel = new SecurityAttributeEntryViewModel(1, 1, DateTime.Now);
+            var viewModel = new SecurityAttributeViewModel(1, 1, DateTime.Now);
 
-            viewModel.AddEntry(1, 65.5M);
-            viewModel.AddEntry(2, 34.5M);
+            viewModel.Add(1, 65.5M);
+            viewModel.Add(2, 34.5M);
 
-            Assert.IsTrue(viewModel.ToSecurityAttributeMemberEntries().All(a =>
+            Assert.IsTrue(viewModel.ToEntities().All(a =>
             {
                 var context = new ValidationContext(a, serviceProvider: null, items: null);
                 var validationResults = new List<ValidationResult>();
