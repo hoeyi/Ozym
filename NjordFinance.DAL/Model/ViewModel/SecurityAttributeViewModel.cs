@@ -17,7 +17,7 @@ namespace NjordFinance.Model.ViewModel
     {
         public SecurityAttributeViewModel(
             Security security, ModelAttribute modelAttribute, DateTime effectiveDate)
-            : base(modelAttribute, effectiveDate)
+            : base(security, modelAttribute, effectiveDate)
         {
             ParentObject = security;
             EffectiveDate = effectiveDate;

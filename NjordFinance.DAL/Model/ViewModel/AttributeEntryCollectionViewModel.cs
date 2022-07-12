@@ -52,9 +52,9 @@ namespace NjordFinance.Model.ViewModel
         protected IReadOnlyDictionary<int, decimal> MemberEntries => _memberEntries;
 
         /// <summary>
-        /// Converts this model into <typeparamref name="T"/> entities.
+        /// Converts this model into <typeparamref name="TEntry"/> entities.
         /// </summary>
-        /// <returns>An <see cref="Array"/> of <typeparamref name="T"/>.</returns>
+        /// <returns>An <see cref="Array"/> of <typeparamref name="TEntry"/>.</returns>
         public abstract TEntry[] ToEntities();
 
         /// <summary>

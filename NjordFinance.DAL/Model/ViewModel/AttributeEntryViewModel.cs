@@ -8,11 +8,18 @@ using System.Threading.Tasks;
 
 namespace NjordFinance.Model.ViewModel
 {
-    public class AttributeEntryViewModel<TEntry, TParent> :
+    /// <summary>
+    /// Serves as the base class for attribute member entries that are children 
+    /// of the given variant entity <typeparamref name="TParent"/>, and effective date.
+    /// </summary>
+    /// <typeparam name="TEntry">The entity type this view model represents.</typeparam>
+    /// <typeparam name="TParent">The entity type that is the parent of the attriubte entry this 
+    /// view model represents.</typeparam>
+    public abstract class AttributeEntryViewModel<TEntry, TParent> :
         AttributeEntryBaseViewModel<TEntry, TParent>
         where TEntry :  class, new()
         where TParent : class, new()
-    {
+    {   
         private int _attributeId;
         private int _attributeMemberId;
 
@@ -62,5 +69,11 @@ namespace NjordFinance.Model.ViewModel
                 }
             }
         }
+
+        /// <summary>
+        /// Converts this model into a instance of <typeparamref name="TEntry"/>.
+        /// </summary>
+        /// <returns>An instance of <typeparamref name="TEntry"/>.</returns>
+        public abstract TEntry ToEntryEntity();
     }
 }

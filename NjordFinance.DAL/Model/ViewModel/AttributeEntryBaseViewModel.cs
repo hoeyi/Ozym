@@ -10,7 +10,7 @@ namespace NjordFinance.Model.ViewModel
 {
     /// <summary>
     /// Serves as the base class for attribute member entries that are children 
-    /// of a given <see cref="ModelAttribute"/>, variant entity, and effective date.
+    /// of the given variant entity <typeparamref name="TParent"/>, and effective date.
     /// </summary>
     /// <typeparam name="TEntry">The entity type this view model represents.</typeparam>
     /// <typeparam name="TParent">The entity type that is the parent of the attriubte entry this 
