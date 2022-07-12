@@ -32,6 +32,7 @@ namespace NjordFinance.Model.ViewModel
             if (parentObject is null)
                 throw new ArgumentNullException(paramName: nameof(parentObject));
 
+            ParentObject = parentObject;
             EffectiveDate = effectiveDate;
         }
 
@@ -46,6 +47,6 @@ namespace NjordFinance.Model.ViewModel
         /// <summary>
         /// Gets <typeparamref name="TParent"/> that is the parent for this view model.
         /// </summary>
-        public TParent ParentObject { get; init; }
+        public TParent ParentObject { get; private set; }
     }
 }

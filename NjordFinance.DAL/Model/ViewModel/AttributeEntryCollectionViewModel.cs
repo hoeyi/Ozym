@@ -49,7 +49,7 @@ namespace NjordFinance.Model.ViewModel
         /// where the key represents the <see cref="ModelAttributeMember.AttributeMemberId"/> 
         /// and the value represents the weight for the entry.
         /// </summary>
-        protected IReadOnlyDictionary<int, decimal> MemberEntries => _memberEntries;
+        public IReadOnlyDictionary<int, decimal> MemberEntries => _memberEntries;
 
         /// <summary>
         /// Converts this model into <typeparamref name="TEntry"/> entities.
