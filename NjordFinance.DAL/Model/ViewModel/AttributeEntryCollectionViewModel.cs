@@ -21,9 +21,13 @@ namespace NjordFinance.Model.ViewModel
         private readonly Dictionary<int, decimal> _memberEntries = new();
 
         protected AttributeEntryCollectionViewModel(
-            ModelAttribute attribute, DateTime effectiveDate)
-            : base(attribute, effectiveDate)
+            TParent parentObject, ModelAttribute parentAttribute, DateTime effectiveDate)
+            : base(parentObject, effectiveDate)
         {
+            if (parentAttribute is null)
+                throw new ArgumentNullException(paramName: nameof(parentAttribute));
+
+            ParentAttribute = parentAttribute;
         }
 
         /// <summary>
@@ -34,6 +38,11 @@ namespace NjordFinance.Model.ViewModel
             Name = nameof(ModelDisplay.AttributeEntryCollectionViewModel_SumOfWeights),
             ResourceType = typeof(ModelDisplay))]
         public decimal SumOfMemberWeights => MemberEntries.Sum(kv => kv.Value);
+
+        /// <summary>
+        /// Gets the <see cref="ModelAttribute"/> that is the parent for this view model.
+        /// </summary>
+        public ModelAttribute ParentAttribute { get; init; }
 
         /// <summary>
         /// Gets the collection of entries representing <typeparamref name="T"/> entities, 

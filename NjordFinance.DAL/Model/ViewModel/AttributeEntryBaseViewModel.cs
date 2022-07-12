@@ -19,13 +19,19 @@ namespace NjordFinance.Model.ViewModel
         where TEntry : class, new()
         where TParent : class, new()
     {
-        protected AttributeEntryBaseViewModel(
-            ModelAttribute attribute, DateTime effectiveDate)
+        /// <summary>
+        /// Initializes the base class with the given parent object and effective date.
+        /// </summary>
+        /// <param name="parentObject">The <typeparamref name="TParent"/> model to which 
+        /// the attribute entry applies.</param>
+        /// <param name="effectiveDate">The effective date of entries in this model.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="parentObject"/> was null.
+        /// </exception>
+        protected AttributeEntryBaseViewModel(TParent parentObject, DateTime effectiveDate)
         {
-            if (attribute is null)
-                throw new ArgumentNullException(paramName: nameof(attribute));
+            if (parentObject is null)
+                throw new ArgumentNullException(paramName: nameof(parentObject));
 
-            ParentAttribute = attribute;
             EffectiveDate = effectiveDate;
         }
 
@@ -35,21 +41,7 @@ namespace NjordFinance.Model.ViewModel
         [Display(
             Name = nameof(ModelDisplay.AttributeEntryViewModel_EffectiveDate),
             ResourceType = typeof(ModelDisplay))]
-        public DateTime EffectiveDate { get; init; }
-
-        /// <summary>
-        /// Gets the id of the <see cref="ModelAttribute"/> entity that is the parent of the 
-        /// of the values in <see cref="MemberEntries"/>.
-        /// </summary>
-        [Display(
-            Name = nameof(ModelDisplay.AttributeEntryViewModel_ModelAttributeId),
-            ResourceType = typeof(ModelDisplay))]
-        public int ModelAttributeId { get; init; }
-
-        /// <summary>
-        /// Gets the <see cref="ModelAttribute"/> that is the parent for this view model.
-        /// </summary>
-        public ModelAttribute ParentAttribute { get; init; }
+        public DateTime EffectiveDate { get; set; }
 
         /// <summary>
         /// Gets <typeparamref name="TParent"/> that is the parent for this view model.
