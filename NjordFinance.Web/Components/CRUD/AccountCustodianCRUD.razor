@@ -1,6 +1,37 @@
 ﻿@inherits ModelCRUD<AccountCustodian>
 
-<EditForm Model="@Model">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-</EditForm>
+@if (Model is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelForm TModel="AccountCustodian" >
+        <ModelFormLineItem MemberName="@nameof(AccountCustodian.CustodianCode)"
+            ValidationMessageDelegate="@(() => Model.CustodianCode)" >
+            @if(ReadOnly)
+            {
+                @Model.CustodianCode
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=Model.CustodianCode
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(nameof(AccountCustodian.CustodianCode))) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem MemberName="@nameof(AccountCustodian.DisplayName)"
+            ValidationMessageDelegate="@(() => Model.DisplayName)" >
+            @if(ReadOnly)
+            {
+                @Model.DisplayName
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=Model.DisplayName
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(nameof(AccountCustodian.DisplayName))) />
+            }
+        </ModelFormLineItem>
+    </ModelForm>
+}

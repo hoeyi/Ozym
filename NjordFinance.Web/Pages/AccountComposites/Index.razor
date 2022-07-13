@@ -18,12 +18,12 @@
 }
 else
 {
-    <DataGrid Data="@Models" class="datagrid">
+    <DataGrid Data="@Models" >
         <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.AccountObjectCode)
                     Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))>
             <CellTemplate Context="model">
-                <a href="@(FormatDetailUri(model.AccountCompositeId))" @onclick="@(args => Detail_OnClick(model, args))"
-                    @onclick:preventDefault>
+                <a href="@(FormatDetailUri(model.AccountCompositeId))" @onclick:preventDefault
+                    @onclick="@(args => Detail_OnClick(model, args))">
                     @model.AccountCompositeNavigation.AccountObjectCode.ToUpper()
                 </a>
             </CellTemplate>

@@ -79,10 +79,10 @@ namespace NjordFinance.Web.Resources {
         ///          &quot;Children&quot;: {},
         ///          &quot;HasChildren&quot;: false
         ///        },
-        ///&quot;2&quot;: {
+        ///        &quot;2&quot;: {
         ///          &quot;IconKey&quot;: null,
         ///          &quot;Caption&quot;: &quot;Composites&quot;,
-        ///           [rest of string was truncated]&quot;;.
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string NavigationMenu {
             get {

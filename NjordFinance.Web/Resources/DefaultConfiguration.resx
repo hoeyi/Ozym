@@ -136,10 +136,17 @@
           "Children": {},
           "HasChildren": false
         },
-"2": {
+        "2": {
           "IconKey": null,
           "Caption": "Composites",
           "UriStem": "/Composites",
+          "Children": {},
+          "HasChildren": false
+        },
+        "3": {
+          "IconKey": null,
+          "Caption": "Custodians",
+          "UriStem": "/Custodians",
           "Children": {},
           "HasChildren": false
         }

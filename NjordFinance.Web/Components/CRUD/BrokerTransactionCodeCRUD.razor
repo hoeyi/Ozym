@@ -1,0 +1,76 @@
+﻿@inherits ModelCRUD<BrokerTransactionCode>
+
+@if (Model is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelForm TModel="BrokerTransactionCode">
+        <ModelFormLineItem MemberName="@nameof(BrokerTransactionCode.TransactionCode)"
+            ValidationMessageDelegate="@(() => Model.TransactionCode)">
+            @if (ReadOnly)
+            {
+                @Model.TransactionCode
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=Model.TransactionCode
+                    disable="@Disabled"
+                    DisplayName="@(NameFor(nameof(BrokerTransactionCode.TransactionCode)))" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem MemberName="@nameof(BrokerTransactionCode.DisplayName)"
+            ValidationMessageDelegate="@(() => Model.DisplayName)">
+            @if (ReadOnly)
+            {
+                @Model.DisplayName
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=Model.DisplayName
+                    disable="@Disabled"
+                    DisplayName="@(NameFor(nameof(BrokerTransactionCode.DisplayName)))" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem MemberName="@nameof(BrokerTransactionCode.CashEffect)"
+            ValidationMessageDelegate="@(() => Model.CashEffect)">
+            @if (ReadOnly)
+            {
+                @Model.CashEffect
+            }
+            else
+            {
+                <InputNumber class="form-control" @bind-Value=Model.CashEffect
+                    disable="@Disabled"
+                    DisplayName="@(NameFor(nameof(BrokerTransactionCode.CashEffect)))" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem MemberName="@nameof(BrokerTransactionCode.ContributionWithdrawalEffect)"
+            ValidationMessageDelegate="@(() => Model.ContributionWithdrawalEffect)">
+            @if (ReadOnly)
+            {
+                @Model.ContributionWithdrawalEffect
+            }
+            else
+            {
+                <InputNumber class="form-control" @bind-Value=Model.ContributionWithdrawalEffect
+                    disable="@Disabled"
+                    DisplayName="@(NameFor(nameof(BrokerTransactionCode.ContributionWithdrawalEffect)))" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem MemberName="@nameof(BrokerTransactionCode.QuantityEffect)"
+            ValidationMessageDelegate="@(() => Model.QuantityEffect)">
+            @if (ReadOnly)
+            {
+                @Model.QuantityEffect
+            }
+            else
+            {
+                <InputNumber class="form-control" @bind-Value=Model.QuantityEffect
+                    disable="@Disabled"
+                    DisplayName="@(NameFor(nameof(BrokerTransactionCode.QuantityEffect)))" />
+            }
+        </ModelFormLineItem>
+    </ModelForm>
+}

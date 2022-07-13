@@ -19,11 +19,12 @@
 }
 else
 {
-    <DataGrid Data="@Models" class="datagrid">
+    <DataGrid Data="@Models">
         <DataGridColumn Property=@nameof(Account.AccountNavigation.AccountObjectCode)
                     Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))>
             <CellTemplate Context="model">
-                <a href=@(FormatDetailUri(model.AccountId))>
+                <a href=@(FormatDetailUri(model.AccountId)) @onclick:preventDefault 
+                    @onclick="@(args => Detail_OnClick(model, args))">
                     @model.AccountNavigation.AccountObjectCode.ToUpper()
                 </a>
             </CellTemplate>
@@ -110,7 +111,7 @@ else
                     {
                         IconKey = "create",
                         Caption = $"Create new {ModelNoun.GetSingular()}",
-                        UriStem = $"Accounts/Create/{Guid.NewGuid()}"
+                        UriStem = FormatCreateUri(Guid.NewGuid())
                     }
                 }
             }

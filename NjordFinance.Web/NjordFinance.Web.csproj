@@ -61,4 +61,9 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\BankTransactionCodes\" />
+    <Folder Include="Pages\BrokerTransactionCodes\" />
+  </ItemGroup>
+
 </Project>
