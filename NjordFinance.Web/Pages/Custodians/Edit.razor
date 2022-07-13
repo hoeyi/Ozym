@@ -1,0 +1,115 @@
+﻿@page "/Custodians/Edit"
+
+@inherits ModelPage<AccountCustodian>
+
+@inject IBatchController<AccountCustodian> Controller
+
+<PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
+
+<ModelPageMenuHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
+
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{   
+    if(!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="error-text">@ErrorMessage</div>
+    }
+    <ThemedComponent>
+        <EditForm width="100%" EditContext="@_context" >
+            <ActionButtonMenu>
+                <button class="form-control button"
+                    @onclick="@(args => Submit_OnClick(context, args))">
+                    @Resources.Strings.Caption_Button_Save
+                </button>
+                <button class="form-control button" @onclick=@(args => AddNewAsync(args))>
+                    @Resources.Strings.Caption_DataGrid_NewLine.Format(
+                        ModelMetadata.NounFor(typeof(AccountCustodian))?.GetSingular())
+                </button>
+            </ActionButtonMenu>
+            <DataAnnotationsValidator/>
+            <ValidationSummary/>
+            <DataGrid Data="@Custodians">
+                <DataGridColumn Property=@nameof(AccountCustodian.CustodianCode)
+                            Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.CustodianCode)))>
+                    <CellEditTemplate Context="model">
+                        <InputText class="form-control" @bind-Value=model.CustodianCode />
+                        <ValidationMessage For=@(()=> model.CustodianCode) />
+                    </CellEditTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(AccountCustodian.DisplayName)
+                            Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.DisplayName)))>
+                    <CellEditTemplate Context="model">
+                        <InputText class="form-control" @bind-Value=model.DisplayName />
+                        <ValidationMessage For=@(()=> model.DisplayName) />
+                    </CellEditTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        </EditForm>
+    </ThemedComponent>
+}
+
+@code {
+    private IList<AccountCustodian> Custodians { get; set; }
+
+    private EditContext _context;
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        IsLoading = true;
+
+        try
+        {
+            Custodians = (await Controller.SelectAllAsync()).Value;
+
+            if(!Custodians.Any())
+            {
+                await AddNewAsync(args: null);
+            }
+        }
+        finally
+        {
+            _context = new(Custodians);
+            IsLoading = Custodians is null;
+        }
+    }
+
+    private async Task AddNewAsync(MouseEventArgs? args)
+    {
+        // TODO: Do something with MouseEventArgs?
+
+        var getDefaultTask = await Controller.GetDefaultAsync();
+        await Controller.AddAsync(getDefaultTask.Value);
+
+        if (getDefaultTask.Value is AccountCustodian custodian)
+            Custodians.Add(custodian);
+    }
+
+    private async Task DeleteAsync(AccountCustodian custodian, MouseEventArgs args)
+    {
+        var result = await Controller.DeleteAsync(custodian);
+
+        // TODO: interpret the response.
+    }
+
+    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
+    {
+        bool isValid = context.Validate();
+        if(isValid)
+        {
+            var saveResult = await Controller.SaveChangesAsync();
+
+            if (saveResult is NoContentResult)
+                return;
+
+            else if (saveResult is ObjectResult objectResult)
+                ErrorMessage = (objectResult.Value as Exception)?.Message;
+        }
+    }
+}

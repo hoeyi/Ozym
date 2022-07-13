@@ -19,7 +19,7 @@ else
             <DataAnnotationsValidator/>
             @*<ValidationSummary/>*@
             <div>
-                <AccountViewModelCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
+                <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
                     Disabled="@_disabled" ReadOnly="@_readonly" />
             </div>
         </EditForm>
@@ -83,7 +83,7 @@ else
                             IconKey = "wallet",
                             Caption = $"{Resources.Strings.Caption_Button_View} " +
                                 $"{ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()}",
-                            UriStem = $"{IndexUriRelativePath}/{Model.AccountId}/AccountWallets/Edit"
+                            UriStem = $"{IndexUriRelativePath}/{Model.AccountId}/Wallets/Edit"
                         }
                     }
                 }

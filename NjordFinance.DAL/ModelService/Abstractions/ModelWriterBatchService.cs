@@ -142,7 +142,21 @@ namespace NjordFinance.ModelService.Abstractions
         /// <inheritdoc/>
         public async Task<int> SaveChanges()
         {
-            return await SharedContext.Context.SaveChangesAsync();
+            try
+            {
+                return await SharedContext.Context.SaveChangesAsync();
+
+            }
+            catch (DbUpdateConcurrencyException duc)
+            {
+                _logger.LogWarning(duc, duc.Message);
+                throw new ModelUpdateException(duc.Message);
+            }
+            catch (DbUpdateException du)
+            {
+                _logger.ModelServiceSaveChangesFailed(du);
+                throw new ModelUpdateException(du.InnerException.Message, du);
+            }
         }
     }
 

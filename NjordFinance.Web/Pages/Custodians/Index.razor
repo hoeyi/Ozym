@@ -16,10 +16,7 @@ else
         <DataGridColumn Property=@nameof(AccountCustodian.CustodianCode)
                     Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.CustodianCode)))>
             <CellTemplate Context="model">
-                <a href=@(FormatDetailUri(model.AccountCustodianId)) @onclick:preventDefault 
-                    @onclick="@(args => Detail_OnClick(model, args))">
-                    @model.CustodianCode
-                </a>
+                @model.CustodianCode
             </CellTemplate>
         </DataGridColumn>
         <DataGridColumn Property=@nameof(AccountCustodian.DisplayName)
@@ -42,9 +39,9 @@ else
             {
                 { 0, new MenuItem()
                     {
-                        IconKey = "create",
-                        Caption = $"Create new {ModelNoun.GetSingular()}",
-                        UriStem = FormatCreateUri(Guid.NewGuid())
+                        IconKey = "pencil",
+                        Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetPlural()}",
+                        UriStem = $"{IndexUriRelativePath}/Edit"
                     }
                 }
             }

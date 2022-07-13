@@ -27,6 +27,9 @@ namespace NjordFinance
                 .AddScoped<IModelService<AccountComposite>, AccountCompositeService>()
                 .AddScoped<IModelBatchService<AccountCompositeMember>, AccountCompositeMemberService>()
                 .AddScoped<IModelService<AccountCustodian>, AccountCustodianService>()
+
+                .AddScoped<IModelBatchService<AccountCustodian>, AccountCustodianBatchService>()
+
                 .AddScoped<IModelBatchService<AccountWallet>, AccountWalletService>()
                 .AddScoped<IModelBatchService<BankTransactionCodeAttributeMemberEntry>, BankTransactionCodeAttributeService>()
                 .AddScoped<IModelService<BankTransactionCode>, BankTransactionCodeService>()
@@ -71,6 +74,9 @@ namespace NjordFinance
                 .AddScoped<IController<AccountComposite>, ModelController<AccountComposite>>()
                 .AddScoped<IBatchController<AccountCompositeMember>, ModelBatchController<AccountCompositeMember>>()
                 .AddScoped<IController<AccountCustodian>, ModelController<AccountCustodian>>()
+
+                .AddScoped<IBatchController<AccountCustodian>, ModelBatchController<AccountCustodian>>()
+
                 .AddScoped<IBatchController<AccountWallet>, ModelBatchController<AccountWallet>>()
                 .AddScoped<IBatchController<BankTransactionCodeAttributeMemberEntry>, ModelBatchController<BankTransactionCodeAttributeMemberEntry>>()
                 .AddScoped<IController<BankTransactionCode>, ModelController<BankTransactionCode>>()
