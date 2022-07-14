@@ -989,14 +989,14 @@ namespace NjordFinance.Test.ModelService.Configuration
                     InvestmentStrategyId = -3,
                     AttributeMemberId = -13,
                     EffectiveDate = GetRandomDateTime(),
-                    TargetPercent = 70
+                    Weight = 0.70M
                 },
                 new()
                 {
                     InvestmentStrategyId = -3,
                     AttributeMemberId = -14,
                     EffectiveDate = GetRandomDateTime(),
-                    TargetPercent = 30
+                    Weight = 0.30M
                 }
             };
 

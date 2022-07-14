@@ -19,8 +19,8 @@ namespace NjordFinance.Model
         [Key]
         [Column(TypeName = "date")]
         public DateTime EffectiveDate { get; set; }
-        [Range(0, 100)]
-        public byte TargetPercent { get; set; }
+        [Column(TypeName = "decimal(5, 4)")]
+        public decimal Weight { get; set; }
 
         [ForeignKey(nameof(AttributeMemberId))]
         [InverseProperty(nameof(ModelAttributeMember.InvestmentStrategyTargets))]

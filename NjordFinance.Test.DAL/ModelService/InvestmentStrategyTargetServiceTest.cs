@@ -49,7 +49,7 @@ namespace NjordFinance.Test.ModelService
 
             var model = service.SelectAllAsync().Result.FirstOrDefault();
 
-            model.TargetPercent -= 15;
+            model.Weight -= 0.15M;
 
             Assert.IsTrue(service.IsDirty);
         }
