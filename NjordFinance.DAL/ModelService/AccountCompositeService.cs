@@ -29,7 +29,10 @@ namespace NjordFinance.ModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<AccountComposite>(
-                contextFactory, modelMetadata, logger);
+                contextFactory, modelMetadata, logger)
+            {
+                IncludeDelegate = (queryable) => queryable.Include(a => a.AccountCompositeNavigation)
+            };
             Writer = new ModelWriterService<AccountComposite>(
                 contextFactory, modelMetadata, logger)
             {
@@ -77,8 +80,6 @@ namespace NjordFinance.ModelService
                     return new DbActionResult<bool>(result, result);
                 }
             };
-
-            Reader.AddNavigationPath(a => a.AccountCompositeNavigation);
         }
     }
 }

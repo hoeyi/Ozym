@@ -27,7 +27,14 @@ namespace NjordFinance.ModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<InvestmentStrategy>(
-                contextFactory, modelMetadata, logger);
+                contextFactory, modelMetadata, logger)
+            {
+                IncludeDelegate = (queryable) => queryable
+                    .Include(a => a.InvestmentStrategyTargets)
+                    .ThenInclude(b => b.AttributeMember)
+                    .ThenInclude(c => c.Attribute)
+            };
+
             Writer = new ModelWriterService<InvestmentStrategy>(
                 contextFactory, modelMetadata, logger);
         }

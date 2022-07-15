@@ -27,11 +27,13 @@ namespace NjordFinance.ModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<Security>(
-                contextFactory, modelMetadata, logger);
+                contextFactory, modelMetadata, logger)
+            {
+                IncludeDelegate = (queryable) => queryable.Include(a => a.SecuritySymbols)
+            };
+
             Writer = new ModelWriterService<Security>(
                 contextFactory, modelMetadata, logger);
-
-            Reader.AddNavigationPath(a => a.SecuritySymbols);
         }
     }
 }

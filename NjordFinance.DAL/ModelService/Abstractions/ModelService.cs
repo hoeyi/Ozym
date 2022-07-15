@@ -41,10 +41,6 @@ namespace NjordFinance.ModelService.Abstractions
         protected IModelWriterService<T> Writer { get; set; }
 
         /// <inheritdoc/>
-        public void AddNavigationPath(Expression<Func<T, object>> navigationPath) =>
-            Reader.AddNavigationPath(navigationPath);
-
-        /// <inheritdoc/>
         public async Task<T> CreateAsync(T model) => await Writer.CreateAsync(model);
 
         /// <inheritdoc/>

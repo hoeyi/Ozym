@@ -1,5 +1,6 @@
 ﻿using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Exceptions;
@@ -51,11 +52,13 @@ namespace NjordFinance.ModelService.Abstractions
         {
         }
 
-        /// <inheritdoc/>
-        public void AddNavigationPath(Expression<Func<T, object>> navigationPath)
-        {
-            PathCollection.AddPath(navigationPath);
-        }
+        /// <summary>
+        /// Gets the <see cref="Delegate"/> that configures an <see cref="IQueryable{T}"/> 
+        /// for use as <see cref="IIncludableQueryable{TEntity, TProperty}" />.
+        /// </summary>
+        /// <remarks>If not initialized, the given <see cref="IQueryable{T}"/> is returned.</remarks>
+        public Func<IQueryable<T>, IQueryable<T>> IncludeDelegate { get; init; } =
+            (queryable) => queryable;
 
         /// <inheritdoc/>
         public bool ModelExists(int? id)
@@ -164,13 +167,13 @@ namespace NjordFinance.ModelService.Abstractions
                 predicate: predicate.Body,
                 recordLimit: maxCount);
 
-            IQueryable<T> queryable = context.Set<T>();
+            IQueryable<T> queryable = IncludeDelegate(context.Set<T>());
 
-            // Loop through the navigation paths to include in the query.
-            foreach (var path in PathCollection.Items)
-            {
-                queryable = queryable.Include(path);
-            }
+            //// Loop through the navigation paths to include in the query.
+            //foreach (var path in PathCollection.Items)
+            //{
+            //    queryable = queryable.Include(path);
+            //}
 
             var result = await queryable
                             .Where(predicate)
@@ -185,7 +188,7 @@ namespace NjordFinance.ModelService.Abstractions
             return result;
         }
 
-        private bool Exists(FinanceDbContext context, Expression<Func<T, bool>> predicate)
+        private static bool Exists(FinanceDbContext context, Expression<Func<T, bool>> predicate)
         {
             if (context is null)
                 throw new ArgumentNullException(paramName: nameof(context));

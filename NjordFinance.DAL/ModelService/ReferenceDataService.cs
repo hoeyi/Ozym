@@ -116,7 +116,7 @@ namespace NjordFinance.ModelService
             var result = await _context.ModelAttributes
                 .Include(a => a.ModelAttributeScopes)
                 .Where(a => a.ModelAttributeScopes.Any(
-                    b => b.ScopeCode == scopeCode.ConvertToStringCode()))
+                    b => scopeCode.HasFlag(b.ScopeCode.ConvertTo<ModelAttributeScopeCode>())))
                 .Select(a => new LookupModel(a.AttributeId, a.DisplayName))
                 .ToListAsync();
 
