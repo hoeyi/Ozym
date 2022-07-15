@@ -40,5 +40,14 @@ namespace NjordFinance.ModelMetadata
 
             return memberAttribute?.Value;
         }
+
+        public static TEnum? ConvertTo<TEnum>(this string name)
+            where TEnum : struct
+        {
+            if (Enum.TryParse(name, out TEnum value))
+                return value;
+            else
+                return null;
+        }
     }
 }

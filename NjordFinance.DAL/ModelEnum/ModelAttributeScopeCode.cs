@@ -1,31 +1,33 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace NjordFinance.Model
 {
     /// <summary>
     /// Represents the supported values for <see cref="ModelAttributeScope.ScopeCode"/>.
     /// </summary>
+    [Flags]
     public enum ModelAttributeScopeCode
     {
         [EnumMember(Value = "acc")]
-        Account,
+        Account = 1,
 
         [EnumMember(Value = "bnk")]
-        BankTransactionCode,
+        BankTransactionCode = 2,
 
         [EnumMember(Value = "brk")]
-        BrokerTransactionCode,
+        BrokerTransactionCode = 4,
 
         [EnumMember(Value = "cou")]
-        Country,
+        Country = 8,
 
         [EnumMember(Value = "cus")]
-        Custodian,
+        Custodian = 16,
         
         [EnumMember(Value = "exc")]
-        Exchange,
+        Exchange = 32,
 
         [EnumMember(Value = "sec")]
-        Security
+        Security = 64
     }
 }
