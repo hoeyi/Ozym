@@ -19,20 +19,13 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
-            viewModel.AddEntry(1, 12.75M);
+            viewModel.MemberEntries.Add(new()
+            {
+                AttributeMemberId = 1,
+                Weight = 0.1275M
+            });
 
-            Assert.IsTrue(viewModel.MemberEntries.First().Value == 12.75M);
-        }
-
-        [TestMethod]
-        public void ViewModel_AddEntry_KeyExists_ThrowsException()
-        {
-            var viewModel = new SecurityAttributeViewModel(
-                new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
-
-            viewModel.AddEntry(1, 12.75M);
-
-            Assert.ThrowsException<ArgumentException>(() => viewModel.AddEntry(1, 12.75M));
+            Assert.IsTrue(viewModel.MemberEntries.First().Weight == 0.1275M);
         }
 
         [TestMethod]
@@ -41,8 +34,19 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
-            viewModel.AddEntry(1, 65.5M);
-            viewModel.AddEntry(2, 34.5M);
+            viewModel.MemberEntries.AddRange(new SecurityAttributeMemberEntry[]
+                {
+                    new()
+                    {
+                        AttributeMemberId = 1,
+                        Weight = 0.655M
+                    },
+                    new()
+                    {
+                        AttributeMemberId = 2,
+                        Weight = 0.345M
+                    }
+                });
 
             var context = new ValidationContext(viewModel, serviceProvider: null, items: null);
             var validationResults = new List<ValidationResult>();
@@ -56,7 +60,11 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
-            viewModel.AddEntry(1, 12.75M);
+            viewModel.MemberEntries.Add(new()
+            {
+                AttributeMemberId = 1,
+                Weight = 0.1275M
+            });
 
             var context = new ValidationContext(viewModel, serviceProvider: null, items: null);
             var validationResults = new List<ValidationResult>();
@@ -70,8 +78,19 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1}, new() { AttributeId = 1}, DateTime.Now);
 
-            viewModel.AddEntry(1, 65.5M);
-            viewModel.AddEntry(2, 34.5M);
+            viewModel.MemberEntries.AddRange(new SecurityAttributeMemberEntry[]
+                {
+                    new()
+                    {
+                        AttributeMemberId = 1,
+                        Weight = 0.655M
+                    },
+                    new()
+                    {
+                        AttributeMemberId = 2,
+                        Weight = 0.345M
+                    }
+                });
 
             Assert.IsTrue(viewModel.ToEntities().All(a =>
             {
