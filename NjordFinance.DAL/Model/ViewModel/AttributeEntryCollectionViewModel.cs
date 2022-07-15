@@ -18,8 +18,6 @@ namespace NjordFinance.Model.ViewModel
         where TEntry : class, new()
         where TParent : class, new()
     {
-        private readonly Dictionary<int, decimal> _memberEntries = new();
-
         protected AttributeEntryCollectionViewModel(
             TParent parentObject, ModelAttribute parentAttribute, DateTime effectiveDate)
             : base(parentObject, effectiveDate)
@@ -30,14 +28,16 @@ namespace NjordFinance.Model.ViewModel
             ParentAttribute = parentAttribute;
         }
 
+        protected abstract Func<TEntry, decimal> WeightSelector { get; }
+
         /// <summary>
         /// Gets the sum of all attribute members entries in this model.
         /// </summary>
-        [ExactValue(100D)]
+        [ExactValue(1D)]
         [Display(
             Name = nameof(ModelDisplay.AttributeEntryCollectionViewModel_SumOfWeights),
             ResourceType = typeof(ModelDisplay))]
-        public decimal SumOfMemberWeights => MemberEntries.Sum(kv => kv.Value);
+        public decimal SumOfMemberWeights => MemberEntries.Sum(WeightSelector);
 
         /// <summary>
         /// Gets the <see cref="ModelAttribute"/> that is the parent for this view model.
@@ -49,21 +49,12 @@ namespace NjordFinance.Model.ViewModel
         /// where the key represents the <see cref="ModelAttributeMember.AttributeMemberId"/> 
         /// and the value represents the weight for the entry.
         /// </summary>
-        public IReadOnlyDictionary<int, decimal> MemberEntries => _memberEntries;
+        public List<TEntry> MemberEntries { get; } = new();
 
         /// <summary>
         /// Converts this model into <typeparamref name="TEntry"/> entities.
         /// </summary>
         /// <returns>An <see cref="Array"/> of <typeparamref name="TEntry"/>.</returns>
         public abstract TEntry[] ToEntities();
-
-        /// <summary>
-        /// Adds an entry with the given <paramref name="attributeMemberId"/> and 
-        /// <paramref name="weight"/>.
-        /// </summary>
-        /// <param name="attributeMemberId"></param>
-        /// <param name="weight"></param>
-        public virtual void AddEntry(int attributeMemberId, decimal weight) =>
-            _memberEntries.Add(attributeMemberId, weight);
     }
 }

@@ -21,14 +21,16 @@ namespace NjordFinance.Model.ViewModel
         {
         }
 
+        protected override Func<SecurityAttributeMemberEntry, decimal> WeightSelector => x => x.Weight;
+
         public override SecurityAttributeMemberEntry[] ToEntities() =>
             MemberEntries.Select(
                 s => new SecurityAttributeMemberEntry()
                 {
-                    AttributeMemberId = s.Key,
+                    AttributeMemberId = s.AttributeMemberId,
                     SecurityId = ParentObject.SecurityId,
                     EffectiveDate = EffectiveDate,
-                    Weight = Math.Round(s.Value / 100M, 4)
+                    Weight = s.Weight
                 })
                 .ToArray();
     }
