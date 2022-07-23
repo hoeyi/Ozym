@@ -28,6 +28,10 @@ namespace NjordFinance.Model.ViewModel
             ParentAttribute = parentAttribute;
         }
 
+        /// <summary>
+        /// Gets the delegate for selecting the weight attribute for the <typeparamref name="TEntry"/> 
+        /// type.
+        /// </summary>
         protected abstract Func<TEntry, decimal> WeightSelector { get; }
 
         /// <summary>

@@ -11,21 +11,27 @@ using System.Globalization;
 namespace NjordFinance.Model.ViewModel
 {
     /// <summary>
-    /// Validation attribute that requires decorated members to have an exact <see cref="int"/> 
-    /// or <see cref="double"/> value.
+    /// Validation attribute that requires decorated members to have an exact value having one 
+    /// of the supported types:
+    /// <list type="bullet">
+    /// <item><see cref="int"/></item>
+    /// <item><see cref="double"/></item>
+    /// <item><see cref="bool"/></item>
+    /// </list>
     /// </summary>
     public class ExactValueAttribute : ValidationAttribute
     {
         private readonly string _errorMessage;
 
         /// <summary>
-        /// Creates a new instance of <see cref="ExactValueAttribute" /> for an <see cref="int"/> 
-        /// require value.
+        /// Creates a new instance of <see cref="ExactValueAttribute"/> for an <see cref="int"/> 
+        /// required value.
         /// </summary>
         /// <param name="value">The required value.</param>
         /// <param name="errorMessage">The validation error message or template.</param>
         /// <param name="ErrorMessageResourceName">The name of the string resource or the template.</param>
-        /// <param name="ErrorMessageResourceType">The type containing <paramref name="ErrorMessageResourceName"/>.</param>
+        /// <param name="ErrorMessageResourceType">The type containing 
+        /// <paramref name="ErrorMessageResourceName"/>.</param>
         public ExactValueAttribute(
             int value,
             string errorMessage = null,
@@ -38,13 +44,14 @@ namespace NjordFinance.Model.ViewModel
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="ExactValueAttribute" /> for a <see cref="double"/> 
-        /// require value.
+        /// Creates a new instance of <see cref="ExactValueAttribute"/> for a <see cref="double"/> 
+        /// required value.
         /// </summary>
         /// <param name="value">The required value.</param>
         /// <param name="errorMessage">The validation error message or template.</param>
         /// <param name="ErrorMessageResourceName">The name of the string resource or the template.</param>
-        /// <param name="ErrorMessageResourceType">The type containing <paramref name="ErrorMessageResourceName"/>.</param>
+        /// <param name="ErrorMessageResourceType">The type containing 
+        /// <paramref name="ErrorMessageResourceName"/>.</param>
         public ExactValueAttribute(
             double value, 
             string errorMessage = null,
@@ -56,6 +63,25 @@ namespace NjordFinance.Model.ViewModel
             OperandType = typeof(double);
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="ExactValueAttribute"/> for a <see cref="bool"/> 
+        /// required value..
+        /// </summary>
+        /// <param name="value">The required value.</param>
+        /// <param name="errorMessage">The validation error message or template.</param>
+        /// <param name="ErrorMessageResourceName">The name of the string resource or the template.</param>
+        /// <param name="ErrorMessageResourceType">The type containing 
+        /// <paramref name="ErrorMessageResourceName"/>.</param>
+        public ExactValueAttribute(
+            bool value,
+            string errorMessage = null,
+            string ErrorMessageResourceName = null,
+            Type ErrorMessageResourceType = null) :
+            this(errorMessage, ErrorMessageResourceName, ErrorMessageResourceType)
+        {
+            RequiredValue = value;
+            OperandType = typeof(bool);
+        }
 
         private ExactValueAttribute(
             string errorMessage = null,
@@ -147,6 +173,8 @@ namespace NjordFinance.Model.ViewModel
                 Initialize((int)RequiredValue, v => Convert.ToInt32(v, CultureInfo.InvariantCulture));
             else if (OperandType == typeof(double))
                 Initialize((double)RequiredValue, v => Convert.ToDouble(v, CultureInfo.InvariantCulture));
+            else if (OperandType == typeof(bool))
+                Initialize((bool)RequiredValue, v => Convert.ToBoolean(v));
             else
                 throw new InvalidOperationException(
                     message: ModelValidation.ExactValueAttribute_OperandType_MustBeSet);

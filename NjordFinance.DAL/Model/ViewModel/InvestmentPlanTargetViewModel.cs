@@ -12,31 +12,24 @@ namespace NjordFinance.Model.ViewModel
     /// Represents a collection of <see cref="InvestmentStrategyTarget"/> with the same 
     /// strategy, model attribute, and effective date.
     /// </summary>
-    public class InvestmentStrategyTargetViewModel
+    public class InvestmentPlanTargetViewModel
         : AttributeEntryCollectionViewModel<InvestmentStrategyTarget, InvestmentStrategy>
     {
-        public InvestmentStrategyTargetViewModel(
-            InvestmentStrategy strategy, ModelAttribute modelAttribute, DateTime effectiveDate)
-        : base(strategy, modelAttribute, effectiveDate)
+        public InvestmentPlanTargetViewModel(
+            InvestmentStrategy parentStrategy, ModelAttribute modelAttribute, DateTime effectiveDate)
+        : base(parentStrategy, modelAttribute, effectiveDate)
         {
-            if(strategy.InvestmentStrategyTargets?.Any() ?? false)
-                MemberEntries.AddRange(strategy.InvestmentStrategyTargets);
+            MemberEntries.AddRange(
+                parentStrategy.InvestmentStrategyTargets.Where(a => 
+                    a.AttributeMember.AttributeId == modelAttribute.AttributeId &&
+                    a.EffectiveDate == EffectiveDate));
         }
-
-        [Display(
-            Name = nameof(ModelDisplay.InvestmentStrategy_DisplayName_Name),
-            Description = nameof(ModelDisplay.InvestmentStrategy_DisplayName_Description),
-            ResourceType = typeof(ModelDisplay))]
-        [Required(
-            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelValidation))]
-        [StringLength(32,
-            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelValidation))]
-        public string DisplayName { get; set; }
 
         protected override Func<InvestmentStrategyTarget, decimal> WeightSelector => x => x.Weight;
 
+        public IEnumerable<InvestmentStrategyTarget> CurrentMemberEntries =>
+            MemberEntries.Where(a => a.EffectiveDate <= DateTime.Now);
+        
         public override InvestmentStrategyTarget[] ToEntities() =>
             MemberEntries.Select(
                 s => new InvestmentStrategyTarget()
