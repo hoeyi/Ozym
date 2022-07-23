@@ -63,9 +63,9 @@ namespace NjordFinance.Model.ViewModel {
         /// <summary>
         ///   Looks up a localized string similar to {0} related records were not included..
         /// </summary>
-        internal static string InvestmentStrategyViewModel_Constructor_InvalidOperationException {
+        internal static string InvestmentModelViewModel_Constructor_InvalidOperationException {
             get {
-                return ResourceManager.GetString("InvestmentStrategyViewModel_Constructor_InvalidOperationException", resourceCulture);
+                return ResourceManager.GetString("InvestmentModelViewModel_Constructor_InvalidOperationException", resourceCulture);
             }
         }
     }

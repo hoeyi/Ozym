@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace NjordFinance.Model.ViewModel
 {
     /// <summary>
-    /// Represents a collection of <see cref="InvestmentStrategyTarget"/> with the same 
-    /// strategy, model attribute, and effective date.
+    /// Represents a collection of <see cref="InvestmentStrategyTarget"/> istances with the same 
+    /// <see cref="InvestmentStrategy" />, <see cref="ModelAttribute"/>, and effective date.
     /// </summary>
-    public class InvestmentPlanTargetViewModel
+    public class InvestmentModelTargetViewModel
         : AttributeEntryCollectionViewModel<InvestmentStrategyTarget, InvestmentStrategy>
     {
-        public InvestmentPlanTargetViewModel(
+        public InvestmentModelTargetViewModel(
             InvestmentStrategy parentStrategy, ModelAttribute modelAttribute, DateTime effectiveDate)
         : base(parentStrategy, modelAttribute, effectiveDate)
         {
@@ -27,9 +27,6 @@ namespace NjordFinance.Model.ViewModel
 
         protected override Func<InvestmentStrategyTarget, decimal> WeightSelector => x => x.Weight;
 
-        public IEnumerable<InvestmentStrategyTarget> CurrentMemberEntries =>
-            MemberEntries.Where(a => a.EffectiveDate <= DateTime.Now);
-        
         public override InvestmentStrategyTarget[] ToEntities() =>
             MemberEntries.Select(
                 s => new InvestmentStrategyTarget()
