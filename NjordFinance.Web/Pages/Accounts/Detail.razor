@@ -52,9 +52,7 @@ else
         {
             var accountQuery = await Controller.ReadAsync(AccountId);
             if (accountQuery.Value is Account account)
-            {
                 Model = account;
-            }
 
             ActionMenu = new()
                 {
