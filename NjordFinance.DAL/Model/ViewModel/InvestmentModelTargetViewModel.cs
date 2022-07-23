@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace NjordFinance.Model.ViewModel
 {
     /// <summary>
-    /// Represents a collection of <see cref="InvestmentStrategyTarget"/> istances with the same 
+    /// Represents a collection of <see cref="InvestmentStrategyTarget"/> instances with the same 
     /// <see cref="InvestmentStrategy" />, <see cref="ModelAttribute"/>, and effective date.
     /// </summary>
     public class InvestmentModelTargetViewModel

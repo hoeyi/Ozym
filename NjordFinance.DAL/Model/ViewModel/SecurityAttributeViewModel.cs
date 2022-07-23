@@ -9,8 +9,8 @@ using NjordFinance.ModelMetadata.Resources;
 namespace NjordFinance.Model.ViewModel
 {
     /// <summary>
-    /// Represents a collection of <see cref="SecurityAttributeMemberEntry"/> with the same 
-    /// security, model attribute, and effective date.
+    /// Represents a collection of <see cref="SecurityAttributeMemberEntry"/> instances with the same 
+    /// <see cref="Security" />, <see cref="ModelAttribute"/>, and effective date.
     /// </summary>
     public class SecurityAttributeViewModel : 
         AttributeEntryCollectionViewModel<SecurityAttributeMemberEntry, Security>
