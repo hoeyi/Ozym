@@ -113,10 +113,19 @@ namespace NjordFinance.ModelService
 
         public async Task<IList<LookupModel>> ModelAttributeListAsync(ModelAttributeScopeCode scopeCode)
         {
+            // Convert the enum from a bit field to an array of string codes.
+            var scopeCodes = Enum
+                .GetValues(typeof(ModelAttributeScopeCode))
+                .Cast<Enum>()
+                .Where(scopeCode.HasFlag)
+                .Cast<ModelAttributeScopeCode>()
+                .Select(m => m.ConvertToStringCode())
+                .ToArray();
+
+            // Check model attribute scope codes against scope codes dervied from bit field.
             var result = await _context.ModelAttributes
                 .Include(a => a.ModelAttributeScopes)
-                .Where(a => a.ModelAttributeScopes.Any(
-                    b => scopeCode.HasFlag(b.ScopeCode.ConvertTo<ModelAttributeScopeCode>())))
+                .Where(a => a.ModelAttributeScopes.Any(b => scopeCodes.Contains(b.ScopeCode)))
                 .Select(a => new LookupModel(a.AttributeId, a.DisplayName))
                 .ToListAsync();
 
