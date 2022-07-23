@@ -1,0 +1,61 @@
+﻿@page "/InvestmentModels/Detail/{PlanId:int}"
+
+@inherits ModelDetail<InvestmentStrategy>
+
+@inject IReferenceDataService ReferenceData
+
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+
+    <ModelPageMenuHeader Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+
+    <ThemedComponent>
+    </ThemedComponent>
+}
+
+@code{
+    [Parameter]
+    public int PlanId { get; set; }
+
+    private IEnumerable<LookupModel> ModelAttributes { get; set; }
+
+    private InvestmentModelViewModel ViewModel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        throw new NotImplementedException();
+
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.ReadAsync(PlanId);
+            var attributesQuery = ReferenceData.ModelAttributeListAsync(
+                ModelAttributeScopeCode.Country |
+                ModelAttributeScopeCode.Security);
+
+            if((await modelQuery).Value is InvestmentStrategy model)
+                Model = model;
+
+            ModelAttributes = await attributesQuery;
+
+
+            ViewModel = new(Model);
+        }
+        finally
+        {
+            IsLoading = Model is null || ViewModel is null;
+        }
+    }
+
+    private IEnumerable<LookupModel> GetAttributeMemberLookupModels(int attributeId)
+    {
+        throw new NotImplementedException();
+    }
+
+}
