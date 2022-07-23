@@ -149,6 +149,13 @@
           "UriStem": "/Custodians",
           "Children": {},
           "HasChildren": false
+        },
+        "4": {
+          "IconKey": null,
+          "Caption": "Models",
+          "UriStem": "/InvestmentModels",
+          "Children": {},
+          "HasChildren": false
         }
       },
       "HasChildren": true
