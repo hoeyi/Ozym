@@ -4,43 +4,43 @@
 
 @inject IReferenceDataService ReferenceData
 
-@if (IsLoading)
-{
-    <LoadingSvg />
-}
-else
-{
-    <PageTitle>@(PageTitle.UpdateSingle(Model.AccountCode).AsPageTitle())</PageTitle>
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.UpdateSingle(Model.AccountCode).AsPageTitle())</PageTitle>
 
-    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.UpdateSingle(Model.AccountCode))" />
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.UpdateSingle(Model.AccountCode))" />
 
-    <ThemedComponent>
-        <EditForm class="model-editor" Model="@ViewModel" 
-            OnValidSubmit="HandleValidSubmit" >
-            <DataAnnotationsValidator/>
-            @*<ValidationSummary/>*@
-            <ActionButtonMenu>
-                <button type="button" class="form-control button" 
-                    @onclick="Cancel_OnClick"
-                    @onclick:preventDefault >
-                    @Resources.Strings.Caption_Button_Cancel
-                </button>
-                <button type="button" class="form-control button" 
-                    @onclick="Delete_OnClick"
-                    @onclick:preventDefault >
-                    @Resources.Strings.Caption_Button_Delete
-                </button>
-                <button type="submit" class="form-control button">
-                    @Resources.Strings.Caption_Button_Save
-                </button>
-            </ActionButtonMenu>
-            <div>
-                <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
-                    Disabled="@_disabled" ReadOnly="@_readonly" />
-            </div>
-        </EditForm>
-    </ThemedComponent>
-}
+            <EditForm class="model-editor" Model="@ViewModel" 
+                OnValidSubmit="HandleValidSubmit" >
+                <DataAnnotationsValidator/>
+                @*<ValidationSummary/>*@
+                <ActionButtonMenu>
+                    <button type="button" class="form-control button" 
+                        @onclick="Cancel_OnClick"
+                        @onclick:preventDefault >
+                        @Resources.Strings.Caption_Button_Cancel
+                    </button>
+                    <button type="button" class="form-control button" 
+                        @onclick="Delete_OnClick"
+                        @onclick:preventDefault >
+                        @Resources.Strings.Caption_Button_Delete
+                    </button>
+                    <button type="submit" class="form-control button">
+                        @Resources.Strings.Caption_Button_Save
+                    </button>
+                </ActionButtonMenu>
+                <div>
+                    <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
+                        Disabled="@_disabled" ReadOnly="@_readonly" />
+                </div>
+            </EditForm>
+    }
+</ThemedComponent>
 
 @code {
     /// <summary>

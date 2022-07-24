@@ -11,9 +11,17 @@
 ::deep form.model-editor td {
     padding: 0.25rem;
 }
+
+/*#region DataGrid*/
+
 ::deep .datagrid {
     width: 100%;
     overflow: scroll;
+}
+
+::deep .datagrid .title, ::deep .datagrid .sub-title {
+    font-size: 105rem;
+    font-weight: bold;
 }
 
 ::deep .datagrid a {
@@ -32,6 +40,10 @@
     cursor: pointer;
     text-decoration: underline;
 }
+
+/*#endregion DataGrid*/
+
+/*#region Form Control*/
 
 ::deep .form-control {
     color: var(--euler-hexcolor-fore-0, black) !important;
@@ -67,3 +79,8 @@
         border-color: var(--euler-hexcolor-back-1, inherit) !important;
         color: var(--euler-hexcolor-fore-0, white) !important;
     }
+
+::deep input[type=checkbox]:checked:before {
+    background: var(--euler-hexcolor-primary-1, blue);
+}
+/*#endregion Form Control*/

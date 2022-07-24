@@ -1,0 +1,47 @@
+﻿@inherits ModelCRUD<InvestmentModelTargetViewModel>
+
+@if(Model is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <DataGrid Data="@Model.MemberEntries">
+        <div class="title">@Model.ParentAttribute.DisplayName</div>
+        <div cass="sub-title">@Model.EffectiveDate.ToShortDateString()</div>
+        <ValidationMessage For=@(() => Model.SumOfMemberWeights) />
+        <DataGridColumn 
+            Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
+            Caption=@(NameFor<InvestmentStrategyTarget>(nameof(InvestmentStrategyTarget.AttributeMemberId)))>
+                <CellTemplate Context="model">
+                    @model.AttributeMember.DisplayName
+                </CellTemplate>
+        </DataGridColumn>
+        <DataGridColumn 
+            Property=@nameof(InvestmentStrategyTarget.Weight)
+            Caption=@(NameFor<InvestmentStrategyTarget>(nameof(InvestmentStrategyTarget.Weight)))>
+                <CellTemplate Context="model">
+                    @model.Weight
+                </CellTemplate>
+        </DataGridColumn>
+    </DataGrid>
+
+@*    <CellEditTemplate Context="model">
+        <InputSelect class="form-control" @bind-Value=model.AttributeMember. />
+    </CellEditTemplate>
+    <CellEditTemplate Context="model">
+        <InputNumber class="form-control" @bind-Value=model.Weight />
+    </CellEditTemplate>*@
+}
+
+@code{
+    [Parameter]
+    public IEnumerable<LookupModel> AttributeMemberLookup { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        IsLoading = !ReadOnly || AttributeMemberLookup is null;
+    }
+}

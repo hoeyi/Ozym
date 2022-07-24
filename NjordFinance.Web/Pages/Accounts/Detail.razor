@@ -4,27 +4,27 @@
 
 @inject IReferenceDataService ReferenceData
 
-@if (IsLoading)
-{
-    <LoadingSvg />
-}
-else
-{
-    <PageTitle>@(PageTitle.ReadSingle(Model.AccountCode).AsPageTitle())</PageTitle>
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.ReadSingle(Model.AccountCode).AsPageTitle())</PageTitle>
 
-    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadSingle(Model.AccountCode))" />
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadSingle(Model.AccountCode))" />
 
-    <ThemedComponent>
-        <EditForm class="model-editor" Model="@ViewModel" >
-            <DataAnnotationsValidator/>
-            @*<ValidationSummary/>*@
-            <div>
-                <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
-                    Disabled="@_disabled" ReadOnly="@_readonly" />
-            </div>
-        </EditForm>
-    </ThemedComponent>
-}
+            <EditForm class="model-editor" Model="@ViewModel" >
+                <DataAnnotationsValidator/>
+                @*<ValidationSummary/>*@
+                <div>
+                    <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
+                        Disabled="@_disabled" ReadOnly="@_readonly" />
+                </div>
+            </EditForm>
+    }
+</ThemedComponent>
 
 @code {
     [Parameter]

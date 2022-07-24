@@ -1,26 +1,37 @@
-﻿@page "/InvestmentModels/Detail/{PlanId:int}"
+﻿@page "/InvestmentModels/Detail/{ModelId:int}"
 
 @inherits ModelDetail<InvestmentStrategy>
 
 @inject IReferenceDataService ReferenceData
 
-@if (IsLoading)
-{
-    <LoadingSvg />
-}
-else
-{
-    <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-    <ModelPageMenuHeader Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+        <ModelPageMenuHeader Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
-    <ThemedComponent>
-    </ThemedComponent>
-}
+        <ThemedComponent>
+            @foreach(var group in ViewModel.CurrentTargetCollection)
+            {
+                <EditForm class="model-editor" Model="@group.First()">
+                    <InvestmentModelTargetCRUD 
+                        Model="@group.First()"
+                        Disabled="false"
+                        ReadOnly="true" />
+                </EditForm>
+            }
+        </ThemedComponent>
+    }
+</ThemedComponent>
 
 @code{
     [Parameter]
-    public int PlanId { get; set; }
+    public int ModelId { get; set; }
 
     private IEnumerable<LookupModel> ModelAttributes { get; set; }
 
@@ -28,13 +39,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        throw new NotImplementedException();
-
         IsLoading = true;
 
+        await base.OnInitializedAsync();
+                
         try
         {
-            var modelQuery = Controller.ReadAsync(PlanId);
+            var modelQuery = Controller.ReadAsync(ModelId);
             var attributesQuery = ReferenceData.ModelAttributeListAsync(
                 ModelAttributeScopeCode.Country |
                 ModelAttributeScopeCode.Security);
@@ -43,7 +54,6 @@ else
                 Model = model;
 
             ModelAttributes = await attributesQuery;
-
 
             ViewModel = new(Model);
         }
