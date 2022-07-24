@@ -12,6 +12,9 @@
     padding: 0.25rem;
 }
 
+::deep form.model-editor {
+    padding-bottom: 1rem;
+}
 /*#region DataGrid*/
 
 ::deep .datagrid {
@@ -116,9 +119,8 @@
     display: inline-flex;
 }
 
-::deep .section-header .sub-title {
-    position: relative;
-    top: 0px;
-    padding-left: 10px;
+::deep .section-header > * {
+    padding-left: 1rem;
+    height: 100%;
 }
 /*#endregion Titles, Headers & Sections*/
