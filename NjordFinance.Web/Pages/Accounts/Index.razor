@@ -102,8 +102,6 @@ else
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
-
         ActionMenu = new()
         {
             IconKey = "reorder-four",
@@ -120,6 +118,8 @@ else
         };
 
         MaxRecordCount = -1;
+
+        await base.OnInitializedAsync();
     }
 
     private void Detail_OnClick(Account model, MouseEventArgs args)

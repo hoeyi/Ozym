@@ -29,6 +29,21 @@ else
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
+        ActionMenu = new()
+        {
+            IconKey = "reorder-four",
+            Children = new()
+            {
+                { 0, new MenuItem()
+                    {
+                        IconKey = "create",
+                        Caption = $"Create new {ModelNoun.GetSingular()}",
+                        UriStem = FormatCreateUri(Guid.NewGuid())
+                    }
+                }
+            }
+        };
+
         MaxRecordCount = -1;
 
         await base.OnInitializedAsync();
