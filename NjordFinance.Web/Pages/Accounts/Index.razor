@@ -24,7 +24,7 @@
             <DataGridColumn Property=@nameof(Account.AccountNavigation.AccountObjectCode)
                         Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))>
                 <CellTemplate Context="model">
-                    <a href=@(FormatDetailUri(model.AccountId)) @onclick:preventDefault 
+                    <a class="custom-nav-link" href=@(FormatDetailUri(model.AccountId)) @onclick:preventDefault 
                         @onclick="@(args => Detail_OnClick(model, args))">
                         @model.AccountNavigation.AccountObjectCode.ToUpper()
                     </a>

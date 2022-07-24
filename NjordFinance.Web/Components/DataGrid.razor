@@ -11,10 +11,10 @@
 
         <table class="datagrid" @attributes="TableAttributes">
             <thead>
-                <tr class="datagrid-header-row">
+                <tr>
                     @foreach (var column in Columns.Where(c => c.Visible).OrderBy(c => c.Index))
                     {
-                        <th @attributes="column.ColumnAttributes">
+                        <th class="datagrid-column-header" @attributes="column.ColumnAttributes">
                             @(column.Caption ?? column.Property)
                         </th>
                     }

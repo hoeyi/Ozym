@@ -6,9 +6,11 @@
 }
 else
 {
+    <div class="section-header">
+        <h4 class="title">@Model.ParentAttribute.DisplayName</h4>
+        <h6 class="sub-title">(@Model.EffectiveDate.ToShortDateString())</h6>
+    </div>
     <DataGrid Data="@Model.MemberEntries">
-        <div class="title">@Model.ParentAttribute.DisplayName</div>
-        <div cass="sub-title">@Model.EffectiveDate.ToShortDateString()</div>
         <ValidationMessage For=@(() => Model.SumOfMemberWeights) />
         <DataGridColumn 
             Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)

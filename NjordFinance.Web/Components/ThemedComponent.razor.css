@@ -19,32 +19,54 @@
     overflow: scroll;
 }
 
-::deep .datagrid .title, ::deep .datagrid .sub-title {
-    font-size: 105rem;
-    font-weight: bold;
+::deep td:has(> a) {
+    text-indent: 0rem;
 }
 
-::deep .datagrid a {
-    padding: 0.5em;
+::deep .datagrid-cell a {
     color: var(--euler-hexcolor-fore-0, black);
     font-weight: bold;
     text-decoration: none;
-    text-align: left;
     display: inline-block;
     width: 100%;
+    height: 100%;
 }
 
-::deep .datagrid a:hover {
+::deep .datagrid-cell a:hover {
     background-color: var(--euler-hexcolor-gray-2, gray);
     color: var(--euler-hexcolor-fore-0, black);
     cursor: pointer;
     text-decoration: underline;
 }
 
+::deep .datagrid .title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+
+::deep .datagrid-cell {
+    border: solid;
+    text-indent: 0.5rem;
+    border-width: 0.5px;
+    border-color: var(--euler-hexcolor-tablecell-border, white);
+    background-color: var(--euler-hexcolor-tablecell-back, white);
+    color: var(--euler-hexcolor-tablecell-fore, black);
+}
+
+::deep .datagrid-column-header {
+    border: solid;
+    text-indent: 0.5rem;
+    border-width: 0.5px;
+    border-color: var(--euler-hexcolor-tableheader-border, white);
+    background-color: var(--euler-hexcolor-tableheader-back, white);
+    color: var(--euler-hexcolor-tableheader-fore, black);
+}
+
 /*#endregion DataGrid*/
 
-/*#region Form Control*/
 
+/*#region Form Control*/
 ::deep .form-control {
     color: var(--euler-hexcolor-fore-0, black) !important;
     outline: none !important;
@@ -84,3 +106,16 @@
     background: var(--euler-hexcolor-primary-1, blue);
 }
 /*#endregion Form Control*/
+
+
+/*#region Titles, Headers, & Sections*/
+::deep .section-header {
+    display: inline-flex;
+}
+
+::deep .section-header .sub-title {
+    position: relative;
+    top: 0px;
+    padding-left: 10px;
+}
+/*#endregion Titles, Headers & Sections*/
