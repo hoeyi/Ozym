@@ -982,21 +982,45 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
             };
 
+            var targetEffDate = GetRandomDateTime();
+            var tagetEffDate2 = GetRandomDateTime();
+
             InvestmentStrategyTargets = new InvestmentStrategyTarget[]
             {
                 new()
                 {
                     InvestmentStrategyId = -3,
                     AttributeMemberId = -13,
-                    EffectiveDate = GetRandomDateTime(),
+                    EffectiveDate = targetEffDate,
                     Weight = 0.70M
                 },
                 new()
                 {
                     InvestmentStrategyId = -3,
                     AttributeMemberId = -14,
-                    EffectiveDate = GetRandomDateTime(),
+                    EffectiveDate = targetEffDate,
                     Weight = 0.30M
+                },
+                new()
+                {
+                    InvestmentStrategyId = -3,
+                    AttributeMemberId = -100,
+                    EffectiveDate = tagetEffDate2,
+                    Weight = 0.75M,
+                },
+                new()
+                {
+                    InvestmentStrategyId = -3,
+                    AttributeMemberId = -101,
+                    EffectiveDate = tagetEffDate2,
+                    Weight = 0.15M,
+                },
+                new()
+                {
+                    InvestmentStrategyId = -3,
+                    AttributeMemberId = -104,
+                    EffectiveDate = tagetEffDate2,
+                    Weight = 0.1M,
                 }
             };
 
