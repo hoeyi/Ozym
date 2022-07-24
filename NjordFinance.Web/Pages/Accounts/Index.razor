@@ -22,7 +22,8 @@
     {
         <DataGrid Data="@Models">
             <DataGridColumn Property=@nameof(Account.AccountNavigation.AccountObjectCode)
-                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))>
+                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
+                        Type=@DataGridCellType.Link>
                 <CellTemplate Context="model">
                     <a class="custom-nav-link" href=@(FormatDetailUri(model.AccountId)) @onclick:preventDefault 
                         @onclick="@(args => Detail_OnClick(model, args))">

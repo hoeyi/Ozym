@@ -5,7 +5,7 @@
 
 @if (DataGridColumn is not null && DataGridRow is not null)
 {
-    <td class="datagrid-cell">
+    <td class="datagrid-cell @(DataGridColumn.Type.ToString().ToLower())">
         @if(DataGridColumn.CellEditTemplate is not null)
         {
             @DataGridColumn.CellEditTemplate(Model);
@@ -58,7 +58,7 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;
 
-    /// <inheritdoc/>
+/// <inheritdoc/>
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);

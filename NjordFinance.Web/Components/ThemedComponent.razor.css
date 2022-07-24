@@ -19,17 +19,16 @@
     overflow: scroll;
 }
 
-::deep td:has(> a) {
-    text-indent: 0rem;
-}
-
 ::deep .datagrid-cell a {
     color: var(--euler-hexcolor-fore-0, black);
     font-weight: bold;
+    text-indent: 0.5rem;
     text-decoration: none;
     display: inline-block;
     width: 100%;
     height: 100%;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
 }
 
 ::deep .datagrid-cell a:hover {
@@ -46,12 +45,16 @@
 
 
 ::deep .datagrid-cell {
+    background-color: var(--euler-hexcolor-tablecell-back, white);
     border: solid;
-    text-indent: 0.5rem;
     border-width: 0.5px;
     border-color: var(--euler-hexcolor-tablecell-border, white);
-    background-color: var(--euler-hexcolor-tablecell-back, white);
     color: var(--euler-hexcolor-tablecell-fore, black);
+
+}
+
+::deep .datagrid-cell.text {
+    text-indent: 0.5rem;
 }
 
 ::deep .datagrid-column-header {
