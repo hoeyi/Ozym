@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NjordFinance.ModelMetadata.Resources;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,6 +23,8 @@ namespace NjordFinance.Model
             ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
         public string DisplayName { get; set; }
+
+        public string Notes { get; set; }
 
         [InverseProperty(nameof(InvestmentStrategyTarget.InvestmentStrategy))]
         public virtual ICollection<InvestmentStrategyTarget> InvestmentStrategyTargets { get; set; }

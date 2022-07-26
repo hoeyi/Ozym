@@ -1654,6 +1654,24 @@ namespace NjordFinance.ModelMetadata.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Strategy notes/history.
+        /// </summary>
+        public static string InvestmentStrategy_Notes_Description {
+            get {
+                return ResourceManager.GetString("InvestmentStrategy_Notes_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        public static string InvestmentStrategy_Notes_Name {
+            get {
+                return ResourceManager.GetString("InvestmentStrategy_Notes_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The member value for the target..
         /// </summary>
         public static string InvestmentStrategyTarget_AttributeMemberID_Description {

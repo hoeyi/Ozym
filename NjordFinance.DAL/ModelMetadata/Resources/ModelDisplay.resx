@@ -672,6 +672,12 @@
   <data name="InvestmentStrategy_DisplayName_Name" xml:space="preserve">
     <value>Display Name</value>
   </data>
+  <data name="InvestmentStrategy_Notes_Description" xml:space="preserve">
+    <value>Strategy notes/history</value>
+  </data>
+  <data name="InvestmentStrategy_Notes_Name" xml:space="preserve">
+    <value>Notes</value>
+  </data>
   <data name="MarketHolidaySchedule_MarketHolidayID_Description" xml:space="preserve">
     <value>The holiday for the observance.</value>
   </data>

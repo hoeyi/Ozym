@@ -52,6 +52,7 @@ namespace NjordFinance.Model.ViewModel
 
             _investmentStrategy = strategy;
             DisplayName = strategy.DisplayName;
+            Notes = strategy.Notes;
 
             var targetGroups = _investmentStrategy.InvestmentStrategyTargets
                 .GroupBy(tvm => (tvm.AttributeMember.AttributeId, tvm.EffectiveDate));
@@ -77,6 +78,12 @@ namespace NjordFinance.Model.ViewModel
                     ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
                     ErrorMessageResourceType = typeof(ModelValidation))]
         public string DisplayName { get; set; }
+
+        [Display(
+            Name = nameof(ModelDisplay.InvestmentStrategy_Notes_Name),
+            Description = nameof(ModelDisplay.InvestmentStrategy_Notes_Description),
+            ResourceType = typeof(ModelDisplay))]
+        public string Notes { get; set; }
 
         /// <summary>
         /// Gets the collection of <see cref="InvestmentModelTargetViewModel"/> that represent the 
