@@ -117,10 +117,13 @@
 /*#region Titles, Headers, & Sections*/
 ::deep .section-header {
     display: inline-flex;
+    position: relative;
 }
 
-::deep .section-header > * {
-    padding-left: 1rem;
-    height: 100%;
+::deep .section-header .sub-title {
+    /*padding-left: 1rem;*/
+    /*position: absolute;*/
+    /*bottom: 50%;*/
+    font-size: 0.85rem;
 }
 /*#endregion Titles, Headers & Sections*/
