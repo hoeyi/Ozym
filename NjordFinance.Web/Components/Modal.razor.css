@@ -1,3 +1,39 @@
-﻿.modal {
-    display: block;
+﻿.custom-modal {
+    display: none;
+    position: fixed;
+    justify-content: center;
+    width: 100%;
+    min-height: 20vh;
+    max-height: 70vh;
+    max-width: 70vh;
+    border: solid;
+    border-color: black;
+    
+    z-index: 1;
+    overflow: auto;
+
+    color: var(--euler-hexcolor-fore-0, black);
+    background-color: var(--euler-hexcolor-back-0, white);
+    
+    float: left;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -25%);
+}
+
+.custom-modal.visible {
+    display: inline-block;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.custom-modal-body {
+    padding: 2rem;
+    width: 100% !important;
+}
+
+.custom-modal-content {
+    border: none;
+    color: var(--euler-hexcolor-fore-0, black);
+    background-color: var(--euler-hexcolor-back-0, white);
 }

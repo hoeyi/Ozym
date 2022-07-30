@@ -2,28 +2,30 @@
 
 @inherits LocalizableComponent
 
-<div class="modal">
+<div class="custom-modal @IsShownClassAttribute">
     @if(IsLoading)
     {
         <LoadingSvg />
     }
     else
     {
-        <div class="modal-content">
-            @ChildContent
+        <div class="custom-modal-body">
+            <p class="custom-modal-content section">
+                @ChildContent
+            </p>
+            <ActionButtonMenu>
+                @foreach(var dialogOption in _dialogResultButtons)
+                {
+                    <button 
+                        type="button" 
+                        class="form-control button"
+                        @onclick="() => OnClick(dialogOption)"
+                        @onclick:preventDefault >
+                        @(NameFor<DialogResult>($"{dialogOption}"))
+                    </button>
+                }
+            </ActionButtonMenu>
         </div>
-        <ActionButtonMenu>
-            @foreach(var dialogOption in _dialogResultButtons)
-            {
-                <button 
-                    type="button" 
-                    class="form-control button"
-                    @onclick="() => OnClick(dialogOption)"
-                    @onclick:preventDefault >
-                    @(NameFor<DialogResult>($"{dialogOption}"))
-                </button>
-            }
-        </ActionButtonMenu>
     }
 </div>
 
@@ -32,7 +34,7 @@
     /// Gets or sets the event handler for the close event of this form.
     /// </summary>
     [Parameter]
-    public EventCallback<ModalEventArgs<T>> OnClose { get; set; }
+    public EventCallback<ModalEventArgs<T>>? OnClose { get; set; }
 
     /// <summary>
     /// Gets or sets the child content to render for this form.
@@ -40,13 +42,40 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;
 
+    private string IsShownClassAttribute { get; set; } = "visible";
+
     /// <summary>
     /// Gets or sets the supported dialog options for this form.
     /// </summary>
     [Parameter]
     public DialogResult DialogOptions { get; set; } = DialogResult.OK | DialogResult.Cancel;
 
+    /// <summary>
+    /// Gets or sets whether the modal dialog is visible.
+    /// </summary>
+    [Parameter]
+    public bool Shown
+    {
+        get { return _shown; }
+        set
+        {
+            if(_shown != value)
+            {
+                _shown = value;
+                ChangeVisibility(visible: _shown);
+            }
+        }
+    }
+
     private IEnumerable<DialogResult> _dialogResultButtons;
+
+    private bool _shown = true;
+
+    private void ChangeVisibility(bool visible)
+    {
+        IsShownClassAttribute = visible ? "visible" : "hidden";
+        StateHasChanged();
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -68,6 +97,7 @@
             Result = result
         };
 
-        return OnClose.InvokeAsync(args);
+        ChangeVisibility(visible: false);
+        return OnClose?.InvokeAsync(args);
     }
 }

@@ -1,0 +1,124 @@
+﻿@page "/InvestmentModels/{ModelId:int}/Edit"
+
+@inherits ModelDetail<InvestmentStrategy>
+
+@inject IReferenceDataService ReferenceData
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+
+        @if (CurrentTargetViewModel is not null && CurrentAttributeMemberLookup is not null)
+        {
+            <TargetEditDialog ViewModel="@CurrentTargetViewModel"
+                      AttributeMemberLookup="@CurrentAttributeMemberLookup" />
+        }
+        @foreach (var group in ViewModel.AttributeTargetCollection)
+        {
+            <p class="section">
+                <div class="section-header">
+                    <h4 class="title">
+                        @group.Key.DisplayName
+                    </h4>
+                </div>
+                <DataGrid Data="group">
+                    <DataGridColumn Type="DataGridCellType.Link"
+                            Property="@nameof(InvestmentModelTargetViewModel.EffectiveDate)"
+                            Caption=@(NameFor<InvestmentStrategyTarget>(
+                            nameof(InvestmentModelTargetViewModel.EffectiveDate)))>
+                        <CellTemplate Context="model">
+                            <a @onclick:preventDefault
+                       @onclick="(() => Detail_OnClick(model))">
+                                @model.EffectiveDate.ToShortDateString()
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </p>
+        }
+
+    }
+</ThemedComponent>
+
+@code {
+    /// <summary>
+    /// Gets or sets the identifier for the <see cref="InvestmentStrategy" /> worked using this
+    /// page.
+    /// </summary>
+    [Parameter]
+    public int ModelId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="InvestmentModelViewModel" /> representing the worked model.
+    /// </summary>
+    private InvestmentModelViewModel ViewModel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the current <see cref="InvestmentModelTargetViewModel" /> instance.
+    /// </summary>
+    private InvestmentModelTargetViewModel? CurrentTargetViewModel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the current collection of valid entries for the current
+    /// </summary>
+    private IEnumerable<LookupModel> CurrentAttributeMemberLookup { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ActionMenu = new()
+            {
+                IconKey = "reorder-four",
+                Children = new()
+            {
+                // Add index button.
+                { 0, new MenuItem()
+                    {
+                        IconKey = "list",
+                        Caption = $"{Resources.Strings.Caption_Button_Index}",
+                        UriStem = $"{IndexUriRelativePath}"
+                    }
+                },
+                // Add delete button.
+                { 1, new MenuItem()
+                    {
+                        IconKey = "close",
+                        Caption = $"{Resources.Strings.Caption_Button_Delete} {ModelNoun.GetSingular()}",
+                        UriStem = $"#"
+                    }
+                }
+            }
+            };
+
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.ReadAsync(ModelId);
+
+            if ((await modelQuery).Value is InvestmentStrategy model)
+            {
+                Model = model;
+            }
+
+            ViewModel = new(Model);
+        }
+        finally
+        {
+            IsLoading = Model is null || ViewModel is null;
+        }
+    }
+
+    private async Task Detail_OnClick(InvestmentModelTargetViewModel targetViewModel)
+    {
+        CurrentTargetViewModel = targetViewModel;
+        CurrentAttributeMemberLookup = await ReferenceData.ModelAttributeMemberListAsync(
+            attributeId: targetViewModel.ParentAttribute.AttributeId);
+
+        StateHasChanged();
+    }
+}

@@ -8,13 +8,14 @@
     width: 50%;
 }
 
-::deep form.model-editor td {
+::deep .model-attributes td {
     padding: 0.25rem;
 }
 
-::deep form.model-editor {
+/*::deep form.model-editor {
     padding-bottom: 1rem;
-}
+}*/
+
 /*#region DataGrid*/
 
 ::deep .datagrid {
@@ -94,7 +95,7 @@
     font-family: inherit !important;
     outline: none !important;
     padding: 0.125em !important;
-}
+}   
 
 ::deep .form-control.button {
     background-color: var(--euler-hexcolor-primary-0, inherit) !important;
@@ -115,15 +116,25 @@
 
 
 /*#region Titles, Headers, & Sections*/
+
+::deep p.section::after {
+    padding-bottom: 1rem;
+}
 ::deep .section-header {
     display: inline-flex;
-    position: relative;
+    padding-left: 0.25rem;
+    /*text-indent: 5%;*/
+    /*width: 100%;*/
 }
 
 ::deep .section-header .sub-title {
-    /*padding-left: 1rem;*/
-    /*position: absolute;*/
-    /*bottom: 50%;*/
     font-size: 0.85rem;
 }
 /*#endregion Titles, Headers & Sections*/
+
+
+/*#region Modal forms/dialog */
+::deep .custom-modal .model-editor {
+    width: 100%;
+}
+/*#endregioin Model forms/dialog */

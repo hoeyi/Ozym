@@ -57,7 +57,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Components\Strings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\DefaultConfiguration.resx">
@@ -73,6 +73,7 @@
   <ItemGroup>
     <Folder Include="Pages\BankTransactionCodes\" />
     <Folder Include="Pages\BrokerTransactionCodes\" />
+    <Folder Include="Pages\InvestmentModels\Target\" />
   </ItemGroup>
 
 </Project>

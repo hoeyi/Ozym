@@ -89,7 +89,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns>The formatted <see cref="string"/>.</returns>
         /// <remarks>Expects page to have root index paths defined by 
         /// <see cref="IndexUriRelativePath"/>.</remarks>
-        protected string FormatDetailUri<T>(T id) => $"{IndexUriRelativePath}/Detail/{id}";
+        protected string FormatDetailUri<T>(T id) => $"{IndexUriRelativePath}/{id}/Detail";
 
         /// <summary>
         /// Creates a new string representing the resource creation page URI for the given 
@@ -113,6 +113,6 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns>The formatted <see cref="string"/>.</returns>
         /// <remarks>Expects page to have root index paths defined by 
         /// <see cref="IndexUriRelativePath"/>.</remarks>
-        protected string FormatEditUri<T>(T id) => $"{IndexUriRelativePath}/Edit/{id}";
+        protected string FormatEditUri<T>(T id) => $"{IndexUriRelativePath}/{id}/Edit";
     }
 }

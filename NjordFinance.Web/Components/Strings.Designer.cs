@@ -22,7 +22,7 @@ namespace NjordFinance.Web.Components {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Strings {
+    public class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordFinance.Web.Components {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordFinance.Web.Components.Strings", typeof(Strings).Assembly);
@@ -51,7 +51,7 @@ namespace NjordFinance.Web.Components {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordFinance.Web.Components {
         /// <summary>
         ///   Looks up a localized string similar to Abort.
         /// </summary>
-        internal static string DialogResult_Abort {
+        public static string DialogResult_Abort {
             get {
                 return ResourceManager.GetString("DialogResult_Abort", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordFinance.Web.Components {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string DialogResult_Cancel {
+        public static string DialogResult_Cancel {
             get {
                 return ResourceManager.GetString("DialogResult_Cancel", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordFinance.Web.Components {
         /// <summary>
         ///   Looks up a localized string similar to Continue.
         /// </summary>
-        internal static string DialogResult_Continue {
+        public static string DialogResult_Continue {
             get {
                 return ResourceManager.GetString("DialogResult_Continue", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordFinance.Web.Components {
         /// <summary>
         ///   Looks up a localized string similar to Ignore.
         /// </summary>
-        internal static string DialogResult_Ignore {
+        public static string DialogResult_Ignore {
             get {
                 return ResourceManager.GetString("DialogResult_Ignore", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordFinance.Web.Components {
         /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
-        internal static string DialogResult_No {
+        public static string DialogResult_No {
             get {
                 return ResourceManager.GetString("DialogResult_No", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordFinance.Web.Components {
         /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
-        internal static string DialogResult_None {
+        public static string DialogResult_None {
             get {
                 return ResourceManager.GetString("DialogResult_None", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordFinance.Web.Components {
         /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
-        internal static string DialogResult_OK {
+        public static string DialogResult_OK {
             get {
                 return ResourceManager.GetString("DialogResult_OK", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace NjordFinance.Web.Components {
         /// <summary>
         ///   Looks up a localized string similar to Retry.
         /// </summary>
-        internal static string DialogResult_Retry {
+        public static string DialogResult_Retry {
             get {
                 return ResourceManager.GetString("DialogResult_Retry", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace NjordFinance.Web.Components {
         /// <summary>
         ///   Looks up a localized string similar to Try again.
         /// </summary>
-        internal static string DialogResult_TryAgain {
+        public static string DialogResult_TryAgain {
             get {
                 return ResourceManager.GetString("DialogResult_TryAgain", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace NjordFinance.Web.Components {
         /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
-        internal static string DialogResult_Yes {
+        public static string DialogResult_Yes {
             get {
                 return ResourceManager.GetString("DialogResult_Yes", resourceCulture);
             }

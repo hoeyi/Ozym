@@ -1,0 +1,33 @@
+﻿@inherits Modal<InvestmentModelTargetViewModel>
+
+@if(IsLoading)
+{
+    <LoadingSvg />   
+}
+else
+{
+    <Modal T="InvestmentModelTargetViewModel" >
+        <EditForm class="model-editor" Model="@ViewModel">
+            <InvestmentModelTargetCRUD 
+                Model="@ViewModel"
+                AttributeMemberLookup="@AttributeMemberLookup"
+                Disabled="false"
+                ReadOnly="false" />
+        </EditForm>
+    </Modal>
+}
+
+@code{
+    /// <summary>
+    /// Gets or sets the 
+    /// </summary>
+    [Parameter]
+    public InvestmentModelTargetViewModel ViewModel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the reference list for allowable <see cref="ModelAttributeMember" /> 
+    /// records for this form.
+    /// </summary>
+    [Parameter]
+    public IEnumerable<LookupModel> AttributeMemberLookup { get; set; }
+}

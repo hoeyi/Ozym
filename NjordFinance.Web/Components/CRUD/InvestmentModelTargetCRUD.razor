@@ -1,6 +1,6 @@
 ﻿@inherits ModelCRUD<InvestmentModelTargetViewModel>
 
-@if(Model is null)
+@if(IsLoading)
 {
     <LoadingSvg />
 }
@@ -67,6 +67,10 @@ else
     {
         await base.OnInitializedAsync();
 
-        IsLoading = !ReadOnly || AttributeMemberLookup is null;
+        bool modelIsNull = Model is null;
+        bool attributeLookupIsNull = AttributeMemberLookup is null;
+
+
+        IsLoading = Model is null || (ReadOnly ^ (AttributeMemberLookup is null));
     }
 }
