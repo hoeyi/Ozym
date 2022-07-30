@@ -53,7 +53,7 @@
         var eventArgs = new ModalEventArgs<InvestmentModelTargetViewModel>()
             {
                 Model = ViewModel,
-                Result = ModalEventArgs<InvestmentModelTargetViewModel>.ModalResult.UpdateSubmitted
+                Result = DialogResult.OK
             };
 
         return OnClose.InvokeAsync(eventArgs);
@@ -64,7 +64,7 @@
         var eventArgs = new ModalEventArgs<InvestmentModelTargetViewModel>()
             {
                 Model = ViewModel,
-                Result = ModalEventArgs<InvestmentModelTargetViewModel>.ModalResult.UpdateSubmitted
+                Result = DialogResult.Cancel
             };
 
         return OnClose.InvokeAsync(eventArgs);
@@ -75,7 +75,7 @@
         var eventArgs = new ModalEventArgs<InvestmentModelTargetViewModel>()
             {
                 Model = ViewModel,
-                Result = ModalEventArgs<InvestmentModelTargetViewModel>.ModalResult.UpdateSubmitted
+                Result = DialogResult.OK
             };
 
         return OnClose.InvokeAsync(eventArgs);

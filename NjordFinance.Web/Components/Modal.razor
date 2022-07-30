@@ -1,0 +1,73 @@
+﻿@typeparam T
+
+@inherits LocalizableComponent
+
+<div class="modal">
+    @if(IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <div class="modal-content">
+            @ChildContent
+        </div>
+        <ActionButtonMenu>
+            @foreach(var dialogOption in _dialogResultButtons)
+            {
+                <button 
+                    type="button" 
+                    class="form-control button"
+                    @onclick="() => OnClick(dialogOption)"
+                    @onclick:preventDefault >
+                    @(NameFor<DialogResult>($"{dialogOption}"))
+                </button>
+            }
+        </ActionButtonMenu>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the event handler for the close event of this form.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ModalEventArgs<T>> OnClose { get; set; }
+
+    /// <summary>
+    /// Gets or sets the child content to render for this form.
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the supported dialog options for this form.
+    /// </summary>
+    [Parameter]
+    public DialogResult DialogOptions { get; set; } = DialogResult.OK | DialogResult.Cancel;
+
+    private IEnumerable<DialogResult> _dialogResultButtons;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var flagsQuery = Enum.GetValues(typeof(DialogResult))
+            .OfType<DialogResult>()
+            .Where(v => DialogOptions.HasFlag(v));
+
+        _dialogResultButtons = flagsQuery.ToList();
+
+        IsLoading = _dialogResultButtons is null;
+    }
+
+    private Task OnClick(DialogResult result)
+    {
+        var args = new ModalEventArgs<T>()
+        {
+            Result = result
+        };
+
+        return OnClose.InvokeAsync(args);
+    }
+}
