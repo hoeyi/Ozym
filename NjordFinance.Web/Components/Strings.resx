@@ -129,6 +129,10 @@
     <value>Continue</value>
     <comment>Indicates the user wishes to continue given additional information.</comment>
   </data>
+  <data name="DialogResult_Delete" xml:space="preserve">
+    <value>Delete</value>
+    <comment>Indicates the user has affirmatively responded to delete a record, file, or other object.</comment>
+  </data>
   <data name="DialogResult_Ignore" xml:space="preserve">
     <value>Ignore</value>
     <comment>Indicates the user wishes to ignore warnings or failures.</comment>

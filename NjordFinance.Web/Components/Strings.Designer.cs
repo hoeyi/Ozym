@@ -88,6 +88,15 @@ namespace NjordFinance.Web.Components {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string DialogResult_Delete {
+            get {
+                return ResourceManager.GetString("DialogResult_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ignore.
         /// </summary>
         public static string DialogResult_Ignore {

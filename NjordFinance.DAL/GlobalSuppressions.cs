@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "<Pending>", Scope = "member", Target = "~P:NjordFinance.ModelService.ModelChildrenWriterService`2.ParentKey")]
+//[assembly: SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "<Pending>", Scope = "member", Target = "~P:NjordFinance.ModelService.ModelChildrenWriterService`2.ParentKey")]

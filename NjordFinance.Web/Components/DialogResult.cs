@@ -57,6 +57,11 @@ namespace NjordFinance.Web.Components
         [Display(
             Name = nameof(Strings.DialogResult_Continue),
             ResourceType = typeof(Strings))]
-        Continue = 512
+        Continue = 512,
+
+        [Display(
+            Name = nameof(Strings.DialogResult_Delete),
+            ResourceType = typeof(Strings))]
+        Delete = 1024
     }
 }

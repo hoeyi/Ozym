@@ -1,8 +1,23 @@
-﻿<p class="section">
+﻿<p class="@Class">
     @ChildContent
 </p>
 
 @code {
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string[]? AdditionalClassAttributes { get; set; }
+
+    private string Class { get; set; }
+
+    protected override void OnInitialized()
+    {
+        var nonNullClassAttributes = AdditionalClassAttributes
+                ?.Where(s => !string.IsNullOrEmpty(s));
+
+        Class = (nonNullClassAttributes?.Any() ?? false) ?
+            $"section {string.Join(" ", nonNullClassAttributes)}" :
+            "section";
+    }
 }

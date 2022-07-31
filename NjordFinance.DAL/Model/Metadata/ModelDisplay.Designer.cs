@@ -1654,7 +1654,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Strategy notes/history.
+        ///   Looks up a localized string similar to Historical notes and/or comments on this strategy..
         /// </summary>
         public static string InvestmentStrategy_Notes_Description {
             get {

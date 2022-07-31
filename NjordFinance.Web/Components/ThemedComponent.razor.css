@@ -123,6 +123,10 @@
     /*width: 100%;*/
 }
 
+::deep .column {
+    width: 50%;
+}
+
 ::deep .section-header .sub-title {
     font-size: 0.85rem;
 }

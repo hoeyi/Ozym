@@ -1,0 +1,37 @@
+﻿@inherits ModelCRUD<InvestmentModelViewModel>
+
+@if(IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelForm TModel="InvestmentModelViewModel">
+        <ModelFormLineItem MemberName="@nameof(InvestmentModelViewModel.DisplayName)"
+            ValidationMessageDelegate="@(() => Model.DisplayName)">
+            @if(ReadOnly)
+            {
+                @Model.DisplayName
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=Model.DisplayName
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(nameof(InvestmentModelViewModel.DisplayName))) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem MemberName="@nameof(InvestmentModelViewModel.Notes)"
+            ValidationMessageDelegate="@(() => Model.Notes)">
+            @if(ReadOnly)
+            {
+                @Model.Notes
+            }
+            else
+            {
+                <InputTextArea class="form-control" @bind-Value=Model.Notes
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(nameof(InvestmentModelViewModel.Notes))) />
+            }
+        </ModelFormLineItem>
+    </ModelForm>
+}

@@ -11,37 +11,54 @@
     }
     else
     {
-        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+        <PageTitle>@(PageTitle.UpdateSingle(ViewModel.DisplayName).AsPageTitle())</PageTitle>
 
-        @if (CurrentTargetViewModel is not null && CurrentAttributeMemberLookup is not null)
+        <ModelPageMenuHeader 
+            ActionMenu="@ActionMenu" 
+            Header="@(PageTitle.UpdateSingle(ViewModel.DisplayName))" />
+
+        @if(DrawDialog)
         {
-            <TargetEditDialog ViewModel="@CurrentTargetViewModel"
-                      AttributeMemberLookup="@CurrentAttributeMemberLookup" />
+            <TargetEditDialog
+                ViewModel="@CurrentTargetViewModel"
+                AttributeMemberLookup="@CurrentAttributeMemberLookup" 
+                OnClose="OnModalClosed" />
         }
-        @foreach (var group in ViewModel.AttributeTargetCollection)
-        {
+        
+        <PageColumn>
             <PageSection>
-                <div class="section-header">
-                    <h4 class="title">
-                        @group.Key.DisplayName
-                    </h4>
-                </div>
-                <DataGrid Data="group">
-                    <DataGridColumn Type="DataGridCellType.Link"
-                            Property="@nameof(InvestmentModelTargetViewModel.EffectiveDate)"
-                            Caption=@(NameFor<InvestmentStrategyTarget>(
-                            nameof(InvestmentModelTargetViewModel.EffectiveDate)))>
-                        <CellTemplate Context="model">
-                            <a @onclick:preventDefault
-                       @onclick="(() => Detail_OnClick(model))">
-                                @model.EffectiveDate.ToShortDateString()
-                            </a>
-                        </CellTemplate>
-                    </DataGridColumn>
-                </DataGrid>
+                <EditForm Model="@ViewModel" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <InvestmentModelCRUD Model="@ViewModel" Disabled="false" ReadOnly="false" />
+                </EditForm>
             </PageSection>
-        }
-
+        </PageColumn>
+        <PageColumn>
+            @foreach (var group in ViewModel.AttributeTargetCollection)
+            {
+                <PageSection>
+                    <div class="section-header">
+                        <h4 class="title">
+                            @group.Key.DisplayName
+                        </h4>
+                    </div>
+                    <DataGrid Data="group">
+                        <DataGridColumn Type="DataGridCellType.Link"
+                                Property="@nameof(InvestmentModelTargetViewModel.EffectiveDate)"
+                                Caption=@(NameFor<InvestmentStrategyTarget>(
+                                nameof(InvestmentModelTargetViewModel.EffectiveDate)))>
+                            <CellTemplate Context="model">
+                                <a 
+                                    @onclick:preventDefault
+                                    @onclick="(() => Target_OnClick(model))">
+                                    @model.EffectiveDate.ToShortDateString()
+                                </a>
+                            </CellTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </PageSection>
+            }
+        </PageColumn>
     }
 </ThemedComponent>
 
@@ -67,6 +84,11 @@
     /// Gets or sets the current collection of valid entries for the current
     /// </summary>
     private IEnumerable<LookupModel> CurrentAttributeMemberLookup { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the modal dialog for this page is drawn. Default is <see cref="false"/>.
+    /// </summary>
+    private bool DrawDialog { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -113,12 +135,24 @@
         }
     }
 
-    private async Task Detail_OnClick(InvestmentModelTargetViewModel targetViewModel)
+    private async Task Target_OnClick(InvestmentModelTargetViewModel targetViewModel)
     {
         CurrentTargetViewModel = targetViewModel;
         CurrentAttributeMemberLookup = await ReferenceData.ModelAttributeMemberListAsync(
             attributeId: targetViewModel.ParentAttribute.AttributeId);
 
-        StateHasChanged();
+        DrawDialog = CurrentTargetViewModel is not null && CurrentAttributeMemberLookup is not null;
+    }
+
+    private void HandleValidSubmit()
+    {
+        return;    
+    }
+
+    private Task OnModalClosed(ModalEventArgs<InvestmentModelTargetViewModel> modalEventArgs)
+    {
+        DrawDialog = false;
+
+        return Task.CompletedTask;
     }
 }

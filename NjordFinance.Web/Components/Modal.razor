@@ -5,21 +5,20 @@
 <div class="custom-modal @IsShownClassAttribute">
     @if(IsLoading)
     {
-        <LoadingSvg />
     }
     else
     {
         <div class="custom-modal-body">
-            <p class="custom-modal-content section">
+            <PageSection AdditionalClassAttributes="@(new string[]{"custom-modal-content"})">
                 @ChildContent
-            </p>
+            </PageSection>
             <ActionButtonMenu>
                 @foreach(var dialogOption in _dialogResultButtons)
                 {
                     <button 
                         type="button" 
                         class="form-control button"
-                        @onclick="() => OnClick(dialogOption)"
+                        @onclick="() => OnClick.InvokeAsync(dialogOption)"
                         @onclick:preventDefault >
                         @(NameFor<DialogResult>($"{dialogOption}"))
                     </button>
@@ -30,11 +29,11 @@
 </div>
 
 @code {
-    /// <summary>
-    /// Gets or sets the event handler for the close event of this form.
-    /// </summary>
+    ///// <summary>
+    ///// Gets or sets the event handler for the click event of this form.
+    ///// </summary>
     [Parameter]
-    public EventCallback<ModalEventArgs<T>>? OnClose { get; set; }
+    public EventCallback<DialogResult> OnClick { get; set; }
 
     /// <summary>
     /// Gets or sets the child content to render for this form.
@@ -42,38 +41,25 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;
 
-    private string IsShownClassAttribute { get; set; } = "visible";
-
     /// <summary>
     /// Gets or sets the supported dialog options for this form.
     /// </summary>
+    /// <remarks>
+    /// Default options are <see cref="DialogResult.OK" /> and <see cref="DialogResult.Cancel" />.
+    /// </remarks>
     [Parameter]
     public DialogResult DialogOptions { get; set; } = DialogResult.OK | DialogResult.Cancel;
 
-    /// <summary>
-    /// Gets or sets whether the modal dialog is visible.
-    /// </summary>
-    [Parameter]
-    public bool Shown
-    {
-        get { return _shown; }
-        set
-        {
-            if(_shown != value)
-            {
-                _shown = value;
-                ChangeVisibility(visible: _shown);
-            }
-        }
-    }
-
     private IEnumerable<DialogResult> _dialogResultButtons;
 
-    private bool _shown = true;
+    private string IsShownClassAttribute { get; set; } = VisibleClass;
 
-    private void ChangeVisibility(bool visible)
+    private const string VisibleClass = "visible";
+    private const string HiddenClass = "hidden";
+
+    protected void ChangeVisibility(bool visible)
     {
-        IsShownClassAttribute = visible ? "visible" : "hidden";
+        IsShownClassAttribute = visible ? VisibleClass : HiddenClass;
         StateHasChanged();
     }
 
@@ -83,21 +69,10 @@
 
         var flagsQuery = Enum.GetValues(typeof(DialogResult))
             .OfType<DialogResult>()
-            .Where(v => DialogOptions.HasFlag(v));
+            .Where(v => v != DialogResult.None && DialogOptions.HasFlag(v));
 
         _dialogResultButtons = flagsQuery.ToList();
 
-        IsLoading = _dialogResultButtons is null;
-    }
-
-    private Task OnClick(DialogResult result)
-    {
-        var args = new ModalEventArgs<T>()
-        {
-            Result = result
-        };
-
-        ChangeVisibility(visible: false);
-        return OnClose?.InvokeAsync(args);
+        IsLoading = _dialogResultButtons is null || ChildContent is null;
     }
 }

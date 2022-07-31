@@ -673,7 +673,7 @@
     <value>Display Name</value>
   </data>
   <data name="InvestmentStrategy_Notes_Description" xml:space="preserve">
-    <value>Strategy notes/history</value>
+    <value>Historical notes and/or comments on this strategy.</value>
   </data>
   <data name="InvestmentStrategy_Notes_Name" xml:space="preserve">
     <value>Notes</value>

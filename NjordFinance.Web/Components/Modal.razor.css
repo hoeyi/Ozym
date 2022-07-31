@@ -21,6 +21,10 @@
     transform: translate(-50%, -25%);
 }
 
+/*:not(.custom-modal:focus-within) {
+    display: none;
+}*/
+
 .custom-modal.visible {
     display: inline-block;
     flex-direction: column;
