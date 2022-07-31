@@ -20,7 +20,7 @@
         }
         @foreach (var group in ViewModel.AttributeTargetCollection)
         {
-            <p class="section">
+            <PageSection>
                 <div class="section-header">
                     <h4 class="title">
                         @group.Key.DisplayName
@@ -39,7 +39,7 @@
                         </CellTemplate>
                     </DataGridColumn>
                 </DataGrid>
-            </p>
+            </PageSection>
         }
 
     }

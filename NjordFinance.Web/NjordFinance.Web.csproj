@@ -73,7 +73,6 @@
   <ItemGroup>
     <Folder Include="Pages\BankTransactionCodes\" />
     <Folder Include="Pages\BrokerTransactionCodes\" />
-    <Folder Include="Pages\InvestmentModels\Target\" />
   </ItemGroup>
 
 </Project>

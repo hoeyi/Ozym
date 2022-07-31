@@ -15,6 +15,7 @@
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.UpdateSingle(Model.AccountCode))" />
 
+        <PageSection>
             <EditForm class="model-editor" Model="@ViewModel" 
                 OnValidSubmit="HandleValidSubmit" >
                 <DataAnnotationsValidator/>
@@ -39,6 +40,7 @@
                         Disabled="@_disabled" ReadOnly="@_readonly" />
                 </div>
             </EditForm>
+        </PageSection>
     }
 </ThemedComponent>
 

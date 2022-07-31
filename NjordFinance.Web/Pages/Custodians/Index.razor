@@ -13,20 +13,22 @@
     }
     else
     {
-        <DataGrid Data="@Models">
-            <DataGridColumn Property=@nameof(AccountCustodian.CustodianCode)
-                        Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.CustodianCode)))>
-                <CellTemplate Context="model">
-                    @model.CustodianCode
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(AccountCustodian.DisplayName)
-                        Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.DisplayName)))>
-                <CellTemplate Context="model">
-                    @model.DisplayName
-                </CellTemplate>
-            </DataGridColumn>
-        </DataGrid>
+        <PageSection>
+            <DataGrid Data="@Models">
+                <DataGridColumn Property=@nameof(AccountCustodian.CustodianCode)
+                            Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.CustodianCode)))>
+                    <CellTemplate Context="model">
+                        @model.CustodianCode
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(AccountCustodian.DisplayName)
+                            Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.DisplayName)))>
+                    <CellTemplate Context="model">
+                        @model.DisplayName
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        </PageSection>
     }
 </ThemedComponent>
 

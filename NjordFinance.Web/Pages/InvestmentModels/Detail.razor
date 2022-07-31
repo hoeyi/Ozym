@@ -17,14 +17,14 @@
 
         @foreach(var group in ViewModel.CurrentTargetCollection)
         {
-            <p class="section">
+            <PageSection>
                 <EditForm class="model-editor" Model="@group.First()">
                     <InvestmentModelTargetCRUD 
                         Model="@group.First()"
                         Disabled="false"
                         ReadOnly="true" />
                 </EditForm>
-            </p>
+            </PageSection>
         }
     }
 </ThemedComponent>
@@ -45,9 +45,6 @@
         try
         {
             var modelQuery = Controller.ReadAsync(ModelId);
-            //var attributesQuery = ReferenceData.ModelAttributeListAsync(
-            //    ModelAttributeScopeCode.Country |
-            //    ModelAttributeScopeCode.Security);
 
             if((await modelQuery).Value is InvestmentStrategy model)
                 Model = model;
@@ -83,10 +80,4 @@
             IsLoading = Model is null || ViewModel is null;
         }
     }
-
-    private IEnumerable<LookupModel> GetAttributeMemberLookupModels(int attributeId)
-    {
-        throw new NotImplementedException();
-    }
-
 }

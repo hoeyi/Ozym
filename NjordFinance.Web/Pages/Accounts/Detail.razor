@@ -15,14 +15,14 @@
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadSingle(Model.AccountCode))" />
 
+        <PageSection>
             <EditForm class="model-editor" Model="@ViewModel" >
                 <DataAnnotationsValidator/>
                 @*<ValidationSummary/>*@
-                <div>
-                    <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
-                        Disabled="@_disabled" ReadOnly="@_readonly" />
-                </div>
+                <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
+                    Disabled="@_disabled" ReadOnly="@_readonly" />
             </EditForm>
+        </PageSection>
     }
 </ThemedComponent>
 

@@ -12,10 +12,6 @@
     padding: 0.25rem;
 }
 
-/*::deep form.model-editor {
-    padding-bottom: 1rem;
-}*/
-
 /*#region DataGrid*/
 
 ::deep .datagrid {
