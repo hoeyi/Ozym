@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using NjordFinance.Model.Metadata;
 
 namespace NjordFinance.Model
 {
@@ -26,24 +27,24 @@ namespace NjordFinance.Model
         [Column("SymbolTypeID")]
         public int SymbolTypeId { get; set; }
         [StringLength(32,
-            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string SymbolCode { get; set; }
         [StringLength(9,
-            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string Cusip { get; set; }
         [StringLength(32,
-            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string CustomSymbol { get; set; }
         [StringLength(24,
-            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string OptionTicker { get; set; }
         [StringLength(8,
-            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string Ticker { get; set; }
 
         [ForeignKey(nameof(SecurityId))]

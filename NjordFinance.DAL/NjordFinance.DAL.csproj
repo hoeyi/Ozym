@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="ModelMetadata\Resources\ReportStyleSheet.xsd" />
+    <EmbeddedResource Include="Model\Metadata\ReportStyleSheet.xsd" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,12 +41,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>WarningMessage.resx</DependentUpon>
     </Compile>
-    <Compile Update="ModelMetadata\Resources\ModelDisplay.Designer.cs">
+    <Compile Update="Model\Metadata\ModelDisplay.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ModelDisplay.resx</DependentUpon>
     </Compile>
-    <Compile Update="ModelMetadata\Resources\ModelNoun.Designer.cs">
+    <Compile Update="Model\Metadata\ModelNoun.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ModelNoun.resx</DependentUpon>
@@ -56,7 +56,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DebugMessage.resx</DependentUpon>
     </Compile>
-    <Compile Update="ModelMetadata\Resources\ModelValidation.Designer.cs">
+    <Compile Update="Model\Metadata\ModelValidation.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ModelValidation.resx</DependentUpon>
@@ -101,11 +101,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WarningMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="ModelMetadata\Resources\ModelDisplay.resx">
+    <EmbeddedResource Update="Model\Metadata\ModelDisplay.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ModelDisplay.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="ModelMetadata\Resources\ModelNoun.resx">
+    <EmbeddedResource Update="Model\Metadata\ModelNoun.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ModelNoun.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -113,7 +113,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DebugMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="ModelMetadata\Resources\ModelValidation.resx">
+    <EmbeddedResource Update="Model\Metadata\ModelValidation.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ModelValidation.Designer.cs</LastGenOutput>
     </EmbeddedResource>

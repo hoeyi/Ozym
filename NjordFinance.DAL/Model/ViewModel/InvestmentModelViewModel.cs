@@ -1,4 +1,4 @@
-﻿using NjordFinance.ModelMetadata.Resources;
+﻿using NjordFinance.Model.Metadata;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

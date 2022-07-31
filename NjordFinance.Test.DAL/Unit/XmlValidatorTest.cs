@@ -16,7 +16,7 @@ namespace NjordFinance.Test.Unit
     public class XmlValidatorTest
     {
         private const string TestXmlSchemaDefitintion = 
-            "NjordFinance.ModelMetadata.Resources.ReportStyleSheet.xsd";
+            "NjordFinance.Model.Metadata.ReportStyleSheet.xsd";
 
         private readonly XmlValidator _testValidator = new(TestXmlSchemaDefitintion);
 

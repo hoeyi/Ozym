@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using NjordFinance.Model.Metadata;
 
 namespace NjordFinance.Model
 {
@@ -16,11 +17,11 @@ namespace NjordFinance.Model
         [Column("AccountCustodianID")]
         public int AccountCustodianId { get; set; }
         [Required(
-            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         [StringLength(72,
-            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string CustodianSymbol { get; set; }
         [Column("SecuritySymbolID")]
         public int SecuritySymbolId { get; set; }

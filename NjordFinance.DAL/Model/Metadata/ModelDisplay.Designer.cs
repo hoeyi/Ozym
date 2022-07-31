@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NjordFinance.ModelMetadata.Resources {
+namespace NjordFinance.Model.Metadata {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace NjordFinance.ModelMetadata.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordFinance.ModelMetadata.Resources.ModelDisplay", typeof(ModelDisplay).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordFinance.Model.Metadata.ModelDisplay", typeof(ModelDisplay).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

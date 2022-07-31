@@ -1,4 +1,4 @@
-﻿using NjordFinance.ModelMetadata.Resources;
+﻿using NjordFinance.Model.Metadata;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,11 +17,11 @@ namespace NjordFinance.Model
         [Column("InvestmentStrategyID")]
         public int InvestmentStrategyId { get; set; }
         [Required(
-            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.RequiredAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         [StringLength(32,
-            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string DisplayName { get; set; }
 
         public string Notes { get; set; }

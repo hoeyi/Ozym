@@ -1,4 +1,4 @@
-﻿using NjordFinance.ModelMetadata.Resources;
+﻿using NjordFinance.Model.Metadata;
 using Ichosys.DataModel.Annotations;
 using System.ComponentModel.DataAnnotations;
 

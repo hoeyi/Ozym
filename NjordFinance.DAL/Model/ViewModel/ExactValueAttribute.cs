@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Resources;
-using NjordFinance.ModelMetadata.Resources;
+using NjordFinance.Model.Metadata;
 using System.Globalization;
 
 namespace NjordFinance.Model.ViewModel

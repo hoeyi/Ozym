@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NjordFinance.Model.Metadata;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NjordFinance.Model
@@ -11,8 +12,8 @@ namespace NjordFinance.Model
         public int AttributeId { get; set; }
         [Key]
         [StringLength(3,
-            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         [Column(nameof(ScopeCode), Order = 1)]
         public string ScopeCode { get; set; }
 

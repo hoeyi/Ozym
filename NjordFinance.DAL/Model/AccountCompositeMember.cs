@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using NjordFinance.Model.Metadata;
 
 namespace NjordFinance.Model
 {
@@ -23,8 +24,8 @@ namespace NjordFinance.Model
         public DateTime? ExitDate { get; set; }
         public int DisplayOrder { get; set; }
         [StringLength(72,
-            ErrorMessageResourceName = nameof(ModelMetadata.Resources.ModelValidation.StringLengthAttribute_ValidationError),
-            ErrorMessageResourceType = typeof(ModelMetadata.Resources.ModelValidation))]
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string Comment { get; set; }
 
         [ForeignKey(nameof(AccountId))]
