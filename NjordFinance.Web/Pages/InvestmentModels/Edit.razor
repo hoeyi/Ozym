@@ -27,7 +27,24 @@
         
         <PageColumn>
             <PageSection>
-                <EditForm Model="@ViewModel" OnValidSubmit="HandleValidSubmit">
+                <ActionButtonMenu>
+                    <button type="button" class="form-control button" 
+                        @onclick="Cancel_OnClick"
+                        @onclick:preventDefault >
+                        @Resources.Strings.Caption_Button_Cancel
+                    </button>
+                    <button type="button" class="form-control button" 
+                        @onclick="Delete_OnClick"
+                        @onclick:preventDefault >
+                        @Resources.Strings.Caption_Button_Delete
+                    </button>
+                    <button type="submit" form="@FormGuid" class="form-control button">
+                        @Resources.Strings.Caption_Button_Save
+                    </button>
+                </ActionButtonMenu>
+            </PageSection>
+            <PageSection>
+                <EditForm id="@FormGuid" Model="@ViewModel" OnValidSubmit="HandleValidSubmit">
                     <DataAnnotationsValidator />
                     <InvestmentModelCRUD Model="@ViewModel" Disabled="false" ReadOnly="false" />
                 </EditForm>
@@ -90,6 +107,8 @@
     /// </summary>
     private bool DrawDialog { get; set; } = false;
 
+    private readonly Guid FormGuid = Guid.NewGuid();
+
     protected override async Task OnInitializedAsync()
     {
         ActionMenu = new()
@@ -144,15 +163,46 @@
         DrawDialog = CurrentTargetViewModel is not null && CurrentAttributeMemberLookup is not null;
     }
 
-    private void HandleValidSubmit()
+    private void Cancel_OnClick()
     {
-        return;    
+        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
     }
 
-    private Task OnModalClosed(ModalEventArgs<InvestmentModelTargetViewModel> modalEventArgs)
+    private async Task Delete_OnClick()
+    {
+        var result = await Controller.DeleteAsync(Model);
+
+        if (result is NoContentResult ncr)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        Model = ViewModel.ToEntity();
+
+        var result = await Controller.UpdateAsync(Model.InvestmentStrategyId, Model);
+
+        if (result.Value is not null)
+            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.InvestmentStrategyId));
+    }
+
+    private void OnModalClosed(ModalEventArgs<InvestmentModelTargetViewModel> modalEventArgs)
     {
         DrawDialog = false;
 
-        return Task.CompletedTask;
+        switch(modalEventArgs.Result)
+        {
+            case DialogResult.Delete:
+                ViewModel.TargetCollection.Remove(modalEventArgs.Model);
+                break;
+            case DialogResult.None:
+                break;
+            case DialogResult.OK:
+                break;
+            case DialogResult.Cancel:
+                break;
+            default:
+                throw new NotSupportedException();
+        };
     }
 }

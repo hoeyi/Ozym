@@ -17,8 +17,6 @@
 
         <PageSection>
             <EditForm class="model-editor" Model="@ViewModel" >
-                <DataAnnotationsValidator/>
-                @*<ValidationSummary/>*@
                 <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
                     Disabled="@_disabled" ReadOnly="@_readonly" />
             </EditForm>

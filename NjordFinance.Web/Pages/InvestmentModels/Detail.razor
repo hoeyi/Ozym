@@ -15,6 +15,11 @@
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
+        <PageSection>
+            <EditForm class="model-editor" Model="@ViewModel" >
+                <InvestmentModelCRUD Model="@ViewModel" Disabled="false" ReadOnly="true" />
+            </EditForm>
+        </PageSection>
         @foreach(var group in ViewModel.CurrentTargetCollection)
         {
             <PageSection>
