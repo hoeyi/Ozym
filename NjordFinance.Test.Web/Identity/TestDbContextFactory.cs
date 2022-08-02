@@ -1,13 +1,14 @@
 ﻿using NjordFinance.Context;
 using Microsoft.EntityFrameworkCore;
-using NjordFinance.Test.ModelService.Configuration;
+using NjordFinance.Web.Areas.Identity.Data;
+using NjordFinance.Web.Data;
 
-namespace NjordFinance.Test.ModelService
+namespace NjordFinance.Test.Web.Identity
 {
     /// <summary>
     /// Implements <see cref="IDbContextFactory{TContext}"/> for testing model services.
     /// </summary>
-    internal sealed class TestDbContextFactory : IDbContextFactory<FinanceDbContext>
+    internal sealed class TestDbContextFactory : IDbContextFactory<IdentityDbContext>
     {
         private static readonly object _lock = new();
         private static bool _databaseInitialized;
@@ -33,14 +34,15 @@ namespace NjordFinance.Test.ModelService
         }
 
         /// <summary>
-        /// Creates a new <see cref="FinanceDbContext"/> instance for unit-testing.
+        /// Creates a new <see cref="IdentityDbContext"/> instance for unit-testing.
         /// </summary>
         /// <inheritdoc/>
-        public FinanceDbContext CreateDbContext() => new(options: ContextOptionsBuilder().Options);
+        public IdentityDbContext CreateDbContext() => new(
+            options: ContextOptionsBuilder().Options);
 
-        private static FinanceDbContext InitializeTestDbContext() => new(
-            options: ContextOptionsBuilder().Options,
-            seedData: new ModelServiceTestDataModel());
+        private static IdentityDbContext InitializeTestDbContext() => new(
+            options: ContextOptionsBuilder().Options);
+            //seedData: new ModelServiceTestDataModel());
 
         /// <summary>
         /// Resets the test database to its state before seeding test data.
@@ -49,7 +51,7 @@ namespace NjordFinance.Test.ModelService
         {
             lock(_lock)
             {
-                using var context = new FinanceDbContext(options: ContextOptionsBuilder().Options);
+                using var context = new IdentityDbContext(ContextOptionsBuilder().Options);
 
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -58,9 +60,9 @@ namespace NjordFinance.Test.ModelService
             }
         }
 
-        private static DbContextOptionsBuilder<FinanceDbContext> ContextOptionsBuilder() =>
-            new DbContextOptionsBuilder<FinanceDbContext>()
-                .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordWorks"])
+        private static DbContextOptionsBuilder<IdentityDbContext> ContextOptionsBuilder() =>
+            new DbContextOptionsBuilder<IdentityDbContext>()
+                .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordIdentity"])
                 .EnableSensitiveDataLogging();
     }
 }

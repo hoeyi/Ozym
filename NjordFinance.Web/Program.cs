@@ -28,7 +28,8 @@ var logger = ConvertFromSerilogILogger(logger: BuildLogger());
 var config = BuildConfiguration(logger);
 
 // Copy UserSecret connection string value to secure configuration.
-config["ConnectionStrings:NjordFinance"] = config["ConnectionStrings:NjordFinance"];
+config["ConnectionStrings:NjordWorks"] = config["ConnectionStrings:NjordWorks"];
+config["ConnectionStrings:NjordIdentity"] = config["ConnectionStrings:NjordIdentity"]; 
 config.Commit();
 
 builder.Services.AddSingleton(implementationInstance: logger);
@@ -42,7 +43,7 @@ builder.Services.AddSingleton(ISvgHelper.Create());
 
 // Add identity management database
 builder.Services.AddDbContext<IdentityDbContext>(options =>
-    options.UseSqlServer("Name=ConnectionStrings:NjordFinance"));
+    options.UseSqlServer("Name=ConnectionStrings:NjordIdentity"));
 
 builder.Services.AddDefaultIdentity<WebAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<IdentityDbContext>();
@@ -63,7 +64,7 @@ builder.Services.AddSingleton<IMessageService, MessageService>();
 
 // Add database service.
 builder.Services.AddDbContextFactory<NjordFinance.Context.FinanceDbContext>(options =>
-    options.UseSqlServer("Name=ConnectionStrings:NjordFinance"));
+    options.UseSqlServer("Name=ConnectionStrings:NjordWorks"));
 
 // Register model services and controllers.
 builder.Services.AddModelServices();

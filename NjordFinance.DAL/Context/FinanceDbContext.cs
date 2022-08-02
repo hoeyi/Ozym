@@ -58,7 +58,7 @@ namespace NjordFinance.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Name=ConnectionStrings:NjordFinance");
+                optionsBuilder.UseSqlServer("Name=ConnectionStrings:NjordWorks");
             }
         }
 
