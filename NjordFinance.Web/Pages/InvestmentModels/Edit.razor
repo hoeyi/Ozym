@@ -55,9 +55,14 @@
             {
                 <PageSection>
                     <div class="section-header">
-                        <h4 class="title">
-                            @group.Key.DisplayName
-                        </h4>
+                        <span class="title left">
+                            <h4>
+                                @group.Key.DisplayName
+                            </h4>
+                        </span>
+                        <div @onclick="(() => AddTarget_OnClick(group.Key))" class="right">
+                            <IonIcon Name="add" />
+                        </div>
                     </div>
                     <DataGrid Data="group">
                         <DataGridColumn Type="DataGridCellType.Link"
@@ -174,6 +179,10 @@
 
         if (result is NoContentResult ncr)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    private async Task AddTarget_OnClick(ModelAttribute forModelAttribute, DateTime effectiveDate)
+    {
     }
 
     private async Task HandleValidSubmit()

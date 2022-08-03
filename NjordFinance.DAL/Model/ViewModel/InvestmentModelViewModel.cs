@@ -137,5 +137,16 @@ namespace NjordFinance.Model.ViewModel
                     .SelectMany(t => t.ToEntities())
                     .ToList()
         };
+
+        public InvestmentModelTargetViewModel AddNew(
+            ModelAttribute forAttribute, DateTime effectiveDate)
+        {
+            var newTarget = new InvestmentModelTargetViewModel(
+                parentStrategy: _investmentStrategy, modelAttribute: forAttribute, effectiveDate);
+
+            TargetCollection.Add(newTarget);
+
+            return newTarget;
+        }
     }
 }

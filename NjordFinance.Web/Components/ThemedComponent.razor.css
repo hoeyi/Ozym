@@ -113,23 +113,41 @@
 
 /*#region Titles, Headers, & Sections*/
 
+.section-header {
+    --default-height: 32px;
+    --icon-max-width: 32px;
+}
+
+::deep .section-header {
+    display: flex;
+    position: relative;
+    padding-left: 0.25rem;
+    justify-content: space-between;
+
+    /*height: 1rem;*/
+}
+
+::deep .section-header .left {
+    margin-right: auto;
+}
+
+::deep .section-header .right {
+    margin-left: auto;
+    width: 2rem;
+}
+
+::deep .section-header .sub-title {
+    font-size: 0.85rem;
+}
+
 ::deep p.section::after {
     padding-bottom: 1rem;
-}
-::deep .section-header {
-    display: inline-flex;
-    padding-left: 0.25rem;
-    /*text-indent: 5%;*/
-    /*width: 100%;*/
 }
 
 ::deep .column {
     width: 50%;
 }
 
-::deep .section-header .sub-title {
-    font-size: 0.85rem;
-}
 /*#endregion Titles, Headers & Sections*/
 
 
@@ -137,4 +155,22 @@
 ::deep .custom-modal .model-editor {
     width: 100%;
 }
-/*#endregioin Model forms/dialog */
+/*#endregion */
+
+/*#region Ion-Icon svg formatting */
+/*Change the fill color to light shade if not 'none' or 'transparent'.*/
+::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
+    fill: var(--euler-hexcolor-fore-0, black);
+}
+
+/*Change the stroke color to light shade if not 'none' or 'transparent'.*/
+::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
+    stroke: var(--euler-hexcolor-fore-0, black);
+}
+
+/*Set the default background color for IonIcons.*/
+::deep .ion-icon svg {
+    background: none;
+}
+
+/*#endregion*/

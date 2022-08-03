@@ -80,18 +80,18 @@
 }
 /*#endregion*/
 
-/*#region Ion-Iconsvg formatting */
-/* Change the fill color to light shade if not 'none' or 'transparent'. */
+/*#region Ion-Icon svg formatting */
+ /*Change the fill color to light shade if not 'none' or 'transparent'.*/ 
 ::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
-    fill: var(--euler-hexcolor-fore-0, black);
+    fill: var(--fore-color, black);
 }
 
-/* Change the stroke color to light shade if not 'none' or 'transparent'. */
+/*Change the stroke color to light shade if not 'none' or 'transparent'.*/
 ::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
-    stroke: var(--euler-hexcolor-fore-0, black);
+    stroke: var(--fore-color, black);
 }
 
-/* Set the default background color for IonIcons.*/
+ /*Set the default background color for IonIcons.*/
 ::deep .ion-icon svg {
     background: none;
 }
