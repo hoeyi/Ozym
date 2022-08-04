@@ -264,7 +264,15 @@ namespace NjordFinance.Test.ModelService.Configuration
             {
                 new(){ InvestmentStrategyId = -1, DisplayName = "Test delete pass" },
                 new(){ InvestmentStrategyId = -2, DisplayName = "Test update pass" },
-                new(){ InvestmentStrategyId = -3, DisplayName = "Global Equity" }
+                new(){ InvestmentStrategyId = -3, DisplayName = "Global Equity" },
+                new()
+                { 
+                    InvestmentStrategyId = -4, 
+                    DisplayName = "Retirement", 
+                    Notes = "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." + 
+                        "\n- Porttitor rhoncus dolor purus non enim praesent." +
+                        "\n- Convallis a cras semper auctor neque vitae tempus."
+                }
             };
 
             MarketHolidays = new MarketHoliday[]
@@ -1021,7 +1029,21 @@ namespace NjordFinance.Test.ModelService.Configuration
                     AttributeMemberId = -104,
                     EffectiveDate = tagetEffDate2,
                     Weight = 0.1M,
-                }
+                },
+                new()
+                {
+                    InvestmentStrategyId = -4,
+                    AttributeMemberId = -13,
+                    EffectiveDate = targetEffDate,
+                    Weight = 0.50M
+                },
+                new()
+                {
+                    InvestmentStrategyId = -4,
+                    AttributeMemberId = -14,
+                    EffectiveDate = targetEffDate,
+                    Weight = 0.50M
+                },
             };
 
             InvestmentPerformanceEntries = new InvestmentPerformanceEntry[]

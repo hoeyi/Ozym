@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -47,6 +48,25 @@ namespace NjordFinance.Test.ModelService
                 .FirstOrDefault(a => a.InvestmentStrategyId == original.InvestmentStrategyId);
 
             Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(updated, original));
+        }
+
+        [TestMethod]
+        public async Task UpdateAsync_WhereChildCompositeKeyIsAltered_Returns_True()
+        {
+            var service = GetModelService();
+
+            InvestmentStrategy original = await service.ReadAsync(id: -4);
+
+            var newDate = DateTime.Now.Date;
+
+            foreach(var target in original.InvestmentStrategyTargets)
+            {
+                target.EffectiveDate = newDate;
+            }
+
+            var result = await service.UpdateAsync(original);
+
+            Assert.IsTrue(result);
         }
     }
 
