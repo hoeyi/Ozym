@@ -7,12 +7,23 @@
 else
 {
     <div class="section-header">
-        <h4 class="title">
-            @Model.ParentAttribute.DisplayName
-            <span class="sub-title">
-                (@Model.EffectiveDate.ToShortDateString())
-            </span>
-        </h4>
+        <div class="title left">
+            <h4>
+                @Model.ParentAttribute.DisplayName
+                @if(ReadOnly)
+                {
+                    <span class="sub-title">
+                        (@Model.EffectiveDate.ToShortDateString())
+                    </span>
+                }
+            </h4>
+        </div>
+        <div class="right">
+            @if(!ReadOnly)
+            {
+                <InputDate class="form-control right" @bind-Value="@Model.EffectiveDate" />
+            }
+        </div>
     </div>
     <DataGrid Data="@Model.MemberEntries">
         <ValidationMessage For=@(() => Model.SumOfMemberWeights) />

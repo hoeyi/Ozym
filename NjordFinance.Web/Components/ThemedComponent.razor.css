@@ -133,9 +133,12 @@
 
 ::deep .section-header .right {
     margin-left: auto;
-    width: 2rem;
+    /*width: 2rem;*/
 }
 
+::deep .section-header .icon {
+    width: 2rem;
+}
 ::deep .section-header .sub-title {
     font-size: 0.85rem;
 }

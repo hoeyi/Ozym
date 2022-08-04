@@ -60,7 +60,7 @@
                                 @group.Key.DisplayName
                             </h4>
                         </span>
-                        <div @onclick="(() => AddTarget_OnClick(group.Key))" class="right">
+                        <div @onclick="(() => AddTarget_OnClick(group.Key, DateTime.Now))" class="icon right">
                             <IonIcon Name="add" />
                         </div>
                     </div>
