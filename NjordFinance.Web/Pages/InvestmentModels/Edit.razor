@@ -103,6 +103,7 @@
     /// </summary>
     private IEnumerable<LookupModel> CurrentAttributeMemberLookup { get; set; }
 
+    private 
     /// <summary>
     /// Gets or sets whether the modal dialog for this page is drawn. Default is <see cref="false"/>.
     /// </summary>
@@ -158,8 +159,9 @@
     private async Task Target_OnClick(InvestmentModelTargetViewModel targetViewModel)
     {
         CurrentTargetViewModel = targetViewModel;
-        CurrentAttributeMemberLookup = await ReferenceData.ModelAttributeMemberListAsync(
-            attributeId: targetViewModel.ParentAttribute.AttributeId);
+        CurrentAttributeMemberLookup = (await ReferenceData
+                .ModelAttributeMemberListAsync(targetViewModel.ParentAttribute.AttributeId))
+                .ToLookups();
 
         DrawDialog = CurrentTargetViewModel is not null && CurrentAttributeMemberLookup is not null;
     }

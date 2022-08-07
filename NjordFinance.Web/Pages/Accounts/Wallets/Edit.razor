@@ -93,14 +93,14 @@
         try
         {
             parent = await ReferenceData.GetSingleAsync<Account>(
-                a => a.AccountId == AccountId, include: a => a.AccountNavigation);
+                a => a.AccountId == AccountId, path: a => a.AccountNavigation);
 
             var initResult = Controller.ForParent(parent.AccountId);
 
             if (initResult is not OkResult)
                 return; // TODO: Redirect to error page.
 
-            DenominationSecurities = await ReferenceData.CryptocurrencyListAsync();
+            DenominationSecurities = (await ReferenceData.CryptocurrencyListAsync()).ToLookups();
             Wallets = (await Controller.SelectAllAsync()).Value;
 
             if (!Wallets.Any())

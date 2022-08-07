@@ -92,12 +92,13 @@
         {
             var accountQuery = Controller.ReadAsync(AccountId);
             var custodiansQuery = ReferenceData.AccountCustodianListAsync();
+
             if ((await accountQuery).Value is Account account)
             {
                 Model = account;
             }
 
-            Custodians = await custodiansQuery;
+            Custodians = (await custodiansQuery).ToLookups();
 
             ViewModel = new(Model);
         }

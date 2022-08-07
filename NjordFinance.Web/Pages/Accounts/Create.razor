@@ -60,8 +60,8 @@
 
             await Task.WhenAll(getDefaultModelTask, refreshCustodianListTask);
 
-            Model = getDefaultModelTask.Result.Value;
-            Custodians = refreshCustodianListTask.Result;
+            Model = (await getDefaultModelTask).Value;
+            Custodians = (await refreshCustodianListTask).ToLookups();
 
             ViewModel = new(Model);
         }

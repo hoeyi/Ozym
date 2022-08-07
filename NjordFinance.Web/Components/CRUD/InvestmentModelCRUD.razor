@@ -24,7 +24,9 @@ else
             ValidationMessageDelegate="@(() => Model.Notes)">
             @if(ReadOnly)
             {
-                @Model.Notes
+                <div class="text-area">
+                    @Model.Notes
+                </div>
             }
             else
             {

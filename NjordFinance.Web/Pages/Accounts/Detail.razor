@@ -85,9 +85,9 @@
                         }
                     }
                 }
-            };  
+            };
 
-            Custodians = await ReferenceData.AccountCustodianListAsync();
+            Custodians = (await ReferenceData.AccountCustodianListAsync()).ToLookups();
 
             ViewModel = new(Model);
         }
