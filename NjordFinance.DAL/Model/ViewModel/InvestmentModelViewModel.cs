@@ -133,6 +133,7 @@ namespace NjordFinance.Model.ViewModel
         {
             InvestmentStrategyId = _investmentStrategy.InvestmentStrategyId,
             DisplayName = DisplayName,
+            Notes = Notes,
             InvestmentStrategyTargets = TargetCollection
                     .SelectMany(t => t.ToEntities())
                     .ToList()
