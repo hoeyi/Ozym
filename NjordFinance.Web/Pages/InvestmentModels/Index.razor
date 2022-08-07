@@ -13,20 +13,22 @@
     }
     else
     {
-        <PageSection>
-            <DataGrid Data="@Models" class="datagrid">
-                <DataGridColumn Property=@nameof(InvestmentStrategy.DisplayName)
-                            Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.CustodianCode)))
-                            Type=@DataGridCellType.Link>
-                    <CellTemplate Context="model">
-                        <a href=@(FormatDetailUri(model.InvestmentStrategyId)) @onclick:preventDefault 
-                            @onclick="@(args => Detail_OnClick(model, args))">
-                            @model.DisplayName
-                        </a>
-                    </CellTemplate>
-                </DataGridColumn>
-            </DataGrid>
-        </PageSection>
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models" class="datagrid">
+                    <DataGridColumn Property=@nameof(InvestmentStrategy.DisplayName)
+                                Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.CustodianCode)))
+                                Type=@DataGridCellType.Link>
+                        <CellTemplate Context="model">
+                            <a href=@(FormatDetailUri(model.InvestmentStrategyId)) @onclick:preventDefault 
+                                @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.DisplayName
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
     }
 </ThemedComponent>
 

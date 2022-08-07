@@ -9,9 +9,11 @@
     else
     {
         <div class="custom-modal-body">
-            <PageSection AdditionalClassAttributes="@(new string[]{"custom-modal-content"})">
-                @ChildContent
-            </PageSection>
+            <ContentTile ClassModifiers="custom-modal-content">
+                <Body>
+                    @ChildContent
+                </Body>
+            </ContentTile>
             <ActionButtonMenu>
                 @foreach(var dialogOption in _dialogResultButtons)
                 {

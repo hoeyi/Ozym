@@ -16,61 +16,63 @@
 
         <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(parent.AccountCode))" />
 
-        <PageSection>
-            @if(!string.IsNullOrEmpty(ErrorMessage))
-            {
-                <div class="error-text">@ErrorMessage</div>
-            }
-            <EditForm width="100%" Model="@Wallets">
-                <ActionButtonMenu>
-                    <button class="form-control button" 
-                        @onclick="@(args => Submit_OnClick(context, args))">
-                        @Resources.Strings.Caption_Button_Save
-                    </button>
-                    <button class="form-control button" @onclick=@(args => AddNewAsync(args))>
-                        @Resources.Strings.Caption_DataGrid_NewLine.Format(
-                            ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
-                    </button>
-                </ActionButtonMenu>
-                <DataAnnotationsValidator/>
-                <ValidationSummary/>
-                <DataGrid Data="@Wallets">
-                    <DataGridColumn 
-                        Property=@nameof(AccountWallet.DenominationSecurityId)
-                        Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
-                        width="20%">
-                        <CellEditTemplate Context="model">
-                            <InputSelect class="form-control"
-                                @bind-Value="@model.DenominationSecurityId">
-                                @foreach (var security in DenominationSecurities)
-                                {
-                                    <option value=@security.Key>@security.Display</option>
-                                }
-                            </InputSelect>
-                            <ValidationMessage For=@(()=> model.DenominationSecurityId) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    <DataGridColumn 
-                        Property=@nameof(AccountWallet.AddressCode)
-                        Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
-                        width="45%">
+        <ContentTile>
+            <Body>
+                @if(!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <div class="error-text">@ErrorMessage</div>
+                }
+                <EditForm width="100%" Model="@Wallets">
+                    <ActionButtonMenu>
+                        <button class="form-control button" 
+                            @onclick="@(args => Submit_OnClick(context, args))">
+                            @Resources.Strings.Caption_Button_Save
+                        </button>
+                        <button class="form-control button" @onclick=@(args => AddNewAsync(args))>
+                            @Resources.Strings.Caption_DataGrid_NewLine.Format(
+                                ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
+                        </button>
+                    </ActionButtonMenu>
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                    <DataGrid Data="@Wallets">
+                        <DataGridColumn 
+                            Property=@nameof(AccountWallet.DenominationSecurityId)
+                            Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
+                            width="20%">
                             <CellEditTemplate Context="model">
-                                <InputText class="form-control" @bind-Value="@model.AddressCode" />
-                                <ValidationMessage For=@(()=> model.AddressCode) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    <DataGridColumn 
-                        Property=@nameof(AccountWallet.AddressTag)
-                        Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
-                        width="35%">
-                            <CellEditTemplate Context="model">
-                                <InputText class="form-control" @bind-Value="@model.AddressTag" />
-                                <ValidationMessage For=@(()=> model.AddressTag) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
-            </EditForm>
-        </PageSection>
+                                <InputSelect class="form-control"
+                                    @bind-Value="@model.DenominationSecurityId">
+                                    @foreach (var security in DenominationSecurities)
+                                    {
+                                        <option value=@security.Key>@security.Display</option>
+                                    }
+                                </InputSelect>
+                                <ValidationMessage For=@(()=> model.DenominationSecurityId) />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                        <DataGridColumn 
+                            Property=@nameof(AccountWallet.AddressCode)
+                            Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
+                            width="45%">
+                                <CellEditTemplate Context="model">
+                                    <InputText class="form-control" @bind-Value="@model.AddressCode" />
+                                    <ValidationMessage For=@(()=> model.AddressCode) />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                        <DataGridColumn 
+                            Property=@nameof(AccountWallet.AddressTag)
+                            Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
+                            width="35%">
+                                <CellEditTemplate Context="model">
+                                    <InputText class="form-control" @bind-Value="@model.AddressTag" />
+                                    <ValidationMessage For=@(()=> model.AddressTag) />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                        </DataGrid>
+                </EditForm>
+            </Body>
+        </ContentTile>
     }
 </ThemedComponent>
 

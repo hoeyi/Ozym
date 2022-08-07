@@ -15,12 +15,14 @@
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadSingle(Model.AccountCode))" />
 
-        <PageSection>
-            <EditForm class="model-editor" Model="@ViewModel" >
-                <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
-                    Disabled="@_disabled" ReadOnly="@_readonly" />
-            </EditForm>
-        </PageSection>
+        <ContentTile>
+            <Body>
+                <EditForm class="model-editor" Model="@ViewModel" >
+                    <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
+                        Disabled="@_disabled" ReadOnly="@_readonly" />
+                </EditForm>
+            </Body>
+        </ContentTile>
     }
 </ThemedComponent>
 

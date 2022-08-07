@@ -20,43 +20,45 @@
     }
     else
     {
-        <PageSection>
-            <DataGrid Data="@Models" >
-                <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.AccountObjectCode)
-                            Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))>
-                    <CellTemplate Context="model">
-                        <a href="@(FormatDetailUri(model.AccountCompositeId))" @onclick:preventDefault
-                            @onclick="@(args => Detail_OnClick(model, args))">
-                            @model.AccountCompositeNavigation.AccountObjectCode.ToUpper()
-                        </a>
-                    </CellTemplate>
-                </DataGridColumn>
-                <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDisplayName)
-                            Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))>
-                    <CellTemplate Context="model">
-                        @model.AccountCompositeNavigation.ObjectDisplayName
-                    </CellTemplate>
-                </DataGridColumn>
-                <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDescription)
-                            Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDescription)))>
-                    <CellTemplate Context="model">
-                        @model.AccountCompositeNavigation.ObjectDescription
-                    </CellTemplate>
-                </DataGridColumn>
-                <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.StartDate)
-                            Caption=@(NameFor<AccountObject>(nameof(AccountObject.StartDate)))>
-                    <CellTemplate Context="model">
-                        @model.AccountCompositeNavigation.StartDate.ToShortDateString()
-                    </CellTemplate>
-                </DataGridColumn>
-                <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.CloseDate)
-                            Caption=@(NameFor<AccountObject>(nameof(AccountObject.CloseDate)))>
-                    <CellTemplate Context="model">
-                        @model.AccountCompositeNavigation.CloseDate?.ToShortDateString()
-                    </CellTemplate>
-                </DataGridColumn>
-            </DataGrid>
-        </PageSection>
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models" >
+                    <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.AccountObjectCode)
+                                Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))>
+                        <CellTemplate Context="model">
+                            <a href="@(FormatDetailUri(model.AccountCompositeId))" @onclick:preventDefault
+                                @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.AccountCompositeNavigation.AccountObjectCode.ToUpper()
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDisplayName)
+                                Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))>
+                        <CellTemplate Context="model">
+                            @model.AccountCompositeNavigation.ObjectDisplayName
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDescription)
+                                Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDescription)))>
+                        <CellTemplate Context="model">
+                            @model.AccountCompositeNavigation.ObjectDescription
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.StartDate)
+                                Caption=@(NameFor<AccountObject>(nameof(AccountObject.StartDate)))>
+                        <CellTemplate Context="model">
+                            @model.AccountCompositeNavigation.StartDate.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.CloseDate)
+                                Caption=@(NameFor<AccountObject>(nameof(AccountObject.CloseDate)))>
+                        <CellTemplate Context="model">
+                            @model.AccountCompositeNavigation.CloseDate?.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
     }
 </ThemedComponent>
 

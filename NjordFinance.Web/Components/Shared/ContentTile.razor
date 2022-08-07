@@ -1,0 +1,52 @@
+﻿<p class="@Class">
+    @if(RenderTitleSection)
+    {
+        <div class="content-tile-title">
+            @if(TitleAlignLeft is not null)
+            {
+                <div class="left">
+                    <h4>
+                        @TitleAlignLeft
+                    </h4>
+                </div>
+            }
+            @if(TitleAlignRight is not null)
+            {
+                <div class="right">
+                    @TitleAlignRight
+                </div>
+            }
+        </div>
+    }
+    @if(Body is not null)
+    {
+        @Body
+    }
+</p>
+
+@code {
+    [Parameter]
+    public RenderFragment TitleAlignLeft { get; set; }
+
+    [Parameter]
+    public RenderFragment TitleAlignRight { get; set; }
+
+    [Parameter]
+    public RenderFragment Body { get; set; }
+
+    [Parameter]
+    public string? ClassModifiers { get; set; }
+
+    private bool RenderTitleSection => 
+        TitleAlignLeft is not null || TitleAlignRight is not null;
+
+    private string Class { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (Body is null)
+            throw new ArgumentNullException(paramName: nameof(Body));
+
+        Class = string.IsNullOrEmpty(ClassModifiers) ? "content-tile" : $"custom-card {ClassModifiers}";
+    }
+}

@@ -13,30 +13,26 @@ else
                 Model="@ViewModel" 
                 OnValidSubmit="HandleValidSubmit">
                 <DataAnnotationsValidator />
-                <PageSection>
-                    <InvestmentModelTargetCRUD 
-                        Model="@ViewModel"
-                        AttributeMemberLookup="@AttributeMemberLookup"
-                        Disabled="false"
-                        ReadOnly="false" />
-                </PageSection>
-                <PageSection>
-                    <ActionButtonMenu>
-                        <button type="button" class="form-control button" 
-                            @onclick="@(async () => await OnClick(DialogResult.Cancel))"
-                            @onclick:preventDefault >
-                            @(NameFor<DialogResult>(nameof(DialogResult.Cancel)))
-                        </button>
-                        <button type="button" class="form-control button" 
-                            @onclick="@(async () => await OnClick(DialogResult.Delete))"
-                            @onclick:preventDefault >
-                            @(NameFor<DialogResult>(nameof(DialogResult.Delete)))
-                        </button>
-                        <button type="submit" class="form-control button">
-                            @(NameFor<DialogResult>(nameof(DialogResult.OK)))
-                        </button>
-                    </ActionButtonMenu>
-                </PageSection>
+                <InvestmentModelTargetCRUD 
+                    Model="@ViewModel"
+                    AttributeMemberLookup="@AttributeMemberLookup"
+                    Disabled="false"
+                    ReadOnly="false" />
+                <ActionButtonMenu>
+                    <button type="button" class="form-control button" 
+                        @onclick="@(async () => await OnClick(DialogResult.Cancel))"
+                        @onclick:preventDefault >
+                        @(NameFor<DialogResult>(nameof(DialogResult.Cancel)))
+                    </button>
+                    <button type="button" class="form-control button" 
+                        @onclick="@(async () => await OnClick(DialogResult.Delete))"
+                        @onclick:preventDefault >
+                        @(NameFor<DialogResult>(nameof(DialogResult.Delete)))
+                    </button>
+                    <button type="submit" class="form-control button">
+                        @(NameFor<DialogResult>(nameof(DialogResult.OK)))
+                    </button>
+                </ActionButtonMenu>
             </EditForm>
         </Modal>
     </CascadingValue>

@@ -113,37 +113,36 @@
 
 /*#region Titles, Headers, & Sections*/
 
-.section-header {
+.content-tile-title {
     --default-height: 32px;
     --icon-max-width: 32px;
 }
 
-::deep .section-header {
+::deep .content-tile-title {
     display: flex;
     position: relative;
     padding-left: 0.25rem;
     justify-content: space-between;
-
     /*height: 1rem;*/
 }
 
-::deep .section-header .left {
+::deep .content-tile-title .left {
     margin-right: auto;
 }
 
-::deep .section-header .right {
+::deep .content-tile-title .right {
     margin-left: auto;
     /*width: 2rem;*/
 }
 
-::deep .section-header .icon {
-    width: 2rem;
-}
-::deep .section-header .sub-title {
-    font-size: 0.85rem;
-}
+    ::deep .content-tile-title .icon {
+        width: 2rem;
+    }
+    ::deep .content-tile-title .sub-title {
+        font-size: 0.85rem;
+    }
 
-::deep p.section::after {
+::deep p.content-tile::after {
     padding-bottom: 1rem;
 }
 

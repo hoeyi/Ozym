@@ -6,68 +6,68 @@
 }
 else
 {
-    <div class="section-header">
-        <div class="title left">
-            <h4>
-                @Model.ParentAttribute.DisplayName
-                @if(ReadOnly)
-                {
-                    <span class="sub-title">
-                        (@Model.EffectiveDate.ToShortDateString())
-                    </span>
-                }
-            </h4>
-        </div>
-        <div class="right">
+    <ContentTile>
+        <TitleAlignLeft>
+            @Model.ParentAttribute.DisplayName
+            @if(ReadOnly)
+            {
+                <span class="sub-title">
+                    (@Model.EffectiveDate.ToShortDateString())
+                </span>
+            }
+        </TitleAlignLeft>
+        <TitleAlignRight>
             @if(!ReadOnly)
             {
                 <InputDate class="form-control right" @bind-Value="@Model.EffectiveDate" />
             }
-        </div>
-    </div>
-    <DataGrid Data="@Model.MemberEntries">
-        <ValidationMessage For=@(() => Model.SumOfMemberWeights) />
-            @if(ReadOnly)
-            {
-                <DataGridColumn 
-                    Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
-                    Caption=@(NameFor<InvestmentStrategyTarget>(nameof(InvestmentStrategyTarget.AttributeMemberId)))>
-                            <CellTemplate Context="model">
-                                @model.AttributeMember.DisplayName
-                            </CellTemplate>
-                </DataGridColumn>
-                <DataGridColumn 
-                    Property=@nameof(InvestmentStrategyTarget.Weight)
-                    Caption=@(NameFor<InvestmentStrategyTarget>(nameof(InvestmentStrategyTarget.Weight)))>
-                        <CellTemplate Context="model">
-                            @model.Weight
-                        </CellTemplate>
-                </DataGridColumn>
-            }
-            else
-            {
-                <DataGridColumn 
-                    Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
-                    Caption=@(NameFor<InvestmentStrategyTarget>(nameof(InvestmentStrategyTarget.AttributeMemberId)))>
-                        <CellEditTemplate Context="model">
-                            <InputSelect class="form-control"
-                                @bind-Value="@model.AttributeMemberId">
-                                @foreach(var member in AttributeMemberLookup)
-                                {
-                                    <option value="@member.Key">@member.Display</option>
-                                }
-                            </InputSelect>
-                        </CellEditTemplate>
-                </DataGridColumn>
-                <DataGridColumn 
-                    Property=@nameof(InvestmentStrategyTarget.Weight)
-                    Caption=@(NameFor<InvestmentStrategyTarget>(nameof(InvestmentStrategyTarget.Weight)))>
-                        <CellEditTemplate Context="model">
-                            <InputNumber class="form-control" @bind-Value="@model.Weight" />
-                        </CellEditTemplate>
-                </DataGridColumn>
-            }
-    </DataGrid>
+        </TitleAlignRight>
+        <Body>
+            <DataGrid Data="@Model.MemberEntries">
+                <ValidationMessage For=@(() => Model.SumOfMemberWeights) />
+                    @if(ReadOnly)
+                    {
+                        <DataGridColumn 
+                            Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
+                            Caption=@(NameFor<InvestmentStrategyTarget>(nameof(InvestmentStrategyTarget.AttributeMemberId)))>
+                                    <CellTemplate Context="model">
+                                        @model.AttributeMember.DisplayName
+                                    </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Property=@nameof(InvestmentStrategyTarget.Weight)
+                            Caption=@(NameFor<InvestmentStrategyTarget>(nameof(InvestmentStrategyTarget.Weight)))>
+                                <CellTemplate Context="model">
+                                    @model.Weight
+                                </CellTemplate>
+                        </DataGridColumn>
+                    }
+                    else
+                    {
+                        <DataGridColumn 
+                            Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
+                            Caption=@(NameFor<InvestmentStrategyTarget>(nameof(InvestmentStrategyTarget.AttributeMemberId)))>
+                                <CellEditTemplate Context="model">
+                                    <InputSelect class="form-control"
+                                        @bind-Value="@model.AttributeMemberId">
+                                        @foreach(var member in AttributeMemberLookup)
+                                        {
+                                            <option value="@member.Key">@member.Display</option>
+                                        }
+                                    </InputSelect>
+                                </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Property=@nameof(InvestmentStrategyTarget.Weight)
+                            Caption=@(NameFor<InvestmentStrategyTarget>(nameof(InvestmentStrategyTarget.Weight)))>
+                                <CellEditTemplate Context="model">
+                                    <InputNumber class="form-control" @bind-Value="@model.Weight" />
+                                </CellEditTemplate>
+                        </DataGridColumn>
+                    }
+                </DataGrid>
+        </Body>
+    </ContentTile>
 }
 
 @code{
