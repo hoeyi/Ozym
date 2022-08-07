@@ -4,6 +4,10 @@ using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Model;
 using NjordFinance.ModelService.Abstractions;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace NjordFinance.ModelService
 {
@@ -36,7 +40,62 @@ namespace NjordFinance.ModelService
             };
 
             Writer = new ModelWriterService<InvestmentStrategy>(
-                contextFactory, modelMetadata, logger);
+                contextFactory, modelMetadata, logger)
+            {
+                UpdateDelegate = async (context, model) =>
+                {
+                    var result = await UpdateGraphAsync(context, model);
+
+                    return new DbActionResult<bool>(result, result);
+                }
+            };
+        }
+
+        public static async Task<bool> UpdateGraphAsync(FinanceDbContext context, InvestmentStrategy model)
+        {
+            // Capture the currently saved entity.
+            var existingEntity = await context.InvestmentStrategies
+                            .Include(a => a.InvestmentStrategyTargets)
+                            .FirstAsync(m => m.InvestmentStrategyId == model.InvestmentStrategyId);
+
+            // Mark children with altered index as deleted.
+            context.InvestmentStrategyTargets.RemoveRange(existingEntity.InvestmentStrategyTargets
+                .Where(a => !model.InvestmentStrategyTargets.Any(b =>
+                    b.InvestmentStrategyId == a.InvestmentStrategyId &&
+                    b.AttributeMemberId == a.AttributeMemberId &&
+                    b.EffectiveDate == a.EffectiveDate)));
+
+            // Update children where the index is unchanged.
+            foreach(var target in model.InvestmentStrategyTargets)
+            {
+                if(existingEntity.InvestmentStrategyTargets.FirstOrDefault(t =>
+                    t.AttributeMemberId == target.AttributeMemberId &&
+                    t.InvestmentStrategyId == target.InvestmentStrategyId &&
+                    t.EffectiveDate == target.EffectiveDate) is InvestmentStrategyTarget match)
+                {
+                    context.Entry(match).CurrentValues.SetValues(target);
+                }
+            }
+
+            // Add children where there is no current index match.
+            foreach(var target in model.InvestmentStrategyTargets.Where(a =>
+                !existingEntity.InvestmentStrategyTargets.Any(b => 
+                    b.InvestmentStrategyId == a.InvestmentStrategyId &&
+                    b.AttributeMemberId == a.AttributeMemberId &&
+                    b.EffectiveDate == a.EffectiveDate)))
+            {
+                // Define the new entity.
+                var newEntity = new InvestmentStrategyTarget();
+                context.Add(newEntity);
+
+                // Update the new entity values.
+                context.Entry(newEntity).CurrentValues.SetValues(target);
+            }
+
+            // Udpate the curent values for the parameter model.
+            context.Entry(existingEntity).CurrentValues.SetValues(model);
+        
+            return await context.SaveChangesAsync() > 0;
         }
     }
 }
