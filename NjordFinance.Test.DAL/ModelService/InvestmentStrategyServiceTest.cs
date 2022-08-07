@@ -68,6 +68,21 @@ namespace NjordFinance.Test.ModelService
 
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        public async Task UpdateAsync_WhereChildValuesAreAltered_Returns_True()
+        {
+            var service = GetModelService();
+
+            InvestmentStrategy original = await service.ReadAsync(id: -4);
+
+            original.InvestmentStrategyTargets.First().Weight = 0.1M;
+            original.InvestmentStrategyTargets.Skip(1).First().Weight = 0.9M;
+
+            var result = await service.UpdateAsync(original);
+
+            Assert.IsTrue(result);
+        }
     }
 
     public partial class InvestmentStrategyServiceTest
