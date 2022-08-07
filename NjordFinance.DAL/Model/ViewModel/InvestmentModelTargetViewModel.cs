@@ -1,4 +1,5 @@
-﻿using NjordFinance.Model.Metadata;
+﻿using NjordFinance.Model.Annotations;
+using NjordFinance.Model.Metadata;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace NjordFinance.Model.ViewModel
 {
+    [ModelAttributeSupport(
+            SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]
     /// <summary>
     /// Represents a collection of <see cref="InvestmentStrategyTarget"/> instances with the same 
     /// <see cref="InvestmentStrategy" />, <see cref="ModelAttribute"/>, and effective date.
