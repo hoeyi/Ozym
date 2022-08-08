@@ -8,10 +8,10 @@ namespace NjordFinance.Model
     /// Defines the metadata for <see cref="InvestmentStrategy"/>.
     /// </summary>
     [Noun(
-        Plural = nameof(ModelNoun.InvestmentStrategyTarget_Plural),
-        PluralArticle = nameof(ModelNoun.InvestmentStrategyTarget_PluralArticle),
-        Singular = nameof(ModelNoun.InvestmentStrategyTarget_Singular),
-        SingularArticle = nameof(ModelNoun.InvestmentStrategyTarget_SingularArticle),
+        Plural = nameof(ModelNoun.InvestmentStrategy_Plural),
+        PluralArticle = nameof(ModelNoun.InvestmentStrategy_PluralArticle),
+        Singular = nameof(ModelNoun.InvestmentStrategy_Singular),
+        SingularArticle = nameof(ModelNoun.InvestmentStrategy_SingularArticle),
         ResourceType = typeof(ModelNoun)
         )]
     public class InvestmentStrategyMetadata

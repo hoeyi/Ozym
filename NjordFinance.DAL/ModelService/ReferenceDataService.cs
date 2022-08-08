@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using NjordFinance.Model.Annotations;
+using NjordFinance.ModelService.Query;
 
 namespace NjordFinance.ModelService
 {
@@ -60,6 +61,10 @@ namespace NjordFinance.ModelService
 
             return await context.Countries.ToListAsync();
         }
+
+        public IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
+            where TSource : class, new() => 
+                new QueryBuilder<TSource>(_contextFactory.CreateDbContext());
 
         public async Task<IEnumerable<Security>> CryptocurrencyListAsync()
         {
@@ -137,7 +142,7 @@ namespace NjordFinance.ModelService
             return await context.Securities
                 .Include(s => s.SecuritySymbols)
                 .Include(s => s.SecurityType)
-                .ThenInclude(s => s.SecurityTypeGroup)
+                .ThenInclude(sectype => sectype.SecurityTypeGroup)
                 .Where(s => s.SecurityType.SecurityTypeGroup.Transactable)
                 .ToListAsync();
         }

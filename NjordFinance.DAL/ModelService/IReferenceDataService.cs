@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using NjordFinance.ModelMetadata;
+using NjordFinance.ModelService.Query;
 
 namespace NjordFinance.ModelService
 {
@@ -16,6 +17,7 @@ namespace NjordFinance.ModelService
     /// <typeparam name="T"></typeparam>
     public interface IReferenceDataService
     {
+
         /// <summary>
         /// Gets the collection representing <see cref="AccountCustodian"/> models as a reference list.
         /// </summary>
@@ -44,6 +46,16 @@ namespace NjordFinance.ModelService
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Country"/> models, including 
         /// a default lookup entry.</returns>
         Task<IEnumerable<Country>> CountryListAsync();
+
+        /// <summary>
+        /// Creates a new instance implementing <see cref="IQueryBuilder{TSource}"/> where 
+        /// <typeparamref name="TSource"/> is the target object.
+        /// </summary>
+        /// <typeparam name="TSource">Is the target of the query built using this interface.</typeparam>
+        /// <returns>An <see cref="IQueryBuilder{TSource}"/> for <typeparamref name="TSource"/> models.</returns>
+        /// <remarks>Calls to this method should use its <see cref="IDisposable"/> implementation.</remarks>
+        IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
+            where TSource : class, new();
 
         /// <summary>
         /// Gets the collection representing <see cref="Security"/> models as a reference list, 
