@@ -13,28 +13,33 @@
     {
         <PageTitle>@(PageTitle.UpdateSingle(ViewModel.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader 
-            ActionMenu="@ActionMenu" 
-            Header="@(PageTitle.UpdateSingle(ViewModel.DisplayName))" />
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.UpdateSingle(ViewModel.DisplayName))" />
 
-        @if(DrawDialog)
+        @if (DrawDialog)
         {
-            <TargetEditDialog
-                ViewModel="@CurrentTargetViewModel"
-                AttributeMemberLookup="@CurrentAttributeMemberLookup" 
-                OnClose="OnModalClosed" />
+            <TargetEditDialog ViewModel="@CurrentTargetViewModel"
+                      AttributeMemberLookup="@CurrentAttributeMemberLookup"
+                      OnClose="OnModalClosed" />
         }
-        
+
         <ActionButtonMenu>
-            <button type="button" class="form-control button" 
+            <button type="button" class="form-control button"
                 @onclick="Cancel_OnClick"
-                @onclick:preventDefault >
+                @onclick:preventDefault>
                 @Resources.Strings.Caption_Button_Cancel
             </button>
-            <button type="button" class="form-control button" 
+            <button type="button" class="form-control button"
                 @onclick="Delete_OnClick"
-                @onclick:preventDefault >
+                @onclick:preventDefault>
                 @Resources.Strings.Caption_Button_Delete
+            </button>
+            <button type="button" class="form-control button"
+                @onclick="AddNewTarget_Click"
+                @onclick:preventDefault>
+                @(string.Format(
+                    Resources.Strings.Caption_Button_Add,
+                    ModelMetadata.NounFor(typeof(InvestmentStrategyTarget)).GetSingular()))
             </button>
             <button type="submit" form="@FormGuid" class="form-control button">
                 @Resources.Strings.Caption_Button_Save
@@ -55,7 +60,7 @@
                     @group.Key.DisplayName
                 </TitleAlignLeft>
                 <TitleAlignRight>
-                    <div @onclick="(() => AddTarget_OnClick(group.Key, DateTime.Now))" class="icon">
+                    <div @onclick="(() => AddTarget_OnClick(group.Key))" class="icon">
                         <IonIcon Name="add" />
                     </div>
                 </TitleAlignRight>
@@ -103,7 +108,11 @@
     /// </summary>
     private IEnumerable<LookupModel> CurrentAttributeMemberLookup { get; set; }
 
-    private 
+    /// <summary>
+    /// Gets or sets the allowable model attributes for targets.
+    /// </summary>
+    private IEnumerable<ModelAttribute> AllowableModelAttributes { get; set; }
+
     /// <summary>
     /// Gets or sets whether the modal dialog for this page is drawn. Default is <see cref="false"/>.
     /// </summary>
@@ -111,59 +120,71 @@
 
     private readonly Guid FormGuid = Guid.NewGuid();
 
+    private readonly string[] ModelScopes =
+        (ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security).ToStringArray();
+
     protected override async Task OnInitializedAsync()
     {
         ActionMenu = new()
             {
                 IconKey = "reorder-four",
                 Children = new()
-            {
-                // Add index button.
-                { 0, new MenuItem()
-                    {
-                        IconKey = "list",
-                        Caption = $"{Resources.Strings.Caption_Button_Index}",
-                        UriStem = $"{IndexUriRelativePath}"
-                    }
-                },
-                // Add delete button.
-                { 1, new MenuItem()
-                    {
-                        IconKey = "close",
-                        Caption = $"{Resources.Strings.Caption_Button_Delete} {ModelNoun.GetSingular()}",
-                        UriStem = $"#"
+                {
+                    // Add index button.
+                    { 0, new MenuItem()
+                        {
+                            IconKey = "list",
+                            Caption = $"{Resources.Strings.Caption_Button_Index}",
+                            UriStem = $"{IndexUriRelativePath}"
+                        }
+                    },
+                    // Add delete button.
+                    { 1, new MenuItem()
+                        {
+                            IconKey = "close",
+                            Caption = $"{Resources.Strings.Caption_Button_Delete} {ModelNoun.GetSingular()}",
+                            UriStem = $"#"
+                        }
                     }
                 }
-            }
             };
 
         IsLoading = true;
 
         try
         {
+            using var queryBuilder = ReferenceData.CreateQueryBuilder<ModelAttribute>()
+                                        .WithDirectRelationship(a => a.ModelAttributeScopes);
+
             var modelQuery = Controller.ReadAsync(ModelId);
+            var attributeQuery = queryBuilder.SelectWhereAsync(
+                predicate: attr => attr.ModelAttributeScopes.Any(msc => ModelScopes.Contains(msc.ScopeCode)),
+                maxCount: 0);
 
             if ((await modelQuery).Value is InvestmentStrategy model)
             {
                 Model = model;
             }
 
+            AllowableModelAttributes = await attributeQuery;
+
             ViewModel = new(Model);
         }
         finally
         {
-            IsLoading = Model is null || ViewModel is null;
+            IsLoading = Model is null || ViewModel is null || AllowableModelAttributes is null;
         }
     }
 
-    private async Task Target_OnClick(InvestmentModelTargetViewModel targetViewModel)
+    private async Task AddNewTarget_Click()
     {
-        CurrentTargetViewModel = targetViewModel;
-        CurrentAttributeMemberLookup = (await ReferenceData
-                .ModelAttributeMemberListAsync(targetViewModel.ParentAttribute.AttributeId))
-                .ToLookups();
+        throw new NotImplementedException();
+    }
 
-        DrawDialog = CurrentTargetViewModel is not null && CurrentAttributeMemberLookup is not null;
+    private async Task AddTarget_OnClick(ModelAttribute forModelAttribute)
+    {
+        await Target_OnClick(ViewModel
+            .AddNew(forAttribute: forModelAttribute, effectiveDate: DateTime.Now.Date));
     }
 
     private void Cancel_OnClick()
@@ -177,10 +198,6 @@
 
         if (result is NoContentResult ncr)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
-    }
-
-    private async Task AddTarget_OnClick(ModelAttribute forModelAttribute, DateTime effectiveDate)
-    {
     }
 
     private async Task HandleValidSubmit()
@@ -197,7 +214,7 @@
     {
         DrawDialog = false;
 
-        switch(modalEventArgs.Result)
+        switch (modalEventArgs.Result)
         {
             case DialogResult.Delete:
                 ViewModel.TargetCollection.Remove(modalEventArgs.Model);
@@ -211,5 +228,15 @@
             default:
                 throw new NotSupportedException();
         };
+    }
+
+    private async Task Target_OnClick(InvestmentModelTargetViewModel targetViewModel)
+    {
+        CurrentTargetViewModel = targetViewModel;
+        CurrentAttributeMemberLookup = (await ReferenceData
+                .ModelAttributeMemberListAsync(targetViewModel.ParentAttribute.AttributeId))
+                .ToLookups();
+
+        DrawDialog = CurrentTargetViewModel is not null && CurrentAttributeMemberLookup is not null;
     }
 }

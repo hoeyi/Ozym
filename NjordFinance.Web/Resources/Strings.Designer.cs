@@ -61,6 +61,15 @@ namespace NjordFinance.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add {0}.
+        /// </summary>
+        internal static string Caption_Button_Add {
+            get {
+                return ResourceManager.GetString("Caption_Button_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Caption_Button_Cancel {
@@ -129,15 +138,6 @@ namespace NjordFinance.Web.Resources {
         internal static string Caption_Button_View {
             get {
                 return ResourceManager.GetString("Caption_Button_View", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add {0}.
-        /// </summary>
-        internal static string Caption_DataGrid_NewLine {
-            get {
-                return ResourceManager.GetString("Caption_DataGrid_NewLine", resourceCulture);
             }
         }
         

@@ -29,7 +29,7 @@
                             @Resources.Strings.Caption_Button_Save
                         </button>
                         <button class="form-control button" @onclick=@(args => AddNewAsync(args))>
-                            @Resources.Strings.Caption_DataGrid_NewLine.Format(
+                            @Resources.Strings.Caption_Button_Add.Format(
                                 ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
                         </button>
                     </ActionButtonMenu>

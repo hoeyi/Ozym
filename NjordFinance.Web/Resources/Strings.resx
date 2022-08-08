@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Caption_Button_Add" xml:space="preserve">
+    <value>Add {0}</value>
+    <comment>{0} is the singular noun of the bound model type</comment>
+  </data>
   <data name="Caption_Button_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -140,10 +144,6 @@
   </data>
   <data name="Caption_Button_View" xml:space="preserve">
     <value>View</value>
-  </data>
-  <data name="Caption_DataGrid_NewLine" xml:space="preserve">
-    <value>Add {0}</value>
-    <comment>{0} is the singular noun of the bound model type</comment>
   </data>
   <data name="Caption_InputSelect_Prompt" xml:space="preserve">
     <value>&lt;select&gt;</value>
