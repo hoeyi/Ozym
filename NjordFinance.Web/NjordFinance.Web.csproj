@@ -4,9 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
+	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <UserSecretsId>aspnet-NjordFinance.Web-8127480B-07E8-4478-AEFA-EAC0AACF174B</UserSecretsId>
   </PropertyGroup>
 
+	
   <ItemGroup>
     <PackageReference Include="Ichosys.Blazor.Ionicons" Version="1.2.0.4133" />
     <PackageReference Include="Ichosys.DataModel" Version="2.2.0.4558" />
