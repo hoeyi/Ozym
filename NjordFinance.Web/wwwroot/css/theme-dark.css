@@ -26,13 +26,21 @@
     --euler-hexcolor-secondary-2-3: #A39470;
     --euler-hexcolor-secondary-2-4: #C5B99D;
     /* gray color scale darkest - lightest */
-    --euler-hexcolor-gray-0: #191919;
+/*    --euler-hexcolor-gray-0: #191919;
     --euler-hexcolor-gray-1: #212121;
     --euler-hexcolor-gray-2: #303030;
     --euler-hexcolor-gray-3: #424242;
     --euler-hexcolor-gray-4: #D2D2D2;
+    --euler-hexcolor-gray-5: #E6E6E6;*/
+    /* alternate, darker gray-scale darkest - lightest */
+    --euler-hexcolor-gray-0: #121212;
+    --euler-hexcolor-gray-1: #181818;
+    --euler-hexcolor-gray-2: #242424;
+    --euler-hexcolor-gray-3: #424242;
+    --euler-hexcolor-gray-4: #D2D2D2;
     --euler-hexcolor-gray-5: #E6E6E6;
     /*#endregion Color palette */
+
 
     /*#region Control colors */
 
@@ -46,11 +54,10 @@
     --euler-hexcolor-tablecell-back: var(--euler-hexcolor-gray-1, gray);
     --euler-hexcolor-tablecell-border: var(--euler-hexcolor-gray-3, blue);
     --euler-hexcolor-tablecell-fore: var(--euler-hexcolor-gray-5, white);
-    --euler-hexcolor-tableheader-back: var(--euler-hexcolor-primary-1, white);
+    --euler-hexcolor-tableheader-back: var(--euler-hexcolor-primary-0, white);
     --euler-hexcolor-tableheader-border: var(--euler-hexcolor-gray-3, blue);
     --euler-hexcolor-tableheader-fore: var(--euler-hexcolor-gray-5, white);
     /*#endregion Control colors */
-
     /*#region Fonts */
 
     --euler-fontfamily-default: 'Cambria Math';

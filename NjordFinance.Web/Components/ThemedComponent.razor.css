@@ -12,6 +12,10 @@
     padding: 0.25rem;
 }
 
+::deep .text-area {
+    white-space: pre-wrap;
+}
+
 /*#region DataGrid*/
 
 ::deep .datagrid {
@@ -32,7 +36,7 @@
 }
 
 ::deep .datagrid-cell a:hover {
-    background-color: var(--euler-hexcolor-gray-2, gray);
+    background-color: var(--euler-hexcolor-primary-2, gray);
     color: var(--euler-hexcolor-fore-0, black);
     cursor: pointer;
     text-decoration: underline;
