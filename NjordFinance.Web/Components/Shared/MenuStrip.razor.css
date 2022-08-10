@@ -1,4 +1,13 @@
-﻿/* Override the a element rules so that value inherits from parent. */
+﻿.menu {
+    --menu-item-back-color: var(--theme-elevation-backcolor-0, white);
+    --dropdown-back-color: var(--theme-elevation-backcolor-2, white);
+    --dropdown-anchor-onhover-color: var(--theme-elevation-backcolor-3, white);
+    --menu-item-text-color: var(--theme-text-color-0, black);
+    --detail-back-color: var(--theme-elevation-backcolor-2, white);
+    --detail-back-onhover-color: var(--theme-elevation-backcolor-5, white);
+}   
+
+/* Override the a element rules so that value inherits from parent. */
 a {
     text-decoration: inherit !important;
     font-family: inherit !important;
@@ -18,8 +27,8 @@ a {
 
 .menu-item {
     position: relative;
-    background-color: var(--euler-hexcolor-back-0, white);
-    color: var(--euler-hexcolor-fore-0, black);
+    background-color: var(--menu-item-back-color);
+    color: var(--menu-item-text-color);
     border: none;
     cursor: pointer;
     font-family: Arial, Helvetica, sans-serif;
@@ -31,11 +40,11 @@ a {
     .menu-item.dropdown-anchor {
         display: inline-block;
         padding: 0.25rem;
-        border: 2px;
+        border: 1rem;
     }
 
         .menu-item.dropdown-anchor:hover {
-            background-color: var(--euler-hexcolor-back-1-alt, white);
+            background-color: var(--dropdown-anchor-onhover-color);
         }
 
             .menu-item.dropdown-anchor:hover > .dropdown-content {
@@ -47,8 +56,8 @@ a {
     is underneath the cursor.
 */
 .dropdown-content {
-    color: var(--euler-hexcolor-fore-0, black);
-    background-color: var(--euler-hexcolor-back-1-alt, white);
+    color: var(--menu-item-text-color);
+    background-color: var(--dropdown-back-color);
     display: none;
     position: absolute;
     left: 0px;
@@ -64,7 +73,7 @@ a {
     have not children.
 */
 .menu-item.detail {
-    background-color: var(--euler-hexcolor-back-1-alt, white);
+    background-color: var(--detail-back-color);
     padding-left: 0.75rem;
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
@@ -72,7 +81,7 @@ a {
 }
 
     .menu-item.detail:hover {
-        background-color: var(--euler-hexcolor-back-1, white);
+        background-color: var(--detail-back-onhover-color);
     }
 
 .menu-item.icon {
