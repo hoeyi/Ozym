@@ -26,37 +26,68 @@
     --euler-hexcolor-secondary-2-3: #A39470;
     --euler-hexcolor-secondary-2-4: #C5B99D;
     /* gray color scale darkest - lightest */
-/*    --euler-hexcolor-gray-0: #191919;
+    /*    --euler-hexcolor-gray-0: #191919;
     --euler-hexcolor-gray-1: #212121;
     --euler-hexcolor-gray-2: #303030;
     --euler-hexcolor-gray-3: #424242;
     --euler-hexcolor-gray-4: #D2D2D2;
     --euler-hexcolor-gray-5: #E6E6E6;*/
     /* alternate, darker gray-scale darkest - lightest */
-    --euler-hexcolor-gray-0: #121212;
-    --euler-hexcolor-gray-1: #181818;
-    --euler-hexcolor-gray-2: #242424;
-    --euler-hexcolor-gray-3: #424242;
-    --euler-hexcolor-gray-4: #D2D2D2;
-    --euler-hexcolor-gray-5: #E6E6E6;
+    /*primary color (blue)*/
+    --theme-hexcolor-primary-0: #0E2C39;
+    --theme-hexcolor-primary-1: #1E3945;
+    --theme-hexcolor-primary-2: #324851;
+    --theme-hexcolor-primary-3: #485D66;
+    --theme-hexcolor-primary-4: #64757C;
+    /* secondary color (1) (red)*/
+    --theme-hexcolor-secondary-1-0: #5B2113;
+    --theme-hexcolor-secondary-1-1: #6D392D;
+    --theme-hexcolor-secondary-1-2: #81574D;
+    --theme-hexcolor-secondary-1-3: #A37A70;
+    --theme-hexcolor-secondary-1-4: #C5A49D;
+    /* secondary color(2) (yellow)*/
+    --theme-hexcolor-secondary-2-0: #5B4713;
+    --theme-hexcolor-secondary-2-1: #6D5B2D;
+    --theme-hexcolor-secondary-2-2: #81724D;
+    --theme-hexcolor-secondary-2-3: #A39470;
+    --theme-hexcolor-secondary-2-4: #C5B99D;
+    --theme-hexcolor-gray-0: #121212;
+    --theme-hexcolor-gray-1: #161616;
+    --theme-hexcolor-gray-2: #1a1a1a;
+    --theme-hexcolor-gray-3: #1e1e1e;
+    --theme-hexcolor-gray-4: #212121;
+    --theme-hexcolor-gray-5: #252525;
+    --theme-hexcolor-gray-6: #292929;
+    --theme-hexcolor-gray-7: #2d2d2d;
+    --theme-hexcolor-gray-8: #313131;
+    --theme-hexcolor-gray-9: #353535;
+    --theme-hexcolor-text-0: #e6e6e6;
+    --theme-elevation-backcolor-0: var(--theme-hexcolor-gray-0);
+    --theme-elevation-backcolor-1: var(--theme-hexcolor-gray-1);
+    --theme-elevation-backcolor-2: var(--theme-hexcolor-gray-2);
+    --theme-elevation-backcolor-3: var(--theme-hexcolor-gray-3);
+    --theme-elevation-backcolor-4: var(--theme-hexcolor-gray-4);
+    --theme-elevation-backcolor-5: var(--theme-hexcolor-gray-5);
+    --theme-elevation-backcolor-6: var(--theme-hexcolor-gray-6);
+    --theme-elevation-backcolor-7: var(--theme-hexcolor-gray-7);
+    --theme-elevation-backcolor-8: var(--theme-hexcolor-gray-8);
+    --theme-elevation-backcolor-9: var(--theme-hexcolor-gray-9);
+    --theme-text-color-0: var(--theme-hexcolor-text-0);
     /*#endregion Color palette */
-
-
     /*#region Control colors */
+    /*--euler-hexcolor-back-0: var(--euler-hexcolor-gray-0, white);*/
 
-    --euler-hexcolor-back-0: var(--euler-hexcolor-gray-0, white);
     --euler-hexcolor-back-1: var(--euler-hexcolor-gray-3, blue);
     --euler-hexcolor-back-1-alt: var(--euler-hexcolor-gray-1, gray);
-    --euler-hexcolor-control-back-0: var(--euler-hexcolor-gray-1, gray);
-    --euler-hexcolor-control-border: var(--euler-hexcolor-gray-3, black);
-    --euler-hexcolor-fore-0: var(--euler-hexcolor-gray-5, white);
-    --euler-hexcolor-fore-1: var(--euler-hexcolor-gray-4, gray);
-    --euler-hexcolor-tablecell-back: var(--euler-hexcolor-gray-1, gray);
-    --euler-hexcolor-tablecell-border: var(--euler-hexcolor-gray-3, blue);
-    --euler-hexcolor-tablecell-fore: var(--euler-hexcolor-gray-5, white);
-    --euler-hexcolor-tableheader-back: var(--euler-hexcolor-primary-0, white);
-    --euler-hexcolor-tableheader-border: var(--euler-hexcolor-gray-3, blue);
-    --euler-hexcolor-tableheader-fore: var(--euler-hexcolor-gray-5, white);
+    --theme-form-control-back-color: var(--theme-hexcolor-gray-3, gray);
+    --theme-form-control-border-color: var(--theme-hexcolor-gray-9, black);
+    --theme-tablecell-back-color: var(--theme-hexcolor-gray-2, gray);
+    --theme-tablecell-border-color: var(--theme-hexcolor-gray-5, blue);
+    --theme-tablecell-fore-color: var(--theme-text-color-0, white);
+    --theme-tableheader-back-color: var(--theme-hexcolor-primary-0, white);
+    --theme-tableheader-border-color: var(--theme-hexcolor-gray-5, blue);
+    --theme-tableheader-fore-color: var(--theme-text-color-0, white);
+    --theme-tablecell-onhover-color: var(--theme-hexcolor-primary-2);
     /*#endregion Control colors */
     /*#region Fonts */
 
@@ -68,5 +99,45 @@
 }
 
 body {
-    background-color: var(--euler-hexcolor-back-0, white);
+    background-color: var(--theme-elevation-backcolor-0, white);
+}
+
+::deep [theme_elevation="00"] {
+    background-color: var(--theme-elevation-backcolor-0, white);
+}
+
+::deep [theme_elevation="01"] {
+    background-color: var(--theme-elevation-backcolor-1, white);
+}
+
+::deep [theme_elevation="02"] {
+    background-color: var(--theme-elevation-backcolor-2, white);
+}
+
+::deep [theme_elevation="03"] {
+    background-color: var(--theme-elevation-backcolor-3, white);
+}
+
+::deep [theme_elevation="04"] {
+    background-color: var(--theme-elevation-backcolor-4, white);
+}
+
+::deep [theme_elevation="05"] {
+    background-color: var(--theme-elevation-backcolor-5, white);
+}
+
+::deep [theme_elevation="06"] {
+    background-color: var(--theme-elevation-backcolor-6, white);
+}
+
+::deep [theme_elevation="07"] {
+    background-color: var(--theme-elevation-backcolor-7, white);
+}
+
+::deep [theme_elevation="08"] {
+    background-color: var(--theme-elevation-backcolor-8, white);
+}
+
+::deep [theme_elevation="09"] {
+    background-color: var(--theme-elevation-backcolor-9, white);
 }

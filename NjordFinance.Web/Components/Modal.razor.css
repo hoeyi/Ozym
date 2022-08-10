@@ -8,13 +8,10 @@
     max-width: 70vh;
     border: solid;
     border-color: black;
-    
     z-index: 1;
     overflow: auto;
-
-    color: var(--euler-hexcolor-fore-0, black);
-    background-color: var(--euler-hexcolor-back-0, white);
-    
+    color: var(--theme-text-color-0, black);
+    background-color: var(--theme-elevation-backcolor-0, white);
     float: left;
     left: 50%;
     top: 25%;
@@ -38,6 +35,6 @@
 
 .custom-modal-content {
     border: none;
-    color: var(--euler-hexcolor-fore-0, black);
-    background-color: var(--euler-hexcolor-back-0, white);
+    color: var(--theme-text-color-0, black);
+    background-color: var(--theme-elevation-backcolor-0, white);
 }

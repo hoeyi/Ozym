@@ -1,9 +1,9 @@
 ﻿/*#region Local variables */
 .menu-bar, .sub-menu {
-    --fore-color: var(--euler-hexcolor-fore-0, black);
-    --hover-color: var(--euler-hexcolor-back-1-alt, white);
-    --hover-color-detail: var(--euler-hexcolor-back-1, blue);
-    --background-color: var(--euler-hexcolor-back-0, white);
+    --fore-color: var(--theme-text-color-0, black);
+    --background-color: var(--theme-elevation-backcolor-0);
+    --hover-color: var(--theme-elevation-backcolor-3);
+    --hover-color-detail: var(--theme-elevation-backcolor-6);
     --menu-fontfamily-default: var(--euler-fontfamily-actionmenu, 'Arial');
     --default-height: 32px;
     --icon-max-width: 32px;
@@ -39,6 +39,9 @@
 
 /*#region sub-menu class and variants*/
 ::deep .sub-menu {
+    /*border: solid;*/
+    /*border-width: 1px;*/
+    /*border-color: var(--theme-elevation-backcolor-4);*/
     display: none;
     margin: 0;
     padding: 0;

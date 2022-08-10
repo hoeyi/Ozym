@@ -22,7 +22,7 @@
 .navmenu-title {
     display: inline-block;
     font-size: 1.4rem;
-    color: var(--euler-hexcolor-fore-0, black);
+    color: var(--theme-text-color-0, black);
     text-align: center;
     vertical-align: bottom;
 }
@@ -70,7 +70,7 @@
 .navmenu-tile .navmenu-caption {
     font-size: 0.85rem;
     position: absolute;
-    color: var(--euler-hexcolor-fore-0, black);
+    color: var(--theme-text-color-0, black);
     width: 80%;
     left: 10%;
     bottom: 5px;
@@ -83,12 +83,12 @@
 
 /* Change the fill color to light shade if not 'none' or 'transparent'. */
 ::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
-    fill: var(--euler-hexcolor-fore-0, black);
+    fill: var(--theme-text-color-0, black);
 }
 
 /* Change the stroke color to light shade if not 'none' or 'transparent'. */
 ::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
-    stroke: var(--euler-hexcolor-fore-0, black);
+    stroke: var(--theme-text-color-0, black);
 }
 
 /* Set the default background color for IonIcons.*/

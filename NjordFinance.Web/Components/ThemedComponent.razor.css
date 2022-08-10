@@ -1,6 +1,6 @@
 ﻿::deep .themed-component {
-    color: var(--euler-hexcolor-fore-0, black);
-    background-color: var(--euler-hexcolor-back-0, white);
+    color: var(--theme-text-color-0, black);
+    background-color: var(--theme-elevation-backcolor-0, white);
     position: static;
 }
 
@@ -24,7 +24,7 @@
 }
 
 ::deep .datagrid-cell a {
-    color: var(--euler-hexcolor-fore-0, black);
+    color: var(--theme-text-color-0, black);
     font-weight: bold;
     text-indent: 0.5rem;
     text-decoration: none;
@@ -35,12 +35,12 @@
     padding-bottom: 0.25rem;
 }
 
-::deep .datagrid-cell a:hover {
-    background-color: var(--euler-hexcolor-primary-2, gray);
-    color: var(--euler-hexcolor-fore-0, black);
-    cursor: pointer;
-    text-decoration: underline;
-}
+    ::deep .datagrid-cell a:hover {
+        background-color: var(--theme-tablecell-onhover-color, gray);
+        color: var(--theme-text-color-0, black);
+        cursor: pointer;
+        text-decoration: underline;
+    }
 
 ::deep .datagrid .title {
     font-size: 1.25rem;
@@ -49,11 +49,11 @@
 
 
 ::deep .datagrid-cell {
-    background-color: var(--euler-hexcolor-tablecell-back, white);
+    background-color: var(--theme-tablecell-back-color, white);
     border: solid;
     border-width: 0.5px;
-    border-color: var(--euler-hexcolor-tablecell-border, white);
-    color: var(--euler-hexcolor-tablecell-fore, black);
+    border-color: var(--theme-tablecell-border-color, white);
+    color: var(--theme-tablecell-fore-color, black);
 
 }
 
@@ -65,9 +65,9 @@
     border: solid;
     text-indent: 0.5rem;
     border-width: 0.5px;
-    border-color: var(--euler-hexcolor-tableheader-border, white);
-    background-color: var(--euler-hexcolor-tableheader-back, white);
-    color: var(--euler-hexcolor-tableheader-fore, black);
+    border-color: var(--theme-tableheader-border-color, white);
+    background-color: var(--theme-tableheader-back-color, white);
+    color: var(--theme-tableheader-fore-color, black);
 }
 
 /*#endregion DataGrid*/
@@ -75,7 +75,7 @@
 
 /*#region Form Control*/
 ::deep .form-control {
-    color: var(--euler-hexcolor-fore-0, black) !important;
+    color: var(--theme-text-color-0, black) !important;
     outline: none !important;
     padding: 0.125em !important;
     font-size: inherit !important;
@@ -83,31 +83,31 @@
 }
 
 ::deep .form-control:not(.label):not(.button) {
-    background-color: var(--euler-hexcolor-control-back-0, white);
-    border-color: var(--euler-hexcolor-control-border, gray);
+    background-color: var(--theme-form-control-back-color, white);
+    border-color: var(--theme-form-control-border-color, gray);
 }
 
-::deep .form-control.label {
-    background-color: var(--euler-hexcolor-back-0, white) !important;
-    border: none !important;
-    color: var(--euler-hexcolor-fore-0, black) !important;
-    font-size: inherit !important;
-    font-family: inherit !important;
-    outline: none !important;
-    padding: 0.125em !important;
-}   
-
-::deep .form-control.button {
-    background-color: var(--euler-hexcolor-primary-0, inherit) !important;
-    border-color: var(--euler-hexcolor-back-1, inherit) !important;
-    color: var(--euler-hexcolor-fore-0, white) !important;
-}
-
-    ::deep .form-control.button:hover {
-        background-color: var(--euler-hexcolor-primary-2, inherit) !important;
-        border-color: var(--euler-hexcolor-back-1, inherit) !important;
-        color: var(--euler-hexcolor-fore-0, white) !important;
+    ::deep .form-control.label {
+        background-color: var(--theme-elevation-backcolor-0, white) !important;
+        border: none !important;
+        color: var(--theme-text-color-0, black) !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        outline: none !important;
+        padding: 0.125em !important;
     }
+
+    ::deep .form-control.button {
+        background-color: var(--theme-hexcolor-primary-0, inherit) !important;
+        border-color: var(--theme-form-control-border-color, inherit) !important;
+        color: var(--theme-text-color-0, white) !important;
+    }
+
+        ::deep .form-control.button:hover {
+            background-color: var(--theme-hexcolor-primary-2, inherit) !important;
+            border-color: var(--theme-form-control-border-color, inherit) !important;
+            color: var(--theme-text-color-0, white) !important;
+        }
 
 ::deep input[type=checkbox]:checked:before {
     background: var(--euler-hexcolor-primary-1, blue);
@@ -166,12 +166,12 @@
 /*#region Ion-Icon svg formatting */
 /*Change the fill color to light shade if not 'none' or 'transparent'.*/
 ::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
-    fill: var(--euler-hexcolor-fore-0, black);
+    fill: var(--theme-text-color-0, black);
 }
 
 /*Change the stroke color to light shade if not 'none' or 'transparent'.*/
 ::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
-    stroke: var(--euler-hexcolor-fore-0, black);
+    stroke: var(--theme-text-color-0, black);
 }
 
 /*Set the default background color for IonIcons.*/

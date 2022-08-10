@@ -2,19 +2,19 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: var(--euler-hexcolor-back-0, white);
+    background-color: var(--theme-elevation-backcolor-0, white);
 }
 
 main {
     flex: 1;
-    color: var(--euler-hexcolor-fore-0, black);
-    background-color: var(--euler-hexcolor-back-0, white);
+    color: var(--theme-text-color-0, black);
+    background-color: var(--theme-elevation-backcolor-0, white);
 }
 
 .top-row {
     /*position: relative;*/
-    background-color: var(--euler-hexcolor-back-0, white);
-    border-bottom: 1px solid var(--euler-hexcolor-fore-0);
+    /*background-color: var(--theme-elevation-backcolor-0, white);*/
+    border-bottom: 1px solid var(--theme-text-color-0);
     justify-content: left;
     height: 3.5rem;
     display: flex;
@@ -40,7 +40,7 @@ main {
 .home-link a {
     padding: 0.5em;
     margin: 0rem;
-    color: var(--euler-hexcolor-fore-0, black);
+    color: var(--theme-text-color-0, black);
     font-family: 'Cambria Math' !important;
     font-size: 1.25rem;
     font-style: italic;
@@ -51,8 +51,8 @@ main {
 }
 
     .home-link a:hover {
-        background-color: var(--euler-hexcolor-gray-2, gray);
-        color: var(--euler-hexcolor-fore-0, black);
+        background-color: var(--theme-hexcolor-primary-0);
+        color: var(--theme-text-color-0, black);
         cursor: pointer;
     }
 
