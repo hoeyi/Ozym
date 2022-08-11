@@ -9,7 +9,7 @@
     vertical-align: middle;
 }
 
-a.sign-in:hover, a.manage-profile:hover {
-    background-color: var(--euler-hexcolor-gray-2, gray);
-    color: var(--theme-text-color-0, black);
-}
+    a.sign-in:hover, a.manage-profile:hover {
+        background-color: var(--default-link-onhover-back-color, gray);
+        color: var(--theme-text-color-0, black);
+    }

@@ -8,32 +8,6 @@
 :root {
     /*#region Color palette */
     /*primary color (blue)*/
-    --euler-hexcolor-primary-0: #0E2C39;
-    --euler-hexcolor-primary-1: #1E3945;
-    --euler-hexcolor-primary-2: #324851;
-    --euler-hexcolor-primary-3: #485D66;
-    --euler-hexcolor-primary-4: #64757C;
-    /* secondary color (1) (red)*/
-    --euler-hexcolor-secondary-1-0: #5B2113;
-    --euler-hexcolor-secondary-1-1: #6D392D;
-    --euler-hexcolor-secondary-1-2: #81574D;
-    --euler-hexcolor-secondary-1-3: #A37A70;
-    --euler-hexcolor-secondary-1-4: #C5A49D;
-    /* secondary color(2) (yellow)*/
-    --euler-hexcolor-secondary-2-0: #5B4713;
-    --euler-hexcolor-secondary-2-1: #6D5B2D;
-    --euler-hexcolor-secondary-2-2: #81724D;
-    --euler-hexcolor-secondary-2-3: #A39470;
-    --euler-hexcolor-secondary-2-4: #C5B99D;
-    /* gray color scale darkest - lightest */
-    /*    --euler-hexcolor-gray-0: #191919;
-    --euler-hexcolor-gray-1: #212121;
-    --euler-hexcolor-gray-2: #303030;
-    --euler-hexcolor-gray-3: #424242;
-    --euler-hexcolor-gray-4: #D2D2D2;
-    --euler-hexcolor-gray-5: #E6E6E6;*/
-    /* alternate, darker gray-scale darkest - lightest */
-    /*primary color (blue)*/
     --theme-hexcolor-primary-0: #0E2C39;
     --theme-hexcolor-primary-1: #1E3945;
     --theme-hexcolor-primary-2: #324851;
@@ -73,12 +47,9 @@
     --theme-elevation-backcolor-8: var(--theme-hexcolor-gray-8);
     --theme-elevation-backcolor-9: var(--theme-hexcolor-gray-9);
     --theme-text-color-0: var(--theme-hexcolor-text-0);
-    /*#endregion Color palette */
-    /*#region Control colors */
-    /*--euler-hexcolor-back-0: var(--euler-hexcolor-gray-0, white);*/
+    /*#endregion */
 
-    --euler-hexcolor-back-1: var(--euler-hexcolor-gray-3, blue);
-    --euler-hexcolor-back-1-alt: var(--euler-hexcolor-gray-1, gray);
+    /*#region Control colors */
     --theme-form-control-back-color: var(--theme-hexcolor-gray-3, gray);
     --theme-form-control-border-color: var(--theme-hexcolor-gray-9, black);
     --theme-tablecell-back-color: var(--theme-hexcolor-gray-2, gray);
@@ -88,13 +59,13 @@
     --theme-tableheader-border-color: var(--theme-hexcolor-gray-5, blue);
     --theme-tableheader-fore-color: var(--theme-text-color-0, white);
     --theme-tablecell-onhover-color: var(--theme-hexcolor-primary-2);
-    /*#endregion Control colors */
-    /*#region Fonts */
+    /*#endregion*/
 
-    --euler-fontfamily-default: 'Cambria Math';
-    --euler-fontfamily-actionmenu: 'Arial';
-    --euler-fontfamily-tableheader: 'Cambria Math';
-    --euler-fontfamily-tablecell: 'Arial';
+    /*#region Fonts */
+    --theme-fontfamily-default: 'Cambria Math';
+    --theme-fontfamily-actionmenu: 'Arial';
+    --theme-fontfamily-tableheader: 'Cambria Math';
+    --theme-fontfamily-tablecell: 'Arial';
     /*#endregion */
 }
 
@@ -102,7 +73,7 @@ body {
     background-color: var(--theme-elevation-backcolor-0, white);
 }
 
-::deep [theme_elevation="00"] {
+[theme_elevation="00"] {
     background-color: var(--theme-elevation-backcolor-0, white);
 }
 

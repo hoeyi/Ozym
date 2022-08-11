@@ -1,6 +1,6 @@
 ﻿::deep .themed-component {
-    color: var(--theme-text-color-0, black);
-    background-color: var(--theme-elevation-backcolor-0, white);
+    /*color: var(--text-color-0, black);
+    background-color: var(--theme-elevation-backcolor-0, white);*/
     position: static;
 }
 
@@ -110,7 +110,7 @@
         }
 
 ::deep input[type=checkbox]:checked:before {
-    background: var(--euler-hexcolor-primary-1, blue);
+    background: var(--theme-hexcolor-primary-1, inherit);
 }
 /*#endregion Form Control*/
 

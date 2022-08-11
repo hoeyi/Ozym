@@ -1,7 +1,7 @@
 ﻿.menu {
     --menu-item-back-color: var(--theme-elevation-backcolor-0, white);
     --dropdown-back-color: var(--theme-elevation-backcolor-2, white);
-    --dropdown-anchor-onhover-color: var(--theme-elevation-backcolor-3, white);
+    --dropdown-anchor-onhover-color: var(--theme-elevation-backcolor-2, white);
     --menu-item-text-color: var(--theme-text-color-0, black);
     --detail-back-color: var(--theme-elevation-backcolor-2, white);
     --detail-back-onhover-color: var(--theme-elevation-backcolor-5, white);

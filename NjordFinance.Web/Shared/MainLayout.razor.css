@@ -1,20 +1,19 @@
 .page {
+    --default-back-color: var(--theme-elevation-back-color-0, white);
+    --default-text-color: var(--theme-text-color-0, black);
+    --default-link-onhover-back-color: var(--theme-hexcolor-primary-0, gray);
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: var(--theme-elevation-backcolor-0, white);
 }
 
 main {
     flex: 1;
-    color: var(--theme-text-color-0, black);
-    background-color: var(--theme-elevation-backcolor-0, white);
+    color: var(--default-text-color);
 }
 
 .top-row {
-    /*position: relative;*/
-    /*background-color: var(--theme-elevation-backcolor-0, white);*/
-    border-bottom: 1px solid var(--theme-text-color-0);
+    border-bottom: 1px solid var(--default-text-color);
     justify-content: left;
     height: 3.5rem;
     display: flex;
@@ -32,15 +31,10 @@ main {
         margin-left: auto;
     }
 
-/* Not sold on the look of a border yet. */
-/*.home-link {
-    border: 2px solid;
-}*/
-
 .home-link a {
     padding: 0.5em;
     margin: 0rem;
-    color: var(--theme-text-color-0, black);
+    color: var(--default-text-color);
     font-family: 'Cambria Math' !important;
     font-size: 1.25rem;
     font-style: italic;
@@ -51,11 +45,10 @@ main {
 }
 
     .home-link a:hover {
-        background-color: var(--theme-hexcolor-primary-0);
-        color: var(--theme-text-color-0, black);
+        background-color: var(--default-link-onhover-back-color);
+        color: var(--default-text-color);
         cursor: pointer;
     }
-
 
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {
@@ -75,14 +68,6 @@ main {
     .page {
         flex-direction: row;
     }
-
-    /*    .sidebar {
-        width: auto;
-        height: 100vh;
-        position: sticky;
-        top: 0;
-        padding: 5px 5px 5px 5px;
-    }*/
 
     .top-row {
         position: sticky;

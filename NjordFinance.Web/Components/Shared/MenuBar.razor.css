@@ -4,7 +4,7 @@
     --background-color: var(--theme-elevation-backcolor-0);
     --hover-color: var(--theme-elevation-backcolor-2);
     --hover-color-detail: var(--theme-elevation-backcolor-5);
-    --menu-fontfamily-default: var(--euler-fontfamily-actionmenu, 'Arial');
+    --menu-fontfamily-default: var(--theme-fontfamily-actionmenu, 'Arial');
     --default-height: 32px;
     --icon-max-width: 32px;
 }
