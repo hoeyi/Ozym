@@ -217,7 +217,7 @@
         switch (modalEventArgs.Result)
         {
             case DialogResult.Delete:
-                ViewModel.TargetCollection.Remove(modalEventArgs.Model);
+                ViewModel.RemoveExising(modalEventArgs.Model);
                 break;
             case DialogResult.None:
                 break;

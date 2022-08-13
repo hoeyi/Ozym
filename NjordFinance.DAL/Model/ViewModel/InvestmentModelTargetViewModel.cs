@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NjordFinance.Model.ViewModel.Generic;
 
 namespace NjordFinance.Model.ViewModel
 {
@@ -16,29 +17,20 @@ namespace NjordFinance.Model.ViewModel
     /// <see cref="InvestmentStrategy" />, <see cref="ModelAttribute"/>, and effective date.
     /// </summary>
     public class InvestmentModelTargetViewModel
-        : AttributeEntryCollectionViewModel<InvestmentStrategyTarget, InvestmentStrategy>
+        : AttributeEntryGrouping<InvestmentStrategy, InvestmentStrategyTarget>
     {
         public InvestmentModelTargetViewModel(
             InvestmentStrategy parentStrategy, ModelAttribute modelAttribute, DateTime effectiveDate)
         : base(parentStrategy, modelAttribute, effectiveDate)
         {
-            MemberEntries.AddRange(
-                parentStrategy.InvestmentStrategyTargets.Where(a => 
-                    a.AttributeMember.AttributeId == modelAttribute.AttributeId &&
-                    a.EffectiveDate == EffectiveDate));
         }
-
+        
         protected override Func<InvestmentStrategyTarget, decimal> WeightSelector => x => x.Weight;
 
-        public override InvestmentStrategyTarget[] ToEntities() =>
-            MemberEntries.Select(
-                s => new InvestmentStrategyTarget()
-                {
-                    AttributeMemberId = s.AttributeMemberId,
-                    InvestmentStrategyId = ParentObject.InvestmentStrategyId,
-                    EffectiveDate = EffectiveDate,
-                    Weight = s.Weight
-                })
-            .ToArray();
+        protected override IEnumerable<InvestmentStrategyTarget> SelectEntries(
+            InvestmentStrategy parentEntity, ModelAttribute parentAttribute, DateTime effectiveDate) 
+            => parentEntity.InvestmentStrategyTargets.Where(t =>
+                t.AttributeMember.AttributeId == parentAttribute.AttributeId &&
+                t.EffectiveDate == effectiveDate);
     }
 }

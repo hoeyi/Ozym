@@ -18,6 +18,9 @@ namespace NjordFinance.Model.ViewModel
         public AttributeGrouping(ModelAttribute key, IEnumerable<TElement> collection)
             : base(collection) => Key = key;
 
+        /// <summary>
+        /// Gets the <see cref="ModelAttribute"/> that serves as the key for this grouping.
+        /// </summary>
         public ModelAttribute Key { get; }
     }
 }

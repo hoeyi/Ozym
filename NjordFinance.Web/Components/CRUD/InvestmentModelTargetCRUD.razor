@@ -23,7 +23,7 @@ else
             }
         </TitleAlignRight>
         <Body>
-            <DataGrid Data="@Model.MemberEntries">
+            <DataGrid Data="@Model.Entries">
                 <ValidationMessage For=@(() => Model.SumOfMemberWeights) />
                     @if(ReadOnly)
                     {
