@@ -17,21 +17,24 @@
 
         <ContentTile>
             <Body>
-                <EditForm class="model-editor" Model="@ViewModel" >
-                    <InvestmentModelCRUD Model="@ViewModel" Disabled="false" ReadOnly="true" />
-                </EditForm>
+                <CascadingValue Value="@ViewModel">
+                    <EditForm class="model-editor" Model="@ViewModel" >
+                        <InvestmentModelCRUD Disabled="false" ReadOnly="true" />
+                    </EditForm>
+                </CascadingValue>
             </Body>
         </ContentTile>
         @foreach(var group in ViewModel.CurrentTargetCollection)
         {
             <ContentTile>
                 <Body>
-                    <EditForm class="model-editor" Model="@group.First()">
-                        <InvestmentModelTargetCRUD 
-                            Model="@group.First()"
-                            Disabled="false"
-                            ReadOnly="true" />
-                    </EditForm>
+                    <CascadingValue Value="@group.First()">
+                        <EditForm class="model-editor" Model="@group.First()">
+                            <InvestmentModelTargetCRUD 
+                                Disabled="false"
+                                ReadOnly="true" />
+                        </EditForm>
+                    </CascadingValue>
                 </Body>
             </ContentTile>
         }

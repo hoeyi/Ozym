@@ -1,99 +1,99 @@
 ﻿@inherits ModelCRUD<AccountViewModel>
 
-@if (Model is null || AccountCustodians is null)
+@if (ViewModel is null || AccountCustodians is null)
 {
     <LoadingSvg />
 }
 else
-{
+{   
     <ModelForm TModel="AccountViewModel">
         @*AccountObject inputs*@
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountObjectCode)"
-            ValidationMessageDelegate="@(() => Model.AccountObjectCode)">
+            ValidationMessageDelegate="@(() => ViewModel.AccountObjectCode)">
             @if (ReadOnly)
             {
-                @Model.AccountObjectCode
+                @ViewModel.AccountObjectCode
             }
             else
             {
-                <InputText class="form-control" @bind-Value=Model.AccountObjectCode
+                <InputText class="form-control" @bind-Value=ViewModel.AccountObjectCode
                     disable="@Disabled"
                     DisplayName=@(NameFor(nameof(AccountViewModel.AccountObjectCode))) />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.DisplayName)"
-            ValidationMessageDelegate="@(() => Model.DisplayName)">
+            ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {
-                @Model.DisplayName
+                @ViewModel.DisplayName
             }
             else
             {
-                <InputText class="form-control" @bind-Value=Model.DisplayName
+                <InputText class="form-control" @bind-Value=ViewModel.DisplayName
                     disable="@Disabled"
                     DisplayName=@(NameFor(nameof(AccountViewModel.DisplayName))) />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.Description)"
-            ValidationMessageDelegate="@(() => Model.Description)">
+            ValidationMessageDelegate="@(() => ViewModel.Description)">
             @if (ReadOnly)
             {
-                @Model.Description
+                @ViewModel.Description
             }
             else
             {
-                <InputText class="form-control" @bind-Value=Model.Description
+                <InputText class="form-control" @bind-Value=ViewModel.Description
                     disable="@Disabled"
                     DisplayName=@(NameFor(nameof(AccountViewModel.Description))) />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.StartDate)"
-            ValidationMessageDelegate="@(() => Model.StartDate)">
+            ValidationMessageDelegate="@(() => ViewModel.StartDate)">
             @if (ReadOnly)
             {
-                @Model.StartDate.ToShortDateString()
+                @ViewModel.StartDate.ToShortDateString()
             }
             else
             {
-                <InputDate class="form-control" @bind-Value=Model.StartDate disable="@Disabled" />
+                <InputDate class="form-control" @bind-Value=ViewModel.StartDate disable="@Disabled" />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.CloseDate)"
-            ValidationMessageDelegate="@(() => Model.CloseDate)">
+            ValidationMessageDelegate="@(() => ViewModel.CloseDate)">
             @if (ReadOnly)
             {
-                @Model.CloseDate?.ToShortDateString()
+                @ViewModel.CloseDate?.ToShortDateString()
             }
             else
             {
-                <InputDate class="form-control" @bind-Value=Model.CloseDate disable="@Disabled" />
+                <InputDate class="form-control" @bind-Value=ViewModel.CloseDate disable="@Disabled" />
             }
         </ModelFormLineItem>
 
         @*Account inputs*@
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountNumber)" 
-            ValidationMessageDelegate="@(() => Model.AccountNumber)">
+            ValidationMessageDelegate="@(() => ViewModel.AccountNumber)">
             @if (ReadOnly)
             {
-                @Model.AccountNumber
+                @ViewModel.AccountNumber
             }
             else
             {
-                <InputText class="form-control" @bind-Value=Model.AccountNumber
+                <InputText class="form-control" @bind-Value=ViewModel.AccountNumber
                         disable="@Disabled" />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountCustodianId)"
-            ValidationMessageDelegate="@(() => Model.AccountCustodianId)">
+            ValidationMessageDelegate="@(() => ViewModel.AccountCustodianId)">
             @if (ReadOnly)
             {
-                @Model.AccountCustodian?.DisplayName
+                @ViewModel.AccountCustodian?.DisplayName
             }
             else
             {
                 <InputSelect id="account-custodian" class="form-control"
                     DisplayName="Model.AccountCustodian.CustodianCode"
-                    @bind-Value="Model.AccountCustodianId"
+                    @bind-Value="ViewModel.AccountCustodianId"
                     disabled="@Disabled">
                     @foreach (var custodian in AccountCustodians)
                     {
@@ -103,61 +103,61 @@ else
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.BooksClosedDate)"
-            ValidationMessageDelegate="@(() => Model.BooksClosedDate)">
+            ValidationMessageDelegate="@(() => ViewModel.BooksClosedDate)">
             @if (ReadOnly)
             {
-                @Model.BooksClosedDate?.ToShortDateString()
+                @ViewModel.BooksClosedDate?.ToShortDateString()
             }
             else
             {
-                <InputDate class="form-control" @bind-Value=Model.BooksClosedDate
+                <InputDate class="form-control" @bind-Value=ViewModel.BooksClosedDate
                         disabled="@Disabled" />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.IsComplianceTradable)"
-            ValidationMessageDelegate="@(() => Model.IsComplianceTradable)">
+            ValidationMessageDelegate="@(() => ViewModel.IsComplianceTradable)">
             @if (ReadOnly)
             {
-                @Model.IsComplianceTradable
+                @ViewModel.IsComplianceTradable
             }
             else
             {
-                <InputCheckbox @bind-Value=Model.IsComplianceTradable disabled="@Disabled" />
+                <InputCheckbox @bind-Value=ViewModel.IsComplianceTradable disabled="@Disabled" />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.HasWallet)"
-            ValidationMessageDelegate="@(() => Model.HasWallet)">
+            ValidationMessageDelegate="@(() => ViewModel.HasWallet)">
             @if (ReadOnly)
             {
-                @Model.HasWallet
+                @ViewModel.HasWallet
             }
             else
             {
-                <InputCheckbox @bind-Value=Model.HasWallet disabled="@Disabled" />
-                <ValidationMessage For="@(() => Model.HasWallet)" />
+                <InputCheckbox @bind-Value=ViewModel.HasWallet disabled="@Disabled" />
+                <ValidationMessage For="@(() => ViewModel.HasWallet)" />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.HasBankTransaction)"
-            ValidationMessageDelegate="@(() => Model.HasBankTransaction)">
+            ValidationMessageDelegate="@(() => ViewModel.HasBankTransaction)">
             @if (ReadOnly)
             {
-                @Model.HasBankTransaction
+                @ViewModel.HasBankTransaction
             }
             else
             {
-                <InputCheckbox @bind-Value=Model.HasBankTransaction disabled="@Disabled" />
-                <ValidationMessage For="@(() => Model.HasBankTransaction)" />
+                <InputCheckbox @bind-Value=ViewModel.HasBankTransaction disabled="@Disabled" />
+                <ValidationMessage For="@(() => ViewModel.HasBankTransaction)" />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.HasBrokerTransaction)"
-            ValidationMessageDelegate="@(() => Model.HasBrokerTransaction)">
+            ValidationMessageDelegate="@(() => ViewModel.HasBrokerTransaction)">
             @if (ReadOnly)
             {
-                @Model.HasBrokerTransaction
+                @ViewModel.HasBrokerTransaction
             }
             else
             {
-                <InputCheckbox @bind-Value=Model.HasBrokerTransaction disabled="@Disabled" />
+                <InputCheckbox @bind-Value=ViewModel.HasBrokerTransaction disabled="@Disabled" />
             }
         </ModelFormLineItem>
     </ModelForm>

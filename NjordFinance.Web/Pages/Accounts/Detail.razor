@@ -17,10 +17,12 @@
 
         <ContentTile>
             <Body>
-                <EditForm class="model-editor" Model="@ViewModel" >
-                    <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
-                        Disabled="@_disabled" ReadOnly="@_readonly" />
-                </EditForm>
+                <CascadingValue Value="@ViewModel">
+                    <EditForm class="model-editor" Model="@ViewModel">
+                        <AccountCRUD AccountCustodians="@Custodians" 
+                            Disabled="false" ReadOnly="true" />
+                    </EditForm>
+                </CascadingValue>
             </Body>
         </ContentTile>
     }
@@ -33,14 +35,6 @@
     private IEnumerable<LookupModel> Custodians { get; set; }
 
     private AccountViewModel ViewModel { get; set; }
-
-    /// <summary>
-    /// Gets the base uri for <see cref="AccountWallet"/> records.
-    /// </summary>
-    private string WalletsBaseUri => "AccountWallets";
-
-    private const bool _disabled = false;
-    private const bool _readonly = true;
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()

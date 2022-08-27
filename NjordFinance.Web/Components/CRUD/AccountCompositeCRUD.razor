@@ -1,6 +1,6 @@
 ﻿@inherits ModelCRUD<AccountCompositeViewModel>
 
-@if(Model is null)
+@if(ViewModel is null)
 {
     <LoadingSvg />
 }
@@ -9,64 +9,64 @@ else
     <ModelForm TModel="AccountViewModel">
         @*AccountObject inputs*@
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountObjectCode)"
-            ValidationMessageDelegate="@(() => Model.AccountObjectCode)">
+            ValidationMessageDelegate="@(() => ViewModel.AccountObjectCode)">
             @if (ReadOnly)
             {
-                @Model.AccountObjectCode
+                @ViewModel.AccountObjectCode
             }
             else
             {
-                <InputText class="form-control" @bind-Value=Model.AccountObjectCode
+                <InputText class="form-control" @bind-Value=ViewModel.AccountObjectCode
                     disable="@Disabled"
                     DisplayName=@(NameFor(nameof(AccountViewModel.AccountObjectCode))) />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.DisplayName)"
-            ValidationMessageDelegate="@(() => Model.DisplayName)">
+            ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {
-                @Model.DisplayName
+                @ViewModel.DisplayName
             }
             else
             {
-                <InputText class="form-control" @bind-Value=Model.DisplayName
+                <InputText class="form-control" @bind-Value=ViewModel.DisplayName
                     disable="@Disabled"
                     DisplayName=@(NameFor(nameof(AccountViewModel.DisplayName))) />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.Description)"
-            ValidationMessageDelegate="@(() => Model.Description)">
+            ValidationMessageDelegate="@(() => ViewModel.Description)">
             @if (ReadOnly)
             {
-                @Model.Description
+                @ViewModel.Description
             }
             else
             {
-                <InputText class="form-control" @bind-Value=Model.Description
+                <InputText class="form-control" @bind-Value=ViewModel.Description
                     disable="@Disabled"
                     DisplayName=@(NameFor(nameof(AccountViewModel.Description))) />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.StartDate)"
-            ValidationMessageDelegate="@(() => Model.StartDate)">
+            ValidationMessageDelegate="@(() => ViewModel.StartDate)">
             @if (ReadOnly)
             {
-                @Model.StartDate.ToShortDateString()
+                @ViewModel.StartDate.ToShortDateString()
             }
             else
             {
-                <InputDate class="form-control" @bind-Value=Model.StartDate disable="@Disabled" />
+                <InputDate class="form-control" @bind-Value=ViewModel.StartDate disable="@Disabled" />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(AccountViewModel.CloseDate)"
-            ValidationMessageDelegate="@(() => Model.CloseDate)">
+            ValidationMessageDelegate="@(() => ViewModel.CloseDate)">
             @if (ReadOnly)
             {
-                @Model.CloseDate?.ToShortDateString()
+                @ViewModel.CloseDate?.ToShortDateString()
             }
             else
             {
-                <InputDate class="form-control" @bind-Value=Model.CloseDate disable="@Disabled" />
+                <InputDate class="form-control" @bind-Value=ViewModel.CloseDate disable="@Disabled" />
             }
         </ModelFormLineItem>
     </ModelForm>

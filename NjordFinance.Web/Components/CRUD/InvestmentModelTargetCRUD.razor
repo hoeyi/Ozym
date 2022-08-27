@@ -8,23 +8,23 @@ else
 {
     <ContentTile>
         <TitleAlignLeft>
-            @Model.ParentAttribute.DisplayName
+            @ViewModel.ParentAttribute.DisplayName
             @if(ReadOnly)
             {
                 <span class="sub-title">
-                    (@Model.EffectiveDate.ToShortDateString())
+                    (@ViewModel.EffectiveDate.ToShortDateString())
                 </span>
             }
         </TitleAlignLeft>
         <TitleAlignRight>
             @if(!ReadOnly)
             {
-                <InputDate class="form-control right" @bind-Value="@Model.EffectiveDate" />
+                <InputDate class="form-control right" @bind-Value="@ViewModel.EffectiveDate" />
             }
         </TitleAlignRight>
         <Body>
-            <DataGrid Data="@Model.Entries">
-                <ValidationMessage For=@(() => Model.SumOfMemberWeights) />
+            <DataGrid Data="@ViewModel.Entries">
+                <ValidationMessage For=@(() => ViewModel.SumOfMemberWeights) />
                     @if(ReadOnly)
                     {
                         <DataGridColumn 
@@ -71,16 +71,16 @@ else
 }
 
 @code{
-    [Parameter]
+    [CascadingParameter]
     public IEnumerable<LookupModel> AttributeMemberLookup { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        bool modelIsNull = Model is null;
+        bool modelIsNull = ViewModel is null;
         bool attributeLookupIsNull = AttributeMemberLookup is null;
 
-        IsLoading = Model is null || (ReadOnly ^ (AttributeMemberLookup is null));
+        IsLoading = ViewModel is null || (ReadOnly ^ (AttributeMemberLookup is null));
     }
 }

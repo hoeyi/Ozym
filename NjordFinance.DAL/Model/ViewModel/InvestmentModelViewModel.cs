@@ -92,10 +92,7 @@ namespace NjordFinance.Model.ViewModel
             var newTarget = new InvestmentModelTargetViewModel(
                 parentStrategy: _parentEntity, modelAttribute: forAttribute, effectiveDate);
 
-            _viewModelEntries.Add(new(
-                parentStrategy: _parentEntity,
-                modelAttribute: forAttribute,
-                effectiveDate: effectiveDate));
+            _viewModelEntries.Add(newTarget);
 
             return newTarget;
         }

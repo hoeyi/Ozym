@@ -1,4 +1,5 @@
-﻿@inherits LocalizableComponent
+﻿@typeparam TViewModel
+@inherits LocalizableComponent
 
 @if (IsLoading)
 {
@@ -7,34 +8,38 @@
 else
 {
     <Modal 
-        ViewModel="@ViewModel" 
         DialogOptions="DialogResult.OK | DialogResult.Delete | DialogResult.Cancel"
-        OnClose="OnClose">
-        <InvestmentModelTargetCRUD Model="@ViewModel"
-            AttributeMemberLookup="@AttributeMemberLookup"
-            Disabled="false"
-            ReadOnly="false" />
+        OnClose="OnClose"
+        ReadOnly="false">
+        @ChildContent
     </Modal>
 }
 
-@code{
+@code {
+
     /// <summary>
     /// Gets or sets the event handler for the close event of this form.
     /// </summary>
     [Parameter]
-    public EventCallback<ModalEventArgs<InvestmentModelTargetViewModel>> OnClose { get; set; }
+    public EventCallback<ModalEventArgs<TViewModel>> OnClose { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="InvestmentModelTargetViewModel" /> for this form.
+    /// Gets or sets the child content to render for this form.
     /// </summary>
     [Parameter]
-    public InvestmentModelTargetViewModel ViewModel { get; set; }
+    public RenderFragment ChildContent { get; set; } = default!;
 
     /// <summary>
-    /// Gets or sets the reference list for allowable <see cref="ModelAttributeMember" /> 
+    /// Gets or sets the view model for this form.
+    /// </summary>
+    [CascadingParameter]
+    public TViewModel ViewModel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the reference list for allowable <see cref="ModelAttributeMember" />
     /// records for this form.
     /// </summary>
-    [Parameter]
+    [CascadingParameter]
     public IEnumerable<LookupModel> AttributeMemberLookup { get; set; }
 
     protected override async Task OnInitializedAsync()

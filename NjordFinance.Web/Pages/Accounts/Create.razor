@@ -17,21 +17,23 @@
     {
         <ContentTile>
             <Body>
-                <EditForm class="model-editor" Model="@ViewModel" 
-                    OnValidSubmit="HandleValidSubmit" >
-                    <DataAnnotationsValidator />
-                    <ActionButtonMenu>
-                        <button class="form-control button" @onclick="Cancel_OnClick"
-                            @onclick:preventDefault >
-                            @Resources.Strings.Caption_Button_Cancel
-                        </button>
-                        <button type="submit" class="form-control button">
-                            @Resources.Strings.Caption_Button_Save
-                        </button>
-                    </ActionButtonMenu>
-                    <AccountCRUD Model="@ViewModel" AccountCustodians="@Custodians" 
-                        Disabled="@_disabled" ReadOnly="@_readonly" />
-                </EditForm>
+                <CascadingValue Value="@ViewModel">
+                    <EditForm class="model-editor" Model="@ViewModel" 
+                        OnValidSubmit="HandleValidSubmit" >
+                        <DataAnnotationsValidator />
+                        <ActionButtonMenu>
+                            <button class="form-control button" @onclick="Cancel_OnClick"
+                                @onclick:preventDefault >
+                                @Resources.Strings.Caption_Button_Cancel
+                            </button>
+                            <button type="submit" class="form-control button">
+                                @Resources.Strings.Caption_Button_Save
+                            </button>
+                        </ActionButtonMenu>
+                        <AccountCRUD AccountCustodians="@Custodians" 
+                            Disabled="false" ReadOnly="false" />
+                    </EditForm>
+                </CascadingValue>
             </Body>
         </ContentTile>
     }
@@ -44,9 +46,6 @@
     private IEnumerable<LookupModel> Custodians { get; set; }
 
     private AccountViewModel ViewModel { get; set; }
-
-    private const bool _disabled = false;
-    private const bool _readonly = false;
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
