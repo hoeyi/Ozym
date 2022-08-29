@@ -19,7 +19,7 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
-            viewModel.Entries.Add(new()
+            viewModel.AddEntry(new()
             {
                 AttributeMemberId = 1,
                 Weight = 0.1275M
@@ -34,7 +34,7 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
-            viewModel.Entries.AddEach(new SecurityAttributeMemberEntry[]
+            viewModel.AddRange(new SecurityAttributeMemberEntry[]
                 {
                     new()
                     {
@@ -60,7 +60,7 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
-            viewModel.Entries.Add(new()
+            viewModel.AddEntry(new()
             {
                 AttributeMemberId = 1,
                 Weight = 0.1275M
@@ -78,7 +78,7 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1}, new() { AttributeId = 1}, DateTime.Now);
 
-            viewModel.Entries.AddEach(new SecurityAttributeMemberEntry[]
+            viewModel.AddRange(new SecurityAttributeMemberEntry[]
                 {
                     new()
                     {

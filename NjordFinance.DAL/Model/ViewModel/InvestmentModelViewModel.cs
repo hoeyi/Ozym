@@ -81,18 +81,23 @@ namespace NjordFinance.Model.ViewModel
             InvestmentStrategyId = _parentEntity.InvestmentStrategyId,
             DisplayName = DisplayName,
             Notes = Notes,
-            InvestmentStrategyTargets = EntryCollection
-                .SelectMany(t => t.Entries)
-                .ToList()
+            InvestmentStrategyTargets = _parentEntity.InvestmentStrategyTargets
         };
 
-        public override InvestmentModelTargetViewModel AddNew(
-            ModelAttribute forAttribute, DateTime effectiveDate)
+        public override InvestmentModelTargetViewModel AddNew(ModelAttribute forAttribute)
         {
+            var lastEntryDateUtc = EntryCollection
+                .Where(x => x.ParentAttribute.AttributeId == forAttribute.AttributeId)
+                .Max(x => x.EffectiveDate)
+                .ToUniversalTime();
+
+            DateTime effectiveDate = lastEntryDateUtc.Date <= DateTime.UtcNow.Date ?
+                lastEntryDateUtc.Date.AddDays(1) : DateTime.UtcNow.Date;
+                    
             var newTarget = new InvestmentModelTargetViewModel(
                 parentStrategy: _parentEntity, modelAttribute: forAttribute, effectiveDate);
 
-            _viewModelEntries.Add(newTarget);
+            newTarget.AddNewEntry();
 
             return newTarget;
         }
@@ -100,7 +105,7 @@ namespace NjordFinance.Model.ViewModel
         protected override InvestmentModelTargetViewModel ConvertGroupingToViewModel(
             IGrouping<(int, DateTime), InvestmentStrategyTarget> grouping)
         {
-            var firstEntry = grouping.First();
+            var firstEntry = grouping.Where(x => x.AttributeMember is not null).First();
 
             return new (
                 parentStrategy: _parentEntity,

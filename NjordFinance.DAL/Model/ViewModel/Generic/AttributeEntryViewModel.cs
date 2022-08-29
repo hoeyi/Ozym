@@ -21,8 +21,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         where TViewModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
     {
         protected readonly TParentEntity _parentEntity;
-        protected readonly List<TViewModel> _viewModelEntries = new();
-
+        
         /// <summary>
         /// Initializes a new instance of 
         /// <see cref="AttributeEntryViewModel{TParentEntity, TChildEntity, TViewModel}"/> 
@@ -36,11 +35,6 @@ namespace NjordFinance.Model.ViewModel.Generic
                 throw new ArgumentNullException(paramName: nameof(parentEntity));
 
             _parentEntity = parentEntity;
-
-            var attributeGroups = GroupEntries(EntryMemberSelector(_parentEntity));
-            var initialViewModels = attributeGroups.Select(g => ConvertGroupingToViewModel(g));
-            
-            _viewModelEntries.AddRange(initialViewModels);
         }
 
         /// <summary>
@@ -73,7 +67,10 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// Gets the collection of <see cref="TViewModel"/> that represent the 
         /// <typeparamref name="TChildEntity"/> entries in this model.
         /// </summary>
-        public IReadOnlyCollection<TViewModel> EntryCollection => _viewModelEntries;
+        public IReadOnlyCollection<TViewModel> EntryCollection =>
+            GroupEntries(EntryMemberSelector(_parentEntity))
+            .Select(g => ConvertGroupingToViewModel(g))
+            .ToList();
 
         /// <summary>
         /// Gets the <typeparamref name="TViewModel"/> entries in this model grouped by their 
@@ -115,13 +112,15 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// </summary>
         /// <param name="forAttribute">The parent <see cref="ModelAttribute"/> for the new 
         /// sub-collection.</param>
-        /// <param name="effectiveDate">The effective date of the sub-collection.</param>
         /// <returns>A <typeparamref name="TViewModel"/> instance.</returns>
-        public abstract TViewModel AddNew(ModelAttribute forAttribute, DateTime effectiveDate);
+        public abstract TViewModel AddNew(ModelAttribute forAttribute);
 
-        public void RemoveExising(TViewModel viewModel)
-        {
-            _viewModelEntries.Remove(viewModel);
-        }
+        /// <summary>
+        /// Removes an existing <typeparamref name="TViewModel"/> from the children of this view 
+        /// model.
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns>True if the removal was successful, else false.</returns>
+        public bool RemoveExising(TViewModel viewModel) => viewModel.RemoveAll();
     }
 }

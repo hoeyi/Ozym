@@ -19,8 +19,6 @@ namespace NjordFinance.Model.ViewModel.Generic
     /// reference.</exception>
     public abstract partial class AttributeEntryGrouping<TParentEntity, TChildEntity>
     {
-        private readonly List<TChildEntity> _entries = new();
-
         protected AttributeEntryGrouping(
             TParentEntity parentObject, 
             ModelAttribute parentAttribute, 
@@ -35,31 +33,24 @@ namespace NjordFinance.Model.ViewModel.Generic
             ParentObject = parentObject;
             ParentAttribute = parentAttribute;
             EffectiveDate = effectiveDate;
-
-            var initialEntries = SelectEntries(
-                parentEntity: ParentObject,
-                parentAttribute: ParentAttribute,
-                effectiveDate: EffectiveDate);
-
-            _entries.AddRange(initialEntries);
         }
+
+        protected abstract Func<TParentEntity, ICollection<TChildEntity>> ParentEntryMemberFor { get; }
+
+        protected abstract Func<TChildEntity, bool> EntrySelector { get; }
 
         /// <summary>
         /// Gets the delegate for selecting the weight attribute for the 
         /// <typeparamref name="TChildViewModel"/> type.
         /// </summary>
         protected abstract Func<TChildEntity, decimal> WeightSelector { get; }
-        
+
         /// <summary>
-        /// Selects the <typeparamref name="TChildEntity"/> entries that are members of this 
-        /// grouping.
+        /// Gets the collection of <typeparamref name="TChildEntity"/> representing the children 
+        /// of <see cref="ParentObject"/>.
         /// </summary>
-        /// <param name="parentEntity">The parent <typeparamref name="TParentEntity"/>.</param>
-        /// <param name="parentAttribute">The parent <see cref="ModelAttribute"/>.</param>
-        /// <param name="effectiveDate">The date key for the grouping.</param>
-        /// <returns></returns>
-        protected abstract IEnumerable<TChildEntity> SelectEntries(
-            TParentEntity parentEntity, ModelAttribute parentAttribute, DateTime effectiveDate);
+        private ICollection<TChildEntity> ParentEntryCollection => ParentEntryMemberFor(ParentObject);
+
     }
 
     #region IAttributeGrouping implementation
@@ -67,13 +58,15 @@ namespace NjordFinance.Model.ViewModel.Generic
         IAttributeEntryGrouping<TParentEntity, TChildEntity>
         where TParentEntity : class, new()
         where TChildEntity : class, new()
-    {
+    { 
         [Display(
             Name = nameof(ModelDisplay.AttributeEntryViewModel_EffectiveDate),
             ResourceType = typeof(ModelDisplay))]
         public DateTime EffectiveDate { get; set; }
 
-        public IList<TChildEntity> Entries => _entries;
+        public bool IsEmpty => !Entries.Any();
+
+        public IEnumerable<TChildEntity> Entries => ParentEntryCollection.Where(EntrySelector);
 
         public ModelAttribute ParentAttribute { get; init; }
 
@@ -84,6 +77,21 @@ namespace NjordFinance.Model.ViewModel.Generic
             Name = nameof(ModelDisplay.AttributeEntryCollectionViewModel_SumOfWeights),
             ResourceType = typeof(ModelDisplay))]
         public decimal SumOfMemberWeights => Entries.Sum(WeightSelector);
+
+        public abstract TChildEntity AddNewEntry();
+
+        public void AddRange(TChildEntity[] entries)
+        {
+            if(entries.Any())
+                foreach (var entry in entries.Where(e => e is not null))
+                    ParentEntryCollection.Add(entry);
+        }
+
+        public void AddEntry(TChildEntity entry) => ParentEntryCollection.Add(entry);
+
+        public bool RemoveEntry(TChildEntity entry) => ParentEntryCollection.Remove(entry);
+
+        public bool RemoveAll() => ParentEntryCollection.All(x => RemoveEntry(x));
     }
     #endregion
 }

@@ -29,10 +29,24 @@ namespace NjordFinance.Model.ViewModel
         protected override Func<SecurityAttributeMemberEntry, decimal> WeightSelector =>
             x => x.Weight;
 
-        protected override IEnumerable<SecurityAttributeMemberEntry> SelectEntries(
-            Security parentEntity, ModelAttribute parentAttribute, DateTime effectiveDate)
-            => parentEntity.SecurityAttributeMemberEntries.Where(s =>
-                s.AttributeMember.AttributeId == parentAttribute.AttributeId &&
-                s.EffectiveDate == effectiveDate);
+        protected override Func<Security, ICollection<SecurityAttributeMemberEntry>> ParentEntryMemberFor =>
+            x => x.SecurityAttributeMemberEntries;
+
+        protected override Func<SecurityAttributeMemberEntry, bool> EntrySelector => x =>
+            x.AttributeMember.AttributeId == ParentAttribute.AttributeId && x.EffectiveDate == EffectiveDate;
+
+        public override SecurityAttributeMemberEntry AddNewEntry()
+        {
+            SecurityAttributeMemberEntry newEntry = new()
+            {
+                SecurityId = ParentObject.SecurityId,
+                EffectiveDate = EffectiveDate,
+                Weight = default
+            };
+
+            AddEntry(newEntry);
+
+            return newEntry;
+        }
     }
 }

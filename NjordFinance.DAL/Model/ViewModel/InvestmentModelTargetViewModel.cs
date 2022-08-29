@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NjordFinance.Model.ViewModel.Generic;
+using System.Linq.Expressions;
 
 namespace NjordFinance.Model.ViewModel
 {
@@ -19,18 +20,40 @@ namespace NjordFinance.Model.ViewModel
     public class InvestmentModelTargetViewModel
         : AttributeEntryGrouping<InvestmentStrategy, InvestmentStrategyTarget>
     {
-        public InvestmentModelTargetViewModel(
+        internal InvestmentModelTargetViewModel(
             InvestmentStrategy parentStrategy, ModelAttribute modelAttribute, DateTime effectiveDate)
         : base(parentStrategy, modelAttribute, effectiveDate)
         {
         }
-        
+
         protected override Func<InvestmentStrategyTarget, decimal> WeightSelector => x => x.Weight;
 
-        protected override IEnumerable<InvestmentStrategyTarget> SelectEntries(
-            InvestmentStrategy parentEntity, ModelAttribute parentAttribute, DateTime effectiveDate) 
-            => parentEntity.InvestmentStrategyTargets.Where(t =>
-                t.AttributeMember.AttributeId == parentAttribute.AttributeId &&
-                t.EffectiveDate == effectiveDate);
+        protected override Func<InvestmentStrategy, ICollection<InvestmentStrategyTarget>> ParentEntryMemberFor 
+            => x => x.InvestmentStrategyTargets;
+
+        protected override Func<InvestmentStrategyTarget, bool> EntrySelector => x => 
+            (x.AttributeMember is null || x.AttributeMember.AttributeId == ParentAttribute.AttributeId) 
+                && x.EffectiveDate == EffectiveDate;
+
+        public override InvestmentStrategyTarget AddNewEntry()
+        {
+            InvestmentStrategyTarget newEntry = new()
+            {
+                InvestmentStrategyId = ParentObject.InvestmentStrategyId,
+                EffectiveDate = EffectiveDate,
+                Weight = default,
+                AttributeMemberId = default,
+                AttributeMember = new()
+                {
+                    AttributeMemberId = default,
+                    AttributeId = ParentAttribute.AttributeId,
+                    Attribute = ParentAttribute
+                }
+            };
+
+            AddEntry(newEntry);
+
+            return newEntry;
+        }
     }
 }
