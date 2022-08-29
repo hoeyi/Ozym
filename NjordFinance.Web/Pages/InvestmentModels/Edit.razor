@@ -51,7 +51,7 @@
                 @Resources.Strings.Caption_Button_Cancel
             </button>
         </ActionButtonMenu>
-        <ContentTile>
+        <ContentTile class="left">
             <Body>
                 <CascadingValue Value="@ViewModel">
                     <EditForm id="@FormGuid" Model="@ViewModel" OnValidSubmit="HandleValidSubmit">
@@ -68,9 +68,12 @@
                     @group.Key.DisplayName
                 </TitleAlignLeft>
                 <TitleAlignRight>
-                    <div @onclick="(() => AddTarget_OnClick(group.Key))" class="icon">
+                    <button
+                        class="form-control button icon"
+                        type="button" 
+                        @onclick="(() => AddTargetForExistingGroup_OnClick(group.Key))">
                         <IonIcon Name="add" />
-                    </div>
+                    </button>
                 </TitleAlignRight>
                 <Body>
                     <DataGrid Data="group">
@@ -189,10 +192,9 @@
         throw new NotImplementedException();
     }
 
-    private async Task AddTarget_OnClick(ModelAttribute forModelAttribute)
+    private async Task AddTargetForExistingGroup_OnClick(ModelAttribute forModelAttribute)
     {
-        await Target_OnClick(ViewModel
-            .AddNew(forAttribute: forModelAttribute, effectiveDate: DateTime.Now.Date));
+        await Target_OnClick(ViewModel.AddNew(forAttribute: forModelAttribute));
     }
 
     private void Cancel_OnClick()
@@ -236,6 +238,8 @@
             default:
                 throw new NotSupportedException();
         };
+
+        StateHasChanged();
     }
 
     private async Task Target_OnClick(InvestmentModelTargetViewModel targetViewModel)

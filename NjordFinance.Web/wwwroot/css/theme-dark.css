@@ -48,19 +48,17 @@
     --theme-elevation-backcolor-9: var(--theme-hexcolor-gray-9);
     --theme-text-color-0: var(--theme-hexcolor-text-0);
     /*#endregion */
-
     /*#region Control colors */
-    --theme-form-control-back-color: var(--theme-hexcolor-gray-3, gray);
+    --theme-form-control-back-color: var(--theme-hexcolor-gray-1, gray);
     --theme-form-control-border-color: var(--theme-hexcolor-gray-9, black);
-    --theme-tablecell-back-color: var(--theme-hexcolor-gray-2, gray);
-    --theme-tablecell-border-color: var(--theme-hexcolor-gray-5, blue);
+    --theme-tablecell-back-color: var(--theme-hexcolor-gray-1, gray);
+    --theme-tablecell-border-color: var(--theme-hexcolor-gray-3, blue);
     --theme-tablecell-fore-color: var(--theme-text-color-0, white);
     --theme-tableheader-back-color: var(--theme-hexcolor-primary-0, white);
-    --theme-tableheader-border-color: var(--theme-hexcolor-gray-5, blue);
+    --theme-tableheader-border-color: var(--theme-hexcolor-gray-3, blue);
     --theme-tableheader-fore-color: var(--theme-text-color-0, white);
     --theme-tablecell-onhover-color: var(--theme-hexcolor-primary-2);
     /*#endregion*/
-
     /*#region Fonts */
     --theme-fontfamily-default: 'Cambria Math';
     --theme-fontfamily-actionmenu: 'Arial';
