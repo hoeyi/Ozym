@@ -98,9 +98,6 @@ else
     {
         await base.OnInitializedAsync();
 
-        bool modelIsNull = ViewModel is null;
-        bool attributeLookupIsNull = AttributeMemberLookup is null;
-
         IsLoading = ViewModel is null || (ReadOnly ^ (AttributeMemberLookup is null));
     }
 
@@ -113,6 +110,8 @@ else
 
     private void RemoveExisting_OnClick(MouseEventArgs e, InvestmentStrategyTarget target)
     {
+        // TODO: Do something with MouseEventArgs ?
+
         ViewModel.RemoveEntry(target);
     }
 }
