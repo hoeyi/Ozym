@@ -1,6 +1,4 @@
 ﻿::deep .themed-component {
-    /*color: var(--text-color-0, black);
-    background-color: var(--theme-elevation-backcolor-0, white);*/
     position: static;
 }
 
@@ -9,11 +7,18 @@
 }
 
 ::deep .model-attributes td {
-    padding: 0.25rem;
+    padding-bottom: 0.5rem;  
+}
+
+::deep .model-attributes .text-area {
+    overflow: auto;
+    height: auto;
+    display: block;
 }
 
 ::deep .text-area {
     white-space: pre-wrap;
+    height: 0.25rem;
 }
 
 /*#region DataGrid*/
@@ -21,7 +26,15 @@
 ::deep .datagrid {
     width: 100%;
     overflow: scroll;
+    /*border: solid white 2px;*/
+    /*border-radius: 1rem;*/
 }
+
+::deep .datagrid th, .datagrid tr {
+    resize: both;
+}
+
+
 
 ::deep .datagrid-cell a {
     color: var(--theme-text-color-0, black);
@@ -54,32 +67,71 @@
     border-width: 0.5px;
     border-color: var(--theme-tablecell-border-color, white);
     color: var(--theme-tablecell-fore-color, black);
-
 }
 
 ::deep .datagrid-cell.text {
     text-indent: 0.5rem;
 }
 
+    ::deep .datagrid-cell.button .form-control.button.icon {
+        background-color: var(--theme-form-control-back-color, white);
+        border: none;
+        height: 2rem;
+        width: 2rem;
+    }
+
 ::deep .datagrid-column-header {
-    border: solid;
     text-indent: 0.5rem;
-    border-width: 0.5px;
-    border-color: var(--theme-tableheader-border-color, white);
     background-color: var(--theme-tableheader-back-color, white);
     color: var(--theme-tableheader-fore-color, black);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 2.25rem;
 }
 
-/*#endregion DataGrid*/
+
+    ::deep .datagrid-column-header:first-child {
+        border-top-left-radius: 1rem;
+    }
+
+    ::deep .datagrid-column-header:last-child {
+        border-top-right-radius: 1rem;
+    }
+
+::deep .datagrid-footer .datagrid-cell:first-child {
+    border-bottom-left-radius: 1rem;
+}
+
+::deep .datagrid-footer .datagrid-cell:first-child {
+    border-bottom-left-radius: 1rem;
+}
+
+::deep .datagrid-row .datagrid-cell.button {
+    width: 2rem;
+    white-space: nowrap;
+}
+
+::deep .datagrid .form-control {
+    border: none;
+}
+
+    ::deep .datagrid .form-control:not(.button) {
+        line-height: 1rem;
+    }
+
+/*#endregion*/
 
 
 /*#region Form Control*/
 ::deep .form-control {
     color: var(--theme-text-color-0, black) !important;
     outline: none !important;
-    padding: 0.125em !important;
     font-size: inherit !important;
     font-family: inherit !important;
+}
+
+::deep textarea.form-control {
+    height: 30vh;
 }
 
 ::deep .form-control:not(.label):not(.button) {
@@ -88,19 +140,20 @@
 }
 
     ::deep .form-control.label {
-        background-color: var(--theme-elevation-backcolor-0, white) !important;
+        background-color: transparent;
         border: none !important;
         color: var(--theme-text-color-0, black) !important;
         font-size: inherit !important;
         font-family: inherit !important;
         outline: none !important;
-        padding: 0.125em !important;
     }
 
     ::deep .form-control.button {
-        background-color: var(--theme-hexcolor-primary-0, inherit) !important;
+        background-color: var(--theme-hexcolor-primary-0, inherit);
         border-color: var(--theme-form-control-border-color, inherit) !important;
+        border: 1px solid;
         color: var(--theme-text-color-0, white) !important;
+        padding: 0.125rem;
     }
 
         ::deep .form-control.button:hover {
@@ -112,11 +165,26 @@
 ::deep input[type=checkbox]:checked:before {
     background: var(--theme-hexcolor-primary-1, inherit);
 }
-/*#endregion Form Control*/
+
+::deep .validation-message {
+    padding-left: 0.25rem;
+    width: 100%;
+}
+
+/*#endregion*/
 
 
-/*#region Titles, Headers, & Sections*/
+/*#region Content tile, headers, & columns*/
 
+::deep .content-tile {
+    /*box-shadow: 1px 1px;*/
+    /*border: 1px solid;*/
+    background-color: var(--theme-elevation-backcolor-2, white);
+    border: 1px solid var(--theme-elevation-backcolor-2, black);
+    border-radius: 1rem;
+    padding: 0.5rem;
+    display: block;
+}
 .content-tile-title {
     --default-height: 32px;
     --icon-max-width: 32px;
@@ -127,21 +195,40 @@
     position: relative;
     padding-left: 0.25rem;
     justify-content: space-between;
+    width: 100%;
     /*height: 1rem;*/
 }
 
 ::deep .content-tile-title .left {
     margin-right: auto;
+    float: left;
+}
+
+::deep .content-tile-title .left > * {
+    float: left;
 }
 
 ::deep .content-tile-title .right {
     margin-left: auto;
-    /*width: 2rem;*/
+    float: right;
+}
+
+::deep .content-tile-title .right > * {
+    float: none;
+    display: inline;
+    vertical-align: bottom;
 }
 
     ::deep .content-tile-title .icon {
         width: 2rem;
+        aspect-ratio: 1/1;
     }
+
+    ::deep .content-tile-title .form-control {
+        height: 2rem;
+        width: auto;
+    }
+        
     ::deep .content-tile-title .sub-title {
         font-size: 0.85rem;
     }
@@ -154,13 +241,28 @@
     width: 50%;
 }
 
-/*#endregion Titles, Headers & Sections*/
+/*#endregion*/
 
 
 /*#region Modal forms/dialog */
+
+/*::deep .custom-modal {
+    border
+}*/
 ::deep .custom-modal .model-editor {
     width: 100%;
 }
+
+::deep .custom-modal .content-tile {
+    background-color: transparent;
+    border: none;
+}
+
+::deep .custom-modal .content-tile {
+    padding: 0.25rem;
+}
+
+
 /*#endregion */
 
 /*#region Ion-Icon svg formatting */

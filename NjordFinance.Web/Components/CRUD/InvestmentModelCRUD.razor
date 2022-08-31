@@ -8,29 +8,29 @@ else
 {
     <ModelForm TModel="InvestmentModelViewModel">
         <ModelFormLineItem MemberName="@nameof(InvestmentModelViewModel.DisplayName)"
-            ValidationMessageDelegate="@(() => Model.DisplayName)">
+            ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if(ReadOnly)
             {
-                @Model.DisplayName
+                @ViewModel.DisplayName
             }
             else
             {
-                <InputText class="form-control" @bind-Value=Model.DisplayName
+                <InputText class="form-control" @bind-Value=ViewModel.DisplayName
                     disable="@Disabled"
                     DisplayName=@(NameFor(nameof(InvestmentModelViewModel.DisplayName))) />
             }
         </ModelFormLineItem>
         <ModelFormLineItem MemberName="@nameof(InvestmentModelViewModel.Notes)"
-            ValidationMessageDelegate="@(() => Model.Notes)">
+            ValidationMessageDelegate="@(() => ViewModel.Notes)">
             @if(ReadOnly)
             {
                 <div class="text-area">
-                    @Model.Notes
+                    @ViewModel.Notes
                 </div>
             }
             else
             {
-                <InputTextArea class="form-control" @bind-Value=Model.Notes
+                <InputTextArea class="form-control" @bind-Value=ViewModel.Notes
                     disable="@Disabled"
                     DisplayName=@(NameFor(nameof(InvestmentModelViewModel.Notes))) />
             }

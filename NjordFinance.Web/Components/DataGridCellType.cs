@@ -18,6 +18,11 @@
         /// <summary>
         /// The cell contains a user control.
         /// </summary>
-        Control
+        Control,
+
+        /// <summary>
+        /// The cell contains a button.
+        /// </summary>
+        Button
     }
 }

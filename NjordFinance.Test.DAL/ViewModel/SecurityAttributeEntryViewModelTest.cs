@@ -19,13 +19,13 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
-            viewModel.MemberEntries.Add(new()
+            viewModel.AddEntry(new()
             {
                 AttributeMemberId = 1,
                 Weight = 0.1275M
             });
 
-            Assert.IsTrue(viewModel.MemberEntries.First().Weight == 0.1275M);
+            Assert.IsTrue(viewModel.Entries.First().Weight == 0.1275M);
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
-            viewModel.MemberEntries.AddRange(new SecurityAttributeMemberEntry[]
+            viewModel.AddRange(new SecurityAttributeMemberEntry[]
                 {
                     new()
                     {
@@ -60,7 +60,7 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
-            viewModel.MemberEntries.Add(new()
+            viewModel.AddEntry(new()
             {
                 AttributeMemberId = 1,
                 Weight = 0.1275M
@@ -78,7 +78,7 @@ namespace NjordFinance.Test.ViewModel
             var viewModel = new SecurityAttributeViewModel(
                 new() { SecurityId = 1}, new() { AttributeId = 1}, DateTime.Now);
 
-            viewModel.MemberEntries.AddRange(new SecurityAttributeMemberEntry[]
+            viewModel.AddRange(new SecurityAttributeMemberEntry[]
                 {
                     new()
                     {
@@ -92,7 +92,7 @@ namespace NjordFinance.Test.ViewModel
                     }
                 });
 
-            Assert.IsTrue(viewModel.ToEntities().All(a =>
+            Assert.IsTrue(viewModel.Entries.All(a =>
             {
                 var context = new ValidationContext(a, serviceProvider: null, items: null);
                 var validationResults = new List<ValidationResult>();

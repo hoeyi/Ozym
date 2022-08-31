@@ -18,21 +18,20 @@
 
         @if (DrawDialog)
         {
-            <TargetEditDialog ViewModel="@CurrentTargetViewModel"
-                      AttributeMemberLookup="@CurrentAttributeMemberLookup"
-                      OnClose="OnModalClosed" />
+            <CascadingValue Value="@CurrentTargetViewModel">
+                <CascadingValue Value="@CurrentAttributeMemberLookup">
+                    <AttributeTargetModalCRUD 
+                        TViewModel="InvestmentModelTargetViewModel"
+                        OnClose="OnModalClosed">
+                        <InvestmentModelTargetCRUD Disabled="false" ReadOnly="false" />
+                    </AttributeTargetModalCRUD>
+                </CascadingValue>
+            </CascadingValue>
         }
 
         <ActionButtonMenu>
-            <button type="button" class="form-control button"
-                @onclick="Cancel_OnClick"
-                @onclick:preventDefault>
-                @Resources.Strings.Caption_Button_Cancel
-            </button>
-            <button type="button" class="form-control button"
-                @onclick="Delete_OnClick"
-                @onclick:preventDefault>
-                @Resources.Strings.Caption_Button_Delete
+            <button type="submit" form="@FormGuid" class="form-control button">
+                @Resources.Strings.Caption_Button_Save
             </button>
             <button type="button" class="form-control button"
                 @onclick="AddNewTarget_Click"
@@ -41,16 +40,25 @@
                     Resources.Strings.Caption_Button_Add,
                     ModelMetadata.NounFor(typeof(InvestmentStrategyTarget)).GetSingular()))
             </button>
-            <button type="submit" form="@FormGuid" class="form-control button">
-                @Resources.Strings.Caption_Button_Save
+            <button type="button" class="form-control button"
+                @onclick="Delete_OnClick"
+                @onclick:preventDefault>
+                @Resources.Strings.Caption_Button_Delete
+            </button>
+            <button type="button" class="form-control button"
+                @onclick="Cancel_OnClick"
+                @onclick:preventDefault>
+                @Resources.Strings.Caption_Button_Cancel
             </button>
         </ActionButtonMenu>
-        <ContentTile>
+        <ContentTile class="left">
             <Body>
-                <EditForm id="@FormGuid" Model="@ViewModel" OnValidSubmit="HandleValidSubmit">
-                    <DataAnnotationsValidator />
-                    <InvestmentModelCRUD Model="@ViewModel" Disabled="false" ReadOnly="false" />
-                </EditForm>
+                <CascadingValue Value="@ViewModel">
+                    <EditForm id="@FormGuid" Model="@ViewModel" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
+                    </EditForm>
+                </CascadingValue>
             </Body>
         </ContentTile>
         @foreach (var group in ViewModel.AttributeTargetCollection)
@@ -60,9 +68,12 @@
                     @group.Key.DisplayName
                 </TitleAlignLeft>
                 <TitleAlignRight>
-                    <div @onclick="(() => AddTarget_OnClick(group.Key))" class="icon">
+                    <button
+                        class="form-control button icon"
+                        type="button" 
+                        @onclick="(() => AddTargetForExistingGroup_OnClick(group.Key))">
                         <IonIcon Name="add" />
-                    </div>
+                    </button>
                 </TitleAlignRight>
                 <Body>
                     <DataGrid Data="group">
@@ -181,10 +192,9 @@
         throw new NotImplementedException();
     }
 
-    private async Task AddTarget_OnClick(ModelAttribute forModelAttribute)
+    private async Task AddTargetForExistingGroup_OnClick(ModelAttribute forModelAttribute)
     {
-        await Target_OnClick(ViewModel
-            .AddNew(forAttribute: forModelAttribute, effectiveDate: DateTime.Now.Date));
+        await Target_OnClick(ViewModel.AddNew(forAttribute: forModelAttribute));
     }
 
     private void Cancel_OnClick()
@@ -217,7 +227,7 @@
         switch (modalEventArgs.Result)
         {
             case DialogResult.Delete:
-                ViewModel.TargetCollection.Remove(modalEventArgs.Model);
+                ViewModel.RemoveExising(modalEventArgs.Model);
                 break;
             case DialogResult.None:
                 break;
@@ -228,6 +238,8 @@
             default:
                 throw new NotSupportedException();
         };
+
+        StateHasChanged();
     }
 
     private async Task Target_OnClick(InvestmentModelTargetViewModel targetViewModel)

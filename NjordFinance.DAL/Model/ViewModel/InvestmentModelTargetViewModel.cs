@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NjordFinance.Model.ViewModel.Generic;
+using System.Linq.Expressions;
 
 namespace NjordFinance.Model.ViewModel
 {
@@ -16,29 +18,42 @@ namespace NjordFinance.Model.ViewModel
     /// <see cref="InvestmentStrategy" />, <see cref="ModelAttribute"/>, and effective date.
     /// </summary>
     public class InvestmentModelTargetViewModel
-        : AttributeEntryCollectionViewModel<InvestmentStrategyTarget, InvestmentStrategy>
+        : AttributeEntryGrouping<InvestmentStrategy, InvestmentStrategyTarget>
     {
-        public InvestmentModelTargetViewModel(
+        internal InvestmentModelTargetViewModel(
             InvestmentStrategy parentStrategy, ModelAttribute modelAttribute, DateTime effectiveDate)
         : base(parentStrategy, modelAttribute, effectiveDate)
         {
-            MemberEntries.AddRange(
-                parentStrategy.InvestmentStrategyTargets.Where(a => 
-                    a.AttributeMember.AttributeId == modelAttribute.AttributeId &&
-                    a.EffectiveDate == EffectiveDate));
         }
 
         protected override Func<InvestmentStrategyTarget, decimal> WeightSelector => x => x.Weight;
 
-        public override InvestmentStrategyTarget[] ToEntities() =>
-            MemberEntries.Select(
-                s => new InvestmentStrategyTarget()
+        protected override Func<InvestmentStrategy, ICollection<InvestmentStrategyTarget>> ParentEntryMemberFor 
+            => x => x.InvestmentStrategyTargets;
+
+        protected override Func<InvestmentStrategyTarget, bool> EntrySelector => x => 
+            (x.AttributeMember is null || x.AttributeMember.AttributeId == ParentAttribute.AttributeId) 
+                && x.EffectiveDate == EffectiveDate;
+
+        public override InvestmentStrategyTarget AddNewEntry()
+        {
+            InvestmentStrategyTarget newEntry = new()
+            {
+                InvestmentStrategyId = ParentObject.InvestmentStrategyId,
+                EffectiveDate = EffectiveDate,
+                Weight = default,
+                AttributeMemberId = default,
+                AttributeMember = new()
                 {
-                    AttributeMemberId = s.AttributeMemberId,
-                    InvestmentStrategyId = ParentObject.InvestmentStrategyId,
-                    EffectiveDate = EffectiveDate,
-                    Weight = s.Weight
-                })
-            .ToArray();
+                    AttributeMemberId = default,
+                    AttributeId = ParentAttribute.AttributeId,
+                    Attribute = ParentAttribute
+                }
+            };
+
+            AddEntry(newEntry);
+
+            return newEntry;
+        }
     }
 }

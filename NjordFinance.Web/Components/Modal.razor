@@ -1,4 +1,5 @@
-﻿@typeparam T
+﻿@typeparam TViewModel
+@attribute [CascadingTypeParameter(nameof(TViewModel))]
 
 @inherits LocalizableComponent
 
@@ -11,31 +12,69 @@
         <div class="custom-modal-body">
             <ContentTile ClassModifiers="custom-modal-content">
                 <Body>
-                    @ChildContent
+                    @if(ReadOnly)
+                    {
+                        <div>
+                            @ChildContent
+                        </div>
+                    }
+                    else
+                    {
+                        <EditForm
+                            class="model-editor"
+                            Model="@ViewModel"
+                            OnValidSubmit="(async () => await OnClickAsync(DialogResult.OK))">
+                            <DataAnnotationsValidator />
+                            @ChildContent
+                            <ActionButtonMenu>
+                                @foreach (var dialogOption in _dialogResultButtons)
+                                {
+                                    if(dialogOption == DialogResult.OK)
+                                    {
+                                        <button type="submit" class="form-control button">
+                                            @(NameFor<DialogResult>(dialogOption.ToString()))
+                                        </button>
+
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="form-control button"
+                                            @onclick="(async () => await OnClickAsync(dialogOption))"
+                                            @onclick:preventDefault>
+                                            @(NameFor<DialogResult>($"{dialogOption}"))
+                                        </button>
+                                    }
+                                }
+                            </ActionButtonMenu>
+                        </EditForm>
+                    }
                 </Body>
             </ContentTile>
-            <ActionButtonMenu>
-                @foreach(var dialogOption in _dialogResultButtons)
-                {
-                    <button 
-                        type="button" 
-                        class="form-control button"
-                        @onclick="() => OnClick.InvokeAsync(dialogOption)"
-                        @onclick:preventDefault >
-                        @(NameFor<DialogResult>($"{dialogOption}"))
-                    </button>
-                }
-            </ActionButtonMenu>
+            @if(ReadOnly)
+            {
+                <ActionButtonMenu>
+                    @foreach(var dialogOption in _dialogResultButtons)
+                    {
+                        <button 
+                            type="button" 
+                            class="form-control button"
+                            @onclick="() => OnClickAsync(dialogOption)"                     
+                            @onclick:preventDefault >
+                            @(NameFor<DialogResult>($"{dialogOption}"))
+                        </button>
+                    }
+                </ActionButtonMenu>
+            }
         </div>
     }
 </div>
 
 @code {
     ///// <summary>
-    ///// Gets or sets the event handler for the click event of this form.
+    ///// Gets or sets the event handler for the close event of this form.
     ///// </summary>
     [Parameter]
-    public EventCallback<DialogResult> OnClick { get; set; }
+    public EventCallback<ModalEventArgs<TViewModel>> OnClose { get; set; }
 
     /// <summary>
     /// Gets or sets the child content to render for this form.
@@ -51,6 +90,20 @@
     /// </remarks>
     [Parameter]
     public DialogResult DialogOptions { get; set; } = DialogResult.OK | DialogResult.Cancel;
+
+    /// <summary>
+    /// Gets or sets the <typeparam name="TViewModel" /> instance that serves as the view model 
+    /// for this modal form.
+    /// </summary>
+    [CascadingParameter]
+    public TViewModel ViewModel { get; set; } 
+
+    /// <summary>
+    /// Flags the form to be rendered as a read-only page with a <div> element, or an 
+    /// editable form using the <form> element.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
 
     private IEnumerable<DialogResult> _dialogResultButtons;
 
@@ -73,8 +126,23 @@
             .OfType<DialogResult>()
             .Where(v => v != DialogResult.None && DialogOptions.HasFlag(v));
 
-        _dialogResultButtons = flagsQuery.ToList();
+        _dialogResultButtons = flagsQuery.ToArray();
 
         IsLoading = _dialogResultButtons is null || ChildContent is null;
+    }
+
+    private async Task OnClickAsync(DialogResult result)
+    {
+        // Check result is among allowed responses for ths form.
+        if (!DialogOptions.HasFlag(result))
+            throw new NotSupportedException();
+
+        var args = new ModalEventArgs<TViewModel>()
+        {
+            Model = ViewModel,
+            Result = result
+        };
+
+        await OnClose.InvokeAsync(args);
     }
 }

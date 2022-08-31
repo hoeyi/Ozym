@@ -1,13 +1,14 @@
-﻿@typeparam TModel
+﻿@typeparam TViewModel
+@attribute [CascadingTypeParameter(nameof(TViewModel))]
 
 @inherits LocalizableComponent
 
 @code {
     /// <summary>
-    /// Gets or sets the <see cref="TModel"/> for this component.
+    /// Gets or sets the <see cref="TViewModel"/> for this component.
     /// </summary>
-    [Parameter]
-    public TModel Model { get; set; } = default!;
+    [CascadingParameter]
+    public TViewModel ViewModel { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets whether the component is disabled.
@@ -26,13 +27,13 @@
     /// </summary>
     /// <param name="memberName">The member name.</param>
     /// <returns></returns>
-    public string DescriptionFor(string memberName) => DescriptionFor<TModel>(memberName);
+    public string DescriptionFor(string memberName) => DescriptionFor<TViewModel>(memberName);
 
     /// <summary>
     /// Gets the name for the given member defined for this components type parameter.
     /// </summary>
     /// <param name="memberName">The member name.</param>
     /// <returns></returns>
-    public string NameFor(string memberName) => NameFor<TModel>(memberName);
+    public string NameFor(string memberName) => NameFor<TViewModel>(memberName);
 }
     

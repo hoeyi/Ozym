@@ -20,7 +20,9 @@
     }
     @if(Body is not null)
     {
-        @Body
+        <div class="content-body">
+            @Body
+        </div>
     }
 </p>
 
@@ -34,19 +36,25 @@
     [Parameter]
     public RenderFragment Body { get; set; }
 
-    [Parameter]
-    public string? ClassModifiers { get; set; }
+    private string? ClassModifiers { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? InputAttributes { get; set; }
 
     private bool RenderTitleSection => 
         TitleAlignLeft is not null || TitleAlignRight is not null;
 
-    private string Class { get; set; }
+    private string Class { get; set; } = "content-tile";
 
     protected override void OnInitialized()
     {
         if (Body is null)
             throw new ArgumentNullException(paramName: nameof(Body));
 
-        Class = string.IsNullOrEmpty(ClassModifiers) ? "content-tile" : $"custom-card {ClassModifiers}";
+        if(InputAttributes is not null && InputAttributes.TryGetValue("class", out object classValue))
+            ClassModifiers = classValue.ToString().Replace("content-tile", "");
+
+        if (!string.IsNullOrEmpty(ClassModifiers))
+            Class = $"{Class} {ClassModifiers}";
     }
 }

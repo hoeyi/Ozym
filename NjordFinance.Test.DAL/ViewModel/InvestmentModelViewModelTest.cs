@@ -20,6 +20,19 @@ namespace NjordFinance.Test.ViewModel
             var effDate1 = DateTime.Now.AddDays(-5).Date;
             var effDate2 = DateTime.Now.AddDays(-15).Date;
 
+            var attribute1 = new ModelAttribute()
+            {
+                AttributeId = 1,
+                DisplayName = "Attr 1"
+            };
+
+            var attribute2 = new ModelAttribute()
+            {
+                AttributeId = 2,
+                DisplayName = "Attr 2"
+            };
+
+
             InvestmentStrategy model = new()
             {
                 InvestmentStrategyId = 1,
@@ -35,8 +48,8 @@ namespace NjordFinance.Test.ViewModel
                         AttributeMember = new()
                         {
                             AttributeMemberId = 1,
-                            AttributeId = 1,
-                            Attribute = new(){ AttributeId = 1, DisplayName = "Group 1" },
+                            AttributeId = attribute1.AttributeId,
+                            Attribute = attribute1,
                             DisplayName = $"Entry 1-1"
                         },
                     },
@@ -49,8 +62,8 @@ namespace NjordFinance.Test.ViewModel
                         AttributeMember = new()
                         {
                             AttributeMemberId = 1,
-                            AttributeId = 1,
-                            Attribute = new(){ AttributeId = 1, DisplayName = "Group 1" },
+                            AttributeId = attribute1.AttributeId,
+                            Attribute = attribute1,
                             DisplayName = $"Entry 1-2"
                         },
                     },
@@ -63,8 +76,8 @@ namespace NjordFinance.Test.ViewModel
                         AttributeMember = new()
                         {
                             AttributeMemberId = 1,
-                            AttributeId = 1,
-                            Attribute = new(){ AttributeId = 1, DisplayName = "Group 1" },
+                            AttributeId = attribute1.AttributeId,
+                            Attribute = attribute1,
                             DisplayName = $"Entry 1-1"
                         },
                     },
@@ -77,8 +90,8 @@ namespace NjordFinance.Test.ViewModel
                         AttributeMember = new()
                         {
                             AttributeMemberId = 3,
-                            AttributeId = 2,
-                            Attribute = new(){ AttributeId = 2, DisplayName = "Group 2" },
+                            AttributeId = attribute2.AttributeId,
+                            Attribute = attribute2,
                             DisplayName = $"Entry 2-3"
                         },
                     }
