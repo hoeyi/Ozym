@@ -24,9 +24,6 @@
     /// <typeparam name="T">The model type.</typeparam>
     /// <param name="memberName">The member name.</param>
     /// <returns></returns>
-    protected string NameFor<T>(string memberName){
-
-        var t = ModelMetadata?.NameFor<T>(memberName);
-        return t;
-    }
+    protected string NameFor<T>(string memberName) =>
+        ModelMetadata?.NameFor<T>(memberName);
 }

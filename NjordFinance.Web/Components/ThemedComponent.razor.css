@@ -26,15 +26,13 @@
 ::deep .datagrid {
     width: 100%;
     overflow: scroll;
-    /*border: solid white 2px;*/
-    /*border-radius: 1rem;*/
+    border-spacing: 0;
+    border-collapse: separate;
 }
 
 ::deep .datagrid th, .datagrid tr {
     resize: both;
 }
-
-
 
 ::deep .datagrid-cell a {
     color: var(--theme-text-color-0, black);
@@ -98,12 +96,19 @@
         border-top-right-radius: 1rem;
     }
 
+::deep .datagrid-footer {
+    font-size: 0.75rem;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+
+}
 ::deep .datagrid-footer .datagrid-cell:first-child {
     border-bottom-left-radius: 1rem;
 }
 
 ::deep .datagrid-footer .datagrid-cell:first-child {
-    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
 }
 
 ::deep .datagrid-row .datagrid-cell.button {
