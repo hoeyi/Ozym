@@ -40,7 +40,7 @@ namespace NjordFinance.Model.ViewModel
         /// Gets the effective date of the collection of values in <see cref="MemberEntries"/>.
         /// </summary>
         [Display(
-            Name = nameof(ModelDisplay.AttributeEntryViewModel_EffectiveDate),
+            Name = nameof(ModelDisplay.AttributeEntryViewModel_EffectiveDate_Name),
             ResourceType = typeof(ModelDisplay))]
         public DateTime EffectiveDate { get; set; }
 

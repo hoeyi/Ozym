@@ -78,7 +78,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         private DateTime effectiveDate;
 
         [Display(
-            Name = nameof(ModelDisplay.AttributeEntryViewModel_EffectiveDate),
+            Name = nameof(ModelDisplay.AttributeEntryViewModel_EffectiveDate_Name),
             ResourceType = typeof(ModelDisplay))]
         public DateTime EffectiveDate
         {
@@ -109,7 +109,7 @@ namespace NjordFinance.Model.ViewModel.Generic
 
         [ExactValue(1D)]
         [Display(
-            Name = nameof(ModelDisplay.AttributeEntryCollectionViewModel_SumOfWeights),
+            Name = nameof(ModelDisplay.AttributeEntryCollectionViewModel_SumOfWeights_Name),
             ResourceType = typeof(ModelDisplay))]
         public decimal SumOfMemberWeights => Entries.Sum(WeightSelector);
 

@@ -120,17 +120,17 @@
   <data name="AccountAttributeMemberEntry_AccountObjectID_Description" xml:space="preserve">
     <value>The account object to which the entry applies.</value>
   </data>
-  <data name="AccountAttributeMemberEntry_AccountObjectId_Name" xml:space="preserve">
-    <value>Account / Group</value>
+  <data name="AccountAttributeMemberEntry_AccountObjectID_Name" xml:space="preserve">
+    <value>Account / Composite</value>
   </data>
   <data name="AccountAttributeMemberEntry_AttributeMemberID_Description" xml:space="preserve">
-    <value>The member value for the entry.</value>
+    <value>The account property value.</value>
   </data>
-  <data name="AccountAttributeMemberEntry_AttributeMemberId_Name" xml:space="preserve">
-    <value>Value</value>
+  <data name="AccountAttributeMemberEntry_AttributeMemberID_Name" xml:space="preserve">
+    <value>Account Property</value>
   </data>
   <data name="AccountAttributeMemberEntry_EffectiveDate_Description" xml:space="preserve">
-    <value>The effective date for the entry.</value>
+    <value>The UTC date on which the entry becomes current.</value>
   </data>
   <data name="AccountAttributeMemberEntry_EffectiveDate_Name" xml:space="preserve">
     <value>Effective Date</value>
@@ -150,7 +150,7 @@
   <data name="AccountCompositeMember_AccountID_Description" xml:space="preserve">
     <value>The member account.</value>
   </data>
-  <data name="AccountCompositeMember_AccountId_Name" xml:space="preserve">
+  <data name="AccountCompositeMember_AccountID_Name" xml:space="preserve">
     <value>Account</value>
   </data>
   <data name="AccountCompositeMember_EntryDate_Description" xml:space="preserve">
@@ -175,7 +175,7 @@
     <value>The short code used to identify the custodian.</value>
   </data>
   <data name="AccountCustodian_CustodianCode_Name" xml:space="preserve">
-    <value>Code</value>
+    <value>Custodian Code</value>
   </data>
   <data name="AccountCustodian_DisplayName_Description" xml:space="preserve">
     <value>The display name for the custodian.</value>
@@ -190,43 +190,43 @@
     <value>Code</value>
   </data>
   <data name="AccountObject_CloseDate_Description" xml:space="preserve">
-    <value>The date the account object closed.</value>
+    <value>The date the account/composite became inactive.</value>
   </data>
   <data name="AccountObject_CloseDate_Name" xml:space="preserve">
     <value>Close Date</value>
   </data>
   <data name="AccountObject_ObjectDescription_Description" xml:space="preserve">
-    <value>The description of the account object.</value>
+    <value>A description of the account/composite, generally including purpose.</value>
   </data>
   <data name="AccountObject_ObjectDescription_Name" xml:space="preserve">
     <value>Description</value>
   </data>
   <data name="AccountObject_ObjectDipslayName_Description" xml:space="preserve">
-    <value>The display name for the account object.</value>
+    <value>The display name of the account/composite, .e.g, in reports.</value>
   </data>
   <data name="AccountObject_ObjectDisplayName_Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="AccountObject_ObjectType_Description" xml:space="preserve">
-    <value>The type assignment for the account object.</value>
+    <value>Flag indicating whether the object represents an account or composite.</value>
   </data>
   <data name="AccountObject_ObjectType_Name" xml:space="preserve">
-    <value>Type</value>
+    <value>Type Code</value>
   </data>
   <data name="AccountObject_PrefixedObjectCode_Description" xml:space="preserve">
-    <value>The reporting code for the account.</value>
+    <value>The short code used as a parameter in reports.</value>
   </data>
   <data name="AccountObject_PrefixedObjectCode_Name" xml:space="preserve">
     <value>Report Code</value>
   </data>
   <data name="AccountObject_StartDate_Description" xml:space="preserve">
-    <value>The date the account started.</value>
+    <value>The date the account/composite became active.</value>
   </data>
   <data name="AccountObject_StartDate_Name" xml:space="preserve">
     <value>Start Date</value>
   </data>
   <data name="AccountWallet_AccountID_Description" xml:space="preserve">
-    <value>The account that contains the wallet.</value>
+    <value>The owning account for the wallet.</value>
   </data>
   <data name="AccountWallet_AccountID_Name" xml:space="preserve">
     <value>Account</value>
@@ -297,7 +297,7 @@
   <data name="Account_IsComplianceTradable_Name" xml:space="preserve">
     <value>Tradable</value>
   </data>
-  <data name="AttributeEntryCollectionViewModel_SumOfWeights_Description" xml:space="preserve">
+  <data name="AttributeEntryCollectionViewModel_SumOfWeights_Name" xml:space="preserve">
     <value>Sum of member classification weights</value>
   </data>
   <data name="AttributeEntryViewModel_EffectiveDate_Name" xml:space="preserve">
@@ -307,10 +307,10 @@
     <value>Attribute</value>
   </data>
   <data name="BankTransactionCodeAttributeMemberEntry_AttributeMemberID_Description" xml:space="preserve">
-    <value>The member value for the entry.</value>
+    <value>The attribute member / property describing the transaction code.</value>
   </data>
   <data name="BankTransactionCodeAttributeMemberEntry_AttributeMemberId_Name" xml:space="preserve">
-    <value>Attribute Member</value>
+    <value>Transaction Code Property</value>
   </data>
   <data name="BankTransactionCodeAttributeMemberEntry_EffectiveDate_Description" xml:space="preserve">
     <value>The effective date for the entry.</value>
@@ -379,10 +379,10 @@
     <value>Date</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry_AttributeMemberID_Description" xml:space="preserve">
-    <value>The member value for the entry.</value>
+    <value>The attribute member / property describing the transaction code.</value>
   </data>
-  <data name="BrokerTransactionCodeAttributeMemberEntry_AttributeMemberId_Name" xml:space="preserve">
-    <value>Attribute Member</value>
+  <data name="BrokerTransactionCodeAttributeMemberEntry_AttributeMemberID_Name" xml:space="preserve">
+    <value>Transaction Code Property</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry_EffectiveDate_Description" xml:space="preserve">
     <value>The effective date for the entry.</value>
@@ -393,7 +393,7 @@
   <data name="BrokerTransactionCodeAttributeMemberEntry_TransactionCodeID_Description" xml:space="preserve">
     <value>The action the transaction represents.</value>
   </data>
-  <data name="BrokerTransactionCodeAttributeMemberEntry_TransactionCodeId_Name" xml:space="preserve">
+  <data name="BrokerTransactionCodeAttributeMemberEntry_TransactionCodeID_Name" xml:space="preserve">
     <value>Action</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry_Weight_Description" xml:space="preserve">
@@ -505,10 +505,10 @@
     <value>Withholding</value>
   </data>
   <data name="CountryAttributeMemberEntry_AttributeMemberID_Description" xml:space="preserve">
-    <value>The member value for the entry.</value>
+    <value>The property describing the country.</value>
   </data>
-  <data name="CountryAttributeMemberEntry_AttributeMemberId_Name" xml:space="preserve">
-    <value>Attribute Member</value>
+  <data name="CountryAttributeMemberEntry_AttributeMemberID_Name" xml:space="preserve">
+    <value>Country Property</value>
   </data>
   <data name="CountryAttributeMemberEntry_CountryID_Description" xml:space="preserve">
     <value>The country to which the entry applies.</value>
@@ -547,10 +547,10 @@
     <value>Account / Group</value>
   </data>
   <data name="InvestmentPerformanceAttributeMemberEntry_AttributeMemberID_Description" xml:space="preserve">
-    <value>The member value for the entry.</value>
+    <value>The member attribute value for the entry.</value>
   </data>
   <data name="InvestmentPerformanceAttributeMemberEntry_AttributeMemberID_Name" xml:space="preserve">
-    <value>Attribute Member</value>
+    <value>Performance Attribute</value>
   </data>
   <data name="InvestmentPerformanceAttributeMemberEntry_AverageCapital_Description" xml:space="preserve">
     <value>The average capital for the period.</value>
@@ -643,10 +643,10 @@
     <value>To Date</value>
   </data>
   <data name="InvestmentStrategyTarget_AttributeMemberID_Description" xml:space="preserve">
-    <value>The member value for the target.</value>
+    <value>The attribute member value for the target.</value>
   </data>
   <data name="InvestmentStrategyTarget_AttributeMemberID_Name" xml:space="preserve">
-    <value>Attribute Member</value>
+    <value>Target</value>
   </data>
   <data name="InvestmentStrategyTarget_EffectiveDate_Description" xml:space="preserve">
     <value>The effective date of the target.</value>
@@ -817,10 +817,10 @@
     <value>Description</value>
   </data>
   <data name="SecurityAttributeMemberEntry_AttributeMemberID_Description" xml:space="preserve">
-    <value>The member value for the entry.</value>
+    <value>The attribute member value for the entry.</value>
   </data>
   <data name="SecurityAttributeMemberEntry_AttributeMemberID_Name" xml:space="preserve">
-    <value>Attribute Member</value>
+    <value>Classification</value>
   </data>
   <data name="SecurityAttributeMemberEntry_EffectiveDate_Description" xml:space="preserve">
     <value>The effective date for the entry.</value>
