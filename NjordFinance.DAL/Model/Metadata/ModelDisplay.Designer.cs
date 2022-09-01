@@ -603,27 +603,27 @@ namespace NjordFinance.Model.Metadata {
         /// <summary>
         ///   Looks up a localized string similar to Sum of member classification weights.
         /// </summary>
-        public static string AttributeEntryCollectionViewModel_SumOfWeights {
+        public static string AttributeEntryCollectionViewModel_SumOfWeights_Description {
             get {
-                return ResourceManager.GetString("AttributeEntryCollectionViewModel_SumOfWeights", resourceCulture);
+                return ResourceManager.GetString("AttributeEntryCollectionViewModel_SumOfWeights_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Effective Date.
         /// </summary>
-        public static string AttributeEntryViewModel_EffectiveDate {
+        public static string AttributeEntryViewModel_EffectiveDate_Name {
             get {
-                return ResourceManager.GetString("AttributeEntryViewModel_EffectiveDate", resourceCulture);
+                return ResourceManager.GetString("AttributeEntryViewModel_EffectiveDate_Name", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Attribute.
         /// </summary>
-        public static string AttributeEntryViewModel_ModelAttributeId {
+        public static string AttributeEntryViewModel_ModelAttributeId_Name {
             get {
-                return ResourceManager.GetString("AttributeEntryViewModel_ModelAttributeId", resourceCulture);
+                return ResourceManager.GetString("AttributeEntryViewModel_ModelAttributeId_Name", resourceCulture);
             }
         }
         

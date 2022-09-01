@@ -250,6 +250,15 @@ namespace NjordFinance.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select attribute.
+        /// </summary>
+        internal static string Title_Component_AttributeSelector {
+            get {
+                return ResourceManager.GetString("Title_Component_AttributeSelector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (No title).
         /// </summary>
         internal static string Title_NotFound {

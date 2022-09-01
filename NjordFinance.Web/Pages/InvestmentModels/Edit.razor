@@ -16,7 +16,7 @@
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
                          Header="@(PageTitle.UpdateSingle(ViewModel.DisplayName))" />
 
-        @if (DrawDialog)
+        @if (DrawTargetDialog)
         {
             <CascadingValue Value="@CurrentTargetViewModel">
                 <CascadingValue Value="@CurrentAttributeMemberLookup">
@@ -29,12 +29,20 @@
             </CascadingValue>
         }
 
+        @if(DrawAttributeSelectorDialog)
+        {
+            <AttributeSelectorModal 
+                OnClose="OnModalAttributeSelectorClosed"
+                AllowableAttributes="@AllowableModelAttributes">
+            </AttributeSelectorModal>
+        }
+
         <ActionButtonMenu>
             <button type="submit" form="@FormGuid" class="form-control button">
                 @Resources.Strings.Caption_Button_Save
             </button>
             <button type="button" class="form-control button"
-                @onclick="AddNewTarget_Click"
+                @onclick="AddNewTarget_OnClick"
                 @onclick:preventDefault>
                 @(string.Format(
                     Resources.Strings.Caption_Button_Add,
@@ -71,7 +79,7 @@
                     <button
                         class="form-control button icon"
                         type="button" 
-                        @onclick="(() => AddTargetForExistingGroup_OnClick(group.Key))">
+                        @onclick="(() => AddTargetForGroup_OnClick(group.Key))">
                         <IonIcon Name="add" />
                     </button>
                 </TitleAlignRight>
@@ -79,8 +87,8 @@
                     <DataGrid Data="group">
                         <DataGridColumn Type="DataGridCellType.Link"
                                 Property="@nameof(InvestmentModelTargetViewModel.EffectiveDate)"
-                                Caption=@(NameFor<InvestmentStrategyTarget>(
-                                nameof(InvestmentModelTargetViewModel.EffectiveDate)))>
+                                Caption=@(NameFor<InvestmentModelTargetViewModel>(
+                                    nameof(InvestmentModelTargetViewModel.EffectiveDate)))>
                             <CellTemplate Context="model">
                                 <a 
                                     @onclick:preventDefault
@@ -127,7 +135,13 @@
     /// <summary>
     /// Gets or sets whether the modal dialog for this page is drawn. Default is <see cref="false"/>.
     /// </summary>
-    private bool DrawDialog { get; set; } = false;
+    private bool DrawTargetDialog { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets whether the modal dialog for selecting an attribute is drawn. Default is 
+    /// <see cref="false" />.
+    /// </summary>
+    private bool DrawAttributeSelectorDialog { get; set; } = false;
 
     private readonly Guid FormGuid = Guid.NewGuid();
 
@@ -187,12 +201,12 @@
         }
     }
 
-    private async Task AddNewTarget_Click()
+    private void AddNewTarget_OnClick()
     {
-        throw new NotImplementedException();
+        DrawAttributeSelectorDialog = true;
     }
 
-    private async Task AddTargetForExistingGroup_OnClick(ModelAttribute forModelAttribute)
+    private async Task AddTargetForGroup_OnClick(ModelAttribute forModelAttribute)
     {
         await Target_OnClick(ViewModel.AddNew(forAttribute: forModelAttribute));
     }
@@ -222,7 +236,7 @@
 
     private void OnModalClosed(ModalEventArgs<InvestmentModelTargetViewModel> modalEventArgs)
     {
-        DrawDialog = false;
+        DrawTargetDialog = false;
 
         switch (modalEventArgs.Result)
         {
@@ -242,6 +256,25 @@
         StateHasChanged();
     }
 
+    private async Task OnModalAttributeSelectorClosed(ModalEventArgs<ModelAttribute> modalEventArgs)
+    {
+        DrawAttributeSelectorDialog = false;
+
+        switch(modalEventArgs.Result)
+        {
+            case DialogResult.OK:
+                if (modalEventArgs.Model is not null)
+                    await AddTargetForGroup_OnClick(modalEventArgs.Model);
+                break;
+            case DialogResult.Cancel:
+                break;
+            default:
+                throw new NotSupportedException();
+        }
+
+        StateHasChanged();
+    }
+
     private async Task Target_OnClick(InvestmentModelTargetViewModel targetViewModel)
     {
         CurrentTargetViewModel = targetViewModel;
@@ -249,6 +282,6 @@
                 .ModelAttributeMemberListAsync(targetViewModel.ParentAttribute.AttributeId))
                 .ToLookups();
 
-        DrawDialog = CurrentTargetViewModel is not null && CurrentAttributeMemberLookup is not null;
+        DrawTargetDialog = CurrentTargetViewModel is not null && CurrentAttributeMemberLookup is not null;
     }
 }

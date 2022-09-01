@@ -35,8 +35,16 @@ namespace NjordFinance.Model.ViewModel.Generic
             EffectiveDate = effectiveDate;
         }
 
+        /// <summary>
+        /// Gets the delegate for selecting the collection of entries for the parent object of this 
+        /// grouping.
+        /// </summary>
         protected abstract Func<TParentEntity, ICollection<TChildEntity>> ParentEntryMemberFor { get; }
 
+        /// <summary>
+        /// Gets the delegate for selecting the <typeparamref name="TChildEntity"/> entries in this 
+        /// grouping.
+        /// </summary>
         protected abstract Func<TChildEntity, bool> EntrySelector { get; }
 
         /// <summary>
@@ -50,7 +58,15 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// of <see cref="ParentObject"/>.
         /// </summary>
         private ICollection<TChildEntity> ParentEntryCollection => ParentEntryMemberFor(ParentObject);
-
+        
+        /// <summary>
+        /// Sets the effective date of the given <typeparamref name="TChildEntity"/> entry to the 
+        /// given <see cref="DateTime"/> value.
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <param name="effectiveDate"></param>
+        /// <returns>True, if the update was successful, else false.</returns>
+        protected abstract bool UpdateEffectiveDate(TChildEntity entry, DateTime effectiveDate);
     }
 
     #region IAttributeGrouping implementation
@@ -58,11 +74,30 @@ namespace NjordFinance.Model.ViewModel.Generic
         IAttributeEntryGrouping<TParentEntity, TChildEntity>
         where TParentEntity : class, new()
         where TChildEntity : class, new()
-    { 
+    {
+        private DateTime effectiveDate;
+
         [Display(
             Name = nameof(ModelDisplay.AttributeEntryViewModel_EffectiveDate),
             ResourceType = typeof(ModelDisplay))]
-        public DateTime EffectiveDate { get; set; }
+        public DateTime EffectiveDate
+        {
+            get { return effectiveDate; }
+            set
+            {
+                if(effectiveDate != value)
+                {
+                    if(Entries.All(x => UpdateEffectiveDate(x, value)))
+                    {
+                        effectiveDate = value;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException();
+                    }
+                }
+            }
+        }
 
         public bool IsEmpty => !Entries.Any();
 
@@ -91,7 +126,7 @@ namespace NjordFinance.Model.ViewModel.Generic
 
         public bool RemoveEntry(TChildEntity entry) => ParentEntryCollection.Remove(entry);
 
-        public bool RemoveAll() => ParentEntryCollection.All(x => RemoveEntry(x));
+        public bool RemoveAll() => Entries.All(x => RemoveEntry(x));
     }
     #endregion
 }

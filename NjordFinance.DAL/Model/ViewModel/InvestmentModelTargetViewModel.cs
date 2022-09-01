@@ -55,5 +55,12 @@ namespace NjordFinance.Model.ViewModel
 
             return newEntry;
         }
+
+        protected override bool UpdateEffectiveDate(
+            InvestmentStrategyTarget entry, DateTime effectiveDate)
+        {
+            entry.EffectiveDate = effectiveDate;
+            return entry.EffectiveDate == effectiveDate;
+        }
     }
 }

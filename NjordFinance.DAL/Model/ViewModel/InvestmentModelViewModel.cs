@@ -88,11 +88,11 @@ namespace NjordFinance.Model.ViewModel
         {
             var lastEntryDateUtc = EntryCollection
                 .Where(x => x.ParentAttribute.AttributeId == forAttribute.AttributeId)
-                .Max(x => x.EffectiveDate)
+                .MaxOrDefault(x => x.EffectiveDate)
                 .ToUniversalTime();
 
-            DateTime effectiveDate = lastEntryDateUtc.Date <= DateTime.UtcNow.Date ?
-                lastEntryDateUtc.Date.AddDays(1) : DateTime.UtcNow.Date;
+            DateTime effectiveDate = lastEntryDateUtc.Date < DateTime.UtcNow.Date ?
+                DateTime.UtcNow.Date : lastEntryDateUtc.Date.AddDays(1);
                     
             var newTarget = new InvestmentModelTargetViewModel(
                 parentStrategy: _parentEntity, modelAttribute: forAttribute, effectiveDate);

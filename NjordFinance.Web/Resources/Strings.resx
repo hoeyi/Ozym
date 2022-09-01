@@ -183,6 +183,9 @@
   <data name="Title_ApplicationName" xml:space="preserve">
     <value>Njord Finance</value>
   </data>
+  <data name="Title_Component_AttributeSelector" xml:space="preserve">
+    <value>Select attribute</value>
+  </data>
   <data name="Title_NotFound" xml:space="preserve">
     <value>(No title)</value>
   </data>

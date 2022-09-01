@@ -1,0 +1,67 @@
+﻿@inherits LocalizableComponent
+
+@if(IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <CascadingValue Value="@ViewModel">
+        <Modal
+            DialogOptions="DialogResult.OK | DialogResult.Cancel"
+            OnClose="OnClose"
+            ReadOnly="false">
+            <ContentTile>
+                <TitleAlignLeft>
+                    @Resources.Strings.Title_Component_AttributeSelector
+                </TitleAlignLeft>
+                <Body>
+                    <InputSelect 
+                        class="form-control left"
+                        @bind-Value="@ViewModel.AttributeId">
+                        @foreach(var attr in AllowableAttributes.OrderBy(a => a.DisplayName))
+                        {
+                            <option value="@attr.AttributeId">@attr.DisplayName</option>
+                        }
+                    </InputSelect>
+                </Body>
+            </ContentTile>
+        </Modal>
+    </CascadingValue>
+}
+
+@code{
+    /// <summary>
+    /// Gets or sets the allowable <see cref="ModelAttribute" /> for this selector.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ModalEventArgs<ModelAttribute>> OnClose { get; set; }
+
+    /// <summary>
+    /// Gets or sets the allowable <see cref="ModelAttribute" /> for this selector.
+    /// </summary>
+    [Parameter]
+    public IEnumerable<ModelAttribute> AllowableAttributes { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="ModelAttribute" /> view model for this selector.
+    /// </summary>
+    private ModelAttribute? ViewModel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        ViewModel = AllowableAttributes.OrderBy(a => a.DisplayName).FirstOrDefault();
+    }
+
+    /// <summary>
+    /// Updates the current attribute id and <see cref="ViewModel" />.
+    /// </summary>
+    private void AttributeSelect_OnChange(ChangeEventArgs eventArgs)
+    {
+        int selectedId = Convert.ToInt32(eventArgs.Value.ToString());
+
+        ViewModel = AllowableAttributes.FirstOrDefault(a => a.AttributeId == selectedId);
+    }
+}
