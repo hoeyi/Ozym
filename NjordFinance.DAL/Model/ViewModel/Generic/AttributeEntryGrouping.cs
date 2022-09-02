@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using NjordFinance.Model.Metadata;
+﻿using NjordFinance.Model.Metadata;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace NjordFinance.Model.ViewModel.Generic
 {

@@ -1,13 +1,6 @@
-﻿using NuGet.Packaging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-using NjordFinance.Model.Annotations;
-using NjordFinance.ModelMetadata;
-using NjordFinance.ModelService;
 
 namespace NjordFinance.Model.ViewModel.Generic
 {

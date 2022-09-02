@@ -4,9 +4,6 @@ using NjordFinance.Model;
 using System;
 using System.Linq;
 using System.Runtime.Serialization;
-using NjordFinance.Model.Annotations;
-using System.Reflection;
-using NjordFinance.Model.ViewModel;
 
 namespace NjordFinance.ModelMetadata
 {

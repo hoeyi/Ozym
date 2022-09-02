@@ -1,6 +1,4 @@
-﻿using NjordFinance.Context;
-using Microsoft.EntityFrameworkCore;
-using NjordFinance.Web.Areas.Identity.Data;
+﻿using Microsoft.EntityFrameworkCore;
 using NjordFinance.Web.Data;
 
 namespace NjordFinance.Test.Web.Identity

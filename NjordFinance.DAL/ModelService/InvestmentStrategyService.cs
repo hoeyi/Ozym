@@ -4,9 +4,7 @@ using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Model;
 using NjordFinance.ModelService.Abstractions;
-using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace NjordFinance.ModelService

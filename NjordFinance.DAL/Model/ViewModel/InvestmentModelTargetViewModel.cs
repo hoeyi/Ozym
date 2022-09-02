@@ -1,13 +1,6 @@
-﻿using NjordFinance.Model.Annotations;
-using NjordFinance.Model.Metadata;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NjordFinance.Model.ViewModel.Generic;
-using System.Linq.Expressions;
 
 namespace NjordFinance.Model.ViewModel
 {

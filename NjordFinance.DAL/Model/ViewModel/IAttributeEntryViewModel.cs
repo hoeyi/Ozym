@@ -1,9 +1,5 @@
-﻿using NjordFinance.Model.Annotations;
-using NjordFinance.ModelMetadata;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace NjordFinance.Model.ViewModel
 {

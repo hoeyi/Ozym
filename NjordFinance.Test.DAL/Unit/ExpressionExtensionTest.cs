@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NjordFinance.ModelService.Abstractions;
 using NjordFinance.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq.Expressions;
 
 namespace NjordFinance.Test.Unit
 {

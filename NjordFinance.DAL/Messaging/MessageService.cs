@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NjordFinance.Messaging
+﻿namespace NjordFinance.Messaging
 {
     /// <summary>
     /// Service responsible for publishing messages to distributed subscribers.

@@ -6,16 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using NjordFinance.Model.Annotations;
 using NjordFinance.ModelService.Query;
-using NjordFinance.Model.ViewModel;
 
 namespace NjordFinance.ModelService
 {
-    
+
     public partial class ReferenceDataService : IReferenceDataService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;

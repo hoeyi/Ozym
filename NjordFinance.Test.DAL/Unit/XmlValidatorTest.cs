@@ -1,12 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NjordFinance.Model.Validation;
 using NjordFinance.Configuration;
-using System.Xml.XPath;
 using System.Xml;
 
 namespace NjordFinance.Test.Unit
