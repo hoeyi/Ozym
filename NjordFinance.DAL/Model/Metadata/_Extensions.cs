@@ -1,7 +1,12 @@
 ﻿using Ichosys.DataModel;
 using Ichosys.DataModel.Annotations;
+using NjordFinance.Model;
 using System;
+using System.Linq;
 using System.Runtime.Serialization;
+using NjordFinance.Model.Annotations;
+using System.Reflection;
+using NjordFinance.Model.ViewModel;
 
 namespace NjordFinance.ModelMetadata
 {
@@ -49,5 +54,19 @@ namespace NjordFinance.ModelMetadata
             else
                 return null;
         }
+
+        /// <summary>
+        /// Converts this <see cref="ModelAttributeScopeCode"/> into an array of string codes
+        /// representing 
+        /// </summary>
+        /// <param name="scopeCodes"></param>
+        /// <returns></returns>
+        public static string[] ToStringArray(this ModelAttributeScopeCode scopeCodes) =>
+            Enum.GetValues(typeof(ModelAttributeScopeCode))
+                .Cast<Enum>()
+                .Where(scopeCodes.HasFlag)
+                .Cast<ModelAttributeScopeCode>()
+                .Select(m => m.ConvertToStringCode())
+                .ToArray();
     }
 }

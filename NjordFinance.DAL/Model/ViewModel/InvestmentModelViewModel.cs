@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NjordFinance.Model.ViewModel.Generic;
+using NjordFinance.Model.Annotations;
 
 namespace NjordFinance.Model.ViewModel
 {
-    /// <inheritdoc/>
+    [ModelAttributeSupport(
+            SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]
     public class InvestmentModelViewModel
         : AttributeEntryViewModel<
             InvestmentStrategy,

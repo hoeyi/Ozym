@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NjordFinance.Model.ViewModel.Generic
+namespace NjordFinance.Model.ViewModel
 {
     /// <summary>
     /// Represents a collection of <typeparamref name="TEntryEntity"/> that describe an instance 
@@ -66,7 +66,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// </summary>
         /// <param name="entries">The array of <typeparamref name="TEntryEntity"/> to add.</param>
         void AddRange(TEntryEntity[] entries);
-        
+
         /// <summary>
         /// Removes an existing <typeparamref name="TEntryEntity"/> instance from the collection.
         /// </summary>

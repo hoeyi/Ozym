@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
+using NjordFinance.Model.Annotations;
+using NjordFinance.ModelMetadata;
+using NjordFinance.ModelService;
 
 namespace NjordFinance.Model.ViewModel.Generic
 {
@@ -15,13 +19,49 @@ namespace NjordFinance.Model.ViewModel.Generic
     /// <typeparam name="TChildEntity">The entity entry type.</typeparam>
     /// <typeparam name="TViewModel">The <see cref="IAttributeEntryGrouping{TParentEntity, TEntryEntity}"/> 
     /// that manages sub-groupings of entries in thsi model.</typeparam>
-    public abstract class AttributeEntryViewModel<TParentEntity, TChildEntity, TViewModel>
+    public abstract partial class AttributeEntryViewModel<TParentEntity, TChildEntity, TViewModel> 
+        : IAttributeEntryViewModel<TParentEntity, TChildEntity, TViewModel> 
         where TParentEntity : class, new()
         where TChildEntity : class, new()
         where TViewModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
     {
-        protected readonly TParentEntity _parentEntity;
+
+        public IEnumerable<IGrouping<ModelAttribute, TViewModel>> AttributeTargetCollection
+            => EntryCollection
+                .GroupBy(e => e.ParentAttribute.AttributeId)
+                .Select(grp =>
+                {
+                    var grouping = new AttributeGrouping<TViewModel>(
+                        key: grp.First().ParentAttribute, collection: grp);
+
+                    return grouping;
+                });
         
+        public IEnumerable<IGrouping<ModelAttribute, TViewModel>> CurrentTargetCollection =>
+            AttributeTargetCollection.Select(grp => new AttributeGrouping<TViewModel>(
+                key: grp.Key,
+                collection: grp
+                    .Where(grp => grp.EffectiveDate.Date <= DateTime.Now.Date)
+                    .OrderByDescending(grp => grp.EffectiveDate).Take(1))
+            );
+        
+        public IReadOnlyCollection<TViewModel> EntryCollection =>
+            GroupEntries(EntryMemberSelector(_parentEntity))
+            .Select(g => ConvertGroupingToViewModel(g))
+            .ToList();
+
+        public abstract TViewModel AddNew(ModelAttribute forAttribute);
+
+        public abstract TParentEntity ToEntity();
+
+        public bool RemoveExising(TViewModel viewModel) => viewModel.RemoveAll();
+    }
+
+    public abstract partial class AttributeEntryViewModel<TParentEntity, TChildEntity, TViewModel>
+    {
+        protected readonly TParentEntity _parentEntity;
+
+        private readonly string[] _supportedAttributeScopeCodes;
         /// <summary>
         /// Initializes a new instance of 
         /// <see cref="AttributeEntryViewModel{TParentEntity, TChildEntity, TViewModel}"/> 
@@ -52,7 +92,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// <returns></returns>
         protected abstract TViewModel ConvertGroupingToViewModel(
             IGrouping<(int, DateTime), TChildEntity> grouping);
-        
+
         /// <summary>
         /// Groups the given <typeparamref name="TChildEntity"/> entries using a <see cref="Tuple"/> 
         /// key created from the <see cref="int"/> parent attribute key and <see cref="DateTime"/> 
@@ -63,64 +103,6 @@ namespace NjordFinance.Model.ViewModel.Generic
         protected abstract IEnumerable<IGrouping<(int, DateTime), TChildEntity>> GroupEntries(
             IEnumerable<TChildEntity> entries);
 
-        /// <summary>
-        /// Gets the collection of <see cref="TViewModel"/> that represent the 
-        /// <typeparamref name="TChildEntity"/> entries in this model.
-        /// </summary>
-        public IReadOnlyCollection<TViewModel> EntryCollection =>
-            GroupEntries(EntryMemberSelector(_parentEntity))
-            .Select(g => ConvertGroupingToViewModel(g))
-            .ToList();
-
-        /// <summary>
-        /// Gets the <typeparamref name="TViewModel"/> entries in this model grouped by their 
-        ///  <see cref="ModelAttribute"/>.
-        /// </summary>
-        public IEnumerable<IGrouping<ModelAttribute, TViewModel>> AttributeTargetCollection
-            => EntryCollection
-                .GroupBy(e => e.ParentAttribute.AttributeId)
-                .Select(grp =>
-                {
-                    var grouping = new AttributeGrouping<TViewModel>(
-                        key: grp.First().ParentAttribute, collection: grp);
-
-                    return grouping;
-                });
-
-        /// <summary>
-        /// Gets the <em>current</em> <typeparamref name="TViewModel"/> entries in this model grouped
-        /// by their parent <see cref="ModelAttribute"/>.
-        /// </summary>
-        public IEnumerable<IGrouping<ModelAttribute, TViewModel>> CurrentTargetCollection =>
-            AttributeTargetCollection.Select(grp => new AttributeGrouping<TViewModel>(
-                key: grp.Key,
-                collection: grp
-                    .Where(grp => grp.EffectiveDate.Date <= DateTime.Now.Date)
-                    .OrderByDescending(grp => grp.EffectiveDate).Take(1))
-            );
-
-        /// <summary>
-        /// Converts this attribute weight view model to its <typeparamref name="TParentEntity"/> 
-        /// entity representation.
-        /// </summary>
-        /// <returns></returns>
-        public abstract TParentEntity ToEntity();
-
-        /// <summary>
-        /// Adds a new <typeparamref name="TViewModel"/> entry to this collection and returns 
-        /// the added instance.
-        /// </summary>
-        /// <param name="forAttribute">The parent <see cref="ModelAttribute"/> for the new 
-        /// sub-collection.</param>
-        /// <returns>A <typeparamref name="TViewModel"/> instance.</returns>
-        public abstract TViewModel AddNew(ModelAttribute forAttribute);
-
-        /// <summary>
-        /// Removes an existing <typeparamref name="TViewModel"/> from the children of this view 
-        /// model.
-        /// </summary>
-        /// <param name="viewModel"></param>
-        /// <returns>True if the removal was successful, else false.</returns>
-        public bool RemoveExising(TViewModel viewModel) => viewModel.RemoveAll();
+        
     }
 }

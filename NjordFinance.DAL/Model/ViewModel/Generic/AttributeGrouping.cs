@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.Model.ViewModel.Generic
 {
     /// <summary>
     /// Represents a collection of <typeparamref name="TElement"/> records grouped by 

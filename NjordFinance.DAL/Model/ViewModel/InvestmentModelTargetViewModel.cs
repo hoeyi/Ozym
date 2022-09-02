@@ -11,8 +11,6 @@ using System.Linq.Expressions;
 
 namespace NjordFinance.Model.ViewModel
 {
-    [ModelAttributeSupport(
-            SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]
     /// <summary>
     /// Represents a collection of <see cref="InvestmentStrategyTarget"/> instances with the same 
     /// <see cref="InvestmentStrategy" />, <see cref="ModelAttribute"/>, and effective date.

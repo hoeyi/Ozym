@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NjordFinance.Model.Annotations;
 using NjordFinance.ModelService.Query;
+using NjordFinance.Model.ViewModel;
 
 namespace NjordFinance.ModelService
 {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NjordFinance.ModelMetadata;
+using System;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace NjordFinance.Model

@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using NjordFinance.ModelMetadata;
 using NjordFinance.ModelService.Query;
+using NjordFinance.Model.Annotations;
+using NjordFinance.Model.ViewModel;
+using System.Reflection;
 
 namespace NjordFinance.ModelService
 {
@@ -15,7 +18,7 @@ namespace NjordFinance.ModelService
     /// Represents a read-only service for extracting common reference lists.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IReferenceDataService
+    public partial interface IReferenceDataService
     {
 
         /// <summary>
@@ -115,6 +118,21 @@ namespace NjordFinance.ModelService
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="LookupModel"/> models, including 
         /// a default lookup entry.</returns>
         Task<IEnumerable<Security>> TransactableSecurityListAsync();
+    }
+
+    public partial interface IReferenceDataService
+    {
+        /// <summary>
+        /// Gets the array of string codes representing the supported <see cref="ModelAttributeScope"/> 
+        /// for this type.
+        /// </summary>
+        /// <typeparam name="T"/>The class to be checked.</typeparam>
+        /// <returns>A <see cref="string[]"/> containing the codes representing each supported 
+        /// <see cref="ModelAttributeScopeCode"/> member, or an empty array.</returns>
+        public static string[] GetSupportedAttributeScopeCodes<T>() 
+            where T : IAttributeEntryViewModel =>
+            typeof(T).GetCustomAttribute<ModelAttributeSupportAttribute>()
+            ?.SupportedScopes.ToStringArray() ?? Array.Empty<string>();
     }
 
     /// <summary>
