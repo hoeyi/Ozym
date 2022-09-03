@@ -1,5 +1,5 @@
 .page {
-    --default-back-color: var(--theme-elevation-back-color-0, white);
+    --default-back-color: var(--theme-elevation-backcolor-0, white);
     --default-text-color: var(--theme-text-color-0, black);
     --default-link-onhover-back-color: var(--theme-hexcolor-primary-0, gray);
     position: relative;
@@ -13,6 +13,7 @@ main {
 }
 
 .top-row {
+    background-color: var(--default-back-color);
     border-bottom: 1px solid var(--default-text-color);
     justify-content: left;
     height: 3.5rem;
