@@ -18,7 +18,10 @@ else
                 <Body>
                     <InputSelect 
                         class="form-control left"
-                        @bind-Value="@ViewModel.AttributeId">
+                        Value="SelectedAttributeId"
+                        ValueExpression="@(() => SelectedAttributeId)"
+                        ValueChanged="@((int? args) => AttributeSelect_OnChange(args))">
+                        <option value="">@Resources.Strings.Caption_InputSelect_Prompt</option>
                         @foreach(var attr in AllowableAttributes.OrderBy(a => a.DisplayName))
                         {
                             <option value="@attr.AttributeId">@attr.DisplayName</option>
@@ -48,6 +51,12 @@ else
     /// </summary>
     private ModelAttribute? ViewModel { get; set; }
 
+    /// <summary>
+    /// Gets or sets the <see cref="int?"> identifier for the currently selected attribute.
+    /// </summary>
+    private int? SelectedAttributeId { get; set; }
+
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -55,13 +64,15 @@ else
         ViewModel = AllowableAttributes.OrderBy(a => a.DisplayName).FirstOrDefault();
     }
 
+
     /// <summary>
     /// Updates the current attribute id and <see cref="ViewModel" />.
     /// </summary>
-    private void AttributeSelect_OnChange(ChangeEventArgs eventArgs)
+    private void AttributeSelect_OnChange(int? eventArgs)
     {
-        int selectedId = Convert.ToInt32(eventArgs.Value.ToString());
+        SelectedAttributeId = eventArgs;
+        ViewModel = AllowableAttributes.FirstOrDefault(a => a.AttributeId == eventArgs);
 
-        ViewModel = AllowableAttributes.FirstOrDefault(a => a.AttributeId == selectedId);
+        StateHasChanged();
     }
 }
