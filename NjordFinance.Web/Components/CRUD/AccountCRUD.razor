@@ -12,7 +12,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.AccountObjectCode)">
             @if (ReadOnly)
             {
-                @ViewModel.AccountObjectCode
+                <div class="form-control">
+                    @ViewModel.AccountObjectCode
+                </div>
             }
             else
             {
@@ -25,7 +27,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {
-                @ViewModel.DisplayName
+                <div class="form-control">
+                    @ViewModel.DisplayName
+                </div>
             }
             else
             {
@@ -38,7 +42,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.Description)">
             @if (ReadOnly)
             {
-                @ViewModel.Description
+                <div class="form-control">
+                    @ViewModel.Description
+                </div>
             }
             else
             {
@@ -51,7 +57,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.StartDate)">
             @if (ReadOnly)
             {
-                @ViewModel.StartDate.ToShortDateString()
+                <div class="form-control">
+                    @ViewModel.StartDate.ToShortDateString()
+                </div>
             }
             else
             {
@@ -62,7 +70,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.CloseDate)">
             @if (ReadOnly)
             {
-                @ViewModel.CloseDate?.ToShortDateString()
+                <div class="form-control">
+                    @ViewModel.CloseDate?.ToShortDateString()
+                </div>
             }
             else
             {
@@ -75,7 +85,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.AccountNumber)">
             @if (ReadOnly)
             {
-                @ViewModel.AccountNumber
+                <div class="form-control">
+                    @ViewModel.AccountNumber
+                </div>
             }
             else
             {
@@ -87,7 +99,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.AccountCustodianId)">
             @if (ReadOnly)
             {
-                @ViewModel.AccountCustodian?.DisplayName
+                <div class="form-control">
+                    @ViewModel.AccountCustodian?.DisplayName
+                </div>
             }
             else
             {
@@ -106,7 +120,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.BooksClosedDate)">
             @if (ReadOnly)
             {
-                @ViewModel.BooksClosedDate?.ToShortDateString()
+                <div class="form-control">
+                    @ViewModel.BooksClosedDate?.ToShortDateString()
+                </div>
             }
             else
             {
@@ -118,7 +134,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.IsComplianceTradable)">
             @if (ReadOnly)
             {
-                @ViewModel.IsComplianceTradable
+                <div class="form-control">
+                    @ViewModel.IsComplianceTradable
+                </div>
             }
             else
             {
@@ -129,7 +147,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.HasWallet)">
             @if (ReadOnly)
             {
-                @ViewModel.HasWallet
+                <div class="form-control">
+                    @ViewModel.HasWallet
+                </div>
             }
             else
             {
@@ -141,7 +161,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.HasBankTransaction)">
             @if (ReadOnly)
             {
-                @ViewModel.HasBankTransaction
+                <div class="form-control">
+                    @ViewModel.HasBankTransaction
+                </div>
             }
             else
             {
@@ -153,7 +175,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.HasBrokerTransaction)">
             @if (ReadOnly)
             {
-                @ViewModel.HasBrokerTransaction
+                <div class="form-control">
+                    @ViewModel.HasBrokerTransaction
+                </div>
             }
             else
             {

@@ -12,7 +12,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.AccountObjectCode)">
             @if (ReadOnly)
             {
-                @ViewModel.AccountObjectCode
+                <div class="from-control">
+                    @ViewModel.AccountObjectCode
+                </div>
             }
             else
             {
@@ -25,7 +27,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {
-                @ViewModel.DisplayName
+                <div class="from-control">
+                    @ViewModel.DisplayName
+                </div>
             }
             else
             {
@@ -38,7 +42,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.Description)">
             @if (ReadOnly)
             {
-                @ViewModel.Description
+                <div class="from-control">
+                    @ViewModel.Description
+                </div>
             }
             else
             {
@@ -51,7 +57,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.StartDate)">
             @if (ReadOnly)
             {
-                @ViewModel.StartDate.ToShortDateString()
+                <div class="from-control">
+                    @ViewModel.StartDate.ToShortDateString()
+                </div>
             }
             else
             {
@@ -62,7 +70,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.CloseDate)">
             @if (ReadOnly)
             {
-                @ViewModel.CloseDate?.ToShortDateString()
+                <div class="from-control">
+                    @ViewModel.CloseDate?.ToShortDateString()
+                </div>
             }
             else
             {

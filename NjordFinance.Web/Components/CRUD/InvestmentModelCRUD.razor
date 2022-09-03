@@ -11,7 +11,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if(ReadOnly)
             {
-                @ViewModel.DisplayName
+                <div class="form-control">
+                    @ViewModel.DisplayName
+                </div>
             }
             else
             {
@@ -24,7 +26,7 @@ else
             ValidationMessageDelegate="@(() => ViewModel.Notes)">
             @if(ReadOnly)
             {
-                <div class="text-area">
+                <div class="form-control text-area">
                     @ViewModel.Notes
                 </div>
             }
