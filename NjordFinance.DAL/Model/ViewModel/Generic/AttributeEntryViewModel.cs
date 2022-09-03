@@ -31,12 +31,20 @@ namespace NjordFinance.Model.ViewModel.Generic
                 });
         
         public IEnumerable<IGrouping<ModelAttribute, TViewModel>> CurrentTargetCollection =>
-            AttributeTargetCollection.Select(grp => new AttributeGrouping<TViewModel>(
-                key: grp.Key,
-                collection: grp
-                    .Where(grp => grp.EffectiveDate.Date <= DateTime.Now.Date)
-                    .OrderByDescending(grp => grp.EffectiveDate).Take(1))
-            );
+            AttributeTargetCollection.Select(grp =>
+            {
+                var groupCollection = grp.Where(grp => 
+                    grp.EffectiveDate.Date <= DateTime.UtcNow.Date);
+
+                if (groupCollection.Any())
+                    return new AttributeGrouping<TViewModel>(
+                        key: grp.Key,
+                        collection: groupCollection
+                            .OrderByDescending(grp => grp.EffectiveDate).Take(1));
+                else
+                    return null;
+            })
+            .Where(g => g is not null);
         
         public IReadOnlyCollection<TViewModel> EntryCollection =>
             GroupEntries(EntryMemberSelector(_parentEntity))
@@ -54,7 +62,6 @@ namespace NjordFinance.Model.ViewModel.Generic
     {
         protected readonly TParentEntity _parentEntity;
 
-        private readonly string[] _supportedAttributeScopeCodes;
         /// <summary>
         /// Initializes a new instance of 
         /// <see cref="AttributeEntryViewModel{TParentEntity, TChildEntity, TViewModel}"/> 
