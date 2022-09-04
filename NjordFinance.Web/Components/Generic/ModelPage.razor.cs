@@ -113,5 +113,21 @@ namespace NjordFinance.Web.Components.Generic
         /// <remarks>Expects page to have root index paths defined by 
         /// <see cref="IndexUriRelativePath"/>.</remarks>
         protected string FormatEditUri<T>(T id) => $"{IndexUriRelativePath}/{id}/edit";
+
+        /// <summary>
+        /// Gets the display name for the given member.
+        /// </summary>
+        /// <param name="memberName"></param>
+        /// <returns>A <see cref="string"/> giving the display text of the 
+        /// <typeparamref name="TModel"/> member.</returns>
+        protected string NameFor(string memberName) => NameFor<TModel>(memberName);
+
+        /// <summary>
+        /// Gets the description for the given <typeparamref name="TModel"/> member.
+        /// </summary>
+        /// <param name="memberName"></param>
+        /// <returns>A <see cref="string"/> giving the description text of the 
+        /// <typeparamref name="TModel"/> member.</returns>
+        protected string DescriptionFor(string memberName) => DescriptionFor<TModel>(memberName);
     }
 }

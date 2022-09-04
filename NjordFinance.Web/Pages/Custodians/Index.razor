@@ -2,9 +2,9 @@
 
 @inherits ModelIndex<AccountCustodian>
 
-<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
-
 <ThemedComponent>
+    <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
     <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
     @if (IsLoading)
@@ -18,14 +18,14 @@
                 <DataGrid Data="@Models">
                     <DataGridColumn 
                         Property=@nameof(AccountCustodian.CustodianCode)
-                        Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.CustodianCode)))>
+                        Caption=@(NameFor(nameof(AccountCustodian.CustodianCode)))>
                         <CellTemplate Context="model">
                             @model.CustodianCode
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
                         Property=@nameof(AccountCustodian.DisplayName)
-                        Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.DisplayName)))>
+                        Caption=@(NameFor(nameof(AccountCustodian.DisplayName)))>
                         <CellTemplate Context="model">
                             @model.DisplayName
                         </CellTemplate>
