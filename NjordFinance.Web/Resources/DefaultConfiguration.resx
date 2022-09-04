@@ -132,28 +132,28 @@
         "1": {
           "IconKey": null,
           "Caption": "Accounts",
-          "UriStem": "/Accounts",
+          "UriStem": "/accounts",
           "Children": {},
           "HasChildren": false
         },
         "2": {
           "IconKey": null,
           "Caption": "Composites",
-          "UriStem": "/Composites",
+          "UriStem": "/composites",
           "Children": {},
           "HasChildren": false
         },
         "3": {
           "IconKey": null,
           "Caption": "Custodians",
-          "UriStem": "/Custodians",
+          "UriStem": "/custodians",
           "Children": {},
           "HasChildren": false
         },
         "4": {
           "IconKey": null,
           "Caption": "Models",
-          "UriStem": "/InvestmentModels",
+          "UriStem": "/investment-models",
           "Children": {},
           "HasChildren": false
         }
@@ -163,19 +163,19 @@
     "1": {
       "IconKey": null,
       "Caption": "Market Data",
-      "UriStem": "/UnderConstruction",
+      "UriStem": "/under-construction",
       "Children": {
         "1": {
           "IconKey": null,
           "Caption": "Securities",
-          "UriStem": "/UnderConstruction",
+          "UriStem": "/under-construction",
           "Children": {},
           "HasChildren": false
         },
         "2": {
           "IconKey": null,
           "Caption": "Prices",
-          "UriStem": "/UnderConstruction",
+          "UriStem": "/under-construction",
           "Children": {},
           "HasChildren": false
         }
@@ -185,19 +185,12 @@
     "2": {
       "IconKey": null,
       "Caption": "Reference Data",
-      "UriStem": "/UnderConstruction",
+      "UriStem": "/under-construction",
       "Children": {
         "1": {
           "IconKey": null,
-          "Caption": "Custodians",
-          "UriStem": "/UnderConstruction",
-          "Children": {},
-          "HasChildren": false
-        },
-        "2": {
-          "IconKey": null,
           "Caption": "Reference",
-          "UriStem": "/UnderConstruction",
+          "UriStem": "/under-construction",
           "Children": {},
           "HasChildren": false
         }
@@ -207,7 +200,7 @@
     "3": {
       "IconKey": null,
       "Caption": "About",
-      "UriStem": "/UnderConstruction",
+      "UriStem": "/under-construction",
       "Children": {},
       "HasChildren": false
     }  

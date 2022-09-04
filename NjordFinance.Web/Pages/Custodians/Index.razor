@@ -1,4 +1,4 @@
-﻿@page "/Custodians"
+﻿@page "/custodians"
 
 @inherits ModelIndex<AccountCustodian>
 
@@ -16,14 +16,16 @@
         <ContentTile>
             <Body>
                 <DataGrid Data="@Models">
-                    <DataGridColumn Property=@nameof(AccountCustodian.CustodianCode)
-                                Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.CustodianCode)))>
+                    <DataGridColumn 
+                        Property=@nameof(AccountCustodian.CustodianCode)
+                        Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.CustodianCode)))>
                         <CellTemplate Context="model">
                             @model.CustodianCode
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(AccountCustodian.DisplayName)
-                                Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.DisplayName)))>
+                    <DataGridColumn 
+                        Property=@nameof(AccountCustodian.DisplayName)
+                        Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.DisplayName)))>
                         <CellTemplate Context="model">
                             @model.DisplayName
                         </CellTemplate>
@@ -47,7 +49,7 @@
                     {
                         IconKey = "pencil",
                         Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetPlural()}",
-                        UriStem = $"{IndexUriRelativePath}/Edit"
+                        UriStem = $"{IndexUriRelativePath}/edit"
                     }
                 }
             }
@@ -56,10 +58,5 @@
         MaxRecordCount = -1;
 
         await base.OnInitializedAsync();
-    }
-
-    private void Detail_OnClick(AccountCustodian model, MouseEventArgs args)
-    {
-        NavigationHelper.NavigateTo(FormatDetailUri(model.AccountCustodianId));
     }
 }

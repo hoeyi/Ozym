@@ -1,4 +1,4 @@
-﻿@page "/InvestmentModels/{ModelId:int}/Detail"
+﻿@page "/investment-models/{ModelId:int}/detail"
 
 @inherits ModelDetail<InvestmentStrategy>
 
@@ -53,7 +53,7 @@
     {
         IsLoading = true;
 
-                
+
         try
         {
             var modelQuery = Controller.ReadAsync(ModelId);

@@ -75,7 +75,7 @@ namespace NjordFinance.Web.Resources {
         ///        &quot;1&quot;: {
         ///          &quot;IconKey&quot;: null,
         ///          &quot;Caption&quot;: &quot;Accounts&quot;,
-        ///          &quot;UriStem&quot;: &quot;/Accounts&quot;,
+        ///          &quot;UriStem&quot;: &quot;/accounts&quot;,
         ///          &quot;Children&quot;: {},
         ///          &quot;HasChildren&quot;: false
         ///        },

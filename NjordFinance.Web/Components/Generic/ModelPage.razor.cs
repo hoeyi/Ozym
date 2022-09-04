@@ -88,7 +88,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns>The formatted <see cref="string"/>.</returns>
         /// <remarks>Expects page to have root index paths defined by 
         /// <see cref="IndexUriRelativePath"/>.</remarks>
-        protected string FormatDetailUri<T>(T id) => $"{IndexUriRelativePath}/{id}/Detail";
+        protected string FormatDetailUri<T>(T id) => $"{IndexUriRelativePath}/{id}/detail";
 
         /// <summary>
         /// Creates a new string representing the resource creation page URI for the given 
@@ -100,7 +100,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns>The formatted <see cref="string"/>.</returns>
         /// <remarks>Expects page to have root index paths defined by 
         /// <see cref="IndexUriRelativePath"/>.</remarks>
-        protected string FormatCreateUri<T>(T id) => $"{IndexUriRelativePath}/Create/{id}";
+        protected string FormatCreateUri<T>(T id) => $"{IndexUriRelativePath}/create/{id}";
 
         /// <summary>
         /// Creates a new string representing the resource edit page URI for the given 
@@ -112,6 +112,6 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns>The formatted <see cref="string"/>.</returns>
         /// <remarks>Expects page to have root index paths defined by 
         /// <see cref="IndexUriRelativePath"/>.</remarks>
-        protected string FormatEditUri<T>(T id) => $"{IndexUriRelativePath}/{id}/Edit";
+        protected string FormatEditUri<T>(T id) => $"{IndexUriRelativePath}/{id}/edit";
     }
 }

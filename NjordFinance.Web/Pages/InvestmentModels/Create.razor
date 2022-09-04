@@ -1,4 +1,4 @@
-﻿@page "/InvestmentModels/Create/{RequestGuid:guid}"
+﻿@page "/investment-models/create/{RequestGuid:guid}"
 
 @inherits ModelDetail<InvestmentStrategy>
 
@@ -107,5 +107,5 @@
     /// Handles the cancel editor event of this page.
     /// </summary>
     private void CancelEditorHandler(MouseEventArgs args) =>
-        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
+        NavigationHelper.NavigateTo(IndexUriRelativePath);
 }
