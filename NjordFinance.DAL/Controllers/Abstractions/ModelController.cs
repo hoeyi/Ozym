@@ -120,7 +120,9 @@ namespace NjordFinance.Controllers.Abstractions
 
                 bool success = await updateTask;
 
-                if (success) return model;
+                // If success or soft-fail (no records modified) return model.
+                // Else throw the AggregateException.
+                if (success ^ (!success && updateTask.Exception is null)) return model;
                 else throw updateTask.Exception;
             }
             catch (DbUpdateConcurrencyException)
