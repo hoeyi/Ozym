@@ -3,15 +3,13 @@
 @typeparam TModel
 @attribute [CascadingTypeParameter(nameof(TModel))]
 
-<ThemedComponent>
-    <CascadingValue Value="@this">
-            <table class="model-attributes">
-                <tbody>
-                    @ChildContent
-                </tbody>
-            </table>
-    </CascadingValue>
-</ThemedComponent>
+<CascadingValue Value="@this">
+        <table class="model-attributes">
+            <tbody>
+                @ChildContent
+            </tbody>
+        </table>
+</CascadingValue>
 
 @code {
 

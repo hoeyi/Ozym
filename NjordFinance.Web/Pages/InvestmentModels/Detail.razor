@@ -13,7 +13,9 @@
     {
         <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+        <ModelPageMenuHeader
+            ActionMenu="@ActionMenu" 
+            Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
         <ContentTile>
             <Body>
@@ -24,7 +26,7 @@
                 </CascadingValue>
             </Body>
         </ContentTile>
-        @foreach(var group in ViewModel.CurrentTargetCollection)
+        @foreach(var group in ViewModel.CurrentTargetCollection.OrderBy(g => g.Key.DisplayName))
         {
             <ContentTile>
                 <Body>

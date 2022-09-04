@@ -14,11 +14,23 @@
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
                          Header="@(PageTitle.CreateSingle())" />
 
-        <EditorControl 
+        <AttributeEntryCollectionEditor 
+            TViewModelParent="InvestmentModelViewModel"
+            TViewModelChild="InvestmentModelTargetViewModel"
+            TModel="InvestmentStrategy"
+            TModelChild="InvestmentStrategyTarget"
             OnCancelEditorClick="CancelEditorHandler"
             OnValidFormSubmit="ValidFormSubmitHandler"
+            EffectiveDateMemberName="@nameof(InvestmentModelTargetViewModel.EffectiveDate)"
             ViewModel="@ViewModel"
-            Mode="EditorMode.Add" />
+            Mode="EditorMode.Add">
+            <ViewModelCRUD>
+                <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <InvestmentModelTargetCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryCollectionEditor>
     }
 </ThemedComponent>
 
@@ -30,6 +42,15 @@
     [Parameter]
     public int ModelId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the unique identifier for the model creation request.
+    /// </summary>
+    [Parameter]
+    public Guid RequestGuid { get; init; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="InvestmentModelViewModel" /> worked by this page.
+    /// </summary>
     private InvestmentModelViewModel ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -76,10 +97,10 @@
     {
         Model = ViewModel.ToEntity();
 
-        var result = await Controller.UpdateAsync(Model.InvestmentStrategyId, Model);
+        var result = await Controller.CreateAsync(Model);
 
-        if (result.Value is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.InvestmentStrategyId));
+        if(result.Result is CreatedAtActionResult cr)
+            NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
     }
 
     /// <summary>

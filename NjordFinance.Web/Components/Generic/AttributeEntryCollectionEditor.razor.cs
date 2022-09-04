@@ -24,7 +24,7 @@ namespace NjordFinance.Web.Components.Generic
     /// </typeparam>
     /// <typeparam name="TModelChild">The entity that represents a single entry in this collection.
     /// </typeparam>
-    public partial class AttributeEntryCollectionEdit<
+    public partial class AttributeEntryCollectionEditor<
         TViewModelParent, TViewModelChild, TModel, TModelChild>
         : LocalizableComponent
         where TModel: class, new()
@@ -38,12 +38,6 @@ namespace NjordFinance.Web.Components.Generic
         /// </summary>
         [Inject]
         IReferenceDataService ReferenceData { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <typeparamref name="TViewModelParent"/> representing the worked model.
-        /// </summary>
-        [Parameter, EditorRequired]
-        public TViewModelParent ViewModel { get; set; }
 
         /// <summary>
         /// Gets or sets the current <typeparamref name="TViewModelChild"/> instance.
