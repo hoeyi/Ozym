@@ -1,31 +1,28 @@
-﻿@page "/InvestmentModels/{ModelId:int}/Edit"
-@using Microsoft.AspNetCore.Components.Rendering
+﻿@page "/InvestmentModels/Create/{RequestGuid:guid}"
 
 @inherits ModelDetail<InvestmentStrategy>
 
-@if(IsLoading)
-{
-    <LoadingSvg />
-}
-else
-{
-    <ThemedComponent>
-        <PageTitle>@(PageTitle.UpdateSingle(ViewModel.DisplayName).AsPageTitle())</PageTitle>
+<ThemedComponent>
+    @if(IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
-                            Header="@(PageTitle.UpdateSingle(ViewModel.DisplayName))" />
+                         Header="@(PageTitle.CreateSingle())" />
 
         <EditorControl 
             OnCancelEditorClick="CancelEditorHandler"
-            OnDeleteModelClick="DeleteModelHandler"
             OnValidFormSubmit="ValidFormSubmitHandler"
             ViewModel="@ViewModel"
-            Mode="EditorMode.Edit"
-        />
-    </ThemedComponent>
-}
+            Mode="EditorMode.Add" />
+    }
+</ThemedComponent>
 
-@code {
+@code{
     /// <summary>
     /// Gets or sets the identifier for the <see cref="InvestmentStrategy" /> worked using this
     /// page.
@@ -57,9 +54,9 @@ else
 
         try
         {
-            var modelQuery = Controller.ReadAsync(ModelId);
+            var modelQuery = await Controller.GetDefaultAsync();
 
-            if ((await modelQuery).Value is InvestmentStrategy model)
+            if (modelQuery.Value is InvestmentStrategy model)
             {
                 Model = model;
             }
@@ -73,43 +70,21 @@ else
     }
 
     /// <summary>
-    /// Handles the delete click event of this page.
-    /// </summary>
-    private async Task DeleteModelHandler(MouseEventArgs args)
-    {
-        var result = await Controller.DeleteAsync(Model);
-
-        if (result is NoContentResult _)
-            NavigationHelper.NavigateTo(IndexUriRelativePath);
-    }
-
-    /// <summary>
     /// Handles the valid form submission event of this page.
     /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        try
-        {
-            Model = ViewModel.ToEntity();
+        Model = ViewModel.ToEntity();
 
-            var result = await Controller.UpdateAsync(Model.InvestmentStrategyId, Model);
+        var result = await Controller.UpdateAsync(Model.InvestmentStrategyId, Model);
 
-            Model = result.Value;
-
-            ViewModel = new(Model);
-
-            if (Model is not null)
-                NavigationHelper.NavigateTo(FormatDetailUri(Model.InvestmentStrategyId));
-        }
-        catch(Exception e)
-        {
-
-        }
+        if (result.Value is not null)
+            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.InvestmentStrategyId));
     }
 
     /// <summary>
     /// Handles the cancel editor event of this page.
     /// </summary>
-    private void CancelEditorHandler(MouseEventArgs args) => 
+    private void CancelEditorHandler(MouseEventArgs args) =>
         NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 }

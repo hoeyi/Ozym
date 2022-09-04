@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace NjordFinance.Web.Components.Generic
 {
@@ -25,7 +26,7 @@ namespace NjordFinance.Web.Components.Generic
     /// </typeparam>
     public partial class AttributeEntryCollectionEdit<
         TViewModelParent, TViewModelChild, TModel, TModelChild>
-        : ModelDetail<TModel>
+        : LocalizableComponent
         where TModel: class, new()
         where TModelChild : class, new()
         where TViewModelChild: IAttributeEntryGrouping<TModel, TModelChild>
@@ -41,7 +42,8 @@ namespace NjordFinance.Web.Components.Generic
         /// <summary>
         /// Gets or sets the <typeparamref name="TViewModelParent"/> representing the worked model.
         /// </summary>
-        protected TViewModelParent ViewModel { get; set; }
+        [Parameter, EditorRequired]
+        public TViewModelParent ViewModel { get; set; }
 
         /// <summary>
         /// Gets or sets the current <typeparamref name="TViewModelChild"/> instance.
@@ -72,6 +74,15 @@ namespace NjordFinance.Web.Components.Generic
         /// </summary>
         protected bool DrawViewModelChildModelEditor { get; set; } = false;
 
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+
+            AllowableModelAttributes = await GetSupportedAttributesAsync();
+
+            IsLoading = AllowableModelAttributes is null;
+        }
+
         /// <summary>
         /// Gets the collection of allowable <see cref="ModelAttribute"/> instances for describing 
         /// the <typeparamref name="TModel"/> instance worked by this component.
@@ -99,7 +110,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns></returns>
         protected async Task AddEntryForGrouping(ModelAttribute forModelAttribute)
         {
-            await ViewModelChild_OnSelected(ViewModel.AddNew(forAttribute: forModelAttribute));
+            await OnChildViewSelect(ViewModel.AddNew(forAttribute: forModelAttribute));
         }
 
         /// <summary>
@@ -108,7 +119,7 @@ namespace NjordFinance.Web.Components.Generic
         /// </summary>
         /// <param name="childViewModel"></param>
         /// <returns></returns>
-        protected async Task ViewModelChild_OnSelected(TViewModelChild childViewModel)
+        protected async Task OnChildViewSelect(TViewModelChild childViewModel)
         {
             CurrentViewModelChild = childViewModel;
             CurrentAttributeMemberLookup = (await ReferenceData
@@ -118,26 +129,14 @@ namespace NjordFinance.Web.Components.Generic
             DrawViewModelChildModelEditor = 
                 CurrentViewModelChild is not null && CurrentAttributeMemberLookup is not null;
         }
-
-        /// <summary>
-        /// Handles the delete click event of this form.
-        /// </summary>
-        /// <returns></returns>
-        protected async Task Delete_OnClick()
-        {
-            var result = await Controller.DeleteAsync(Model);
-
-            if (result is NoContentResult _)
-                NavigationHelper.NavigateTo(IndexUriRelativePath);
-        }
-
+                
         /// <summary>
         /// Handles the close event of the modal editor form for a 
         /// <typeparamref name="TViewModelChild"/> instance.
         /// </summary>
         /// <param name="modalEventArgs">The event arguments.</param>
         /// <exception cref="NotSupportedException"></exception>
-        protected void OnModalEditor_ViewModelChild_Closed(
+        protected void OnModalEditor_ForChildView_Close(
             ModalEventArgs<TViewModelChild> modalEventArgs)
         {
             DrawViewModelChildModelEditor = false;

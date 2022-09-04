@@ -57,8 +57,6 @@
             var getDefaultModelTask = Controller.GetDefaultAsync();
             var refreshCustodianListTask = ReferenceData.AccountCustodianListAsync();
 
-            await Task.WhenAll(getDefaultModelTask, refreshCustodianListTask);
-
             Model = (await getDefaultModelTask).Value;
             Custodians = (await refreshCustodianListTask).ToLookups();
 
