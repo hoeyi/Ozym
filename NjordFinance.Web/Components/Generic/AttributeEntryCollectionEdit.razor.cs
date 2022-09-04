@@ -121,10 +121,20 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns></returns>
         protected async Task OnChildViewSelect(TViewModelChild childViewModel)
         {
+            using var queryBuilder = ReferenceData
+                .CreateQueryBuilder<ModelAttributeMember>()
+                .WithDirectRelationship(a => a.Country);
+
             CurrentViewModelChild = childViewModel;
-            CurrentAttributeMemberLookup = (await ReferenceData
-                    .ModelAttributeMemberListAsync(childViewModel.ParentAttribute.AttributeId))
-                    .ToLookups();
+            CurrentAttributeMemberLookup = (await queryBuilder.SelectWhereAsync(a =>
+                 a.AttributeId == childViewModel.ParentAttribute.AttributeId))
+                .ToLookups(displaySelector: x =>
+                {
+                    if (x.Country is null)
+                        return x.DisplayName;
+                    else
+                        return $"{x.Country.DisplayName} ({x.Country.IsoCode3})";
+                });
 
             DrawViewModelChildModelEditor = 
                 CurrentViewModelChild is not null && CurrentAttributeMemberLookup is not null;

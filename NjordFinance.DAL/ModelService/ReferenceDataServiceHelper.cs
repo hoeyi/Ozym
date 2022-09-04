@@ -88,9 +88,13 @@ namespace NjordFinance.ModelService
         /// of <see cref="LookupModel"/> instances.
         /// </summary>
         /// <param name="collection"></param>
+        /// <param name="displaySelector">A function for defining <see cref="LookupModel.Display"/>.</param>
         /// <returns>An <see cref="IList{T}"/> containing <see cref="LookupModel"/> instances.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static IList<LookupModel> ToLookups(this IEnumerable<ModelAttributeMember> collection)
+        public static IList<LookupModel> ToLookups(
+            this IEnumerable<ModelAttributeMember> collection,
+            Func<ModelAttributeMember, string> displaySelector = null
+            )
         {
             if (collection is null)
                 throw new ArgumentNullException(paramName: nameof(collection));
@@ -98,8 +102,10 @@ namespace NjordFinance.ModelService
             var result = collection.Select(model => new LookupModel()
             {
                 Key = model.AttributeMemberId,
-                Display = model.DisplayName
+                Display = displaySelector is null ? 
+                    model.DisplayName : displaySelector(model)
             })
+            .OrderBy(m => m.Display)
             .ToList();
 
             result.Insert(0, LookupModel.PlaceHolder());

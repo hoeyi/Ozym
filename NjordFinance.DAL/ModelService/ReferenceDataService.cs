@@ -15,6 +15,7 @@ namespace NjordFinance.ModelService
     public partial class ReferenceDataService : IReferenceDataService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
+
         public ReferenceDataService(IDbContextFactory<FinanceDbContext> contextFactory)
         {
             if (contextFactory is null)
