@@ -42,7 +42,7 @@
     /*border: solid;*/
     /*border-width: 1px;*/
     /*border-color: var(--theme-elevation-backcolor-4);*/
-    display: none;
+    /*display: none;*/
     margin: 0;
     padding: 0;
     min-width: 15vw;
@@ -50,6 +50,9 @@
     background-color: var(--hover-color);
 }
 
+::deep .sub-menu:not(.level-0) {
+    display: none;
+}
 ::deep .sub-menu.level-0 {
     left: 0;
     position: absolute;
