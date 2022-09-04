@@ -24,12 +24,17 @@
                 <EditForm width="100%" EditContext="@_context" >
                     <ActionButtonMenu>
                         <button class="form-control button"
-                            @onclick="@(args => Submit_OnClick(context, args))">
+                            @onclick="@(async (args) => await Submit_OnClick(context, args))">
                             @Resources.Strings.Caption_Button_Save
                         </button>
-                        <button class="form-control button" @onclick=@(args => AddNewAsync(args))>
+                        <button class="form-control button" 
+                            @onclick="(async (args) => await AddNewAsync(args))">
                             @Resources.Strings.Caption_Button_Add.Format(
                                 ModelMetadata.NounFor(typeof(AccountCustodian))?.GetSingular())
+                        </button>
+                        <button class="form-control button" @onclick="Cancel_OnClick"
+                            @onclick:preventDefault>
+                            @Resources.Strings.Caption_Button_Cancel
                         </button>
                     </ActionButtonMenu>
                     <DataAnnotationsValidator/>
@@ -46,6 +51,15 @@
                             <CellEditTemplate Context="model">
                                 <InputText class="form-control" @bind-Value=model.DisplayName />
                                 <ValidationMessage For=@(()=> model.DisplayName) />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <button class="form-control button icon"
+                                    type="button"
+                                    @onclick="async (args) => await DeleteAsync(args, model)">
+                                    <IonIcon Name="close-circle" />
+                                </button>
                             </CellEditTemplate>
                         </DataGridColumn>
                     </DataGrid>
@@ -83,7 +97,7 @@
         }
     }
 
-    private async Task AddNewAsync(MouseEventArgs? args)
+    private async Task AddNewAsync(MouseEventArgs args)
     {
         // TODO: Do something with MouseEventArgs?
 
@@ -94,12 +108,19 @@
             Custodians.Add(custodian);
     }
 
-    private async Task DeleteAsync(AccountCustodian custodian, MouseEventArgs args)
+    private async Task DeleteAsync(MouseEventArgs args, AccountCustodian custodian)
     {
         var result = await Controller.DeleteAsync(custodian);
 
+        if (result is OkResult)
+            Custodians.Remove(custodian);
+        else
+            throw new InvalidOperationException();
+
         // TODO: interpret the response.
     }
+
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 
     private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
     {
@@ -109,7 +130,7 @@
             var saveResult = await Controller.SaveChangesAsync();
 
             if (saveResult is NoContentResult)
-                return;
+                NavigationHelper.NavigateTo(IndexUriRelativePath);
 
             else if (saveResult is ObjectResult objectResult)
                 ErrorMessage = (objectResult.Value as Exception)?.Message;

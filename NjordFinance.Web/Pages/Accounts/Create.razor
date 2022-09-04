@@ -22,12 +22,12 @@
                         OnValidSubmit="HandleValidSubmit" >
                         <DataAnnotationsValidator />
                         <ActionButtonMenu>
+                            <button type="submit" class="form-control button">
+                                @Resources.Strings.Caption_Button_Save
+                            </button>
                             <button class="form-control button" @onclick="Cancel_OnClick"
                                 @onclick:preventDefault >
                                 @Resources.Strings.Caption_Button_Cancel
-                            </button>
-                            <button type="submit" class="form-control button">
-                                @Resources.Strings.Caption_Button_Save
                             </button>
                         </ActionButtonMenu>
                         <AccountCRUD AccountCustodians="@Custodians" 
