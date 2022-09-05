@@ -1,8 +1,17 @@
 ﻿<ul class="menu-bar">
-    <MenuStripItem MenuItem="Menu" />
+    <MenuStripItem MenuItem="Menu" OnHyperlinkClickOverride="OnHyperlinkClickOverride" />
 </ul>
 
 @code {
-    [Parameter]
+    /// <summary>
+    /// Gets or sets the object defining the content of this menu.
+    /// </summary>
+    [Parameter, EditorRequired]
     public Menu Menu { get; set; }
+
+    /// <summary>
+    /// Gets or sets the delegate overriding the link behavior for this menu item.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public EventCallback<MouseEventArgs> OnHyperlinkClickOverride { get; set; }
 }

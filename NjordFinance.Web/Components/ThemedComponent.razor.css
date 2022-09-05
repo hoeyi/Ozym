@@ -182,8 +182,6 @@
 /*#region Content tile, headers, & columns*/
 
 ::deep .content-tile {
-    /*box-shadow: 1px 1px;*/
-    /*border: 1px solid;*/
     background-color: var(--theme-elevation-backcolor-2, white);
     border: 1px solid var(--theme-elevation-backcolor-2, black);
     border-radius: 1rem;

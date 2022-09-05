@@ -64,8 +64,8 @@ namespace NjordFinance.Web.Resources {
         ///   Looks up a localized string similar to {
         ///  &quot;MenuGuid&quot;: &quot;3e818369-9889-4b49-b565-244d3bc93217&quot;,
         ///  &quot;IconKey&quot;: null,
-        ///  &quot;Caption&quot;: null,
-        ///  &quot;UriStem&quot;: null,
+        ///  &quot;Caption&quot;: &quot;NjordFinance&quot;,
+        ///  &quot;UriStem&quot;: &quot;/#&quot;,
         ///  &quot;Children&quot;: {
         ///    &quot;0&quot;: {
         ///      &quot;IconKey&quot;: null,
@@ -81,8 +81,7 @@ namespace NjordFinance.Web.Resources {
         ///        },
         ///        &quot;2&quot;: {
         ///          &quot;IconKey&quot;: null,
-        ///          &quot;Caption&quot;: &quot;Composites&quot;,
-        ///   [rest of string was truncated]&quot;;.
+        ///          &quot;Caption&quot;: &quot;Compos [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string NavigationMenu {
             get {

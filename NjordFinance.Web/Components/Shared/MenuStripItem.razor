@@ -1,33 +1,31 @@
 ﻿@using System.Text
 <li class="@GetItemClass()">
-    @if (MenuItem.IsRoot)
+    @if (string.IsNullOrEmpty(MenuItem.UriStem) && OnHyperlinkClickOverride is null)
     {
-        <div class="icon root">
-            <IonIcon Name="@MenuItem.IconKey" />
+        <div class="grid-container">
+            <div class="icon left">
+                <IonIcon Name="@MenuItem.IconKey" />
+            </div>
+            @if(!string.IsNullOrEmpty(MenuItem.Caption))
+            {
+                <div class="caption left">
+                    @MenuItem.Caption
+                </div>
+            }
+
+            @if (!MenuItem.IsRoot && MenuItem.HasChildren)
+            {
+                <div class="icon right">
+                    <IonIcon Name="caret-forward" class="caret-forward" />
+                </div>
+            }
         </div>
     }
     else
     {
-        @if(string.IsNullOrEmpty(MenuItem.UriStem))
+        @if(OnHyperlinkClickOverride is null)
         {
-            <div class="grid-container">
-                <div class="icon left">
-                    <IonIcon Name="@MenuItem.IconKey" />
-                </div>
-                <div class="caption left">
-                    @MenuItem.Caption
-                </div>
-                @if (!MenuItem.IsRoot && MenuItem.HasChildren)
-                {
-                    <div class="icon right">
-                        <IonIcon Name="caret-forward" class="caret-forward" />
-                    </div>
-                }
-            </div>
-        }
-        else
-        {
-            <a class="grid-container nav-link" href="@MenuItem.UriStem">
+            <a class="grid-container custom-nav-link" href="@MenuItem.UriStem">
                 <div class="icon left">
                     <IonIcon Name="@MenuItem.IconKey" />
                 </div>
@@ -42,6 +40,24 @@
                 }
             </a>
         }
+        else
+        {
+            <div class="grid-container custom-nav-link" style="cursor: pointer;"
+                @onclick="(async (args) => await OnHyperlinkClickOverride.Value.InvokeAsync(args))">
+                <div class="icon left">
+                    <IonIcon Name="@MenuItem.IconKey" />
+                </div>
+                <div class="caption">
+                    @MenuItem.Caption
+                </div>
+                @if (!MenuItem.IsRoot && MenuItem.HasChildren)
+                {
+                    <div class="icon right">
+                        <IonIcon Name="caret-forward" class="caret-forward" />
+                    </div>
+                }
+            </div>
+        }
     }
     @if (MenuItem.HasChildren)
     {
@@ -55,8 +71,17 @@
 </li>
 
 @code {
-    [Parameter]
+    /// <summary>
+    /// Gets or sets the object defining the content of this menu item.
+    /// </summary>
+    [Parameter, EditorRequired]
     public MenuItem MenuItem { get; set; }
+
+    /// <summary>
+    /// Gets or sets the delegate overriding the link behavior for this menu item.
+    /// </summary>
+    [Parameter]
+    public EventCallback<MouseEventArgs>? OnHyperlinkClickOverride { get; set; }
 
     private const string MenuLevelRoot = "level-0";
     private const string MenuLevelChild = "level-n";

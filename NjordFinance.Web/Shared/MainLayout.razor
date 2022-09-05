@@ -14,12 +14,7 @@
     <main>
         <div class="top-row px-4 auth">
             <div class="left">
-                <div class="home-link">
-                    <a href="/">
-                        @Resources.Strings.Title_ApplicationName
-                    </a>
-                </div>
-                <MenuBar Menu="@MainMenu" />
+                <MenuBar Menu="@MainMenu" OnHyperlinkClickOverride="OnHomeLinkClick" />
             </div>
             <div class="right">
                 <LoginDisplay />
@@ -49,4 +44,12 @@
         new(){ IconKey = "stats-chart", Caption = "Reports" , UriStem = "/PageUnderConstruction" },
         new(){ IconKey = "planet", Caption = "Geography" , UriStem = "/PageUnderConstruction" }
     };
+
+    private void OnHomeLinkClick(MouseEventArgs args)
+    {
+        if (NavigationManager.Uri == NavigationManager.BaseUri)
+            return;
+        else
+            NavigationManager.NavigateTo(NavigationManager.BaseUri);
+    }
 }

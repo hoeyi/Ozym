@@ -121,8 +121,8 @@
     <value>{
   "MenuGuid": "3e818369-9889-4b49-b565-244d3bc93217",
   "IconKey": null,
-  "Caption": null,
-  "UriStem": null,
+  "Caption": "NjordFinance",
+  "UriStem": "/#",
   "Children": {
     "0": {
       "IconKey": null,
@@ -185,7 +185,7 @@
     "2": {
       "IconKey": null,
       "Caption": "Reference Data",
-      "UriStem": "/under-construction",
+      "UriStem": null,
       "Children": {
         "1": {
           "IconKey": null,
@@ -193,6 +193,28 @@
           "UriStem": "/under-construction",
           "Children": {},
           "HasChildren": false
+        },
+        "2": {
+          "IconKey": null,
+          "Caption": "Transactions",
+          "UriStem": null,
+          "Children": {
+            "1": {
+              "IconKey": null,
+              "Caption": "Bank",
+              "UriStem": "/bank-transaction-codes",
+              "Children": {},
+              "HasChildren": false
+            },
+            "2": {
+              "IconKey": null,
+              "Caption": "Broker",
+              "UriStem": "/broker-transaction-codes",
+              "Children": {},
+              "HasChildren": false
+            }
+          },
+          "HasChildren": true
         }
       },
       "HasChildren": true

@@ -2,6 +2,47 @@
 
 @inherits ModelIndex<BankTransactionCode>
 
+<ThemedComponent>
+    <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models">
+                    <DataGridColumn Property=@nameof(BankTransactionCode.TransactionCode)
+                                Caption=@(NameFor(nameof(BankTransactionCode.TransactionCode)))>
+                        <CellTemplate Context="model">
+                            @model.TransactionCode
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(BankTransactionCode.DisplayName)
+                                Caption=@(NameFor(nameof(BankTransactionCode.DisplayName)))>
+                        <CellTemplate Context="model">
+                            @model.DisplayName
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Type="DataGridCellType.Button">
+                        <CellTemplate Context="model">
+                            <button class="form-control button icon"
+                                type="button"
+                                @onclick="(args) => OnAttributeDetailSelect(args, model)">
+                                <IonIcon Name="list-circle" />
+                            </button>
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
 @code {
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
@@ -24,5 +65,10 @@
         MaxRecordCount = -1;
 
         await base.OnInitializedAsync();
+    }
+
+    private void OnAttributeDetailSelect(MouseEventArgs args, BankTransactionCode model)
+    {
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{model.TransactionCodeId}/attributes");
     }
 }

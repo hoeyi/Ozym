@@ -65,6 +65,7 @@
     --theme-fontfamily-tableheader: 'Cambria Math';
     --theme-fontfamily-tablecell: 'Arial';
     /*#endregion */
+    --theme-box-shadow-opacity: 0.3;
 }
 
 body {

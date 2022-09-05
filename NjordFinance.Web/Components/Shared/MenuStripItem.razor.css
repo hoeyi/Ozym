@@ -1,8 +1,4 @@
-﻿.sub-menu {
-    box-shadow: 0.25rem 0.25rem rgb(0 0 0 / 0.3);
-}
-
-/* Override the a element rules so that value inherits from parent. */
+﻿/* Override the a element rules so that value inherits from parent. */
 a {
     color: inherit !important;
     display: block;

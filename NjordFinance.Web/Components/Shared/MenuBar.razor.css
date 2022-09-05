@@ -1,12 +1,17 @@
 ﻿/*#region Local variables */
+
 .menu-bar, .sub-menu {
+    --default-link-onhover-back-color: var(--theme-hexcolor-primary-0, gray);
     --fore-color: var(--theme-text-color-0, black);
     --background-color: var(--theme-elevation-backcolor-0);
+    --border-color: var(--theme-elevation-backcolor-9, black);
+    --border-hover-color: var(--theme-text-color-0, black);
+    --border-size: 1px;
     --hover-color: var(--theme-elevation-backcolor-2);
     --hover-color-detail: var(--theme-elevation-backcolor-5);
-    --menu-fontfamily-default: var(--theme-fontfamily-actionmenu, 'Arial');
     --default-height: 32px;
     --icon-max-width: 32px;
+    --menu-fontfamily-default: Arial, Helvetica, sans-serif;
 }
 /*#endregion*/
 
@@ -15,62 +20,82 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    font-family: var(--menu-fontfamily-default);
 }
 
-::deep .menu-item {
-    position: relative;
-    font-size: 0.75rem;
-    height: var(--default-height, 32px);
+.custom-nav-link {
+    font-style: italic;
+}
+
+.custom-nav-link:hover {
+    background-color: var(--default-link-onhover-back-color);
+    cursor: pointer;
+}
+::deep .menu-item.root-node {
     display: flex;
+    font-family: var(--theme-fontfamily-default, --menu-fontfamily-default);
+    font-size: 1.5rem;
+    height: 100%; /*calc(1 * var(--default-height, 32px));*/
+    position: relative;
 }
 
-    ::deep .menu-item.root-node {
+    ::deep .menu-item:not(.root-node) {
+        font-family: var(--theme-fontfamily-actionmenu, --menu-fontfamily-default);
+        font-style: normal;
+        font-size: 0.75rem;
+        height: var(--default-height, 32px);
         position: relative;
-        display: flex;
-        height: calc(0.75 * var(--default-height, 32px));
     }
 
 ::deep .icon.root {
-    max-width: var(--icon-max-width, 32px);
-    height: 100%;
     aspect-ratio: 1/1;
+    height: 100%;
+    max-width: var(--icon-max-width, 32px);
 }
 
 /*#region sub-menu class and variants*/
 ::deep .sub-menu {
-    /*border: solid;*/
-    /*border-width: 1px;*/
-    /*border-color: var(--theme-elevation-backcolor-4);*/
-    /*display: none;*/
-    margin: 0;
-    padding: 0;
-    min-width: 15vw;
-    max-width: 25vw;
     background-color: var(--hover-color);
+    display: none;
+    list-style-type: none;
+    margin: 0;
+    max-width: 25vw;
+    min-width: 15vw;
+    padding: 0;
+    position: absolute;
 }
 
 ::deep .sub-menu:not(.level-0) {
     display: none;
 }
+
 ::deep .sub-menu.level-0 {
     left: 0;
-    position: absolute;
     top: 100%;
-    list-style-type: none;
 }
 
-    ::deep .sub-menu.level-n {
-        left: 100%;
-        position: absolute;
-        top: 0;
-        list-style-type: none;
-    }
+::deep .sub-menu.level-n {
+    left: 99%;
+    top: 0;
+}
 /*#endregion*/
 
 /*#region Hover behavior*/
 ::deep .parent:hover > .sub-menu {
+    box-shadow: 
+        0.25rem 0.25rem rgb(0 0 0 / var(--theme-box-shadow-opacity, 0.3)),
+        0 -1px 0 var(--border-color) inset, 
+        1px 0 0 var(--border-color) inset,
+        -1px 0 0 var(--border-color) inset;
     display: block;
+}
+
+::deep .parent:not(.root-node):hover > .sub-menu {
+    box-shadow: 
+        0.25rem 0.25rem rgb(0 0 0 / var(--theme-box-shadow-opacity, 0.3)),
+        0 1px 0 var(--border-color) inset,
+        0 -1px 0 var(--border-color) inset,
+        1px 0 0 var(--border-color) inset, 
+        -1px 0 0 var(--border-color) inset;
 }
 
 ::deep .menu-item.parent:hover{
@@ -83,6 +108,9 @@
 
 ::deep .sub-menu > .menu-item:hover {
     background-color: var(--hover-color-detail);
+
+    outline: var(--border-size) solid var(--border-hover-color);
+    outline-offset: -0.25rem;
 }
 /*#endregion*/
 
