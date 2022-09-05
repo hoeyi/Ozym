@@ -1,3 +1,11 @@
 ﻿table.model-attributes {
     width: 100%;
 }
+
+::deep td:not(:first-child){
+    padding-left: 8px;
+}
+
+::deep div.form-control:empty {
+    padding: 1rem;
+}

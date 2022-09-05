@@ -15,7 +15,7 @@ a {
     min-height: 24px;
     max-height: 32px;
     display: inline-grid;
-    grid-template-columns: 1fr 7fr 1fr;
+    grid-template-columns: 36px 8fr 18px;
     grid-template-areas: "a b c";
     gap: 0px;
 }
@@ -26,7 +26,7 @@ a {
     }
 
     .grid-container > * {
-        align-self: center;
+        align-self: center;        
     }
 
 .icon.left {
@@ -38,14 +38,15 @@ a {
 
 .caption {
     grid-area: b;
+    min-width: 64px;
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .icon.right {
     grid-area: c;
     margin-left: auto;
-    margin-right: 10%;
+    margin-right: 6px;
     max-height: 12px;
 }

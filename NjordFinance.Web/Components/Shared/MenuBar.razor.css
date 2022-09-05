@@ -26,6 +26,7 @@
     background-color: var(--default-link-onhover-back-color);
     cursor: pointer;
 }
+
 ::deep .menu-item.root-node {
     display: flex;
     font-family: var(--theme-fontfamily-default, --menu-fontfamily-default);
@@ -55,8 +56,8 @@
     display: none;
     list-style-type: none;
     margin: 0;
-    max-width: 25vw;
-    min-width: 15vw;
+    max-width: 15vw;
+    min-width: 150px;
     padding: 0;
     position: absolute;
 }

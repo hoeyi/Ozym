@@ -6,6 +6,14 @@
     width: 50%;
 }
 
+::deep .model-attributes .custom-tooltip {
+    position: static;
+}
+
+::deep .model-attributes .custom-tooltip-text {
+    margin-left: 0.5rem;
+}
+
 ::deep .model-attributes td {
     padding-bottom: 0.5rem;  
 }
@@ -30,9 +38,25 @@
     border-collapse: separate;
 }
 
+::deep .datagrid-cell:last-child .custom-tooltip-text {
+    right: 95%;
+    top: 55%;
+}
+
+::deep .datagrid-cell:not(:last-child) .custom-tooltip-text {
+    left: 100%;
+}
+
 ::deep .datagrid th, .datagrid tr {
     resize: both;
 }
+
+
+    ::deep .datagrid th {
+        border-left-width: 0.5px;
+        border-right-width: 0.5px;
+        border-color: var(--theme-tableheader-border-color, black);
+    }
 
 ::deep .datagrid-cell a {
     color: var(--theme-text-color-0, black);
@@ -249,9 +273,9 @@
 
 /*#region Modal forms/dialog */
 
-/*::deep .custom-modal {
-    border
-}*/
+::deep .custom-modal {
+    border: 0.1rem solid var(--theme-form-control-border-color, black);
+}
 ::deep .custom-modal .model-editor {
     width: 100%;
 }

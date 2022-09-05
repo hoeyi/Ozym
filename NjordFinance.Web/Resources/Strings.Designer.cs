@@ -187,6 +187,15 @@ namespace NjordFinance.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View properties.
+        /// </summary>
+        internal static string Caption_Properties_View {
+            get {
+                return ResourceManager.GetString("Caption_Properties_View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not authenticated.
         /// </summary>
         internal static string Caption_User_NotAuthenticated {

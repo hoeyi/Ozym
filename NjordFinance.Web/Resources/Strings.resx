@@ -160,6 +160,9 @@
   <data name="Caption_Page_Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="Caption_Properties_View" xml:space="preserve">
+    <value>View properties</value>
+  </data>
   <data name="Caption_User_NotAuthenticated" xml:space="preserve">
     <value>Not authenticated</value>
   </data>
