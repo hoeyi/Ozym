@@ -151,7 +151,8 @@
         // TODO: interpret the response.
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
+    private void Cancel_OnClick() => NavigationHelper
+        .NavigateTo($"{IndexUriRelativePath}/{AccountId}/detail");
 
     private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
     {

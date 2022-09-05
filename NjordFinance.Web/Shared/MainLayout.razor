@@ -13,9 +13,12 @@
 
     <main>
         <div class="top-row px-4 auth">
-            <div class="left">
-                <MenuBar Menu="@MainMenu" OnHyperlinkClickOverride="OnHomeLinkClick" />
-            </div>
+            @if(MainMenu is not null)
+            {
+                <div class="left">
+                    <MenuBar Menu="@MainMenu" OnHyperlinkClickOverride="OnHomeLinkClick" />
+                </div>
+            }
             <div class="right">
                 <LoginDisplay />
             </div>
@@ -31,12 +34,11 @@
 
     private Menu? MainMenu { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-
-        MainMenu = JsonSerializer.Deserialize<Menu>(Resources.DefaultConfiguration.NavigationMenu);
+        MainMenu = await Resources.ResourceHelper.GetDefaultMenu();
     }
+
     private readonly IReadOnlySet<MenuItem> menuItems = new HashSet<MenuItem>()
     {
         new(){ IconKey = "calendar", Caption = "Calendar" , UriStem = "/PageUnderConstruction" },
