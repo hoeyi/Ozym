@@ -36,7 +36,8 @@ namespace NjordFinance.Controllers
         Task<IActionResult> AddAsync(T model);
 
         /// <summary>
-        /// Deletes the model pending a call to <see cref="SaveChangesAsync"/>.
+        /// Deletes the model pending a call to <see cref="SaveChangesAsync"/>, or detach an
+        /// unsaved model.
         /// </summary>
         /// <param name="model">The model to add.</param>
         /// <returns>True if the entry state is deleted, else
@@ -44,13 +45,20 @@ namespace NjordFinance.Controllers
         /// <exception cref="ArgumentNullException"><paramref name="model"/> was null.</exception>
         /// <exception cref="InvalidOperationException"> parent key is not valid for this call.
         /// </exception>
-        Task<IActionResult> DeleteAsync(T model);
+        Task<IActionResult> DeleteOrDetachAsync(T model);
 
         /// <summary>
         /// Creates the default instance of <typeparamref name="T"/>.
         /// </summary>
         /// <returns>The action response wrapping the generated <typeparamref name="T"/>.</returns>
         Task<ActionResult<T>> GetDefaultAsync();
+
+        /// <summary>
+        /// Checks the given model exists within the data store.
+        /// </summary>
+        /// <param name="model">The <typeparamref name="T"/> instance to search for.</param>
+        /// <returns>True if the model's key exists in the data store, else false.</returns>
+        Task<ActionResult<bool>> ModelExistsAsync(T model);
 
         /// <summary>
         /// Saves pending changes within the service context to the data store.

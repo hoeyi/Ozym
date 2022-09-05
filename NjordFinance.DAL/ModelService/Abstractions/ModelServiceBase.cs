@@ -164,5 +164,12 @@ namespace NjordFinance.ModelService.Abstractions
             return Expression.Lambda<Func<T, bool>>(expression, parameterExpression);
         }
 
+        protected static bool Exists(FinanceDbContext context, Expression<Func<T, bool>> predicate)
+        {
+            if (context is null)
+                throw new ArgumentNullException(paramName: nameof(context));
+
+            return context.Set<T>().Any(predicate);
+        }
     }
 }

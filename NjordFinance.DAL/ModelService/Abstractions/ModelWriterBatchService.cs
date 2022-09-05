@@ -108,7 +108,9 @@ namespace NjordFinance.ModelService.Abstractions
 
             EntityState observedState = SharedContext.Context.Entry(model).State;
 
-            bool result = observedState == EntityState.Deleted;
+            int? key = GetKey(model);
+            bool result = (key is null && observedState == EntityState.Detached) ^
+                (key is not null && observedState == EntityState.Deleted);
 
             object m = new
             {

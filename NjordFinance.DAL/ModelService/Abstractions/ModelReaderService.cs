@@ -79,7 +79,7 @@ namespace NjordFinance.ModelService.Abstractions
             if (HasSharedContext)
                 return Exists(SharedContext.Context, keySearch);
 
-            using var context = SharedContext?.Context ?? _contextFactory.CreateDbContext();
+            using var context = _contextFactory.CreateDbContext();
 
             return Exists(context, keySearch);
         }
@@ -188,12 +188,6 @@ namespace NjordFinance.ModelService.Abstractions
             return result;
         }
 
-        private static bool Exists(FinanceDbContext context, Expression<Func<T, bool>> predicate)
-        {
-            if (context is null)
-                throw new ArgumentNullException(paramName: nameof(context));
-
-            return context.Set<T>().Any(predicate);
-        }
+        
     }
 }
