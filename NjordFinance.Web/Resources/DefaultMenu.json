@@ -24,13 +24,6 @@
           "HasChildren": false
         },
         "3": {
-          "IconKey": null,
-          "Caption": "Custodians",
-          "UriStem": "/custodians",
-          "Children": {},
-          "HasChildren": false
-        },
-        "4": {
           "IconKey": "options",
           "Caption": "Models",
           "UriStem": "/investment-models",
@@ -75,6 +68,13 @@
           "HasChildren": false
         },
         "2": {
+          "IconKey": null,
+          "Caption": "Custodians",
+          "UriStem": "/custodians",
+          "Children": {},
+          "HasChildren": false
+        },
+        "3": {
           "IconKey": "card",
           "Caption": "Transactions",
           "UriStem": null,

@@ -4,9 +4,10 @@
 
 @inject IBatchController<AccountCustodian> Controller
 
-<PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
 
 <ThemedComponent>
+    <PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
+
     <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
 
     @if (IsLoading)
@@ -40,14 +41,14 @@
                     <DataAnnotationsValidator/>
                     <DataGrid Data="@Custodians">
                         <DataGridColumn Property=@nameof(AccountCustodian.CustodianCode)
-                                    Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.CustodianCode)))>
+                                    Caption=@(NameFor(nameof(AccountCustodian.CustodianCode)))>
                             <CellEditTemplate Context="model">
                                 <InputText class="form-control" @bind-Value=model.CustodianCode />
                                 <ValidationMessage For=@(()=> model.CustodianCode) />
                             </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property=@nameof(AccountCustodian.DisplayName)
-                                    Caption=@(NameFor<AccountCustodian>(nameof(AccountCustodian.DisplayName)))>
+                                    Caption=@(NameFor(nameof(AccountCustodian.DisplayName)))>
                             <CellEditTemplate Context="model">
                                 <InputText class="form-control" @bind-Value=model.DisplayName />
                                 <ValidationMessage For=@(()=> model.DisplayName) />
@@ -55,11 +56,13 @@
                         </DataGridColumn>
                         <DataGridColumn Type="DataGridCellType.Button">
                             <CellEditTemplate Context="model">
-                                <button class="form-control button icon"
-                                    type="button"
-                                    @onclick="async (args) => await DeleteAsync(args, model)">
-                                    <IonIcon Name="close-circle" />
-                                </button>
+                                <ToolTip Text="@Resources.Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon"
+                                        type="button"
+                                        @onclick="async (args) => await DeleteAsync(args, model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
                             </CellEditTemplate>
                         </DataGridColumn>
                     </DataGrid>
@@ -110,7 +113,7 @@
 
     private async Task DeleteAsync(MouseEventArgs args, AccountCustodian custodian)
     {
-        var result = await Controller.DeleteAsync(custodian);
+        var result = await Controller.DeleteOrDetachAsync(custodian);
 
         if (result is OkResult)
             Custodians.Remove(custodian);

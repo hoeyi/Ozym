@@ -76,11 +76,13 @@
                             </DataGridColumn>
                             <DataGridColumn Type="DataGridCellType.Button">
                                 <CellEditTemplate Context="model">
-                                    <button class="form-control button icon"
-                                        type="button"
-                                        @onclick="async (args) => await DeleteAsync(args, model)">
-                                        <IonIcon Name="close-circle" />
-                                    </button>
+                                    <ToolTip Text="@Resources.Strings.Caption_Button_Delete">
+                                        <button class="form-control button icon"
+                                            type="button"
+                                            @onclick="async (args) => await DeleteAsync(args, model)">
+                                            <IonIcon Name="close-circle" />
+                                        </button>
+                                    </ToolTip>
                                 </CellEditTemplate>
                             </DataGridColumn>
                         </DataGrid>
@@ -141,7 +143,7 @@
 
     private async Task DeleteAsync(MouseEventArgs args, AccountWallet wallet)
     {
-        var result = await Controller.DeleteAsync(wallet);
+        var result = await Controller.DeleteOrDetachAsync(wallet);
 
         if (result is OkResult)
             Wallets.Remove(wallet);

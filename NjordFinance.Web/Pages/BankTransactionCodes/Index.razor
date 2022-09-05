@@ -16,17 +16,6 @@
         <ContentTile>
             <Body>
                 <DataGrid Data="@Models">
-                    <DataGridColumn Type="DataGridCellType.Button">
-                        <CellTemplate Context="model">
-                            <ToolTip Text="@Resources.Strings.Caption_Properties_View">
-                                <button class="form-control button icon"
-                                    type="button"
-                                    @onclick="(args) => OnAttributeDetailSelect(args, model)">
-                                    <IonIcon Name="list-circle" />
-                                </button>
-                            </ToolTip>
-                        </CellTemplate>
-                    </DataGridColumn>
                     <DataGridColumn Property=@nameof(BankTransactionCode.TransactionCode)
                                 Caption=@(NameFor(nameof(BankTransactionCode.TransactionCode)))>
                         <CellTemplate Context="model">
