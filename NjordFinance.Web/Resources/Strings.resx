@@ -177,11 +177,17 @@
   <data name="Exception_Navigation_BaseUriNotValid" xml:space="preserve">
     <value>The relative base URI is expected to be a string beginning with '/'.</value>
   </data>
+  <data name="Text_ApplicationSummary" xml:space="preserve">
+    <value>NjordFinance is a web-application for financial management and analysis, powered by Blazor and ASP.NET.</value>
+  </data>
   <data name="Title_ApplicationHome" xml:space="preserve">
     <value>Home</value>
   </data>
   <data name="Title_ApplicationName" xml:space="preserve">
     <value>Njord Finance</value>
+  </data>
+  <data name="Title_ApplicationSummary" xml:space="preserve">
+    <value>About</value>
   </data>
   <data name="Title_Component_AttributeSelector" xml:space="preserve">
     <value>Select attribute</value>

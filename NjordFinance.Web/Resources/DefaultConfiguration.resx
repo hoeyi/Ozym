@@ -168,14 +168,14 @@
         "1": {
           "IconKey": null,
           "Caption": "Securities",
-          "UriStem": "/under-construction",
+          "UriStem": "/securities",
           "Children": {},
           "HasChildren": false
         },
         "2": {
           "IconKey": null,
           "Caption": "Prices",
-          "UriStem": "/under-construction",
+          "UriStem": "/prices",
           "Children": {},
           "HasChildren": false
         }
@@ -189,8 +189,8 @@
       "Children": {
         "1": {
           "IconKey": null,
-          "Caption": "Reference",
-          "UriStem": "/under-construction",
+          "Caption": "Countries",
+          "UriStem": "/countries",
           "Children": {},
           "HasChildren": false
         },
@@ -222,7 +222,7 @@
     "3": {
       "IconKey": null,
       "Caption": "About",
-      "UriStem": "/under-construction",
+      "UriStem": "/about",
       "Children": {},
       "HasChildren": false
     }  

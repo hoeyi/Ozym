@@ -232,6 +232,15 @@ namespace NjordFinance.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NjordFinance is a web-application for financial management and analysis, powered by Blazor and ASP.NET..
+        /// </summary>
+        internal static string Text_ApplicationSummary {
+            get {
+                return ResourceManager.GetString("Text_ApplicationSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         internal static string Title_ApplicationHome {
@@ -246,6 +255,15 @@ namespace NjordFinance.Web.Resources {
         internal static string Title_ApplicationName {
             get {
                 return ResourceManager.GetString("Title_ApplicationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string Title_ApplicationSummary {
+            get {
+                return ResourceManager.GetString("Title_ApplicationSummary", resourceCulture);
             }
         }
         
