@@ -1,13 +1,13 @@
-﻿@page "/bank-transaction-codes"
+﻿@page "/broker-transaction-codes"
 
-@inherits ModelIndex<BankTransactionCode>
+@inherits ModelIndex<BrokerTransactionCode>
 
 <ThemedComponent>
     <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
     <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
-    @if (IsLoading)
+    @if(IsLoading)
     {
         <LoadingSvg />
     }
@@ -16,16 +16,39 @@
         <ContentTile>
             <Body>
                 <DataGrid Data="@Models">
-                    <DataGridColumn Property=@nameof(BankTransactionCode.TransactionCode)
-                                Caption=@(NameFor(nameof(BankTransactionCode.TransactionCode)))>
+                    <DataGridColumn
+                        Property="@nameof(BrokerTransactionCode.TransactionCode)"
+                        Caption="@NameFor(nameof(BrokerTransactionCode.TransactionCode))">
                         <CellTemplate Context="model">
                             @model.TransactionCode
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(BankTransactionCode.DisplayName)
-                                Caption=@(NameFor(nameof(BankTransactionCode.DisplayName)))>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransactionCode.DisplayName)"
+                        Caption="@NameFor(nameof(BrokerTransactionCode.DisplayName))">
                         <CellTemplate Context="model">
                             @model.DisplayName
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransactionCode.CashEffect)"
+                        Caption="@NameFor(nameof(BrokerTransactionCode.CashEffect))">
+                        <CellTemplate Context="model">
+                            @model.CashEffect
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransactionCode.ContributionWithdrawalEffect)"
+                        Caption="@NameFor(nameof(BrokerTransactionCode.ContributionWithdrawalEffect))">
+                        <CellTemplate Context="model">
+                            @model.ContributionWithdrawalEffect
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransactionCode.QuantityEffect)"
+                        Caption="@NameFor(nameof(BrokerTransactionCode.QuantityEffect))">
+                        <CellTemplate Context="model">
+                            @model.QuantityEffect
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Type="DataGridCellType.Button">
@@ -46,7 +69,6 @@
 </ThemedComponent>
 
 @code {
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         ActionMenu = new()
@@ -69,7 +91,7 @@
         await base.OnInitializedAsync();
     }
 
-    private void OnAttributeDetailSelect(MouseEventArgs args, BankTransactionCode model)
+    private void OnAttributeDetailSelect(MouseEventArgs args, BrokerTransactionCode model)
     {
         NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{model.TransactionCodeId}/attributes");
     }
