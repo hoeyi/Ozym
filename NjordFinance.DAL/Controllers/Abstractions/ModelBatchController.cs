@@ -99,7 +99,7 @@ namespace NjordFinance.Controllers.Abstractions
         {
             try
             {
-                var result = await _modelService.SaveChanges();
+                var result = await _modelService.SaveChangesAsync();
 
                 return NoContent();
             }

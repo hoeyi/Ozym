@@ -47,7 +47,7 @@ namespace NjordFinance
                 .AddScoped<IModelBatchService<AccountAttributeMemberEntry>, AccountAttributeMemberService>()
                 .AddScoped<IModelBatchService<AccountCompositeMember>, AccountCompositeMemberService>()
                 .AddScoped<IModelBatchService<AccountCustodian>, AccountCustodianBatchService>()
-                .AddScoped<IModelBatchService<Country>, CountryBatchService>()
+                .AddTransient<IModelBatchService<Country>, CountryBatchService>()
                 .AddScoped<IModelBatchService<AccountWallet>, AccountWalletService>()
                 .AddScoped<IModelBatchService<BankTransaction>, BankTransactionService>()
                 .AddScoped<IModelBatchService<BankTransactionCode>, BankTransactionCodeBatchService>()
@@ -95,11 +95,16 @@ namespace NjordFinance
                 .AddScoped<IController<SecurityType>, ModelController<SecurityType>>();
             
             // Add batch controllers.
+            // These should probably be transient, else changes one page may be retained 
+            // (even if unsaved) on the next page, e.g., delete records without saving, cancel changes, 
+            // then make different changes. Pending changes from both actions will still be in the context.
+            // Alternative is to expose a cancel changes method so that the context can revert to its
+            // original state.
             services
                 .AddScoped<IBatchController<AccountAttributeMemberEntry>, ModelBatchController<AccountAttributeMemberEntry>>()
                 .AddScoped<IBatchController<AccountCompositeMember>, ModelBatchController<AccountCompositeMember>>()
                 .AddScoped<IBatchController<AccountCustodian>, ModelBatchController<AccountCustodian>>()
-                .AddScoped<IBatchController<Country>, ModelBatchController<Country>>()
+                .AddTransient<IBatchController<Country>, ModelBatchController<Country>>()
                 .AddScoped<IBatchController<AccountWallet>, ModelBatchController<AccountWallet>>()
                 .AddScoped<IBatchController<BankTransaction>, ModelBatchController<BankTransaction>>()
                 .AddScoped<IBatchController<BankTransactionCode>, ModelBatchController<BankTransactionCode>>()

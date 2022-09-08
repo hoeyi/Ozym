@@ -69,9 +69,9 @@ namespace NjordFinance.ModelService.Abstractions
         public async Task<T> ReadAsync(int? id) => await Reader.ReadAsync(id);
 
         /// <inheritdoc/>
-        public async Task<int> SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {
-            return await Writer.SaveChanges();
+            return await Writer.SaveChangesAsync();
         }
 
         /// <inheritdoc/>

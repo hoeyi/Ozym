@@ -4,7 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Model;
+using NjordFinance.Model.ConstraintType;
+using NjordFinance.ModelMetadata;
 using NjordFinance.ModelService.Abstractions;
+using NjordFinance.ModelService.CustomWriters;
 
 namespace NjordFinance.ModelService
 {
@@ -35,14 +38,21 @@ namespace NjordFinance.ModelService
             Reader = new ModelReaderService<Country>(
                 this, _modelMetadata, _logger)
             {
-                ParentExpression = x => true
+                ParentExpression = x => true,
+                IncludeDelegate = (queryable) => queryable.Include(a => a.AttributeMemberNavigation)
             };
 
-            Writer = new ModelWriterBatchService<Country>(
+            Writer = new CountryBatchWriterService(
                 this, _modelMetadata, _logger)
             {
                 ParentExpression = x => true,
                 GetDefaultModelDelegate = () => new Country()
+                {
+                    AttributeMemberNavigation = new()
+                    {
+                        AttributeId = (int)ModelAttributeEnum.CountryExposure
+                    }
+                }
             };
 
             e = null;
