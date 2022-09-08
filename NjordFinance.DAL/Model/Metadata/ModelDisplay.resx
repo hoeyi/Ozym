@@ -153,6 +153,12 @@
   <data name="AccountCompositeMember_AccountID_Name" xml:space="preserve">
     <value>Account</value>
   </data>
+  <data name="AccountCompositeMember_Comment_Description" xml:space="preserve">
+    <value>Additional context for this member.</value>
+  </data>
+  <data name="AccountCompositeMember_Comment_Name" xml:space="preserve">
+    <value>Comment</value>
+  </data>
   <data name="AccountCompositeMember_EntryDate_Description" xml:space="preserve">
     <value>The date the member enters the group.</value>
   </data>
@@ -163,7 +169,7 @@
     <value>The date the member exists the group.</value>
   </data>
   <data name="AccountCompositeMember_ExitDate_Name" xml:space="preserve">
-    <value>Exit date</value>
+    <value>Exit Date</value>
   </data>
   <data name="AccountComposite_DisplayOrder_Description" xml:space="preserve">
     <value>The order the account group receives in reporting.</value>

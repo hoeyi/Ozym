@@ -14,8 +14,9 @@ namespace NjordFinance.Model.ViewModel
     /// </summary>
     public class AccountViewModel : AccountObjectViewModel
     {
-        private readonly string _objectType = AccountObjectType.Account.ConvertToStringCode();
+        public override string ObjecTypeCode => AccountObjectType.Account.ConvertToStringCode();
 
+        private readonly Account _account;
         /// <summary>
         /// Initializes a new <see cref="AccountViewModel"/> instance from the given 
         /// <see cref="Account"/> instance.
@@ -30,28 +31,12 @@ namespace NjordFinance.Model.ViewModel
         }
 
         AccountViewModel(Account account, AccountObject accountObject)
+            : base(accountObject)
         {
             if (account is null)
                 throw new ArgumentNullException(paramName: nameof(account));
 
-            if (accountObject is null)
-                throw new ArgumentNullException(paramName: nameof(accountObject));
-
-            AccountNumber = account.AccountNumber;
-            AccountCustodian = account.AccountCustodian;
-            AccountCustodianId = account.AccountCustodianId;
-            BooksClosedDate = account.BooksClosedDate;
-            IsComplianceTradable = account.IsComplianceTradable;
-            HasWallet = account.HasWallet;
-            HasBankTransaction = account.HasBankTransaction;
-            HasBrokerTransaction = account.HasBrokerTransaction;
-
-            AccountObjectId = account.AccountId;
-            AccountObjectCode = accountObject.AccountObjectCode;
-            DisplayName = accountObject.ObjectDisplayName;
-            Description = accountObject.ObjectDescription;
-            StartDate = accountObject.StartDate;
-            CloseDate = accountObject.CloseDate;
+            _account = account;
         }
 
         [Display(
@@ -61,70 +46,94 @@ namespace NjordFinance.Model.ViewModel
         [StringLength(72,
             ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]
-        public string AccountNumber { get; set; }
-
+        public string AccountNumber
+        {
+            get { return _account.AccountNumber; }
+            set
+            {
+                if (_account.AccountNumber != value)
+                    _account.AccountNumber = value;
+            }
+        }
         [Display(
             Name = nameof(ModelDisplay.Account_AccountCustodianId_Name),
             Description = nameof(ModelDisplay.Account_AccountCustodianID_Description),
             ResourceType = typeof(ModelDisplay))]
-        public int? AccountCustodianId { get; set; }
-
+        public int? AccountCustodianId
+        {
+            get { return _account.AccountCustodianId; }
+            set
+            {
+                if (_account.AccountCustodianId != value)
+                    _account.AccountCustodianId = value;
+            }
+        }
         [Display(
             Name = nameof(ModelDisplay.Account_BooksClosedDate_Name),
             Description = nameof(ModelDisplay.Account_BooksClosedDate_Description),
             ResourceType = typeof(ModelDisplay))]
-        public DateTime? BooksClosedDate { get; set; }
-
+        public DateTime? BooksClosedDate
+        {
+            get { return _account.BooksClosedDate; }
+            set
+            {
+                if (_account.BooksClosedDate != value)
+                    _account.BooksClosedDate = value;
+            }
+        }
         [Display(
             Name = nameof(ModelDisplay.Account_IsComplianceTradable_Name),
             Description = nameof(ModelDisplay.Account_IsComplianceTradable_Description),
             ResourceType = typeof(ModelDisplay))]
-        public bool IsComplianceTradable { get; set; }
-
+        public bool IsComplianceTradable
+        {
+            get { return _account.IsComplianceTradable; }
+            set
+            {
+                if (_account.IsComplianceTradable != value)
+                    _account.IsComplianceTradable = value;
+            }
+        }
         [Display(
             Name = nameof(ModelDisplay.Account_HasWallet_Name),
             Description = nameof(ModelDisplay.Account_HasWallet_Description),
             ResourceType = typeof(ModelDisplay))]
-        public bool HasWallet { get; set; }
-
+        public bool HasWallet
+        {
+            get { return _account.HasWallet; }
+            set
+            {
+                if (_account.HasWallet != value)
+                    _account.HasWallet = value;
+            }
+        }
         [Display(
             Name = nameof(ModelDisplay.Account_HasBankTransaction_Name),
             Description = nameof(ModelDisplay.Account_HasBankTransaction_Description),
             ResourceType = typeof(ModelDisplay))]
-        public bool HasBankTransaction { get; set; }
-
+        public bool HasBankTransaction
+        {
+            get { return _account.HasBankTransaction; }
+            set
+            {
+                if (_account.HasBankTransaction != value)
+                    _account.HasBankTransaction = value;
+            }
+        }
         [Display(
             Name = nameof(ModelDisplay.Account_HasBrokerTransaction_Name),
             Description = nameof(ModelDisplay.Account_HasBrokerTransaction_Description),
             ResourceType = typeof(ModelDisplay))]
-        public bool HasBrokerTransaction { get; set; }
-
-        public AccountCustodian? AccountCustodian { get; init; }
-
-        public Account ToAccount()
+        public bool HasBrokerTransaction
         {
-            return new()
+            get { return _account.HasBrokerTransaction; }
+            set
             {
-                AccountId = AccountObjectId,
-                AccountNumber = AccountNumber,
-                AccountCustodianId = AccountCustodianId,
-                BooksClosedDate = BooksClosedDate,
-                IsComplianceTradable = IsComplianceTradable,
-                HasWallet = HasWallet,
-                HasBankTransaction = HasBankTransaction,
-                HasBrokerTransaction = HasBrokerTransaction,
-
-                AccountNavigation = new()
-                {
-                    AccountObjectId = AccountObjectId,
-                    AccountObjectCode = AccountObjectCode,
-                    ObjectDisplayName = DisplayName,
-                    ObjectDescription = Description,
-                    StartDate = StartDate,
-                    CloseDate = CloseDate,
-                    ObjectType = _objectType
-                }
-            };
+                if (_account.HasBrokerTransaction != value)
+                    _account.HasBrokerTransaction = value;
+            }
         }
+
+        public Account ToAccount() => _account;
     }
 }

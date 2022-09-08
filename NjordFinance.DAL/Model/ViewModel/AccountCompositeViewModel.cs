@@ -1,4 +1,8 @@
 ﻿using NjordFinance.ModelMetadata;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NjordFinance.Model.ViewModel
 {
@@ -7,23 +11,30 @@ namespace NjordFinance.Model.ViewModel
     /// </summary>
     public class AccountCompositeViewModel : AccountObjectViewModel
     {
-        private readonly string _objectType = AccountObjectType.Composite.ConvertToStringCode();
-        public AccountComposite ToAccountComposite()
+        private readonly AccountComposite _composite;
+        public AccountCompositeViewModel(AccountComposite composite)
+            : this(composite, composite.AccountCompositeNavigation)
         {
-            return new()
-            {
-                AccountCompositeId = AccountObjectId,
-                AccountCompositeNavigation = new()
-                {
-                    AccountObjectId = AccountObjectId,
-                    AccountObjectCode = AccountObjectCode,
-                    ObjectDisplayName = DisplayName,
-                    ObjectDescription = Description,
-                    StartDate = StartDate,
-                    CloseDate = CloseDate,
-                    ObjectType = _objectType
-                }
-            };
         }
+
+        AccountCompositeViewModel(AccountComposite composite, AccountObject accountObject) :
+            base(accountObject)
+        {
+            if (composite is null)
+                throw new ArgumentNullException(paramName: nameof(composite));
+
+            _composite = composite;
+        }
+
+        public override string ObjecTypeCode => AccountObjectType.Composite.ConvertToStringCode();
+        
+        public IReadOnlyCollection<AccountCompositeMember> Members => 
+            _composite.AccountCompositeMembers.ToList();
+
+        public bool AddMember(AccountCompositeMember member) => throw new NotImplementedException();
+
+        public bool RemoveMember(AccountCompositeMember member) => throw new NotImplementedException();
+
+        public AccountComposite ToAccountComposite() => _composite;
     }
 }

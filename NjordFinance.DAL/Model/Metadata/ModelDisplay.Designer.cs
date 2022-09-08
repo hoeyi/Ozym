@@ -331,6 +331,24 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional context for this member..
+        /// </summary>
+        public static string AccountCompositeMember_Comment_Description {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_Comment_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment.
+        /// </summary>
+        public static string AccountCompositeMember_Comment_Name {
+            get {
+                return ResourceManager.GetString("AccountCompositeMember_Comment_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The date the member enters the group..
         /// </summary>
         public static string AccountCompositeMember_EntryDate_Description {
@@ -358,7 +376,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exit date.
+        ///   Looks up a localized string similar to Exit Date.
         /// </summary>
         public static string AccountCompositeMember_ExitDate_Name {
             get {

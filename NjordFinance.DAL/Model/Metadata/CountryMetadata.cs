@@ -20,6 +20,7 @@ namespace NjordFinance.Model
             Name = nameof(ModelDisplay.Country_DisplayName_Name),
             Description = nameof(ModelDisplay.Country_DisplayName_Description),
             ResourceType = typeof(ModelDisplay))]
+        [Searchable]
         public string DisplayName { get; set; }
 
 
@@ -27,6 +28,7 @@ namespace NjordFinance.Model
             Name = nameof(ModelDisplay.Country_IsoCode3_Name),
             Description = nameof(ModelDisplay.Country_IsoCode3_Description),
             ResourceType = typeof(ModelDisplay))]
+        [Searchable]
         public string IsoCode3 { get; set; }
     }
 
