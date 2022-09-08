@@ -1,13 +1,13 @@
-﻿@page "/bank-transaction-codes/edit"
+﻿@page "/countries/edit"
 
-@inherits ModelPage<BankTransactionCode>
+@inherits ModelPage<Country>
 
-@inject IBatchController<BankTransactionCode> Controller
+@inject IBatchController<Country> Controller
 
 <ThemedComponent>
     <PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
 
-    <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
+        <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
 
     @if (IsLoading)
     {
@@ -30,7 +30,7 @@
                         <button class="form-control button"
                             @onclick="(async (args) => await AddNewAsync(args))">
                             @Resources.Strings.Caption_Button_Add.Format(
-                        ModelMetadata.NounFor(typeof(BankTransactionCode))?.GetSingular())
+                        ModelMetadata.NounFor(typeof(Country))?.GetSingular())
                         </button>
                         <button class="form-control button" @onclick="Cancel_OnClick"
                             @onclick:preventDefault>
@@ -38,19 +38,19 @@
                         </button>
                     </ActionButtonMenu>
                     <DataAnnotationsValidator />
-                    <DataGrid Data="@BankTransactionCodes">
-                        <DataGridColumn Property=@nameof(BankTransactionCode.TransactionCode)
-                                    Caption=@(NameFor(nameof(BankTransactionCode.TransactionCode)))>
+                    <DataGrid Data="@Countries">
+                        <DataGridColumn Property=@nameof(Country.DisplayName)
+                                    Caption=@(NameFor(nameof(Country.DisplayName)))>
                             <CellEditTemplate Context="model">
-                                <InputText class="form-control" @bind-Value=model.TransactionCode />
-                                <ValidationMessage For=@(()=> model.TransactionCode) />
+                                <InputText class="form-control" @bind-Value="model.DisplayName" />
+                                <ValidationMessage For=@(()=> model.DisplayName) />
                             </CellEditTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property=@nameof(BankTransactionCode.DisplayName)
-                                    Caption=@(NameFor(nameof(BankTransactionCode.DisplayName)))>
+                        <DataGridColumn Property=@nameof(Country.IsoCode3)
+                                    Caption=@(NameFor(nameof(Country.IsoCode3)))>
                             <CellEditTemplate Context="model">
-                                <InputText class="form-control" @bind-Value=model.DisplayName />
-                                <ValidationMessage For=@(()=> model.DisplayName) />
+                                <InputText class="form-control" @bind-Value="model.IsoCode3" />
+                                <ValidationMessage For=@(()=> model.IsoCode3) />
                             </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Type="DataGridCellType.Button">
@@ -71,7 +71,7 @@
     }
 </ThemedComponent>
 @code {
-    private IList<BankTransactionCode> BankTransactionCodes { get; set; }
+    private IList<Country> Countries { get; set; }
 
     private EditContext _context;
 
@@ -84,17 +84,17 @@
 
         try
         {
-            BankTransactionCodes = (await Controller.SelectAllAsync()).Value;
+            Countries = (await Controller.SelectAllAsync()).Value;
 
-            if (!BankTransactionCodes.Any())
+            if (!Countries.Any())
             {
                 await AddNewAsync(args: null);
             }
         }
         finally
         {
-            _context = new(BankTransactionCodes);
-            IsLoading = BankTransactionCodes is null;
+            _context = new(Countries);
+            IsLoading = Countries is null;
         }
     }
 
@@ -105,16 +105,16 @@
         var getDefaultTask = await Controller.GetDefaultAsync();
         await Controller.AddAsync(getDefaultTask.Value);
 
-        if (getDefaultTask.Value is BankTransactionCode model)
-            BankTransactionCodes.Add(model);
+        if (getDefaultTask.Value is Country model)
+            Countries.Insert(0, model);
     }
 
-    private async Task DeleteAsync(MouseEventArgs args, BankTransactionCode model)
+    private async Task DeleteAsync(MouseEventArgs args, Country model)
     {
         var result = await Controller.DeleteOrDetachAsync(model);
 
         if (result is OkResult)
-            BankTransactionCodes.Remove(model);
+            Countries.Remove(model);
         else
             throw new InvalidOperationException();
 
