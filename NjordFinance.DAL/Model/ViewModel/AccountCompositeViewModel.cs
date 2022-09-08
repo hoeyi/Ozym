@@ -31,7 +31,7 @@ namespace NjordFinance.Model.ViewModel
         public IReadOnlyCollection<AccountCompositeMember> Members => 
             _composite.AccountCompositeMembers.ToList();
 
-        public bool AddMember(AccountCompositeMember member) => throw new NotImplementedException();
+        public bool AddMember() => throw new NotImplementedException();
 
         public bool RemoveMember(AccountCompositeMember member) => throw new NotImplementedException();
 
