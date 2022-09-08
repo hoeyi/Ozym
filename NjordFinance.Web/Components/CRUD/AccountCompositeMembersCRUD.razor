@@ -1,0 +1,113 @@
+﻿@inherits ModelCRUD<AccountCompositeViewModel>
+
+@if(ViewModel is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    @if(ReadOnly)
+    {
+        <DataGrid TModel="AccountCompositeMember" Data="@ViewModel.Members">
+            <DataGridColumn 
+                Property="@nameof(AccountCompositeMember.AccountId)"
+                Caption=@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.AccountId)))>
+                <CellTemplate Context="model">
+                    @MemberDisplay(model.AccountId)
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn 
+                Property="@nameof(AccountCompositeMember.EntryDate)"
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.EntryDate)))">
+                <CellTemplate Context="model">
+                    @model.EntryDate.ToShortDateString()
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn 
+                Property="@nameof(AccountCompositeMember.ExitDate)"
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.ExitDate)))">
+                <CellTemplate Context="model">
+                    @model.ExitDate?.ToShortDateString()
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn 
+                Property="@nameof(AccountCompositeMember.Comment)"
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.Comment)))">
+                <CellTemplate Context="model">
+                    @model.Comment
+                </CellTemplate>
+            </DataGridColumn>
+        </DataGrid>
+
+    }
+    else
+    {
+        <ActionButtonMenu>
+            <button class="form-control button" 
+                @onclick="args => ViewModel.AddMember()">
+                @Resources.Strings.Caption_Button_Add.Format(
+                    ModelMetadata.NounFor(typeof(AccountCompositeMember))?.GetSingular())
+            </button>
+        </ActionButtonMenu>
+        <DataGrid TModel="AccountCompositeMember" Data="@ViewModel.Members">
+            <DataGridColumn 
+                Property="@nameof(AccountCompositeMember.AccountId)"
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.AccountId)))">
+                <CellEditTemplate Context="model">
+                    <InputSelect class="form-control"
+                             @bind-Value="@model.AccountId">
+                        @foreach (var account in Accounts)
+                        {
+                            <option value=@account.Key>@account.Display</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For=@(()=> model.AccountId) />
+                </CellEditTemplate>
+            </DataGridColumn>
+            <DataGridColumn 
+                    Property="@nameof(AccountCompositeMember.EntryDate)"
+                    Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.EntryDate)))">
+                <CellEditTemplate Context="model">
+                    <InputDate class="form-control" @bind-Value="@model.EntryDate" />
+                    <ValidationMessage For=@(()=> model.EntryDate) />
+                </CellEditTemplate>
+            </DataGridColumn>
+            <DataGridColumn 
+                Property="@nameof(AccountCompositeMember.ExitDate)"
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.ExitDate)))">
+                <CellEditTemplate Context="model">
+                    <InputDate class="form-control" @bind-Value="@model.ExitDate" />
+                    <ValidationMessage For=@(()=> model.ExitDate) />
+                </CellEditTemplate>
+            </DataGridColumn>
+            <DataGridColumn 
+                Property="@nameof(AccountCompositeMember.Comment)"
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.Comment)))">
+                <CellEditTemplate Context="model">
+                    <InputText class="form-control" @bind-Value="@model.Comment" />
+                    <ValidationMessage For=@(()=> model.Comment) />
+                </CellEditTemplate>
+            </DataGridColumn>
+            <DataGridColumn Type="DataGridCellType.Button">
+                <CellEditTemplate Context="model">
+                    <ToolTip Text="@Resources.Strings.Caption_Button_Delete">
+                        <button class="form-control button icon"
+                            type="button"
+                            @onclick="async (args) => ViewModel.RemoveMember(model)">
+                            <IonIcon Name="close-circle" />
+                        </button>
+                    </ToolTip>
+                </CellEditTemplate>
+            </DataGridColumn>
+        </DataGrid>
+    }
+}
+
+@code {
+    [Parameter]
+    public IEnumerable<LookupModel> Accounts { get; set; }
+
+    private string MemberDisplay(int accountId) => Accounts
+        .FirstOrDefault(a => a.Key == accountId)
+        ?.Display;
+}            

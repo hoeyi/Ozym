@@ -100,7 +100,7 @@ else
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.AccountCustodian?.DisplayName
+                    @CustodianDisplayName(ViewModel.AccountCustodianId)
                 </div>
             }
             else
@@ -189,4 +189,9 @@ else
 @code {
     [Parameter]
     public IEnumerable<LookupModel> AccountCustodians { get; set; }
+
+    private string? CustodianDisplayName(int? custodianId)
+    {
+        return AccountCustodians.FirstOrDefault(a => a.Key == custodianId)?.Display;
+    }
 }
