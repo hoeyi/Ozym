@@ -11,7 +11,7 @@
                         ComparisonOperators=@ComparisonOperators
                         ExpressionBuilder=@ExpressionBuilder
                         SearchFields=@SearchFields
-                        OnSearchClick=@(args => SearchClicked(args))>
+                        OnSearchClick=@(async (args) => await SearchClicked(args))>
     </SearchInputTable>
     
     @if (IsLoading)

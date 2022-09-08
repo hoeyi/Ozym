@@ -15,6 +15,17 @@
     {
         <ContentTile>
             <Body>
+                <SearchInputTable TModel="Country"
+                              ComparisonOperators=@ComparisonOperators
+                              ExpressionBuilder=@ExpressionBuilder
+                              SearchFields=@SearchFields
+                              OnSearchClick=@(async (args) => await SearchClicked(args))>
+                </SearchInputTable>
+            </Body>
+        </ContentTile>
+
+        <ContentTile>
+            <Body>
                 <DataGrid Data="@Models">
                     <DataGridColumn Property=@nameof(Country.DisplayName)
                                 Caption=@(NameFor(nameof(Country.DisplayName)))>
