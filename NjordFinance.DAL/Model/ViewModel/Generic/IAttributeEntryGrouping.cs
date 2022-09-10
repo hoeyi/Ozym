@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.Model.ViewModel.Generic
 {
     /// <summary>
     /// Represents a collection of <typeparamref name="TEntryEntity"/> that describe an instance 

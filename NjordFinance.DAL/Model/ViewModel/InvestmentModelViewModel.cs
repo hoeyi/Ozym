@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NjordFinance.Model.ViewModel.Generic;
 using NjordFinance.Model.Annotations;
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow.ValueContentAnalysis;
+using System.Transactions;
 
 namespace NjordFinance.Model.ViewModel
 {
@@ -25,34 +27,44 @@ namespace NjordFinance.Model.ViewModel
         /// the <see cref="InvestmentStrategy.InvestmentStrategyTargets"/> and/or 
         /// <see cref="InvestmentStrategyTarget.AttributeMember"/> members.</exception>
         public InvestmentModelViewModel(InvestmentStrategy strategy)
-            : base(parentEntity: strategy)
-        {
-            if (strategy is null)
-                throw new ArgumentNullException(paramName: nameof(strategy));
+            : base(
+                  parentEntity: strategy, 
+                  groupConstructor: (parent, attribute, date) =>
+                  {
+                      return new InvestmentModelTargetViewModel(parent, attribute, date);
+                  },
+                  groupingConverterFunc: (grouping, parent) =>
+                  {
+                      var firstEntry = grouping.Where(x => x.AttributeMember is not null).First();
 
+                      return new(
+                          parentEntity: parent,
+                          modelAttribute: firstEntry.AttributeMember.Attribute,
+                          effectiveDate: firstEntry.EffectiveDate);
+                  },
+                  groupingFunc: (entries) =>
+                  {
+                      return entries.GroupBy(e => (e.AttributeMember.AttributeId, e.EffectiveDate));
+                  },
+                  entryMemberSelector: (parent) =>
+                  {
+                      return parent.InvestmentStrategyTargets;
+                  })
+        {
             // Check child entry records were included in the given model.
             if (strategy.InvestmentStrategyTargets is null)
                 throw new InvalidOperationException(
-                    message: string.Format(
-                        Strings.InvestmentModelViewModel_Constructor_InvalidOperationException,
-                        nameof(InvestmentStrategyTarget)));
+                    message: GetIncompleteObjectGraphMessage(x => x.InvestmentStrategyTargets));
 
             // Check all child records have the ModelAttributeMember related record.
             if (strategy.InvestmentStrategyTargets.Any(a => a.AttributeMember is null))
                 throw new InvalidOperationException(
-                    message: string.Format(
-                        Strings.InvestmentModelViewModel_Constructor_InvalidOperationException,
-                        nameof(InvestmentStrategyTarget.AttributeMember)));
+                    message: GetIncompleteObjectGraphMessage(x => x.AttributeMember));
 
             // Check all child record ModelAttributeMember records have the ModelAttribute record.
             if (strategy.InvestmentStrategyTargets.Any(a => a.AttributeMember.Attribute is null))
                 throw new InvalidOperationException(
-                    message: string.Format(
-                        Strings.InvestmentModelViewModel_Constructor_InvalidOperationException,
-                        nameof(InvestmentStrategyTarget.AttributeMember.Attribute)));
-
-            DisplayName = strategy.DisplayName;
-            Notes = strategy.Notes;
+                    message: GetIncompleteObjectGraphMessage(x => x.AttributeMember.Attribute));
         }
 
         [Display(
@@ -65,56 +77,28 @@ namespace NjordFinance.Model.ViewModel
         [StringLength(32,
                     ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
                     ErrorMessageResourceType = typeof(ModelValidation))]
-        public string DisplayName { get; set; }
+        public string DisplayName
+        {
+            get { return ParentEntity.DisplayName; }
+            set
+            {
+                if (ParentEntity.DisplayName != value)
+                    ParentEntity.DisplayName = value;
+            }
+        }
 
         [Display(
             Name = nameof(ModelDisplay.InvestmentStrategy_Notes_Name),
             Description = nameof(ModelDisplay.InvestmentStrategy_Notes_Description),
             ResourceType = typeof(ModelDisplay))]
-        public string Notes { get; set; }
-
-        protected override Func<InvestmentStrategy, IEnumerable<InvestmentStrategyTarget>>
-            EntryMemberSelector => (parent) => parent.InvestmentStrategyTargets;
-
-        public override InvestmentStrategy ToEntity() => new()
+        public string Notes
         {
-            InvestmentStrategyId = _parentEntity.InvestmentStrategyId,
-            DisplayName = DisplayName,
-            Notes = Notes,
-            InvestmentStrategyTargets = _parentEntity.InvestmentStrategyTargets
-        };
-
-        public override InvestmentModelTargetViewModel AddNew(ModelAttribute forAttribute)
-        {
-            var lastEntryDateUtc = EntryCollection
-                .Where(x => x.ParentAttribute.AttributeId == forAttribute.AttributeId)
-                .MaxOrDefault(x => x.EffectiveDate)
-                .ToUniversalTime();
-
-            DateTime effectiveDate = lastEntryDateUtc.Date < DateTime.UtcNow.Date ?
-                DateTime.UtcNow.Date : lastEntryDateUtc.Date.AddDays(1);
-                    
-            var newTarget = new InvestmentModelTargetViewModel(
-                parentStrategy: _parentEntity, modelAttribute: forAttribute, effectiveDate);
-
-            newTarget.AddNewEntry();
-
-            return newTarget;
+            get { return ParentEntity.Notes; }
+            set
+            {
+                if (ParentEntity.Notes != value)
+                    ParentEntity.Notes = value;
+            }
         }
-
-        protected override InvestmentModelTargetViewModel ConvertGroupingToViewModel(
-            IGrouping<(int, DateTime), InvestmentStrategyTarget> grouping)
-        {
-            var firstEntry = grouping.Where(x => x.AttributeMember is not null).First();
-
-            return new (
-                parentStrategy: _parentEntity,
-                modelAttribute: firstEntry.AttributeMember.Attribute,
-                effectiveDate: firstEntry.EffectiveDate);
-        }
-        
-        protected override IEnumerable<IGrouping<(int, DateTime), InvestmentStrategyTarget>>
-            GroupEntries(IEnumerable<InvestmentStrategyTarget> entries) =>
-                entries.GroupBy(e => (e.AttributeMember.AttributeId, e.EffectiveDate));
     }
 }

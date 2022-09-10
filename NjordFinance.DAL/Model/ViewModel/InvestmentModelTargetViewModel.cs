@@ -12,19 +12,19 @@ namespace NjordFinance.Model.ViewModel
         : AttributeEntryGrouping<InvestmentStrategy, InvestmentStrategyTarget>
     {
         internal InvestmentModelTargetViewModel(
-            InvestmentStrategy parentStrategy, ModelAttribute modelAttribute, DateTime effectiveDate)
-        : base(parentStrategy, modelAttribute, effectiveDate)
+            InvestmentStrategy parentEntity, ModelAttribute modelAttribute, DateTime effectiveDate)
+        : base(parentEntity, modelAttribute, effectiveDate)
         {
         }
 
-        protected override Func<InvestmentStrategyTarget, decimal> WeightSelector => x => x.Weight;
-
-        protected override Func<InvestmentStrategy, ICollection<InvestmentStrategyTarget>> ParentEntryMemberFor 
-            => x => x.InvestmentStrategyTargets;
+        protected override Func<InvestmentStrategy, ICollection<InvestmentStrategyTarget>> 
+            ParentEntryMemberFor => x => x.InvestmentStrategyTargets;
 
         protected override Func<InvestmentStrategyTarget, bool> EntrySelector => x => 
             (x.AttributeMember is null || x.AttributeMember.AttributeId == ParentAttribute.AttributeId) 
                 && x.EffectiveDate == EffectiveDate;
+
+        protected override Func<InvestmentStrategyTarget, decimal> WeightSelector => x => x.Weight;
 
         public override InvestmentStrategyTarget AddNewEntry()
         {
@@ -47,7 +47,7 @@ namespace NjordFinance.Model.ViewModel
             return newEntry;
         }
 
-        protected override bool UpdateEffectiveDate(
+        protected override bool UpdateEntryEffectiveDate(
             InvestmentStrategyTarget entry, DateTime effectiveDate)
         {
             entry.EffectiveDate = effectiveDate;

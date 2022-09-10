@@ -61,11 +61,20 @@ namespace NjordFinance.Model.ViewModel {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} related records were not included..
+        ///   Looks up a localized string similar to Set failed for &apos;{0}&apos; member for one or more entries in the collection, resulting in inconsistent keys for the grouping..
         /// </summary>
-        internal static string InvestmentModelViewModel_Constructor_InvalidOperationException {
+        internal static string AttributeEntryGrouping_EffectiveDate_InconsistentSet {
             get {
-                return ResourceManager.GetString("InvestmentModelViewModel_Constructor_InvalidOperationException", resourceCulture);
+                return ResourceManager.GetString("AttributeEntryGrouping_EffectiveDate_InconsistentSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initialization failed. Object graph missing required path: {0}..
+        /// </summary>
+        internal static string AttributeEntryViewModel_Exception_IncompleteObjectGraph {
+            get {
+                return ResourceManager.GetString("AttributeEntryViewModel_Exception_IncompleteObjectGraph", resourceCulture);
             }
         }
     }

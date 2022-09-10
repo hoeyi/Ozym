@@ -44,7 +44,7 @@ namespace NjordFinance.Model.ViewModel
             return newEntry;
         }
 
-        protected override bool UpdateEffectiveDate(
+        protected override bool UpdateEntryEffectiveDate(
             SecurityAttributeMemberEntry entry, DateTime effectiveDate)
         {
             entry.EffectiveDate = effectiveDate;

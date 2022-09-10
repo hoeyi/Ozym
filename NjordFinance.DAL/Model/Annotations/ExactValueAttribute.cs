@@ -4,7 +4,7 @@ using System.Resources;
 using NjordFinance.Model.Metadata;
 using System.Globalization;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.Model.Annotations
 {
     /// <summary>
     /// Validation attribute that requires decorated members to have an exact value having one 
@@ -33,7 +33,7 @@ namespace NjordFinance.Model.ViewModel
             string errorMessage = null,
             string ErrorMessageResourceName = null,
             Type ErrorMessageResourceType = null) :
-            this (errorMessage, ErrorMessageResourceName, ErrorMessageResourceType)
+            this(errorMessage, ErrorMessageResourceName, ErrorMessageResourceType)
         {
             RequiredValue = value;
             OperandType = typeof(int);
@@ -49,11 +49,11 @@ namespace NjordFinance.Model.ViewModel
         /// <param name="ErrorMessageResourceType">The type containing 
         /// <paramref name="ErrorMessageResourceName"/>.</param>
         public ExactValueAttribute(
-            double value, 
+            double value,
             string errorMessage = null,
             string ErrorMessageResourceName = null,
             Type ErrorMessageResourceType = null) :
-            this (errorMessage, ErrorMessageResourceName, ErrorMessageResourceType)
+            this(errorMessage, ErrorMessageResourceName, ErrorMessageResourceType)
         {
             RequiredValue = value;
             OperandType = typeof(double);
@@ -111,7 +111,7 @@ namespace NjordFinance.Model.ViewModel
         public override bool IsValid(object value)
         {
             // Set-up the converter, if not already defined.
-            if(Conversion is null)
+            if (Conversion is null)
                 SetupConverter();
 
             // Used RequiredAttribute to test for empty, if applicable.
@@ -146,7 +146,7 @@ namespace NjordFinance.Model.ViewModel
 
         public override string FormatErrorMessage(string name)
             => string.Format(CultureInfo.CurrentCulture, _errorMessage, name, RequiredValue);
-        
+
         /// <summary>
         /// Initializes the <see cref="RequiredValue"/> and <see cref="Conversion"/> members.
         /// </summary>
@@ -157,7 +157,7 @@ namespace NjordFinance.Model.ViewModel
             RequiredValue = requiredValue;
             Conversion = conversion;
         }
-        
+
         /// <summary>
         /// Configures the <see cref="Conversion"/> and <see cref="RequiredValue" /> members 
         /// based on the <see cref="OperandType"/>.

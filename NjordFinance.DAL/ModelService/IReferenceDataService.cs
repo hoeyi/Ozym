@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using NjordFinance.ModelMetadata;
 using NjordFinance.ModelService.Query;
 using NjordFinance.Model.Annotations;
-using NjordFinance.Model.ViewModel;
 using System.Reflection;
+using NjordFinance.Model.ViewModel.Generic;
 
 namespace NjordFinance.ModelService
 {

@@ -117,7 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InvestmentModelViewModel_Constructor_InvalidOperationException" xml:space="preserve">
-    <value>{0} related records were not included.</value>
+  <data name="AttributeEntryGrouping_EffectiveDate_InconsistentSet" xml:space="preserve">
+    <value>Set failed for '{0}' member for one or more entries in the collection, resulting in inconsistent keys for the grouping.</value>
+    <comment>{0} is the child entry member for which set failed.</comment>
+  </data>
+  <data name="AttributeEntryViewModel_Exception_IncompleteObjectGraph" xml:space="preserve">
+    <value>Initialization failed. Object graph missing required path: {0}.</value>
+    <comment>{0} is object path</comment>
   </data>
 </root>
