@@ -1,19 +1,20 @@
-﻿@using System.Text
-<li class="@GetItemClass()">
+﻿<li class="@GetItemClass()">
     @if (string.IsNullOrEmpty(MenuItem.UriStem) && OnHyperlinkClickOverride is null)
     {
-        <div class="grid-container">
-            <div class="icon left">
-                <IonIcon Name="@MenuItem.IconKey" />
-            </div>
-            @if(!string.IsNullOrEmpty(MenuItem.Caption))
+        <div class="grid-container @GetGridContainerClassModifier()">
+            @if(DisplayIconLeft)
+            {
+                <div class="icon left">
+                    <IonIcon Name="@MenuItem.IconKey" />
+                </div>
+            }
+            @if(DisplayCaption)
             {
                 <div class="caption left">
                     @MenuItem.Caption
                 </div>
             }
-
-            @if (!MenuItem.IsRoot && MenuItem.HasChildren)
+            @if(DisplayIconRight)
             {
                 <div class="icon right">
                     <IonIcon Name="caret-forward" class="caret-forward" />
@@ -25,14 +26,20 @@
     {
         @if(OnHyperlinkClickOverride is null)
         {
-            <a class="grid-container custom-nav-link" href="@MenuItem.UriStem">
-                <div class="icon left">
-                    <IonIcon Name="@MenuItem.IconKey" />
-                </div>
-                <div class="caption">
-                    @MenuItem.Caption
-                </div>
-                @if (!MenuItem.IsRoot && MenuItem.HasChildren)
+            <a class="grid-container custom-nav-link @GetGridContainerClassModifier()" href="@MenuItem.UriStem">
+                @if(DisplayIconLeft)
+                {
+                    <div class="icon left">
+                        <IonIcon Name="@MenuItem.IconKey" />
+                    </div>
+                }
+                @if(DisplayCaption)
+                {
+                    <div class="caption left">
+                        @MenuItem.Caption
+                    </div>
+                }
+                @if(DisplayIconRight)
                 {
                     <div class="icon right">
                         <IonIcon Name="caret-forward" class="caret-forward" />
@@ -42,15 +49,21 @@
         }
         else
         {
-            <div class="grid-container custom-nav-link" style="cursor: pointer;"
+            <div class="grid-container custom-nav-link @GetGridContainerClassModifier()" style="cursor: pointer;"
                 @onclick="(async (args) => await OnHyperlinkClickOverride.Value.InvokeAsync(args))">
-                <div class="icon left">
-                    <IonIcon Name="@MenuItem.IconKey" />
-                </div>
-                <div class="caption">
-                    @MenuItem.Caption
-                </div>
-                @if (!MenuItem.IsRoot && MenuItem.HasChildren)
+                @if (DisplayIconLeft)
+                {
+                    <div class="icon left">
+                        <IonIcon Name="@MenuItem.IconKey" />
+                    </div>
+                }
+                @if (DisplayCaption)
+                {
+                    <div class="caption left">
+                        @MenuItem.Caption
+                    </div>
+                }
+                @if (DisplayIconRight)
                 {
                     <div class="icon right">
                         <IonIcon Name="caret-forward" class="caret-forward" />
@@ -64,7 +77,7 @@
         <ul class="@GetChildMenuClass()">
             @foreach (var child in MenuItem.Children)
             {
-                <MenuStripItem MenuItem=@child.Value />
+                <MenuStripItem MenuItem="@child.Value" />
             }
         </ul>
     }
@@ -87,12 +100,22 @@
     private const string MenuLevelChild = "level-n";
     private const string MenuItemClass = "menu-item";
 
+    private bool DisplayIconLeft => !MenuItem.IsRoot || !string.IsNullOrEmpty(MenuItem.IconKey);
+    private bool DisplayCaption => !MenuItem.IsRoot || !string.IsNullOrEmpty(MenuItem.Caption);
+    private bool DisplayIconRight => !MenuItem.IsRoot && MenuItem.HasChildren;
+
+    protected override void OnInitialized()
+    {
+        if (!DisplayIconLeft && !DisplayCaption)
+            throw new ArgumentNullException(
+                paramName: $"{nameof(MenuItem.IconKey)} | {nameof(MenuItem.Caption)}");
+    }
     private string GetChildMenuClass() =>
-        $"sub-menu {(MenuItem.IsRoot ? MenuLevelRoot : MenuLevelChild)}";
+    $"sub-menu {(MenuItem.IsRoot ? MenuLevelRoot : MenuLevelChild)}";
 
     private string GetItemClass()
     {
-        StringBuilder sb = new();
+        System.Text.StringBuilder sb = new();
         sb.Append(MenuItemClass);
 
         if (MenuItem.HasChildren)
@@ -105,6 +128,25 @@
 
         if(!string.IsNullOrEmpty(MenuItem?.IconKey))
             sb.Append(" has-icon-key");
+
+        return string.Join(" ", sb);
+    }
+
+    private string GetGridContainerClassModifier()
+    {
+        System.Text.StringBuilder sb = new();
+
+        if(DisplayIconLeft)
+            sb.Append(" with-icon-left");
+
+        if(DisplayCaption)
+            sb.Append(" with-caption");
+
+        if(DisplayIconRight)
+            sb.Append(" with-icon-right");
+
+        if(sb.Length == 0)
+            return null;
 
         return string.Join(" ", sb);
     }

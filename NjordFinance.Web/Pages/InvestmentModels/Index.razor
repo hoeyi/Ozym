@@ -5,7 +5,7 @@
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
 <ThemedComponent>
-    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" />
 
     @if (IsLoading)
     {
@@ -39,6 +39,7 @@
         ActionMenu = new()
         {
             IconKey = "reorder-four",
+            Caption = PageTitle.ReadMany(),
             Children = new()
             {
                 { 0, new MenuItem()
