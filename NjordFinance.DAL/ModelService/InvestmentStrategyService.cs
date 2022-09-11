@@ -51,6 +51,8 @@ namespace NjordFinance.ModelService
 
         public static async Task<bool> UpdateGraphAsync(FinanceDbContext context, InvestmentStrategy model)
         {
+            using var transaction = await context.Database.BeginTransactionAsync();
+
             // Capture the currently saved entity.
             var existingEntity = await context.InvestmentStrategies
                             .Include(a => a.InvestmentStrategyTargets)
@@ -92,8 +94,12 @@ namespace NjordFinance.ModelService
 
             // Udpate the curent values for the parameter model.
             context.Entry(existingEntity).CurrentValues.SetValues(model);
-        
-            return await context.SaveChangesAsync() > 0;
+
+            bool result = await context.SaveChangesAsync() > 0;
+
+            await transaction.CommitAsync();
+
+            return result;
         }
     }
 }

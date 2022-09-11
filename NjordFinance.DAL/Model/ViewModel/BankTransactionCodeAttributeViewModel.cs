@@ -16,8 +16,7 @@ namespace NjordFinance.Model.ViewModel
                   parentEntity: transactionCode,
                   groupConstructor: (parent, attriubte,date) =>
                   {
-                      return new BankTransactionCodeAttriubeEntryViewModel(
-                          parent, attriubte, date);
+                      return new BankTransactionCodeAttriubeEntryViewModel(parent, attriubte, date);
                   },
                   groupingConverterFunc: (grouping, parent) =>
                   {

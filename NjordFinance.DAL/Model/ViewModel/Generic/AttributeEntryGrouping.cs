@@ -43,7 +43,7 @@ namespace NjordFinance.Model.ViewModel.Generic
 
             ParentObject = parentObject;
             ParentAttribute = parentAttribute;
-            EffectiveDate = effectiveDate;
+            this.effectiveDate = effectiveDate;
         }
 
         /// <summary>
@@ -99,11 +99,8 @@ namespace NjordFinance.Model.ViewModel.Generic
             {
                 if(effectiveDate != value)
                 {
-                    if(Entries.All(x => UpdateEntryEffectiveDate(x, value)))
-                    {
-                        effectiveDate = value;
-                    }
-                    else
+                    effectiveDate = value;
+                    if(!Entries.All(x => UpdateEntryEffectiveDate(x, value)))
                     {
                         string msg = string.Format(
                             Strings.AttributeEntryGrouping_EffectiveDate_InconsistentSet,
