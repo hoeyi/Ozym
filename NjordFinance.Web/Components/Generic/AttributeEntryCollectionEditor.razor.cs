@@ -1,13 +1,13 @@
 ﻿using NjordFinance.Model;
 using NjordFinance.ModelService;
 using System.Collections.Generic;
-using NjordFinance.Model.ViewModel;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Microsoft.AspNetCore.Components.Web;
+using NjordFinance.Model.ViewModel.Generic;
 
 namespace NjordFinance.Web.Components.Generic
 {
@@ -49,8 +49,7 @@ namespace NjordFinance.Web.Components.Generic
         /// for the <typeparamref name="TViewModelParent"/> instance worked using this component.
         /// </summary>
         protected string[] SupportedModelAttributeScopes { get; } = 
-            IReferenceDataService
-                .GetSupportedAttributeScopeCodes<TViewModelParent>();
+            IReferenceDataService.GetSupportedAttributeScopeCodes<TViewModelParent>();
 
         /// <summary>
         /// Gets or sets the valid entries to the currently selected attribute.

@@ -72,6 +72,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\Countries\Attributes\" />
     <Folder Include="Pages\Securities\" />
   </ItemGroup>
 
