@@ -13,8 +13,9 @@
     {
         <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@ActionMenu"
-                         Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+        <ModelPageMenuHeader 
+            ActionMenu="@ActionMenu"
+            Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
         @foreach (var group in ViewModel.CurrentTargetCollection.OrderBy(g => g.Key.DisplayName))
         {
@@ -67,7 +68,7 @@
                             {
                                 IconKey = "pencil",
                                 Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetSingular()}",
-                                UriStem = FormatEditUri(Model.TransactionCodeId)
+                                UriStem = $"{FormatEditUri(Model.TransactionCodeId)}/attributes"
                             }
                         }
                     }

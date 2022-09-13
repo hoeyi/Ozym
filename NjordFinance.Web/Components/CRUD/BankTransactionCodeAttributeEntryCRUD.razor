@@ -22,7 +22,7 @@ else
                 <label for="add-new-entry-button">
                     @(NameFor(nameof(BankTransactionCodeAttriubeEntryViewModel.EffectiveDate)))
                 </label>
-                <InputDate class="form-control right" @bind-Value="@ViewModel.EffectiveDate" />
+                @*<InputDate class="form-control right" @bind-Value="@ViewModel.EffectiveDate" />*@
                 <button id="add-new-entry-button"
                 class="form-control button icon"
                 type="button"
@@ -45,11 +45,11 @@ else
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
-                        Property=@nameof(InvestmentStrategyTarget.Weight)
-                        Caption=@(NameFor<InvestmentStrategyTarget>(nameof(InvestmentStrategyTarget.Weight)))>
-                            <CellTemplate Context="model">
-                                @model.EffectiveDate.ToShortDateString()
-                            </CellTemplate>
+                        Property=@nameof(BankTransactionCodeAttributeMemberEntry.Weight)
+                        Caption=@(NameFor(nameof(BankTransactionCodeAttributeMemberEntry.Weight)))>
+                        <CellTemplate Context="model">
+                            @model.EffectiveDate.ToShortDateString()
+                        </CellTemplate>
                     </DataGridColumn>
                 }
                 else
@@ -59,7 +59,7 @@ else
                         Caption=@(NameFor(nameof(BankTransactionCodeAttributeMemberEntry.AttributeMemberId)))>
                         <CellEditTemplate Context="model">
                             <InputSelect class="form-control"
-                                 @bind-Value="@model.AttributeMemberId">
+                                @bind-Value="@model.AttributeMemberId">
                                 @foreach (var member in AttributeMemberLookup)
                                 {
                                     <option value="@member.Key">@member.Display</option>

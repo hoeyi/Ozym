@@ -74,6 +74,7 @@
   <ItemGroup>
     <Folder Include="Pages\Countries\Attributes\" />
     <Folder Include="Pages\Securities\" />
+    <Folder Include="Pages\Securities\" />
   </ItemGroup>
 
 </Project>

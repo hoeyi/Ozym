@@ -1,36 +1,36 @@
-﻿@page "/investment-models/{ModelId:int}/edit"
+﻿@page "/bank-transaction-codes/{ModelId:int}/edit/attributes"
 
-@inherits ModelDetail<InvestmentStrategy>
+@inherits ModelDetail<BankTransactionCode>
+
+@inject IReferenceDataService ReferenceData
 
 <ThemedComponent>
-    @if(IsLoading)
+    @if (IsLoading)
     {
         <LoadingSvg />
     }
     else
     {
-        <PageTitle>@(PageTitle.UpdateSingle(ViewModel.DisplayName).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader 
-            ActionMenu="@ActionMenu"
-            Header="@(PageTitle.UpdateSingle(ViewModel.DisplayName))" />
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
+
 
         <AttributeEntryCollectionEditor 
-            TViewModelParent="InvestmentModelViewModel"
-            TViewModelChild="InvestmentModelTargetViewModel"
-            TModel="InvestmentStrategy"
-            TModelChild="InvestmentStrategyTarget"
+            TViewModelParent="BankTransactionCodeAttributeViewModel"
+            TViewModelChild="BankTransactionCodeAttriubeEntryViewModel"
+            TModel="BankTransactionCode"
+            TModelChild="BankTransactionCodeAttributeMemberEntry"
             OnCancelEditorClick="CancelEditorHandler"
             OnDeleteModelClick="DeleteModelHandler"
             OnValidFormSubmit="ValidFormSubmitHandler"
-            EffectiveDateMemberName="@nameof(InvestmentModelTargetViewModel.EffectiveDate)"
+            EffectiveDateMemberName="@nameof(BankTransactionCodeAttributeMemberEntry.EffectiveDate)"
             ViewModel="@ViewModel"
             Mode="EditorMode.Edit">
-            <ViewModelCRUD>
-                <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
-            </ViewModelCRUD>
+            <ViewModelCRUD />
             <ViewModelChildCRUD>
-                <InvestmentModelTargetCRUD Disabled="false" ReadOnly="false" />
+                <BankTransactionCodeAttributeEntryCRUD Disabled="false" ReadOnly="false" />
             </ViewModelChildCRUD>
         </AttributeEntryCollectionEditor>
     }
@@ -38,15 +38,15 @@
 
 @code {
     /// <summary>
-    /// Gets or sets the identifier for the <see cref="InvestmentStrategy" /> worked on this page.
+    /// Gets or sets the identifier for the <see cref="BankTransactionCode" /> worked on this page.
     /// </summary>
     [Parameter]
     public int ModelId { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="InvestmentModelViewModel" /> worked by this page.
+    /// Gets or sets the <see cref="BankTransactionCodeAttributeViewModel" /> worked by this page.
     /// </summary>
-    private InvestmentModelViewModel ViewModel { get; set; }
+    private BankTransactionCodeAttributeViewModel ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -72,7 +72,7 @@
         {
             var modelQuery = Controller.ReadAsync(ModelId);
 
-            if ((await modelQuery).Value is InvestmentStrategy model)
+            if ((await modelQuery).Value is BankTransactionCode model)
             {
                 Model = model;
             }
@@ -103,15 +103,15 @@
     {
         Model = ViewModel.ToEntity();
 
-        var result = await Controller.UpdateAsync(Model.InvestmentStrategyId, Model);
+        var result = await Controller.UpdateAsync(Model.TransactionCodeId, Model);
 
         if (Model is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.InvestmentStrategyId));
+            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.TransactionCodeId));
     }
 
     /// <summary>
     /// Handles the cancel editor event of this page.
     /// </summary>
-    private void CancelEditorHandler(MouseEventArgs args) => 
+    private void CancelEditorHandler(MouseEventArgs args) =>
         NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 }
