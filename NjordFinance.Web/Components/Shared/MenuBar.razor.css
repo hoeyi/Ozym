@@ -20,6 +20,8 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
+
+    z-index: 98;
 }
 
 .custom-nav-link:hover {
@@ -56,7 +58,7 @@
     display: none;
     list-style-type: none;
     margin: 0;
-    max-width: 20vw;
+    max-width: 30vw;
     min-width: max(150px, 13vw);
     padding: 0;
     position: absolute;
