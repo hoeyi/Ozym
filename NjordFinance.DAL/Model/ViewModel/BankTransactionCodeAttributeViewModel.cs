@@ -14,7 +14,7 @@ namespace NjordFinance.Model.ViewModel
         public BankTransactionCodeAttributeViewModel(BankTransactionCode transactionCode) 
             : base(
                   parentEntity: transactionCode,
-                  groupConstructor: (parent, attriubte,date) =>
+                  groupConstructor: (parent, attriubte, date) =>
                   {
                       return new BankTransactionCodeAttriubeEntryViewModel(parent, attriubte, date);
                   },
