@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<InvestmentModelTargetViewModel>
+﻿@inherits ModelCRUD<InvestmentModelTargetCollection>
 
 @if(IsLoading)
 {
@@ -20,7 +20,7 @@ else
             @if(!ReadOnly)
             {
                 <label for="add-new-entry-button">
-                    @(NameFor(nameof(InvestmentModelTargetViewModel.EffectiveDate)))
+                    @(NameFor(nameof(InvestmentModelTargetCollection.EffectiveDate)))
                 </label>
                 <InputDate class="form-control right" @bind-Value="@ViewModel.EffectiveDate" />
                 <button

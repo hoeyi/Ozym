@@ -26,7 +26,7 @@
                 </CascadingValue>
             </Body>
         </ContentTile>
-        @foreach(var group in ViewModel.CurrentTargetCollection.OrderBy(g => g.Key.DisplayName))
+        @foreach(var group in ViewModel.CurrentAttributeEntryGroups.OrderBy(g => g.Key.DisplayName))
         {
             <ContentTile>
                 <Body>
@@ -47,7 +47,7 @@
     [Parameter]
     public int ModelId { get; set; }
 
-    private InvestmentModelViewModel ViewModel { get; set; }
+    private InvestmentModel ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

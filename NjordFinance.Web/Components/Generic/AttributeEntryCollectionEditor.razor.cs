@@ -30,7 +30,7 @@ namespace NjordFinance.Web.Components.Generic
         where TModel: class, new()
         where TModelChild : class, new()
         where TViewModelChild: IAttributeEntryGrouping<TModel, TModelChild>
-        where TViewModelParent: IAttributeEntryViewModel<TModel, TModelChild, TViewModelChild>
+        where TViewModelParent: IAttributeEntryCollection<TModel, TModelChild, TViewModelChild>
     {
         /// <summary>
         /// Gets or sets <see cref="IReferenceDataService"/> used to query lookup and reference 

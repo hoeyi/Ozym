@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<InvestmentModelViewModel>
+﻿@inherits ModelCRUD<InvestmentModel>
 
 @if(IsLoading)
 {
@@ -6,8 +6,8 @@
 }
 else
 {
-    <ModelForm TModel="InvestmentModelViewModel">
-        <ModelFormLineItem MemberName="@nameof(InvestmentModelViewModel.DisplayName)"
+    <ModelForm TModel="InvestmentModel">
+        <ModelFormLineItem MemberName="@nameof(InvestmentModel.DisplayName)"
             ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if(ReadOnly)
             {
@@ -19,10 +19,10 @@ else
             {
                 <InputText class="form-control" @bind-Value=ViewModel.DisplayName
                     disable="@Disabled"
-                    DisplayName=@(NameFor(nameof(InvestmentModelViewModel.DisplayName))) />
+                    DisplayName=@(NameFor(nameof(InvestmentModel.DisplayName))) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(InvestmentModelViewModel.Notes)"
+        <ModelFormLineItem MemberName="@nameof(InvestmentModel.Notes)"
             ValidationMessageDelegate="@(() => ViewModel.Notes)">
             @if(ReadOnly)
             {
@@ -34,7 +34,7 @@ else
             {
                 <InputTextArea class="form-control" @bind-Value=ViewModel.Notes
                     disable="@Disabled"
-                    DisplayName=@(NameFor(nameof(InvestmentModelViewModel.Notes))) />
+                    DisplayName=@(NameFor(nameof(InvestmentModel.Notes))) />
             }
         </ModelFormLineItem>
     </ModelForm>
