@@ -11,28 +11,28 @@ else
         <DataGrid TModel="AccountCompositeMember" Data="@ViewModel.Members">
             <DataGridColumn 
                 Property="@nameof(AccountCompositeMember.AccountId)"
-                Caption=@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.AccountId)))>
+                Caption=@(NameFor<AccountCompositeMember>(x => x.AccountId))>
                 <CellTemplate Context="model">
                     @MemberDisplay(model.AccountId)
                 </CellTemplate>
             </DataGridColumn>
             <DataGridColumn 
                 Property="@nameof(AccountCompositeMember.EntryDate)"
-                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.EntryDate)))">
+                Caption="@(NameFor<AccountCompositeMember>(x => x.EntryDate))">
                 <CellTemplate Context="model">
                     @model.EntryDate.ToShortDateString()
                 </CellTemplate>
             </DataGridColumn>
             <DataGridColumn 
                 Property="@nameof(AccountCompositeMember.ExitDate)"
-                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.ExitDate)))">
+                Caption="@(NameFor<AccountCompositeMember>(x => x.ExitDate))">
                 <CellTemplate Context="model">
                     @model.ExitDate?.ToShortDateString()
                 </CellTemplate>
             </DataGridColumn>
             <DataGridColumn 
                 Property="@nameof(AccountCompositeMember.Comment)"
-                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.Comment)))">
+                Caption="@(NameFor<AccountCompositeMember>(x => x.Comment))">
                 <CellTemplate Context="model">
                     @model.Comment
                 </CellTemplate>
@@ -52,7 +52,7 @@ else
         <DataGrid TModel="AccountCompositeMember" Data="@ViewModel.Members">
             <DataGridColumn 
                 Property="@nameof(AccountCompositeMember.AccountId)"
-                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.AccountId)))">
+                Caption="@(NameFor<AccountCompositeMember>(x => x.AccountId))">
                 <CellEditTemplate Context="model">
                     <InputSelect class="form-control"
                              @bind-Value="@model.AccountId">
@@ -66,7 +66,7 @@ else
             </DataGridColumn>
             <DataGridColumn 
                     Property="@nameof(AccountCompositeMember.EntryDate)"
-                    Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.EntryDate)))">
+                    Caption="@(NameFor<AccountCompositeMember>(x => x.EntryDate))">
                 <CellEditTemplate Context="model">
                     <InputDate class="form-control" @bind-Value="@model.EntryDate" />
                     <ValidationMessage For=@(()=> model.EntryDate) />
@@ -74,7 +74,7 @@ else
             </DataGridColumn>
             <DataGridColumn 
                 Property="@nameof(AccountCompositeMember.ExitDate)"
-                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.ExitDate)))">
+                Caption="@(NameFor<AccountCompositeMember>(x => x.ExitDate))">
                 <CellEditTemplate Context="model">
                     <InputDate class="form-control" @bind-Value="@model.ExitDate" />
                     <ValidationMessage For=@(()=> model.ExitDate) />
@@ -82,7 +82,7 @@ else
             </DataGridColumn>
             <DataGridColumn 
                 Property="@nameof(AccountCompositeMember.Comment)"
-                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(nameof(AccountCompositeMember.Comment)))">
+                Caption="@(NameFor<AccountCompositeMember>(x => x.Comment))">
                 <CellEditTemplate Context="model">
                     <InputText class="form-control" @bind-Value="@model.Comment" />
                     <ValidationMessage For=@(()=> model.Comment) />

@@ -232,7 +232,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Account Property.
+        ///   Looks up a localized string similar to Member Attribute.
         /// </summary>
         public static string AccountAttributeMemberEntry_AttributeMemberID_Name {
             get {
@@ -799,7 +799,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Transaction Code Property.
+        ///   Looks up a localized string similar to Member attribute.
         /// </summary>
         public static string BankTransactionCodeAttributeMemberEntry_AttributeMemberId_Name {
             get {
@@ -1177,7 +1177,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Transaction Code Property.
+        ///   Looks up a localized string similar to Member Attribute.
         /// </summary>
         public static string BrokerTransactionCodeAttributeMemberEntry_AttributeMemberID_Name {
             get {
@@ -1285,7 +1285,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Country Property.
+        ///   Looks up a localized string similar to Member Attribute.
         /// </summary>
         public static string CountryAttributeMemberEntry_AttributeMemberID_Name {
             get {
@@ -1375,7 +1375,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Performance Attribute.
+        ///   Looks up a localized string similar to Member Attribute.
         /// </summary>
         public static string InvestmentPerformanceAttributeMemberEntry_AttributeMemberID_Name {
             get {
@@ -1699,7 +1699,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Target.
+        ///   Looks up a localized string similar to Member Attribute.
         /// </summary>
         public static string InvestmentStrategyTarget_AttributeMemberID_Name {
             get {
@@ -2320,7 +2320,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Classification.
+        ///   Looks up a localized string similar to Member Attribute.
         /// </summary>
         public static string SecurityAttributeMemberEntry_AttributeMemberID_Name {
             get {

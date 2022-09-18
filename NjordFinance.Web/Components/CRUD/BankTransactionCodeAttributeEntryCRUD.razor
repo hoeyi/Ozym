@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<BankTransactionCodeAttriubeEntryViewModel>
+﻿@inherits ModelCRUD<BankTransactionCodeAttributeGrouping>
 
 @if (IsLoading)
 {
@@ -9,20 +9,10 @@ else
     <ContentTile>
         <TitleAlignLeft>
             @ViewModel.ParentAttribute.DisplayName
-            @if (ReadOnly)
-            {
-                <span class="sub-title">
-                    (@ViewModel.EffectiveDate.ToShortDateString())
-                </span>
-            }
         </TitleAlignLeft>
         <TitleAlignRight>
             @if (!ReadOnly)
             {
-                <label for="add-new-entry-button">
-                    @(NameFor(nameof(BankTransactionCodeAttriubeEntryViewModel.EffectiveDate)))
-                </label>
-                @*<InputDate class="form-control right" @bind-Value="@ViewModel.EffectiveDate" />*@
                 <button id="add-new-entry-button"
                 class="form-control button icon"
                 type="button"
@@ -39,14 +29,14 @@ else
                 {
                     <DataGridColumn 
                         Property=@nameof(BankTransactionCodeAttributeMemberEntry.AttributeMemberId)
-                        Caption=@(NameFor(nameof(BankTransactionCodeAttributeMemberEntry.AttributeMemberId)))>
+                        Caption=@(NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.AttributeMemberId))>
                         <CellTemplate Context="model">
                             @model.AttributeMember.DisplayName
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
-                        Property=@nameof(BankTransactionCodeAttributeMemberEntry.Weight)
-                        Caption=@(NameFor(nameof(BankTransactionCodeAttributeMemberEntry.Weight)))>
+                        Property=@nameof(BankTransactionCodeAttributeMemberEntry.EffectiveDate)
+                        Caption=@(NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.EffectiveDate))>
                         <CellTemplate Context="model">
                             @model.EffectiveDate.ToShortDateString()
                         </CellTemplate>
@@ -54,9 +44,9 @@ else
                 }
                 else
                 {
-                    <DataGridColumn 
+                    <DataGridColumn
                         Property=@nameof(BankTransactionCodeAttributeMemberEntry.AttributeMemberId)
-                        Caption=@(NameFor(nameof(BankTransactionCodeAttributeMemberEntry.AttributeMemberId)))>
+                        Caption=@(NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.AttributeMemberId))>
                         <CellEditTemplate Context="model">
                             <InputSelect class="form-control"
                                 @bind-Value="@model.AttributeMemberId">
@@ -65,6 +55,14 @@ else
                                     <option value="@member.Key">@member.Display</option>
                                 }
                             </InputSelect>
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property=@nameof(BankTransactionCodeAttributeMemberEntry.EffectiveDate)
+                        Caption=@(NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.EffectiveDate))>
+                        <CellEditTemplate Context="model">
+                            <InputDate class="form-control"
+                                @bind-Value="@model.EffectiveDate" />
                         </CellEditTemplate>
                     </DataGridColumn>
                     <DataGridColumn Type="DataGridCellType.Button">

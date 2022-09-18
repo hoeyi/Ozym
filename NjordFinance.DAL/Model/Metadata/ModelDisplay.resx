@@ -127,7 +127,7 @@
     <value>The account property value.</value>
   </data>
   <data name="AccountAttributeMemberEntry_AttributeMemberID_Name" xml:space="preserve">
-    <value>Account Property</value>
+    <value>Member Attribute</value>
   </data>
   <data name="AccountAttributeMemberEntry_EffectiveDate_Description" xml:space="preserve">
     <value>The UTC date on which the entry becomes current.</value>
@@ -316,7 +316,7 @@
     <value>The attribute member / property describing the transaction code.</value>
   </data>
   <data name="BankTransactionCodeAttributeMemberEntry_AttributeMemberId_Name" xml:space="preserve">
-    <value>Transaction Code Property</value>
+    <value>Member attribute</value>
   </data>
   <data name="BankTransactionCodeAttributeMemberEntry_EffectiveDate_Description" xml:space="preserve">
     <value>The effective date for the entry.</value>
@@ -388,7 +388,7 @@
     <value>The attribute member / property describing the transaction code.</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry_AttributeMemberID_Name" xml:space="preserve">
-    <value>Transaction Code Property</value>
+    <value>Member Attribute</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry_EffectiveDate_Description" xml:space="preserve">
     <value>The effective date for the entry.</value>
@@ -514,7 +514,7 @@
     <value>The property describing the country.</value>
   </data>
   <data name="CountryAttributeMemberEntry_AttributeMemberID_Name" xml:space="preserve">
-    <value>Country Property</value>
+    <value>Member Attribute</value>
   </data>
   <data name="CountryAttributeMemberEntry_CountryID_Description" xml:space="preserve">
     <value>The country to which the entry applies.</value>
@@ -556,7 +556,7 @@
     <value>The member attribute value for the entry.</value>
   </data>
   <data name="InvestmentPerformanceAttributeMemberEntry_AttributeMemberID_Name" xml:space="preserve">
-    <value>Performance Attribute</value>
+    <value>Member Attribute</value>
   </data>
   <data name="InvestmentPerformanceAttributeMemberEntry_AverageCapital_Description" xml:space="preserve">
     <value>The average capital for the period.</value>
@@ -652,7 +652,7 @@
     <value>The attribute member value for the target.</value>
   </data>
   <data name="InvestmentStrategyTarget_AttributeMemberID_Name" xml:space="preserve">
-    <value>Target</value>
+    <value>Member Attribute</value>
   </data>
   <data name="InvestmentStrategyTarget_EffectiveDate_Description" xml:space="preserve">
     <value>The effective date of the target.</value>
@@ -826,7 +826,7 @@
     <value>The attribute member value for the entry.</value>
   </data>
   <data name="SecurityAttributeMemberEntry_AttributeMemberID_Name" xml:space="preserve">
-    <value>Classification</value>
+    <value>Member Attribute</value>
   </data>
   <data name="SecurityAttributeMemberEntry_EffectiveDate_Description" xml:space="preserve">
     <value>The effective date for the entry.</value>
