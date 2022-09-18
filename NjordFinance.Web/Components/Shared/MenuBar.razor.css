@@ -38,6 +38,10 @@
     position: relative;
 }
 
+::deep .root-node .caption {
+    padding: 0.5rem 0.25rem 0.5rem 0.5rem;
+}
+
     ::deep .menu-item:not(.root-node) {
         font-family: var(--theme-fontfamily-actionmenu, --menu-fontfamily-default);
         font-style: normal;

@@ -30,7 +30,17 @@ main {
     }
 
     .top-row .right {
+        display: table;
         margin-left: auto;
+    }
+
+    .top-row .right > * {
+        display: table-cell;
+        vertical-align: bottom;
+    }
+
+    .top-row > * {
+        height: 100%;
     }
 
 .home-link a {

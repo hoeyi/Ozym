@@ -1,10 +1,11 @@
 ﻿a.sign-in, a.manage-profile {
-    display: inline-block;
+    display: table-cell;
     position: relative;
-    padding: 0.5em !important;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+
     margin-left: 0em;
     color: var(--theme-text-color-0, black);
-    font-size: 0.75rem;
+    font-size: 1rem;
     text-align: center;
     vertical-align: middle;
 }
