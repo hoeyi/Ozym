@@ -421,7 +421,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entries.
+        ///   Looks up a localized string similar to attributes.
         /// </summary>
         public static string BankTransactionCodeAttributeMemberEntry_Plural {
             get {
@@ -439,7 +439,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entry.
+        ///   Looks up a localized string similar to attribute.
         /// </summary>
         public static string BankTransactionCodeAttributeMemberEntry_Singular {
             get {
@@ -529,7 +529,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entries.
+        ///   Looks up a localized string similar to attribues.
         /// </summary>
         public static string BrokerTransactionCodeAttributeMemberEntry_Plural {
             get {
@@ -547,7 +547,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entry.
+        ///   Looks up a localized string similar to atrribute.
         /// </summary>
         public static string BrokerTransactionCodeAttributeMemberEntry_Singular {
             get {

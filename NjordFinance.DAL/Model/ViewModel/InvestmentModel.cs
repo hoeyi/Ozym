@@ -12,26 +12,26 @@ namespace NjordFinance.Model.ViewModel
 {
     [ModelAttributeSupport(
             SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]
-    public class InvestmentModelViewModel
+    public class InvestmentModel
         : AttributeEntryCollection<
             InvestmentStrategy,
             InvestmentStrategyTarget,
-            InvestmentModelTargetViewModel>
+            InvestmentModelTargetCollection>
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="InvestmentModelViewModel"/>
+        /// Initializes a new instance of <see cref="InvestmentModel"/>
         /// </summary>
         /// <param name="strategy"></param>
         /// <exception cref="ArgumentNullException"><paramref name="strategy"/> was null.</exception>
         /// <exception cref="InvalidOperationException"><paramref name="strategy"/> did not include 
         /// the <see cref="InvestmentStrategy.InvestmentStrategyTargets"/> and/or 
         /// <see cref="InvestmentStrategyTarget.AttributeMember"/> members.</exception>
-        public InvestmentModelViewModel(InvestmentStrategy strategy)
+        public InvestmentModel(InvestmentStrategy strategy)
             : base(
                   parentEntity: strategy, 
                   groupConstructor: (parent, attribute, date) =>
                   {
-                      return new InvestmentModelTargetViewModel(parent, attribute, date);
+                      return new InvestmentModelTargetCollection(parent, attribute, date);
                   },
                   groupingConverterFunc: (grouping, parent) =>
                   {

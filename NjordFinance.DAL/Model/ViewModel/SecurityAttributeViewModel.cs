@@ -24,7 +24,7 @@ namespace NjordFinance.Model.ViewModel
         protected override Func<SecurityAttributeMemberEntry, decimal> WeightSelector =>
             x => x.Weight;
 
-        protected override Func<Security, ICollection<SecurityAttributeMemberEntry>> ParentEntryMemberFor =>
+        protected override Func<Security, ICollection<SecurityAttributeMemberEntry>> ParentEntryMemberSelector =>
             x => x.SecurityAttributeMemberEntries;
 
         protected override Func<SecurityAttributeMemberEntry, bool> EntrySelector => x =>

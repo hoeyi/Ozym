@@ -1,4 +1,5 @@
 ﻿using NjordFinance.Model.Metadata;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,6 +18,11 @@ namespace NjordFinance.Model
         [Key]
         [Column("TransactionCodeID")]
         public int TransactionCodeId { get; set; }
+
+        [Display(
+            Name = nameof(ModelDisplay.BankTransactionCode_TransactionCode_Name),
+            Description = nameof(ModelDisplay.BankTransactionCode_TransactionCode_Description),
+            ResourceType = typeof(ModelDisplay))]
         [Required(
             ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]
@@ -24,6 +30,11 @@ namespace NjordFinance.Model
             ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]
         public string TransactionCode { get; set; }
+
+        [Display(
+            Name = nameof(ModelDisplay.BankTransactionCode_DisplayName_Name),
+            Description = nameof(ModelDisplay.BankTransactionCode_DisplayName_Description),
+            ResourceType = typeof(ModelDisplay))]
         [Required(
             ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]

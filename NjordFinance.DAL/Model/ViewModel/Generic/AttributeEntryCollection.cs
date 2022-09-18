@@ -1,26 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 
 namespace NjordFinance.Model.ViewModel.Generic
 {
+    public abstract partial class AttributeEntryCollectionUnweighted<TParentEntity, TChildEntity, TViewModel>
+        : AttributeEntryCollection<TParentEntity, TChildEntity, TViewModel>,
+        IAttributeEntryCollectionUnweighted<TChildEntity>
+        where TParentEntity : class, new()
+        where TChildEntity : class, new()
+        where TViewModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
+    {
+        protected AttributeEntryCollectionUnweighted(
+            TParentEntity parentEntity,
+            Func<TParentEntity, ModelAttribute, DateTime, TViewModel> groupConstructor,
+            Func<IGrouping<(int, DateTime), TChildEntity>, TParentEntity, TViewModel> groupingConverterFunc,
+            Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<(int, DateTime), TChildEntity>>> groupingFunc,
+            Func<TParentEntity, IEnumerable<TChildEntity>> entryMemberSelector
+            ) : base(parentEntity, groupConstructor, groupingConverterFunc, groupingFunc, entryMemberSelector)
+        {
+        }
+
+        public IEnumerable<IGrouping<ModelAttribute, TChildEntity>> EntryGroups => throw new NotImplementedException();
+    }
+
     /// <summary>
     /// Base class for view models used to manage <typeparamref name="TChildEntity"/> attribute entries
     /// describing a <typeparamref name="TParentEntity"/>.
     /// </summary>
     /// <typeparam name="TParentEntity">The entity type the attribute entries describe.</typeparam>
     /// <typeparam name="TChildEntity">The entity entry type.</typeparam>
-    /// <typeparam name="TViewModel">The <see cref="IAttributeEntryGrouping{TParentEntity, TEntryEntity}"/> 
+    /// <typeparam name="TViewModel">The <see cref="IAttributeEntryWeightedGrouping{TParentEntity, TEntryEntity}"/> 
     /// that manages sub-groupings of entries in thsi model.</typeparam>
-    public abstract partial class AttributeEntryViewModel<TParentEntity, TChildEntity, TViewModel>
-        : IAttributeEntryViewModel<TParentEntity, TChildEntity, TViewModel>
+    public abstract partial class AttributeEntryCollection<TParentEntity, TChildEntity, TViewModel>
+        : IAttributeEntryCollection<TParentEntity, TChildEntity, TViewModel>
         where TParentEntity : class, new()
         where TChildEntity : class, new()
         where TViewModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
     {
         /// <inheritdoc/>
-        public IEnumerable<IGrouping<ModelAttribute, TViewModel>> AttributeTargetCollection
+        public IEnumerable<IGrouping<ModelAttribute, TViewModel>> AttributeEntryGroups
             => EntryCollection
                 .GroupBy(e => e.ParentAttribute.AttributeId)
                 .Select(grp =>
@@ -32,8 +54,8 @@ namespace NjordFinance.Model.ViewModel.Generic
                 });
 
         /// <inheritdoc/>
-        public IEnumerable<IGrouping<ModelAttribute, TViewModel>> CurrentTargetCollection =>
-            AttributeTargetCollection.Select(grp =>
+        public IEnumerable<IGrouping<ModelAttribute, TViewModel>> CurrentAttributeEntryGroups =>
+            AttributeEntryGroups.Select(grp =>
             {
                 var groupCollection = grp.Where(grp =>
                     grp.EffectiveDate.Date <= DateTime.UtcNow.Date);
@@ -72,7 +94,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         public bool RemoveExising(TViewModel viewModel) => viewModel.RemoveAll();
     }
 
-    public abstract partial class AttributeEntryViewModel<TParentEntity, TChildEntity, TViewModel>
+    public abstract partial class AttributeEntryCollection<TParentEntity, TChildEntity, TViewModel>
     {
         private readonly Func<TParentEntity, ModelAttribute, DateTime, TViewModel> _groupConstructor;
         private readonly Func<IGrouping<(int, DateTime), TChildEntity>, TParentEntity, TViewModel> _groupingConverterDelegate;
@@ -81,12 +103,12 @@ namespace NjordFinance.Model.ViewModel.Generic
 
         /// <summary>
         /// Initializes a new instance of 
-        /// <see cref="AttributeEntryViewModel{TParentEntity, TChildEntity, TViewModel}"/> 
+        /// <see cref="AttributeEntryCollection{TParentEntity, TChildEntity, TViewModel}"/> 
         /// describing the given <typeparamref name="TParentEntity"/> instance.
         /// </summary>
         /// <param name="parentEntity">The <typeparamref name="TParentEntity"/> described.</param>
         /// <exception cref="ArgumentNullException">A required argument was a null reference.</exception>
-        protected AttributeEntryViewModel(
+        protected AttributeEntryCollection(
             TParentEntity parentEntity,
             Func<TParentEntity, ModelAttribute, DateTime, TViewModel> groupConstructor,
             Func<IGrouping<(int, DateTime), TChildEntity>, TParentEntity, TViewModel> groupingConverterFunc,

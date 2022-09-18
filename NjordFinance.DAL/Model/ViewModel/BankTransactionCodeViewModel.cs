@@ -5,18 +5,18 @@ using System.Linq;
 
 namespace NjordFinance.Model.ViewModel
 {
-    public class BankTransactionCodeAttributeViewModel
-        : AttributeEntryViewModel<
+    public class BankTransactionCodeViewModel
+        : AttributeEntryCollection<
             BankTransactionCode,
             BankTransactionCodeAttributeMemberEntry,
-            BankTransactionCodeAttriubeEntryViewModel>
+            BankTransactionCodeAttributeGrouping>
     {
-        public BankTransactionCodeAttributeViewModel(BankTransactionCode transactionCode) 
+        public BankTransactionCodeViewModel(BankTransactionCode transactionCode) 
             : base(
                   parentEntity: transactionCode,
                   groupConstructor: (parent, attriubte, date) =>
                   {
-                      return new BankTransactionCodeAttriubeEntryViewModel(parent, attriubte, date);
+                      return new BankTransactionCodeAttributeGrouping(parent, attriubte, date);
                   },
                   groupingConverterFunc: (grouping, parent) =>
                   {

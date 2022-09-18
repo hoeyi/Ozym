@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NjordFinance.Model.ViewModel.Generic
 {
@@ -76,6 +77,12 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// </summary>
         /// <returns>True if removal for all entries was successful, else false.</returns>
         bool RemoveAll();
+    }
 
+    public interface IAttributeEntryUnweightedGrouping<TParentEntity, TEntryEntity>
+        where TParentEntity: class, new()
+        where TEntryEntity: class, new()
+    {
+        IGrouping<ModelAttribute, TEntryEntity> AttributeEntries { get; }
     }
 }

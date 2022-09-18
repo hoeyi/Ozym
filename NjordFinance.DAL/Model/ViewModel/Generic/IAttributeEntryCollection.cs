@@ -16,47 +16,47 @@ namespace NjordFinance.Model.ViewModel.Generic
     /// </summary>
     /// <typeparam name="TParentEntity"></typeparam>
     /// <typeparam name="TChildEntity"></typeparam>
-    /// <typeparam name="TViewModel"></typeparam>
-    public partial interface IAttributeEntryViewModel<TParentEntity, TChildEntity, TViewModel>
+    /// <typeparam name="TGroupModel"></typeparam>
+    public partial interface IAttributeEntryCollection<TParentEntity, TChildEntity, TGroupModel>
         : IAttributeEntryViewModel
         where TParentEntity : class, new()
         where TChildEntity : class, new()
-        where TViewModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
+        where TGroupModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
     {
         /// <summary>
-        /// Gets the <typeparamref name="TViewModel"/> entries in this model grouped by their 
+        /// Gets the <typeparamref name="TGroupModel"/> entries in this model grouped by their 
         ///  <see cref="ModelAttribute"/>.
         /// </summary>
-        IEnumerable<IGrouping<ModelAttribute, TViewModel>> AttributeTargetCollection { get; }
+        IEnumerable<IGrouping<ModelAttribute, TGroupModel>> AttributeEntryGroups { get; }
 
         /// <summary>
-        /// Gets the <em>current</em> <typeparamref name="TViewModel"/> entries in this model grouped
+        /// Gets the <em>current</em> <typeparamref name="TGroupModel"/> entries in this model grouped
         /// by their parent <see cref="ModelAttribute"/>.
         /// </summary>
-        IEnumerable<IGrouping<ModelAttribute, TViewModel>> CurrentTargetCollection { get; }
+        IEnumerable<IGrouping<ModelAttribute, TGroupModel>> CurrentAttributeEntryGroups { get; }
 
         /// <summary>
-        /// Gets the collection of <see cref="TViewModel"/> that represent the 
+        /// Gets the collection of <see cref="TGroupModel"/> that represent the 
         /// <typeparamref name="TChildEntity"/> entries in this model.
         /// </summary>
-        IReadOnlyCollection<TViewModel> EntryCollection { get; }
+        IReadOnlyCollection<TGroupModel> EntryCollection { get; }
 
         /// <summary>
-        /// Adds a new <typeparamref name="TViewModel"/> entry to this collection and returns 
+        /// Adds a new <typeparamref name="TGroupModel"/> entry to this collection and returns 
         /// the added instance.
         /// </summary>
         /// <param name="forAttribute">The parent <see cref="ModelAttribute"/> for the new 
         /// sub-collection.</param>
-        /// <returns>A <typeparamref name="TViewModel"/> instance.</returns>
-        TViewModel AddNew(ModelAttribute forAttribute);
+        /// <returns>A <typeparamref name="TGroupModel"/> instance.</returns>
+        TGroupModel AddNew(ModelAttribute forAttribute);
 
         /// <summary>
-        /// Removes an existing <typeparamref name="TViewModel"/> from the children of this view 
+        /// Removes an existing <typeparamref name="TGroupModel"/> from the children of this view 
         /// model.
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns>True if the removal was successful, else false.</returns>
-        bool RemoveExising(TViewModel viewModel);
+        bool RemoveExising(TGroupModel viewModel);
 
         /// <summary>
         /// Converts this attribute weight view model to its <typeparamref name="TParentEntity"/> 
@@ -65,6 +65,12 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// <returns>The view model converted to an instance of <typeparamref name="TParentEntity"/>
         /// </returns>
         TParentEntity ToEntity();
+    }
+
+    public interface IAttributeEntryCollectionUnweighted<TChildEntity>
+        where TChildEntity: class, new()
+    {
+        IEnumerable<IGrouping<ModelAttribute, TChildEntity>> EntryGroups { get; }
     }
 
     /// <summary>

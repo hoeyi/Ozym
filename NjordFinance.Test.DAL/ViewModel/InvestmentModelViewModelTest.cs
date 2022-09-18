@@ -97,14 +97,14 @@ namespace NjordFinance.Test.ViewModel
             };
 
             // Act
-            InvestmentModelViewModel viewModel = new(model);
+            InvestmentModel viewModel = new(model);
 
             // Assert
-            var obsGroupCount = viewModel.AttributeTargetCollection.Count();
+            var obsGroupCount = viewModel.AttributeEntryGroups.Count();
             Assert.AreEqual(2, obsGroupCount);
 
-            var firstGroup = viewModel.AttributeTargetCollection.First();
-            var secondGroup = viewModel.AttributeTargetCollection.Skip(1).First();
+            var firstGroup = viewModel.AttributeEntryGroups.First();
+            var secondGroup = viewModel.AttributeEntryGroups.Skip(1).First();
 
             Assert.AreEqual(2, firstGroup.Count());
             Assert.AreEqual(1, secondGroup.Count());
@@ -182,7 +182,7 @@ namespace NjordFinance.Test.ViewModel
                 }
             };
 
-            InvestmentModelViewModel viewModel = new(model);
+            InvestmentModel viewModel = new(model);
 
             // Act
             InvestmentStrategy convertedEntity = viewModel.ToEntity();
@@ -286,7 +286,7 @@ namespace NjordFinance.Test.ViewModel
                 }
             };
 
-            InvestmentModelViewModel viewModel = new(model);
+            InvestmentModel viewModel = new(model);
 
             var context = new ValidationContext(viewModel, serviceProvider: null, items: null);
             var validationResults = new List<ValidationResult>();
@@ -365,7 +365,7 @@ namespace NjordFinance.Test.ViewModel
                 }
             };
 
-            InvestmentModelViewModel viewModel = new(model);
+            InvestmentModel viewModel = new(model);
 
             var context = new ValidationContext(viewModel, serviceProvider: null, items: null);
             var validationResults = new List<ValidationResult>();

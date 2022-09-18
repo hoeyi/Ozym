@@ -20,6 +20,10 @@ namespace NjordFinance.Model
         )]
     public partial class BankTransactionCodeAttributeMemberEntry
     {
+        [Display(
+            Name = nameof(ModelDisplay.BankTransactionCodeAttributeMemberEntry_AttributeMemberId_Name),
+            Description = nameof(ModelDisplay.BankTransactionCodeAttributeMemberEntry_AttributeMemberID_Description),
+            ResourceType = typeof(ModelDisplay))]
         [Key]
         [Column("AttributeMemberID", Order = 0)]
         public int AttributeMemberId { get; set; }
@@ -27,9 +31,15 @@ namespace NjordFinance.Model
         [Key]
         [Column("TransactionCodeID", Order = 1)]
         public int TransactionCodeId { get; set; }
+
+        [Display(
+            Name = nameof(ModelDisplay.BankTransactionCodeAttributeMemberEntry_EffectiveDate_Name),
+            Description = nameof(ModelDisplay.BankTransactionCodeAttributeMemberEntry_EffectiveDate_Description),
+            ResourceType = typeof(ModelDisplay))]
         [Key]
         [Column(TypeName = "date", Order = 2)]
         public DateTime EffectiveDate { get; set; }
+
         [Column(TypeName = "decimal(5, 4)")]
         public decimal Weight { get; set; }
 

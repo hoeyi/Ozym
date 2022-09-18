@@ -214,13 +214,13 @@
     <value>the</value>
   </data>
   <data name="BankTransactionCodeAttributeMemberEntry_Plural" xml:space="preserve">
-    <value>attribute entries</value>
+    <value>attributes</value>
   </data>
   <data name="BankTransactionCodeAttributeMemberEntry_PluralArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="BankTransactionCodeAttributeMemberEntry_Singular" xml:space="preserve">
-    <value>attribute entry</value>
+    <value>attribute</value>
   </data>
   <data name="BankTransactionCodeAttributeMemberEntry_SingularArticle" xml:space="preserve">
     <value>the</value>
@@ -250,13 +250,13 @@
     <value>the</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry_Plural" xml:space="preserve">
-    <value>attribute entries</value>
+    <value>attribues</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry_PluralArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry_Singular" xml:space="preserve">
-    <value>attribute entry</value>
+    <value>atrribute</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry_SingularArticle" xml:space="preserve">
     <value>the</value>

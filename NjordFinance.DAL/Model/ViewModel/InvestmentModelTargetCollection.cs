@@ -8,10 +8,10 @@ namespace NjordFinance.Model.ViewModel
     /// Represents a collection of <see cref="InvestmentStrategyTarget"/> instances with the same 
     /// <see cref="InvestmentStrategy" />, <see cref="ModelAttribute"/>, and effective date.
     /// </summary>
-    public class InvestmentModelTargetViewModel
-        : AttributeEntryGrouping<InvestmentStrategy, InvestmentStrategyTarget>
+    public class InvestmentModelTargetCollection
+        : AttributeEntryWeightedGrouping<InvestmentStrategy, InvestmentStrategyTarget>
     {
-        internal InvestmentModelTargetViewModel(
+        internal InvestmentModelTargetCollection(
             InvestmentStrategy parentEntity, ModelAttribute modelAttribute, DateTime effectiveDate)
         : base(parentEntity, modelAttribute, effectiveDate)
         {

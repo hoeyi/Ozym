@@ -21,16 +21,16 @@ namespace NjordFinance.Model.ViewModel.Generic
     /// e.g., (<typeparamref name="TParentEntity"/>, <see cref="ModelAttribute"/>, <see cref="DateTime"/>). In practice, 
     /// the database key is most likely built from the identifiers, e.g., 
     /// (<see cref="int"/>, <see cref="int" />, <see cref="DateTime"/>).</remarks>
-    public abstract partial class AttributeEntryGrouping<TParentEntity, TChildEntity>
+    public abstract partial class AttributeEntryWeightedGrouping<TParentEntity, TChildEntity>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AttributeEntryGrouping{TParentEntity, TChildEntity}"/> class.
+        /// Initializes a new instance of the <see cref="AttributeEntryWeightedGrouping{TParentEntity, TChildEntity}"/> class.
         /// </summary>
         /// <param name="parentObject"></param>
         /// <param name="parentAttribute"></param>
         /// <param name="effectiveDate"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected AttributeEntryGrouping(
+        protected AttributeEntryWeightedGrouping(
             TParentEntity parentObject, 
             ModelAttribute parentAttribute, 
             DateTime effectiveDate)
@@ -80,8 +80,8 @@ namespace NjordFinance.Model.ViewModel.Generic
         protected abstract bool UpdateEntryEffectiveDate(TChildEntity entry, DateTime effectiveDate);
     }
 
-    #region IAttributeGrouping implementation
-    public abstract partial class AttributeEntryGrouping<TParentEntity, TChildEntity> :
+    #region IAttributeEntryWeightedGrouping implementation
+    public abstract partial class AttributeEntryWeightedGrouping<TParentEntity, TChildEntity> :
         IAttributeEntryGrouping<TParentEntity, TChildEntity>
         where TParentEntity : class, new()
         where TChildEntity : class, new()
@@ -111,6 +111,9 @@ namespace NjordFinance.Model.ViewModel.Generic
                 }
             }
         }
+
+        /// <inheritdoc/>
+        public int EntryCount => Entries.Count();
 
         /// <inheritdoc/>
         public bool IsEmpty => !Entries.Any();
