@@ -16,23 +16,18 @@
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
                          Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
 
-
-        <AttributeEntryCollectionEditor 
-            TViewModelParent="BankTransactionCodeAttributeViewModel"
-            TViewModelChild="BankTransactionCodeAttriubeEntryViewModel"
-            TModel="BankTransactionCode"
-            TModelChild="BankTransactionCodeAttributeMemberEntry"
-            OnCancelEditorClick="CancelEditorHandler"
-            OnDeleteModelClick="DeleteModelHandler"
-            OnValidFormSubmit="ValidFormSubmitHandler"
-            EffectiveDateMemberName="@nameof(BankTransactionCodeAttributeMemberEntry.EffectiveDate)"
-            ViewModel="@ViewModel"
-            Mode="EditorMode.Edit">
-            <ViewModelCRUD />
-            <ViewModelChildCRUD>
-                <BankTransactionCodeAttributeEntryCRUD Disabled="false" ReadOnly="false" />
-            </ViewModelChildCRUD>
-        </AttributeEntryCollectionEditor>
+        @foreach (var group in ViewModel.CurrentAttributeEntryGroups.OrderBy(g => g.Key.DisplayName))
+        {
+            <ContentTile>
+                <Body>
+                    <CascadingValue Value="@group.First()">
+                        <EditForm class="model-editor" Model="@group.First()">
+                            <BankTransactionCodeAttributeEntryCRUD Disabled="false" ReadOnly="false" />
+                        </EditForm>
+                    </CascadingValue>
+                </Body>
+            </ContentTile>
+        }
     }
 </ThemedComponent>
 
@@ -44,9 +39,9 @@
     public int ModelId { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="BankTransactionCodeAttributeViewModel" /> worked by this page.
+    /// Gets or sets the <see cref="BankTransactionCodeViewModel" /> worked by this page.
     /// </summary>
-    private BankTransactionCodeAttributeViewModel ViewModel { get; set; }
+    private BankTransactionCodeViewModel ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -109,7 +104,7 @@
             NavigationHelper.NavigateTo(FormatDetailUri(result.Value.TransactionCodeId));
     }
 
-    /// <summary>
+    /// <summary>edit
     /// Handles the cancel editor event of this page.
     /// </summary>
     private void CancelEditorHandler(MouseEventArgs args) =>

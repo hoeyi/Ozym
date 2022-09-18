@@ -17,7 +17,7 @@
             ActionMenu="@ActionMenu"
             Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
-        @foreach (var group in ViewModel.CurrentTargetCollection.OrderBy(g => g.Key.DisplayName))
+        @foreach (var group in ViewModel.CurrentAttributeEntryGroups.OrderBy(g => g.Key.DisplayName))
         {
             <ContentTile>
                 <Body>
@@ -36,7 +36,7 @@
     [Parameter]
     public int ModelId { get; set; }
 
-    private BankTransactionCodeAttributeViewModel ViewModel { get; set; }
+    private BankTransactionCodeViewModel ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

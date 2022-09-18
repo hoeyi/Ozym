@@ -75,7 +75,7 @@
                             IconKey = "wallet",
                             Caption = $"{Resources.Strings.Caption_Button_View} " +
                                 $"{ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()}",
-                            UriStem = $"{IndexUriRelativePath}/{Model.AccountId}/wallets/edit"
+                            UriStem = $"{FormatEditUri(Model.AccountId)}/wallets"
                         }
                     }
                 }
