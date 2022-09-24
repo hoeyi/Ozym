@@ -69,7 +69,7 @@ else
             </CascadingValue>
         </Body>
     </ContentTile>
-    @foreach (var group in ViewModel.AttributeEntryGroups.OrderBy(g => g.Key.DisplayName))
+    @foreach (var group in ViewModel.EntryCollectionGroups.OrderBy(g => g.Key.DisplayName))
     {
         <ContentTile>
             <TitleAlignLeft>

@@ -1,4 +1,6 @@
-﻿@inherits ModelCRUD<BankTransactionCodeAttributeGrouping>
+﻿@using NjordFinance.Model.ViewModel.Generic
+
+@inherits ModelCRUD<BankTransactionCodeAttributeGrouping>
 
 @if (IsLoading)
 {
@@ -24,7 +26,6 @@ else
         </TitleAlignRight>
         <Body>
             <DataGrid Data="@ViewModel.Entries">
-                <ValidationMessage For=@(() => ViewModel.SumOfMemberWeights) />
                 @if (ReadOnly)
                 {
                     <DataGridColumn 

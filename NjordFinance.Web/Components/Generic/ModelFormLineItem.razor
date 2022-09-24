@@ -10,7 +10,10 @@
         </td>
         <td class="col-sm-10">
             @ChildContent
-            <ValidationMessage For="@ValidationMessageDelegate" />
+            @if(ValidationMessageDelegate is not null)
+            {
+                <ValidationMessage For="@ValidationMessageDelegate" />
+            }
         </td>
     </tr>
 }

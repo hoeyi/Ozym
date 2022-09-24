@@ -16,18 +16,23 @@
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
                          Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
 
-        @foreach (var group in ViewModel.CurrentAttributeEntryGroups.OrderBy(g => g.Key.DisplayName))
-        {
-            <ContentTile>
-                <Body>
-                    <CascadingValue Value="@group.First()">
-                        <EditForm class="model-editor" Model="@group.First()">
-                            <BankTransactionCodeAttributeEntryCRUD Disabled="false" ReadOnly="false" />
-                        </EditForm>
-                    </CascadingValue>
-                </Body>
-            </ContentTile>
-        }
+        <AttributeEntryEditor
+            TViewModelParent="BankTransactionCodeViewModel"
+            TViewModelChild="BankTransactionCodeAttributeGrouping"
+            TModel="BankTransactionCode"
+            TModelChild="BankTransactionCodeAttributeMemberEntry"
+            OnCancelEditorClick="CancelEditorHandler"
+            OnDeleteModelClick="DeleteModelHandler"
+            OnValidFormSubmit="ValidFormSubmitHandler"
+            ViewModel="@ViewModel"
+            Mode="EditorMode.Edit">
+            <ViewModelCRUD>
+                <BankTransactionCodeCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <BankTransactionCodeAttributeEntryCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryEditor>
     }
 </ThemedComponent>
 
@@ -42,6 +47,7 @@
     /// Gets or sets the <see cref="BankTransactionCodeViewModel" /> worked by this page.
     /// </summary>
     private BankTransactionCodeViewModel ViewModel { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -108,5 +114,5 @@
     /// Handles the cancel editor event of this page.
     /// </summary>
     private void CancelEditorHandler(MouseEventArgs args) =>
-        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
+        NavigationHelper.NavigateTo($"{FormatDetailUri(ModelId)}/attributes");
 }

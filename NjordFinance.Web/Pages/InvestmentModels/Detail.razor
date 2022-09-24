@@ -26,12 +26,13 @@
                 </CascadingValue>
             </Body>
         </ContentTile>
-        @foreach(var group in ViewModel.CurrentAttributeEntryGroups.OrderBy(g => g.Key.DisplayName))
+        @foreach(var group in ViewModel.CurrentEntryCollectionGroups.OrderBy(g => 
+            g.ParentAttribute.DisplayName))
         {
             <ContentTile>
                 <Body>
-                    <CascadingValue Value="@group.First()">
-                        <EditForm class="model-editor" Model="@group.First()">
+                    <CascadingValue Value="@group">
+                        <EditForm class="model-editor" Model="@group">
                             <InvestmentModelTargetCRUD 
                                 Disabled="false"
                                 ReadOnly="true" />

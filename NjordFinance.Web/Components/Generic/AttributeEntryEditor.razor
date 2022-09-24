@@ -1,0 +1,105 @@
+﻿@using NjordFinance.Model.ViewModel.Generic
+@typeparam TViewModelParent
+@typeparam TViewModelChild
+@typeparam TModel
+@typeparam TModelChild
+
+@inherits LocalizableComponent
+
+<ActionButtonMenu>
+    <button type="submit" form="@FormGuid" class="form-control button">
+        @Resources.Strings.Caption_Button_Save
+    </button>
+    <button type="button" class="form-control button"
+            @onclick="(() => DrawAttributeSelectorDialog = true)"
+            @onclick:preventDefault>
+        @(string.Format(
+            Resources.Strings.Caption_Button_Add,
+            ModelMetadata.NounFor(typeof(TModelChild)).GetSingular()))
+    </button>
+    @if (Mode == EditorMode.Edit)
+    {
+        <button type="button" class="form-control button"
+            @onclick="@(async (args) => await OnDeleteModelClick.InvokeAsync(args))"
+            @onclick:preventDefault>
+            @Resources.Strings.Caption_Button_Delete
+        </button>
+    }
+    <button type="button" class="form-control button"
+            @onclick="@(async(args) => await OnCancelEditorClick.InvokeAsync(args))"
+            @onclick:preventDefault>
+        @Resources.Strings.Caption_Button_Cancel
+    </button>
+</ActionButtonMenu>
+<CascadingValue Value="@ViewModel">
+    <EditForm id="@FormGuid"
+        Model="@ViewModel"
+        OnValidSubmit="@(async (args) => await OnValidFormSubmit.InvokeAsync(args))">
+        <ContentTile class="left">
+            <Body>
+                <DataAnnotationsValidator />
+                @ViewModelCRUD
+            </Body>
+        </ContentTile>
+    </EditForm>
+</CascadingValue>
+
+@code {
+    /// <summary>
+    /// Gets or sets the identifier for the <see cref="EditorMode" /> for the page.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public EditorMode Mode { get; set; }
+
+    /// <summary>
+    /// Gets or sets the delegate for handling a request to cancel the editor initiated by a
+    /// mouse click.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public EventCallback<MouseEventArgs> OnCancelEditorClick { get; set; }
+
+    /// <summary>
+    /// Gets or sets the delegate for handling a request to delete a model initiated by a
+    /// mouse click.
+    /// </summary>
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnDeleteModelClick { get; set; }
+
+    /// <summary>
+    /// Gets or sets the delegate for handling a request to submit a valid form initiated by a
+    /// mouse click.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public EventCallback<EditContext> OnValidFormSubmit { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <typeparamref name="TViewModelParent"/> representing the worked model.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public TViewModelParent ViewModel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the component responsible for presenting editor controls for
+    /// <typeparamref name="TViewModelChild"/> instances.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public RenderFragment<IAttributeEntryGrouping<TModel, TModelChild>> ViewModelChildCRUD { get; set; }
+
+    /// <summary>
+    /// Gets or sets the component responsible for presenting editor controls for the
+    /// <typeparamref name="TViewModelParent"/> instance.
+    /// </summary>
+    [Parameter]
+    public RenderFragment ViewModelCRUD { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the modal dialog for selecting an attribute is drawn. Default is
+    /// <see cref="false" />.
+    /// </summary>
+    private bool DrawAttributeSelectorDialog { get; set; } = false;
+
+    /// <summary>
+    /// Gets the <see cref="Guid"/> uniquely identifying the form element for this control.
+    /// </summary>
+    private Guid FormGuid { get; } = Guid.NewGuid();
+}

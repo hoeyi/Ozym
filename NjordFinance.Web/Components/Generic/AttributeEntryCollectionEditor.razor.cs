@@ -29,8 +29,8 @@ namespace NjordFinance.Web.Components.Generic
         : LocalizableComponent
         where TModel: class, new()
         where TModelChild : class, new()
-        where TViewModelChild: IAttributeEntryGrouping<TModel, TModelChild>
-        where TViewModelParent: IAttributeEntryCollection<TModel, TModelChild, TViewModelChild>
+        where TViewModelChild: IAttributeEntryWeightedGrouping<TModel, TModelChild>
+        where TViewModelParent: IAttributeEntryWeightedCollection<TModel, TModelChild, TViewModelChild>
     {
         /// <summary>
         /// Gets or sets <see cref="IReferenceDataService"/> used to query lookup and reference 

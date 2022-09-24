@@ -1,4 +1,4 @@
-﻿@page "/bank-transaction-codes/{ModelId:int}/attributes"
+﻿@page "/bank-transaction-codes/{ModelId:int}/detail/attributes"
 
 @inherits ModelDetail<BankTransactionCode>
 
@@ -17,15 +17,20 @@
             ActionMenu="@ActionMenu"
             Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
-        @foreach (var group in ViewModel.CurrentAttributeEntryGroups.OrderBy(g => g.Key.DisplayName))
+        @foreach (var entry in ViewModel.CurrentEntries.OrderBy(g => 
+        g.AttributeMember.Attribute.DisplayName))
         {
             <ContentTile>
                 <Body>
-                    <CascadingValue Value="@group.First()">
-                        <EditForm class="model-editor" Model="@group.First()">
-                            <BankTransactionCodeAttributeEntryCRUD Disabled="false" ReadOnly="true" />
-                        </EditForm>
-                    </CascadingValue>
+                    <ModelForm TModel="BankTransactionCodeAttributeMemberEntry"
+                        >
+                        <ModelFormLineItem MemberName="@nameof(BankTransactionCode.TransactionCode)">
+                            @entry.AttributeMember.DisplayName
+                        </ModelFormLineItem>
+                        <ModelFormLineItem MemberName="@nameof(BankTransactionCode.DisplayName)">
+                            @entry.EffectiveDate.ToShortDateString()
+                        </ModelFormLineItem>
+                    </ModelForm>
                 </Body>
             </ContentTile>
         }
