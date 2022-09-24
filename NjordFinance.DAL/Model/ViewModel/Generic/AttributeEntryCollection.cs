@@ -1,118 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing.Text;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NjordFinance.Model.ViewModel.Generic
 {
-    public abstract partial class AttributeEntryCollectionUnweighted<TParentEntity, TChildEntity, TViewModel>
-        : AttributeEntryCollection<TParentEntity, TChildEntity, TViewModel>,
-        IAttributeEntryCollectionUnweighted<TChildEntity>
+    public abstract partial class AttributeEntryCollection<
+        TParentEntity, TChildEntity, TGroupViewModel, TGroupKey>
+        : IAttributeEntryCollection<TParentEntity, TChildEntity, TGroupViewModel>
         where TParentEntity : class, new()
         where TChildEntity : class, new()
-        where TViewModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
-    {
-        protected AttributeEntryCollectionUnweighted(
-            TParentEntity parentEntity,
-            Func<TParentEntity, ModelAttribute, DateTime, TViewModel> groupConstructor,
-            Func<IGrouping<(int, DateTime), TChildEntity>, TParentEntity, TViewModel> groupingConverterFunc,
-            Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<(int, DateTime), TChildEntity>>> groupingFunc,
-            Func<TParentEntity, IEnumerable<TChildEntity>> entryMemberSelector
-            ) : base(parentEntity, groupConstructor, groupingConverterFunc, groupingFunc, entryMemberSelector)
-        {
-        }
-
-        public IEnumerable<IGrouping<ModelAttribute, TChildEntity>> EntryGroups => throw new NotImplementedException();
-    }
-
-    /// <summary>
-    /// Base class for view models used to manage <typeparamref name="TChildEntity"/> attribute entries
-    /// describing a <typeparamref name="TParentEntity"/>.
-    /// </summary>
-    /// <typeparam name="TParentEntity">The entity type the attribute entries describe.</typeparam>
-    /// <typeparam name="TChildEntity">The entity entry type.</typeparam>
-    /// <typeparam name="TViewModel">The <see cref="IAttributeEntryWeightedGrouping{TParentEntity, TEntryEntity}"/> 
-    /// that manages sub-groupings of entries in thsi model.</typeparam>
-    public abstract partial class AttributeEntryCollection<TParentEntity, TChildEntity, TViewModel>
-        : IAttributeEntryCollection<TParentEntity, TChildEntity, TViewModel>
-        where TParentEntity : class, new()
-        where TChildEntity : class, new()
-        where TViewModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
+        where TGroupViewModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
     {
         /// <inheritdoc/>
-        public IEnumerable<IGrouping<ModelAttribute, TViewModel>> AttributeEntryGroups
+        public IReadOnlyCollection<TGroupViewModel> EntryCollection =>
+            GroupEntries(Entries)
+            .Select(g => ConvertGroupingToViewModel(g))
+            .ToList();
+
+        /// <inheritdoc/>
+        public IEnumerable<IGrouping<ModelAttribute, TGroupViewModel>> EntryCollectionGroups
             => EntryCollection
                 .GroupBy(e => e.ParentAttribute.AttributeId)
                 .Select(grp =>
                 {
-                    var grouping = new AttributeGrouping<TViewModel>(
+                    var grouping = new AttributeGrouping<ModelAttribute, TGroupViewModel>(
                         key: grp.First().ParentAttribute, collection: grp);
 
                     return grouping;
                 });
 
         /// <inheritdoc/>
-        public IEnumerable<IGrouping<ModelAttribute, TViewModel>> CurrentAttributeEntryGroups =>
-            AttributeEntryGroups.Select(grp =>
-            {
-                var groupCollection = grp.Where(grp =>
-                    grp.EffectiveDate.Date <= DateTime.UtcNow.Date);
-
-                if (groupCollection.Any())
-                    return new AttributeGrouping<TViewModel>(
-                        key: grp.Key,
-                        collection: groupCollection
-                            .OrderByDescending(grp => grp.EffectiveDate).Take(1));
-                else
-                    return null;
-            })
-            .Where(g => g is not null);
-
-        /// <inheritdoc/>
-        public IReadOnlyCollection<TViewModel> EntryCollection =>
-            GroupEntries(_entryMemberSelector(ParentEntity))
-            .Select(g => ConvertGroupingToViewModel(g))
-            .ToList();
-
-        /// <inheritdoc/>
-        public TViewModel AddNew(ModelAttribute forAttribute)
-        {
-            var viewModel = _groupConstructor
-                .Invoke(ParentEntity, forAttribute, GetDateTimeForNew(forAttribute));
-
-            viewModel.AddNewEntry();
-
-            return viewModel;
-        }
-
-        /// <inheritdoc/>
         public TParentEntity ToEntity() => ParentEntity;
-
-        /// <inheritdoc/>
-        public bool RemoveExising(TViewModel viewModel) => viewModel.RemoveAll();
     }
 
-    public abstract partial class AttributeEntryCollection<TParentEntity, TChildEntity, TViewModel>
+    public abstract partial class AttributeEntryCollection
+        <TParentEntity, TChildEntity, TGroupViewModel, TGroupKey>
     {
-        private readonly Func<TParentEntity, ModelAttribute, DateTime, TViewModel> _groupConstructor;
-        private readonly Func<IGrouping<(int, DateTime), TChildEntity>, TParentEntity, TViewModel> _groupingConverterDelegate;
-        private readonly Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<(int, DateTime), TChildEntity>>> _groupingDelegate;
-        private readonly Func<TParentEntity, IEnumerable<TChildEntity>> _entryMemberSelector;
+        private readonly Func<IGrouping<TGroupKey, TChildEntity>, TParentEntity, TGroupViewModel> _groupConverterDelegate;
+        private readonly Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<TGroupKey, TChildEntity>>> _groupingDelegate;
+        private readonly Func<TParentEntity, TGroupKey, TGroupViewModel> _groupConstructorDelegate;
+        private readonly Func<TParentEntity, IEnumerable<TChildEntity>> _parentEntryMemberSelector;
 
         /// <summary>
         /// Initializes a new instance of 
-        /// <see cref="AttributeEntryCollection{TParentEntity, TChildEntity, TViewModel}"/> 
+        /// <see cref="AttributeEntryCollection{TParentEntity, TChildEntity, TViewModel, TGroupKey}"/> 
         /// describing the given <typeparamref name="TParentEntity"/> instance.
         /// </summary>
         /// <param name="parentEntity">The <typeparamref name="TParentEntity"/> described.</param>
         /// <exception cref="ArgumentNullException">A required argument was a null reference.</exception>
         protected AttributeEntryCollection(
             TParentEntity parentEntity,
-            Func<TParentEntity, ModelAttribute, DateTime, TViewModel> groupConstructor,
-            Func<IGrouping<(int, DateTime), TChildEntity>, TParentEntity, TViewModel> groupingConverterFunc,
-            Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<(int, DateTime), TChildEntity>>> groupingFunc,
+            Func<TParentEntity, TGroupKey, TGroupViewModel> groupConstructor,
+            Func<IGrouping<TGroupKey, TChildEntity>, TParentEntity, TGroupViewModel> groupConverter,
+            Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<TGroupKey, TChildEntity>>> groupingFunc,
             Func<TParentEntity, IEnumerable<TChildEntity>> entryMemberSelector
             )
         {
@@ -122,8 +65,8 @@ namespace NjordFinance.Model.ViewModel.Generic
             if (groupConstructor is null)
                 throw new ArgumentNullException(paramName: nameof(groupConstructor));
 
-            if (groupingConverterFunc is null)
-                throw new ArgumentNullException(paramName: nameof(groupingConverterFunc));
+            if (groupConverter is null)
+                throw new ArgumentNullException(paramName: nameof(groupConverter));
 
             if (groupingFunc is null)
                 throw new ArgumentNullException(paramName: nameof(groupingFunc));
@@ -131,15 +74,40 @@ namespace NjordFinance.Model.ViewModel.Generic
             if (entryMemberSelector is null)
                 throw new ArgumentNullException(paramName: nameof(entryMemberSelector));
 
-            _groupConstructor = groupConstructor;
-            _groupingConverterDelegate = groupingConverterFunc;
+            _groupConstructorDelegate = groupConstructor;
+            _groupConverterDelegate = groupConverter;
             _groupingDelegate = groupingFunc;
 
-            _entryMemberSelector = entryMemberSelector;
+            _parentEntryMemberSelector = entryMemberSelector;
 
             ParentEntity = parentEntity;
         }
+
+        protected IEnumerable<TChildEntity> Entries => _parentEntryMemberSelector(ParentEntity);
+
         protected TParentEntity ParentEntity { get; private init; }
+
+        /// <summary>
+        /// Converts the given <see cref="IGrouping{TKey, TElemenet}"/> to an instance of 
+        /// <typeparamref name="TGroupViewModel"/>.
+        /// </summary>
+        /// <param name="grouping">The <see cref="IGrouping{TKey, TElement}"/> to convert.</param>
+        /// <returns></returns>
+        protected TGroupViewModel ConvertGroupingToViewModel(
+            IGrouping<TGroupKey, TChildEntity> grouping) =>
+                _groupConverterDelegate.Invoke(grouping, ParentEntity);
+        protected TGroupViewModel CreateGroupViewModel(
+            TParentEntity parent, TGroupKey groupKey) => _groupConstructorDelegate.Invoke(parent, groupKey);
+
+        /// <summary>
+        /// Groups the given <typeparamref name="TChildEntity"/> entries using a <see cref="Tuple"/> 
+        /// key created from the <see cref="int"/> parent attribute key and <see cref="DateTime"/> 
+        /// effective date of the entries.
+        /// </summary>
+        /// <param name="entries"></param>
+        /// <returns></returns>
+        protected IEnumerable<IGrouping<TGroupKey, TChildEntity>> GroupEntries(
+            IEnumerable<TChildEntity> entries) => _groupingDelegate.Invoke(entries);
 
         /// <summary>
         /// Gets the error message for an incomplete object graph at the path specified by the 
@@ -166,39 +134,6 @@ namespace NjordFinance.Model.ViewModel.Generic
             => string.Format(
                 format: Strings.AttributeEntryViewModel_Exception_IncompleteObjectGraph,
                 arg0: GetObjectGraph(expression));
-
-        protected DateTime GetDateTimeForNew(ModelAttribute forAttribute)
-        {
-            var lastEntryDateUtc = EntryCollection
-                            .Where(x => x.ParentAttribute.AttributeId == forAttribute.AttributeId)
-                            .MaxOrDefault(x => x.EffectiveDate)
-                            .ToUniversalTime();
-
-            DateTime effectiveDate = lastEntryDateUtc.Date < DateTime.UtcNow.Date ?
-                DateTime.UtcNow.Date : lastEntryDateUtc.Date.AddDays(1);
-
-            return effectiveDate;
-        }
-
-        /// <summary>
-        /// Converts the given <see cref="IGrouping{TKey, TElemenet}"/> to an instance of 
-        /// <typeparamref name="TViewModel"/>.
-        /// </summary>
-        /// <param name="grouping">The <see cref="IGrouping{TKey, TElement}"/> to convert.</param>
-        /// <returns></returns>
-        private TViewModel ConvertGroupingToViewModel(
-            IGrouping<(int, DateTime), TChildEntity> grouping) => 
-                _groupingConverterDelegate.Invoke(grouping, ParentEntity);
-
-        /// <summary>
-        /// Groups the given <typeparamref name="TChildEntity"/> entries using a <see cref="Tuple"/> 
-        /// key created from the <see cref="int"/> parent attribute key and <see cref="DateTime"/> 
-        /// effective date of the entries.
-        /// </summary>
-        /// <param name="entries"></param>
-        /// <returns></returns>
-        private IEnumerable<IGrouping<(int, DateTime), TChildEntity>> GroupEntries(
-            IEnumerable<TChildEntity> entries) => _groupingDelegate.Invoke(entries);
         
         private static string GetObjectGraph<T>(Expression<Func<T, object>> expression)
         {

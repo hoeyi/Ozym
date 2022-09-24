@@ -9,7 +9,8 @@ using NjordFinance.Model;
 namespace NjordFinance.Model.ViewModel
 {
     public class BankTransactionCodeAttributeGrouping
-        : AttributeEntryGrouping<BankTransactionCode, BankTransactionCodeAttributeMemberEntry>
+        : AttributeEntryGrouping<BankTransactionCode, BankTransactionCodeAttributeMemberEntry>,
+        IAttributeEntryGrouping<BankTransactionCode, BankTransactionCodeAttributeMemberEntry>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BankTransactionCodeAttributeGrouping"/> 
@@ -19,8 +20,8 @@ namespace NjordFinance.Model.ViewModel
         /// <param name="modelAttribute">The <see cref="ModelAttribute"/> that entries in the instance describe.</param>
         /// <param name="effectiveDate">The effective date for entries in the instance.</param>
         public BankTransactionCodeAttributeGrouping(
-            BankTransactionCode parentEntity, ModelAttribute modelAttribute, DateTime effectiveDate) 
-            : base(parentEntity, modelAttribute, effectiveDate)
+            BankTransactionCode parentEntity, ModelAttribute modelAttribute) 
+            : base(parentEntity, modelAttribute)
         {
         }
 
@@ -56,14 +57,6 @@ namespace NjordFinance.Model.ViewModel
             AddEntry(newEntry);
 
             return newEntry;
-        }
-
-        /// <inheritdoc/>
-        protected override bool UpdateEntryEffectiveDate(
-            BankTransactionCodeAttributeMemberEntry entry, DateTime effectiveDate)
-        {
-            entry.EffectiveDate = effectiveDate;
-            return entry.EffectiveDate == effectiveDate;
         }
     }
 }

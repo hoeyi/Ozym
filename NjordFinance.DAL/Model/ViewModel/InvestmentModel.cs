@@ -13,7 +13,7 @@ namespace NjordFinance.Model.ViewModel
     [ModelAttributeSupport(
             SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]
     public class InvestmentModel
-        : AttributeEntryCollection<
+        : AttributeEntryWeightedCollection<
             InvestmentStrategy,
             InvestmentStrategyTarget,
             InvestmentModelTargetCollection>
@@ -29,9 +29,9 @@ namespace NjordFinance.Model.ViewModel
         public InvestmentModel(InvestmentStrategy strategy)
             : base(
                   parentEntity: strategy, 
-                  groupConstructor: (parent, attribute, date) =>
+                  groupConstructor: (parent, key) =>
                   {
-                      return new InvestmentModelTargetCollection(parent, attribute, date);
+                      return new InvestmentModelTargetCollection(parent, key.Item1, key.Item2);
                   },
                   groupingConverterFunc: (grouping, parent) =>
                   {
@@ -44,7 +44,19 @@ namespace NjordFinance.Model.ViewModel
                   },
                   groupingFunc: (entries) =>
                   {
-                      return entries.GroupBy(e => (e.AttributeMember.AttributeId, e.EffectiveDate));
+                      return entries.GroupBy(e => (e.AttributeMember.AttributeId, e.EffectiveDate))
+                        .Select(g =>
+                        {
+                            var attribute = g.First().AttributeMember.Attribute;
+                            var forDate = g.Key.EffectiveDate;
+
+                            var group = new AttributeGrouping<
+                                (ModelAttribute, DateTime), 
+                                InvestmentStrategyTarget>(
+                                key: (attribute, forDate), collection: g);
+
+                            return group;
+                        });
                   },
                   entryMemberSelector: (parent) =>
                   {

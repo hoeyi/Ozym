@@ -100,11 +100,11 @@ namespace NjordFinance.Test.ViewModel
             InvestmentModel viewModel = new(model);
 
             // Assert
-            var obsGroupCount = viewModel.AttributeEntryGroups.Count();
+            var obsGroupCount = viewModel.EntryCollectionGroups.Count();
             Assert.AreEqual(2, obsGroupCount);
 
-            var firstGroup = viewModel.AttributeEntryGroups.First();
-            var secondGroup = viewModel.AttributeEntryGroups.Skip(1).First();
+            var firstGroup = viewModel.EntryCollectionGroups.First();
+            var secondGroup = viewModel.EntryCollectionGroups.Skip(1).First();
 
             Assert.AreEqual(2, firstGroup.Count());
             Assert.AreEqual(1, secondGroup.Count());

@@ -12,7 +12,7 @@ namespace NjordFinance.Model.ViewModel
     /// <see cref="Security" />, <see cref="ModelAttribute"/>, and effective date.
     /// </summary>
     public partial class SecurityAttributeViewModel :
-        AttributeEntryGrouping<Security, SecurityAttributeMemberEntry>
+        AttributeEntryWeightedGrouping<Security, SecurityAttributeMemberEntry>
     {
         public SecurityAttributeViewModel(
             Security parentObject,

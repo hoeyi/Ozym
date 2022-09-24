@@ -13,14 +13,9 @@ namespace NjordFinance.Model.ViewModel.Generic
     public interface IAttributeEntryGrouping<TParentEntity, TEntryEntity>
         where TParentEntity : class, new()
         where TEntryEntity : class, new()
-    {
+    { 
         /// <summary>
-        /// Gets the effective date for entries in this collection.
-        /// </summary>
-        DateTime EffectiveDate { get; set; }
-
-        /// <summary>
-        /// Gets the collection of <typeparamref name="TEntry"/> entries in this model.
+        /// Gets the collection of <typeparamref name="TEntryEntity"/> entries in this model.
         /// </summary>
         IEnumerable<TEntryEntity> Entries { get; }
 
@@ -41,11 +36,6 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// entries describe.
         /// </summary>
         TParentEntity ParentObject { get; }
-
-        /// <summary>
-        /// Gets the sum of all entry weights in this grouping.
-        /// </summary>
-        public decimal SumOfMemberWeights { get; }
 
         /// <summary>
         /// Adds a new default instance of <typeparamref name="TEntryEntity"/>.
@@ -77,12 +67,5 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// </summary>
         /// <returns>True if removal for all entries was successful, else false.</returns>
         bool RemoveAll();
-    }
-
-    public interface IAttributeEntryUnweightedGrouping<TParentEntity, TEntryEntity>
-        where TParentEntity: class, new()
-        where TEntryEntity: class, new()
-    {
-        IGrouping<ModelAttribute, TEntryEntity> AttributeEntries { get; }
     }
 }

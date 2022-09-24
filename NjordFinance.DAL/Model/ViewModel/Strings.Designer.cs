@@ -70,6 +70,24 @@ namespace NjordFinance.Model.ViewModel {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unweighted enrties must have a weight of 100%..
+        /// </summary>
+        internal static string AttributeEntryGroupUnweighted_InvalidWeight {
+            get {
+                return ResourceManager.GetString("AttributeEntryGroupUnweighted_InvalidWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unweighted entries may have only one entry per combination of attribute and effective date..
+        /// </summary>
+        internal static string AttributeEntryGroupUnweighted_ValidationError_InvalidCount {
+            get {
+                return ResourceManager.GetString("AttributeEntryGroupUnweighted_ValidationError_InvalidCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initialization failed. Object graph missing required path: {0}..
         /// </summary>
         internal static string AttributeEntryViewModel_Exception_IncompleteObjectGraph {

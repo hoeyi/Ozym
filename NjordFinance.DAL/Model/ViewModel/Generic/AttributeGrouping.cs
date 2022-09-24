@@ -8,16 +8,16 @@ namespace NjordFinance.Model.ViewModel.Generic
     /// a related <see cref="ModelAttribute"/> record.
     /// </summary>
     /// <typeparam name="TElement"></typeparam>
-    public class AttributeGrouping<TElement> : List<TElement>, IGrouping<ModelAttribute, TElement>
+    public class AttributeGrouping<TKey, TElement> : List<TElement>, IGrouping<TKey, TElement>
     {
-        public AttributeGrouping(ModelAttribute key) : base() => Key = key;
-        public AttributeGrouping(ModelAttribute key, int capacity) : base(capacity) => Key = key;
-        public AttributeGrouping(ModelAttribute key, IEnumerable<TElement> collection)
+        public AttributeGrouping(TKey key) : base() => Key = key;
+        public AttributeGrouping(TKey key, int capacity) : base(capacity) => Key = key;
+        public AttributeGrouping(TKey key, IEnumerable<TElement> collection)
             : base(collection) => Key = key;
 
         /// <summary>
-        /// Gets the <see cref="ModelAttribute"/> that serves as the key for this grouping.
+        /// Gets the <typeparamref name="TKey"/> that serves as the key for this grouping.
         /// </summary>
-        public ModelAttribute Key { get; }
+        public TKey Key { get; }
     }
 }

@@ -82,7 +82,7 @@ namespace NjordFinance.Model.ViewModel.Generic
 
     #region IAttributeEntryWeightedGrouping implementation
     public abstract partial class AttributeEntryWeightedGrouping<TParentEntity, TChildEntity> :
-        IAttributeEntryGrouping<TParentEntity, TChildEntity>
+        IAttributeEntryWeightedGrouping<TParentEntity, TChildEntity>
         where TParentEntity : class, new()
         where TChildEntity : class, new()
     {
@@ -111,9 +111,6 @@ namespace NjordFinance.Model.ViewModel.Generic
                 }
             }
         }
-
-        /// <inheritdoc/>
-        public int EntryCount => Entries.Count();
 
         /// <inheritdoc/>
         public bool IsEmpty => !Entries.Any();

@@ -619,7 +619,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sum of member classification weights.
+        ///   Looks up a localized string similar to Sum of the entry weights in this collection..
         /// </summary>
         public static string AttributeEntryCollectionViewModel_SumOfWeights_Name {
             get {

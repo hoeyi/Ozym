@@ -31,9 +31,8 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// <param name="effectiveDate"></param>
         /// <exception cref="ArgumentNullException"></exception>
         protected AttributeEntryGrouping(
-            TParentEntity parentObject, 
-            ModelAttribute parentAttribute, 
-            DateTime effectiveDate)
+            TParentEntity parentObject,
+            ModelAttribute parentAttribute)
         {
             if (parentObject is null)
                 throw new ArgumentNullException(paramName: nameof(parentObject));
@@ -43,7 +42,6 @@ namespace NjordFinance.Model.ViewModel.Generic
 
             ParentObject = parentObject;
             ParentAttribute = parentAttribute;
-            this.effectiveDate = effectiveDate;
         }
 
         /// <summary>
@@ -58,10 +56,6 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// </summary>
         protected abstract Func<TChildEntity, bool> EntrySelector { get; }
 
-        /// <summary>
-        /// Gets the delegate for selecting the weight attribute for the 
-        /// <typeparamref name="TChildEntity"/> type.
-        /// </summary>
         protected abstract Func<TChildEntity, decimal> WeightSelector { get; }
 
         /// <summary>
@@ -69,15 +63,6 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// of <see cref="TParentEntity"/>.
         /// </summary>
         private ICollection<TChildEntity> ParentEntryCollection => ParentEntryMemberSelector(ParentObject);
-        
-        /// <summary>
-        /// Sets the effective date of the given <typeparamref name="TChildEntity"/> entry to the 
-        /// given <see cref="DateTime"/> value.
-        /// </summary>
-        /// <param name="entry"></param>
-        /// <param name="effectiveDate"></param>
-        /// <returns>True, if the update was successful, else false.</returns>
-        protected abstract bool UpdateEntryEffectiveDate(TChildEntity entry, DateTime effectiveDate);
     }
 
     #region IAttributeGrouping implementation
@@ -86,32 +71,6 @@ namespace NjordFinance.Model.ViewModel.Generic
         where TParentEntity : class, new()
         where TChildEntity : class, new()
     {
-        private DateTime effectiveDate;
-
-        /// <inheritdoc/>
-        [Display(
-            Name = nameof(ModelDisplay.AttributeEntryViewModel_EffectiveDate_Name),
-            ResourceType = typeof(ModelDisplay))]
-        public DateTime EffectiveDate
-        {
-            get { return effectiveDate; }
-            set
-            {
-                if(effectiveDate != value)
-                {
-                    effectiveDate = value;
-                    if(!Entries.All(x => UpdateEntryEffectiveDate(x, value)))
-                    {
-                        string msg = string.Format(
-                            Strings.AttributeEntryGrouping_EffectiveDate_InconsistentSet,
-                            nameof(EffectiveDate));
-
-                        throw new InvalidOperationException(message: msg);
-                    }
-                }
-            }
-        }
-
         /// <inheritdoc/>
         public bool IsEmpty => !Entries.Any();
 
@@ -125,11 +84,13 @@ namespace NjordFinance.Model.ViewModel.Generic
         public TParentEntity ParentObject { get; private set; }
 
         /// <inheritdoc/>
-        [ExactValue(1D)]
+        [ExactValue(true,
+            ErrorMessageResourceName = nameof(Strings.AttributeEntryGroupUnweighted_InvalidWeight),
+            ErrorMessageResourceType = typeof(Strings))]
         [Display(
             Name = nameof(ModelDisplay.AttributeEntryCollectionViewModel_SumOfWeights_Name),
             ResourceType = typeof(ModelDisplay))]
-        public decimal SumOfMemberWeights => Entries.Sum(WeightSelector);
+        public bool EntryWeightsAreValid => Entries.All(x => WeightSelector(x) == 1M);
 
         /// <inheritdoc/>
         public abstract TChildEntity AddNewEntry();

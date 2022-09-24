@@ -121,6 +121,12 @@
     <value>Set failed for '{0}' member for one or more entries in the collection, resulting in inconsistent keys for the grouping.</value>
     <comment>{0} is the child entry member for which set failed.</comment>
   </data>
+  <data name="AttributeEntryGroupUnweighted_InvalidWeight" xml:space="preserve">
+    <value>Unweighted enrties must have a weight of 100%.</value>
+  </data>
+  <data name="AttributeEntryGroupUnweighted_ValidationError_InvalidCount" xml:space="preserve">
+    <value>Unweighted entries may have only one entry per combination of attribute and effective date.</value>
+  </data>
   <data name="AttributeEntryViewModel_Exception_IncompleteObjectGraph" xml:space="preserve">
     <value>Initialization failed. Object graph missing required path: {0}.</value>
     <comment>{0} is object path</comment>

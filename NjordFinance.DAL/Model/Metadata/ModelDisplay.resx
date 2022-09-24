@@ -304,7 +304,7 @@
     <value>Tradable</value>
   </data>
   <data name="AttributeEntryCollectionViewModel_SumOfWeights_Name" xml:space="preserve">
-    <value>Sum of member classification weights</value>
+    <value>Sum of the entry weights in this collection.</value>
   </data>
   <data name="AttributeEntryViewModel_EffectiveDate_Name" xml:space="preserve">
     <value>Effective Date</value>
