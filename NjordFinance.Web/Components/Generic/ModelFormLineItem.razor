@@ -38,9 +38,25 @@
     public Expression<Func<TViewModel, object>> ForMember { get; set; }
 
     [Parameter]
+    public string LabelOverride { get; set; }
+
+    [Parameter]
     public Expression<Func<object>> ValidationMessageDelegate { get; set; }
 
-    private string ToolTipText => ModelMetadata.DescriptionFor<TViewModel>(ForMember);
-
-    private string LabelText => ModelMetadata.NameFor<TViewModel>(ForMember);
+    private string ToolTipText
+    {
+        get{
+            try
+            {
+                return ModelMetadata.DescriptionFor<TViewModel>(ForMember);
+            }
+            catch(NotSupportedException)
+            {
+                return null;
+            }
+        }
+    }
+    
+    private string LabelText => string.IsNullOrEmpty(LabelOverride) ?
+        ModelMetadata.NameFor<TViewModel>(ForMember) : LabelOverride;
 }

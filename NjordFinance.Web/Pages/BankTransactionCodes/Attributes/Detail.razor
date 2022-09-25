@@ -18,17 +18,23 @@
             Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
         @foreach (var entry in ViewModel.CurrentEntries.OrderBy(g => 
-        g.AttributeMember.Attribute.DisplayName))
+            g.AttributeMember.Attribute.DisplayName))
         {
             <ContentTile>
                 <Body>
                     <ModelForm TViewModel="BankTransactionCodeAttributeMemberEntry"
                         >
-                        <ModelFormLineItem ForMember="@(x => x.TransactionCode)">
-                            @entry.AttributeMember.DisplayName
+                        <ModelFormLineItem 
+                            LabelOverride="@entry.AttributeMember.Attribute.DisplayName" 
+                            ForMember="@(x => x)">
+                            <div class="form-control">
+                                @entry.AttributeMember.DisplayName
+                            </div>
                         </ModelFormLineItem>
                         <ModelFormLineItem ForMember="@(x => x.EffectiveDate)">
-                            @entry.EffectiveDate.ToShortDateString()
+                            <div class="form-control">
+                                @entry.EffectiveDate.ToShortDateString()
+                            </div>
                         </ModelFormLineItem>
                     </ModelForm>
                 </Body>
