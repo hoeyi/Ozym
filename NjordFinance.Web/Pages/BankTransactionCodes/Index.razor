@@ -17,13 +17,13 @@
             <Body>
                 <DataGrid Data="@Models">
                     <DataGridColumn Property=@nameof(BankTransactionCode.TransactionCode)
-                                Caption=@(NameFor(nameof(BankTransactionCode.TransactionCode)))>
+                                Caption=@(NameFor(x => x.TransactionCode))>
                         <CellTemplate Context="model">
                             @model.TransactionCode
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(BankTransactionCode.DisplayName)
-                                Caption=@(NameFor(nameof(BankTransactionCode.DisplayName)))>
+                                Caption=@(NameFor(x => x.DisplayName))>
                         <CellTemplate Context="model">
                             @model.DisplayName
                         </CellTemplate>

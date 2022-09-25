@@ -30,7 +30,7 @@
                         <button class="form-control button"
                             @onclick="(async (args) => await AddNewAsync(args))">
                             @Resources.Strings.Caption_Button_Add.Format(
-                        ModelMetadata.NounFor(typeof(Country))?.GetSingular())
+                            ModelNoun?.GetSingular())
                         </button>
                         <button class="form-control button" @onclick="Cancel_OnClick"
                             @onclick:preventDefault>
@@ -40,14 +40,14 @@
                     <DataAnnotationsValidator />
                     <DataGrid Data="@Countries">
                         <DataGridColumn Property=@nameof(Country.DisplayName)
-                                    Caption=@(NameFor(nameof(Country.DisplayName)))>
+                                    Caption=@(NameFor(x => x.DisplayName))>
                             <CellEditTemplate Context="model">
                                 <InputText class="form-control" @bind-Value="model.DisplayName" />
                                 <ValidationMessage For=@(()=> model.DisplayName) />
                             </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property=@nameof(Country.IsoCode3)
-                                    Caption=@(NameFor(nameof(Country.IsoCode3)))>
+                                    Caption=@(NameFor(x => x.IsoCode3))>
                             <CellEditTemplate Context="model">
                                 <InputText class="form-control" @bind-Value="model.IsoCode3" />
                                 <ValidationMessage For=@(()=> model.IsoCode3) />

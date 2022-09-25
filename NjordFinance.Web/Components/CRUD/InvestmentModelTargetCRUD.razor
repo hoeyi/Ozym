@@ -39,14 +39,14 @@ else
                     {
                         <DataGridColumn 
                             Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
-                            Caption=@(NameFor<InvestmentStrategyTarget>(x => x.AttributeMemberId))>
+                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.AttributeMemberId))>
                                     <CellTemplate Context="model">
                                         @model.AttributeMember.DisplayName
                                     </CellTemplate>
                         </DataGridColumn>
                         <DataGridColumn 
                             Property=@nameof(InvestmentStrategyTarget.Weight)
-                            Caption=@(NameFor<InvestmentStrategyTarget>(x => x.Weight))>
+                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.Weight))>
                                 <CellTemplate Context="model">
                                     @model.Weight
                                 </CellTemplate>
@@ -56,7 +56,7 @@ else
                     {
                         <DataGridColumn 
                             Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
-                            Caption=@(NameFor<InvestmentStrategyTarget>(x => x.AttributeMemberId))>
+                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.AttributeMemberId))>
                                 <CellEditTemplate Context="model">
                                     <InputSelect class="form-control"
                                         @bind-Value="@model.AttributeMemberId">
@@ -69,7 +69,7 @@ else
                         </DataGridColumn>
                         <DataGridColumn 
                             Property=@nameof(InvestmentStrategyTarget.Weight)
-                            Caption=@(NameFor<InvestmentStrategyTarget>(x => x.Weight))>
+                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.Weight))>
                                 <CellEditTemplate Context="model">
                                     <InputNumber class="form-control" @bind-Value="@model.Weight" />
                                 </CellEditTemplate>

@@ -18,35 +18,35 @@
                 <DataGrid Data="@Models">
                     <DataGridColumn
                         Property="@nameof(BrokerTransactionCode.TransactionCode)"
-                        Caption="@NameFor(nameof(BrokerTransactionCode.TransactionCode))">
+                                Caption="@(NameFor(x => x.TransactionCode))">
                         <CellTemplate Context="model">
                             @model.TransactionCode
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
                         Property="@nameof(BrokerTransactionCode.DisplayName)"
-                        Caption="@NameFor(nameof(BrokerTransactionCode.DisplayName))">
+                                Caption="@(NameFor(x => x.DisplayName))">
                         <CellTemplate Context="model">
                             @model.DisplayName
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
                         Property="@nameof(BrokerTransactionCode.CashEffect)"
-                        Caption="@NameFor(nameof(BrokerTransactionCode.CashEffect))">
+                                Caption="@(NameFor(x => x.CashEffect))">
                         <CellTemplate Context="model">
                             @model.CashEffect
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
                         Property="@nameof(BrokerTransactionCode.ContributionWithdrawalEffect)"
-                        Caption="@NameFor(nameof(BrokerTransactionCode.ContributionWithdrawalEffect))">
+                                Caption="@(NameFor(x => x.ContributionWithdrawalEffect))">
                         <CellTemplate Context="model">
                             @model.ContributionWithdrawalEffect
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
                         Property="@nameof(BrokerTransactionCode.QuantityEffect)"
-                        Caption="@NameFor(nameof(BrokerTransactionCode.QuantityEffect))">
+                                Caption="@(NameFor(x => x.QuantityEffect))">
                         <CellTemplate Context="model">
                             @model.QuantityEffect
                         </CellTemplate>

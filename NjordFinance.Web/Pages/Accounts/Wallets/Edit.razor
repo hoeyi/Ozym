@@ -30,8 +30,7 @@
                         </button>
                         <button class="form-control button" 
                             @onclick=@(async (args) => await AddNewAsync(args))>
-                            @Resources.Strings.Caption_Button_Add.Format(
-                                ModelMetadata.NounFor(typeof(AccountWallet))?.GetSingular())
+                            @Resources.Strings.Caption_Button_Add.Format(ModelNoun?.GetSingular())
                         </button>
                         <button class="form-control button" @onclick="Cancel_OnClick"
                             @onclick:preventDefault>
@@ -43,7 +42,7 @@
                     <DataGrid Data="@Wallets">
                         <DataGridColumn 
                             Property=@nameof(AccountWallet.DenominationSecurityId)
-                            Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.DenominationSecurityId)))
+                            Caption=@(ModelMetadata.NameFor<AccountWallet>(x => x.DenominationSecurityId))
                             width="20%">
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
@@ -58,7 +57,7 @@
                             </DataGridColumn>
                         <DataGridColumn 
                             Property=@nameof(AccountWallet.AddressCode)
-                            Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressCode)))
+                            Caption=@(ModelMetadata.NameFor<AccountWallet>(x => x.AddressCode))
                             width="45%">
                                 <CellEditTemplate Context="model">
                                     <InputText class="form-control" @bind-Value="@model.AddressCode" />
@@ -67,7 +66,7 @@
                             </DataGridColumn>
                         <DataGridColumn 
                             Property=@nameof(AccountWallet.AddressTag)
-                            Caption=@(ModelMetadata.NameFor<AccountWallet>(nameof(AccountWallet.AddressTag)))
+                            Caption=@(ModelMetadata.NameFor<AccountWallet>(x => x.AddressTag))
                             width="35%">
                                 <CellEditTemplate Context="model">
                                     <InputText class="form-control" @bind-Value="@model.AddressTag" />

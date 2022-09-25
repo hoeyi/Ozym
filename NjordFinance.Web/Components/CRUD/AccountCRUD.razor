@@ -6,9 +6,9 @@
 }
 else
 {   
-    <ModelForm TModel="AccountViewModel">
+    <ModelForm TViewModel="AccountViewModel">
         @*AccountObject inputs*@
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountObjectCode)"
+        <ModelFormLineItem ForMember="@(x => x.AccountObjectCode)"
             ValidationMessageDelegate="@(() => ViewModel.AccountObjectCode)">
             @if (ReadOnly)
             {
@@ -23,7 +23,7 @@ else
                     DisplayName=@(NameFor(x => x.AccountObjectCode)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.DisplayName)"
+        <ModelFormLineItem ForMember="@(x => x.DisplayName)"
             ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {
@@ -38,7 +38,7 @@ else
                     DisplayName=@(NameFor(x => x.DisplayName)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.Description)"
+        <ModelFormLineItem ForMember="@(x => x.Description)"
             ValidationMessageDelegate="@(() => ViewModel.Description)">
             @if (ReadOnly)
             {
@@ -53,7 +53,7 @@ else
                     DisplayName=@(NameFor(x => x.Description)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.StartDate)"
+        <ModelFormLineItem ForMember="@(x => x.StartDate)"
             ValidationMessageDelegate="@(() => ViewModel.StartDate)">
             @if (ReadOnly)
             {
@@ -66,7 +66,7 @@ else
                 <InputDate class="form-control" @bind-Value=ViewModel.StartDate disable="@Disabled" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.CloseDate)"
+        <ModelFormLineItem ForMember="@(x => x.CloseDate)"
             ValidationMessageDelegate="@(() => ViewModel.CloseDate)">
             @if (ReadOnly)
             {
@@ -81,7 +81,7 @@ else
         </ModelFormLineItem>
 
         @*Account inputs*@
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountNumber)" 
+        <ModelFormLineItem ForMember="@(x => x.AccountNumber)"
             ValidationMessageDelegate="@(() => ViewModel.AccountNumber)">
             @if (ReadOnly)
             {
@@ -95,7 +95,7 @@ else
                         disable="@Disabled" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.AccountCustodianId)"
+        <ModelFormLineItem ForMember="@(x => x.AccountCustodianId)"
             ValidationMessageDelegate="@(() => ViewModel.AccountCustodianId)">
             @if (ReadOnly)
             {
@@ -116,7 +116,7 @@ else
                 </InputSelect>
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.BooksClosedDate)"
+        <ModelFormLineItem ForMember="@(x => x.BooksClosedDate)"
             ValidationMessageDelegate="@(() => ViewModel.BooksClosedDate)">
             @if (ReadOnly)
             {
@@ -130,7 +130,7 @@ else
                         disabled="@Disabled" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.IsComplianceTradable)"
+        <ModelFormLineItem ForMember="@(x => x.IsComplianceTradable)"
             ValidationMessageDelegate="@(() => ViewModel.IsComplianceTradable)">
             @if (ReadOnly)
             {
@@ -143,7 +143,7 @@ else
                 <InputCheckbox @bind-Value=ViewModel.IsComplianceTradable disabled="@Disabled" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.HasWallet)"
+        <ModelFormLineItem ForMember="@(x => x.HasWallet)"
             ValidationMessageDelegate="@(() => ViewModel.HasWallet)">
             @if (ReadOnly)
             {
@@ -157,7 +157,7 @@ else
                 <ValidationMessage For="@(() => ViewModel.HasWallet)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.HasBankTransaction)"
+        <ModelFormLineItem ForMember="@(x => x.HasBankTransaction)"
             ValidationMessageDelegate="@(() => ViewModel.HasBankTransaction)">
             @if (ReadOnly)
             {
@@ -171,7 +171,7 @@ else
                 <ValidationMessage For="@(() => ViewModel.HasBankTransaction)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountViewModel.HasBrokerTransaction)"
+        <ModelFormLineItem ForMember="@(x => x.HasBrokerTransaction)"
             ValidationMessageDelegate="@(() => ViewModel.HasBrokerTransaction)">
             @if (ReadOnly)
             {

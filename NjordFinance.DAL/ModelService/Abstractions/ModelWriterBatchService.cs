@@ -8,6 +8,7 @@ using NjordFinance.Context;
 using NjordFinance.Logging;
 using System.Linq.Expressions;
 using NjordFinance.ModelMetadata;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordFinance.ModelService.Abstractions
 {
@@ -60,7 +61,8 @@ namespace NjordFinance.ModelService.Abstractions
             if (!RequiredParentIdIsSet(model))
             {
                 string modelDisplayName = _modelMetadata
-                    .NounFor(typeof(T))?.GetSingular()?.ToLower();
+                    .GetAttribute<T, NounAttribute>()
+                    ?.GetSingular();
 
                 throw new InvalidOperationException(string.Format(
                     ExceptionString.ModelService_AddFailed_RequiredParentNotset,

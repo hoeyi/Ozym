@@ -30,7 +30,7 @@
                         <button class="form-control button"
                             @onclick="(async (args) => await AddNewAsync(args))">
                             @Resources.Strings.Caption_Button_Add.Format(
-                        ModelMetadata.NounFor(typeof(BrokerTransactionCode))?.GetSingular())
+                            ModelNoun?.GetSingular())
                         </button>
                         <button class="form-control button" @onclick="Cancel_OnClick"
                             @onclick:preventDefault>
@@ -40,35 +40,35 @@
                     <DataAnnotationsValidator />
                     <DataGrid Data="@BrokerTransactionCodes">
                         <DataGridColumn Property=@nameof(BrokerTransactionCode.TransactionCode)
-                                    Caption=@(NameFor(nameof(BrokerTransactionCode.TransactionCode)))>
+                                    Caption=@(NameFor(x => x.TransactionCode))>
                             <CellEditTemplate Context="model">
                                 <InputText class="form-control" @bind-Value=model.TransactionCode />
                                 <ValidationMessage For=@(()=> model.TransactionCode) />
                             </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property=@nameof(BrokerTransactionCode.DisplayName)
-                                    Caption=@(NameFor(nameof(BrokerTransactionCode.DisplayName)))>
+                                    Caption=@(NameFor(x => x.DisplayName))>
                             <CellEditTemplate Context="model">
                                 <InputText class="form-control" @bind-Value=model.DisplayName />
                                 <ValidationMessage For=@(()=> model.DisplayName) />
                             </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property=@nameof(BrokerTransactionCode.CashEffect)
-                                    Caption=@(NameFor(nameof(BrokerTransactionCode.CashEffect)))>
+                                    Caption=@(NameFor(x => x.CashEffect))>
                             <CellEditTemplate Context="model">
                                 <InputNumber class="form-control" @bind-Value=model.CashEffect />
                                 <ValidationMessage For=@(()=> model.DisplayName) />
                             </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property=@nameof(BrokerTransactionCode.ContributionWithdrawalEffect)
-                                    Caption=@(NameFor(nameof(BrokerTransactionCode.ContributionWithdrawalEffect)))>
+                                    Caption=@(NameFor(x => x.ContributionWithdrawalEffect))>
                             <CellEditTemplate Context="model">
                                 <InputNumber class="form-control" @bind-Value=model.ContributionWithdrawalEffect />
                                 <ValidationMessage For=@(()=> model.DisplayName) />
                             </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property=@nameof(BrokerTransactionCode.QuantityEffect)
-                                    Caption=@(NameFor(nameof(BrokerTransactionCode.QuantityEffect)))>
+                                    Caption=@(NameFor(x => x.QuantityEffect))>
                             <CellEditTemplate Context="model">
                                 <InputNumber class="form-control" @bind-Value=model.QuantityEffect />
                                 <ValidationMessage For=@(()=> model.QuantityEffect) />

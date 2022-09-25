@@ -28,13 +28,13 @@
             <Body>
                 <DataGrid Data="@Models">
                     <DataGridColumn Property=@nameof(Country.DisplayName)
-                                Caption=@(NameFor(nameof(Country.DisplayName)))>
+                                Caption=@(NameFor(x => x.DisplayName))>
                         <CellTemplate Context="model">
                             @model.DisplayName
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Country.IsoCode3)
-                                Caption=@(NameFor(nameof(Country.IsoCode3)))>
+                                Caption=@(NameFor(x => x.IsoCode3))>
                         <CellTemplate Context="model">
                             @model.IsoCode3
                         </CellTemplate>

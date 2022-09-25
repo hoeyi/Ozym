@@ -1,0 +1,67 @@
+﻿@typeparam TViewModel
+
+@inherits LocalizableComponent
+
+@code {
+    private IViewHelper<TViewModel> _viewHelper;
+
+    /// <summary>
+    /// Gets the description text for select <typeparamref name="TViewModel"/> member.
+    /// </summary>
+    /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
+    /// <returns>A <see cref="string"/> representing the description if defined, else null.</returns>
+    protected string? DescriptionFor(Expression<Func<TViewModel, object>> expression)
+        => ViewHelper.DescriptionFor(expression);
+
+    /// <summary>
+    /// Gets the group name for select <typeparamref name="TViewModel"/> member.
+    /// </summary>
+    /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
+    /// <returns>A <see cref="string"/> representing the description if defined, else null.</returns>
+    protected string? GroupNameFor(Expression<Func<TViewModel, object>> expression)
+        => ViewHelper.GroupNameFor(expression);
+
+    /// <summary>
+    /// Gets the name for select <typeparamref name="TViewModel"/> member.
+    /// </summary>
+    /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
+    /// <returns>A <see cref="string"/> representing the name if defined, else null.</returns>
+    protected string? NameFor(Expression<Func<TViewModel, object>> expression)
+        => ViewHelper.NameFor(expression);
+
+    /// <summary>
+    /// Gets the display order for select <typeparamref name="TViewModel"/> member.
+    /// </summary>
+    /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
+    /// <returns>A <see cref="int"/> representing the display order if defined, else null.</returns>
+    protected int? OrderFor(Expression<Func<TViewModel, object>> expression)
+        => ViewHelper.OrderFor(expression);
+
+    /// <summary>
+    /// Gets the input prompt text for select <typeparamref name="TViewModel"/> member.
+    /// </summary>
+    /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
+    /// <returns>A <see cref="string"/> representing the input prompt if defined, else null.</returns>
+    protected string? PromptFor(Expression<Func<TViewModel, object>> expression)
+        => ViewHelper.PromptFor(expression);
+
+    /// <summary>
+    /// Gets the short name text for select <typeparamref name="TViewModel"/> member.
+    /// </summary>
+    /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
+    /// <returns>A <see cref="string"/> representing the short name if defined, else null.</returns>
+    protected string? ShortNameFor(Expression<Func<TViewModel, object>> expression)
+            => ViewHelper.ShortNameFor(expression);
+
+    /// <summary>
+    /// Gets the <see cref="IViewHelper{T}"/> instance for this component's type.
+    /// </summary>
+    public IViewHelper<TViewModel> ViewHelper
+    {
+        get
+        {
+            _viewHelper ??= new ViewHelper<TViewModel>(ModelMetadata);
+            return _viewHelper;
+        }
+    }
+}

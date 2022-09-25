@@ -1,7 +1,7 @@
 ﻿@typeparam TViewModel
 @attribute [CascadingTypeParameter(nameof(TViewModel))]
 
-@inherits LocalizableComponent
+@inherits ModelComponent<TViewModel>
 
 @code {
     /// <summary>
@@ -21,67 +21,5 @@
     /// </summary>
     [Parameter]
     public bool ReadOnly { get; set; } = true;
-
-    /// <summary>
-    /// Gets the description of the <typeparamref name="TViewModel" /> member.
-    /// </summary>
-    /// <param name="memberName">The member name.</param>
-    /// <returns>A <see cref="string"/> representing the display text for the
-    /// <typeparamref name="TViewModel"/> member, if defined, else null.</returns>
-    public string DescriptionFor(string memberName) => DescriptionFor<TViewModel>(memberName);
-
-    /// <summary>
-    /// Gets the description for the <typeparamref name="TViewModel" /> member matching the 
-    /// given expression.
-    /// </summary>
-    /// <param name="expression">The path to the member to retrieve display text for.</param>
-    /// <returns>A <see cref="string"/> representing the display text for the
-    /// <typeparamref name="TViewModel"/> member, if defined, else null.</returns>
-    public string? DescriptionFor(Expression<Func<TViewModel, object>> expression) =>
-        ModelMetadata.DescriptionFor(expression);
-
-    /// <summary>
-    /// Gets the display name for the <typeparamref name="T" /> member matching the 
-    /// given expression.
-    /// </summary>
-    /// <param name="expression">The path to the member to retrieve display text for.</param>
-    /// <returns>A <see cref="string"/> representing the display text for the
-    /// <typeparamref name="T"/> member, if defined, else null.</returns>
-    public string? DescriptionFor<T>(Expression<Func<T, object>> expression) =>
-        ModelMetadata.DescriptionFor(expression);
-
-    /// <summary>
-    /// Gets the display name of the <typeparamref name="TViewModel" /> member.
-    /// </summary>
-    /// <param name="memberName">The member name.</param>
-    /// <returns></returns>
-    public string NameFor(string memberName) => NameFor<TViewModel>(memberName);
-
-    /// <summary>
-    /// Gets the display name for the <typeparamref name="TViewModel" /> member matching the 
-    /// given expression.
-    /// </summary>
-    /// <param name="expression">The path to the member to retrieve display text for.</param>
-    /// <remarks>
-    /// <see cref="object" /> destination of the given expression must be a direct member of
-    /// <typeparamref name="TViewModel" />.
-    /// </remarks>
-    /// <returns>A <see cref="string"/> representing the display name, if defined, else
-    /// the member name.</returns>
-    public string NameFor(Expression<Func<TViewModel, object>> expression) => 
-        NameFor<TViewModel>(expression);
-
-    /// <summary>
-    /// Gets the display name for the <typeparamref name="T" /> member matching the given expression.
-    /// </summary>
-    /// <param name="expression">The path to the member to retrieve display text for.</param>
-    /// <remarks>
-    /// <see cref="object" /> destination of the given expression must be a direct member of 
-    /// <typeparamref name="T" />.
-    /// </remarks>
-    /// <returns>A <see cref="string"/> representing the display name, if defined, else 
-    /// the member name.</returns>
-    public string NameFor<T>(Expression<Func<T, object>> expression) => 
-        ModelMetadata.NameFor(expression);
 }
     

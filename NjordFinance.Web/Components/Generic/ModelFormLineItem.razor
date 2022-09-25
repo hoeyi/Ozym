@@ -1,12 +1,21 @@
-﻿@typeparam TModel
+﻿@typeparam TViewModel
 
-@if(!string.IsNullOrEmpty(MemberName))
+@inherits LocalizableComponent
+
+@if(!string.IsNullOrEmpty(LabelText))
 {
     <tr>
         <td class="col-sm-2">
-            <ToolTip Text="@ParentForm.DescriptionFor(MemberName)">
-                @(ParentForm.NameFor(MemberName))
-            </ToolTip>
+            @if(!string.IsNullOrEmpty(ToolTipText))
+            {
+                <ToolTip Text="@ToolTipText">
+                    @LabelText
+                </ToolTip>
+            }
+            else
+            {
+                @LabelText
+            }
         </td>
         <td class="col-sm-10">
             @ChildContent
@@ -20,14 +29,18 @@
 
 @code {
     [CascadingParameter]
-    private ModelForm<TModel> ParentForm { get; set; }
+    private ModelForm<TViewModel> ParentForm { get; set; }
 
-    [Parameter] 
+    [Parameter, EditorRequired] 
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter]
-    public string MemberName { get; set; }
+    [Parameter, EditorRequired]
+    public Expression<Func<TViewModel, object>> ForMember { get; set; }
 
     [Parameter]
     public Expression<Func<object>> ValidationMessageDelegate { get; set; }
+
+    private string ToolTipText => ModelMetadata.DescriptionFor<TViewModel>(ForMember);
+
+    private string LabelText => ModelMetadata.NameFor<TViewModel>(ForMember);
 }

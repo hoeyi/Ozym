@@ -30,14 +30,14 @@ else
                 {
                     <DataGridColumn 
                         Property=@nameof(BankTransactionCodeAttributeMemberEntry.AttributeMemberId)
-                        Caption=@(NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.AttributeMemberId))>
+                        Caption=@(ModelMetadata.NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.AttributeMemberId))>
                         <CellTemplate Context="model">
                             @model.AttributeMember.DisplayName
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
                         Property=@nameof(BankTransactionCodeAttributeMemberEntry.EffectiveDate)
-                        Caption=@(NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.EffectiveDate))>
+                            Caption=@(ModelMetadata.NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.EffectiveDate))>
                         <CellTemplate Context="model">
                             @model.EffectiveDate.ToShortDateString()
                         </CellTemplate>
@@ -47,7 +47,7 @@ else
                 {
                     <DataGridColumn
                         Property=@nameof(BankTransactionCodeAttributeMemberEntry.AttributeMemberId)
-                        Caption=@(NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.AttributeMemberId))>
+                            Caption=@(ModelMetadata.NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.AttributeMemberId))>
                         <CellEditTemplate Context="model">
                             <InputSelect class="form-control"
                                 @bind-Value="@model.AttributeMemberId">
@@ -60,7 +60,7 @@ else
                     </DataGridColumn>
                     <DataGridColumn 
                         Property=@nameof(BankTransactionCodeAttributeMemberEntry.EffectiveDate)
-                        Caption=@(NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.EffectiveDate))>
+                            Caption=@(ModelMetadata.NameFor<BankTransactionCodeAttributeMemberEntry>(x => x.EffectiveDate))>
                         <CellEditTemplate Context="model">
                             <InputDate class="form-control"
                                 @bind-Value="@model.EffectiveDate" />

@@ -21,7 +21,7 @@
             TModelChild="InvestmentStrategyTarget"
             OnCancelEditorClick="CancelEditorHandler"
             OnValidFormSubmit="ValidFormSubmitHandler"
-            EffectiveDateMemberName="@nameof(InvestmentModelTargetCollection.EffectiveDate)"
+            EffectiveDatePath="@(x => x.EffectiveDate)"
             ViewModel="@ViewModel"
             Mode="EditorMode.Add">
             <ViewModelCRUD>

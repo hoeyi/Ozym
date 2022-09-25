@@ -6,8 +6,8 @@
 }
 else
 {
-    <ModelForm TModel="BankTransactionCode">
-        <ModelFormLineItem MemberName="@nameof(BankTransactionCode.TransactionCode)"
+    <ModelForm TViewModel="BankTransactionCodeViewModel">
+        <ModelFormLineItem ForMember="@(x => x.TransactionCode)"
             ValidationMessageDelegate="@(() => ViewModel.TransactionCode)">
             @if (ReadOnly)
             {
@@ -20,7 +20,7 @@ else
                     DisplayName="@(NameFor(x => x.TransactionCode))" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(BankTransactionCode.DisplayName)"
+        <ModelFormLineItem ForMember="@(x => x.DisplayName)"
             ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {

@@ -23,7 +23,7 @@
             OnCancelEditorClick="CancelEditorHandler"
             OnDeleteModelClick="DeleteModelHandler"
             OnValidFormSubmit="ValidFormSubmitHandler"
-            EffectiveDateMemberName="@nameof(InvestmentModelTargetCollection.EffectiveDate)"
+            EffectiveDatePath="@(x => x.EffectiveDate)"
             ViewModel="@ViewModel"
             Mode="EditorMode.Edit">
             <ViewModelCRUD>

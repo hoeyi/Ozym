@@ -28,7 +28,7 @@
                             <InputSelect class="form-control" @bind-Value="@SearchOperator">
                                 @foreach (var op in ComparisonOperators)
                                 {
-                                    <option value=@op>@(ModelMetadata.NameFor<ComparisonOperator>($"{op}"))</option>
+                                    <option value=@op>@(NameFor(@enum: op))</option>
                                 }
                             </InputSelect>
                         </td>

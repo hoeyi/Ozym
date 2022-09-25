@@ -1,29 +1,15 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using Ichosys.DataModel.Annotations;
 using NjordFinance.UserInterface;
 using NjordFinance.Web.Components.Shared;
-using Ichosys.DataModel.Annotations;
-using NjordFinance.ModelMetadata;
+using System.Linq.Expressions;
+using System;
 
 namespace NjordFinance.Web.Components.Generic
 {
-    public partial class ModelPage<TModel> : LocalizableComponent, INavigationSource
+    public partial class ModelPage<TViewModel> : ModelComponent<TViewModel>, INavigationSource
     {
         private NounAttribute _modelNoun;
         private string _indexUriRelativePath;
-
-        /// <summary>
-        /// Gets or sets the <see cref="ILogger"/> used by this component.
-        /// </summary>
-        [Inject]
-        public ILogger Logger { get; set; } = default!;
-
-        /// <summary>
-        /// Gets or sets the <see cref="NavigationManager"/> for this component.
-        /// </summary>
-        [Inject]
-        public NavigationManager NavigationHelper { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the <see cref="Menu"/> containing available actions for this component.
@@ -37,7 +23,7 @@ namespace NjordFinance.Web.Components.Generic
         {
             get
             {
-                _modelNoun ??= ModelMetadata.NounFor(typeof(TModel));
+                _modelNoun ??= ModelMetadata.GetAttribute<TViewModel, NounAttribute>();
                 return _modelNoun;
             }
         }
@@ -45,7 +31,12 @@ namespace NjordFinance.Web.Components.Generic
         /// <summary>
         /// Gets the <see cref="IPageTitle"/> instance for this page.
         /// </summary>
-        protected IPageTitle PageTitle => DisplayHelper.GetPagetTitle<TModel>();
+        protected IPageTitle PageTitle => DisplayHelper.GetPagetTitle<TViewModel>();
+
+        /// <summary>
+        /// Gets or sets the current text describing this page's error state.
+        /// </summary>
+        protected string ErrorMessage { get; set; }
 
         /// <summary>
         /// Gets the relative uri for the index page that represents this model.
@@ -74,60 +65,39 @@ namespace NjordFinance.Web.Components.Generic
         }
 
         /// <summary>
-        /// Gets or sets the current text describing this page's error state.
-        /// </summary>
-        protected string ErrorMessage { get; set; }
-
-        /// <summary>
-        /// Creates a new string representing the resource detail page URI for the given 
+        /// Creates a new string representing the resource detail page URI for the given
         /// <paramref name="id"/>.
         /// </summary>
         /// <typeparam name="T">The id type, typically <see cref="int"/> or <see cref="Guid"/>.
         /// </typeparam>
         /// <param name="id">The id of the requested resource.</param>
         /// <returns>The formatted <see cref="string"/>.</returns>
-        /// <remarks>Expects page to have root index paths defined by 
+        /// <remarks>Expects page to have root index paths defined by
         /// <see cref="IndexUriRelativePath"/>.</remarks>
         protected string FormatDetailUri<T>(T id) => $"{IndexUriRelativePath}/{id}/detail";
 
         /// <summary>
-        /// Creates a new string representing the resource creation page URI for the given 
+        /// Creates a new string representing the resource creation page URI for the given
         /// <paramref name="id"/>.
         /// </summary>
         /// <typeparam name="T">The id type, typically <see cref="int"/> or <see cref="Guid"/>.
         /// </typeparam>
         /// <param name="id">The id of the requested resource.</param>
         /// <returns>The formatted <see cref="string"/>.</returns>
-        /// <remarks>Expects page to have root index paths defined by 
+        /// <remarks>Expects page to have root index paths defined by
         /// <see cref="IndexUriRelativePath"/>.</remarks>
         protected string FormatCreateUri<T>(T id) => $"{IndexUriRelativePath}/create/{id}";
 
         /// <summary>
-        /// Creates a new string representing the resource edit page URI for the given 
+        /// Creates a new string representing the resource edit page URI for the given
         /// <paramref name="id"/>.
         /// </summary>
         /// <typeparam name="T">The id type, typically <see cref="int"/> or <see cref="Guid"/>.
         /// </typeparam>
         /// <param name="id">The id of the requested resource.</param>
         /// <returns>The formatted <see cref="string"/>.</returns>
-        /// <remarks>Expects page to have root index paths defined by 
+        /// <remarks>Expects page to have root index paths defined by
         /// <see cref="IndexUriRelativePath"/>.</remarks>
         protected string FormatEditUri<T>(T id) => $"{IndexUriRelativePath}/{id}/edit";
-
-        /// <summary>
-        /// Gets the display name for the given member.
-        /// </summary>
-        /// <param name="memberName"></param>
-        /// <returns>A <see cref="string"/> giving the display text of the 
-        /// <typeparamref name="TModel"/> member.</returns>
-        protected string NameFor(string memberName) => NameFor<TModel>(memberName);
-
-        /// <summary>
-        /// Gets the description for the given <typeparamref name="TModel"/> member.
-        /// </summary>
-        /// <param name="memberName"></param>
-        /// <returns>A <see cref="string"/> giving the description text of the 
-        /// <typeparamref name="TModel"/> member.</returns>
-        protected string DescriptionFor(string memberName) => DescriptionFor<TModel>(memberName);
     }
 }

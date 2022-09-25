@@ -6,8 +6,8 @@
 }
 else
 {
-    <ModelForm TModel="BrokerTransactionCode">
-        <ModelFormLineItem MemberName="@nameof(BrokerTransactionCode.TransactionCode)"
+    <ModelForm TViewModel="BrokerTransactionCode">
+        <ModelFormLineItem ForMember="@(x => x.TransactionCode)"
             ValidationMessageDelegate="@(() => ViewModel.TransactionCode)">
             @if (ReadOnly)
             {
@@ -20,7 +20,7 @@ else
                     DisplayName="@(NameFor(x => x.TransactionCode))" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(BrokerTransactionCode.DisplayName)"
+        <ModelFormLineItem ForMember="@(x => x.DisplayName)"
             ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {
@@ -33,7 +33,7 @@ else
                     DisplayName="@(NameFor(x => x.DisplayName))" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(BrokerTransactionCode.CashEffect)"
+        <ModelFormLineItem ForMember="@(x => x.CashEffect)"
             ValidationMessageDelegate="@(() => ViewModel.CashEffect)">
             @if (ReadOnly)
             {
@@ -46,7 +46,7 @@ else
                     DisplayName="@(NameFor(x => x.CashEffect))" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(BrokerTransactionCode.ContributionWithdrawalEffect)"
+        <ModelFormLineItem ForMember="@(x => x.ContributionWithdrawalEffect)"
             ValidationMessageDelegate="@(() => ViewModel.ContributionWithdrawalEffect)">
             @if (ReadOnly)
             {
@@ -59,7 +59,7 @@ else
                     DisplayName="@(NameFor(x => x.ContributionWithdrawalEffect))" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(BrokerTransactionCode.QuantityEffect)"
+        <ModelFormLineItem ForMember="@(x => x.QuantityEffect)"
             ValidationMessageDelegate="@(() => ViewModel.QuantityEffect)">
             @if (ReadOnly)
             {

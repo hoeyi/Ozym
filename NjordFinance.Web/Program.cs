@@ -17,6 +17,7 @@ using Serilog.Extensions.Logging;
 using Serilog.Formatting.Compact;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 using Ichosys.Blazor.Ionicons;
+using NjordFinance.UserInterface;
 
 var builder = WebApplication.CreateBuilder(args);
 

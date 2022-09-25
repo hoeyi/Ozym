@@ -32,7 +32,7 @@
                                     if(dialogOption == DialogResult.OK)
                                     {
                                         <button type="submit" class="form-control button">
-                                            @(NameFor<DialogResult>(dialogOption.ToString()))
+                                            @(NameFor(@enum: dialogOption))
                                         </button>
 
                                     }
@@ -41,7 +41,7 @@
                                         <button type="button" class="form-control button"
                                             @onclick="(async () => await OnClickAsync(dialogOption))"
                                             @onclick:preventDefault>
-                                            @(NameFor<DialogResult>($"{dialogOption}"))
+                                            @(NameFor(@enum: dialogOption))
                                         </button>
                                     }
                                 }
@@ -60,7 +60,7 @@
                             class="form-control button"
                             @onclick="() => OnClickAsync(dialogOption)"                     
                             @onclick:preventDefault >
-                            @(NameFor<DialogResult>($"{dialogOption}"))
+                            @(NameFor(@enum: dialogOption))
                         </button>
                     }
                 </ActionButtonMenu>

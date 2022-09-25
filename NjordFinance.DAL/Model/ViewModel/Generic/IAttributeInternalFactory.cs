@@ -21,8 +21,5 @@ namespace NjordFinance.Model.ViewModel.Generic
 
         IEnumerable<IGrouping<TGroupKey, TChildEntity>> GroupEntries(
             IEnumerable<TChildEntity> entries);
-
-
-
     }
 }

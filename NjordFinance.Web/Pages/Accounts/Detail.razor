@@ -68,18 +68,19 @@
                             Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetSingular()}",
                             UriStem = FormatEditUri(Model.AccountId)
                         }
-                    },
-                    // Add view wallets button.
-                    { 2, new MenuItem()
-                        {
-                            IconKey = "wallet",
-                            Caption = $"{Resources.Strings.Caption_Button_View} " +
-                                $"{ModelMetadata.NounFor(typeof(AccountWallet))?.GetPlural()}",
-                            UriStem = $"{FormatEditUri(Model.AccountId)}/wallets"
-                        }
                     }
                 }
             };
+
+            // Add view wallets button.
+            if (Model.HasWallet)
+                ActionMenu.Children.Add(2, new MenuItem()
+                    {
+                        IconKey = "wallet",
+                        Caption = $"{Resources.Strings.Caption_Button_View} " +
+                                        $"{ModelMetadata.GetAttribute<AccountWallet, NounAttribute>()?.GetPlural()}",
+                        UriStem = $"{FormatEditUri(Model.AccountId)}/wallets"
+                    });
 
             Custodians = (await ReferenceData.AccountCustodianListAsync()).ToLookups();
 

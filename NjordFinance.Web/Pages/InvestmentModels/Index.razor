@@ -17,7 +17,7 @@
             <Body>
                 <DataGrid Data="@Models" class="datagrid">
                     <DataGridColumn Property=@nameof(InvestmentStrategy.DisplayName)
-                                Caption=@(NameFor(nameof(InvestmentStrategy.DisplayName)))
+                                Caption=@(NameFor(x => x.DisplayName))
                                 Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
                             <a href=@(FormatDetailUri(model.InvestmentStrategyId)) @onclick:preventDefault 

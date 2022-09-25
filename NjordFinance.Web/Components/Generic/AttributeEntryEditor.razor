@@ -15,7 +15,7 @@
             @onclick:preventDefault>
         @(string.Format(
             Resources.Strings.Caption_Button_Add,
-            ModelMetadata.NounFor(typeof(TModelChild)).GetSingular()))
+            ModelMetadata.GetAttribute<TModelChild, NounAttribute>()?.GetSingular()))
     </button>
     @if (Mode == EditorMode.Edit)
     {

@@ -22,12 +22,12 @@
         {
             <ContentTile>
                 <Body>
-                    <ModelForm TModel="BankTransactionCodeAttributeMemberEntry"
+                    <ModelForm TViewModel="BankTransactionCodeAttributeMemberEntry"
                         >
-                        <ModelFormLineItem MemberName="@nameof(BankTransactionCode.TransactionCode)">
+                        <ModelFormLineItem ForMember="@(x => x.TransactionCode)">
                             @entry.AttributeMember.DisplayName
                         </ModelFormLineItem>
-                        <ModelFormLineItem MemberName="@nameof(BankTransactionCode.DisplayName)">
+                        <ModelFormLineItem ForMember="@(x => x.EffectiveDate)">
                             @entry.EffectiveDate.ToShortDateString()
                         </ModelFormLineItem>
                     </ModelForm>

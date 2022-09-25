@@ -6,9 +6,9 @@
 }
 else
 {
-    <ModelForm TModel="AccountCompositeViewModel">
+    <ModelForm TViewModel="AccountCompositeViewModel">
         @*AccountObject inputs*@
-        <ModelFormLineItem MemberName="@nameof(AccountCompositeViewModel.AccountObjectCode)"
+        <ModelFormLineItem ForMember="@(x => x.AccountObjectCode)"
             ValidationMessageDelegate="@(() => ViewModel.AccountObjectCode)">
             @if (ReadOnly)
             {
@@ -23,7 +23,7 @@ else
                    DisplayName=@(NameFor(x => x.AccountObjectCode)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountCompositeViewModel.DisplayName)"
+        <ModelFormLineItem ForMember="@(x => x.DisplayName)"
             ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {
@@ -38,7 +38,7 @@ else
                     DisplayName=@(NameFor(x => x.DisplayName)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountCompositeViewModel.Description)"
+        <ModelFormLineItem ForMember="@(x => x.Description)"
             ValidationMessageDelegate="@(() => ViewModel.Description)">
             @if (ReadOnly)
             {
@@ -53,7 +53,7 @@ else
                    DisplayName=@(NameFor(x => x.Description)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountCompositeViewModel.StartDate)"
+        <ModelFormLineItem ForMember="@(x => x.StartDate)"
             ValidationMessageDelegate="@(() => ViewModel.StartDate)">
             @if (ReadOnly)
             {
@@ -66,7 +66,7 @@ else
                 <InputDate class="form-control" @bind-Value=ViewModel.StartDate disable="@Disabled" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem MemberName="@nameof(AccountCompositeViewModel.CloseDate)"
+        <ModelFormLineItem ForMember="@(x => x.CloseDate)"
             ValidationMessageDelegate="@(() => ViewModel.CloseDate)">
             @if (ReadOnly)
             {

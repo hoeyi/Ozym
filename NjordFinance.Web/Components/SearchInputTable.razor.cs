@@ -1,10 +1,14 @@
 ﻿using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using NjordFinance.Web.Components.Shared;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace NjordFinance.Web.Components
@@ -81,7 +85,7 @@ namespace NjordFinance.Web.Components
         private string? SearchValue { get; set; }
 
         /// <inheritdoc/>
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             if (SearchFields.Any())
                 QualifiedMemberName = SearchFields.First().QualifiedMemberName;
@@ -89,7 +93,9 @@ namespace NjordFinance.Web.Components
             if (ComparisonOperators.Any())
                 SearchOperator = ComparisonOperators.First();
 
-            return base.OnInitializedAsync();
+            await base.OnInitializedAsync();
+
+            IsLoading = SearchFields is null || ComparisonOperators is null;
         }
 
         /// <summary>
@@ -144,6 +150,19 @@ namespace NjordFinance.Web.Components
 
                 return false;
             }
+        }
+
+        private static string NameFor(ComparisonOperator @operator)
+        {
+            var enumType = typeof(ComparisonOperator);
+            var name = Enum.GetName(enumType, @operator);
+
+            var displayAttribute = enumType
+                .GetMember(name)
+                .FirstOrDefault()
+                ?.GetCustomAttribute<DisplayAttribute>();
+
+            return displayAttribute?.GetName();
         }
     }
 }

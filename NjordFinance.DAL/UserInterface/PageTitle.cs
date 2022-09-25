@@ -2,6 +2,8 @@
 using Ichosys.DataModel.Annotations;
 using System;
 using Ichosys.Extensions.Common.Localization;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
 
 namespace NjordFinance.UserInterface
 {
@@ -49,7 +51,7 @@ namespace NjordFinance.UserInterface
         private readonly NounAttribute _noun;
         public PageTitle()
         {
-            _noun = typeof(TModel).AttributeFor<NounAttribute>();
+            _noun = GetAttribute<TModel, NounAttribute>();
 
             if (_noun is null)
                 throw new InvalidOperationException(
@@ -91,5 +93,33 @@ namespace NjordFinance.UserInterface
             return Strings.UpdateModel.Format(_noun.GetSingular(), heading);
         }
 
+        /// <summary>
+        /// Gets the first attribute of the given type applied to this type.
+        /// </summary>
+        /// <typeparam name="TAttribute">The attribute type to check for.</typeparam>
+        /// <param name="type"></param>
+        /// <returns>A <typeparamref name="TAttribute"/> if it exists, else null.</returns>
+        private static TAttribute GetAttribute<T, TAttribute>()
+            where TAttribute : Attribute
+        {
+            TAttribute attribute;
+            Type type = typeof(T);
+
+            // Check the declarying type of a metdatatype.
+            // If not found return display
+            if (type.GetCustomAttribute(typeof(MetadataTypeAttribute))
+                is not MetadataTypeAttribute metadataType)
+            {
+                attribute = type.GetCustomAttribute<TAttribute>();
+            }
+            else
+            {
+                // If metdatatype exists return display attribute applied 
+                // to member of the same name.
+                attribute = metadataType.MetadataClassType.GetCustomAttribute<TAttribute>();
+            }
+
+            return attribute;
+        }
     }
 }

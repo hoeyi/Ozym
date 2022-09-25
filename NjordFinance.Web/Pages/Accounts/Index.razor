@@ -28,7 +28,7 @@
             <Body>
                 <DataGrid Data="@Models">
                     <DataGridColumn Property=@nameof(Account.AccountNavigation.AccountObjectCode)
-                                Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.AccountObjectCode))
                                 Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
                             <a class="custom-nav-link" href=@(FormatDetailUri(model.AccountId)) @onclick:preventDefault 
@@ -38,67 +38,67 @@
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Account.AccountNavigation.ObjectDisplayName)
-                                Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))>
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.ObjectDisplayName))>
                         <CellTemplate Context="model">
                             @model.AccountNavigation.ObjectDisplayName
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Account.AccountNavigation.ObjectDescription)
-                                Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDescription)))>
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.ObjectDescription))>
                         <CellTemplate Context="model">
                             @model.AccountNavigation.ObjectDescription
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Account.AccountNavigation.StartDate)
-                                Caption=@(NameFor<AccountObject>(nameof(AccountObject.StartDate)))>
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.StartDate))>
                         <CellTemplate Context="model">
                             @model.AccountNavigation.StartDate.ToShortDateString()
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Account.AccountNavigation.CloseDate)
-                                Caption=@(NameFor<AccountObject>(nameof(AccountObject.CloseDate)))>
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.CloseDate))>
                         <CellTemplate Context="model">
                             @model.AccountNavigation.CloseDate?.ToShortDateString()
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Account.AccountNumber)
-                                Caption=@(NameFor<Account>(nameof(Account.AccountNumber)))>
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.AccountNumber))>
                         <CellTemplate Context="model">
                             @model.AccountNumber
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Account.BooksClosedDate)
-                                Caption=@(NameFor<Account>(nameof(Account.BooksClosedDate)))>
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.BooksClosedDate))>
                         <CellTemplate Context="model">
                             @model.BooksClosedDate?.ToShortDateString()
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Account.IsComplianceTradable)
-                                Caption=@(NameFor<Account>(nameof(Account.IsComplianceTradable)))>
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.IsComplianceTradable))>
                         <CellTemplate Context="model">
                             @model.IsComplianceTradable
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Account.HasWallet)
-                                Caption=@(NameFor<Account>(nameof(Account.HasWallet)))>
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.HasWallet))>
                         <CellTemplate Context="model">
                             @model.HasWallet
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Account.HasBankTransaction)
-                                Caption=@(NameFor<Account>(nameof(Account.HasBankTransaction)))>
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.HasBankTransaction))>
                         <CellTemplate Context="model">
                             @model.HasBankTransaction
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Account.HasBrokerTransaction)
-                                Caption=@(NameFor<Account>(nameof(Account.HasBrokerTransaction)))>
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.HasBrokerTransaction))>
                         <CellTemplate Context="model">
                             @model.HasBrokerTransaction
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Account.AccountCustodian.CustodianCode)
-                                Caption=@(NameFor<Account>(nameof(Account.AccountCustodianId)))>
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.AccountCustodianId))>
                         <CellTemplate Context="model">
                             @model.AccountCustodian?.CustodianCode
                         </CellTemplate>

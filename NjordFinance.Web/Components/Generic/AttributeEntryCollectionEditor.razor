@@ -41,7 +41,7 @@ else
             @onclick:preventDefault>
             @(string.Format(
                 Resources.Strings.Caption_Button_Add,
-                ModelMetadata.NounFor(typeof(TModelChild)).GetSingular()))
+                ModelMetadata.GetAttribute<TModelChild, NounAttribute>()?.GetSingular()))
         </button>
         @if (Mode == EditorMode.Edit)
         {
@@ -86,7 +86,7 @@ else
                 <DataGrid Data="group">
                     <DataGridColumn Type="DataGridCellType.Link"
                             Property="EffectiveDateMemberName"
-                            Caption="@(NameFor<TViewModelChild>(EffectiveDateMemberName))">
+                            Caption="@(ModelMetadata.NameFor<TViewModelChild>(EffectiveDatePath))">
                         <CellTemplate Context="model">
                             <a 
                                 @onclick:preventDefault
@@ -105,11 +105,11 @@ else
 
 
     /// <summary>
-    /// Gets or sets the <typeparamref name="TViewModelChild" /> member name that returns the 
+    /// Gets or sets the <typeparamref name="TViewModelChild" /> member path that represents the 
     /// effective date for that class.
     /// </summary>
     [Parameter, EditorRequired]
-    public string EffectiveDateMemberName { get; set; }
+    public Expression<Func<TViewModelChild, object>> EffectiveDatePath { get; set; }
 
     /// <summary>
     /// Gets or sets the identifier for the <see cref="EditorMode" /> for the page.
