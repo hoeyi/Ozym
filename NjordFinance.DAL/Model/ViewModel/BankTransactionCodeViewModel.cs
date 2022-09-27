@@ -16,8 +16,7 @@ namespace NjordFinance.Model.ViewModel
         : AttributeEntryUnweightedCollection<
             BankTransactionCode,
             BankTransactionCodeAttributeMemberEntry,
-            BankTransactionCodeAttributeGrouping,
-            ModelAttribute>
+            BankTransactionCodeAttributeGrouping>
     {
         public BankTransactionCodeViewModel(BankTransactionCode transactionCode)
             : base(
@@ -52,7 +51,7 @@ namespace NjordFinance.Model.ViewModel
                   {
                       return parent.BankTransactionCodeAttributeMemberEntries;
                   },
-                  currencyPredicate: x => x.EffectiveDate <= DateTime.UtcNow.Date)
+                  entryDateSelector: (entry) => entry.EffectiveDate)
         {
             // Check child entry records were included in the given model.
             if (transactionCode.BankTransactionCodeAttributeMemberEntries is null)

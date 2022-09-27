@@ -32,13 +32,4 @@ namespace NjordFinance.Model.ViewModel.Generic
         /// </returns>
         TParentEntity ToEntity();
     }
-
-    public interface IAttributeEntryUnweightedCollection<TParentEntity, TChildEntity, TGroupModel>
-        : IAttributeEntryCollection<TParentEntity, TChildEntity, TGroupModel>
-        where TParentEntity : class, new()
-        where TChildEntity : class, new()
-        where TGroupModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
-    {
-        IEnumerable<TChildEntity> CurrentEntries { get; }
-    }
 }
