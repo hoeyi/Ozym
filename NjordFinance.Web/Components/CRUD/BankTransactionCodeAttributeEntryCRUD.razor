@@ -25,7 +25,8 @@ else
 
         </TitleAlignRight>
         <Body>
-            <DataGrid Data="@ViewModel.Entries">
+            <EditForm Model="@ViewModel.Entries">
+                <DataGrid Data="@ViewModel.Entries">
                 @if (ReadOnly)
                 {
                     <DataGridColumn 
@@ -77,12 +78,13 @@ else
                     </DataGridColumn>
                 }
             </DataGrid>
+            </EditForm>
         </Body>
     </ContentTile>
 }
 
 @code {
-    [CascadingParameter]
+    [CascadingParameter(Name = nameof(AttributeMemberLookup))]
     public IEnumerable<LookupModel> AttributeMemberLookup { get; set; }
 
     protected override async Task OnInitializedAsync()

@@ -69,8 +69,6 @@ namespace NjordFinance.Web.Components.Generic
 
         protected override async Task OnInitializedAsync()
         {
-            await base.OnInitializedAsync();
-
             AllowableModelAttributes = await GetSupportedAttributesAsync();
 
             IsLoading = AllowableModelAttributes is null;

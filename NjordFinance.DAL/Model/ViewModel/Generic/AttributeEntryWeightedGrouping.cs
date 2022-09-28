@@ -3,6 +3,7 @@ using NjordFinance.Model.Metadata;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 
 namespace NjordFinance.Model.ViewModel.Generic
@@ -99,7 +100,6 @@ namespace NjordFinance.Model.ViewModel.Generic
             {
                 if(effectiveDate != value)
                 {
-                    effectiveDate = value;
                     if(!Entries.All(x => UpdateEntryEffectiveDate(x, value)))
                     {
                         string msg = string.Format(
@@ -108,6 +108,7 @@ namespace NjordFinance.Model.ViewModel.Generic
 
                         throw new InvalidOperationException(message: msg);
                     }
+                    effectiveDate = value;
                 }
             }
         }

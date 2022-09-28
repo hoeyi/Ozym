@@ -22,7 +22,8 @@ else
                 <label for="add-new-entry-button">
                     @(NameFor(x => x.EffectiveDate))
                 </label>
-                <InputDate class="form-control right" @bind-Value="@ViewModel.EffectiveDate" />
+                <InputDate class="form-control right" @bind-Value="@ViewModel.EffectiveDate" 
+                    @onchange="RefreshState" />
                 <button
                     id="add-new-entry-button"
                     class="form-control button icon"
@@ -114,4 +115,6 @@ else
 
         ViewModel.RemoveEntry(target);
     }
+
+    private void RefreshState(EventArgs args) => StateHasChanged();
 }

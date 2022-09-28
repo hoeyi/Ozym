@@ -14,7 +14,7 @@ namespace NjordFinance.Web.Components.Generic
         where TModel : class, new()
         where TModelChild : class, new()
         where TViewModelChild : IAttributeEntryGrouping<TModel, TModelChild>
-        where TViewModelParent : IAttributeEntryCollection<TModel, TModelChild, TViewModelChild>
+        where TViewModelParent : IAttributeEntryUnweightedCollection<TModel, TModelChild, TViewModelChild>
     {
         /// <summary>
         /// Gets or sets <see cref="IReferenceDataService"/> used to query lookup and reference 
@@ -37,7 +37,7 @@ namespace NjordFinance.Web.Components.Generic
 
         protected override async Task OnInitializedAsync()
         {
-            await base.OnInitializedAsync();
+            IsLoading = true;
 
             AllowableModelAttributes = await GetSupportedAttributesAsync();
 
@@ -53,6 +53,7 @@ namespace NjordFinance.Web.Components.Generic
         {
             using var queryBuilder = ReferenceData
                 .CreateQueryBuilder<ModelAttribute>()
+                .WithDirectRelationship(a => a.ModelAttributeMembers)
                 .WithDirectRelationship(a => a.ModelAttributeScopes);
 
             var attributeQuery = queryBuilder.SelectWhereAsync(
@@ -62,5 +63,12 @@ namespace NjordFinance.Web.Components.Generic
 
             return await attributeQuery;
         }
+
+        private IEnumerable<LookupModel> GetAttributeMembers(
+            ModelAttribute modelAttribute) =>
+            AllowableModelAttributes
+                .FirstOrDefault(a => a.AttributeId == modelAttribute.AttributeId)
+                .ModelAttributeMembers
+                .ToLookups();
     }
 }

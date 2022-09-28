@@ -107,7 +107,8 @@
         var result = await Controller.UpdateAsync(Model.TransactionCodeId, Model);
 
         if (Model is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.TransactionCodeId));
+            NavigationHelper.NavigateTo(
+                $"{FormatDetailUri(result.Value.TransactionCodeId)}/attributes");
     }
 
     /// <summary>edit

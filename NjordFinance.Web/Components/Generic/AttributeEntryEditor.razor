@@ -31,18 +31,49 @@
         @Resources.Strings.Caption_Button_Cancel
     </button>
 </ActionButtonMenu>
-<CascadingValue Value="@ViewModel">
-    <EditForm id="@FormGuid"
-        Model="@ViewModel"
-        OnValidSubmit="@(async (args) => await OnValidFormSubmit.InvokeAsync(args))">
-        <ContentTile class="left">
+@if(IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <CascadingValue Value="@ViewModel">
+        <EditForm id="@FormGuid"
+            Model="@ViewModel"
+            OnValidSubmit="@(async (args) => await OnValidFormSubmit.InvokeAsync(args))">
+            <ContentTile class="left">
+                <Body>
+                    <DataAnnotationsValidator />
+                    @ViewModelCRUD
+                </Body>
+            </ContentTile>
+        </EditForm>
+    </CascadingValue>
+    @foreach (var group in ViewModel.EntryCollection)
+    {
+        <ContentTile>
+            <TitleAlignLeft>
+                @group.ParentAttribute.DisplayName
+            </TitleAlignLeft>
+    @*        <TitleAlignRight>
+                <button class="form-control button icon"
+                    type="button"
+                    @onclick="(() => AddEntryForGrouping(group.Key))">
+                    <IonIcon Name="add" />
+                </button>
+            </TitleAlignRight>*@
             <Body>
-                <DataAnnotationsValidator />
-                @ViewModelCRUD
+                <CascadingValue Value="@group">
+                    <CascadingValue 
+                        Value="@GetAttributeMembers(group.ParentAttribute)" 
+                        Name="AttributeMemberLookup">
+                        @ViewModelChildCRUD(group)
+                    </CascadingValue>
+                </CascadingValue>
             </Body>
         </ContentTile>
-    </EditForm>
-</CascadingValue>
+    }
+}
 
 @code {
     /// <summary>
