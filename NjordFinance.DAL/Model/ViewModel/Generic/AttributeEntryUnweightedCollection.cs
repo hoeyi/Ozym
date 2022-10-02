@@ -31,6 +31,7 @@ namespace NjordFinance.Model.ViewModel.Generic
             _entryDateSelector = entryDateSelector;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<TChildEntity> CurrentEntries => EntryCollection
             .SelectMany(grp =>
             {
@@ -41,5 +42,15 @@ namespace NjordFinance.Model.ViewModel.Generic
 
                 return currentyEntry;
             });
+
+        /// <inheritdoc/>
+        public TGroupViewModel AddEntryForGrouping(ModelAttribute forAttribute)
+        {
+            var viewModel = CreateGroupViewModel(ParentEntity, forAttribute);
+
+            viewModel.AddNewEntry();
+
+            return viewModel;
+        }
     }
 }
