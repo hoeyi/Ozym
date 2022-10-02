@@ -19,6 +19,9 @@
     transform: translate(-50%, -25%);
 }
 
+::deep .custom-modal p {
+    margin-bottom: 0 !important;
+}
 /*:not(.custom-modal:focus-within) {
     display: none;
 }*/

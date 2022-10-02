@@ -2,7 +2,6 @@
     display: inline-flex;
     flex-direction: row;
     border-bottom: 1px solid var(--theme-text-color-0, black);
-    padding: 0.25rem;
     width: 100%;
 }
 

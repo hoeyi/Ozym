@@ -2,6 +2,7 @@
 using NjordFinance.Model;
 using NjordFinance.Model.ViewModel.Generic;
 using NjordFinance.ModelService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -70,5 +71,51 @@ namespace NjordFinance.Web.Components.Generic
                 .FirstOrDefault(a => a.AttributeId == modelAttribute.AttributeId)
                 .ModelAttributeMembers
                 .ToLookups();
+
+        /// <summary>
+        /// Gets or sets whether the modal dialog for selecting an attribute is drawn. Default is
+        /// <see cref="false" />.
+        /// </summary>
+        private bool DrawAttributeSelectorDialog { get; set; } = false;
+
+        /// <summary>
+        /// Gets the <see cref="Guid"/> uniquely identifying the form element for this control.
+        /// </summary>
+        private Guid FormGuid { get; } = Guid.NewGuid();
+
+        /// <summary>
+        /// Handles the close event of the modal form used to select a <see cref="ModelAttribute"/>
+        /// for adding a new <typeparamref name="TViewModelChild" />.
+        /// </summary>
+        private void OnModalAttributeSelectorClosed(ModalEventArgs<ModelAttribute> modalEventArgs)
+        {
+            DrawAttributeSelectorDialog = false;
+
+            switch (modalEventArgs.Result)
+            {
+                case DialogResult.OK:
+                    if (modalEventArgs.Model is not null)
+                        AddEntryForGrouping(modalEventArgs.Model);
+                    break;
+                case DialogResult.Cancel:
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+
+            // Redraw the component.
+            StateHasChanged();
+        }
+
+        /// <summary>
+        /// Adds a new <typeparamref name="TViewModelChild"/> to the <typeparamref name="TViewModelParent"/>
+        /// instance for this component for the given <see cref="ModelAttribute"/>.
+        /// </summary>
+        /// <param name="forModelAttribute"></param>
+        /// <returns></returns>
+        protected void AddEntryForGrouping(ModelAttribute forModelAttribute)
+        {
+            ViewModel.AddEntryForGrouping(forModelAttribute);
+        }
     }
 }

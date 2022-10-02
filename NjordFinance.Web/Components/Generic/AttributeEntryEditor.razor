@@ -6,72 +6,70 @@
 
 @inherits LocalizableComponent
 
-<ActionButtonMenu>
-    <button type="submit" form="@FormGuid" class="form-control button">
-        @Resources.Strings.Caption_Button_Save
-    </button>
-    <button type="button" class="form-control button"
-            @onclick="(() => DrawAttributeSelectorDialog = true)"
-            @onclick:preventDefault>
-        @(string.Format(
-            Resources.Strings.Caption_Button_Add,
-            ModelMetadata.GetAttribute<TModelChild, NounAttribute>()?.GetSingular()))
-    </button>
-    @if (Mode == EditorMode.Edit)
-    {
-        <button type="button" class="form-control button"
-            @onclick="@(async (args) => await OnDeleteModelClick.InvokeAsync(args))"
-            @onclick:preventDefault>
-            @Resources.Strings.Caption_Button_Delete
-        </button>
-    }
-    <button type="button" class="form-control button"
-            @onclick="@(async(args) => await OnCancelEditorClick.InvokeAsync(args))"
-            @onclick:preventDefault>
-        @Resources.Strings.Caption_Button_Cancel
-    </button>
-</ActionButtonMenu>
 @if(IsLoading)
 {
     <LoadingSvg />
 }
 else
 {
-    <CascadingValue Value="@ViewModel">
-        <EditForm id="@FormGuid"
-            Model="@ViewModel"
-            OnValidSubmit="@(async (args) => await OnValidFormSubmit.InvokeAsync(args))">
-            <ContentTile class="left">
-                <Body>
+    <ActionButtonMenu>
+        <button type="submit" form="@FormGuid" class="form-control button">
+            @Resources.Strings.Caption_Button_Save
+        </button>
+        <button type="button" class="form-control button"
+                @onclick="(() => DrawAttributeSelectorDialog = true)"
+                @onclick:preventDefault>
+            @(string.Format(
+                Resources.Strings.Caption_Button_Add,
+                ModelMetadata.GetAttribute<TModelChild, NounAttribute>()?.GetSingular()))
+        </button>
+        @if (Mode == EditorMode.Edit)
+        {
+            <button type="button" class="form-control button"
+                @onclick="@(async (args) => await OnDeleteModelClick.InvokeAsync(args))"
+                @onclick:preventDefault>
+                @Resources.Strings.Caption_Button_Delete
+            </button>
+        }
+        <button type="button" class="form-control button"
+                @onclick="@(async(args) => await OnCancelEditorClick.InvokeAsync(args))"
+                @onclick:preventDefault>
+            @Resources.Strings.Caption_Button_Cancel
+        </button>
+    </ActionButtonMenu>
+    <ContentTile class="left">
+        <Body>
+            <CascadingValue Value="@ViewModel">
+                <EditForm id="@FormGuid"
+                      Model="@ViewModel"
+                      OnValidSubmit="@(async (args) => await OnValidFormSubmit.InvokeAsync(args))">
                     <DataAnnotationsValidator />
                     @ViewModelCRUD
-                </Body>
-            </ContentTile>
-        </EditForm>
-    </CascadingValue>
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
     @foreach (var group in ViewModel.EntryCollection)
     {
         <ContentTile>
-            <TitleAlignLeft>
-                @group.ParentAttribute.DisplayName
-            </TitleAlignLeft>
-    @*        <TitleAlignRight>
-                <button class="form-control button icon"
-                    type="button"
-                    @onclick="(() => AddEntryForGrouping(group.Key))">
-                    <IonIcon Name="add" />
-                </button>
-            </TitleAlignRight>*@
             <Body>
                 <CascadingValue Value="@group">
                     <CascadingValue 
                         Value="@GetAttributeMembers(group.ParentAttribute)" 
                         Name="AttributeMemberLookup">
-                        @ViewModelChildCRUD(group)
+                        @ViewModelChildCRUD
                     </CascadingValue>
                 </CascadingValue>
             </Body>
         </ContentTile>
+    }
+
+    @if (DrawAttributeSelectorDialog)
+    {
+        <AttributeSelectorModal 
+            OnClose="OnModalAttributeSelectorClosed"
+            AllowableAttributes="@AllowableModelAttributes">
+        </AttributeSelectorModal>
     }
 }
 
@@ -114,7 +112,7 @@ else
     /// <typeparamref name="TViewModelChild"/> instances.
     /// </summary>
     [Parameter, EditorRequired]
-    public RenderFragment<IAttributeEntryGrouping<TModel, TModelChild>> ViewModelChildCRUD { get; set; }
+    public RenderFragment ViewModelChildCRUD { get; set; }
 
     /// <summary>
     /// Gets or sets the component responsible for presenting editor controls for the
@@ -123,14 +121,5 @@ else
     [Parameter]
     public RenderFragment ViewModelCRUD { get; set; }
 
-    /// <summary>
-    /// Gets or sets whether the modal dialog for selecting an attribute is drawn. Default is
-    /// <see cref="false" />.
-    /// </summary>
-    private bool DrawAttributeSelectorDialog { get; set; } = false;
-
-    /// <summary>
-    /// Gets the <see cref="Guid"/> uniquely identifying the form element for this control.
-    /// </summary>
-    private Guid FormGuid { get; } = Guid.NewGuid();
+    
 }

@@ -211,6 +211,7 @@
     border-radius: 1rem;
     padding: 0.5rem;
     display: block;
+    /*margin-bottom: 0;*/
 }
 .content-tile-title {
     --default-height: 32px;
@@ -260,9 +261,9 @@
         font-size: 0.85rem;
     }
 
-::deep p.content-tile::after {
+/*::deep p.content-tile::after {
     padding-bottom: 1rem;
-}
+*/}
 
 ::deep .column {
     width: 50%;
@@ -286,6 +287,10 @@
 }
 
 ::deep .custom-modal .content-tile {
+    padding: 0.25rem;
+}
+
+::deep .custom-modal .action-button-menu {
     padding: 0.25rem;
 }
 

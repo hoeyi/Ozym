@@ -11,27 +11,6 @@
 }
 else
 {
-    @if (DrawViewModelChildModelEditor)
-    {
-        <CascadingValue Value="@CurrentViewModelChild">
-            <CascadingValue Value="@CurrentAttributeMemberLookup">
-                <AttributeTargetModalCRUD 
-                    TViewModel="TViewModelChild"
-                    OnClose="OnModalEditor_ForChildView_Close">
-                    @ViewModelChildCRUD
-                </AttributeTargetModalCRUD>
-            </CascadingValue>
-        </CascadingValue>
-    }
-
-    @if (DrawAttributeSelectorDialog)
-    {
-        <AttributeSelectorModal 
-            OnClose="OnModalAttributeSelectorClosed"
-            AllowableAttributes="@AllowableModelAttributes">
-        </AttributeSelectorModal>
-    }
-
     <ActionButtonMenu>
         <button type="submit" form="@FormGuid" class="form-control button">
             @Resources.Strings.Caption_Button_Save
@@ -99,11 +78,30 @@ else
             </Body>
         </ContentTile>
     }
+
+    @if (DrawViewModelChildModelEditor)
+    {
+        <CascadingValue Value="@CurrentViewModelChild">
+            <CascadingValue Value="@CurrentAttributeMemberLookup">
+                <AttributeTargetModalCRUD 
+                    TViewModel="TViewModelChild"
+                    OnClose="OnModalEditor_ForChildView_Close">
+                    @ViewModelChildCRUD
+                </AttributeTargetModalCRUD>
+            </CascadingValue>
+        </CascadingValue>
+    }
+
+    @if (DrawAttributeSelectorDialog)
+    {
+        <AttributeSelectorModal 
+            OnClose="OnModalAttributeSelectorClosed"
+            AllowableAttributes="@AllowableModelAttributes">
+        </AttributeSelectorModal>
+    }
 }
 
 @code {
-
-
     /// <summary>
     /// Gets or sets the <typeparamref name="TViewModelChild" /> member path that represents the 
     /// effective date for that class.
@@ -157,45 +155,4 @@ else
     /// </summary>
     [Parameter, EditorRequired]
     public RenderFragment ViewModelCRUD { get; set; }
-
-    /// <summary>
-    /// Gets or sets whether the modal dialog for selecting an attribute is drawn. Default is
-    /// <see cref="false" />.
-    /// </summary>
-    private bool DrawAttributeSelectorDialog { get; set; } = false;
-
-    /// <summary>
-    /// Gets the <see cref="Guid"/> uniquely identifying the form element for this control.
-    /// </summary>
-    private Guid FormGuid { get; } = Guid.NewGuid();
-
-    /// <summary>
-    /// Gets the <see cref="DateTime"/> value of <see cref="EffectiveDate" /> 
-    /// from the given <see cref="TViewModelChild" />.
-    /// </summary>
-    private DateTime GetGroupEffectiveDate(TViewModelChild group) => group.EffectiveDate;
-
-    /// <summary>
-    /// Handles the close event of the modal form used to select a <see cref="ModelAttribute"/> 
-    /// for adding a new <typeparamref name="TViewModelChild" />.
-    /// </summary>
-    private async Task OnModalAttributeSelectorClosed(ModalEventArgs<ModelAttribute> modalEventArgs)
-    {
-        DrawAttributeSelectorDialog = false;
-
-        switch (modalEventArgs.Result)
-        {
-            case DialogResult.OK:
-                if (modalEventArgs.Model is not null)
-                    await AddEntryForGrouping(modalEventArgs.Model);
-                break;
-            case DialogResult.Cancel:
-                break;
-            default:
-                throw new NotSupportedException();
-        }
-
-        // Redraw the component.
-        StateHasChanged();
-    }
 }

@@ -6,65 +6,66 @@
 <div class="custom-modal @IsShownClassAttribute">
     @if(IsLoading)
     {
+        <LoadingSvg />
     }
     else
     {
         <div class="custom-modal-body">
-            <ContentTile ClassModifiers="custom-modal-content">
-                <Body>
-                    @if(ReadOnly)
-                    {
-                        <div>
-                            @ChildContent
-                        </div>
-                    }
-                    else
-                    {
-                        <EditForm
-                            class="model-editor"
-                            Model="@ViewModel"
-                            OnValidSubmit="(async () => await OnClickAsync(DialogResult.OK))">
-                            <DataAnnotationsValidator />
-                            @ChildContent
-                            <ActionButtonMenu>
-                                @foreach (var dialogOption in _dialogResultButtons)
-                                {
-                                    if(dialogOption == DialogResult.OK)
-                                    {
-                                        <button type="submit" class="form-control button">
-                                            @(NameFor(@enum: dialogOption))
-                                        </button>
-
-                                    }
-                                    else
-                                    {
-                                        <button type="button" class="form-control button"
-                                            @onclick="(async () => await OnClickAsync(dialogOption))"
-                                            @onclick:preventDefault>
-                                            @(NameFor(@enum: dialogOption))
-                                        </button>
-                                    }
-                                }
-                            </ActionButtonMenu>
-                        </EditForm>
-                    }
-                </Body>
-            </ContentTile>
             @if(ReadOnly)
             {
+                <div>
+                    @ChildContent
+                </div>
                 <ActionButtonMenu>
                     @foreach(var dialogOption in _dialogResultButtons)
                     {
                         <button 
                             type="button" 
                             class="form-control button"
-                            @onclick="() => OnClickAsync(dialogOption)"                     
+                            @onclick="async () => await OnClickAsync(dialogOption)"                     
                             @onclick:preventDefault >
                             @(NameFor(@enum: dialogOption))
                         </button>
                     }
                 </ActionButtonMenu>
             }
+            else
+            {
+                <EditForm
+                    class="model-editor"
+                    Model="@ViewModel"
+                    OnValidSubmit="(async () => await OnClickAsync(DialogResult.OK))">
+                    <DataAnnotationsValidator />
+                    @ChildContent
+                    <ActionButtonMenu>
+                        @foreach (var dialogOption in _dialogResultButtons)
+                        {
+                            if(dialogOption == DialogResult.OK)
+                            {
+                                <button type="submit" class="form-control button">
+                                    @(NameFor(@enum: dialogOption))
+                                </button>
+
+                            }
+                            else
+                            {
+                                <button type="button" class="form-control button"
+                                    @onclick="(async () => await OnClickAsync(dialogOption))"
+                                    @onclick:preventDefault>
+                                    @(NameFor(@enum: dialogOption))
+                                </button>
+                            }
+                        }
+                    </ActionButtonMenu>
+                </EditForm>
+            }
+@*            <ContentTile ClassModifiers="custom-modal-content">
+                <Body>
+                </Body>
+            </ContentTile>
+            @if(ReadOnly)
+            {
+            }*@
         </div>
     }
 </div>

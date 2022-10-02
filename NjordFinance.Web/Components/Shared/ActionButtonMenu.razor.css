@@ -2,7 +2,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min-content, 20%));
     grid-gap: 10px;
-    padding-bottom: 10px;
+    margin-top: auto;
+    margin-bottom: 0.5rem;
 }
 
 ::deep .action-button-menu > button {

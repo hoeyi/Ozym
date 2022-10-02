@@ -40,16 +40,16 @@ namespace NjordFinance.Web.Components.Generic
         IReferenceDataService ReferenceData { get; set; }
 
         /// <summary>
-        /// Gets or sets the current <typeparamref name="TViewModelChild"/> instance.
-        /// </summary>
-        protected TViewModelChild? CurrentViewModelChild { get; set; }
-
-        /// <summary>
         /// Gets the string codes representing the allowable <see cref="ModelAttribute"/> selections 
         /// for the <typeparamref name="TViewModelParent"/> instance worked using this component.
         /// </summary>
         protected string[] SupportedModelAttributeScopes { get; } = 
             IReferenceDataService.GetSupportedAttributeScopeCodes<TViewModelParent>();
+
+        /// <summary>
+        /// Gets or sets the current <typeparamref name="TViewModelChild"/> instance.
+        /// </summary>
+        protected TViewModelChild? CurrentViewModelChild { get; set; }
 
         /// <summary>
         /// Gets or sets the valid entries to the currently selected attribute.
@@ -157,6 +157,47 @@ namespace NjordFinance.Web.Components.Generic
                     throw new NotSupportedException();
             };
 
+            StateHasChanged();
+        }
+
+        /// <summary>
+        /// Gets or sets whether the modal dialog for selecting an attribute is drawn. Default is
+        /// <see cref="false" />.
+        /// </summary>
+        private bool DrawAttributeSelectorDialog { get; set; } = false;
+
+        /// <summary>
+        /// Gets the <see cref="Guid"/> uniquely identifying the form element for this control.
+        /// </summary>
+        private Guid FormGuid { get; } = Guid.NewGuid();
+
+        /// <summary>
+        /// Gets the <see cref="DateTime"/> value of <see cref="EffectiveDate" /> 
+        /// from the given <see cref="TViewModelChild" />.
+        /// </summary>
+        private DateTime GetGroupEffectiveDate(TViewModelChild group) => group.EffectiveDate;
+
+        /// <summary>
+        /// Handles the close event of the modal form used to select a <see cref="ModelAttribute"/> 
+        /// for adding a new <typeparamref name="TViewModelChild" />.
+        /// </summary>
+        private async Task OnModalAttributeSelectorClosed(ModalEventArgs<ModelAttribute> modalEventArgs)
+        {
+            DrawAttributeSelectorDialog = false;
+
+            switch (modalEventArgs.Result)
+            {
+                case DialogResult.OK:
+                    if (modalEventArgs.Model is not null)
+                        await AddEntryForGrouping(modalEventArgs.Model);
+                    break;
+                case DialogResult.Cancel:
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+
+            // Redraw the component.
             StateHasChanged();
         }
     }
