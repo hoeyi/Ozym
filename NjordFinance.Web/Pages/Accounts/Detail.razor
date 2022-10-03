@@ -52,33 +52,36 @@
                 {
                     IconKey = "reorder-four",
                     Children = new()
-                {
-                    // Add index button.
-                    { 0, new MenuItem()
-                        {
-                            IconKey = "list",
-                            Caption = $"{Resources.Strings.Caption_Button_Index}",
-                            UriStem = $"{IndexUriRelativePath}"
-                        }
-                    },
-                    // Add edit button.
-                    { 1, new MenuItem()
-                        {
-                            IconKey = "pencil",
-                            Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetSingular()}",
-                            UriStem = FormatEditUri(Model.AccountId)
+                    {
+                        // Add index button.
+                        { 0, new MenuItem()
+                            {
+                                IconKey = "list",
+                                Caption = string.Format(
+                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                UriStem = $"{IndexUriRelativePath}"
+                            }
+                        },
+                        // Add edit button.
+                        { 1, new MenuItem()
+                            {
+                                IconKey = "pencil",
+                                Caption = string.Format(
+                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
+                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
+                            }
                         }
                     }
-                }
-            };
+                };
 
             // Add view wallets button.
             if (Model.HasWallet)
                 ActionMenu.Children.Add(2, new MenuItem()
                     {
                         IconKey = "wallet",
-                        Caption = $"{Resources.Strings.Caption_Button_View} " +
-                                        $"{ModelMetadata.GetAttribute<AccountWallet, NounAttribute>()?.GetPlural()}",
+                        Caption = string.Format(
+                            Strings.Caption_EditMany, 
+                                ModelMetadata.GetAttribute<AccountWallet, NounAttribute>()?.GetPlural()),
                         UriStem = $"{FormatEditUri(Model.AccountId)}/wallets"
                     });
 

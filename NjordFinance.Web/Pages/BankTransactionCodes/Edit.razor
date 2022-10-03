@@ -1,140 +1,118 @@
-﻿@page "/bank-transaction-codes/edit"
+﻿@page "/bank-transaction-codes/{ModelId:int}/edit"
 
-@inherits ModelPage<BankTransactionCode>
+@inherits ModelDetail<BankTransactionCode>
 
-@inject IBatchController<BankTransactionCode> Controller
+@inject IReferenceDataService ReferenceData
 
 <ThemedComponent>
-    <PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
-
-    <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
-
     @if (IsLoading)
     {
         <LoadingSvg />
     }
     else
     {
-        <ContentTile>
-            <Body>
-                @if (!string.IsNullOrEmpty(ErrorMessage))
-                {
-                    <div class="error-text">@ErrorMessage</div>
-                }
-                <EditForm width="100%" EditContext="@_context">
-                    <ActionButtonMenu>
-                        <button class="form-control button"
-                            @onclick="@(async (args) => await Submit_OnClick(context, args))">
-                            @Resources.Strings.Caption_Button_Save
-                        </button>
-                        <button class="form-control button"
-                            @onclick="(async (args) => await AddNewAsync(args))">
-                            @Resources.Strings.Caption_Button_Add.Format(
-                            ModelNoun?.GetSingular())
-                        </button>
-                        <button class="form-control button" @onclick="Cancel_OnClick"
-                            @onclick:preventDefault>
-                            @Resources.Strings.Caption_Button_Cancel
-                        </button>
-                    </ActionButtonMenu>
-                    <DataAnnotationsValidator />
-                    <DataGrid Data="@BankTransactionCodes">
-                        <DataGridColumn Property=@nameof(BankTransactionCode.TransactionCode)
-                                    Caption=@(NameFor(x => x.TransactionCode))>
-                            <CellEditTemplate Context="model">
-                                <InputText class="form-control" @bind-Value=model.TransactionCode />
-                                <ValidationMessage For=@(()=> model.TransactionCode) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(BankTransactionCode.DisplayName)
-                                    Caption=@(NameFor(x => x.DisplayName))>
-                            <CellEditTemplate Context="model">
-                                <InputText class="form-control" @bind-Value=model.DisplayName />
-                                <ValidationMessage For=@(()=> model.DisplayName) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Type="DataGridCellType.Button">
-                            <CellEditTemplate Context="model">
-                                <ToolTip Text="@Resources.Strings.Caption_Button_Delete">
-                                    <button class="form-control button icon"
-                                        type="button"
-                                        @onclick="async (args) => await DeleteAsync(args, model)">
-                                        <IonIcon Name="close-circle" />
-                                    </button>
-                                </ToolTip>
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
-                </EditForm>
-            </Body>
-        </ContentTile>
+        <PageTitle>@(PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
+
+        <AttributeEntryEditor TViewModelParent="BankTransactionCodeViewModel"
+            TViewModelChild="BankTransactionCodeAttributeGrouping"
+            TModel="BankTransactionCode"
+            TModelChild="BankTransactionCodeAttributeMemberEntry"
+            OnCancelEditorClick="CancelEditorHandler"
+            OnDeleteModelClick="DeleteModelHandler"
+            OnValidFormSubmit="ValidFormSubmitHandler"
+            ViewModel="@ViewModel"
+            Mode="EditorMode.Edit">
+            <ViewModelCRUD>
+                <BankTransactionCodeCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <BankTransactionCodeAttributesCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryEditor>
     }
 </ThemedComponent>
+
 @code {
-    private IList<BankTransactionCode> BankTransactionCodes { get; set; }
+    /// <summary>
+    /// Gets or sets the identifier for the <see cref="BankTransactionCode" /> worked on this page.
+    /// </summary>
+    [Parameter]
+    public int ModelId { get; set; }
 
-    private EditContext _context;
+    /// <summary>
+    /// Gets or sets the <see cref="BankTransactionCodeViewModel" /> worked by this page.
+    /// </summary>
+    private BankTransactionCodeViewModel ViewModel { get; set; }
 
-    /// <inheritdoc/>
+
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
-
         IsLoading = true;
 
         try
         {
-            BankTransactionCodes = (await Controller.SelectAllAsync()).Value;
+            var modelQuery = Controller.ReadAsync(ModelId);
 
-            if (!BankTransactionCodes.Any())
+            if ((await modelQuery).Value is BankTransactionCode model)
             {
-                await AddNewAsync(args: null);
+                Model = model;
             }
+
+            ActionMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                        {
+                            // Add index button.
+                            { 0, new MenuItem()
+                                {
+                                    IconKey = "list",
+                                    Caption = string.Format(
+                                        Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                    UriStem = $"{IndexUriRelativePath}"
+                                }
+                            }
+                        }
+                };
+
+            ViewModel = new(Model);
         }
         finally
         {
-            _context = new(BankTransactionCodes);
-            IsLoading = BankTransactionCodes is null;
+            IsLoading = Model is null || ViewModel is null;
         }
     }
 
-    private async Task AddNewAsync(MouseEventArgs args)
+    /// <summary>
+    /// Handles the delete click event of this page.
+    /// </summary>
+    private async Task DeleteModelHandler(MouseEventArgs args)
     {
-        // TODO: Do something with MouseEventArgs?
+        var result = await Controller.DeleteAsync(Model);
 
-        var getDefaultTask = await Controller.GetDefaultAsync();
-        await Controller.AddAsync(getDefaultTask.Value);
-
-        if (getDefaultTask.Value is BankTransactionCode model)
-            BankTransactionCodes.Add(model);
+        if (result is NoContentResult _)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
-    private async Task DeleteAsync(MouseEventArgs args, BankTransactionCode model)
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
     {
-        var result = await Controller.DeleteOrDetachAsync(model);
+        Model = ViewModel.ToEntity();
 
-        if (result is OkResult)
-            BankTransactionCodes.Remove(model);
-        else
-            throw new InvalidOperationException();
+        var result = await Controller.UpdateAsync(Model.TransactionCodeId, Model);
 
-        // TODO: interpret the response.
+        if (Model is not null)
+            NavigationHelper.NavigateTo(FormatDetailUri(Model.TransactionCodeId));
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
-    {
-        bool isValid = context.Validate();
-        if (isValid)
-        {
-            var saveResult = await Controller.SaveChangesAsync();
-
-            if (saveResult is NoContentResult)
-                NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-            else if (saveResult is ObjectResult objectResult)
-                ErrorMessage = (objectResult.Value as Exception)?.Message;
-        }
-    }
+    /// <summary>edit
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void CancelEditorHandler(MouseEventArgs args) =>
+        NavigationHelper.NavigateTo(FormatDetailUri(Model.TransactionCodeId));
 }

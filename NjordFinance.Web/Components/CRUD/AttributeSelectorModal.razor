@@ -21,7 +21,7 @@ else
                         Value="SelectedAttributeId"
                         ValueExpression="@(() => SelectedAttributeId)"
                         ValueChanged="@((int? args) => AttributeSelect_OnChange(args))">
-                        <option value="">@Resources.Strings.Caption_InputSelect_Prompt</option>
+                        <option value="">@Strings.Caption_InputSelect_Prompt</option>
                         @foreach(var attr in AllowableAttributes.OrderBy(a => a.DisplayName))
                         {
                             <option value="@attr.AttributeId">@attr.DisplayName</option>

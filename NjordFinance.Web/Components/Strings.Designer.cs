@@ -61,6 +61,159 @@ namespace NjordFinance.Web.Components {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Caption_Button_Cancel {
+            get {
+                return ResourceManager.GetString("Caption_Button_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Caption_Button_Delete {
+            get {
+                return ResourceManager.GetString("Caption_Button_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Caption_Button_Save {
+            get {
+                return ResourceManager.GetString("Caption_Button_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string Caption_Button_Search {
+            get {
+                return ResourceManager.GetString("Caption_Button_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New {0}.
+        /// </summary>
+        public static string Caption_CreateNew {
+            get {
+                return ResourceManager.GetString("Caption_CreateNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete {0}.
+        /// </summary>
+        public static string Caption_DeleteMany {
+            get {
+                return ResourceManager.GetString("Caption_DeleteMany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete {0}.
+        /// </summary>
+        public static string Caption_DeleteSingle {
+            get {
+                return ResourceManager.GetString("Caption_DeleteSingle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page/component is not available at this time. Please try again later or report this message to the project maintainer..
+        /// </summary>
+        public static string Caption_DevelopmentPlaceholder {
+            get {
+                return ResourceManager.GetString("Caption_DevelopmentPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit {0}.
+        /// </summary>
+        public static string Caption_EditMany {
+            get {
+                return ResourceManager.GetString("Caption_EditMany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit {0}.
+        /// </summary>
+        public static string Caption_EditSingle {
+            get {
+                return ResourceManager.GetString("Caption_EditSingle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;select&gt;.
+        /// </summary>
+        public static string Caption_InputSelect_Prompt {
+            get {
+                return ResourceManager.GetString("Caption_InputSelect_Prompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search for:.
+        /// </summary>
+        public static string Caption_InputSelect_SearchField {
+            get {
+                return ResourceManager.GetString("Caption_InputSelect_SearchField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (No content).
+        /// </summary>
+        public static string Caption_NoContent {
+            get {
+                return ResourceManager.GetString("Caption_NoContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save {0}.
+        /// </summary>
+        public static string Caption_SaveMany {
+            get {
+                return ResourceManager.GetString("Caption_SaveMany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save {0}.
+        /// </summary>
+        public static string Caption_SaveSingle {
+            get {
+                return ResourceManager.GetString("Caption_SaveSingle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View {0}.
+        /// </summary>
+        public static string Caption_ViewMany {
+            get {
+                return ResourceManager.GetString("Caption_ViewMany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View {0}.
+        /// </summary>
+        public static string Caption_ViewSingle {
+            get {
+                return ResourceManager.GetString("Caption_ViewSingle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Abort.
         /// </summary>
         public static string DialogResult_Abort {

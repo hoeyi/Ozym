@@ -3,6 +3,11 @@ using NjordFinance.UserInterface;
 using NjordFinance.Web.Components.Shared;
 using System.Linq.Expressions;
 using System;
+using System.Linq;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Web.Components.Generic
 {
@@ -99,5 +104,30 @@ namespace NjordFinance.Web.Components.Generic
         /// <remarks>Expects page to have root index paths defined by
         /// <see cref="IndexUriRelativePath"/>.</remarks>
         protected string FormatEditUri<T>(T id) => $"{IndexUriRelativePath}/{id}/edit";
+
+        /// <summary>
+        /// Gets the value associated with the first public <typeparamref name="TKey"/> member 
+        /// that has the <see cref="KeyAttribute"/> applied. Composite keys are not supported.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="model"></param>
+        /// <returns>The <typeparamref name="TKey"/> uniquely identifying the given 
+        /// <typeparamref name="TViewModel"/>, or null if undefined.</returns>
+        protected static TKey? GetKeyValueOrDefault<TKey>(TViewModel model)
+        {
+            if (model is null)
+                throw new ArgumentNullException(paramName: nameof(model));
+
+            var memberInfo = typeof(TViewModel).GetProperties(
+                BindingFlags.Instance | BindingFlags.Public).Where(
+                a => a.PropertyType == typeof(TKey) &&
+                a.GetCustomAttribute<KeyAttribute>() is not null)
+                .FirstOrDefault();
+
+            if (memberInfo?.GetValue(model) is TKey key)
+                return key;
+            else
+                return default;
+        }
     }
 }

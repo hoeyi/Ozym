@@ -7,12 +7,16 @@
 <ThemedComponent>
     <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
-    <SearchInputTable TModel=@AccountComposite
-                        ComparisonOperators=@ComparisonOperators
-                        ExpressionBuilder=@ExpressionBuilder
-                        SearchFields=@SearchFields
-                        OnSearchClick=@(async (args) => await SearchClicked(args))>
-    </SearchInputTable>
+    <ContentTile>
+        <Body>
+            <SearchInputTable TModel="AccountComposite"
+                ComparisonOperators=@ComparisonOperators
+                ExpressionBuilder=@ExpressionBuilder
+                SearchFields=@SearchFields
+                OnSearchClick=@(async (args) => await SearchClicked(args))>
+            </SearchInputTable>
+        </Body>
+    </ContentTile>
     
     @if (IsLoading)
     {
@@ -23,8 +27,10 @@
         <ContentTile>
             <Body>
                 <DataGrid Data="@Models" >
-                    <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.AccountObjectCode)
-                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.AccountObjectCode))>
+                    <DataGridColumn 
+                        Property=@nameof(AccountComposite.AccountCompositeNavigation.AccountObjectCode)
+                        Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.AccountObjectCode))
+                        Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
                             <a class="custom-nav-link" href="@(FormatDetailUri(model.AccountCompositeId))" @onclick:preventDefault
                                 @onclick="@(args => Detail_OnClick(model, args))">
@@ -32,8 +38,9 @@
                             </a>
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDisplayName)
-                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.ObjectDisplayName))>
+                    <DataGridColumn 
+                        Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDisplayName)
+                        Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.ObjectDisplayName))>
                         <CellTemplate Context="model">
                             @model.AccountCompositeNavigation.ObjectDisplayName
                         </CellTemplate>
@@ -65,26 +72,11 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        ActionMenu = new()
-        {
-            IconKey = "reorder-four",
-            Caption = PageTitle.ReadMany(),
-            Children = new()
-            {
-                { 0, new MenuItem()
-                    {
-                        IconKey = "create",
-                        Caption = $"Create new {ModelNoun.GetSingular()}",
-                        UriStem = FormatCreateUri(Guid.NewGuid())
-                    }
-                }
-            }
-        };
+        ActionMenu = GetDefaultIndexMenu();
 
         MaxRecordCount = -1;
 
         await base.OnInitializedAsync();
-
     }
 
     private void Detail_OnClick(AccountComposite model, MouseEventArgs args)

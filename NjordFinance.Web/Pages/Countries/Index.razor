@@ -2,10 +2,21 @@
 
 @inherits ModelIndex<Country>
 
-<ThemedComponent>
-    <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@ActionMenu" />
+<ThemedComponent>
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+    <ContentTile>
+        <Body>
+            <SearchInputTable TModel="Country"
+                ComparisonOperators=@ComparisonOperators
+                ExpressionBuilder=@ExpressionBuilder
+                SearchFields=@SearchFields
+                OnSearchClick=@(async (args) => await SearchClicked(args))>
+            </SearchInputTable>
+        </Body>
+    </ContentTile>
 
     @if (IsLoading)
     {
@@ -13,16 +24,6 @@
     }
     else
     {
-        <ContentTile>
-            <Body>
-                <SearchInputTable TModel="Country"
-                              ComparisonOperators=@ComparisonOperators
-                              ExpressionBuilder=@ExpressionBuilder
-                              SearchFields=@SearchFields
-                              OnSearchClick=@(async (args) => await SearchClicked(args))>
-                </SearchInputTable>
-            </Body>
-        </ContentTile>
 
         <ContentTile>
             <Body>
@@ -41,7 +42,10 @@
                     </DataGridColumn>
                     <DataGridColumn Type="DataGridCellType.Button">
                         <CellTemplate Context="model">
-                            <ToolTip Text="@Resources.Strings.Caption_Properties_View">
+                            <ToolTip Text=@(Strings.Caption_ViewMany.Format(
+                                ModelMetadata
+                                    .GetAttribute<CountryAttributeMemberEntry, NounAttribute>()
+                                    ?.GetPlural()))>
                                 <button class="form-control button icon"
                                     type="button"
                                     @onclick="(args) => OnAttributeDetailSelect(args, model)">
@@ -63,17 +67,17 @@
         ActionMenu = new()
             {
                 IconKey = "reorder-four",
-                Caption = PageTitle.ReadMany(),
                 Children = new()
-            {
-                { 0, new MenuItem()
-                    {
-                        IconKey = "pencil",
-                        Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetPlural()}",
-                        UriStem = $"{IndexUriRelativePath}/edit"
+                {
+                    { 0, new MenuItem()
+                        {
+                            IconKey = "pencil",
+                            Caption = string.Format(
+                                Strings.Caption_EditMany, ModelNoun?.GetPlural()),
+                            UriStem = $"{IndexUriRelativePath}/edit"
+                        }
                     }
                 }
-            }
             };
 
         MaxRecordCount = -1;

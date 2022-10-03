@@ -2,10 +2,10 @@
 
 @inherits ModelIndex<BankTransactionCode>
 
-<ThemedComponent>
-    <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-    <ModelPageMenuHeader ActionMenu="@ActionMenu" />
+<ThemedComponent>
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
     @if (IsLoading)
     {
@@ -16,27 +16,23 @@
         <ContentTile>
             <Body>
                 <DataGrid Data="@Models">
-                    <DataGridColumn Property=@nameof(BankTransactionCode.TransactionCode)
-                                Caption=@(NameFor(x => x.TransactionCode))>
+                    <DataGridColumn 
+                        Property=@nameof(BankTransactionCode.TransactionCode)
+                        Caption=@(NameFor(x => x.TransactionCode))
+                        Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
-                            @model.TransactionCode
+                            <a class="custom-nav-link" 
+                            href=@(FormatDetailUri(GetKeyValueOrDefault<int>(model))) 
+                            @onclick:preventDefault
+                           @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.TransactionCode.ToLower()
+                            </a>
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(BankTransactionCode.DisplayName)
                                 Caption=@(NameFor(x => x.DisplayName))>
                         <CellTemplate Context="model">
                             @model.DisplayName
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Type="DataGridCellType.Button">
-                        <CellTemplate Context="model">
-                            <ToolTip Text="@Resources.Strings.Caption_Properties_View">
-                                <button class="form-control button icon"
-                                    type="button"
-                                    @onclick="(args) => OnAttributeDetailSelect(args, model)">
-                                    <IonIcon Name="list-circle" />
-                                </button>
-                            </ToolTip>
                         </CellTemplate>
                     </DataGridColumn>
                 </DataGrid>
@@ -49,29 +45,15 @@
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        ActionMenu = new()
-            {
-                IconKey = "reorder-four",
-                Caption = PageTitle.ReadMany(),
-                Children = new()
-            {
-                { 0, new MenuItem()
-                    {
-                        IconKey = "pencil",
-                        Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetPlural()}",
-                        UriStem = $"{IndexUriRelativePath}/edit"
-                    }
-                }
-            }
-            };
+        ActionMenu = GetDefaultIndexMenu();
 
         MaxRecordCount = -1;
 
         await base.OnInitializedAsync();
     }
 
-    private void OnAttributeDetailSelect(MouseEventArgs args, BankTransactionCode model)
+    private void Detail_OnClick(BankTransactionCode model, MouseEventArgs args)
     {
-        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{model.TransactionCodeId}/detail/attributes");
+        NavigationHelper.NavigateTo(FormatDetailUri(model.TransactionCodeId));
     }
 }

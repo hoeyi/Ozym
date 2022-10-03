@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using NjordFinance.Web.Components.Shared;
+using NjordFinance.UserInterface;
 
 namespace NjordFinance.Web.Components.Generic
 {
@@ -54,6 +56,11 @@ namespace NjordFinance.Web.Components.Generic
         /// </summary>
         protected IEnumerable<ComparisonOperator> ComparisonOperators { get; set; }
             = Array.Empty<ComparisonOperator>();
+
+        /// <summary>
+        /// Gets or sets the default <see cref="Menu"/> instance for this class.
+        /// </summary>
+        private Menu _defaultMenu { get; set; }
 
         /// <inheritdoc/>   
         protected override async Task OnInitializedAsync()
@@ -107,6 +114,33 @@ namespace NjordFinance.Web.Components.Generic
             {
                 IsLoading = false;
             }
+        }
+
+        /// <summary>
+        /// Gets an instance of <see cref="Menu"/> with pre-defined <see cref="MenuItem"/> entries.
+        /// </summary>
+        /// <returns>The default instance of <see cref="Menu"/> for <see cref="ModelIndex{TModel}"/> 
+        /// types.</returns>
+        /// <remarks>A new instance of <see cref="Menu"/> is not created for each call to this 
+        /// method.</remarks>
+        protected Menu GetDefaultIndexMenu() 
+        {
+            _defaultMenu ??= new()
+            {
+                IconKey = "reorder-four",
+                Children = new()
+                {
+                    { 0, new MenuItem()
+                        {
+                            IconKey = "create",
+                            Caption = Strings.Caption_CreateNew.Format(ModelNoun.GetSingular()),
+                            UriStem = FormatCreateUri(Guid.NewGuid())
+                        }
+                    }
+                }
+            };
+
+            return _defaultMenu;
         }
     }
 }

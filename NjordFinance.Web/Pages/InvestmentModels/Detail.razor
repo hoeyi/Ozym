@@ -54,7 +54,6 @@
     {
         IsLoading = true;
 
-
         try
         {
             var modelQuery = Controller.ReadAsync(ModelId);
@@ -63,15 +62,16 @@
                 Model = model;
 
             ActionMenu = new()
-                    {
-                        IconKey = "reorder-four",
-                        Children = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
                     {
                         // Add index button.
                         { 0, new MenuItem()
                             {
                                 IconKey = "list",
-                                Caption = $"{Resources.Strings.Caption_Button_Index}",
+                                Caption = string.Format(
+                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
                                 UriStem = $"{IndexUriRelativePath}"
                             }
                         },
@@ -79,12 +79,13 @@
                         { 1, new MenuItem()
                             {
                                 IconKey = "pencil",
-                                Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetSingular()}",
-                                UriStem = FormatEditUri(Model.InvestmentStrategyId)
+                                Caption = string.Format(
+                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
+                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
                             }
                         }
                     }
-                };  
+                };
 
             ViewModel = new(Model);
         }

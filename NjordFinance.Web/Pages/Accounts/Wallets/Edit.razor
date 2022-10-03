@@ -12,9 +12,9 @@
     }
     else
     {   
-        <PageTitle>@(PageTitle.UpdateSingle(parent.AccountCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.UpdateSingle(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(parent.AccountCode))" />
+        <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
 
         <ContentTile>
             <Body>
@@ -26,15 +26,15 @@
                     <ActionButtonMenu>
                         <button class="form-control button" 
                             @onclick="@(async (args) => await Submit_OnClick(context, args))">
-                            @Resources.Strings.Caption_Button_Save
+                            @Strings.Caption_Button_Save
                         </button>
                         <button class="form-control button" 
                             @onclick=@(async (args) => await AddNewAsync(args))>
-                            @Resources.Strings.Caption_Button_Add.Format(ModelNoun?.GetSingular())
+                            @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                         </button>
                         <button class="form-control button" @onclick="Cancel_OnClick"
                             @onclick:preventDefault>
-                            @Resources.Strings.Caption_Button_Cancel
+                            @Strings.Caption_Button_Cancel
                         </button>
                     </ActionButtonMenu>
                     <DataAnnotationsValidator/>
@@ -75,7 +75,7 @@
                             </DataGridColumn>
                             <DataGridColumn Type="DataGridCellType.Button">
                                 <CellEditTemplate Context="model">
-                                    <ToolTip Text="@Resources.Strings.Caption_Button_Delete">
+                                    <ToolTip Text="@Strings.Caption_Button_Delete">
                                         <button class="form-control button icon"
                                             type="button"
                                             @onclick="async (args) => await DeleteAsync(args, model)">
@@ -99,7 +99,7 @@
 
     private IEnumerable<LookupModel> DenominationSecurities { get; set; }
 
-    private Account parent;
+    private Account ParentAccount { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -107,10 +107,10 @@
 
         try
         {
-            parent = await ReferenceData.GetSingleAsync<Account>(
+            ParentAccount = await ReferenceData.GetSingleAsync<Account>(
                 a => a.AccountId == AccountId, path: a => a.AccountNavigation);
 
-            var initResult = Controller.ForParent(parent.AccountId);
+            var initResult = Controller.ForParent(ParentAccount.AccountId);
 
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
@@ -125,7 +125,7 @@
         }
         finally
         {
-            IsLoading = Wallets is null || parent is null || DenominationSecurities is null;
+            IsLoading = Wallets is null || ParentAccount is null || DenominationSecurities is null;
         }
     }
 
@@ -163,7 +163,7 @@
             var saveResult = await Controller.SaveChangesAsync();
 
             if (saveResult is NoContentResult)
-                NavigationHelper.NavigateTo(IndexUriRelativePath);
+                NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{AccountId}/detail");
 
             else if (saveResult is ObjectResult objectResult)
                 ErrorMessage = (objectResult.Value as Exception)?.Message;

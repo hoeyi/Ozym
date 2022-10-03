@@ -16,14 +16,52 @@ a {
     display: inline-grid;
     grid-template-areas: "a b c";
     grid-template-columns: minmax(32px, 1fr) minmax(64px, 8fr) minmax(16px, auto);
-    gap: 10px;
+    justify-content: space-between;
 }
 
 .root-node > .grid-container {
     min-height: 1.75rem;
 }
 
-.root-node > .grid-container.with-icon-left {
+    .root-node > .grid-container.col-a {
+        grid-template-areas: "a";
+        grid-template-columns: minmax(32px, 1fr);
+    }
+
+    .root-node > .grid-container.col-a.col-b {
+        grid-template-areas: "a b";
+        grid-template-columns: minmax(32px, 1fr) minmax(64px, auto);
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .root-node > .grid-container.col-b {
+        grid-template-columns: 100fr;
+        grid-template-areas: "b";
+    }
+
+    .root-node > .grid-container.col-b.col-c {
+        grid-template-areas: "a b";
+        grid-template-columns: minmax(64px, 8fr) minmax(16px, auto);
+    }
+
+    .root-node > .grid-container.col-c {
+        grid-template-areas: "a";
+        grid-template-columns: minmax(16px, auto);
+    }
+
+    .root-node > .grid-container.col-a.col-c {
+        grid-template-areas: "a b";
+        grid-template-columns: minmax(32px, 1fr) minmax(16px, auto);
+    }
+
+    .root-node > .grid-container.col-a.col-b.col-c {
+        grid-template-areas: "a b c";
+        grid-template-columns: minmax(32px, 1fr) minmax(64px, 8fr) minmax(16px, auto);
+    }
+
+/*#region Current grid formatting */
+/*.root-node > .grid-container.with-icon-left {
     grid-template-columns: minmax(32px, 1fr) auto auto;
 }
 
@@ -33,7 +71,8 @@ a {
 
 .root-node > .grid-container.with-icon-left.with-caption {
     grid-template-columns: minmax(32px, auto) minmax(64px, auto) minmax(16px, auto);
-}
+}*/
+/*#endregion */
 
     .grid-container > .icon {
         max-width: 28px;
@@ -46,9 +85,8 @@ a {
 
 .icon.left {
     grid-area: a;
-    margin-right: auto;
-    margin-left: 30%;
-    max-height: 70%;
+    margin: auto;
+    max-height: 65%;
 }
 
 .caption {
@@ -57,6 +95,7 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding-left: 0.1rem;
 }
 
 .icon.right {

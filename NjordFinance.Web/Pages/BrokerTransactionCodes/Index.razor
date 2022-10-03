@@ -2,10 +2,10 @@
 
 @inherits ModelIndex<BrokerTransactionCode>
 
-<ThemedComponent>
-    <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-    <ModelPageMenuHeader ActionMenu="@ActionMenu" />
+<ThemedComponent>
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
     @if(IsLoading)
     {
@@ -51,17 +51,6 @@
                             @model.QuantityEffect
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Type="DataGridCellType.Button">
-                        <CellTemplate Context="model">
-                            <ToolTip Text="@Resources.Strings.Caption_Properties_View">
-                                <button class="form-control button icon"
-                                    type="button"
-                                    @onclick="(args) => OnAttributeDetailSelect(args, model)">
-                                    <IonIcon Name="list-circle" />
-                                </button>
-                            </ToolTip>
-                        </CellTemplate>
-                    </DataGridColumn>
                 </DataGrid>
             </Body>
         </ContentTile>
@@ -71,21 +60,7 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        ActionMenu = new()
-            {
-                IconKey = "reorder-four",
-                Caption = PageTitle.ReadMany(),
-                Children = new()
-            {
-                { 0, new MenuItem()
-                    {
-                        IconKey = "pencil",
-                        Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetPlural()}",
-                        UriStem = $"{IndexUriRelativePath}/edit"
-                    }
-                }
-            }
-            };
+        ActionMenu = GetDefaultIndexMenu();
 
         MaxRecordCount = -1;
 

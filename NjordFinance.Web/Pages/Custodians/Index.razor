@@ -2,10 +2,10 @@
 
 @inherits ModelIndex<AccountCustodian>
 
-<ThemedComponent>
-    <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-    <ModelPageMenuHeader ActionMenu="@ActionMenu" />
+<ThemedComponent>
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
     @if (IsLoading)
     {
@@ -43,13 +43,13 @@
         ActionMenu = new()
         {
             IconKey = "reorder-four",
-            Caption = PageTitle.ReadMany(),
             Children = new()
             {
                 { 0, new MenuItem()
                     {
                         IconKey = "pencil",
-                        Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetPlural()}",
+                        Caption = string.Format(
+                            Strings.Caption_EditMany, ModelNoun?.GetPlural()),
                         UriStem = $"{IndexUriRelativePath}/edit"
                     }
                 }

@@ -1,4 +1,4 @@
-﻿@page "/bank-transaction-codes/{ModelId:int}/detail/attributes"
+﻿@page "/bank-transaction-codes/{ModelId:int}/detail"
 
 @inherits ModelDetail<BankTransactionCode>
 
@@ -70,7 +70,8 @@
                         { 0, new MenuItem()
                             {
                                 IconKey = "list",
-                                Caption = $"{Resources.Strings.Caption_Button_Index}",
+                                Caption = string.Format(
+                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
                                 UriStem = $"{IndexUriRelativePath}"
                             }
                         },
@@ -78,8 +79,9 @@
                         { 1, new MenuItem()
                             {
                                 IconKey = "pencil",
-                                Caption = $"{Resources.Strings.Caption_Button_Edit} {ModelNoun.GetSingular()}",
-                                UriStem = $"{FormatEditUri(Model.TransactionCodeId)}/attributes"
+                                Caption = string.Format(
+                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
+                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
                             }
                         }
                     }

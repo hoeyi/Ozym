@@ -24,17 +24,17 @@
                     <Body>
                         <ActionButtonMenu>
                             <button type="submit" class="form-control button">
-                                @Resources.Strings.Caption_Button_Save
+                                @Strings.Caption_Button_Save
                             </button>
                             <button type="button" class="form-control button"
                                 @onclick="(async (args) => await Delete_OnClick())"
                                 @onclick:preventDefault>
-                                @Resources.Strings.Caption_Button_Delete
+                                @Strings.Caption_Button_Delete
                             </button>
                             <button type="button" class="form-control button"
                                 @onclick="Cancel_OnClick"
                                 @onclick:preventDefault>
-                                @Resources.Strings.Caption_Button_Cancel
+                                @Strings.Caption_Button_Cancel
                             </button>
                         </ActionButtonMenu>
                         <AccountCompositeCRUD Disabled="false" ReadOnly="false" />
@@ -62,22 +62,6 @@
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        ActionMenu = new()
-            {
-                IconKey = "reorder-four",
-                Children = new()
-            {
-                // Add index button.
-                { 0, new MenuItem()
-                    {
-                        IconKey = "list",
-                        Caption = $"{Resources.Strings.Caption_Button_Index}",
-                        UriStem = $"{IndexUriRelativePath}"
-                    }
-                }
-            }
-            };
-
         IsLoading = true;
 
         try
@@ -87,6 +71,23 @@
 
             Model = (await compositeQuery).Value;
             Accounts = (await accountsQuery).ToLookups();
+
+            ActionMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                        {
+                            // Add index button.
+                            { 0, new MenuItem()
+                                {
+                                    IconKey = "list",
+                                    Caption = string.Format(
+                                        Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                    UriStem = $"{IndexUriRelativePath}"
+                                }
+                            }
+                        }
+                };
 
             ViewModel = new(Model);
         }

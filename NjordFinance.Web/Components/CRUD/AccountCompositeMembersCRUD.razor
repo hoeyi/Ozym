@@ -45,8 +45,8 @@ else
         <ActionButtonMenu>
             <button class="form-control button" 
                 @onclick="args => ViewModel.AddMember()">
-                @Resources.Strings.Caption_Button_Add.Format(
-                ModelMetadata.GetAttribute<AccountComposite, NounAttribute>()?.GetSingular())
+                @Strings.Caption_CreateNew.Format(ModelMetadata
+                    .GetAttribute<AccountComposite, NounAttribute>()?.GetSingular())
             </button>
         </ActionButtonMenu>
         <DataGrid TModel="AccountCompositeMember" Data="@ViewModel.Members">
@@ -90,7 +90,7 @@ else
             </DataGridColumn>
             <DataGridColumn Type="DataGridCellType.Button">
                 <CellEditTemplate Context="model">
-                    <ToolTip Text="@Resources.Strings.Caption_Button_Delete">
+                    <ToolTip Text="@Strings.Caption_Button_Delete">
                         <button class="form-control button icon"
                             type="button"
                             @onclick="async (args) => ViewModel.RemoveMember(model)">

@@ -137,13 +137,22 @@
         System.Text.StringBuilder sb = new();
 
         if(DisplayIconLeft)
+        {
+            sb.Append(" col-a");
             sb.Append(" with-icon-left");
+        }
 
         if(DisplayCaption)
+        {
+            sb.Append(" col-b");
             sb.Append(" with-caption");
+        }
 
-        if(DisplayIconRight)
+        if (DisplayIconRight)
+        {
+            sb.Append(" col-c");
             sb.Append(" with-icon-right");
+        }
 
         if(sb.Length == 0)
             return null;

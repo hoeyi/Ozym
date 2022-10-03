@@ -5,15 +5,15 @@
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
 <ThemedComponent>
-    <ModelPageMenuHeader ActionMenu="@ActionMenu" />
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
     <ContentTile>
         <Body>
             <SearchInputTable TModel="Account"
-                                ComparisonOperators=@ComparisonOperators
-                                ExpressionBuilder=@ExpressionBuilder
-                                SearchFields=@SearchFields
-                                OnSearchClick=@(async (args) => await SearchClicked(args))>
+                ComparisonOperators=@ComparisonOperators
+                ExpressionBuilder=@ExpressionBuilder
+                SearchFields=@SearchFields
+                OnSearchClick=@(async (args) => await SearchClicked(args))>
             </SearchInputTable>
         </Body>
     </ContentTile>
@@ -114,21 +114,7 @@
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        ActionMenu = new()
-        {
-            IconKey = "reorder-four",
-            Caption = PageTitle.ReadMany(),
-            Children = new()
-            {
-                { 0, new MenuItem()
-                    {
-                        IconKey = "create",
-                        Caption = $"Create new {ModelNoun.GetSingular()}",
-                        UriStem = FormatCreateUri(Guid.NewGuid())
-                    }
-                }
-            }
-        };
+        ActionMenu = GetDefaultIndexMenu();
 
         MaxRecordCount = -1;
 

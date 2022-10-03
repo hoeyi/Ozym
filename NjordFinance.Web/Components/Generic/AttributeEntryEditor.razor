@@ -14,13 +14,12 @@ else
 {
     <ActionButtonMenu>
         <button type="submit" form="@FormGuid" class="form-control button">
-            @Resources.Strings.Caption_Button_Save
+            @Strings.Caption_Button_Save
         </button>
         <button type="button" class="form-control button"
                 @onclick="(() => DrawAttributeSelectorDialog = true)"
                 @onclick:preventDefault>
-            @(string.Format(
-                Resources.Strings.Caption_Button_Add,
+            @(Strings.Caption_CreateNew.Format(
                 ModelMetadata.GetAttribute<TModelChild, NounAttribute>()?.GetSingular()))
         </button>
         @if (Mode == EditorMode.Edit)
@@ -28,13 +27,13 @@ else
             <button type="button" class="form-control button"
                 @onclick="@(async (args) => await OnDeleteModelClick.InvokeAsync(args))"
                 @onclick:preventDefault>
-                @Resources.Strings.Caption_Button_Delete
+                @Strings.Caption_Button_Delete
             </button>
         }
         <button type="button" class="form-control button"
                 @onclick="@(async(args) => await OnCancelEditorClick.InvokeAsync(args))"
                 @onclick:preventDefault>
-            @Resources.Strings.Caption_Button_Cancel
+            @Strings.Caption_Button_Cancel
         </button>
     </ActionButtonMenu>
     <ContentTile class="left">
