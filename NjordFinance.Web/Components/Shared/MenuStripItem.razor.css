@@ -60,20 +60,6 @@ a {
         grid-template-columns: minmax(32px, 1fr) minmax(64px, 8fr) minmax(16px, auto);
     }
 
-/*#region Current grid formatting */
-/*.root-node > .grid-container.with-icon-left {
-    grid-template-columns: minmax(32px, 1fr) auto auto;
-}
-
-.root-node > .grid-container.with-caption {
-    grid-template-columns: minmax(16px, auto) minmax(64px, 8fr) minmax(16px, auto);
-}
-
-.root-node > .grid-container.with-icon-left.with-caption {
-    grid-template-columns: minmax(32px, auto) minmax(64px, auto) minmax(16px, auto);
-}*/
-/*#endregion */
-
     .grid-container > .icon {
         max-width: 28px;
         aspect-ratio: 1/1;
