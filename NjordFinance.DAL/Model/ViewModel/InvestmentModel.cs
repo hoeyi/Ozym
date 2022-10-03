@@ -16,7 +16,7 @@ namespace NjordFinance.Model.ViewModel
         : AttributeEntryWeightedCollection<
             InvestmentStrategy,
             InvestmentStrategyTarget,
-            InvestmentModelTargetCollection>
+            InvestmentModelTargetGrouping>
     {
         /// <summary>
         /// Initializes a new instance of <see cref="InvestmentModel"/>
@@ -31,7 +31,7 @@ namespace NjordFinance.Model.ViewModel
                   parentEntity: strategy, 
                   groupConstructor: (parent, key) =>
                   {
-                      return new InvestmentModelTargetCollection(parent, key.Item1, key.Item2);
+                      return new InvestmentModelTargetGrouping(parent, key.Item1, key.Item2);
                   },
                   groupingConverterFunc: (grouping, parent) =>
                   {
