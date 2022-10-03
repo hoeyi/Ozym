@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace NjordFinance.Model.ViewModel.Generic
 {
     public interface IAttributeEntryWeightedGrouping<TParentEntity, TEntryEntity>
-        : IAttributeEntryGrouping<TParentEntity, TEntryEntity>
+        : IAttributeEntryUnweightedGrouping<TParentEntity, TEntryEntity>
         where TParentEntity : class, new()
         where TEntryEntity : class, new()
     {

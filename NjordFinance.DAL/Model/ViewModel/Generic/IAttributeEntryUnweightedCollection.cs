@@ -11,7 +11,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         : IAttributeEntryCollection<TParentEntity, TChildEntity, TGroupModel>
         where TParentEntity : class, new()
         where TChildEntity : class, new()
-        where TGroupModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
+        where TGroupModel : IAttributeEntryUnweightedGrouping<TParentEntity, TChildEntity>
     {
         /// <summary>
         /// Adds a new entry for the given <see cref="ModelAttribute"/>, and returns the 

@@ -13,13 +13,13 @@ namespace NjordFinance.Model.ViewModel
 {
     [ModelAttributeSupport(
             SupportedScopes = ModelAttributeScopeCode.BrokerTransactionCode)]
-    public class BrokerTransaactionCodeViewModel
+    public class BrokerTransactionCodeViewModel
         : AttributeEntryUnweightedCollection<
             BrokerTransactionCode,
             BrokerTransactionCodeAttributeMemberEntry,
             BrokerTransactionCodeAttributeGrouping>
     {
-        public BrokerTransaactionCodeViewModel(BrokerTransactionCode transactionCode)
+        public BrokerTransactionCodeViewModel(BrokerTransactionCode transactionCode)
             : base(
                   parentEntity: transactionCode,
                   groupConstructor: (parent, attriubte) =>

@@ -12,7 +12,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         : IAttributeEntryCollection<TParentEntity, TChildEntity, TGroupViewModel>
         where TParentEntity : class, new()
         where TChildEntity : class, new()
-        where TGroupViewModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
+        where TGroupViewModel : IAttributeEntryUnweightedGrouping<TParentEntity, TChildEntity>
     {
         /// <inheritdoc/>
         public IReadOnlyCollection<TGroupViewModel> EntryCollection =>

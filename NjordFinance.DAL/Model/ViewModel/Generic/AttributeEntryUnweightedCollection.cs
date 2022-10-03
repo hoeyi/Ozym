@@ -12,7 +12,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         IAttributeEntryUnweightedCollection<TParentEntity, TChildEntity, TGroupViewModel>
         where TParentEntity : class, new()
         where TChildEntity : class, new()
-        where TGroupViewModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
+        where TGroupViewModel : IAttributeEntryUnweightedGrouping<TParentEntity, TChildEntity>
     {
         private readonly Func<TChildEntity, DateTime> _entryDateSelector;
 

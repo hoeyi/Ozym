@@ -9,8 +9,8 @@ using NjordFinance.Model;
 namespace NjordFinance.Model.ViewModel
 {
     public class BrokerTransactionCodeAttributeGrouping
-        : AttributeEntryGrouping<BrokerTransactionCode, BrokerTransactionCodeAttributeMemberEntry>,
-        IAttributeEntryGrouping<BrokerTransactionCode, BrokerTransactionCodeAttributeMemberEntry>
+        : AttributeEntryUnweightedGrouping<BrokerTransactionCode, BrokerTransactionCodeAttributeMemberEntry>,
+        IAttributeEntryUnweightedGrouping<BrokerTransactionCode, BrokerTransactionCodeAttributeMemberEntry>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BankTransactionCodeAttributeGrouping"/> 

@@ -10,7 +10,7 @@ namespace NjordFinance.Model.ViewModel.Generic
     /// </summary>
     /// <typeparam name="TEntryEntity"></typeparam>
     /// <typeparam name="TParentEntity"></typeparam>
-    public interface IAttributeEntryGrouping<TParentEntity, TEntryEntity>
+    public interface IAttributeEntryUnweightedGrouping<TParentEntity, TEntryEntity>
         where TParentEntity : class, new()
         where TEntryEntity : class, new()
     { 
@@ -20,7 +20,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         IEnumerable<TEntryEntity> Entries { get; }
 
         /// <summary>
-        /// Gets whether this <see cref="IAttributeEntryGrouping{TParentEntity, TEntryEntity}"/> is 
+        /// Gets whether this <see cref="IAttributeEntryUnweightedGrouping{TParentEntity, TEntryEntity}"/> is 
         /// an empty collection.
         /// </summary>
         bool IsEmpty { get; }
@@ -63,7 +63,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         bool RemoveEntry(TEntryEntity entry);
 
         /// <summary>
-        /// Removes all entries for this <see cref="IAttributeEntryGrouping{TParentEntity, TEntryEntity}"/>.
+        /// Removes all entries for this <see cref="IAttributeEntryUnweightedGrouping{TParentEntity, TEntryEntity}"/>.
         /// </summary>
         /// <returns>True if removal for all entries was successful, else false.</returns>
         bool RemoveAll();

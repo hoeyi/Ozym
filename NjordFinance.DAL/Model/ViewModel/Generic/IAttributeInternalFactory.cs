@@ -10,7 +10,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         <TParentEntity, TGroupKey, TChildEntity, TGroupViewModel>
         where TParentEntity : class, new()
         where TChildEntity : class, new()
-        where TGroupViewModel : IAttributeEntryGrouping<TParentEntity, TChildEntity>
+        where TGroupViewModel : IAttributeEntryUnweightedGrouping<TParentEntity, TChildEntity>
     {
         TParentEntity ParentEntity { get; }
 
