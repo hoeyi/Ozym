@@ -85,8 +85,6 @@
         await base.OnInitializedAsync();
     }
 
-    private void OnAttributeDetailSelect(MouseEventArgs args, Country model)
-    {
-        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{model.CountryId}/attributes");
-    }
+    private void OnAttributeDetailSelect(MouseEventArgs args, Country model) =>
+        NavigationHelper.NavigateTo(FormatDetailUri(GetKeyValueOrDefault<int>(model)));
 }

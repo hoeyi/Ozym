@@ -20,8 +20,8 @@ namespace NjordFinance.Model.ViewModel
         /// Initializes a new instance of <see cref="SecurityAttributeViewModel"/>
         /// </summary>
         /// <param name="strategy"></param>
-        /// <exception cref="ArgumentNullException"><paramref name="strategy"/> was null.</exception>
-        /// <exception cref="InvalidOperationException"><paramref name="strategy"/> did not include 
+        /// <exception cref="ArgumentNullException"><paramref name="sourceModel"/> was null.</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="sourceModel"/> did not include 
         /// the <see cref="Security.SecurityAttributeMemberEntries"/> and/or 
         /// <see cref="SecurityAttributeMemberEntry.AttributeMember"/> members.</exception>
         public SecurityAttributeViewModel(Security sourceModel)

@@ -1,0 +1,41 @@
+﻿@inherits ModelCRUD<CountryViewModel>
+
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelForm TViewModel="CountryViewModel">
+        <ModelFormLineItem ForMember="@(x => x.DisplayName)"
+                       ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.DisplayName
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.DisplayName
+                   disable="@Disabled"
+                   DisplayName=@(NameFor(x => x.DisplayName)) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(x => x.IsoCode3)"
+                       ValidationMessageDelegate="@(() => ViewModel.IsoCode3)">
+            @if (ReadOnly)
+            {
+                <div class="form-control text-area">
+                    @ViewModel.IsoCode3
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.IsoCode3
+                       disable="@Disabled"
+                       DisplayName=@(NameFor(x => x.IsoCode3)) />
+            }
+        </ModelFormLineItem>
+    </ModelForm>
+}
