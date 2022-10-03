@@ -1,54 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using NjordFinance.Model.Annotations;
+﻿using NjordFinance.Model.Annotations;
 using NjordFinance.Model.ViewModel.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NjordFinance.Model.ViewModel
 {
     [ModelAttributeSupport(
             SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]
-    /// <summary>
-    /// Represents a collection of <see cref="SecurityAttributeMemberEntry"/> instances with the same 
-    /// <see cref="Security" />, <see cref="ModelAttribute"/>, and effective date.
-    /// </summary>
-    public partial class SecurityAttributeViewModel :
-        AttributeEntryWeightedGrouping<Security, SecurityAttributeMemberEntry>
+    public class SecurityAttributeViewModel
+        : AttributeEntryWeightedCollection<
+            Security,
+            SecurityAttributeMemberEntry,
+            SecurityAttributeGrouping>
     {
-        public SecurityAttributeViewModel(
-            Security parentObject,
-            ModelAttribute parentAttribute,
-            DateTime effectiveDate) : base(parentObject, parentAttribute, effectiveDate)
+        /// <summary>
+        /// Initializes a new instance of <see cref="SecurityAttributeViewModel"/>
+        /// </summary>
+        /// <param name="strategy"></param>
+        /// <exception cref="ArgumentNullException"><paramref name="strategy"/> was null.</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="strategy"/> did not include 
+        /// the <see cref="Security.SecurityAttributeMemberEntries"/> and/or 
+        /// <see cref="SecurityAttributeMemberEntry.AttributeMember"/> members.</exception>
+        public SecurityAttributeViewModel(Security sourceModel)
+            : base(
+                  parentEntity: sourceModel,
+                  groupConstructor: (parent, key) =>
+                  {
+                      return new SecurityAttributeGrouping(parent, key.Item1, key.Item2);
+                  },
+                  groupingConverterFunc: (grouping, parent) =>
+                  {
+                      var firstEntry = grouping.Where(x => x.AttributeMember is not null).First();
+
+                      return new(
+                          parentEntity: parent,
+                          modelAttribute: firstEntry.AttributeMember.Attribute,
+                          effectiveDate: firstEntry.EffectiveDate);
+                  },
+                  groupingFunc: (entries) =>
+                  {
+                      return entries.GroupBy(e => (e.AttributeMember.AttributeId, e.EffectiveDate))
+                        .Select(g =>
+                        {
+                            var attribute = g.First().AttributeMember.Attribute;
+                            var forDate = g.Key.EffectiveDate;
+
+                            var group = new AttributeGrouping<
+                                (ModelAttribute, DateTime),
+                                SecurityAttributeMemberEntry>(
+                                key: (attribute, forDate), collection: g);
+
+                            return group;
+                        });
+                  },
+                  entryMemberSelector: (parent) =>
+                  {
+                      return parent.SecurityAttributeMemberEntries;
+                  })
         {
-        }
+            // Check child entry records were included in the given model.
+            if (sourceModel.SecurityAttributeMemberEntries is null)
+                throw new InvalidOperationException(
+                    message: GetIncompleteObjectGraphMessage(x => x.SecurityAttributeMemberEntries));
 
-        protected override Func<SecurityAttributeMemberEntry, decimal> WeightSelector =>
-            x => x.Weight;
+            // Check all child records have the ModelAttributeMember related record.
+            if (sourceModel.SecurityAttributeMemberEntries.Any(a => a.AttributeMember is null))
+                throw new InvalidOperationException(
+                    message: GetIncompleteObjectGraphMessage(x => x.AttributeMember));
 
-        protected override Func<Security, ICollection<SecurityAttributeMemberEntry>> ParentEntryMemberSelector =>
-            x => x.SecurityAttributeMemberEntries;
-
-        protected override Func<SecurityAttributeMemberEntry, bool> EntrySelector => x =>
-            x.AttributeMember.AttributeId == ParentAttribute.AttributeId && x.EffectiveDate == EffectiveDate;
-
-        public override SecurityAttributeMemberEntry AddNewEntry()
-        {
-            SecurityAttributeMemberEntry newEntry = new()
-            {
-                SecurityId = ParentObject.SecurityId,
-                EffectiveDate = EffectiveDate,
-                Weight = default
-            };
-
-            AddEntry(newEntry);
-
-            return newEntry;
-        }
-
-        protected override bool UpdateEntryEffectiveDate(
-            SecurityAttributeMemberEntry entry, DateTime effectiveDate)
-        {
-            entry.EffectiveDate = effectiveDate;
-            return entry.EffectiveDate == effectiveDate;
+            // Check all child record ModelAttributeMember records have the ModelAttribute record.
+            if (sourceModel.SecurityAttributeMemberEntries.Any(a => a.AttributeMember.Attribute is null))
+                throw new InvalidOperationException(
+                    message: GetIncompleteObjectGraphMessage(x => x.AttributeMember.Attribute));
         }
     }
 }

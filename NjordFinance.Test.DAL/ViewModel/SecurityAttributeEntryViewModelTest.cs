@@ -14,7 +14,7 @@ namespace NjordFinance.Test.ViewModel
         [TestMethod]
         public void ViewModel_AddEntry_KeyNotExists_AddsToCollection()
         {
-            var viewModel = new SecurityAttributeViewModel(
+            var viewModel = new SecurityAttributeGrouping(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
             viewModel.AddEntry(new()
@@ -29,7 +29,7 @@ namespace NjordFinance.Test.ViewModel
         [TestMethod]
         public void ViewModel_ValidCollection_YieldsValidatedState()
         {
-            var viewModel = new SecurityAttributeViewModel(
+            var viewModel = new SecurityAttributeGrouping(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
             viewModel.AddRange(new SecurityAttributeMemberEntry[]
@@ -55,7 +55,7 @@ namespace NjordFinance.Test.ViewModel
         [TestMethod]
         public void ViewModel_InvalidCollection_YieldsInvalidState()
         {
-            var viewModel = new SecurityAttributeViewModel(
+            var viewModel = new SecurityAttributeGrouping(
                 new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
 
             viewModel.AddEntry(new()
@@ -73,7 +73,7 @@ namespace NjordFinance.Test.ViewModel
         [TestMethod]
         public void ViewModel_ValidCollection_ToEntityEntries_YieldsValidCollection()
         {
-            var viewModel = new SecurityAttributeViewModel(
+            var viewModel = new SecurityAttributeGrouping(
                 new() { SecurityId = 1}, new() { AttributeId = 1}, DateTime.Now);
 
             viewModel.AddRange(new SecurityAttributeMemberEntry[]

@@ -12,23 +12,23 @@ namespace NjordFinance.Model.ViewModel
 {
     [ModelAttributeSupport(
             SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]
-    public class InvestmentModel
+    public class InvestmentModelViewModel
         : AttributeEntryWeightedCollection<
             InvestmentStrategy,
             InvestmentStrategyTarget,
             InvestmentModelTargetGrouping>
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="InvestmentModel"/>
+        /// Initializes a new instance of <see cref="InvestmentModelViewModel"/>
         /// </summary>
-        /// <param name="strategy"></param>
-        /// <exception cref="ArgumentNullException"><paramref name="strategy"/> was null.</exception>
-        /// <exception cref="InvalidOperationException"><paramref name="strategy"/> did not include 
+        /// <param name="sourceModel"></param>
+        /// <exception cref="ArgumentNullException"><paramref name="sourceModel"/> was null.</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="sourceModel"/> did not include 
         /// the <see cref="InvestmentStrategy.InvestmentStrategyTargets"/> and/or 
         /// <see cref="InvestmentStrategyTarget.AttributeMember"/> members.</exception>
-        public InvestmentModel(InvestmentStrategy strategy)
+        public InvestmentModelViewModel(InvestmentStrategy sourceModel)
             : base(
-                  parentEntity: strategy, 
+                  parentEntity: sourceModel, 
                   groupConstructor: (parent, key) =>
                   {
                       return new InvestmentModelTargetGrouping(parent, key.Item1, key.Item2);
@@ -64,17 +64,17 @@ namespace NjordFinance.Model.ViewModel
                   })
         {
             // Check child entry records were included in the given model.
-            if (strategy.InvestmentStrategyTargets is null)
+            if (sourceModel.InvestmentStrategyTargets is null)
                 throw new InvalidOperationException(
                     message: GetIncompleteObjectGraphMessage(x => x.InvestmentStrategyTargets));
 
             // Check all child records have the ModelAttributeMember related record.
-            if (strategy.InvestmentStrategyTargets.Any(a => a.AttributeMember is null))
+            if (sourceModel.InvestmentStrategyTargets.Any(a => a.AttributeMember is null))
                 throw new InvalidOperationException(
                     message: GetIncompleteObjectGraphMessage(x => x.AttributeMember));
 
             // Check all child record ModelAttributeMember records have the ModelAttribute record.
-            if (strategy.InvestmentStrategyTargets.Any(a => a.AttributeMember.Attribute is null))
+            if (sourceModel.InvestmentStrategyTargets.Any(a => a.AttributeMember.Attribute is null))
                 throw new InvalidOperationException(
                     message: GetIncompleteObjectGraphMessage(x => x.AttributeMember.Attribute));
         }

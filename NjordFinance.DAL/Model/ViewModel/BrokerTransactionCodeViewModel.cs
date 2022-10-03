@@ -19,9 +19,9 @@ namespace NjordFinance.Model.ViewModel
             BrokerTransactionCodeAttributeMemberEntry,
             BrokerTransactionCodeAttributeGrouping>
     {
-        public BrokerTransactionCodeViewModel(BrokerTransactionCode transactionCode)
+        public BrokerTransactionCodeViewModel(BrokerTransactionCode sourceModel)
             : base(
-                  parentEntity: transactionCode,
+                  parentEntity: sourceModel,
                   groupConstructor: (parent, attriubte) =>
                   {
                       return new BrokerTransactionCodeAttributeGrouping(parent, attriubte);
@@ -55,17 +55,17 @@ namespace NjordFinance.Model.ViewModel
                   entryDateSelector: (entry) => entry.EffectiveDate)
         {
             // Check child entry records were included in the given model.
-            if (transactionCode.BrokerTransactionCodeAttributeMemberEntries is null)
+            if (sourceModel.BrokerTransactionCodeAttributeMemberEntries is null)
                 throw new InvalidOperationException(
                     message: GetIncompleteObjectGraphMessage(x => x.BrokerTransactionCodeAttributeMemberEntries));
 
             // Check all child records have the ModelAttributeMember related record.
-            if (transactionCode.BrokerTransactionCodeAttributeMemberEntries.Any(a => a.AttributeMember is null))
+            if (sourceModel.BrokerTransactionCodeAttributeMemberEntries.Any(a => a.AttributeMember is null))
                 throw new InvalidOperationException(
                     message: GetIncompleteObjectGraphMessage(x => x.AttributeMember));
 
             // Check all child record ModelAttributeMember records have the ModelAttribute record.
-            if (transactionCode.BrokerTransactionCodeAttributeMemberEntries.Any(a => a.AttributeMember.Attribute is null))
+            if (sourceModel.BrokerTransactionCodeAttributeMemberEntries.Any(a => a.AttributeMember.Attribute is null))
                 throw new InvalidOperationException(
                     message: GetIncompleteObjectGraphMessage(x => x.AttributeMember.Attribute));
         }

@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<InvestmentModel>
+﻿@inherits ModelCRUD<InvestmentModelViewModel>
 
 @if(IsLoading)
 {
@@ -6,7 +6,7 @@
 }
 else
 {
-    <ModelForm TViewModel="InvestmentModel">
+    <ModelForm TViewModel="InvestmentModelViewModel">
         <ModelFormLineItem ForMember="@(x => x.DisplayName)"
             ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if(ReadOnly)

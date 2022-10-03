@@ -14,7 +14,7 @@
         <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.CreateSingle())" />
 
         <AttributeEntryCollectionEditor 
-            TViewModelParent="InvestmentModel"
+            TViewModelParent="InvestmentModelViewModel"
             TViewModelChild="InvestmentModelTargetGrouping"
             TModel="InvestmentStrategy"
             TModelChild="InvestmentStrategyTarget"
@@ -47,9 +47,9 @@
     public Guid RequestGuid { get; init; }
 
     /// <summary>
-    /// Gets or sets the <see cref="InvestmentModel" /> worked by this page.
+    /// Gets or sets the <see cref="InvestmentModelViewModel" /> worked by this page.
     /// </summary>
-    private InvestmentModel ViewModel { get; set; }
+    private InvestmentModelViewModel ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
