@@ -16,11 +16,16 @@
         <ContentTile>
             <Body>
                 <DataGrid Data="@Models">
-                    <DataGridColumn
-                        Property="@nameof(BrokerTransactionCode.TransactionCode)"
-                                Caption="@(NameFor(x => x.TransactionCode))">
+                    <DataGridColumn Property=@nameof(BankTransactionCode.TransactionCode)
+                                Caption=@(NameFor(x => x.TransactionCode))
+                                Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
-                            @model.TransactionCode
+                            <a class="custom-nav-link"
+                           href=@(FormatDetailUri(GetKeyValueOrDefault<int>(model)))
+                           @onclick:preventDefault
+                           @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.TransactionCode.ToLower()
+                            </a>
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
@@ -67,8 +72,8 @@
         await base.OnInitializedAsync();
     }
 
-    private void OnAttributeDetailSelect(MouseEventArgs args, BrokerTransactionCode model)
+    private void Detail_OnClick(BrokerTransactionCode model, MouseEventArgs args)
     {
-        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{model.TransactionCodeId}/attributes");
+        NavigationHelper.NavigateTo(FormatDetailUri(model.TransactionCodeId));
     }
 }

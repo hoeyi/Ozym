@@ -11,7 +11,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.TransactionCode)">
             @if (ReadOnly)
             {
-                @ViewModel.TransactionCode
+                <div class="form-control">
+                    @ViewModel.TransactionCode
+                </div>
             }
             else
             {
@@ -24,7 +26,9 @@ else
             ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {
-                @ViewModel.DisplayName
+                <div class="form-control">
+                    @ViewModel.DisplayName
+                </div>
             }
             else
             {

@@ -9,13 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\Countries\Attributes\**" />
-    <Content Remove="Pages\Countries\Attributes\**" />
-    <EmbeddedResource Remove="Pages\Countries\Attributes\**" />
-    <None Remove="Pages\Countries\Attributes\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="Resources\DefaultMenu.json" />
   </ItemGroup>
 

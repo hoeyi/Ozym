@@ -1,6 +1,6 @@
-﻿@page "/bank-transaction-codes/{ModelId:int}/detail"
+﻿@page "/broker-transaction-codes/{ModelId:int}/detail"
 
-@inherits ModelDetail<BankTransactionCode>
+@inherits ModelDetail<BrokerTransactionCode>
 
 @inject IReferenceDataService ReferenceData
 
@@ -13,29 +13,26 @@
     {
         <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader 
-            ActionMenu="@ActionMenu"
-            Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
         <ContentTile>
             <Body>
                 <CascadingValue Value="@ViewModel">
                     <EditForm class="model-editor" Model="@ViewModel">
-                        <BankTransactionCodeCRUD Disabled="false" ReadOnly="true" />
+                        <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="true" />
                     </EditForm>
                 </CascadingValue>
             </Body>
         </ContentTile>
-        @foreach (var entry in ViewModel.CurrentEntries.OrderBy(g => 
+        @foreach (var entry in ViewModel.CurrentEntries.OrderBy(g =>
             g.AttributeMember.Attribute.DisplayName))
         {
             <ContentTile>
                 <Body>
-                    <ModelForm TViewModel="BankTransactionCodeAttributeMemberEntry"
-                        >
-                        <ModelFormLineItem 
-                            LabelOverride="@entry.AttributeMember.Attribute.DisplayName" 
-                            ForMember="@(x => x)">
+                    <ModelForm TViewModel="BrokerTransactionCodeAttributeMemberEntry">
+                        <ModelFormLineItem LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
+                                   ForMember="@(x => x)">
                             <div class="form-control">
                                 @entry.AttributeMember.DisplayName
                             </div>
@@ -56,7 +53,7 @@
     [Parameter]
     public int ModelId { get; set; }
 
-    private BankTransactionCodeViewModel ViewModel { get; set; }
+    private BrokerTransactionCodeViewModel ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,7 +64,7 @@
         {
             var modelQuery = Controller.ReadAsync(ModelId);
 
-            if ((await modelQuery).Value is BankTransactionCode model)
+            if ((await modelQuery).Value is BrokerTransactionCode model)
                 Model = model;
 
             ActionMenu = new()

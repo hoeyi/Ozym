@@ -1,40 +1,39 @@
-﻿@page "/investment-models/create/{RequestGuid:guid}"
+﻿@page "/broker-transaction-codes/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<InvestmentStrategy>
+@inherits ModelDetail<BrokerTransactionCode>
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
-<ThemedComponent>
-    @if(IsLoading)
+    <ThemedComponent>
+    @if (IsLoading)
     {
         <LoadingSvg />
     }
     else
     {
-        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.CreateSingle())" />
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.CreateSingle())" />
 
-        <AttributeEntryCollectionEditor 
-            TViewModelParent="InvestmentModel"
-            TViewModelChild="InvestmentModelTargetGrouping"
-            TModel="InvestmentStrategy"
-            TModelChild="InvestmentStrategyTarget"
-            OnCancelEditorClick="CancelEditorHandler"
-            OnValidFormSubmit="ValidFormSubmitHandler"
-            EffectiveDatePath="@(x => x.EffectiveDate)"
-            ViewModel="@ViewModel"
-            Mode="EditorMode.Add">
+        <AttributeEntryEditor TViewModelParent="BrokerTransactionCodeViewModel"
+                          TViewModelChild="BrokerTransactionCodeAttributeGrouping"
+                          TModel="BrokerTransactionCode"
+                          TModelChild="BrokerTransactionCodeAttributeMemberEntry"
+                          OnCancelEditorClick="CancelEditorHandler"
+                          OnValidFormSubmit="ValidFormSubmitHandler"
+                          ViewModel="@ViewModel"
+                          Mode="EditorMode.Add">
             <ViewModelCRUD>
-                <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
+                <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="false" />
             </ViewModelCRUD>
             <ViewModelChildCRUD>
             </ViewModelChildCRUD>
-        </AttributeEntryCollectionEditor>
+        </AttributeEntryEditor>
     }
 </ThemedComponent>
 
-@code{
+@code {
     /// <summary>
-    /// Gets or sets the identifier for the <see cref="InvestmentStrategy" /> worked using this
+    /// Gets or sets the identifier for the <see cref="BankTransactionCode" /> worked using this
     /// page.
     /// </summary>
     [Parameter]
@@ -47,9 +46,9 @@
     public Guid RequestGuid { get; init; }
 
     /// <summary>
-    /// Gets or sets the <see cref="InvestmentModel" /> worked by this page.
+    /// Gets or sets the <see cref="BrokerTransactionCodeViewModel" /> worked by this page.
     /// </summary>
-    private InvestmentModel ViewModel { get; set; }
+    private BrokerTransactionCodeViewModel ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,7 +58,7 @@
         {
             var modelQuery = await Controller.GetDefaultAsync();
 
-            if (modelQuery.Value is InvestmentStrategy model)
+            if (modelQuery.Value is BrokerTransactionCode model)
             {
                 Model = model;
             }
@@ -81,7 +80,7 @@
 
         var result = await Controller.CreateAsync(Model);
 
-        if(result.Result is CreatedAtActionResult cr)
+        if (result.Result is CreatedAtActionResult cr)
             NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
     }
 

@@ -15,14 +15,14 @@ else
         <button type="submit" form="@FormGuid" class="form-control button">
             @Strings.Caption_Button_Save
         </button>
-        <button type="button" class="form-control button"
-            @onclick="(() => DrawAttributeSelectorDialog = true)"
-            @onclick:preventDefault>
-            @(Strings.Caption_CreateNew.Format(
-                ModelMetadata.GetAttribute<TModelChild, NounAttribute>()?.GetSingular()))
-        </button>
         @if (Mode == EditorMode.Edit)
         {
+            <button type="button" class="form-control button"
+                @onclick="(() => DrawAttributeSelectorDialog = true)"
+                @onclick:preventDefault>
+                @(Strings.Caption_CreateNew.Format(
+                    ModelMetadata.GetAttribute<TModelChild, NounAttribute>()?.GetSingular()))
+            </button>
             <button type="button" class="form-control button"
             @onclick="@(async (args) => await OnDeleteModelClick.InvokeAsync(args))"
             @onclick:preventDefault>

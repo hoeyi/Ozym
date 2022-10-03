@@ -2,10 +2,10 @@
     position: static;
 }
 
-::deep form.model-editor {
+/*::deep form.model-editor {
     width: 50%;
 }
-
+*/
 ::deep .model-attributes .custom-tooltip {
     position: static;
 }

@@ -13,8 +13,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <summary>
         /// Gets or sets the model for which details are provided. 
         /// </summary>
-        [Parameter]
-        public TModel Model { get; set; } = default!;
+        protected TModel Model { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the <see cref="IController{TModel}"/> for this component.

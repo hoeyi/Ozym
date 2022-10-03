@@ -3,7 +3,7 @@
 }
 
 ::deep td:not(:first-child){
-    padding-left: 8px;
+    padding-left: 1rem;
 }
 
 ::deep div.form-control:empty {

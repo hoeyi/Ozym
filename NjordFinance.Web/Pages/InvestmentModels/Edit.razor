@@ -89,7 +89,7 @@
     /// <summary>
     /// Handles the delete click event of this page.
     /// </summary>
-    private async Task DeleteModelHandler(MouseEventArgs args)
+    protected virtual async Task DeleteModelHandler(MouseEventArgs args)
     {
         var result = await Controller.DeleteAsync(Model);
 
@@ -100,7 +100,7 @@
     /// <summary>
     /// Handles the valid form submission event of this page.
     /// </summary>
-    private async Task ValidFormSubmitHandler(EditContext args)
+    protected virtual async Task ValidFormSubmitHandler(EditContext args)
     {
         Model = ViewModel.ToEntity();
 
@@ -113,6 +113,6 @@
     /// <summary>
     /// Handles the cancel editor event of this page.
     /// </summary>
-    private void CancelEditorHandler(MouseEventArgs args) => 
+    protected virtual void CancelEditorHandler(MouseEventArgs args) => 
         NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 }

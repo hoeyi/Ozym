@@ -14,7 +14,7 @@ namespace NjordFinance.Web.Components.Generic
         : LocalizableComponent
         where TModel : class, new()
         where TModelChild : class, new()
-        where TViewModelChild : IAttributeEntryGrouping<TModel, TModelChild>
+        where TViewModelChild : IAttributeEntryUnweightedGrouping<TModel, TModelChild>
         where TViewModelParent : IAttributeEntryUnweightedCollection<TModel, TModelChild, TViewModelChild>
     {
         /// <summary>

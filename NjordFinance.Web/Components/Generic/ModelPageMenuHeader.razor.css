@@ -2,6 +2,8 @@
     display: inline-flex;
     flex-direction: row;
     border-bottom: 1px solid var(--theme-text-color-0, black);
+    padding-bottom: 0.1rem;
+    margin-bottom: 1rem;
     width: 100%;
 }
 
