@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace NjordFinance.Model.ViewModel
 {
     /// <summary>
-    /// Provides a flattened view-object for working with complex type <see cref="AccountObject"/>.
+    /// Provides a flattened view-object for working with complex type <see cref="Model.AccountObject"/>.
     /// </summary>
     public abstract class AccountObjectViewModel
     {
@@ -16,6 +16,7 @@ namespace NjordFinance.Model.ViewModel
 
             AccountObject = accountObject;
         }
+
         /// <summary>
         /// Gets the code representing the object type of this instance.
         /// </summary>

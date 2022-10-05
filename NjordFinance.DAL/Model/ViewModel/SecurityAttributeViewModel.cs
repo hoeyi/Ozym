@@ -17,6 +17,14 @@ namespace NjordFinance.Model.ViewModel
             SecurityAttributeGrouping>
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="SecurityAttributeViewModel"/> class with 
+        /// an instance <see cref="Security"/> initialized with its parameterless constructor.
+        /// </summary>
+        public SecurityAttributeViewModel() : this(sourceModel: new())
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of <see cref="SecurityAttributeViewModel"/>
         /// </summary>
         /// <param name="strategy"></param>

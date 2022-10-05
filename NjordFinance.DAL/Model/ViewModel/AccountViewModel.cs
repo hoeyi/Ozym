@@ -5,28 +5,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NjordFinance.Model.ViewModel
 {
-    // TODO: Implement INotifyPropertyChanged and keep 
-    // an instance of Account/AccountNavigation in sync 
-    // with the view model.
-
-    /// <summary>
-    /// Provides a flattened view-object for working with complex type <see cref="Account"/>.
-    /// </summary>
     public class AccountViewModel : AccountObjectViewModel
     {
         public override string ObjecTypeCode => AccountObjectType.Account.ConvertToStringCode();
 
         private readonly Account _account;
-        /// <summary>
-        /// Initializes a new <see cref="AccountViewModel"/> instance from the given 
-        /// <see cref="Account"/> instance.
-        /// </summary>
-        /// <param name="account"></param>
-        /// <remarks>Member <see cref="Account.AccountNavigation"/> must be defined, 
-        /// and <see cref="Account.AccountCustodian"/> <em>should</em> be defined, if 
-        /// it exists.</remarks>
-        public AccountViewModel(Account account)
-            : this(account, account.AccountNavigation)
+
+        public AccountViewModel(Account sourceModel)
+            : this(sourceModel, sourceModel.AccountNavigation)
         {
         }
 

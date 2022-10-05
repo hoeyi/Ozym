@@ -6,14 +6,12 @@ using System.Linq;
 
 namespace NjordFinance.Model.ViewModel
 {
-    /// <summary>
-    /// Provides a flattened view-object for working with complex type <see cref="AccountComposite"/>.
-    /// </summary>
     public class AccountCompositeViewModel : AccountObjectViewModel
     {
         private readonly AccountComposite _composite;
-        public AccountCompositeViewModel(AccountComposite composite)
-            : this(composite, composite.AccountCompositeNavigation)
+        
+        public AccountCompositeViewModel(AccountComposite sourceModel)
+            : this(sourceModel, sourceModel.AccountCompositeNavigation)
         {
         }
 
