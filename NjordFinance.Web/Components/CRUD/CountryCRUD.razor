@@ -7,8 +7,7 @@
 else
 {
     <ModelForm TViewModel="CountryViewModel">
-        <ModelFormLineItem ForMember="@(x => x.DisplayName)"
-                       ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -22,8 +21,7 @@ else
                    DisplayName=@(NameFor(x => x.DisplayName)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(x => x.IsoCode3)"
-                       ValidationMessageDelegate="@(() => ViewModel.IsoCode3)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.IsoCode3)">
             @if (ReadOnly)
             {
                 <div class="form-control text-area">

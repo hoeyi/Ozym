@@ -14,4 +14,7 @@
 @code {
     [Parameter, EditorRequired] 
     public RenderFragment? ChildContent { get; set; }
+
+    [CascadingParameter, EditorRequired]
+    public TViewModel ViewModel { get; set; }
 }

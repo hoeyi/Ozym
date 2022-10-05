@@ -8,8 +8,7 @@ else
 {
     <ModelForm TViewModel="AccountCompositeViewModel">
         @*AccountObject inputs*@
-        <ModelFormLineItem ForMember="@(x => x.AccountObjectCode)"
-            ValidationMessageDelegate="@(() => ViewModel.AccountObjectCode)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.AccountObjectCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -23,8 +22,7 @@ else
                    DisplayName=@(NameFor(x => x.AccountObjectCode)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(x => x.DisplayName)"
-            ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -38,8 +36,7 @@ else
                     DisplayName=@(NameFor(x => x.DisplayName)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(x => x.Description)"
-            ValidationMessageDelegate="@(() => ViewModel.Description)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.Description)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -53,8 +50,7 @@ else
                    DisplayName=@(NameFor(x => x.Description)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(x => x.StartDate)"
-            ValidationMessageDelegate="@(() => ViewModel.StartDate)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.StartDate)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -66,8 +62,7 @@ else
                 <InputDate class="form-control" @bind-Value=ViewModel.StartDate disable="@Disabled" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(x => x.CloseDate)"
-            ValidationMessageDelegate="@(() => ViewModel.CloseDate)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.CloseDate)">
             @if (ReadOnly)
             {
                 <div class="form-control">

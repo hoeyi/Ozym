@@ -35,12 +35,12 @@
                         >
                         <ModelFormLineItem 
                             LabelOverride="@entry.AttributeMember.Attribute.DisplayName" 
-                            ForMember="@(x => x)">
+                            ForMember="@(() => ViewModel)">
                             <div class="form-control">
                                 @entry.AttributeMember.DisplayName
                             </div>
                         </ModelFormLineItem>
-                        <ModelFormLineItem ForMember="@(x => x.EffectiveDate)">
+                        <ModelFormLineItem ForMember="@(() => entry.EffectiveDate)">
                             <div class="form-control">
                                 @entry.EffectiveDate.ToShortDateString()
                             </div>

@@ -7,8 +7,7 @@
 else
 {
     <ModelForm TViewModel="BrokerTransactionCodeViewModel">
-        <ModelFormLineItem ForMember="@(x => x.TransactionCode)"
-            ValidationMessageDelegate="@(() => ViewModel.TransactionCode)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.TransactionCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -22,8 +21,7 @@ else
                     DisplayName="@(NameFor(x => x.TransactionCode))" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(x => x.DisplayName)"
-            ValidationMessageDelegate="@(() => ViewModel.DisplayName)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -37,8 +35,7 @@ else
                     DisplayName="@(NameFor(x => x.DisplayName))" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(x => x.CashEffect)"
-            ValidationMessageDelegate="@(() => ViewModel.CashEffect)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.CashEffect)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -52,8 +49,7 @@ else
                     DisplayName="@(NameFor(x => x.CashEffect))" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(x => x.ContributionWithdrawalEffect)"
-            ValidationMessageDelegate="@(() => ViewModel.ContributionWithdrawalEffect)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.ContributionWithdrawalEffect)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -67,8 +63,7 @@ else
                     DisplayName="@(NameFor(x => x.ContributionWithdrawalEffect))" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(x => x.QuantityEffect)"
-            ValidationMessageDelegate="@(() => ViewModel.QuantityEffect)">
+        <ModelFormLineItem ForMember="@(() => ViewModel.QuantityEffect)">
             @if (ReadOnly)
             {
                 <div class="form-control">

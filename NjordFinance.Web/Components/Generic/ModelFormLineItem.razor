@@ -19,9 +19,9 @@
         </td>
         <td class="col-sm-10">
             @ChildContent
-            @if(ValidationMessageDelegate is not null)
+            @if(!SuppressValidation)
             {
-                <ValidationMessage For="@ValidationMessageDelegate" />
+                <ValidationMessage For="@ForMember" />
             }
         </td>
     </tr>
@@ -35,28 +35,54 @@
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter, EditorRequired]
-    public Expression<Func<TViewModel, object>> ForMember { get; set; }
+    public Expression<Func<object>> ForMember { get; set; }
 
     [Parameter]
     public string LabelOverride { get; set; }
 
     [Parameter]
-    public Expression<Func<object>> ValidationMessageDelegate { get; set; }
+    public bool SuppressValidation { get; set; }
 
-    private string ToolTipText
+    private string ToolTipText { get; set; }
+
+    private string LabelText { get; set; }
+
+    private Expression<Func<TViewModel, object>> TypedAccessor { get; set; }
+
+    protected override void OnInitialized()
     {
-        get{
-            try
-            {
-                return ModelMetadata.DescriptionFor<TViewModel>(ForMember);
-            }
-            catch(NotSupportedException)
-            {
-                return null;
-            }
-        }
+        if (ForMember is null)
+            throw new ArgumentNullException(paramName: nameof(ForMember));
+
+        // Convert the ForMember parameter into a typed accessor for compatability with the
+        // IModelMetadataService methods.
+        TypedAccessor = ConvertAccessor<TViewModel, object>(ForMember);
+
+        LabelText = string.IsNullOrEmpty(LabelOverride) ?
+            ModelMetadata.NameFor<TViewModel>(TypedAccessor) : LabelOverride;
+
+        ToolTipText = ModelMetadata.DescriptionFor(TypedAccessor);
     }
-    
-    private string LabelText => string.IsNullOrEmpty(LabelOverride) ?
-        ModelMetadata.NameFor<TViewModel>(ForMember) : LabelOverride;
+
+    /// <summary>
+    /// Converts the given member selector to an expression with a typed input parameter.
+    /// </summary>
+    /// <param name="accessor"><param>
+    private static Expression<Func<T, TValue>> ConvertAccessor<T, TValue>(
+        Expression<Func<TValue>> accessor)
+    {
+        FieldIdentifier fieldIdentifier = FieldIdentifier.Create(accessor);
+
+        ParameterExpression paramExpression = Expression
+            .Parameter(fieldIdentifier.Model.GetType(), "x");
+
+        Expression expression = Expression.Convert(
+            Expression.Property(paramExpression, propertyName: fieldIdentifier.FieldName),
+            typeof(TValue));
+
+        var parameterizedExpression = Expression
+            .Lambda<Func<T, TValue>>(expression, paramExpression);
+
+        return parameterizedExpression;
+    }
 }
