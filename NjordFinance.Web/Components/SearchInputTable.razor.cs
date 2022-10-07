@@ -151,18 +151,5 @@ namespace NjordFinance.Web.Components
                 return false;
             }
         }
-
-        private static string NameFor(ComparisonOperator @operator)
-        {
-            var enumType = typeof(ComparisonOperator);
-            var name = Enum.GetName(enumType, @operator);
-
-            var displayAttribute = enumType
-                .GetMember(name)
-                .FirstOrDefault()
-                ?.GetCustomAttribute<DisplayAttribute>();
-
-            return displayAttribute?.GetName();
-        }
     }
 }

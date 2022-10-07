@@ -19,7 +19,7 @@ else
         <TitleAlignRight>
             @if(!ReadOnly)
             {
-                <label for="add-new-entry-button">
+                <label>
                     @(NameFor(x => x.EffectiveDate))
                 </label>
                 <InputDate class="form-control right" @bind-Value="@ViewModel.EffectiveDate" 

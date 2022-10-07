@@ -30,19 +30,21 @@
         {
             <ContentTile>
                 <Body>
-                    <ModelForm TViewModel="BrokerTransactionCodeAttributeMemberEntry">
-                        <ModelFormLineItem LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
-                                   ForMember="@(() => ViewModel)">
-                            <div class="form-control">
-                                @entry.AttributeMember.DisplayName
-                            </div>
-                        </ModelFormLineItem>
-                        <ModelFormLineItem ForMember="@(() => entry.EffectiveDate)">
-                            <div class="form-control">
-                                @entry.EffectiveDate.ToShortDateString()
-                            </div>
-                        </ModelFormLineItem>
-                    </ModelForm>
+                    <EditForm Model="entry">
+                        <ModelForm TViewModel="BrokerTransactionCodeAttributeMemberEntry">
+                            <ModelFormLineItem LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
+                                       ForMember="@(() => ViewModel)">
+                                <div class="form-control">
+                                    @entry.AttributeMember.DisplayName
+                                </div>
+                            </ModelFormLineItem>
+                            <ModelFormLineItem ForMember="@(() => entry.EffectiveDate)">
+                                <div class="form-control">
+                                    @entry.EffectiveDate.ToShortDateString()
+                                </div>
+                            </ModelFormLineItem>
+                        </ModelForm>
+                    </EditForm>
                 </Body>
             </ContentTile>
         }
