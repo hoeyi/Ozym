@@ -56,7 +56,7 @@
 
         // Convert the ForMember parameter into a typed accessor for compatability with the
         // IModelMetadataService methods.
-        TypedAccessor = ConvertAccessor<TViewModel, object>(ForMember);
+        TypedAccessor = ExpressionConverter.ConvertAccessor<TViewModel, object>(ForMember);
 
         LabelText = string.IsNullOrEmpty(LabelOverride) ?
             ModelMetadata.NameFor<TViewModel>(TypedAccessor) : LabelOverride;
@@ -64,25 +64,5 @@
         ToolTipText = ModelMetadata.DescriptionFor(TypedAccessor);
     }
 
-    /// <summary>
-    /// Converts the given member selector to an expression with a typed input parameter.
-    /// </summary>
-    /// <param name="accessor"><param>
-    private static Expression<Func<T, TValue>> ConvertAccessor<T, TValue>(
-        Expression<Func<TValue>> accessor)
-    {
-        FieldIdentifier fieldIdentifier = FieldIdentifier.Create(accessor);
 
-        ParameterExpression paramExpression = Expression
-            .Parameter(fieldIdentifier.Model.GetType(), "x");
-
-        Expression expression = Expression.Convert(
-            Expression.Property(paramExpression, propertyName: fieldIdentifier.FieldName),
-            typeof(TValue));
-
-        var parameterizedExpression = Expression
-            .Lambda<Func<T, TValue>>(expression, paramExpression);
-
-        return parameterizedExpression;
-    }
 }
