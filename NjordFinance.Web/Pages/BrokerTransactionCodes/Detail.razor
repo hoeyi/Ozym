@@ -33,7 +33,7 @@
                     <EditForm Model="entry">
                         <ModelForm TViewModel="BrokerTransactionCodeAttributeMemberEntry">
                             <ModelFormLineItem LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
-                                       ForMember="@(() => ViewModel)">
+                                       ForMember="@(() => entry.AttributeMember.DisplayName)">
                                 <div class="form-control">
                                     @entry.AttributeMember.DisplayName
                                 </div>
