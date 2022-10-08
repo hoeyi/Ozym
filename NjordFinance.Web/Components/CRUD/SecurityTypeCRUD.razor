@@ -1,5 +1,113 @@
-﻿<h3>SecurityTypeCRUD</h3>
+﻿@inherits ModelCRUD<SecurityType>
+
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelForm TViewModel="Security">
+        <ModelFormLineItem ForMember="@(() => ViewModel.SecurityTypeName)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.SecurityTypeName
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value="ViewModel.SecurityTypeName"
+                   disable="@Disabled"
+                   DisplayName="@NameFor(x => x.SecurityTypeName)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.SecurityTypeGroupId)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @SecurityTypeGroupDisplayName(ViewModel.SecurityTypeGroupId)
+                </div>
+            }
+            else
+            {
+                <InputSelect class="form-control"
+                     DisplayName=@(NameFor(x => x.SecurityTypeGroupId))
+                     @bind-Value="ViewModel.SecurityTypeGroupId"
+                     disabled="@Disabled">
+                @foreach (var lookup in SecurityTypeGroups)
+                {
+                    <option value=@lookup.Key>@lookup.Display</option>
+                }
+            </InputSelect>
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.CanHavePosition)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.CanHavePosition
+                </div>
+            }
+            else
+            {
+                <InputCheckbox class="form-control" @bind-Value="ViewModel.CanHavePosition"
+                       disable="@Disabled"
+                       DisplayName="@NameFor(x => x.CanHavePosition)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.CanHaveDerivative)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.CanHaveDerivative
+                </div>
+            }
+            else
+            {
+                <InputCheckbox class="form-control" @bind-Value="ViewModel.CanHaveDerivative"
+                       disable="@Disabled"
+                       DisplayName="@NameFor(x => x.CanHaveDerivative)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.HeldInWallet)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.HeldInWallet
+                </div>
+            }
+            else
+            {
+                <InputCheckbox class="form-control" @bind-Value="ViewModel.HeldInWallet"
+                       disable="@Disabled"
+                       DisplayName="@NameFor(x => x.HeldInWallet)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.ValuationFactor)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.ValuationFactor
+                </div>
+            }
+            else
+            {
+                <InputNumber class="form-control" @bind-Value="ViewModel.ValuationFactor"
+                   disable="@Disabled"
+                     DisplayName="@NameFor(x => x.ValuationFactor)" />
+            }
+        </ModelFormLineItem>
+    </ModelForm>
+}
 
 @code {
+    [Parameter, EditorRequired]
+    public IEnumerable<LookupModel> SecurityTypeGroups { get; set; }
 
+    protected override void OnInitialized()
+    {
+        IsLoading = ViewModel is null | SecurityTypeGroups is null;
+    }
+    private string? SecurityTypeGroupDisplayName(int? id) =>
+        SecurityTypeGroups?.FirstOrDefault(a => a.Key == id)?.Display;
 }

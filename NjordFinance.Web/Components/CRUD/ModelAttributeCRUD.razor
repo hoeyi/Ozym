@@ -1,5 +1,25 @@
-﻿<h3>ModelAttributeCRUD</h3>
+﻿@inherits ModelCRUD<ModelAttribute>
 
-@code {
-
+@if(ViewModel is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelForm TViewModel="ModelAttribute">
+        <ModelFormLineItem ForMember="@(() => ViewModel.DisplayName)">
+            @if(ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.DisplayName
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value="ViewModel.DisplayName"
+                    disable="@Disabled"
+                    DisplayName="@NameFor(x => x.DisplayName)" />
+            }
+        </ModelFormLineItem>
+    </ModelForm>
 }

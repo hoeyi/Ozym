@@ -1,5 +1,53 @@
-﻿<h3>ReportConfigurationCRUD</h3>
+﻿@inherits ModelCRUD<ReportConfiguration>
 
-@code {
-
+@if(ViewModel is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelForm TViewModel="ReportConfiguration">
+        <ModelFormLineItem ForMember="@(() => ViewModel.ConfigurationCode)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.ConfigurationCode
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value="ViewModel.ConfigurationCode"
+                   disable="@Disabled"
+                   DisplayName="@NameFor(x => x.ConfigurationCode)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.ConfigurationDescription)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.ConfigurationDescription
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value="ViewModel.ConfigurationDescription"
+                   disable="@Disabled"
+                   DisplayName="@NameFor(x => x.ConfigurationDescription)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.XmlDefinition)">
+            @if(ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.XmlDefinition
+                </div>
+            }
+            else
+            {
+                <InputTextArea class="form-control" @bind-Value="ViewModel.XmlDefinition"
+                    disable="@Disabled"
+                   DisplayName="@NameFor(x => x.XmlDefinition)" />
+            }
+        </ModelFormLineItem>
+    </ModelForm>
 }

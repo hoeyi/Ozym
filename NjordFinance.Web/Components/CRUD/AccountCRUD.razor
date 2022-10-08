@@ -103,7 +103,7 @@ else
             }
             else
             {
-                <InputSelect id="account-custodian" class="form-control"
+                <InputSelect class="form-control"
                     DisplayName=@(NameFor(x => x.AccountCustodianId))
                     @bind-Value="ViewModel.AccountCustodianId"
                     disabled="@Disabled">
@@ -184,8 +184,6 @@ else
     [Parameter]
     public IEnumerable<LookupModel> AccountCustodians { get; set; }
 
-    private string? CustodianDisplayName(int? custodianId)
-    {
-        return AccountCustodians.FirstOrDefault(a => a.Key == custodianId)?.Display;
-    }
+    private string? CustodianDisplayName(int? id) =>
+         AccountCustodians.FirstOrDefault(a => a.Key == id)?.Display;
 }

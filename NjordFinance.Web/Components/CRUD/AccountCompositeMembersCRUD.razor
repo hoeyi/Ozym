@@ -104,10 +104,9 @@ else
 }
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     public IEnumerable<LookupModel> Accounts { get; set; }
 
-    private string MemberDisplay(int accountId) => Accounts
-        .FirstOrDefault(a => a.Key == accountId)
-        ?.Display;
+    private string? MemberDisplay(int? id) => 
+        Accounts.FirstOrDefault(a => a.Key == id)?.Display;
 }            
