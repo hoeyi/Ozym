@@ -57,7 +57,7 @@ namespace NjordFinance.Test.ModelService
         protected override ResourceImage CreateModelSuccessSample => new()
         {
             ImageDescription = "TestCreatePass",
-            ImageBinary = Resources.Images.fractal_circle_icon_dark,
+            ImageBinary = NjordFinance.UserInterface.Images.fractal_circle_icon_dark,
             FileExtension = "JPG"
         };
 
@@ -70,7 +70,7 @@ namespace NjordFinance.Test.ModelService
         {
             ImageId = -1000,
             ImageDescription = "Test delete fail",
-            ImageBinary = Resources.Images.fractal_circle_icon_dark,
+            ImageBinary = NjordFinance.UserInterface.Images.fractal_circle_icon_dark,
             FileExtension = "PNG"
         };
 

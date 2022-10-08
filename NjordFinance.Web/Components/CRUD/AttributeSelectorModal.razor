@@ -1,0 +1,78 @@
+﻿@inherits LocalizableComponent
+
+@if(IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <CascadingValue Value="@ViewModel">
+        <Modal
+            DialogOptions="DialogResult.OK | DialogResult.Cancel"
+            OnClose="OnClose"
+            ReadOnly="false">
+            <ContentTile>
+                <TitleAlignLeft>
+                    @Resources.Strings.Title_Component_AttributeSelector
+                </TitleAlignLeft>
+                <Body>
+                    <InputSelect 
+                        class="form-control left"
+                        Value="SelectedAttributeId"
+                        ValueExpression="@(() => SelectedAttributeId)"
+                        ValueChanged="@((int? args) => AttributeSelect_OnChange(args))">
+                        <option value="">@Strings.Caption_InputSelect_Prompt</option>
+                        @foreach(var attr in AllowableAttributes.OrderBy(a => a.DisplayName))
+                        {
+                            <option value="@attr.AttributeId">@attr.DisplayName</option>
+                        }
+                    </InputSelect>
+                </Body>
+            </ContentTile>
+        </Modal>
+    </CascadingValue>
+}
+
+@code{
+    /// <summary>
+    /// Gets or sets the allowable <see cref="ModelAttribute" /> for this selector.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ModalEventArgs<ModelAttribute>> OnClose { get; set; }
+
+    /// <summary>
+    /// Gets or sets the allowable <see cref="ModelAttribute" /> for this selector.
+    /// </summary>
+    [Parameter]
+    public IEnumerable<ModelAttribute> AllowableAttributes { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="ModelAttribute" /> view model for this selector.
+    /// </summary>
+    private ModelAttribute? ViewModel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="int?"> identifier for the currently selected attribute.
+    /// </summary>
+    private int? SelectedAttributeId { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        ViewModel = AllowableAttributes.OrderBy(a => a.DisplayName).FirstOrDefault();
+    }
+
+
+    /// <summary>
+    /// Updates the current attribute id and <see cref="ViewModel" />.
+    /// </summary>
+    private void AttributeSelect_OnChange(int? eventArgs)
+    {
+        SelectedAttributeId = eventArgs;
+        ViewModel = AllowableAttributes.FirstOrDefault(a => a.AttributeId == eventArgs);
+
+        StateHasChanged();
+    }
+}

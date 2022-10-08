@@ -1,0 +1,148 @@
+﻿@inherits ModelCRUD<Security>
+
+@if (ViewModel is null
+    || SecurityTypes is null
+    || SecurityExchanges is null
+    || Issuers is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelForm TViewModel="Security">
+        <ModelFormLineItem ForMember="@(() => ViewModel.SecurityDescription)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.SecurityDescription
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value="ViewModel.SecurityDescription"
+                   disable="@Disabled"
+                   DisplayName="@NameFor(x => x.SecurityDescription)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.SecurityTypeId)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @SecurityTypeDisplayName(ViewModel.SecurityTypeId)
+                </div>
+            }
+            else
+            {
+                <InputSelect class="form-control"
+                     DisplayName=@(NameFor(x => x.SecurityTypeId))
+                     @bind-Value="ViewModel.SecurityTypeId"
+                     disabled="@Disabled">
+                @foreach (var lookup in SecurityTypes)
+                {
+                    <option value=@lookup.Key>@lookup.Display</option>
+                }
+            </InputSelect>
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.Issuer)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.Issuer
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value="ViewModel.Issuer"
+                   disable="@Disabled"
+                   DisplayName="@NameFor(x => x.Issuer)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.HasPerpetualMarket)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.HasPerpetualMarket
+                </div>
+            }
+            else
+            {
+                <InputCheckbox class="form-control" @bind-Value="ViewModel.HasPerpetualMarket"
+                   disable="@Disabled"
+                       DisplayName="@NameFor(x => x.HasPerpetualMarket)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.HasPerpetualPrice)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.HasPerpetualPrice
+                </div>
+            }
+            else
+            {
+                <InputCheckbox class="form-control" @bind-Value="ViewModel.HasPerpetualMarket"
+                   disable="@Disabled"
+                       DisplayName="@NameFor(x => x.HasPerpetualMarket)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.Issuer)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.Issuer
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value="ViewModel.Issuer"
+                   disable="@Disabled"
+                   DisplayName="@NameFor(x => x.Issuer)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.SecurityExchangeId)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @SecurityExchangeDisplayName(ViewModel.SecurityExchangeId)
+                </div>
+            }
+            else
+            {
+                <InputSelect class="form-control"
+                     DisplayName=@(NameFor(x => x.SecurityExchangeId))
+                     @bind-Value="ViewModel.SecurityExchangeId"
+                     disabled="@Disabled">
+                @foreach (var lookup in SecurityExchanges)
+                {
+                    <option value=@lookup.Key>@lookup.Display</option>
+                }
+            </InputSelect>
+            }
+        </ModelFormLineItem>
+    </ModelForm>
+}
+
+@code{
+    [Parameter, EditorRequired]
+    public IEnumerable<LookupModel> SecurityTypes { get; set; }
+
+    [Parameter, EditorRequired]
+    public IEnumerable<LookupModel> SecurityExchanges { get; set; }
+
+    [Parameter, EditorRequired]
+    public IEnumerable<string> Issuers { get; set; }
+
+    protected override void OnInitialized()
+    {
+        IsLoading = ViewModel is null
+            || SecurityTypes is null
+            || SecurityExchanges is null
+            || Issuers is null;
+    }
+    private string? SecurityTypeDisplayName(int? id) =>
+    SecurityTypes?.FirstOrDefault(a => a.Key == id)?.Display;
+
+    private string? SecurityExchangeDisplayName(int? id) =>
+        SecurityExchanges.FirstOrDefault(a => a.Key == id)?.Display;
+}

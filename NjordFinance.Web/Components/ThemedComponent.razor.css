@@ -1,0 +1,316 @@
+﻿::deep .themed-component {
+    position: static;
+}
+
+/*::deep form.model-editor {
+    width: 50%;
+}
+*/
+::deep .model-attributes .custom-tooltip {
+    position: static;
+}
+
+::deep .model-attributes .custom-tooltip-text {
+    margin-left: 0.5rem;
+}
+
+::deep .model-attributes td {
+    padding-bottom: 0.5rem;  
+}
+
+::deep .model-attributes .text-area {
+    overflow: auto;
+    height: auto;
+    display: block;
+}
+
+::deep .text-area {
+    white-space: pre-wrap;
+    height: 0.25rem;
+}
+
+/*#region DataGrid*/
+
+::deep .datagrid {
+    width: 100%;
+    overflow: scroll;
+    border-spacing: 0;
+    border-collapse: separate;
+}
+
+::deep .datagrid-cell:last-child .custom-tooltip-text {
+    right: 95%;
+    top: 55%;
+}
+
+::deep .datagrid-cell:not(:last-child) .custom-tooltip-text {
+    left: 100%;
+}
+
+::deep .datagrid th, .datagrid tr {
+    resize: both;
+}
+
+
+    ::deep .datagrid th {
+        border-left-width: 0.5px;
+        border-right-width: 0.5px;
+        border-color: var(--theme-tableheader-border-color, black);
+    }
+
+::deep .datagrid-cell a {
+    color: var(--theme-text-color-0, black);
+    font-weight: bold;
+    text-indent: 0.5rem;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+    ::deep .datagrid-cell a:hover {
+        background-color: var(--theme-tablecell-onhover-color, gray);
+        color: var(--theme-text-color-0, black);
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+::deep .datagrid .title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+
+::deep .datagrid-cell {
+    background-color: var(--theme-tablecell-back-color, white);
+    border: solid;
+    border-width: 0.5px;
+    border-color: var(--theme-tablecell-border-color, white);
+    color: var(--theme-tablecell-fore-color, black);
+}
+
+::deep .datagrid-cell.text {
+    text-indent: 0.5rem;
+}
+
+    ::deep .datagrid-cell.button .form-control.button.icon {
+        background-color: var(--theme-form-control-back-color, white);
+        border: none;
+        height: 2rem;
+        width: 2rem;
+    }
+
+::deep .datagrid-column-header {
+    text-indent: 0.5rem;
+    background-color: var(--theme-tableheader-back-color, white);
+    color: var(--theme-tableheader-fore-color, black);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 2.25rem;
+}
+
+
+    ::deep .datagrid-column-header:first-child {
+        border-top-left-radius: 1rem;
+    }
+
+    ::deep .datagrid-column-header:last-child {
+        border-top-right-radius: 1rem;
+    }
+
+::deep .datagrid-footer {
+    font-size: 0.75rem;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+
+}
+::deep .datagrid-footer .datagrid-cell:first-child {
+    border-bottom-left-radius: 1rem;
+}
+
+::deep .datagrid-footer .datagrid-cell:first-child {
+    border-bottom-right-radius: 1rem;
+}
+
+::deep .datagrid-row .datagrid-cell.button {
+    width: 2rem;
+    white-space: nowrap;
+}
+
+::deep .datagrid .form-control {
+    border: none;
+}
+
+    ::deep .datagrid .form-control:not(.button) {
+        line-height: 1rem;
+    }
+
+/*#endregion*/
+
+
+/*#region Form Control*/
+::deep .form-control {
+    color: var(--theme-text-color-0, black) !important;
+    outline: none !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+}
+
+::deep textarea.form-control {
+    height: 30vh;
+}
+
+::deep .form-control:not(.label):not(.button) {
+    background-color: var(--theme-form-control-back-color, white);
+    border-color: var(--theme-form-control-border-color, gray);
+}
+
+    ::deep .form-control.label {
+        background-color: transparent;
+        border: none !important;
+        color: var(--theme-text-color-0, black) !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        outline: none !important;
+    }
+
+    ::deep .form-control.button {
+        background-color: var(--theme-hexcolor-primary-0, inherit);
+        border-color: var(--theme-form-control-border-color, inherit) !important;
+        border: 1px solid;
+        color: var(--theme-text-color-0, white) !important;
+        padding: 0.125rem;
+    }
+
+        ::deep .form-control.button:hover {
+            background-color: var(--theme-hexcolor-primary-2, inherit) !important;
+            border-color: var(--theme-form-control-border-color, inherit) !important;
+            color: var(--theme-text-color-0, white) !important;
+        }
+
+::deep input[type=checkbox]:checked:before {
+    background: var(--theme-hexcolor-primary-1, inherit);
+}
+
+::deep .validation-message {
+    padding-left: 0.25rem;
+    width: 100%;
+}
+
+/*#endregion*/
+
+
+/*#region Content tile, headers, & columns*/
+
+::deep .content-tile {
+    background-color: var(--theme-elevation-backcolor-2, white);
+    border: 1px solid var(--theme-elevation-backcolor-2, black);
+    border-radius: 1rem;
+    padding: 0.5rem;
+    display: block;
+    /*margin-bottom: 0;*/
+}
+.content-tile-title {
+    --default-height: 32px;
+    --icon-max-width: 32px;
+}
+
+::deep .content-tile-title {
+    display: flex;
+    position: relative;
+    padding-left: 0.25rem;
+    justify-content: space-between;
+    width: 100%;
+    /*height: 1rem;*/
+}
+
+::deep .content-tile-title .left {
+    margin-right: auto;
+    float: left;
+}
+
+::deep .content-tile-title .left > * {
+    float: left;
+}
+
+::deep .content-tile-title .right {
+    margin-left: auto;
+    float: right;
+}
+
+::deep .content-tile-title .right > * {
+    float: none;
+    display: inline;
+    vertical-align: bottom;
+}
+
+    ::deep .content-tile-title .icon {
+        width: 2rem;
+        aspect-ratio: 1/1;
+    }
+
+    ::deep .content-tile-title .form-control {
+        height: 2rem;
+        width: auto;
+    }
+        
+    ::deep .content-tile-title .sub-title {
+        font-size: 0.85rem;
+    }
+
+/*::deep p.content-tile::after {
+    padding-bottom: 1rem;
+*/}
+
+::deep .column {
+    width: 50%;
+}
+
+/*#endregion*/
+
+
+/*#region Modal forms/dialog */
+
+::deep .custom-modal {
+    border: 0.1rem solid var(--theme-form-control-border-color, black);
+}
+::deep .custom-modal .model-editor {
+    width: 100%;
+}
+
+::deep .custom-modal .content-tile {
+    background-color: transparent;
+    border: none;
+}
+
+::deep .custom-modal .content-tile {
+    padding: 0.25rem;
+}
+
+::deep .custom-modal .action-button-menu {
+    padding: 0.25rem;
+}
+
+
+/*#endregion */
+
+/*#region Ion-Icon svg formatting */
+/*Change the fill color to light shade if not 'none' or 'transparent'.*/
+::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
+    fill: var(--theme-text-color-0, black);
+}
+
+/*Change the stroke color to light shade if not 'none' or 'transparent'.*/
+::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
+    stroke: var(--theme-text-color-0, black);
+}
+
+/*Set the default background color for IonIcons.*/
+::deep .ion-icon svg {
+    background: none;
+}
+
+/*#endregion*/

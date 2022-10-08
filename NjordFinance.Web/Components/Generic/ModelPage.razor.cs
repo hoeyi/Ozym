@@ -1,29 +1,20 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using Ichosys.DataModel.Annotations;
 using NjordFinance.UserInterface;
 using NjordFinance.Web.Components.Shared;
-using Ichosys.DataModel.Annotations;
-using NjordFinance.ModelMetadata;
+using System.Linq.Expressions;
+using System;
+using System.Linq;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Web.Components.Generic
 {
-    public partial class ModelPage<TModel> : LocalizableComponent, INavigationSource
+    public partial class ModelPage<TViewModel> : ModelComponent<TViewModel>, INavigationSource
     {
         private NounAttribute _modelNoun;
-
-        /// <summary>
-        /// Gets or sets the <see cref="ILogger"/> used by this component.
-        /// </summary>
-        [Inject]
-        public ILogger Logger { get; set; } = default!;
-
-        /// <summary>
-        /// Gets or sets the <see cref="NavigationManager"/> for this component.
-        /// </summary>
-        [Inject]
-        public NavigationManager NavigationHelper { get; set; } = default!;
+        private string _indexUriRelativePath;
 
         /// <summary>
         /// Gets or sets the <see cref="Menu"/> containing available actions for this component.
@@ -37,7 +28,7 @@ namespace NjordFinance.Web.Components.Generic
         {
             get
             {
-                _modelNoun ??= ModelMetadata.NounFor(typeof(TModel));
+                _modelNoun ??= ModelMetadata.GetAttribute<TViewModel, NounAttribute>();
                 return _modelNoun;
             }
         }
@@ -45,74 +36,98 @@ namespace NjordFinance.Web.Components.Generic
         /// <summary>
         /// Gets the <see cref="IPageTitle"/> instance for this page.
         /// </summary>
-        protected IPageTitle PageTitle
-        {
-            get => DisplayHelper.GetPagetTitle<TModel>();
-        }
+        protected IPageTitle PageTitle => DisplayHelper.GetPagetTitle<TViewModel>();
 
         /// <summary>
-        /// Gets the absolute uri for the index page that represents this model.
-        /// Model pages use the index page as the base relative path for other model pages.
-        /// Ex. {BaseUri}/Accounts
+        /// Gets or sets the current text describing this page's error state.
         /// </summary>
-        protected string PageIndexUri
+        protected string ErrorMessage { get; set; }
+
+        /// <summary>
+        /// Gets the relative uri for the index page that represents this model.
+        /// Model pages use the index page as the base relative path for other model pages.
+        /// Ex. /Accounts
+        /// </summary>
+        protected string IndexUriRelativePath
         {
             get
             {
-                string relativePath = NavigationHelper.ToBaseRelativePath(NavigationHelper.Uri);
+                if (string.IsNullOrEmpty(_indexUriRelativePath))
+                {
+                    string relativePath = NavigationHelper.ToBaseRelativePath(NavigationHelper.Uri);
 
-                string[] pathElements = relativePath.Split("/");
+                    string[] pathElements = relativePath.Split("/");
 
-                if (pathElements.Length > 0)
-                    return NavigationHelper.ToAbsoluteUri(pathElements[0]).AbsoluteUri;
-                else
-                    throw new InvalidOperationException(Resources.Strings.Exception_Navigation_BaseUriNotValid);
+                    if (pathElements.Length > 0)
+                        _indexUriRelativePath = $"/{pathElements[0]}";
+                    else
+                        throw new InvalidOperationException(
+                            Resources.Strings.Exception_Navigation_BaseUriNotValid);
+                }
 
+                return _indexUriRelativePath;
             }
         }
 
         /// <summary>
-        /// Redirects the focus to the model index page.
+        /// Creates a new string representing the resource detail page URI for the given
+        /// <paramref name="id"/>.
         /// </summary>
-        protected virtual void NavigateToIndex(MouseEventArgs args)
-        {
-            NavigationHelper.NavigateTo($"{PageIndexUri}");
-        }
+        /// <typeparam name="T">The id type, typically <see cref="int"/> or <see cref="Guid"/>.
+        /// </typeparam>
+        /// <param name="id">The id of the requested resource.</param>
+        /// <returns>The formatted <see cref="string"/>.</returns>
+        /// <remarks>Expects page to have root index paths defined by
+        /// <see cref="IndexUriRelativePath"/>.</remarks>
+        protected string FormatDetailUri<T>(T id) => $"{IndexUriRelativePath}/{id}/detail";
 
         /// <summary>
-        /// Redirects the focus to the model creation page.
+        /// Creates a new string representing the resource creation page URI for the given
+        /// <paramref name="id"/>.
         /// </summary>
-        /// <param name="id">The identifier representing the request.</param>
-        protected virtual void NavigateToCreate(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentNullException(paramName: nameof(id));
-
-            NavigationHelper.NavigateTo($"{PageIndexUri}/Create/{id}");
-        }
+        /// <typeparam name="T">The id type, typically <see cref="int"/> or <see cref="Guid"/>.
+        /// </typeparam>
+        /// <param name="id">The id of the requested resource.</param>
+        /// <returns>The formatted <see cref="string"/>.</returns>
+        /// <remarks>Expects page to have root index paths defined by
+        /// <see cref="IndexUriRelativePath"/>.</remarks>
+        protected string FormatCreateUri<T>(T id) => $"{IndexUriRelativePath}/create/{id}";
 
         /// <summary>
-        /// Redirects the focus to the model edit page.
+        /// Creates a new string representing the resource edit page URI for the given
+        /// <paramref name="id"/>.
         /// </summary>
-        /// <param name="id">The identifier representing the request.</param>
-        protected virtual void NavigateToEdit(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentNullException(paramName: nameof(id));
-
-            NavigationHelper.NavigateTo($"{PageIndexUri}/Edit/{id}");
-        }
+        /// <typeparam name="T">The id type, typically <see cref="int"/> or <see cref="Guid"/>.
+        /// </typeparam>
+        /// <param name="id">The id of the requested resource.</param>
+        /// <returns>The formatted <see cref="string"/>.</returns>
+        /// <remarks>Expects page to have root index paths defined by
+        /// <see cref="IndexUriRelativePath"/>.</remarks>
+        protected string FormatEditUri<T>(T id) => $"{IndexUriRelativePath}/{id}/edit";
 
         /// <summary>
-        /// Redirects the focus to the model details page.
+        /// Gets the value associated with the first public <typeparamref name="TKey"/> member 
+        /// that has the <see cref="KeyAttribute"/> applied. Composite keys are not supported.
         /// </summary>
-        /// <param name="id">The identifier representing the request.</param>
-        protected virtual void NavigateToDetail(string id)
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="model"></param>
+        /// <returns>The <typeparamref name="TKey"/> uniquely identifying the given 
+        /// <typeparamref name="TViewModel"/>, or null if undefined.</returns>
+        protected static TKey? GetKeyValueOrDefault<TKey>(TViewModel model)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentNullException(paramName: nameof(id));
+            if (model is null)
+                throw new ArgumentNullException(paramName: nameof(model));
 
-            NavigationHelper.NavigateTo($"{PageIndexUri}/Detail/{id}");
+            var memberInfo = typeof(TViewModel).GetProperties(
+                BindingFlags.Instance | BindingFlags.Public).Where(
+                a => a.PropertyType == typeof(TKey) &&
+                a.GetCustomAttribute<KeyAttribute>() is not null)
+                .FirstOrDefault();
+
+            if (memberInfo?.GetValue(model) is TKey key)
+                return key;
+            else
+                return default;
         }
     }
 }

@@ -27,7 +27,11 @@ namespace NjordFinance.ModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<SecurityTypeGroup>(
-                contextFactory, modelMetadata, logger);
+                contextFactory, modelMetadata, logger)
+            {
+                IncludeDelegate = (queryable) => queryable.Include(a => a.AttributeMemberNavigation)
+            };
+
             Writer = new ModelWriterService<SecurityTypeGroup>(
                 contextFactory, modelMetadata, logger)
             {
@@ -52,8 +56,6 @@ namespace NjordFinance.ModelService
                     return new DbActionResult<bool>(result, result);
                 }
             };
-
-            Reader.AddNavigationPath(a => a.AttributeMemberNavigation);
         }
     }
 }

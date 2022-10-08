@@ -1,72 +1,66 @@
-﻿@page "/Accounts/Create/{RequestGuid:guid}"
+﻿@page "/accounts/create/{RequestGuid:guid}"
 
 @inherits ModelDetail<Account>
 
 @inject IReferenceDataService ReferenceData
 
-<PageTitle>@(PageTitle.Create().AsPageTitle())</PageTitle>
+<PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
-<ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Create())" />
+<ThemedComponent>
+    <ModelPageMenuHeader Header="@(PageTitle.CreateSingle())" />
 
-@if (IsLoading)
-{
-    <LoadingSvg />
-}
-else
-{
-    <div>
-        <AccountObjectCRUD Model="@Model!.AccountNavigation" 
-            Disabled="@_disabled" Readonly="@_readonly" />
-    </div>
-    <div>
-        <AccountCRUD Model="@Model" AccountCustodians=@Custodians 
-            Disabled="@_disabled" Readonly="@_readonly" />
-    </div>
-    <div>
-        <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
-            @Resources.Strings.Caption_Button_Save
-        </button>
-    </div>
-}
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <CascadingValue Value="@ViewModel">
+                    <EditForm class="model-editor" Model="@ViewModel" 
+                        OnValidSubmit="HandleValidSubmit" >
+                        <DataAnnotationsValidator />
+                        <ActionButtonMenu>
+                            <button type="submit" class="form-control button">
+                                @Strings.Caption_Button_Save
+                            </button>
+                            <button class="form-control button" @onclick="Cancel_OnClick"
+                                @onclick:preventDefault >
+                                @Strings.Caption_Button_Cancel
+                            </button>
+                        </ActionButtonMenu>
+                        <AccountCRUD AccountCustodians="@Custodians" 
+                            Disabled="false" ReadOnly="false" />
+                    </EditForm>
+                </CascadingValue>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
 
 @code {
     [Parameter]
-    public Guid RequestGuid { get; set; }
+    public Guid RequestGuid { get; init; }
 
     private IEnumerable<LookupModel> Custodians { get; set; }
 
-    private const bool _disabled = false;
-    private const bool _readonly = false;
+    private AccountViewModel ViewModel { get; set; }
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        ActionMenu = new()
-        {
-            IconKey = "reorder-four",
-            Children = new()
-            {
-                // Add index button.
-                { 0, new MenuItem()
-                    {
-                        IconKey = "list",
-                        Caption = $"{Resources.Strings.Caption_Button_Index}",
-                        UriStem = $"{PageIndexUri}"
-                    }
-                }
-            }
-        };    
-
         IsLoading = true;
 
         try
         {
-            var modelActionResult = await Controller.GetDefaultAsync();
-            Custodians = await ReferenceData.AccountCustodianListAsync();
+            var getDefaultModelTask = Controller.GetDefaultAsync();
+            var refreshCustodianListTask = ReferenceData.AccountCustodianListAsync();
 
-            if (modelActionResult.Value is Account account)
-                Model = account;
+            Model = (await getDefaultModelTask).Value;
+            Custodians = (await refreshCustodianListTask).ToLookups();
 
+            ViewModel = new(Model);
         }
         finally
         {
@@ -74,16 +68,18 @@ else
         }
     }
 
-    private async Task HandleValidSubmit(MouseEventArgs args)
+    private void Cancel_OnClick()
     {
-        int defaultId = Model!.AccountId;
+        NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        Model = ViewModel.ToAccount();
 
         var result = await Controller.CreateAsync(Model);
-        var createResult = result.Result as CreatedAtActionResult;
 
-        if (result.Result is CreatedAtActionResult caar &&
-            caar.Value is Account account &&
-            account.AccountId != defaultId)
-            NavigateToDetail($"{account.AccountId}");
+        if (result.Result is CreatedAtActionResult cr)
+            NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
     }
 }

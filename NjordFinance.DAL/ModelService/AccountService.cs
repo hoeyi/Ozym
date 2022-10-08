@@ -27,7 +27,11 @@ namespace NjordFinance.ModelService
                 ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
-            Reader = new ModelReaderService<Account>(contextFactory, modelMetadata, logger);
+            Reader = new ModelReaderService<Account>(contextFactory, modelMetadata, logger)
+            {
+                IncludeDelegate = (queryable) => queryable.Include(a => a.AccountNavigation)
+            };
+
             Writer = new ModelWriterService<Account>(contextFactory, modelMetadata, logger)
             {
                 CreateDelegate = async (context, model) =>
@@ -87,8 +91,6 @@ namespace NjordFinance.ModelService
                     return new DbActionResult<bool>(result, result);
                 }
             };
-
-            Reader.AddNavigationPath(a => a.AccountNavigation);
         }
     }
 }

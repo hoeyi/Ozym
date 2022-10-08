@@ -1,0 +1,92 @@
+﻿@page "/broker-transaction-codes/create/{RequestGuid:guid}"
+
+@inherits ModelDetail<BrokerTransactionCode>
+
+<PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
+
+    <ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.CreateSingle())" />
+
+        <AttributeEntryEditor TViewModelParent="BrokerTransactionCodeViewModel"
+                          TViewModelChild="BrokerTransactionCodeAttributeGrouping"
+                          TModel="BrokerTransactionCode"
+                          TModelChild="BrokerTransactionCodeAttributeMemberEntry"
+                          OnCancelEditorClick="CancelEditorHandler"
+                          OnValidFormSubmit="ValidFormSubmitHandler"
+                          ViewModel="@ViewModel"
+                          Mode="EditorMode.Add">
+            <ViewModelCRUD>
+                <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+            </ViewModelChildCRUD>
+        </AttributeEntryEditor>
+    }
+</ThemedComponent>
+
+@code {
+    /// <summary>
+    /// Gets or sets the identifier for the <see cref="BankTransactionCode" /> worked using this
+    /// page.
+    /// </summary>
+    [Parameter]
+    public int ModelId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the unique identifier for the model creation request.
+    /// </summary>
+    [Parameter]
+    public Guid RequestGuid { get; init; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="BrokerTransactionCodeViewModel" /> worked by this page.
+    /// </summary>
+    private BrokerTransactionCodeViewModel ViewModel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = await Controller.GetDefaultAsync();
+
+            if (modelQuery.Value is BrokerTransactionCode model)
+            {
+                Model = model;
+            }
+
+            ViewModel = new(Model);
+        }
+        finally
+        {
+            IsLoading = Model is null || ViewModel is null;
+        }
+    }
+
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
+    {
+        Model = ViewModel.ToEntity();
+
+        var result = await Controller.CreateAsync(Model);
+
+        if (result.Result is CreatedAtActionResult cr)
+            NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
+    }
+
+    /// <summary>
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void CancelEditorHandler(MouseEventArgs args) =>
+        NavigationHelper.NavigateTo(IndexUriRelativePath);
+}

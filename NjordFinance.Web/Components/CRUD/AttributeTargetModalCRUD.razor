@@ -1,0 +1,51 @@
+﻿@typeparam TViewModel
+@inherits LocalizableComponent
+
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <Modal 
+        DialogOptions="DialogResult.OK | DialogResult.Delete | DialogResult.Cancel"
+        OnClose="OnClose"
+        ReadOnly="false">
+        @ChildContent
+    </Modal>
+}
+
+@code {
+
+    /// <summary>
+    /// Gets or sets the event handler for the close event of this form.
+    /// </summary>
+    [Parameter]
+    public EventCallback<ModalEventArgs<TViewModel>> OnClose { get; set; }
+
+    /// <summary>
+    /// Gets or sets the child content to render for this form.
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the view model for this form.
+    /// </summary>
+    [CascadingParameter]
+    public TViewModel ViewModel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the reference list for allowable <see cref="ModelAttributeMember" />
+    /// records for this form.
+    /// </summary>
+    [CascadingParameter]
+    public IEnumerable<LookupModel> AttributeMemberLookup { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        IsLoading = ViewModel is null || AttributeMemberLookup is null;
+    }
+}

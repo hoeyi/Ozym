@@ -1,10 +1,19 @@
-﻿.navmenu {
-    background-image: linear-gradient(180deg, var(--euler-hexcolor-primary-0), var(--euler-hexcolor-primary-2));
+﻿.sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.navmenu {
+    --gradient-color-start: var(--theme-hexcolor-primary-0, blue);
+    --gradient-color-end: var(--theme-hexcolor-primary-2, white);
+    --navmenu-tile-onhover-color: var(--theme-hexcolor-secondary-1-1, red);
+    --navmenu-fore-color: var(--theme-text-color-0, black);
+
+    background-image: linear-gradient(180deg, var(--gradient-color-start), var(--gradient-color-end));
     width: fit-content;
-    height: 100vh;
+    height: 100%;
     position: sticky;
     top: 0;
-    /*padding: 5px 5px 5px 5px;*/
 }
 
 .navmenu-anchor {
@@ -14,15 +23,15 @@
     margin: 5px;
 }
 
-.navmenu-anchor:hover {
+    .navmenu-anchor:hover {
         cursor: pointer;
-        background: var(--euler-hexcolor-secondary-1-1, gray);
+        background: var(--navmenu-tile-onhover-color);
     }
 
 .navmenu-title {
     display: inline-block;
     font-size: 1.4rem;
-    color: var(--euler-hexcolor-fore-0, black);
+    color: var(--theme-text-color-0, black);
     text-align: center;
     vertical-align: bottom;
 }
@@ -33,7 +42,6 @@
 
 .navmenu-grid {
     overflow: hidden;
-    /*margin: 10px 0px 10px 0px;*/
     width: fit-content;
     max-width: 217px;
 }
@@ -45,7 +53,6 @@
 .navmenu-tile {
     float: left;
     position: relative;
-    background-color: var(--euler-hexcolor-primary-2, white);
     width: 100px;
     height: 100px;
     margin: 5px 0px 0px 5px;
@@ -53,7 +60,7 @@
 }
 
 ::deep .navmenu-tile:hover {
-    background: var(--euler-hexcolor-secondary-1-1, gray);
+    background: var(--navmenu-tile-onhover-color, gray);
     cursor: pointer;
 }
 
@@ -70,7 +77,7 @@
 .navmenu-tile .navmenu-caption {
     font-size: 0.85rem;
     position: absolute;
-    color: var(--euler-hexcolor-fore-0, black);
+    color: var(--navmenu-fore-color);
     width: 80%;
     left: 10%;
     bottom: 5px;
@@ -83,12 +90,12 @@
 
 /* Change the fill color to light shade if not 'none' or 'transparent'. */
 ::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
-    fill: var(--euler-hexcolor-fore-0, black);
+    fill: var(--navmenu-fore-color);
 }
 
 /* Change the stroke color to light shade if not 'none' or 'transparent'. */
 ::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
-    stroke: var(--euler-hexcolor-fore-0, black);
+    stroke: var(--navmenu-fore-color);
 }
 
 /* Set the default background color for IonIcons.*/

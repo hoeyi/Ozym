@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NjordFinance.Model.Metadata;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,8 +17,12 @@ namespace NjordFinance.Model
         [Key]
         [Column("AttributeID")]
         public int AttributeId { get; set; }
-        [Required]
-        [StringLength(32)]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(32,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string DisplayName { get; set; }
 
         [InverseProperty(nameof(ModelAttributeMember.Attribute))]

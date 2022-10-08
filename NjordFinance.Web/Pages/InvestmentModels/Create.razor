@@ -1,0 +1,93 @@
+﻿@page "/investment-models/create/{RequestGuid:guid}"
+
+@inherits ModelDetail<InvestmentStrategy>
+
+<PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
+
+<ThemedComponent>
+    @if(IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.CreateSingle())" />
+
+        <AttributeEntryCollectionEditor 
+            TViewModelParent="InvestmentModelViewModel"
+            TViewModelChild="InvestmentModelTargetGrouping"
+            TModel="InvestmentStrategy"
+            TModelChild="InvestmentStrategyTarget"
+            OnCancelEditorClick="CancelEditorHandler"
+            OnValidFormSubmit="ValidFormSubmitHandler"
+            EffectiveDatePath="@(x => x.EffectiveDate)"
+            ViewModel="@ViewModel"
+            Mode="EditorMode.Add">
+            <ViewModelCRUD>
+                <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+            </ViewModelChildCRUD>
+        </AttributeEntryCollectionEditor>
+    }
+</ThemedComponent>
+
+@code{
+    /// <summary>
+    /// Gets or sets the identifier for the <see cref="InvestmentStrategy" /> worked using this
+    /// page.
+    /// </summary>
+    [Parameter]
+    public int ModelId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the unique identifier for the model creation request.
+    /// </summary>
+    [Parameter]
+    public Guid RequestGuid { get; init; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="InvestmentModelViewModel" /> worked by this page.
+    /// </summary>
+    private InvestmentModelViewModel ViewModel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = await Controller.GetDefaultAsync();
+
+            if (modelQuery.Value is InvestmentStrategy model)
+            {
+                Model = model;
+            }
+
+            ViewModel = new(Model);
+        }
+        finally
+        {
+            IsLoading = Model is null || ViewModel is null;
+        }
+    }
+
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
+    {
+        Model = ViewModel.ToEntity();
+
+        var result = await Controller.CreateAsync(Model);
+
+        if(result.Result is CreatedAtActionResult cr)
+            NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
+    }
+
+    /// <summary>
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void CancelEditorHandler(MouseEventArgs args) =>
+        NavigationHelper.NavigateTo(IndexUriRelativePath);
+}

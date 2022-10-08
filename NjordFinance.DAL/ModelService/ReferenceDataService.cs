@@ -6,138 +6,143 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
+using NjordFinance.ModelService.Query;
 
 namespace NjordFinance.ModelService
 {
-    
-    public class ReferenceDataService : IReferenceDataService
+
+    public partial class ReferenceDataService : IReferenceDataService
     {
-        private readonly FinanceDbContext _context;
-        public ReferenceDataService(FinanceDbContext context)
-        {
-            if (context is null)
-                throw new ArgumentNullException(paramName: nameof(context));
+        private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
 
-            _context = context;   
+        public ReferenceDataService(IDbContextFactory<FinanceDbContext> contextFactory)
+        {
+            if (contextFactory is null)
+                throw new ArgumentNullException(paramName: nameof(contextFactory));
+
+            _contextFactory = contextFactory;   
         }
 
-        public async Task<IList<LookupModel>> AccountCustodianListAsync()
+        public async Task<IEnumerable<AccountCustodian>> AccountCustodianListAsync()
         {
-            var result = await _context.AccountCustodians
-                .Select(c => new LookupModel(c.AccountCustodianId, c.DisplayName))
+            using var context = _contextFactory.CreateDbContext();
+
+            return await context.AccountCustodians
                 .ToListAsync();
-
-            result.Insert(0, LookupModel.PlaceHolder());
-
-            return result;
         }
 
-        public async Task<IList<LookupModel>> AccountListAsync()
+        public async Task<IEnumerable<Account>> AccountListAsync()
         {
-            var result = await _context.Accounts
+            using var context = _contextFactory.CreateDbContext();
+
+            return await context.Accounts
                 .Include(a => a.AccountNavigation)
-                .Select(a => new LookupModel(a.AccountId, a.AccountNavigation.AccountObjectCode))
                 .ToListAsync();
-
-            result.Insert(0, LookupModel.PlaceHolder());
-
-            return result;
         }
 
-        public async Task<IList<LookupModel>> CashOrExternalSecurityListAsync()
+        public async Task<IEnumerable<Security>> CashOrExternalSecurityListAsync()
         {
-            var result = await _context.Securities
+            using var context = _contextFactory.CreateDbContext();
+
+            return await context.Securities
                 .Include(s => s.SecuritySymbols)
                 .Include(s => s.SecurityType)
                 .ThenInclude(s => s.SecurityTypeGroup)
                 .Where(s => s.SecurityType.SecurityTypeGroup.Transactable)
-                .Select(s => new LookupModel(s.SecurityId, s.SecuritySymbol))
                 .ToListAsync();
-
-            result.Insert(0, LookupModel.PlaceHolder());
-
-            return result;
         }
 
-        public async Task<IList<LookupModel>> CountryListAsync()
+        public async Task<IEnumerable<Country>> CountryListAsync()
         {
-            var result = await _context.Countries
-                .Select(c => new LookupModel(c.CountryId, c.DisplayName))
-                .ToListAsync();
+            using var context = _contextFactory.CreateDbContext();
 
-            result.Insert(0, LookupModel.PlaceHolder());
-
-            return result;
+            return await context.Countries.ToListAsync();
         }
 
-        public async Task<IList<LookupModel>> CryptocurrencyListAsync()
+        public IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
+            where TSource : class, new() => 
+                new QueryBuilder<TSource>(_contextFactory.CreateDbContext());
+
+        public async Task<IEnumerable<Security>> CryptocurrencyListAsync()
         {
-            var result = await _context.Securities
+            using var context = _contextFactory.CreateDbContext();
+
+            return await context.Securities
                 .Include(s => s.SecuritySymbols)
                 .Include(s => s.SecurityType)
                 .Where(s => s.SecurityType.HeldInWallet)
-                .Select(s => new LookupModel(s.SecurityId, s.SecuritySymbol))
                 .ToListAsync();
+        }
 
-            result.Insert(0, LookupModel.PlaceHolder());
+        public async Task<IEnumerable<T>> GetManyAsync<T>(
+            Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null) 
+            where T : class, new()
+        {
+            using var context = _contextFactory.CreateDbContext();
 
-            return result;
+            if (include is null)
+                return await context.Set<T>().Where(predicate).ToListAsync();
+            else
+                return await context.Set<T>().Where(predicate).Include(include).ToListAsync();
         }
 
         public async Task<T> GetSingleAsync<T>(
             Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null)
             where T : class, new()
         {
+            using var context = _contextFactory.CreateDbContext();
+
             if (include is null)
-                return await _context.Set<T>()
+                return await context.Set<T>()
                                 .SingleAsync();
             else
-                return await _context.Set<T>()
+                return await context.Set<T>()
                                 .Include(include)
                                 .SingleAsync(predicate);
         }
-
-        public async Task<IList<LookupModel>> ModelAttributeMemberListAsync(int attributeId)
+        
+        public async Task<IEnumerable<ModelAttribute>> ModelAttributeListAsync(
+            ModelAttributeScopeCode scopeCode)
         {
-            var result = await _context.ModelAttributeMembers
-                .Where(a => a.AttributeId == attributeId)
-                .Select(a => new LookupModel(a.AttributeMemberId, a.DisplayName))
-                .ToListAsync();
+            using var context = _contextFactory.CreateDbContext();
 
-            result.Insert(0, LookupModel.PlaceHolder());
+            // Convert the enum from a bit field to an array of string codes.
+            var scopeCodes = Enum
+                .GetValues(typeof(ModelAttributeScopeCode))
+                .Cast<Enum>()
+                .Where(scopeCode.HasFlag)
+                .Cast<ModelAttributeScopeCode>()
+                .Select(m => m.ConvertToStringCode())
+                .ToArray();
 
-            return result;
-        }
-
-        public async Task<IList<LookupModel>> ModelAttributeListAsync(ModelAttributeScopeCode scopeCode)
-        {
-            var result = await _context.ModelAttributes
+            // Check model attribute scope codes against scope codes dervied from bit field.
+            return await context.ModelAttributes
                 .Include(a => a.ModelAttributeScopes)
-                .Where(a => a.ModelAttributeScopes.Any(
-                    b => b.ScopeCode == scopeCode.ConvertToStringCode()))
-                .Select(a => new LookupModel(a.AttributeId, a.DisplayName))
+                .Where(a => a.ModelAttributeScopes.Any(b => scopeCodes.Contains(b.ScopeCode)))
                 .ToListAsync();
+        }
+        
+        public async Task<IEnumerable<ModelAttributeMember>> ModelAttributeMemberListAsync(
+            int attributeId)
+        {
+            using var context = _contextFactory.CreateDbContext();
 
-            result.Insert(0, LookupModel.PlaceHolder());
-
-            return result;
+            return await context.ModelAttributeMembers
+                .Where(a => a.AttributeId == attributeId)
+                .ToListAsync();
         }
 
-        public async Task<IList<LookupModel>> TransactableSecurityListAsync()
+        public async Task<IEnumerable<Security>> TransactableSecurityListAsync()
         {
-            var result = await _context.Securities
+            using var context = _contextFactory.CreateDbContext();
+
+            return await context.Securities
                 .Include(s => s.SecuritySymbols)
                 .Include(s => s.SecurityType)
-                .ThenInclude(s => s.SecurityTypeGroup)
+                .ThenInclude(sectype => sectype.SecurityTypeGroup)
                 .Where(s => s.SecurityType.SecurityTypeGroup.Transactable)
-                .Select(s => new LookupModel(s.SecurityId, s.SecuritySymbol))
                 .ToListAsync();
-
-            result.Insert(0, LookupModel.PlaceHolder());
-
-            return result;
         }
     }
 }

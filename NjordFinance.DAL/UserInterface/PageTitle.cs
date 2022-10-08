@@ -1,8 +1,9 @@
 ﻿using Ichosys.DataModel;
 using Ichosys.DataModel.Annotations;
 using System;
-using NjordFinance.Resources;
 using Ichosys.Extensions.Common.Localization;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
 
 namespace NjordFinance.UserInterface
 {
@@ -12,30 +13,37 @@ namespace NjordFinance.UserInterface
     public interface IPageTitle
     {
         /// <summary>
-        /// Gets the index title.
+        /// Gets the title indicating a many records are being read.
         /// </summary>
         /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
-        string Index();
+        string ReadMany();
 
         /// <summary>
-        /// Gets the new model title.
+        /// Gets the title indicating a single record is being created.
         /// </summary>
         /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
-        string Create();
+        string CreateSingle();
 
         /// <summary>
-        /// Gets the details title.
+        /// Gets the title indicating a single record is being read.
         /// </summary>
-        /// <param name="id">The identifier for the model.</param>
+        /// <param name="heading">The display text for the model.</param>
         /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
-        string Read(string id);
+        string ReadSingle(string heading);
 
         /// <summary>
-        /// Gets the modify title.
+        /// Gets the title indicating a single record is being edited.
         /// </summary>
-        /// <param name="id">The identifier for the model.</param>
+        /// <param name="heading">The display text for the model.</param>
         /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
-        string Update(string id);
+        string UpdateSingle(string heading);
+
+        /// <summary>
+        /// Gets the title indicating editing a records as a batch.
+        /// </summary>
+        /// <param name="id">The display text for the parent of the collection.</param>
+        /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
+        string UpdateMany(string parentHeading);
     }
 
     class PageTitle<TModel> : IPageTitle
@@ -43,7 +51,7 @@ namespace NjordFinance.UserInterface
         private readonly NounAttribute _noun;
         public PageTitle()
         {
-            _noun = typeof(TModel).AttributeFor<NounAttribute>();
+            _noun = GetAttribute<TModel, NounAttribute>();
 
             if (_noun is null)
                 throw new InvalidOperationException(
@@ -51,32 +59,67 @@ namespace NjordFinance.UserInterface
         }
 
         /// <inheritdoc/>
-        public string Create()
+        public string CreateSingle()
         {
-            return UserInterfaceString.CreateModel.Format(_noun.GetSingular());
+            return Strings.CreateModel.Format(_noun.GetSingular());
         }
 
         /// <inheritdoc/>
-        public string Index()
+        public string ReadMany()
         {
-            return UserInterfaceString.IndexModel.Format(_noun.GetPlural()?.ToTitleCase());
+            return Strings.IndexModel.Format(_noun.GetPlural()?.ToTitleCase());
         }
 
         /// <inheritdoc/>   
-        public string Read(string id)
+        public string ReadSingle(string heading)
         {
-            id ??= string.Empty;
+            heading ??= string.Empty;
 
-            return UserInterfaceString.ReadModel.Format(_noun.GetSingular()?.ToTitleCase(), id);
+            return Strings.ReadModel.Format(_noun.GetSingular()?.ToTitleCase(), heading);
+        }
+
+        public string UpdateMany(string parentHeading)
+        {
+            parentHeading ??= string.Empty;
+
+            return Strings.UpdateModel.Format(_noun.GetPlural(), parentHeading);
         }
 
         /// <inheritdoc/>
-        public string Update(string id)
+        public string UpdateSingle(string heading)
         {
-            id ??= string.Empty;
+            heading ??= string.Empty;
 
-            return UserInterfaceString.UpdateModel.Format(_noun.GetSingular(), id);
+            return Strings.UpdateModel.Format(_noun.GetSingular(), heading);
         }
 
+        /// <summary>
+        /// Gets the first attribute of the given type applied to this type.
+        /// </summary>
+        /// <typeparam name="TAttribute">The attribute type to check for.</typeparam>
+        /// <param name="type"></param>
+        /// <returns>A <typeparamref name="TAttribute"/> if it exists, else null.</returns>
+        private static TAttribute GetAttribute<T, TAttribute>()
+            where TAttribute : Attribute
+        {
+            TAttribute attribute;
+            Type type = typeof(T);
+
+            // Check the declarying type of a metdatatype.
+            // If not found return display
+            if (type.GetCustomAttribute(typeof(MetadataTypeAttribute))
+                is not MetadataTypeAttribute metadataType)
+            {
+                attribute = type.GetCustomAttribute<TAttribute>();
+            }
+            else
+            {
+                // If metdatatype exists return display attribute applied 
+                // to member of the same name.
+                attribute = metadataType.MetadataClassType.GetCustomAttribute<TAttribute>();
+            }
+
+            return attribute;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using NjordFinance.Model.Metadata;
 
 namespace NjordFinance.Model
 {
@@ -21,9 +22,13 @@ namespace NjordFinance.Model
         public int TransactionCodeId { get; set; }
         [Column(TypeName = "decimal(19, 4)")]
         public decimal Amount { get; set; }
-        [StringLength(72)]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string Comment { get; set; }
-        [Required]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public byte[] TransactionVersion { get; set; }
 
         [ForeignKey(nameof(AccountId))]

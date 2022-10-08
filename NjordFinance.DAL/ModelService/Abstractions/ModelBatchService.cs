@@ -51,10 +51,6 @@ namespace NjordFinance.ModelService.Abstractions
         public abstract bool ForParent(int parentId, out Exception e);
 
         /// <inheritdoc/>
-        public void AddNavigationPath(Expression<Func<T, object>> navigationPath) =>
-            Reader.AddNavigationPath(navigationPath);
-
-        /// <inheritdoc/>
         public bool AddPendingSave(T model) => Writer.AddPendingSave(model);
 
         /// <inheritdoc/>
@@ -73,9 +69,9 @@ namespace NjordFinance.ModelService.Abstractions
         public async Task<T> ReadAsync(int? id) => await Reader.ReadAsync(id);
 
         /// <inheritdoc/>
-        public async Task<int> SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {
-            return await Writer.SaveChanges();
+            return await Writer.SaveChangesAsync();
         }
 
         /// <inheritdoc/>

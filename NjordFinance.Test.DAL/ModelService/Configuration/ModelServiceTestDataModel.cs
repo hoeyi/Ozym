@@ -264,7 +264,15 @@ namespace NjordFinance.Test.ModelService.Configuration
             {
                 new(){ InvestmentStrategyId = -1, DisplayName = "Test delete pass" },
                 new(){ InvestmentStrategyId = -2, DisplayName = "Test update pass" },
-                new(){ InvestmentStrategyId = -3, DisplayName = "Global Equity" }
+                new(){ InvestmentStrategyId = -3, DisplayName = "Global Equity" },
+                new()
+                { 
+                    InvestmentStrategyId = -4, 
+                    DisplayName = "Retirement", 
+                    Notes = "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." + 
+                        "\n- Porttitor rhoncus dolor purus non enim praesent." +
+                        "\n- Convallis a cras semper auctor neque vitae tempus."
+                }
             };
 
             MarketHolidays = new MarketHoliday[]
@@ -368,14 +376,14 @@ namespace NjordFinance.Test.ModelService.Configuration
                     ConfigurationId = -1,
                     ConfigurationCode = "TestDeletePass",
                     ConfigurationDescription = "Test delete pass",
-                    XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+                    XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_Parameters
                 },
                 new()
                 {
                     ConfigurationId = -2,
                     ConfigurationCode = "TestUpdatePass",
                     ConfigurationDescription = "Test update pass",
-                    XmlDefinition = Resources.DefaultConfiguration.Report_Parameters
+                    XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_Parameters
                 }
             };
 
@@ -386,14 +394,14 @@ namespace NjordFinance.Test.ModelService.Configuration
                     StyleSheetId = -1,
                     StyleSheetCode = "TestDeletePass",
                     StyleSheetDescription = "Test delete pass",
-                    XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
+                    XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_StyleSheet
                 },
                 new()
                 {
                     StyleSheetId = -2,
                     StyleSheetCode = "TestUpdatePass",
                     StyleSheetDescription = "Test update pass",
-                    XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
+                    XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_StyleSheet
                 }
             };
 
@@ -403,14 +411,14 @@ namespace NjordFinance.Test.ModelService.Configuration
                 {
                     ImageId = -1,
                     ImageDescription = "Test delete pass",
-                    ImageBinary = Resources.Images.fractal_circle_icon_dark,
+                    ImageBinary = NjordFinance.UserInterface.Images.fractal_circle_icon_dark,
                     FileExtension = "PNG"
                 },
                 new()
                 {
                     ImageId = -2,
                     ImageDescription = "Test update pass",
-                    ImageBinary = Resources.Images.fractal_circle_icon_dark,
+                    ImageBinary = NjordFinance.UserInterface.Images.fractal_circle_icon_dark,
                     FileExtension = "JPG"
                 }
             };
@@ -982,22 +990,60 @@ namespace NjordFinance.Test.ModelService.Configuration
                 },
             };
 
+            var targetEffDate = GetRandomDateTime();
+            var tagetEffDate2 = GetRandomDateTime();
+
             InvestmentStrategyTargets = new InvestmentStrategyTarget[]
             {
                 new()
                 {
                     InvestmentStrategyId = -3,
                     AttributeMemberId = -13,
-                    EffectiveDate = GetRandomDateTime(),
-                    TargetPercent = 70
+                    EffectiveDate = targetEffDate,
+                    Weight = 0.70M
                 },
                 new()
                 {
                     InvestmentStrategyId = -3,
                     AttributeMemberId = -14,
-                    EffectiveDate = GetRandomDateTime(),
-                    TargetPercent = 30
-                }
+                    EffectiveDate = targetEffDate,
+                    Weight = 0.30M
+                },
+                new()
+                {
+                    InvestmentStrategyId = -3,
+                    AttributeMemberId = -100,
+                    EffectiveDate = tagetEffDate2,
+                    Weight = 0.75M,
+                },
+                new()
+                {
+                    InvestmentStrategyId = -3,
+                    AttributeMemberId = -101,
+                    EffectiveDate = tagetEffDate2,
+                    Weight = 0.15M,
+                },
+                new()
+                {
+                    InvestmentStrategyId = -3,
+                    AttributeMemberId = -104,
+                    EffectiveDate = tagetEffDate2,
+                    Weight = 0.1M,
+                },
+                new()
+                {
+                    InvestmentStrategyId = -4,
+                    AttributeMemberId = -13,
+                    EffectiveDate = targetEffDate,
+                    Weight = 0.50M
+                },
+                new()
+                {
+                    InvestmentStrategyId = -4,
+                    AttributeMemberId = -14,
+                    EffectiveDate = targetEffDate,
+                    Weight = 0.50M
+                },
             };
 
             InvestmentPerformanceEntries = new InvestmentPerformanceEntry[]

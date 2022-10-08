@@ -1,5 +1,6 @@
 ﻿using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Exceptions;
@@ -51,11 +52,19 @@ namespace NjordFinance.ModelService.Abstractions
         {
         }
 
-        /// <inheritdoc/>
-        public void AddNavigationPath(Expression<Func<T, object>> navigationPath)
-        {
-            PathCollection.AddPath(navigationPath);
-        }
+        /// <summary>
+        /// Gets the <see cref="Delegate"/> that configures an <see cref="IQueryable{T}"/> 
+        /// for use as <see cref="IIncludableQueryable{TEntity, TProperty}" />.
+        /// </summary>
+        /// <remarks>If not initialized, the given <see cref="IQueryable{T}"/> is returned.</remarks>
+        public Func<IQueryable<T>, IQueryable<T>> IncludeDelegate { get; init; } =
+            (queryable) => queryable;
+
+        /// <summary>
+        /// Gets or sets the expression for filtering results to the parent id for 
+        /// this service.
+        /// </summary>
+        public Expression<Func<T, bool>> ParentExpression { get; internal init; }
 
         /// <inheritdoc/>
         public bool ModelExists(int? id)
@@ -70,7 +79,7 @@ namespace NjordFinance.ModelService.Abstractions
             if (HasSharedContext)
                 return Exists(SharedContext.Context, keySearch);
 
-            using var context = SharedContext?.Context ?? _contextFactory.CreateDbContext();
+            using var context = _contextFactory.CreateDbContext();
 
             return Exists(context, keySearch);
         }
@@ -164,13 +173,7 @@ namespace NjordFinance.ModelService.Abstractions
                 predicate: predicate.Body,
                 recordLimit: maxCount);
 
-            IQueryable<T> queryable = context.Set<T>();
-
-            // Loop through the navigation paths to include in the query.
-            foreach (var path in PathCollection.Items)
-            {
-                queryable = queryable.Include(path);
-            }
+            IQueryable<T> queryable = IncludeDelegate(context.Set<T>());
 
             var result = await queryable
                             .Where(predicate)
@@ -185,83 +188,6 @@ namespace NjordFinance.ModelService.Abstractions
             return result;
         }
 
-        private bool Exists(FinanceDbContext context, Expression<Func<T, bool>> predicate)
-        {
-            if (context is null)
-                throw new ArgumentNullException(paramName: nameof(context));
-
-            return context.Set<T>().Any(predicate);
-        }
-    }
-
-    /// <inheritdoc/>
-    internal partial class ModelReaderService<T>
-    {
-        /// <summary>
-        /// Gets the <see cref="NavigationPathCollection"/> instance for this service.
-        /// </summary>
-        private NavigationPathCollection PathCollection { get; } = new(pathLimit: 3);
-
-        /// <summary>
-        /// Gets or sets the expression for filtering results to the parent id for 
-        /// this service.
-        /// </summary>
-        public Expression<Func<T, bool>> ParentExpression { get; internal init; }
-
-        /// <summary>
-        /// Represents a collection of <see cref="Expression{Delegate}"/> navigation paths.
-        /// </summary>
-        private class NavigationPathCollection
-        {
-            public Expression<Func<T, object>> this[int i] => _navigationPaths[i];
-
-            /// <summary>
-            /// The hard limit for <see cref="_pathLimit"/>.
-            /// </summary>
-            private const short _hardPathLimit = 5;
-
-            /// <summary>
-            /// The collection of navigation paths
-            /// </summary>
-            private readonly Expression<Func<T, object>>[] _navigationPaths;
-
-            /// <summary>
-            /// Creates a new <see cref="NavigationPathCollection"/> instance with the given limit.
-            /// </summary>
-            /// <param name="pathLimit">The maximum number of paths that can be included.</param>
-            public NavigationPathCollection(short pathLimit)
-            {
-                short size = (pathLimit < _hardPathLimit) ? pathLimit : _hardPathLimit;
-                _navigationPaths = new Expression<Func<T, object>>[size];
-            }
-
-            /// <summary>
-            /// Gets the items in the collection.
-            /// </summary>
-            public IReadOnlyCollection<Expression<Func<T, object>>> Items
-            {
-                get { return _navigationPaths.Where(i => i is not null).ToArray(); }
-            }
-
-            /// <summary>
-            /// Adds the navigation path to the collection.
-            /// </summary>
-            /// <param name="navigationPath">The path to add.</param>
-            /// <exception cref="NotSupportedException">Occurs when the addition of the path would 
-            /// cause the query to exceed its path limit.</exception>
-            public void AddPath(Expression<Func<T, object>> navigationPath)
-            {
-                if (navigationPath is null)
-                    return;
-
-                var pathLimit = _navigationPaths.Length;
-
-                if (Items.Count >= pathLimit)
-                    throw new NotSupportedException(
-                        string.Format(ExceptionString.ModelService_QueryComplexityNotSupported, pathLimit));
-
-                _navigationPaths[Items.Count] = navigationPath;
-            }
-        }
+        
     }
 }

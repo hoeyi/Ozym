@@ -17,7 +17,7 @@ namespace NjordFinance.Test
     public class TestUtility
     {
         /// <summary>
-        /// Resets the test 
+        /// Resets the test database to its initial state.
         /// </summary>
         [AssemblyCleanup]
         public static void ResetDatabaseToInitialState() =>

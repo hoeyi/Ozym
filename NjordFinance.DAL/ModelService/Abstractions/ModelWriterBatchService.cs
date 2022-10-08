@@ -8,6 +8,7 @@ using NjordFinance.Context;
 using NjordFinance.Logging;
 using System.Linq.Expressions;
 using NjordFinance.ModelMetadata;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordFinance.ModelService.Abstractions
 {
@@ -29,8 +30,8 @@ namespace NjordFinance.ModelService.Abstractions
         /// <param name="logger">The <see cref="ILogger"/> for this service.</param>
         /// <exception cref="ArgumentNullException">A required parameter was null.</exception>
         public ModelWriterBatchService(
-            IDbContextFactory<FinanceDbContext>
-            contextFactory, IModelMetadataService modelMetadata,
+            IDbContextFactory<FinanceDbContext> contextFactory, 
+            IModelMetadataService modelMetadata,
             ILogger logger) :
                 base(contextFactory, modelMetadata, logger)
         {
@@ -60,7 +61,8 @@ namespace NjordFinance.ModelService.Abstractions
             if (!RequiredParentIdIsSet(model))
             {
                 string modelDisplayName = _modelMetadata
-                    .NounFor(typeof(T))?.GetSingular()?.ToLower();
+                    .GetAttribute<T, NounAttribute>()
+                    ?.GetSingular();
 
                 throw new InvalidOperationException(string.Format(
                     ExceptionString.ModelService_AddFailed_RequiredParentNotset,
@@ -107,8 +109,10 @@ namespace NjordFinance.ModelService.Abstractions
             SharedContext.Context.Set<T>().Remove(model);
 
             EntityState observedState = SharedContext.Context.Entry(model).State;
-
-            bool result = observedState == EntityState.Deleted;
+            
+            int? key = GetKey(model);
+            bool result = (key is null && observedState == EntityState.Detached) ^
+                (key is not null && observedState == EntityState.Deleted);
 
             object m = new
             {
@@ -140,9 +144,23 @@ namespace NjordFinance.ModelService.Abstractions
         }
 
         /// <inheritdoc/>
-        public async Task<int> SaveChanges()
+        public virtual async Task<int> SaveChangesAsync()
         {
-            return await SharedContext.Context.SaveChangesAsync();
+            try
+            {
+                return await SharedContext.Context.SaveChangesAsync();
+
+            }
+            catch (DbUpdateConcurrencyException duc)
+            {
+                _logger.LogWarning(duc, duc.Message);
+                throw new ModelUpdateException(duc.Message);
+            }
+            catch (DbUpdateException du)
+            {
+                _logger.ModelServiceSaveChangesFailed(du);
+                throw new ModelUpdateException(du.InnerException.Message, du);
+            }
         }
     }
 
@@ -174,5 +192,6 @@ namespace NjordFinance.ModelService.Abstractions
         /// Delegate responsible for creating a default <typeparamref name="T"/> instance.
         /// </summary>
         public Func<T> GetDefaultModelDelegate { get; internal init; }
+
     }
 }

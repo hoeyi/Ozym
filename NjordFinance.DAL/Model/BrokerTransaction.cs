@@ -57,12 +57,12 @@ namespace NjordFinance.Model
         [InverseProperty("BrokerTransactionSecurities")]
         public virtual Security Security { get; set; }
         [ForeignKey(nameof(TaxLotId))]
-        [InverseProperty(nameof(BrokerTransaction.InverseTaxLot))]
+        [InverseProperty(nameof(InverseTaxLot))]
         public virtual BrokerTransaction TaxLot { get; set; }
         [ForeignKey(nameof(TransactionCodeId))]
         [InverseProperty(nameof(BrokerTransactionCode.BrokerTransactions))]
         public virtual BrokerTransactionCode TransactionCode { get; set; }
-        [InverseProperty(nameof(BrokerTransaction.TaxLot))]
+        [InverseProperty(nameof(TaxLot))]
         public virtual ICollection<BrokerTransaction> InverseTaxLot { get; set; }
     }
 }

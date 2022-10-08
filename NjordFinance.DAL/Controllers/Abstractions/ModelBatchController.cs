@@ -49,11 +49,11 @@ namespace NjordFinance.Controllers.Abstractions
         }
 
         /// <inheritdoc/>
-        public async Task<IActionResult> DeleteAsync(T model)
+        public async Task<IActionResult> DeleteOrDetachAsync(T model)
         {
             IActionResult Delete()
             {
-                if (!_modelService.ModelExists(model))
+                if (_modelService.GetKey(model) != default && !_modelService.ModelExists(model))
                 {
                     return BadRequest();
                 }
@@ -99,7 +99,7 @@ namespace NjordFinance.Controllers.Abstractions
         {
             try
             {
-                var result = await _modelService.SaveChanges();
+                var result = await _modelService.SaveChangesAsync();
 
                 return NoContent();
             }
@@ -118,6 +118,14 @@ namespace NjordFinance.Controllers.Abstractions
             Expression<Func<T, bool>> predicate, int maxCount = 0)
         {
             return await _modelService.SelectWhereAysnc(predicate, maxCount);
+        }
+
+        /// <inheritdoc/>
+        public async Task<ActionResult<bool>> ModelExistsAsync(T model)
+        {
+            bool result = await Task.Run(() => _modelService.ModelExists(model));
+
+            return result;
         }
     }
 }

@@ -1,0 +1,53 @@
+﻿@inherits ModelCRUD<ReportStyleSheet>
+
+@if (ViewModel is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelForm TViewModel="ReportConfiguration">
+        <ModelFormLineItem ForMember="@(() => ViewModel.StyleSheetCode)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.StyleSheetCode
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value="ViewModel.StyleSheetCode"
+                   disable="@Disabled"
+                   DisplayName="@NameFor(x => x.StyleSheetCode)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.StyleSheetDescription)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.StyleSheetDescription
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value="ViewModel.StyleSheetDescription"
+                   disable="@Disabled"
+                   DisplayName="@NameFor(x => x.StyleSheetDescription)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.XmlDefinition)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.XmlDefinition
+                </div>
+            }
+            else
+            {
+                <InputTextArea class="form-control" @bind-Value="ViewModel.XmlDefinition"
+                       disable="@Disabled"
+                       DisplayName="@NameFor(x => x.XmlDefinition)" />
+            }
+        </ModelFormLineItem>
+    </ModelForm>
+}

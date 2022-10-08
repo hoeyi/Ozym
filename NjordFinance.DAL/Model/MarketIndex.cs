@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NjordFinance.Model.Metadata;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,11 +16,19 @@ namespace NjordFinance.Model
         [Key]
         [Column("IndexID")]
         public int IndexId { get; set; }
-        [Required]
-        [StringLength(12)]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(12,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string IndexCode { get; set; }
-        [Required]
-        [StringLength(128)]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(128,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string IndexDescription { get; set; }
 
         [InverseProperty(nameof(MarketIndexPrice.MarketIndex))]

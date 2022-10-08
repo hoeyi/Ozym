@@ -1,0 +1,115 @@
+﻿@inherits ModelCRUD<CountryAttributeGrouping>
+
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ContentTile>
+        <TitleAlignLeft>
+            @ViewModel.ParentAttribute.DisplayName
+            @if (ReadOnly)
+            {
+                <span class="sub-title">
+                    (@ViewModel.EffectiveDate.ToShortDateString())
+                </span>
+            }
+        </TitleAlignLeft>
+        <TitleAlignRight>
+            @if (!ReadOnly)
+            {
+                <label for="add-new-entry-button">
+                    @(NameFor(x => x.EffectiveDate))
+                </label>
+                <InputDate class="form-control right" @bind-Value="@ViewModel.EffectiveDate"
+                   @onchange="RefreshState" />
+                <button id="add-new-entry-button"
+                class="form-control button icon"
+                type="button"
+                @onclick="AddNew_OnClick">
+                    <IonIcon Name="add" />
+                </button>
+            }
+
+        </TitleAlignRight>
+        <Body>
+            <DataGrid Data="@ViewModel.Entries">
+                <ValidationMessage For=@(() => ViewModel.SumOfMemberWeights) />
+                @if (ReadOnly)
+                {
+                    <DataGridColumn Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
+                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.AttributeMemberId))>
+                        <CellTemplate Context="model">
+                            @model.AttributeMember.DisplayName
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(InvestmentStrategyTarget.Weight)
+                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.Weight))>
+                        <CellTemplate Context="model">
+                            @model.Weight
+                        </CellTemplate>
+                    </DataGridColumn>
+                }
+                else
+                {
+                    <DataGridColumn Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
+                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.AttributeMemberId))>
+                        <CellEditTemplate Context="model">
+                            <InputSelect class="form-control"
+                                 @bind-Value="@model.AttributeMemberId">
+                                @foreach (var member in AttributeMemberLookup)
+                                {
+                                    <option value="@member.Key">@member.Display</option>
+                                }
+                            </InputSelect>
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(InvestmentStrategyTarget.Weight)
+                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.Weight))>
+                        <CellEditTemplate Context="model">
+                            <InputNumber class="form-control" @bind-Value="@model.Weight" />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Type="DataGridCellType.Button">
+                        <CellEditTemplate Context="model">
+                            <button class="form-control button icon"
+                            type="button"
+                            @onclick="(args) => RemoveExisting_OnClick(args, model)">
+                                <IonIcon Name="close-circle" />
+                            </button>
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                }
+            </DataGrid>
+        </Body>
+    </ContentTile>
+}
+
+@code {
+    [CascadingParameter]
+    public IEnumerable<LookupModel> AttributeMemberLookup { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        IsLoading = ViewModel is null || (ReadOnly ^ (AttributeMemberLookup is null));
+    }
+
+    private void AddNew_OnClick(MouseEventArgs e)
+    {
+        // TODO: Do something with MouseEventArgs ?
+
+        ViewModel.AddNewEntry();
+    }
+
+    private void RemoveExisting_OnClick(MouseEventArgs e, CountryAttributeMemberEntry entry)
+    {
+        // TODO: Do something with MouseEventArgs ?
+
+        ViewModel.RemoveEntry(entry);
+    }
+
+    private void RefreshState(EventArgs args) => StateHasChanged();
+}

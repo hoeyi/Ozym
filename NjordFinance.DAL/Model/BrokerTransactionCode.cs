@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NjordFinance.Model.Metadata;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,11 +17,19 @@ namespace NjordFinance.Model
         [Key]
         [Column("TransactionCodeID")]
         public int TransactionCodeId { get; set; }
-        [Required]
-        [StringLength(3)]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(3,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string TransactionCode { get; set; }
-        [Required]
-        [StringLength(32)]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(32,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string DisplayName { get; set; }
         public short CashEffect { get; set; }
         public short ContributionWithdrawalEffect { get; set; }

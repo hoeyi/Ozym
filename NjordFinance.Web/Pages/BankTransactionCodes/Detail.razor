@@ -1,0 +1,107 @@
+﻿@page "/bank-transaction-codes/{ModelId:int}/detail"
+
+@inherits ModelDetail<BankTransactionCode>
+
+@inject IReferenceDataService ReferenceData
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader 
+            ActionMenu="@ActionMenu"
+            Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+
+        <ContentTile>
+            <Body>
+                <CascadingValue Value="@ViewModel">
+                    <EditForm class="model-editor" Model="@ViewModel">
+                        <BankTransactionCodeCRUD Disabled="false" ReadOnly="true" />
+                    </EditForm>
+                </CascadingValue>
+            </Body>
+        </ContentTile>
+        @foreach (var entry in ViewModel.CurrentEntries.OrderBy(g => 
+            g.AttributeMember.Attribute.DisplayName))
+        {
+            <ContentTile>
+                <Body>
+                    <EditForm Model="@entry">
+                        <ModelForm TViewModel="BankTransactionCodeAttributeMemberEntry">
+                            <ModelFormLineItem 
+                                LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
+                                       ForMember="@(() => entry.AttributeMember.DisplayName)">
+                                <div class="form-control">
+                                    @entry.AttributeMember.DisplayName
+                                </div>
+                            </ModelFormLineItem>
+                            <ModelFormLineItem ForMember="@(() => entry.EffectiveDate)">
+                                <div class="form-control">
+                                    @entry.EffectiveDate.ToShortDateString()
+                                </div>
+                            </ModelFormLineItem>
+                        </ModelForm>
+                    </EditForm>
+                </Body>
+            </ContentTile>
+        }
+    }
+</ThemedComponent>
+
+@code {
+    [Parameter]
+    public int ModelId { get; set; }
+
+    private BankTransactionCodeViewModel ViewModel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+
+        try
+        {
+            var modelQuery = Controller.ReadAsync(ModelId);
+
+            if ((await modelQuery).Value is BankTransactionCode model)
+                Model = model;
+
+            ActionMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                    {
+                        // Add index button.
+                        { 0, new MenuItem()
+                            {
+                                IconKey = "list",
+                                Caption = string.Format(
+                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                UriStem = $"{IndexUriRelativePath}"
+                            }
+                        },
+                        // Add edit button.
+                        { 1, new MenuItem()
+                            {
+                                IconKey = "pencil",
+                                Caption = string.Format(
+                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
+                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
+                            }
+                        }
+                    }
+                };
+
+            ViewModel = new(Model);
+        }
+        finally
+        {
+            IsLoading = Model is null || ViewModel is null;
+        }
+    }
+}

@@ -36,17 +36,10 @@ namespace NjordFinance.Test.ModelService
         /// Creates a new <see cref="FinanceDbContext"/> instance for unit-testing.
         /// </summary>
         /// <inheritdoc/>
-        public FinanceDbContext CreateDbContext() => new(
-                new DbContextOptionsBuilder<FinanceDbContext>()
-                    .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordFinance"])
-                    .EnableSensitiveDataLogging()
-                    .Options);
+        public FinanceDbContext CreateDbContext() => new(options: ContextOptionsBuilder().Options);
 
         private static FinanceDbContext InitializeTestDbContext() => new(
-            options: new DbContextOptionsBuilder<FinanceDbContext>()
-                    .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordFinance"])
-                    .EnableSensitiveDataLogging()
-                    .Options,
+            options: ContextOptionsBuilder().Options,
             seedData: new ModelServiceTestDataModel());
 
         /// <summary>
@@ -56,11 +49,7 @@ namespace NjordFinance.Test.ModelService
         {
             lock(_lock)
             {
-                using var context = new FinanceDbContext(
-                    new DbContextOptionsBuilder<FinanceDbContext>()
-                        .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordFinance"])
-                        .EnableSensitiveDataLogging()
-                    .Options);
+                using var context = new FinanceDbContext(options: ContextOptionsBuilder().Options);
 
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -68,5 +57,10 @@ namespace NjordFinance.Test.ModelService
                 _databaseInitialized = true;
             }
         }
+
+        private static DbContextOptionsBuilder<FinanceDbContext> ContextOptionsBuilder() =>
+            new DbContextOptionsBuilder<FinanceDbContext>()
+                .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordWorks"])
+                .EnableSensitiveDataLogging();
     }
 }

@@ -1,0 +1,97 @@
+﻿@page "/investment-models/{ModelId:int}/detail"
+
+@inherits ModelDetail<InvestmentStrategy>
+
+@inject IReferenceDataService ReferenceData
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader
+            ActionMenu="@ActionMenu" 
+            Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+
+        <ContentTile>
+            <Body>
+                <CascadingValue Value="@ViewModel">
+                    <EditForm class="model-editor" Model="@ViewModel" >
+                        <InvestmentModelCRUD Disabled="false" ReadOnly="true" />
+                    </EditForm>
+                </CascadingValue>
+            </Body>
+        </ContentTile>
+        @foreach(var group in ViewModel.CurrentEntryCollectionGroups.OrderBy(g => 
+            g.ParentAttribute.DisplayName))
+        {
+            <ContentTile>
+                <Body>
+                    <CascadingValue Value="@group">
+                        <EditForm class="model-editor" Model="@group">
+                            <InvestmentModelTargetCRUD 
+                                Disabled="false"
+                                ReadOnly="true" />
+                        </EditForm>
+                    </CascadingValue>
+                </Body>
+            </ContentTile>
+        }
+    }
+</ThemedComponent>
+
+@code{
+    [Parameter]
+    public int ModelId { get; set; }
+
+    private InvestmentModelViewModel ViewModel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.ReadAsync(ModelId);
+
+            if((await modelQuery).Value is InvestmentStrategy model)
+                Model = model;
+
+            ActionMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                    {
+                        // Add index button.
+                        { 0, new MenuItem()
+                            {
+                                IconKey = "list",
+                                Caption = string.Format(
+                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                UriStem = $"{IndexUriRelativePath}"
+                            }
+                        },
+                        // Add edit button.
+                        { 1, new MenuItem()
+                            {
+                                IconKey = "pencil",
+                                Caption = string.Format(
+                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
+                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
+                            }
+                        }
+                    }
+                };
+
+            ViewModel = new(Model);
+        }
+        finally
+        {
+            IsLoading = Model is null || ViewModel is null;
+        }
+    }
+}

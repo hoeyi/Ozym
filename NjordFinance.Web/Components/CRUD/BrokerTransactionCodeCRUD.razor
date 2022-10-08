@@ -1,0 +1,81 @@
+﻿@inherits ModelCRUD<BrokerTransactionCodeViewModel>
+
+@if (ViewModel is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelForm TViewModel="BrokerTransactionCodeViewModel">
+        <ModelFormLineItem ForMember="@(() => ViewModel.TransactionCode)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.TransactionCode
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.TransactionCode
+                    disable="@Disabled"
+                    DisplayName="@(NameFor(x => x.TransactionCode))" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.DisplayName)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.DisplayName
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.DisplayName
+                    disable="@Disabled"
+                    DisplayName="@(NameFor(x => x.DisplayName))" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.CashEffect)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.CashEffect
+                </div>
+            }
+            else
+            {
+                <InputNumber class="form-control" @bind-Value=ViewModel.CashEffect
+                    disable="@Disabled"
+                    DisplayName="@(NameFor(x => x.CashEffect))" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.ContributionWithdrawalEffect)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.ContributionWithdrawalEffect
+                </div>
+            }
+            else
+            {
+                <InputNumber class="form-control" @bind-Value=ViewModel.ContributionWithdrawalEffect
+                    disable="@Disabled"
+                    DisplayName="@(NameFor(x => x.ContributionWithdrawalEffect))" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.QuantityEffect)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.QuantityEffect
+                </div>
+            }
+            else
+            {
+                <InputNumber class="form-control" @bind-Value=ViewModel.QuantityEffect
+                    disable="@Disabled"
+                    DisplayName="@(NameFor(x => x.QuantityEffect))" />
+            }
+        </ModelFormLineItem>
+    </ModelForm>
+}

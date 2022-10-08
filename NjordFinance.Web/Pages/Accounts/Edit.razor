@@ -1,93 +1,98 @@
-﻿@page "/Accounts/Edit/{AccountId:int}"
+﻿@page "/accounts/{AccountId:int}/edit"
 
 @inherits ModelDetail<Account>
 
 @inject IReferenceDataService ReferenceData
 
-@if (IsLoading)
-{
-    <LoadingSvg />
-}
-else
-{
-    <PageTitle>@(PageTitle.Update(Model.AccountCode).AsPageTitle())</PageTitle>
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.UpdateSingle(Model.AccountCode).AsPageTitle())</PageTitle>
 
-    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Update(Model.AccountCode))" />
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.UpdateSingle(Model.AccountCode))" />
 
-@*    <div>
-        <a class="link-button" href=""
-            @onclick=@(args => HandleDelete(args))
-            @onclick:preventDefault>
-            @Resources.Strings.Caption_Button_Delete
-        </a>
-    </div>*@
-
-    <EditForm Model=@Model>
-        <DataAnnotationsValidator/>
-        <ValidationSummary/>
-        <div>
-            <AccountObjectCRUD Model="@Model.AccountNavigation"
-                Disabled="@_disabled" Readonly="@_readonly" />
-        </div>
-        <div>
-            <AccountCRUD Model="@Model" AccountCustodians="@Custodians"
-                Disabled="@_disabled" Readonly="@_readonly" />
-        </div>
-        <div>
-            <button type="submit" @onclick=@(args => HandleValidSubmit(args))>
-                @Resources.Strings.Caption_Button_Save
-            </button>
-        </div>
-    </EditForm>
-}
+        <ContentTile>
+            <Body>
+                <CascadingValue Value="@ViewModel">
+                    <EditForm class="model-editor" Model="@ViewModel" 
+                        OnValidSubmit="HandleValidSubmit" >
+                        <DataAnnotationsValidator/>
+                        <ActionButtonMenu>
+                            <button type="submit" class="form-control button">
+                                @Strings.Caption_Button_Save
+                            </button>
+                            <button type="button" class="form-control button" 
+                                @onclick="Delete_OnClick"
+                                @onclick:preventDefault >
+                                @Strings.Caption_Button_Delete
+                            </button>
+                            <button type="button" class="form-control button" 
+                                @onclick="Cancel_OnClick"
+                                @onclick:preventDefault >
+                                @Strings.Caption_Button_Cancel
+                            </button>
+                        </ActionButtonMenu>
+                        <div>
+                            <AccountCRUD AccountCustodians="@Custodians" 
+                                Disabled="false" ReadOnly="@false" />
+                        </div>
+                    </EditForm>
+                </CascadingValue>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
 
 @code {
+    /// <summary>
+    /// Gets or sets the identifier for the <see cref="Account" /> worked using this page.
+    /// </summary>
     [Parameter]
-    public int? AccountId { get; set; }
+    public int AccountId { get; set; }
 
     private IEnumerable<LookupModel> Custodians { get; set; }
 
-    private const bool _disabled = false;
-    private const bool _readonly = false;
+    private AccountViewModel ViewModel { get; set; }
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        ActionMenu = new()
-        {
-            IconKey = "reorder-four",
-            Children = new()
-            {
-                // Add index button.
-                { 0, new MenuItem()
-                    {
-                        IconKey = "list",
-                        Caption = $"{Resources.Strings.Caption_Button_Index}",
-                        UriStem = $"{PageIndexUri}"
-                    }
-                },
-                // Add delete button.
-                { 1, new MenuItem()
-                    {
-                        IconKey = "close",
-                        Caption = $"{Resources.Strings.Caption_Button_Delete} {ModelNoun.GetSingular()}",
-                        UriStem = $"#"
-                    }
-                }
-            }
-        };            
-
         IsLoading = true;
 
         try
         {
-            var accountQuery = await Controller.ReadAsync(AccountId);
-            if (accountQuery.Value is Account account)
+            var accountQuery = Controller.ReadAsync(AccountId);
+            var custodiansQuery = ReferenceData.AccountCustodianListAsync();
+
+            if ((await accountQuery).Value is Account account)
             {
                 Model = account;
             }
 
-            Custodians = await ReferenceData.AccountCustodianListAsync();
+            Custodians = (await custodiansQuery).ToLookups();
+
+            ActionMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                        {
+                            // Add index button.
+                            { 0, new MenuItem()
+                                {
+                                    IconKey = "list",
+                                    Caption = string.Format(
+                                        Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                    UriStem = $"{IndexUriRelativePath}"
+                                }
+                            }
+                        }
+                };
+
+            ViewModel = new(Model);
         }
         finally
         {
@@ -95,22 +100,26 @@ else
         }
     }
 
-    private async Task HandleDelete(MouseEventArgs args)
+    private void Cancel_OnClick()
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(AccountId));
+    }
+
+    private async Task Delete_OnClick()
     {
         var result = await Controller.DeleteAsync(Model!);
 
-        if (result is NoContentResult)
-            NavigateToIndex(args);
+        if (result is NoContentResult ncr)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
-    private async Task HandleValidSubmit(MouseEventArgs args)
+    private async Task HandleValidSubmit()
     {
-        var e = args;
-        Logger.LogInformation("HandleValidSubmit called");
+        Model = ViewModel.ToAccount();
 
         var result = await Controller.UpdateAsync(AccountId, Model);
 
-        if (result.Value?.AccountId == AccountId)
-            NavigateToDetail($"{Model?.AccountId}");
+        if (result.Value is not null)
+            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.AccountId));
     }
 }

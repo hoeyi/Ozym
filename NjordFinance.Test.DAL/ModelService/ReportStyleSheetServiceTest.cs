@@ -58,14 +58,14 @@ namespace NjordFinance.Test.ModelService
         {
             StyleSheetCode = "TestCreatePass",
             StyleSheetDescription = "Test create pass",
-            XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
+            XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_StyleSheet
         };
 
         protected override ReportStyleSheet DeleteModelSuccessSample => new()
         {
             StyleSheetCode = "TestDeletePass",
             StyleSheetDescription = "Test delete pass",
-            XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
+            XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_StyleSheet
         };
 
         protected override ReportStyleSheet DeleteModelFailSample => new()
@@ -73,14 +73,14 @@ namespace NjordFinance.Test.ModelService
             StyleSheetId = -1000,
             StyleSheetCode = "TestDeleteFail",
             StyleSheetDescription = "Test delete fail",
-            XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
+            XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_StyleSheet
         };
 
         protected override ReportStyleSheet UpdateModelSuccessSample => new()
         {
             StyleSheetCode = "TestUpdatePass",
             StyleSheetDescription = "Test update pass",
-            XmlDefinition = Resources.DefaultConfiguration.Report_StyleSheet
+            XmlDefinition = NjordFinance.Configuration.DefaultConfiguration.Report_StyleSheet
         };
 
         protected override IModelService<ReportStyleSheet> GetModelService() =>

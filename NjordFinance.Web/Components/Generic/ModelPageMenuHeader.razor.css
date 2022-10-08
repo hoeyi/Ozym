@@ -1,19 +1,12 @@
 ﻿h3 {
     display: inline-flex;
     flex-direction: row;
-    border-bottom: 1px solid var(--euler-hexcolor-fore-0, black);
-    padding: 0.25rem;
+    border-bottom: 1px solid var(--theme-text-color-0, black);
+    padding-bottom: 0.1rem;
+    margin-bottom: 1rem;
     width: 100%;
 }
 
     h3 > span {
-        padding-left: 10px;
+        padding-left: 0.5rem;
     }
-
-::deep .menu-item.root-node {
-    height: var(--default-height, 32px) !important;
-}
-
-::deep .icon.root {
-    max-width: 32px !important;
-}

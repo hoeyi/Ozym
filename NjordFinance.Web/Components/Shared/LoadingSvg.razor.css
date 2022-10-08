@@ -35,5 +35,5 @@ p {
 */
 svg path,
 svg rect {
-    fill: var(--euler-hexcolor-fore-0, black);
+    fill: var(--theme-text-color-0, black);
 }

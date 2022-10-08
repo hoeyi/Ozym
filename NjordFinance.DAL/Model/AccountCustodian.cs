@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NjordFinance.Model.Metadata;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,11 +17,19 @@ namespace NjordFinance.Model
         [Key]
         [Column("AccountCustodianID")]
         public int AccountCustodianId { get; set; }
-        [Required]
-        [StringLength(32)]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(32,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string CustodianCode { get; set; }
-        [Required]
-        [StringLength(72)]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string DisplayName { get; set; }
 
         [InverseProperty(nameof(Account.AccountCustodian))]

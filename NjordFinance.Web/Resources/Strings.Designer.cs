@@ -61,150 +61,6 @@ namespace NjordFinance.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New.
-        /// </summary>
-        internal static string Caption_Button_Create {
-            get {
-                return ResourceManager.GetString("Caption_Button_Create", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Delete.
-        /// </summary>
-        internal static string Caption_Button_Delete {
-            get {
-                return ResourceManager.GetString("Caption_Button_Delete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit.
-        /// </summary>
-        internal static string Caption_Button_Edit {
-            get {
-                return ResourceManager.GetString("Caption_Button_Edit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Index.
-        /// </summary>
-        internal static string Caption_Button_Index {
-            get {
-                return ResourceManager.GetString("Caption_Button_Index", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        internal static string Caption_Button_Save {
-            get {
-                return ResourceManager.GetString("Caption_Button_Save", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search.
-        /// </summary>
-        internal static string Caption_Button_Search {
-            get {
-                return ResourceManager.GetString("Caption_Button_Search", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to View.
-        /// </summary>
-        internal static string Caption_Button_View {
-            get {
-                return ResourceManager.GetString("Caption_Button_View", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add {0}.
-        /// </summary>
-        internal static string Caption_DataGrid_NewLine {
-            get {
-                return ResourceManager.GetString("Caption_DataGrid_NewLine", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;select&gt;.
-        /// </summary>
-        internal static string Caption_InputSelect_Prompt {
-            get {
-                return ResourceManager.GetString("Caption_InputSelect_Prompt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search for:.
-        /// </summary>
-        internal static string Caption_InputSelect_SearchField {
-            get {
-                return ResourceManager.GetString("Caption_InputSelect_SearchField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (No content).
-        /// </summary>
-        internal static string Caption_NoContent {
-            get {
-                return ResourceManager.GetString("Caption_NoContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Loading....
-        /// </summary>
-        internal static string Caption_Page_Loading {
-            get {
-                return ResourceManager.GetString("Caption_Page_Loading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Page is under construction. Check back later..
-        /// </summary>
-        internal static string Caption_PageUnderConstruction {
-            get {
-                return ResourceManager.GetString("Caption_PageUnderConstruction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Not authenticated.
-        /// </summary>
-        internal static string Caption_User_NotAuthenticated {
-            get {
-                return ResourceManager.GetString("Caption_User_NotAuthenticated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} could not be saved. The errors below must be resolved:.
-        /// </summary>
-        internal static string EditForm_ValidationFailed {
-            get {
-                return ResourceManager.GetString("EditForm_ValidationFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} could not be saved. The errors below must be resolved:.
-        /// </summary>
-        internal static string EditFormList_ValidationFailed {
-            get {
-                return ResourceManager.GetString("EditFormList_ValidationFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Host terminated unexpectedly..
         /// </summary>
         internal static string Exception_Application_Fatal {
@@ -223,6 +79,15 @@ namespace NjordFinance.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NjordFinance is a web-application for financial management and analysis, powered by Blazor and ASP.NET..
+        /// </summary>
+        internal static string Text_ApplicationSummary {
+            get {
+                return ResourceManager.GetString("Text_ApplicationSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         internal static string Title_ApplicationHome {
@@ -237,6 +102,24 @@ namespace NjordFinance.Web.Resources {
         internal static string Title_ApplicationName {
             get {
                 return ResourceManager.GetString("Title_ApplicationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string Title_ApplicationSummary {
+            get {
+                return ResourceManager.GetString("Title_ApplicationSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select attribute.
+        /// </summary>
+        internal static string Title_Component_AttributeSelector {
+            get {
+                return ResourceManager.GetString("Title_Component_AttributeSelector", resourceCulture);
             }
         }
         

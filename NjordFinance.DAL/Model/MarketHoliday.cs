@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NjordFinance.Model.Metadata;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,8 +16,12 @@ namespace NjordFinance.Model
         [Key]
         [Column("MarketHolidayID")]
         public int MarketHolidayId { get; set; }
-        [Required]
-        [StringLength(72)]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string MarketHolidayName { get; set; }
 
         [InverseProperty(nameof(MarketHolidayObservance.MarketHoliday))]

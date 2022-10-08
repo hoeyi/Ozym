@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using NjordFinance.Model.Metadata;
 
 namespace NjordFinance.Model
 {
@@ -28,10 +29,16 @@ namespace NjordFinance.Model
         public int SecurityTypeId { get; set; }
         [Column("SecurityExchangeID")]
         public int? SecurityExchangeId { get; set; }
-        [Required]
-        [StringLength(72)]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string SecurityDescription { get; set; }
-        [StringLength(96)]
+        [StringLength(96,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string Issuer { get; set; }
         public bool HasPerpetualMarket { get; set; }
         public bool HasPerpetualPrice { get; set; }

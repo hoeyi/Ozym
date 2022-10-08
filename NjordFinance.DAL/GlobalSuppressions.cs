@@ -3,6 +3,5 @@
 // Project-level suppressions either have no target or are given
 // a specific target and scoped to a namespace, type, member, etc.
 
-using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "<Pending>", Scope = "member", Target = "~P:NjordFinance.ModelService.ModelChildrenWriterService`2.ParentKey")]
+//[assembly: SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "<Pending>", Scope = "member", Target = "~P:NjordFinance.ModelService.ModelChildrenWriterService`2.ParentKey")]

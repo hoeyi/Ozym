@@ -1,133 +1,128 @@
-﻿@page "/Accounts"
+﻿@page "/accounts"
 
 @inherits ModelIndex<Account>
 
-<PageTitle>@(PageTitle.Index().AsPageTitle())</PageTitle>
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-<ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.Index())" />
+<ThemedComponent>
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
-<div>
-    <SearchInputTable TModel=@Account
-                      ComparisonOperators=@ComparisonOperators
-                      ExpressionBuilder=@ExpressionBuilder
-                      SearchFields=@SearchFields
-                      OnSearchClick=@(args => SearchClicked(args))>
-    </SearchInputTable>
-</div>
-@if (IsLoading)
-{
-    <LoadingSvg />
-}
-else
-{
-    <span>
-        <DataGrid Data="@Models" class="datagrid">
-            <DataGridColumn Property=@nameof(Account.AccountNavigation.AccountObjectCode)
-                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.AccountObjectCode)))>
-                <CellTemplate Context="model">
-                    <a href="@($"{PageIndexUri}/Details/{model.AccountId}")" @onclick="@(args => NavigateToDetail(model, args))"
-                   @onclick:preventDefault>
-                        @model.AccountNavigation.AccountObjectCode.ToUpper()
-                    </a>
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.AccountNavigation.ObjectDisplayName)
-                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDisplayName)))>
-                <CellTemplate Context="model">
-                    @model.AccountNavigation.ObjectDisplayName
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.AccountNavigation.ObjectDescription)
-                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.ObjectDescription)))>
-                <CellTemplate Context="model">
-                    @model.AccountNavigation.ObjectDescription
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.AccountNavigation.StartDate)
-                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.StartDate)))>
-                <CellTemplate Context="model">
-                    @model.AccountNavigation.StartDate.ToShortDateString()
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.AccountNavigation.CloseDate)
-                        Caption=@(NameFor<AccountObject>(nameof(AccountObject.CloseDate)))>
-                <CellTemplate Context="model">
-                    @model.AccountNavigation.CloseDate?.ToShortDateString()
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.AccountNumber)
-                        Caption=@(NameFor<Account>(nameof(Account.AccountNumber)))>
-                <CellTemplate Context="model">
-                    @model.AccountNumber
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.BooksClosedDate)
-                        Caption=@(NameFor<Account>(nameof(Account.BooksClosedDate)))>
-                <CellTemplate Context="model">
-                    @model.BooksClosedDate?.ToShortDateString()
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.IsComplianceTradable)
-                        Caption=@(NameFor<Account>(nameof(Account.IsComplianceTradable)))>
-                <CellTemplate Context="model">
-                    @model.IsComplianceTradable
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.HasWallet)
-                        Caption=@(NameFor<Account>(nameof(Account.HasWallet)))>
-                <CellTemplate Context="model">
-                    @model.HasWallet
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.HasBankTransaction)
-                        Caption=@(NameFor<Account>(nameof(Account.HasBankTransaction)))>
-                <CellTemplate Context="model">
-                    @model.HasBankTransaction
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.HasBrokerTransaction)
-                        Caption=@(NameFor<Account>(nameof(Account.HasBrokerTransaction)))>
-                <CellTemplate Context="model">
-                    @model.HasBrokerTransaction
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(Account.AccountCustodian.CustodianCode)
-                        Caption=@(NameFor<Account>(nameof(Account.AccountCustodianId)))>
-                <CellTemplate Context="model">
-                    @model.AccountCustodian?.CustodianCode
-                </CellTemplate>
-            </DataGridColumn>
-        </DataGrid>
-    </span>
-}
+    <ContentTile>
+        <Body>
+            <SearchInputTable TModel="Account"
+                ComparisonOperators=@ComparisonOperators
+                ExpressionBuilder=@ExpressionBuilder
+                SearchFields=@SearchFields
+                OnSearchClick=@(async (args) => await SearchClicked(args))>
+            </SearchInputTable>
+        </Body>
+    </ContentTile>
+
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models">
+                    <DataGridColumn Property=@nameof(Account.AccountNavigation.AccountObjectCode)
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.AccountObjectCode))
+                                Type=@DataGridCellType.Link>
+                        <CellTemplate Context="model">
+                            <a class="custom-nav-link" href=@(FormatDetailUri(model.AccountId)) @onclick:preventDefault 
+                                @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.AccountNavigation.AccountObjectCode.ToUpper()
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Account.AccountNavigation.ObjectDisplayName)
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.ObjectDisplayName))>
+                        <CellTemplate Context="model">
+                            @model.AccountNavigation.ObjectDisplayName
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Account.AccountNavigation.ObjectDescription)
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.ObjectDescription))>
+                        <CellTemplate Context="model">
+                            @model.AccountNavigation.ObjectDescription
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Account.AccountNavigation.StartDate)
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.StartDate))>
+                        <CellTemplate Context="model">
+                            @model.AccountNavigation.StartDate.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Account.AccountNavigation.CloseDate)
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.CloseDate))>
+                        <CellTemplate Context="model">
+                            @model.AccountNavigation.CloseDate?.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Account.AccountNumber)
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.AccountNumber))>
+                        <CellTemplate Context="model">
+                            @model.AccountNumber
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Account.BooksClosedDate)
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.BooksClosedDate))>
+                        <CellTemplate Context="model">
+                            @model.BooksClosedDate?.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Account.IsComplianceTradable)
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.IsComplianceTradable))>
+                        <CellTemplate Context="model">
+                            @model.IsComplianceTradable
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Account.HasWallet)
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.HasWallet))>
+                        <CellTemplate Context="model">
+                            @model.HasWallet
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Account.HasBankTransaction)
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.HasBankTransaction))>
+                        <CellTemplate Context="model">
+                            @model.HasBankTransaction
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Account.HasBrokerTransaction)
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.HasBrokerTransaction))>
+                        <CellTemplate Context="model">
+                            @model.HasBrokerTransaction
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Account.AccountCustodian.CustodianCode)
+                                Caption=@(ModelMetadata.NameFor<Account>(x => x.AccountCustodianId))>
+                        <CellTemplate Context="model">
+                            @model.AccountCustodian?.CustodianCode
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
 
 @code {
-    
     /// <inheritdoc/>
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        ActionMenu = new()
-        {
-            IconKey = "reorder-four",
-            Children = new()
-            {
-                { 0, new MenuItem()
-                    {
-                        IconKey = "create",
-                        Caption = $"Create new {ModelNoun.GetSingular()}",
-                        UriStem = $"/{PageIndexUri}/Create/{Guid.NewGuid()}"
-                    }
-                }
-            }
-        };
+        ActionMenu = GetDefaultIndexMenu();
 
         MaxRecordCount = -1;
 
-        return base.OnInitializedAsync();
+        await base.OnInitializedAsync();
     }
 
-    private void NavigateToDetail(Account model, MouseEventArgs args)
+    private void Detail_OnClick(Account model, MouseEventArgs args)
     {
-        NavigateToDetail($"{model.AccountId}");
+        NavigationHelper.NavigateTo(FormatDetailUri(model.AccountId));
     }
 }

@@ -51,6 +51,6 @@ namespace NjordFinance.ModelService.Abstractions
         /// for this call.</exception>/// 
         /// <exception cref="ModelUpdateException">An error occured when writing changes to the 
         /// data store.</exception>
-        Task<int> SaveChanges();
+        Task<int> SaveChangesAsync();
     }
 }

@@ -1,0 +1,78 @@
+﻿@inherits ModelCRUD<AccountCompositeViewModel>
+
+@if(ViewModel is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelForm TViewModel="AccountCompositeViewModel">
+        @*AccountObject inputs*@
+        <ModelFormLineItem ForMember="@(() => ViewModel.AccountObjectCode)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.AccountObjectCode
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.AccountObjectCode
+                    disable="@Disabled"
+                   DisplayName=@(NameFor(x => x.AccountObjectCode)) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.DisplayName)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.DisplayName
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.DisplayName
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(x => x.DisplayName)) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.Description)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.Description
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.Description
+                    disable="@Disabled"
+                   DisplayName=@(NameFor(x => x.Description)) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.StartDate)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.StartDate.ToShortDateString()
+                </div>
+            }
+            else
+            {
+                <InputDate class="form-control" @bind-Value=ViewModel.StartDate disable="@Disabled" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.CloseDate)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.CloseDate?.ToShortDateString()
+                </div>
+            }
+            else
+            {
+                <InputDate class="form-control" @bind-Value=ViewModel.CloseDate disable="@Disabled" />
+            }
+        </ModelFormLineItem>
+    </ModelForm>
+}

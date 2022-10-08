@@ -1,9 +1,0 @@
-﻿table.model-attributes {
-    width: 50%;
-}
-
-::deep td {
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-

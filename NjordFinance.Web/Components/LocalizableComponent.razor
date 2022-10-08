@@ -1,29 +1,44 @@
-﻿@inherits CustomComponent
+﻿@using System.Reflection
+@using System.ComponentModel.DataAnnotations
+
+@inherits CustomComponent
 
 @code{
-
-
     /// <summary>
     /// Gets or sets the <see cref="IModelMetadataService"/> for this component.
     /// </summary>
     [Inject]
     protected IModelMetadataService ModelMetadata { get; set; } = default!;
 
-    /// <summary>
-    /// Gets the description for the given member and type.
-    /// </summary>
-    /// <typeparam name="T">The model type.</typeparam>
-    /// <param name="memberName">The member name.</param>
-    /// <returns></returns>
-    protected string DescriptionFor<T>(string memberName) => 
-        ModelMetadata?.DescriptionFor<T>(memberName) ?? string.Empty;
+    protected static string? DescriptionFor<TEnum>(TEnum @enum) =>
+        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetDescription();
 
-    /// <summary>
-    /// Gets the display name for the given member and type.
-    /// </summary>
-    /// <typeparam name="T">The model type.</typeparam>
-    /// <param name="memberName">The member name.</param>
-    /// <returns></returns>
-    protected string NameFor<T>(string memberName) => 
-        ModelMetadata?.NameFor<T>(memberName);
+    protected static string? GroupNameFor<TEnum>(TEnum @enum) =>
+        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetGroupName();
+
+    protected static string NameFor<TEnum>(TEnum @enum) =>
+        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetName();
+
+    protected static int? OrderFor<TEnum>(TEnum @enum) =>
+        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetOrder();
+
+    protected static string? PromptFor<TEnum>(TEnum @enum) =>
+        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetPrompt();
+
+    protected static string? ShortNameFor<TEnum>(TEnum @enum) =>
+        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetShortName();
+
+    private static TAttribute GetAttribute<TEnum, TAttribute>(TEnum @enum)
+        where TAttribute : Attribute
+    {
+        var enumType = typeof(TEnum);
+        var name = Enum.GetName(enumType, @enum);
+
+        var memberAttribute = enumType
+            .GetMember(name)
+            .FirstOrDefault()
+            ?.GetCustomAttribute<TAttribute>();
+
+        return memberAttribute;
+    }
 }

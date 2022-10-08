@@ -1,0 +1,18 @@
+﻿@page "/about"
+
+<ThemedComponent>
+    <PageTitle>
+        @($"{Resources.Strings.Title_ApplicationName} | {Resources.Strings.Title_ApplicationSummary}")
+    </PageTitle>
+
+    <ContentTile>
+        <TitleAlignLeft>
+            @Resources.Strings.Title_ApplicationSummary
+        </TitleAlignLeft>
+        <Body>
+            <div>
+                @Resources.Strings.Text_ApplicationSummary
+            </div>
+        </Body>
+    </ContentTile>
+</ThemedComponent>

@@ -31,23 +31,15 @@ namespace NjordFinance.Controllers.Abstractions
             _logger = logger;
         }
 
-        /// <summary>
-        /// Gets the <see cref="CreatedAtActionResult"/> action name.
-        /// </summary>
-        protected string CreatedActionName { get; } = $"Get{typeof(T).Name}";
-
         /// <inheritdoc/>
         public async Task<ActionResult<T>> CreateAsync(T model)
         {
-            if (string.IsNullOrEmpty(CreatedActionName))
-                throw new InvalidOperationException();
-
             try
             {
                 var createdModel = await _modelService.CreateAsync(model);
 
                 return CreatedAtAction(
-                    CreatedActionName,
+                    nameof(ReadAsync),
                     new { id = _modelService.GetKey(createdModel) },
                     createdModel);
             }
@@ -128,7 +120,9 @@ namespace NjordFinance.Controllers.Abstractions
 
                 bool success = await updateTask;
 
-                if (success) return model;
+                // If success or soft-fail (no records modified) return model.
+                // Else throw the AggregateException.
+                if (success ^ (!success && updateTask.Exception is null)) return model;
                 else throw updateTask.Exception;
             }
             catch (DbUpdateConcurrencyException)

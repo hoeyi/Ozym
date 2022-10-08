@@ -1,0 +1,111 @@
+{
+  "MenuGuid": "3e818369-9889-4b49-b565-244d3bc93217",
+  "IconKey": "home",
+  "Caption": "NjordFinance",
+  "UriStem": "/#",
+  "Children": {
+    "0": {
+      "IconKey": null,
+      "Caption": "Accounts",
+      "UriStem": null,
+      "Children": {
+        "1": {
+          "IconKey": "cash",
+          "Caption": "Accounts",
+          "UriStem": "/accounts",
+          "Children": {},
+          "HasChildren": false
+        },
+        "2": {
+          "IconKey": null,
+          "Caption": "Composites",
+          "UriStem": "/composites",
+          "Children": {},
+          "HasChildren": false
+        },
+        "3": {
+          "IconKey": "options",
+          "Caption": "Models",
+          "UriStem": "/investment-models",
+          "Children": {},
+          "HasChildren": false
+        }
+      },
+      "HasChildren": true
+    },
+    "1": {
+      "IconKey": null,
+      "Caption": "Market Data",
+      "UriStem": "/under-construction",
+      "Children": {
+        "1": {
+          "IconKey": null,
+          "Caption": "Securities",
+          "UriStem": "/securities",
+          "Children": {},
+          "HasChildren": false
+        },
+        "2": {
+          "IconKey": null,
+          "Caption": "Prices",
+          "UriStem": "/prices",
+          "Children": {},
+          "HasChildren": false
+        }
+      },
+      "HasChildren": true
+    },
+    "2": {
+      "IconKey": null,
+      "Caption": "Reference Data",
+      "UriStem": null,
+      "Children": {
+        "1": {
+          "IconKey": "earth",
+          "Caption": "Countries",
+          "UriStem": "/countries",
+          "Children": {},
+          "HasChildren": false
+        },
+        "2": {
+          "IconKey": null,
+          "Caption": "Custodians",
+          "UriStem": "/custodians",
+          "Children": {},
+          "HasChildren": false
+        },
+        "3": {
+          "IconKey": "card",
+          "Caption": "Transactions",
+          "UriStem": null,
+          "Children": {
+            "1": {
+              "IconKey": null,
+              "Caption": "Bank",
+              "UriStem": "/bank-transaction-codes",
+              "Children": {},
+              "HasChildren": false
+            },
+            "2": {
+              "IconKey": null,
+              "Caption": "Broker",
+              "UriStem": "/broker-transaction-codes",
+              "Children": {},
+              "HasChildren": false
+            }
+          },
+          "HasChildren": true
+        }
+      },
+      "HasChildren": true
+    },
+    "3": {
+      "IconKey": null,
+      "Caption": "About",
+      "UriStem": "/about",
+      "Children": {},
+      "HasChildren": false
+    }
+  },
+  "HasChildren": true
+}

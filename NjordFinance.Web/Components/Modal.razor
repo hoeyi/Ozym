@@ -1,0 +1,149 @@
+﻿@typeparam TViewModel
+@attribute [CascadingTypeParameter(nameof(TViewModel))]
+
+@inherits LocalizableComponent
+
+<div class="custom-modal @IsShownClassAttribute">
+    @if(IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <div class="custom-modal-body">
+            @if(ReadOnly)
+            {
+                <div>
+                    @ChildContent
+                </div>
+                <ActionButtonMenu>
+                    @foreach(var dialogOption in _dialogResultButtons)
+                    {
+                        <button 
+                            type="button" 
+                            class="form-control button"
+                            @onclick="async () => await OnClickAsync(dialogOption)"                     
+                            @onclick:preventDefault >
+                            @(NameFor(@enum: dialogOption))
+                        </button>
+                    }
+                </ActionButtonMenu>
+            }
+            else
+            {
+                <EditForm
+                    class="model-editor"
+                    Model="@ViewModel"
+                    OnValidSubmit="(async () => await OnClickAsync(DialogResult.OK))">
+                    <DataAnnotationsValidator />
+                    @ChildContent
+                    <ActionButtonMenu>
+                        @foreach (var dialogOption in _dialogResultButtons)
+                        {
+                            if(dialogOption == DialogResult.OK)
+                            {
+                                <button type="submit" class="form-control button">
+                                    @(NameFor(@enum: dialogOption))
+                                </button>
+
+                            }
+                            else
+                            {
+                                <button type="button" class="form-control button"
+                                    @onclick="(async () => await OnClickAsync(dialogOption))"
+                                    @onclick:preventDefault>
+                                    @(NameFor(@enum: dialogOption))
+                                </button>
+                            }
+                        }
+                    </ActionButtonMenu>
+                </EditForm>
+            }
+@*            <ContentTile ClassModifiers="custom-modal-content">
+                <Body>
+                </Body>
+            </ContentTile>
+            @if(ReadOnly)
+            {
+            }*@
+        </div>
+    }
+</div>
+
+@code {
+    ///// <summary>
+    ///// Gets or sets the event handler for the close event of this form.
+    ///// </summary>
+    [Parameter]
+    public EventCallback<ModalEventArgs<TViewModel>> OnClose { get; set; }
+
+    /// <summary>
+    /// Gets or sets the child content to render for this form.
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the supported dialog options for this form.
+    /// </summary>
+    /// <remarks>
+    /// Default options are <see cref="DialogResult.OK" /> and <see cref="DialogResult.Cancel" />.
+    /// </remarks>
+    [Parameter]
+    public DialogResult DialogOptions { get; set; } = DialogResult.OK | DialogResult.Cancel;
+
+    /// <summary>
+    /// Gets or sets the <typeparam name="TViewModel" /> instance that serves as the view model 
+    /// for this modal form.
+    /// </summary>
+    [CascadingParameter]
+    public TViewModel ViewModel { get; set; } 
+
+    /// <summary>
+    /// Flags the form to be rendered as a read-only page with a <div> element, or an 
+    /// editable form using the <form> element.
+    /// </summary>
+    [Parameter]
+    public bool ReadOnly { get; set; }
+
+    private IEnumerable<DialogResult> _dialogResultButtons;
+
+    private string IsShownClassAttribute { get; set; } = VisibleClass;
+
+    private const string VisibleClass = "visible";
+    private const string HiddenClass = "hidden";
+
+    protected void ChangeVisibility(bool visible)
+    {
+        IsShownClassAttribute = visible ? VisibleClass : HiddenClass;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var flagsQuery = Enum.GetValues(typeof(DialogResult))
+            .OfType<DialogResult>()
+            .Where(v => v != DialogResult.None && DialogOptions.HasFlag(v));
+
+        _dialogResultButtons = flagsQuery.ToArray();
+
+        IsLoading = _dialogResultButtons is null || ChildContent is null;
+    }
+
+    private async Task OnClickAsync(DialogResult result)
+    {
+        // Check result is among allowed responses for ths form.
+        if (!DialogOptions.HasFlag(result))
+            throw new NotSupportedException();
+
+        var args = new ModalEventArgs<TViewModel>()
+        {
+            Model = ViewModel,
+            Result = result
+        };
+
+        await OnClose.InvokeAsync(args);
+    }
+}

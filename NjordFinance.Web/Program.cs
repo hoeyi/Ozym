@@ -2,6 +2,7 @@ using NjordFinance;
 using NjordFinance.Web.Areas.Identity;
 using NjordFinance.Web.Areas.Identity.Data;
 using NjordFinance.Web.Data;
+using NjordFinance.Messaging;
 using Ichosys.DataModel;
 using Ichosys.DataModel.Expressions;
 using Ichosys.Extensions.Configuration;
@@ -16,6 +17,7 @@ using Serilog.Extensions.Logging;
 using Serilog.Formatting.Compact;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 using Ichosys.Blazor.Ionicons;
+using NjordFinance.UserInterface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +29,8 @@ var logger = ConvertFromSerilogILogger(logger: BuildLogger());
 var config = BuildConfiguration(logger);
 
 // Copy UserSecret connection string value to secure configuration.
-config["ConnectionStrings:NjordFinance"] = config["ConnectionStrings:NjordFinance"];
+config["ConnectionStrings:NjordWorks"] = config["ConnectionStrings:NjordWorks"];
+config["ConnectionStrings:NjordIdentity"] = config["ConnectionStrings:NjordIdentity"]; 
 config.Commit();
 
 builder.Services.AddSingleton(implementationInstance: logger);
@@ -41,7 +44,7 @@ builder.Services.AddSingleton(ISvgHelper.Create());
 
 // Add identity management database
 builder.Services.AddDbContext<IdentityDbContext>(options =>
-    options.UseSqlServer("Name=ConnectionStrings:NjordFinance"));
+    options.UseSqlServer("Name=ConnectionStrings:NjordIdentity"));
 
 builder.Services.AddDefaultIdentity<WebAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<IdentityDbContext>();
@@ -55,13 +58,14 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 #region Data-access service configuration
 
-// Add metadata and search services.
+// Add metadata, search, and message services.
 builder.Services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
 builder.Services.AddSingleton<IModelMetadataService, ModelMetadataService>();
+builder.Services.AddSingleton<IMessageService, MessageService>();
 
 // Add database service.
 builder.Services.AddDbContextFactory<NjordFinance.Context.FinanceDbContext>(options =>
-    options.UseSqlServer("Name=ConnectionStrings:NjordFinance"));
+    options.UseSqlServer("Name=ConnectionStrings:NjordWorks"));
 
 // Register model services and controllers.
 builder.Services.AddModelServices();

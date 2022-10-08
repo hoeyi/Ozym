@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using NjordFinance.Model;
+using NjordFinance.Model.ConstraintType;
 
 namespace NjordFinance.Context.Configuration
 {
@@ -29,16 +30,40 @@ namespace NjordFinance.Context.Configuration
             #region Model attributes and scope
             ModelAttributes = new ModelAttribute[]
             {
-                new(){ AttributeId = -10, DisplayName = "Asset Class" },
-                new(){ AttributeId = -20, DisplayName = "Security Type Group" },
-                new(){ AttributeId = -30, DisplayName = "Security Type" },
-                new(){ AttributeId = -40, DisplayName = "Broker Transaction Category" },
-                new(){ AttributeId = -50, DisplayName = "Broker Transaction Class" },
-                new(){ AttributeId = -60, DisplayName = "Country Exposure" }
+                new()
+                { 
+                    AttributeId = (int)ModelAttributeEnum.AssetClass, 
+                    DisplayName = BuiltInStrings.ModelAttribute_AssetClass 
+                },
+                new()
+                { 
+                    AttributeId = (int)ModelAttributeEnum.SecurityTypeGroup, 
+                    DisplayName = BuiltInStrings.ModelAttribute_SecurityTypeGroup 
+                },
+                new()
+                { 
+                    AttributeId = (int)ModelAttributeEnum.SecurityType, 
+                    DisplayName = BuiltInStrings.ModelAttribute_SecurityType 
+                },
+                new()
+                { 
+                    AttributeId = (int)ModelAttributeEnum.BrokerTransactionCategory, 
+                    DisplayName = BuiltInStrings.ModelAttribute_BrokerTransactionCategory 
+                },
+                new()
+                { 
+                    AttributeId = (int)ModelAttributeEnum.BrokerTransactionClass, 
+                    DisplayName = BuiltInStrings.ModelAttribute_BrokerTransactionClass 
+                },
+                new()
+                { 
+                    AttributeId = (int)ModelAttributeEnum.CountryExposure, 
+                    DisplayName = BuiltInStrings.ModelAttribute_CountryExposure 
+                }
             };
 
             ModelAttributeScopes = ModelAttributes
-                    .Where(a => a.AttributeId is <= -10 and >= -30)
+                    .Where(a => a.AttributeId is <= (int)ModelAttributeEnum.AssetClass and >= (int)ModelAttributeEnum.SecurityType)
                     .Select(a => new ModelAttributeScope()
                     {
                         AttributeId = a.AttributeId,
@@ -46,13 +71,15 @@ namespace NjordFinance.Context.Configuration
                     }
                     )
                     .Concat(
-                        ModelAttributes.Where(a => a.AttributeId is <= -40 and >= -50)
+                        ModelAttributes.Where(a => 
+                            a.AttributeId is <= (int)ModelAttributeEnum.BrokerTransactionCategory and 
+                            >= (int)ModelAttributeEnum.BrokerTransactionClass)
                         .Select(a => new ModelAttributeScope()
                         {
                             AttributeId = a.AttributeId,
                             ScopeCode = ModelAttributeScopeCode.BrokerTransactionCode.ConvertToStringCode()
                         }))
-                    .Concat(ModelAttributes.Where(a => a.AttributeId is -60)
+                    .Concat(ModelAttributes.Where(a => a.AttributeId == (int)ModelAttributeEnum.CountryExposure)
                         .Select(a => new ModelAttributeScope()
                         {
                             AttributeId = a.AttributeId,

@@ -51,6 +51,12 @@
     public string? Format { get; set; }
 
     /// <summary>
+    /// Gets or sets the column cell type. The default is <see cref="DataGridCellType.Text" />.
+    /// </summary>
+    [Parameter]
+    public DataGridCellType Type { get; set; } = DataGridCellType.Text;
+
+    /// <summary>
     /// Gets or sets the attributes to apply to the underlying <th> element.
     /// </summary>
     [Parameter(CaptureUnmatchedValues = true)]

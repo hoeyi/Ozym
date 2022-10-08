@@ -13,14 +13,6 @@ namespace NjordFinance.ModelService.Abstractions
         where T: class, new()
     {
         /// <summary>
-        /// Adds the navigation path to the collection.
-        /// </summary>
-        /// <param name="navigationPath">The path to add.</param>
-        /// <exception cref="NotSupportedException">Occurs when the addition of the path would 
-        /// cause the query to exceed its path limit.</exception>
-        void AddNavigationPath(Expression<Func<T, object>> navigationPath);
-
-        /// <summary>
         /// Checks a model with the given <paramref name="id"/> exists.
         /// </summary>
         /// <param name="id">The integer key to match.</param>

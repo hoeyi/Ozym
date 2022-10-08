@@ -1,173 +1,189 @@
-﻿@inherits ModelCRUD<Account>
+﻿@inherits ModelCRUD<AccountViewModel>
 
-@if (Model is null || AccountCustodians is null)
+@if (ViewModel is null || AccountCustodians is null)
 {
     <LoadingSvg />
 }
 else
-{
-    <EditForm Model="@Model">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <ModelAttributeTable>
-            <tbody>
-                <tr>
-                    <td class="col-sm-2">
-                        <ToolTip Text="@(DescriptionFor(nameof(Account.AccountNumber)))">
-                            @(NameFor(nameof(Account.AccountNumber)))
-                        </ToolTip>
-                    </td>
-                    <td class="col-sm-10">
-                        @if (Readonly)
-                        {
-                            @Model.AccountNumber
-                        }
-                        else
-                        {
-                            <InputText id="account-number" class="form-control"
-                               @bind-Value=Model.AccountNumber
-                               disable="@Disabled" />
-                            <ValidationMessage For="@(() => Model.AccountNumber)" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ToolTip Text="@(DescriptionFor(nameof(Account.AccountCustodianId)))">
-                            @(NameFor(nameof(Account.AccountCustodianId)))
-                        </ToolTip>
-                    </td>
-                    <td>
-                        @if (Readonly)
-                        {
-                            @Model.AccountCustodian?.DisplayName
-                        }
-                        else
-                        {
-                            <InputSelect id="account-custodian" class="form-control"
-                                 DisplayName="Model.AccountCustodian.CustodianCode"
-                                 @bind-Value="Model.AccountCustodianId"
-                                 disabled="@Disabled">
-                                @foreach (var custodian in AccountCustodians)
-                                {
-                                    <option value=@custodian.Key>@custodian.Display</option>
-                                }
-                    </InputSelect>
-                            <ValidationMessage For="@(() => Model.AccountCustodianId)" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ToolTip Text="@(DescriptionFor(nameof(Account.BooksClosedDate)))">
-                            @(NameFor(nameof(Account.BooksClosedDate)))
-                        </ToolTip>
-                    </td>
-                    <td>
-                        @if (Readonly)
-                        {
-                            @Model.BooksClosedDate?.ToShortDateString()
-                        }
-                        else
-                        {
-                            <InputDate id="account-bookscloseddate" class="form-control"
-                               @bind-Value=Model.BooksClosedDate
-                               disabled="@Disabled" />
-                            <ValidationMessage For="@(() => Model.BooksClosedDate)" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ToolTip Text="@(DescriptionFor(nameof(Account.IsComplianceTradable)))">
-                            @(NameFor(nameof(Account.IsComplianceTradable)))
-                        </ToolTip>
-                    </td>
-                    <td>
-                        @if (Readonly)
-                        {
-                            @Model.IsComplianceTradable
-                        }
-                        else
-                        {
-                            <InputCheckbox id="account-iscompliancetradable"
-                                   @bind-Value=Model.IsComplianceTradable
-                                   disabled="@Disabled" />
-                            <ValidationMessage For="@(() => Model.IsComplianceTradable)" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ToolTip Text="@(DescriptionFor(nameof(Account.HasWallet)))">
-                            @(NameFor(nameof(Account.HasWallet)))
-                        </ToolTip>
-                    </td>
-                    <td>
-                        @if (Readonly)
-                        {
-                            @Model.HasWallet
-                        }
-                        else
-                        {
-                            <InputCheckbox id="account-haswallet"
-                                   @bind-Value=Model.HasWallet
-                                   disabled="@Disabled" />
-                            <ValidationMessage For="@(() => Model.HasWallet)" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ToolTip Text="@(DescriptionFor(nameof(Account.HasBankTransaction)))">
-                            @(NameFor(nameof(Account.HasBankTransaction)))
-                        </ToolTip>
-                    </td>
-                    <td>
-                        @if (Readonly)
-                        {
-                            @Model.HasBankTransaction
-                        }
-                        else
-                        {
-                            <InputCheckbox id="account-hasbanktransaction"
-                                   @bind-Value=Model.HasBankTransaction
-                                   disabled="@Disabled" />
-                            <ValidationMessage For="@(() => Model.HasBankTransaction)" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ToolTip Text="@(DescriptionFor(nameof(Account.HasBrokerTransaction)))">
-                            @(NameFor(nameof(Account.HasBrokerTransaction)))
-                        </ToolTip>
-                    </td>
-                    <td>
-                        @if (Readonly)
-                        {
-                            @Model.HasBrokerTransaction
-                        }
-                        else
-                        {
-                            <InputCheckbox id="account-hasbrokertransaction"
-                                   @bind-Value=Model.HasBrokerTransaction
-                                   disabled="@Disabled" />
-                            <ValidationMessage For="@(() => Model.HasBrokerTransaction)" />
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-            </tbody>
-        </ModelAttributeTable>
-    </EditForm>
+{   
+    <ModelForm TViewModel="AccountViewModel">
+        @*AccountObject inputs*@
+        <ModelFormLineItem ForMember="@(() => ViewModel.AccountObjectCode)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.AccountObjectCode
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.AccountObjectCode
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(x => x.AccountObjectCode)) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.DisplayName)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.DisplayName
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.DisplayName
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(x => x.DisplayName)) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.Description)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.Description
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.Description
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(x => x.Description)) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.StartDate)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.StartDate.ToShortDateString()
+                </div>
+            }
+            else
+            {
+                <InputDate class="form-control" @bind-Value=ViewModel.StartDate 
+                    disable="@Disabled" 
+                    DisplayName=@(NameFor(x => x.StartDate))/>
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.CloseDate)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.CloseDate?.ToShortDateString()
+                </div>
+            }
+            else
+            {
+                <InputDate class="form-control" @bind-Value=ViewModel.CloseDate 
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(x => x.CloseDate)) />
+            }
+        </ModelFormLineItem>
+
+        @*Account inputs*@
+        <ModelFormLineItem ForMember="@(() => ViewModel.AccountNumber)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.AccountNumber
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.AccountNumber
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(x => x.AccountNumber)) />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.AccountCustodianId)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @CustodianDisplayName(ViewModel.AccountCustodianId)
+                </div>
+            }
+            else
+            {
+                <InputSelect class="form-control"
+                    DisplayName=@(NameFor(x => x.AccountCustodianId))
+                    @bind-Value="ViewModel.AccountCustodianId"
+                    disabled="@Disabled">
+                    @foreach (var custodian in AccountCustodians)
+                    {
+                        <option value=@custodian.Key>@custodian.Display</option>
+                    }
+                </InputSelect>
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.BooksClosedDate)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.BooksClosedDate?.ToShortDateString()
+                </div>
+            }
+            else
+            {
+                <InputDate class="form-control" @bind-Value=ViewModel.BooksClosedDate
+                        disabled="@Disabled"
+                        DisplayName=@(NameFor(x => x.BooksClosedDate))/>
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.IsComplianceTradable)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.IsComplianceTradable
+                </div>
+            }
+            else
+            {
+                <InputCheckbox @bind-Value=ViewModel.IsComplianceTradable disabled="@Disabled" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.HasWallet)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.HasWallet
+                </div>
+            }
+            else
+            {
+                <InputCheckbox @bind-Value=ViewModel.HasWallet disabled="@Disabled" />
+                <ValidationMessage For="@(() => ViewModel.HasWallet)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.HasBankTransaction)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.HasBankTransaction
+                </div>
+            }
+            else
+            {
+                <InputCheckbox @bind-Value=ViewModel.HasBankTransaction disabled="@Disabled" />
+                <ValidationMessage For="@(() => ViewModel.HasBankTransaction)" />
+            }
+        </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.HasBrokerTransaction)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.HasBrokerTransaction
+                </div>
+            }
+            else
+            {
+                <InputCheckbox @bind-Value=ViewModel.HasBrokerTransaction disabled="@Disabled" />
+            }
+        </ModelFormLineItem>
+    </ModelForm>
 }
 @code {
     [Parameter]
     public IEnumerable<LookupModel> AccountCustodians { get; set; }
+
+    private string? CustodianDisplayName(int? id) =>
+         AccountCustodians.FirstOrDefault(a => a.Key == id)?.Display;
 }

@@ -1,0 +1,20 @@
+﻿@inherits ModelComponent<TViewModel>
+
+@typeparam TViewModel
+@attribute [CascadingTypeParameter(nameof(TViewModel))]
+
+<CascadingValue Value="@this">
+    <table class="model-attributes">
+        <tbody>
+            @ChildContent
+        </tbody>
+    </table>
+</CascadingValue>
+
+@code {
+    [Parameter, EditorRequired] 
+    public RenderFragment? ChildContent { get; set; }
+
+    [CascadingParameter, EditorRequired]
+    public TViewModel ViewModel { get; set; }
+}

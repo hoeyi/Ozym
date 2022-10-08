@@ -1,0 +1,79 @@
+﻿@page "/broker-transaction-codes"
+
+@inherits ModelIndex<BrokerTransactionCode>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+<ThemedComponent>
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+    @if(IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models">
+                    <DataGridColumn Property=@nameof(BankTransactionCode.TransactionCode)
+                                Caption=@(NameFor(x => x.TransactionCode))
+                                Type=@DataGridCellType.Link>
+                        <CellTemplate Context="model">
+                            <a class="custom-nav-link"
+                           href=@(FormatDetailUri(GetKeyValueOrDefault<int>(model)))
+                           @onclick:preventDefault
+                           @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.TransactionCode.ToLower()
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransactionCode.DisplayName)"
+                                Caption="@(NameFor(x => x.DisplayName))">
+                        <CellTemplate Context="model">
+                            @model.DisplayName
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransactionCode.CashEffect)"
+                                Caption="@(NameFor(x => x.CashEffect))">
+                        <CellTemplate Context="model">
+                            @model.CashEffect
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransactionCode.ContributionWithdrawalEffect)"
+                                Caption="@(NameFor(x => x.ContributionWithdrawalEffect))">
+                        <CellTemplate Context="model">
+                            @model.ContributionWithdrawalEffect
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransactionCode.QuantityEffect)"
+                                Caption="@(NameFor(x => x.QuantityEffect))">
+                        <CellTemplate Context="model">
+                            @model.QuantityEffect
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        ActionMenu = GetDefaultIndexMenu();
+
+        MaxRecordCount = -1;
+
+        await base.OnInitializedAsync();
+    }
+
+    private void Detail_OnClick(BrokerTransactionCode model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.TransactionCodeId));
+    }
+}

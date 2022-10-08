@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using NjordFinance.Model.Metadata;
 
 namespace NjordFinance.Model
 {
@@ -20,8 +21,12 @@ namespace NjordFinance.Model
         public int SecurityTypeId { get; set; }
         [Column("SecurityTypeGroupID")]
         public int SecurityTypeGroupId { get; set; }
-        [Required]
-        [StringLength(72)]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string SecurityTypeName { get; set; }
         [Column(TypeName = "decimal(7, 4)")]
         public decimal ValuationFactor { get; set; }

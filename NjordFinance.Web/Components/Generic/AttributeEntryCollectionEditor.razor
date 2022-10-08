@@ -1,0 +1,157 @@
+﻿@typeparam TViewModelParent
+@typeparam TViewModelChild
+@typeparam TModel
+@typeparam TModelChild
+
+@inherits LocalizableComponent
+
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ActionButtonMenu>
+        <button type="submit" form="@FormGuid" class="form-control button">
+            @Strings.Caption_Button_Save
+        </button>
+        @if (Mode == EditorMode.Edit)
+        {
+            <button type="button" class="form-control button"
+                @onclick="(() => DrawAttributeSelectorDialog = true)"
+                @onclick:preventDefault>
+                @(Strings.Caption_CreateNew.Format(
+                    ModelMetadata.GetAttribute<TModelChild, NounAttribute>()?.GetSingular()))
+            </button>
+            <button type="button" class="form-control button"
+            @onclick="@(async (args) => await OnDeleteModelClick.InvokeAsync(args))"
+            @onclick:preventDefault>
+                @Strings.Caption_Button_Delete
+            </button>
+        }
+        <button type="button" class="form-control button"
+            @onclick="@(async(args) => await OnCancelEditorClick.InvokeAsync(args))"
+            @onclick:preventDefault>
+            @Strings.Caption_Button_Cancel
+        </button>
+    </ActionButtonMenu>
+    <ContentTile class="left">
+        <Body>
+            <CascadingValue Value="@ViewModel">
+                <EditForm id="@FormGuid"
+                        Model="@ViewModel"
+                        OnValidSubmit="@(async (args) => await OnValidFormSubmit.InvokeAsync(args))">
+                    <DataAnnotationsValidator />
+                    @ViewModelCRUD
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+    @foreach (var group in ViewModel.EntryCollectionGroups.OrderBy(g => g.Key.DisplayName))
+    {
+        <ContentTile>
+            <TitleAlignLeft>
+                @group.Key.DisplayName
+            </TitleAlignLeft>
+            <TitleAlignRight>
+                <button class="form-control button icon"
+                    type="button"
+                    @onclick="(() => AddEntryForGrouping(group.Key))">
+                    <IonIcon Name="add" />
+                </button>
+            </TitleAlignRight>
+            <Body>
+                <DataGrid Data="group">
+                    <DataGridColumn Type="DataGridCellType.Link"
+                            Property="EffectiveDateMemberName"
+                            Caption="@(ModelMetadata.NameFor<TViewModelChild>(EffectiveDatePath))">
+                        <CellTemplate Context="model">
+                            <a 
+                                @onclick:preventDefault
+                                @onclick="(() => OnChildViewSelect(model))">
+                                @GetGroupEffectiveDate(model).ToShortDateString()
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+
+    @if (DrawViewModelChildModelEditor)
+    {
+        <CascadingValue Value="@CurrentViewModelChild">
+            <CascadingValue Value="@CurrentAttributeMemberLookup">
+                <AttributeTargetModalCRUD 
+                    TViewModel="TViewModelChild"
+                    OnClose="OnModalEditor_ForChildView_Close">
+                    @ViewModelChildCRUD
+                </AttributeTargetModalCRUD>
+            </CascadingValue>
+        </CascadingValue>
+    }
+
+    @if (DrawAttributeSelectorDialog)
+    {
+        <AttributeSelectorModal 
+            OnClose="OnModalAttributeSelectorClosed"
+            AllowableAttributes="@AllowableModelAttributes">
+        </AttributeSelectorModal>
+    }
+}
+
+@code {
+    /// <summary>
+    /// Gets or sets the <typeparamref name="TViewModelChild" /> member path that represents the 
+    /// effective date for that class.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public Expression<Func<TViewModelChild, object>> EffectiveDatePath { get; set; }
+
+    /// <summary>
+    /// Gets or sets the identifier for the <see cref="EditorMode" /> for the page.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public EditorMode Mode { get; set; }
+
+    /// <summary>
+    /// Gets or sets the delegate for handling a request to cancel the editor initiated by a
+    /// mouse click.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public EventCallback<MouseEventArgs> OnCancelEditorClick { get; set; }
+
+    /// <summary>
+    /// Gets or sets the delegate for handling a request to delete a model initiated by a
+    /// mouse click.
+    /// </summary>
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnDeleteModelClick { get; set; }
+
+    /// <summary>
+    /// Gets or sets the delegate for handling a request to submit a valid form initiated by a
+    /// mouse click.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public EventCallback<EditContext> OnValidFormSubmit { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <typeparamref name="TViewModelParent"/> representing the worked model.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public TViewModelParent ViewModel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the component responsible for presenting editor controls for 
+    /// <typeparamref name="TViewModelChild"/> instances.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public RenderFragment ViewModelChildCRUD { get; set; }
+
+    /// <summary>
+    /// Gets or sets the component responsible for presenting editor controls for the 
+    /// <typeparamref name="TViewModelParent"/> instance.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public RenderFragment ViewModelCRUD { get; set; }
+}

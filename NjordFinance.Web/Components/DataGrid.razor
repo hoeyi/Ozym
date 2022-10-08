@@ -10,11 +10,11 @@
         @ChildContent
 
         <table class="datagrid" @attributes="TableAttributes">
-            <thead>
-                <tr class="datagrid-header-row">
+            <thead class="datagrid-header">
+                <tr>
                     @foreach (var column in Columns.Where(c => c.Visible).OrderBy(c => c.Index))
                     {
-                        <th @attributes="column.ColumnAttributes">
+                        <th class="datagrid-column-header" @attributes="column.ColumnAttributes">
                             @(column.Caption ?? column.Property)
                         </th>
                     }
@@ -26,6 +26,13 @@
                     <DataGridRow Model="@model" />
                 }
             </tbody>
+            <tfoot class="datagrid-footer">
+                <tr>
+                    <td class="datagrid-cell text" colspan="@Columns.Count()">
+                        @($"{Data.Count()} records returned.")
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </CascadingValue>
 </CascadingValue>

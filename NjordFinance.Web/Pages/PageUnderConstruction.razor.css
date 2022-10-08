@@ -9,7 +9,7 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 2rem;
     /*color: black;*/
-    color: var(--euler-hexcolor-fore-0, black);
+    color: var(--theme-text-color-0, black);
     /*height: fit-content;*/
     text-align: left;
     vertical-align: text-bottom;
@@ -19,7 +19,7 @@
     .banner > ::deep .ion-icon {
         width: 64px;
         aspect-ratio: 1/1;
-        color: var(--euler-hexcolor-fore-0, black);
+        color: var(--theme-text-color-0, black);
         padding-right: 1rem;
     }
 
@@ -31,12 +31,12 @@
 }
 /* Change the fill color to light shade if not 'none' or 'transparent'. */
 ::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
-    fill: var(--euler-hexcolor-fore-0, black);
+    fill: var(--theme-text-color-0, black);
 }
 
 /* Change the stroke color to light shade if not 'none' or 'transparent'. */
 ::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
-    stroke: var(--euler-hexcolor-fore-0, black);
+    stroke: var(--theme-text-color-0, black);
 }
 
 /* Set the default background color for IonIcons.*/

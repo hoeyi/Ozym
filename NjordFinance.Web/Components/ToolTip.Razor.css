@@ -1,20 +1,24 @@
 ﻿.custom-tooltip {
-    position: static;
-    display: inline;
-    /*overflow: visible;*/
+    --fore-color: var(--theme-text-color-0, black);
+    --back-color: var(--theme-elevation-backcolor-0, white);
+    --border-color: var(--theme-elevation-backcolor-9, black);
+    /*position: static;*/
+    position: relative;
+/*    display: inline-block;
     width: 100%;
+    height: 100%;*/
 }
 
     .custom-tooltip .custom-tooltip-text {
-        visibility: hidden;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        padding: 5px 5px 5px 5px;
-        border-radius: 6px;
-        
-        margin-left: 20px;
+        background-color: var(--back-color);
+        border: 0.1rem solid var(--border-color);
+        border-radius: 0.5rem;
+        color: var(--fore-color);
+        font-size: 0.75rem;
+        padding: 0.25rem;
         position: absolute;
+        text-align: center;
+        visibility: hidden;
     }
 
     .custom-tooltip:hover .custom-tooltip-text {

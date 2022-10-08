@@ -12,40 +12,81 @@ a {
 .grid-container {
     width: 100%;
     height: 100%;
-    min-height: 24px;
-    max-height: 32px;
+    line-height: 100%;
     display: inline-grid;
-    grid-template-columns: 1fr 7fr 1fr;
     grid-template-areas: "a b c";
-    gap: 0px;
+    grid-template-columns: minmax(32px, 1fr) minmax(64px, 8fr) minmax(16px, auto);
+    justify-content: space-between;
 }
 
+.root-node > .grid-container {
+    min-height: 1.75rem;
+}
+
+    .root-node > .grid-container.col-a {
+        grid-template-areas: "a";
+        grid-template-columns: minmax(32px, 1fr);
+    }
+
+    .root-node > .grid-container.col-a.col-b {
+        grid-template-areas: "a b";
+        grid-template-columns: minmax(32px, 1fr) minmax(64px, auto);
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .root-node > .grid-container.col-b {
+        grid-template-columns: 100fr;
+        grid-template-areas: "b";
+    }
+
+    .root-node > .grid-container.col-b.col-c {
+        grid-template-areas: "a b";
+        grid-template-columns: minmax(64px, 8fr) minmax(16px, auto);
+    }
+
+    .root-node > .grid-container.col-c {
+        grid-template-areas: "a";
+        grid-template-columns: minmax(16px, auto);
+    }
+
+    .root-node > .grid-container.col-a.col-c {
+        grid-template-areas: "a b";
+        grid-template-columns: minmax(32px, 1fr) minmax(16px, auto);
+    }
+
+    .root-node > .grid-container.col-a.col-b.col-c {
+        grid-template-areas: "a b c";
+        grid-template-columns: minmax(32px, 1fr) minmax(64px, 8fr) minmax(16px, auto);
+    }
+
     .grid-container > .icon {
-        max-width: 24px;
+        max-width: 28px;
         aspect-ratio: 1/1;
     }
 
     .grid-container > * {
-        align-self: center;
+        align-self: center;        
     }
 
 .icon.left {
     grid-area: a;
-    margin-right: auto;
-    margin-left: 20%;
-    max-height: 60%;
+    margin: auto;
+    max-height: 65%;
 }
 
 .caption {
     grid-area: b;
+    /*min-width: 64px;*/
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 0.1rem;
 }
 
 .icon.right {
     grid-area: c;
     margin-left: auto;
-    margin-right: 10%;
+    margin-right: 6px;
     max-height: 12px;
 }

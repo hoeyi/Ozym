@@ -1,0 +1,87 @@
+﻿@page "/countries/{ModelId:int}/detail"
+
+@inherits ModelDetail<Country>
+
+@inject IReferenceDataService ReferenceData
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+
+        <ContentTile>
+            <Body>
+                <CascadingValue Value="@ViewModel">
+                    <EditForm class="model-editor" Model="@ViewModel">
+                        <CountryCRUD Disabled="false" ReadOnly="true" />
+                    </EditForm>
+                </CascadingValue>
+            </Body>
+        </ContentTile>
+        @foreach (var group in ViewModel.CurrentEntryCollectionGroups.OrderBy(g =>
+            g.ParentAttribute.DisplayName))
+        {
+            <ContentTile>
+                <Body>
+                    <CascadingValue Value="@group">
+                        <EditForm class="model-editor" Model="@group">
+                            <CountryAttributesCRUD 
+                                Disabled="false"
+                                ReadOnly="true" />
+                        </EditForm>
+                    </CascadingValue>
+                </Body>
+            </ContentTile>
+        }
+    }
+</ThemedComponent>
+
+@code {
+    [Parameter]
+    public int ModelId { get; set; }
+
+    private CountryViewModel ViewModel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.ReadAsync(ModelId);
+
+            if ((await modelQuery).Value is Country model)
+                Model = model;
+
+            ActionMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                    {
+                        // Add index button.
+                        { 0, new MenuItem()
+                            {
+                                IconKey = "list",
+                                Caption = string.Format(
+                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                UriStem = $"{IndexUriRelativePath}"
+                            }
+                        }
+                    }
+                };
+
+            ViewModel = new(Model);
+        }
+        finally
+        {
+            IsLoading = Model is null || ViewModel is null;
+        }
+    }
+}

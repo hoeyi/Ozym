@@ -1,0 +1,118 @@
+﻿@page "/investment-models/{ModelId:int}/edit"
+
+@inherits ModelDetail<InvestmentStrategy>
+
+<ThemedComponent>
+    @if(IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.UpdateSingle(ViewModel.DisplayName).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader 
+            ActionMenu="@ActionMenu"
+            Header="@(PageTitle.UpdateSingle(ViewModel.DisplayName))" />
+
+        <AttributeEntryCollectionEditor 
+            TViewModelParent="InvestmentModelViewModel"
+            TViewModelChild="InvestmentModelTargetGrouping"
+            TModel="InvestmentStrategy"
+            TModelChild="InvestmentStrategyTarget"
+            OnCancelEditorClick="CancelEditorHandler"
+            OnDeleteModelClick="DeleteModelHandler"
+            OnValidFormSubmit="ValidFormSubmitHandler"
+            EffectiveDatePath="@(x => x.EffectiveDate)"
+            ViewModel="@ViewModel"
+            Mode="EditorMode.Edit">
+            <ViewModelCRUD>
+                <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <InvestmentModelTargetCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryCollectionEditor>
+    }
+</ThemedComponent>
+
+@code {
+    /// <summary>
+    /// Gets or sets the identifier for the <see cref="InvestmentStrategy" /> worked on this page.
+    /// </summary>
+    [Parameter]
+    public int ModelId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="InvestmentModelViewModel" /> worked by this page.
+    /// </summary>
+    private InvestmentModelViewModel ViewModel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.ReadAsync(ModelId);
+
+            if ((await modelQuery).Value is InvestmentStrategy model)
+            {
+                Model = model;
+            }
+
+            ActionMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                    {
+                        // Add index button.
+                        { 0, new MenuItem()
+                            {
+                                IconKey = "list",
+                                Caption = string.Format(
+                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                UriStem = $"{IndexUriRelativePath}"
+                            }
+                        }
+                    }
+                };
+
+            ViewModel = new(Model);
+        }
+        finally
+        {
+            IsLoading = Model is null || ViewModel is null;
+        }
+    }
+
+    /// <summary>
+    /// Handles the delete click event of this page.
+    /// </summary>
+    protected virtual async Task DeleteModelHandler(MouseEventArgs args)
+    {
+        var result = await Controller.DeleteAsync(Model);
+
+        if (result is NoContentResult _)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    protected virtual async Task ValidFormSubmitHandler(EditContext args)
+    {
+        Model = ViewModel.ToEntity();
+
+        var result = await Controller.UpdateAsync(Model.InvestmentStrategyId, Model);
+
+        if (Model is not null)
+            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.InvestmentStrategyId));
+    }
+
+    /// <summary>
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    protected virtual void CancelEditorHandler(MouseEventArgs args) => 
+        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
+}

@@ -1,0 +1,86 @@
+﻿@page "/composites"
+
+@inherits ModelIndex<AccountComposite>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+<ThemedComponent>
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+    <ContentTile>
+        <Body>
+            <SearchInputTable TModel="AccountComposite"
+                ComparisonOperators=@ComparisonOperators
+                ExpressionBuilder=@ExpressionBuilder
+                SearchFields=@SearchFields
+                OnSearchClick=@(async (args) => await SearchClicked(args))>
+            </SearchInputTable>
+        </Body>
+    </ContentTile>
+    
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models" >
+                    <DataGridColumn 
+                        Property=@nameof(AccountComposite.AccountCompositeNavigation.AccountObjectCode)
+                        Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.AccountObjectCode))
+                        Type=@DataGridCellType.Link>
+                        <CellTemplate Context="model">
+                            <a class="custom-nav-link" href="@(FormatDetailUri(model.AccountCompositeId))" @onclick:preventDefault
+                                @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.AccountCompositeNavigation.AccountObjectCode.ToUpper()
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDisplayName)
+                        Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.ObjectDisplayName))>
+                        <CellTemplate Context="model">
+                            @model.AccountCompositeNavigation.ObjectDisplayName
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.ObjectDescription)
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.ObjectDescription))>
+                        <CellTemplate Context="model">
+                            @model.AccountCompositeNavigation.ObjectDescription
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.StartDate)
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.StartDate))>
+                        <CellTemplate Context="model">
+                            @model.AccountCompositeNavigation.StartDate.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(AccountComposite.AccountCompositeNavigation.CloseDate)
+                                Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.CloseDate))>
+                        <CellTemplate Context="model">
+                            @model.AccountCompositeNavigation.CloseDate?.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        ActionMenu = GetDefaultIndexMenu();
+
+        MaxRecordCount = -1;
+
+        await base.OnInitializedAsync();
+    }
+
+    private void Detail_OnClick(AccountComposite model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.AccountCompositeId));
+    }
+}
