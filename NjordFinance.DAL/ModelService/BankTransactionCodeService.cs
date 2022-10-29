@@ -86,8 +86,15 @@ namespace NjordFinance.ModelService
                     b.AttributeMemberId == a.AttributeMemberId &&
                     b.EffectiveDate == a.EffectiveDate)))
             {
-                // Define the new entity.
-                var newEntity = new BankTransactionCodeAttributeMemberEntry();
+                // Define the new entity, set the key attributes to avoid collision with
+                // existing entities.
+                var newEntity = new BankTransactionCodeAttributeMemberEntry()
+                {
+                    TransactionCodeId = childEntry.TransactionCodeId,
+                    AttributeMemberId = childEntry.AttributeMemberId,
+                    EffectiveDate = childEntry.EffectiveDate
+                };
+
                 context.Add(newEntity);
 
                 // Update the new child entity values.
