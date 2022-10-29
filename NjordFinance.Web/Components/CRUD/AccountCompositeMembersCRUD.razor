@@ -46,7 +46,7 @@ else
             <button class="form-control button" 
                 @onclick="args => ViewModel.AddMember()">
                 @Strings.Caption_CreateNew.Format(ModelMetadata
-                    .GetAttribute<AccountComposite, NounAttribute>()?.GetSingular())
+                    .GetAttribute<AccountCompositeMember, NounAttribute>()?.GetSingular())
             </button>
         </ActionButtonMenu>
         <DataGrid TModel="AccountCompositeMember" Data="@ViewModel.Members">
