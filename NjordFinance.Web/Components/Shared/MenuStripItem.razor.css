@@ -75,6 +75,10 @@ a {
     max-height: 65%;
 }
 
+::deep svg {
+    width: 100%;
+}
+
 .caption {
     grid-area: b;
     /*min-width: 64px;*/
