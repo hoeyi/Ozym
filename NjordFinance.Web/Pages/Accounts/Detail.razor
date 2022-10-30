@@ -74,9 +74,31 @@
                     }
                 };
 
-            // Add view wallets button.
+            // Add view bank transactions menu item.
+            if (Model.HasBankTransaction)
+                ActionMenu.Children.Add(ActionMenu.Children.Max(kv => kv.Key) + 1, new MenuItem()
+                    {
+                        IconKey = "journal",
+                        Caption = string.Format(
+                                Strings.Caption_ViewMany,
+                                ModelMetadata.GetAttribute<BankTransaction, NounAttribute>()?.GetPlural()),
+                        UriStem = $"{FormatEditUri(Model.AccountId)}/bank-transactions"
+                    });
+
+            // Add view broker transactions menu item.
+            if(Model.HasBrokerTransaction)
+                ActionMenu.Children.Add(ActionMenu.Children.Max(kv => kv.Key) + 1, new MenuItem()
+                    {
+                        IconKey = "journal",
+                        Caption = string.Format(
+                            Strings.Caption_EditMany,
+                            ModelMetadata.GetAttribute<BrokerTransaction, NounAttribute>()?.GetPlural()),
+                        UriStem = $"{FormatEditUri(Model.AccountId)}/broker-transactions"
+                    });
+
+            // Add view wallets menu item.
             if (Model.HasWallet)
-                ActionMenu.Children.Add(2, new MenuItem()
+                ActionMenu.Children.Add(ActionMenu.Children.Max(kv => kv.Key) + 1, new MenuItem()
                     {
                         IconKey = "wallet",
                         Caption = string.Format(
@@ -84,6 +106,7 @@
                                 ModelMetadata.GetAttribute<AccountWallet, NounAttribute>()?.GetPlural()),
                         UriStem = $"{FormatEditUri(Model.AccountId)}/wallets"
                     });
+
 
             Custodians = (await ReferenceData.AccountCustodianListAsync()).ToLookups();
 
