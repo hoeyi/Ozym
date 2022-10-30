@@ -53,12 +53,15 @@
                     IconKey = "reorder-four",
                     Children = new()
                     {
-                        // Add index button.
+                        // Add return to index button.
                         { 0, new MenuItem()
                             {
-                                IconKey = "list",
+                                IconKey = "caret-back-circle",
                                 Caption = string.Format(
-                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                    Strings.Caption_NavigateBackTo,
+                                    ModelMetadata
+                                        .GetAttribute<Account, NounAttribute>()
+                                        ?.GetPlural()),
                                 UriStem = $"{IndexUriRelativePath}"
                             }
                         },
