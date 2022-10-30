@@ -16,7 +16,7 @@ namespace NjordFinance.UserInterface
         /// Gets the title indicating a many records are being read.
         /// </summary>
         /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
-        string ReadMany();
+        string ReadMany(string heading = null);
 
         /// <summary>
         /// Gets the title indicating a single record is being created.
@@ -65,9 +65,12 @@ namespace NjordFinance.UserInterface
         }
 
         /// <inheritdoc/>
-        public string ReadMany()
+        public string ReadMany(string heading = null)
         {
-            return Strings.IndexModel.Format(_noun.GetPlural()?.ToTitleCase());
+            if(string.IsNullOrEmpty(heading))
+                return Strings.IndexModel.Format(_noun.GetPlural()?.ToTitleCase());
+            else
+                return Strings.IndexModelAsChild.Format(_noun.GetPlural()?.ToTitleCase(), heading);
         }
 
         /// <inheritdoc/>   
