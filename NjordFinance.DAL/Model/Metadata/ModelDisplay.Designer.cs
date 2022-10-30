@@ -711,9 +711,9 @@ namespace NjordFinance.Model.Metadata {
         /// <summary>
         ///   Looks up a localized string similar to Transaction Code.
         /// </summary>
-        public static string BankTransaction_TransactionCodeId_Name {
+        public static string BankTransaction_TransactionCodeID_Name {
             get {
-                return ResourceManager.GetString("BankTransaction_TransactionCodeId_Name", resourceCulture);
+                return ResourceManager.GetString("BankTransaction_TransactionCodeID_Name", resourceCulture);
             }
         }
         

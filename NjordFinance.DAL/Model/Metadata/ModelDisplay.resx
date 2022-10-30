@@ -375,7 +375,7 @@
   <data name="BankTransaction_TransactionCodeID_Description" xml:space="preserve">
     <value>The bank code for the transaction.</value>
   </data>
-  <data name="BankTransaction_TransactionCodeId_Name" xml:space="preserve">
+  <data name="BankTransaction_TransactionCodeID_Name" xml:space="preserve">
     <value>Transaction Code</value>
   </data>
   <data name="BankTransaction_TransactionDate_Description" xml:space="preserve">
