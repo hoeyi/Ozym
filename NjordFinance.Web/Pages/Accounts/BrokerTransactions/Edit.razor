@@ -186,10 +186,10 @@
             var transactionListTask = Controller.SelectAllAsync();
 
             await Task.WhenAll(
-                securityListTask, 
+                transactionListTask,
+                securityListTask,
                 depositSecurityListTask,
-                transactionCodeListTask
-            );
+                transactionCodeListTask);
 
             BrokerTransactions = (await transactionListTask).Value;
             DepositSecurities = (await depositSecurityListTask).ToLookups();

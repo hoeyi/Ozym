@@ -163,10 +163,10 @@
             var transactionListTask = Controller.SelectAllAsync();
 
             await Task.WhenAll(
+                transactionListTask,
                 securityListTask,
                 depositSecurityListTask,
-                transactionCodeListTask
-            );
+                transactionCodeListTask);
 
             BrokerTransactions = (await transactionListTask).Value;
             DepositSecurities = (await depositSecurityListTask).ToLookups();
