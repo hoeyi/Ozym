@@ -1,0 +1,141 @@
+﻿@page "/accounts/{AccountId:int}/detail/bank-transactions"
+
+@inherits ModelPage<BankTransaction>
+
+@inject IBatchController<BankTransaction> Controller
+@inject IReferenceDataService ReferenceData
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.ReadMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader Header="@(PageTitle.ReadMany(ParentAccount.AccountCode))" ActionMenu="@ActionMenu" />
+
+        <ContentTile>
+            <Body>
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <div class="error-text">@ErrorMessage</div>
+                }
+                <EditForm width="100%" Model="@BankTransactions">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <DataGrid Data="@BankTransactions">
+                        <DataGridColumn Property="@nameof(BankTransaction.TransactionCodeId)"
+                                    Caption="@NameFor(x => x.TransactionCodeId)">
+                            <CellTemplate Context="model">
+                                @GetLookupDisplayName(TransactionCodes, model.TransactionCodeId)
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property="@nameof(BankTransaction.TransactionDate)"
+                                    Caption="@(NameFor(x => x.TransactionDate))">
+                            <CellTemplate Context="model">
+                                @model.TransactionDate.ToShortDateString()
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property="@nameof(BankTransaction.Amount)"
+                                    Caption="@(NameFor(x => x.Amount))">
+                            <CellTemplate Context="model">
+                                @model.Amount
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property="@nameof(BankTransaction.Comment)"
+                                    Caption="@(NameFor(x => x.Comment))">
+                            <CellTemplate Context="model">
+                                @model.Comment
+                            </CellTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </EditForm>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+@code {
+    [Parameter]
+    public int AccountId { get; set; }
+
+    private IList<BankTransaction> BankTransactions { get; set; }
+
+    private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
+
+    private Account ParentAccount { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        ActionMenu = new()
+            {
+                IconKey = "reorder-four",
+                Children = new()
+                {
+                    { 0, new MenuItem()
+                        {
+                            IconKey = "caret-back-circle",
+                            Caption = string.Format(
+                                Strings.Caption_NavigateBackTo,
+                                ModelMetadata.GetAttribute<Account, NounAttribute>()?.GetSingular()),
+                            UriStem = $"{IndexUriRelativePath}/{AccountId}/detail"
+                        }
+                    },
+                    { 1, new MenuItem()
+                        {
+                            IconKey = "pencil",
+                            Caption = string.Format(
+                                Strings.Caption_EditMany, ModelNoun?.GetPlural()),
+                            UriStem = $"{IndexUriRelativePath}/{AccountId}/edit/bank-transactions"
+                        }
+                    }
+                }
+            };
+
+        try
+        {
+            var transactionCodeListTask = ReferenceData.GetManyAsync<BankTransactionCode>(x => true);
+
+            ParentAccount = await ReferenceData.GetSingleAsync<Account>(
+                a => a.AccountId == AccountId, path: a => a.AccountNavigation);
+
+            var initResult = Controller.ForParent(ParentAccount.AccountId);
+
+            if (initResult is not OkResult)
+                throw new InvalidOperationException();
+
+            var transactionListTask = Controller.SelectAllAsync();
+
+            await Task.WhenAll(
+                transactionListTask,
+                transactionCodeListTask);
+
+            BankTransactions = (await transactionListTask).Value;
+            TransactionCodes = (await transactionCodeListTask)
+                .ToLookups(key: x => x.TransactionCodeId, display: x => x.DisplayName);
+
+        }
+        finally
+        {
+            IsLoading = BankTransactions is null
+                || ParentAccount is null
+                || TransactionCodes is null;
+        }
+    }
+
+    /// <summary>
+    /// Gets the index uri stem to this page.
+    /// </summary>
+    private string IndexUriRelative => $"{IndexUriRelativePath}/{AccountId}/edit/broker-transactions";
+
+    private void Cancel_OnClick() => NavigationHelper
+        .NavigateTo($"{IndexUriRelativePath}/{AccountId}/detail");
+
+    private string? GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
+        lookupModels.FirstOrDefault(x => x.Key == id)?.Display;
+
+}
