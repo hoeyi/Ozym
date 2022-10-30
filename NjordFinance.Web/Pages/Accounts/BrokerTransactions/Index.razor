@@ -1,0 +1,198 @@
+﻿@page "/accounts/{AccountId:int}/detail/broker-transactions"
+
+@inherits ModelPage<BrokerTransaction>
+
+@inject IBatchController<BrokerTransaction> Controller
+@inject IReferenceDataService ReferenceData
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.ReadMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader 
+            Header="@(PageTitle.ReadMany(ParentAccount.AccountCode))" ActionMenu="@ActionMenu"/>
+
+        <ContentTile>
+            <Body>
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <div class="error-text">@ErrorMessage</div>
+                }
+                <EditForm width="100%" Model="@BrokerTransactions">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <DataGrid Data="@BrokerTransactions">
+                        <DataGridColumn 
+                            Property="@nameof(BrokerTransaction.TransactionCodeId)"
+                            Caption="@NameFor(x => x.TransactionCodeId)">
+                            <CellTemplate Context="model">
+                                @GetLookupDisplayName(TransactionCodes, model.TransactionCodeId)
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn
+                            Property="@nameof(BrokerTransaction.SecurityId)"
+                            Caption="@NameFor(x => x.SecurityId)">
+                            <CellTemplate Context="model">
+                                @GetLookupDisplayName(TransactableSecurities, model.SecurityId)
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn
+                            Property="@nameof(BrokerTransaction.TradeDate)"
+                            Caption="@(NameFor(x => x.TradeDate))">
+                            <CellTemplate Context="model">
+                                @model.TradeDate.ToShortDateString()
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn
+                            Property="@nameof(BrokerTransaction.SettleDate)"
+                            Caption="@(NameFor(x => x.SettleDate))">
+                            <CellTemplate Context="model">
+                                @model.SettleDate?.ToShortDateString()
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property="@nameof(BrokerTransaction.AcquisitionDate)"
+                                    Caption="@(NameFor(x => x.AcquisitionDate))">
+                            <CellTemplate Context="model">
+                                @model.AcquisitionDate?.ToShortDateString()
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Property="@nameof(BrokerTransaction.Quantity)"
+                            Caption="@(NameFor(x => x.Quantity))">
+                            <CellTemplate Context="model">
+                                @model.Quantity
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Property="@nameof(BrokerTransaction.Amount)"
+                            Caption="@(NameFor(x => x.Amount))">
+                            <CellTemplate Context="model">
+                                @model.Amount
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Property="@nameof(BrokerTransaction.Fee)"
+                            Caption="@(NameFor(x => x.Fee))">
+                            <CellTemplate Context="model">
+                                @model.Fee
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Property="@nameof(BrokerTransaction.Withholding)"
+                            Caption="@(NameFor(x => x.Withholding))">
+                            <CellTemplate Context="model">
+                                @model.Withholding
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Property="@nameof(BrokerTransaction.DepSecurityId)"
+                            Caption="@NameFor(x => x.DepSecurityId)">
+                            <CellTemplate Context="model">
+                                @GetLookupDisplayName(DepositSecurities, model.DepSecurityId)
+                            </CellTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </EditForm>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+@code {
+    [Parameter]
+    public int AccountId { get; set; }
+
+    private IList<BrokerTransaction> BrokerTransactions { get; set; }
+
+    private IEnumerable<LookupModel> DepositSecurities { get; set; }
+
+    private IEnumerable<LookupModel> TransactionCodes { get; set; }
+
+    private IEnumerable<LookupModel> TransactableSecurities { get; set; }
+
+    private Account ParentAccount { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        ActionMenu = new()
+            {
+                IconKey = "reorder-four",
+                Children = new()
+                {
+                    { 0, new MenuItem()
+                        {
+                            IconKey = "caret-back-circle",
+                            Caption = string.Format(
+                                Strings.Caption_NavigateBackTo,
+                                ModelMetadata.GetAttribute<Account, NounAttribute>()?.GetSingular()),
+                            UriStem = $"{IndexUriRelativePath}/{AccountId}/detail"
+                        }
+                    },
+                    { 1, new MenuItem()
+                        {
+                            IconKey = "pencil",
+                            Caption = string.Format(
+                                Strings.Caption_EditMany, ModelNoun?.GetPlural()),
+                            UriStem = $"{IndexUriRelativePath}/{AccountId}/edit/broker-transactions"
+                        }
+                    }
+                }
+            };
+
+        try
+        {
+            var securityListTask = ReferenceData.TransactableSecurityListAsync();
+            var depositSecurityListTask = ReferenceData.CashOrExternalSecurityListAsync();
+            var transactionCodeListTask = ReferenceData.GetManyAsync<BrokerTransactionCode>(x => true);
+
+            ParentAccount = await ReferenceData.GetSingleAsync<Account>(
+                a => a.AccountId == AccountId, path: a => a.AccountNavigation);
+
+            var initResult = Controller.ForParent(ParentAccount.AccountId);
+
+            if (initResult is not OkResult)
+                throw new InvalidOperationException();
+
+            var transactionListTask = Controller.SelectAllAsync();
+
+            await Task.WhenAll(
+                securityListTask,
+                depositSecurityListTask,
+                transactionCodeListTask
+            );
+
+            BrokerTransactions = (await transactionListTask).Value;
+            DepositSecurities = (await depositSecurityListTask).ToLookups();
+            TransactableSecurities = (await securityListTask).ToLookups();
+            TransactionCodes = (await transactionCodeListTask).ToLookups();
+
+        }
+        finally
+        {
+            IsLoading = BrokerTransactions is null
+                || ParentAccount is null
+                || DepositSecurities is null
+                || TransactionCodes is null
+                || TransactableSecurities is null;
+        }
+    }
+
+    /// <summary>
+    /// Gets the index uri stem to this page.
+    /// </summary>
+    private string IndexUriRelative => $"{IndexUriRelativePath}/{AccountId}/edit/broker-transactions";
+
+    private void Cancel_OnClick() => NavigationHelper
+        .NavigateTo($"{IndexUriRelativePath}/{AccountId}/detail");
+
+    private string? GetLookupDisplayName(IEnumerable<LookupModel> lookupModels, int id) =>
+        lookupModels.FirstOrDefault(x => x.Key == id)?.Display;
+
+}

@@ -1,0 +1,258 @@
+﻿@page "/accounts/{AccountId:int}/edit/broker-transactions"
+
+@inherits ModelPage<BrokerTransaction>
+
+@inject IBatchController<BrokerTransaction> Controller
+@inject IReferenceDataService ReferenceData
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.UpdateMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
+
+        <ContentTile>
+            <Body>
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <div class="error-text">@ErrorMessage</div>
+                }
+                <EditForm width="100%" Model="@BrokerTransactions">
+                    <ActionButtonMenu>
+                        <button class="form-control button"
+                            @onclick="@(async (args) => await Submit_OnClick(context, args))">
+                            @Strings.Caption_Button_Save
+                        </button>
+                        <button class="form-control button"
+                            @onclick=@(async (args) => await AddNewAsync(args))>
+                            @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
+                        </button>
+                        <button class="form-control button" @onclick="Cancel_OnClick"
+                            @onclick:preventDefault>
+                            @Strings.Caption_Button_Cancel
+                        </button>
+                    </ActionButtonMenu>
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <DataGrid Data="@BrokerTransactions">
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.TransactionCodeId)"
+                            Caption="@NameFor(x => x.TransactionCodeId)">
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control"
+                                    @bind-Value="@model.TransactionCodeId">
+                                    @foreach (var lookup in TransactionCodes)
+                                    {
+                                        <option value=@lookup.Key>@lookup.Display</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.SecurityId)"
+                            Caption="@NameFor(x => x.SecurityId)">
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control"
+                                    @bind-Value="@model.SecurityId">
+                                    @foreach (var lookup in TransactableSecurities)
+                                    {
+                                        <option value=@lookup.Key>@lookup.Display</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.TradeDate)"
+                            Caption="@(NameFor(x => x.TradeDate))">
+                            <CellEditTemplate Context="model">
+                                <InputDate class="form-control" @bind-Value="@model.TradeDate" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.SettleDate)"
+                            Caption="@(NameFor(x => x.SettleDate))">
+                            <CellEditTemplate Context="model">
+                                <InputDate class="form-control" @bind-Value="@model.SettleDate" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                    Property="@nameof(BrokerTransaction.AcquisitionDate)"
+                                    Caption="@(NameFor(x => x.AcquisitionDate))">
+                            <CellEditTemplate Context="model">
+                                <InputDate class="form-control" @bind-Value="@model.AcquisitionDate" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.Quantity)"
+                            Caption="@(NameFor(x => x.Quantity))">
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="@model.Quantity" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.Amount)"
+                                    Caption="@(NameFor(x => x.Amount))">
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="@model.Amount" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                    Property="@nameof(BrokerTransaction.Fee)"
+                                    Caption="@(NameFor(x => x.Fee))">
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="@model.Fee" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                    Property="@nameof(BrokerTransaction.Withholding)"
+                                    Caption="@(NameFor(x => x.Withholding))">
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="@model.Withholding" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.DepSecurityId)"
+                            Caption="@NameFor(x => x.DepSecurityId)">
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control"
+                                    @bind-Value="@model.DepSecurityId">
+                                    @foreach (var security in DepositSecurities)
+                                    {
+                                        <option value=@security.Key>@security.Display</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon"
+                                        type="button"
+                                        @onclick="async (args) => await DeleteAsync(args, model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </EditForm>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+@code {
+    [Parameter]
+    public int AccountId { get; set; }
+
+    private IList<BrokerTransaction> BrokerTransactions { get; set; }
+
+    private IEnumerable<LookupModel> DepositSecurities { get; set; }
+
+    private IEnumerable<LookupModel> TransactionCodes { get; set; }
+
+    private IEnumerable<LookupModel> TransactableSecurities { get; set; }
+
+    private Account ParentAccount { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var securityListTask = ReferenceData.TransactableSecurityListAsync();
+            var depositSecurityListTask = ReferenceData.CashOrExternalSecurityListAsync();
+            var transactionCodeListTask = ReferenceData.GetManyAsync<BrokerTransactionCode>(x => true);
+
+            ParentAccount = await ReferenceData.GetSingleAsync<Account>(
+                a => a.AccountId == AccountId, path: a => a.AccountNavigation);
+
+            var initResult = Controller.ForParent(ParentAccount.AccountId);
+
+            if (initResult is not OkResult)
+                throw new InvalidOperationException();
+
+            var transactionListTask = Controller.SelectAllAsync();
+
+            await Task.WhenAll(
+                securityListTask, 
+                depositSecurityListTask,
+                transactionCodeListTask
+            );
+
+            BrokerTransactions = (await transactionListTask).Value;
+            DepositSecurities = (await depositSecurityListTask).ToLookups();
+            TransactableSecurities = (await securityListTask).ToLookups();
+            TransactionCodes = (await transactionCodeListTask).ToLookups();
+
+            if (!BrokerTransactions.Any())
+            {
+                await AddNewAsync(args: null);
+            }
+        }
+        finally
+        {
+            IsLoading = BrokerTransactions is null 
+                || ParentAccount is null 
+                || DepositSecurities is null
+                || TransactionCodes is null
+                || TransactableSecurities is null;
+        }
+    }
+
+    /// <summary>
+    /// Gets the index uri stem to this page.
+    /// </summary>
+    private string IndexUriRelative => $"{IndexUriRelativePath}/{AccountId}/detail/broker-transactions";
+
+    private async Task AddNewAsync(MouseEventArgs? args)
+    {
+        // TODO: Do something with MouseEventArgs?
+
+        var getDefaultTask = await Controller.GetDefaultAsync();
+        await Controller.AddAsync(getDefaultTask.Value);
+
+        if (getDefaultTask.Value is BrokerTransaction brokerTransaction)
+            BrokerTransactions.Insert(0, brokerTransaction);
+    }
+
+    private async Task DeleteAsync(MouseEventArgs args, BrokerTransaction brokerTransaction)
+    {
+        var result = await Controller.DeleteOrDetachAsync(brokerTransaction);
+
+        if (result is OkResult)
+            BrokerTransactions.Remove(brokerTransaction);
+        else
+            throw new InvalidOperationException();
+
+        // TODO: interpret the response.
+    }
+
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelative);
+
+    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
+    {
+        bool isValid = context.Validate();
+        if (isValid)
+        {
+            var saveResult = await Controller.SaveChangesAsync();
+
+            if (saveResult is NoContentResult)
+                NavigationHelper.NavigateTo(IndexUriRelative);
+
+            else if (saveResult is ObjectResult objectResult)
+                ErrorMessage = (objectResult.Value as Exception)?.Message;
+        }
+    }
+}
