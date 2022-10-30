@@ -138,6 +138,30 @@ namespace NjordFinance.ModelService
         }
 
         /// <summary>
+        /// Converts this collection of <see cref="BrokerTransactionCode"/> instances to a new list 
+        /// of <see cref="LookupModel"/> instances.
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns>An <see cref="IList{T}"/> containing <see cref="LookupModel"/> instances.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IList<LookupModel> ToLookups(this IEnumerable<BrokerTransactionCode> collection)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(paramName: nameof(collection));
+
+            var result = collection.Select(model => new LookupModel()
+            {
+                Key = model.TransactionCodeId,
+                Display = model.DisplayName
+            })
+            .ToList();
+
+            result.Insert(0, LookupModel.PlaceHolder());
+
+            return result;
+        }
+
+        /// <summary>
         /// Inserts a place-holder <see cref="LookupModel"/>. Use where a foreign key relationship 
         /// is optional, or for new entries on required relationships.
         /// </summary>
@@ -157,5 +181,6 @@ namespace NjordFinance.ModelService
 
             return lookupList;
         }
+
     }
 }
