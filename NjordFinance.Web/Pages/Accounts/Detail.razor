@@ -82,7 +82,7 @@
                         Caption = string.Format(
                                 Strings.Caption_ViewMany,
                                 ModelMetadata.GetAttribute<BankTransaction, NounAttribute>()?.GetPlural()),
-                        UriStem = $"{FormatEditUri(Model.AccountId)}/bank-transactions"
+                        UriStem = $"{FormatDetailUri(AccountId)}/bank-transactions"
                     });
 
             // Add view broker transactions menu item.
@@ -91,9 +91,9 @@
                     {
                         IconKey = "journal",
                         Caption = string.Format(
-                            Strings.Caption_EditMany,
+                            Strings.Caption_ViewMany,
                             ModelMetadata.GetAttribute<BrokerTransaction, NounAttribute>()?.GetPlural()),
-                        UriStem = $"{FormatEditUri(Model.AccountId)}/broker-transactions"
+                        UriStem = $"{FormatDetailUri(Model.AccountId)}/broker-transactions"
                     });
 
             // Add view wallets menu item.
