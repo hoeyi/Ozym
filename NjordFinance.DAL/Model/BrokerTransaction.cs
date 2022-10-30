@@ -31,16 +31,16 @@ namespace NjordFinance.Model
 
         [Key]
         [Column("TransactionID")]
-        [Display(
-            Name = nameof(ModelDisplay.BrokerTransaction_TransactionCodeID_Name),
-            Description = nameof(ModelDisplay.BrokerTransaction_TransactionCodeID_Description),
-            ResourceType = typeof(ModelDisplay))]
         public int TransactionId { get; set; }
         
         [Column("AccountID")]
         public int AccountId { get; set; }
         
         [Column("TransactionCodeID")]
+        [Display(
+            Name = nameof(ModelDisplay.BrokerTransaction_TransactionCodeID_Name),
+            Description = nameof(ModelDisplay.BrokerTransaction_TransactionCodeID_Description),
+            ResourceType = typeof(ModelDisplay))]
         public int TransactionCodeId { get; set; }
         
         [Column(TypeName = "date")]
