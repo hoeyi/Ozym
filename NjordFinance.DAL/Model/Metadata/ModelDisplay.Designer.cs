@@ -981,9 +981,9 @@ namespace NjordFinance.Model.Metadata {
         /// <summary>
         ///   Looks up a localized string similar to Security.
         /// </summary>
-        public static string BrokerTransaction_SecurityId_Name {
+        public static string BrokerTransaction_SecurityID_Name {
             get {
-                return ResourceManager.GetString("BrokerTransaction_SecurityId_Name", resourceCulture);
+                return ResourceManager.GetString("BrokerTransaction_SecurityID_Name", resourceCulture);
             }
         }
         
@@ -1053,9 +1053,9 @@ namespace NjordFinance.Model.Metadata {
         /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
-        public static string BrokerTransaction_TransactionCodeId_Name {
+        public static string BrokerTransaction_TransactionCodeID_Name {
             get {
-                return ResourceManager.GetString("BrokerTransaction_TransactionCodeId_Name", resourceCulture);
+                return ResourceManager.GetString("BrokerTransaction_TransactionCodeID_Name", resourceCulture);
             }
         }
         

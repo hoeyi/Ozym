@@ -477,7 +477,7 @@
   <data name="BrokerTransaction_SecurityID_Description" xml:space="preserve">
     <value>The security transacted.</value>
   </data>
-  <data name="BrokerTransaction_SecurityId_Name" xml:space="preserve">
+  <data name="BrokerTransaction_SecurityID_Name" xml:space="preserve">
     <value>Security</value>
   </data>
   <data name="BrokerTransaction_SettleDate_Description" xml:space="preserve">
@@ -501,7 +501,7 @@
   <data name="BrokerTransaction_TransactionCodeID_Description" xml:space="preserve">
     <value>The transaction type.</value>
   </data>
-  <data name="BrokerTransaction_TransactionCodeId_Name" xml:space="preserve">
+  <data name="BrokerTransaction_TransactionCodeID_Name" xml:space="preserve">
     <value>Action</value>
   </data>
   <data name="BrokerTransaction_Withholding_Description" xml:space="preserve">
