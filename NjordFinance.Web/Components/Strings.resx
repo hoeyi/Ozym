@@ -159,6 +159,13 @@
   <data name="Caption_InputSelect_SearchField" xml:space="preserve">
     <value>Search for:</value>
   </data>
+  <data name="Caption_NavigateBack" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Caption_NavigateBackTo" xml:space="preserve">
+    <value>Return to {0}</value>
+    <comment>{0} is the description of the destination</comment>
+  </data>
   <data name="Caption_NoContent" xml:space="preserve">
     <value>(No content)</value>
   </data>

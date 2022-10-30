@@ -169,6 +169,24 @@ namespace NjordFinance.Web.Components {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string Caption_NavigateBack {
+            get {
+                return ResourceManager.GetString("Caption_NavigateBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Return to {0}.
+        /// </summary>
+        public static string Caption_NavigateBackTo {
+            get {
+                return ResourceManager.GetString("Caption_NavigateBackTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (No content).
         /// </summary>
         public static string Caption_NoContent {
