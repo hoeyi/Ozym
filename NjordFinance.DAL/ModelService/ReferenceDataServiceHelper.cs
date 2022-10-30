@@ -1,7 +1,12 @@
-﻿using NjordFinance.Model;
+﻿using Microsoft.Build.Execution;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using NjordFinance.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace NjordFinance.ModelService
 {
@@ -9,7 +14,7 @@ namespace NjordFinance.ModelService
     /// Extension method class for converting <see cref="IEnumerable{T}"/> to <see cref="IList{T}"/> 
     /// collections of <see cref="LookupModel"/> instances.
     /// </summary>
-    public static class ReferenceDataServiceHelper
+    public static partial class ReferenceDataServiceHelper
     {
         /// <summary>
         /// Converts this collection of <see cref="AccountCustodian"/> instances to a new list 
@@ -30,7 +35,7 @@ namespace NjordFinance.ModelService
             })
             .ToList();
 
-            result.Insert(0, LookupModel.PlaceHolder());
+            result.Insert(0, LookupModel.GetPlaceHolder());
 
             return result;
         }
@@ -54,7 +59,7 @@ namespace NjordFinance.ModelService
             })
             .ToList();
 
-            result.Insert(0, LookupModel.PlaceHolder());
+            result.Insert(0, LookupModel.GetPlaceHolder());
 
             return result;
         }
@@ -78,7 +83,7 @@ namespace NjordFinance.ModelService
             })
             .ToList();
 
-            result.Insert(0, LookupModel.PlaceHolder());
+            result.Insert(0, LookupModel.GetPlaceHolder());
 
             return result;
         }
@@ -93,8 +98,7 @@ namespace NjordFinance.ModelService
         /// <exception cref="ArgumentNullException"></exception>
         public static IList<LookupModel> ToLookups(
             this IEnumerable<ModelAttributeMember> collection,
-            Func<ModelAttributeMember, string> displaySelector = null
-            )
+            Func<ModelAttributeMember, string> displaySelector = null)
         {
             if (collection is null)
                 throw new ArgumentNullException(paramName: nameof(collection));
@@ -108,7 +112,7 @@ namespace NjordFinance.ModelService
             .OrderBy(m => m.Display)
             .ToList();
 
-            result.Insert(0, LookupModel.PlaceHolder());
+            result.Insert(0, LookupModel.GetPlaceHolder());
 
             return result;
         }
@@ -132,7 +136,7 @@ namespace NjordFinance.ModelService
             })
             .ToList();
 
-            result.Insert(0, LookupModel.PlaceHolder());
+            result.Insert(0, LookupModel.GetPlaceHolder());
 
             return result;
         }
@@ -154,9 +158,40 @@ namespace NjordFinance.ModelService
                 Key = model.TransactionCodeId,
                 Display = model.DisplayName
             })
+            .OrderBy(m => m.Display)
             .ToList();
 
-            result.Insert(0, LookupModel.PlaceHolder());
+            result.Insert(0, LookupModel.GetPlaceHolder());
+
+            return result;
+        }
+        
+        public static IList<LookupModel<TKey, TValue>> ToLookups<T, TKey, TValue>(
+            this IEnumerable<T> collection, 
+            Expression<Func<T, TKey>> key,
+            Expression<Func<T, TValue>> display)
+        {
+            if (collection is null)
+                throw new ArgumentNullException(paramName: nameof(collection));
+
+            if (key is null)
+                throw new ArgumentNullException(paramName: nameof(key));
+
+            if (display is null)
+                throw new ArgumentNullException(paramName: nameof(display));
+
+            var keyDeleg = key.Compile();
+            var displayDeleg = display.Compile();
+
+            var result = collection.Select(model => 
+                new LookupModel<TKey, TValue>()
+                {
+                    Key = keyDeleg(model),
+                    Display = displayDeleg(model)
+                })
+                .ToList();
+
+            result.Insert(0, LookupModel<TKey, TValue>.GetPlaceHolder());
 
             return result;
         }
@@ -181,6 +216,5 @@ namespace NjordFinance.ModelService
 
             return lookupList;
         }
-
     }
 }
