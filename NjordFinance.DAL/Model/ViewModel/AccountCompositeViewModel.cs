@@ -15,8 +15,8 @@ namespace NjordFinance.Model.ViewModel
         {
         }
 
-        AccountCompositeViewModel(AccountComposite composite, AccountObject accountObject) :
-            base(accountObject)
+        AccountCompositeViewModel(AccountComposite composite, AccountObject accountObject) 
+            : base(accountObject)
         {
             if (composite is null)
                 throw new ArgumentNullException(paramName: nameof(composite));
@@ -29,10 +29,16 @@ namespace NjordFinance.Model.ViewModel
         public IReadOnlyCollection<AccountCompositeMember> Members => 
             _composite.AccountCompositeMembers.ToList();
 
-        public bool AddMember() => throw new NotImplementedException();
+        public void AddMember() =>
+            _composite.AccountCompositeMembers.Add(new()
+            {
+                AccountCompositeId = _composite.AccountCompositeId,
+                EntryDate = DateTime.UtcNow.Date
+            });
 
-        public bool RemoveMember(AccountCompositeMember member) => throw new NotImplementedException();
+        public bool RemoveMember(AccountCompositeMember member) =>
+            _composite.AccountCompositeMembers.Remove(member);
 
-        public AccountComposite ToAccountComposite() => _composite;
+        public AccountComposite ToEntity() => _composite;
     }
 }
