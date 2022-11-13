@@ -1,0 +1,94 @@
+﻿@page "/security-type-groups/{SecurityTypeGroupId:int}/edit"
+
+@inherits ModelDetail<SecurityTypeGroup>
+
+@inject IReferenceDataService ReferenceData
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.UpdateSingle(Model.SecurityTypeGroupName).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.UpdateSingle(Model.SecurityTypeGroupName))" />
+
+        <ContentTile>
+            <Body>
+                <CascadingValue Value="@Model" Name="@nameof(SecurityTypeGroupCRUD.ViewModel)">
+                    <EditForm class="model-editor" Model="@Model"
+                        OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <ActionButtonMenu>
+                            <button type="submit" class="form-control button">
+                                @Strings.Caption_Button_Save
+                            </button>
+                            <button type="button" class="form-control button"
+                                @onclick="Delete_OnClick"
+                                @onclick:preventDefault>
+                                @Strings.Caption_Button_Delete
+                            </button>
+                            <button type="button" class="form-control button"
+                                @onclick="Cancel_OnClick"
+                                @onclick:preventDefault>
+                                @Strings.Caption_Button_Cancel
+                            </button>
+                        </ActionButtonMenu>
+                        <SecurityTypeGroupCRUD Disabled="false" ReadOnly="false" />
+                    </EditForm>
+                </CascadingValue>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <summary>
+    /// Gets or sets the identifier for the <see cref="SecurityTypeGroup" /> worked using this page.
+    /// </summary>
+    [Parameter]
+    public int SecurityTypeGroupId { get; set; }
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.ReadAsync(SecurityTypeGroupId);
+
+            if ((await modelQuery).Value is SecurityTypeGroup model)
+                Model = model;
+        }
+        finally
+        {
+            IsLoading = Model is null;
+        }
+    }
+
+    private void Cancel_OnClick()
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(SecurityTypeGroupId));
+    }
+
+    private async Task Delete_OnClick()
+    {
+        var result = await Controller.DeleteAsync(Model!);
+
+        if (result is NoContentResult ncr)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var result = await Controller.UpdateAsync(SecurityTypeGroupId, Model);
+
+        if (result.Value is not null)
+            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.SecurityTypeGroupId));
+    }
+}
