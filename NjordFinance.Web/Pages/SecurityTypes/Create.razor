@@ -27,11 +27,6 @@
                                 @Strings.Caption_Button_Save
                             </button>
                             <button type="button" class="form-control button"
-                                @onclick="Delete_OnClick"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Delete
-                            </button>
-                            <button type="button" class="form-control button"
                                 @onclick="Cancel_OnClick"
                                 @onclick:preventDefault>
                                 @Strings.Caption_Button_Cancel
@@ -75,35 +70,6 @@
 
             if ((await modelQuery).Value is SecurityType model)
                 Model = model;
-
-            ActionMenu = new()
-                {
-                    IconKey = "reorder-four",
-                    Children = new()
-                    {
-                        // Add return to index button.
-                        { 0, new MenuItem()
-                            {
-                                IconKey = "caret-back-circle",
-                                Caption = string.Format(
-                                    Strings.Caption_NavigateBackTo,
-                                    ModelMetadata
-                                        .GetAttribute<SecurityType, NounAttribute>()
-                                        ?.GetPlural()),
-                                UriStem = $"{IndexUriRelativePath}"
-                            }
-                        },
-                        // Add edit button.
-                        { 1, new MenuItem()
-                            {
-                                IconKey = "pencil",
-                                Caption = string.Format(
-                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
-                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
-                            }
-                        }
-                    }
-                };
         }
         finally
         {
@@ -113,15 +79,7 @@
 
     private void Cancel_OnClick()
     {
-        NavigationHelper.NavigateTo(FormatDetailUri(IndexUriRelativePath));
-    }
-
-    private async Task Delete_OnClick()
-    {
-        var result = await Controller.DeleteAsync(Model!);
-
-        if (result is NoContentResult ncr)
-            NavigationHelper.NavigateTo(IndexUriRelativePath);
+        NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
     private async Task HandleValidSubmit()

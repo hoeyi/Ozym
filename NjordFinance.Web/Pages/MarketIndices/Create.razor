@@ -65,15 +65,7 @@
 
     private void Cancel_OnClick()
     {
-        NavigationHelper.NavigateTo(FormatDetailUri(IndexUriRelativePath));
-    }
-
-    private async Task Delete_OnClick()
-    {
-        var result = await Controller.DeleteAsync(Model!);
-
-        if (result is NoContentResult ncr)
-            NavigationHelper.NavigateTo(IndexUriRelativePath);
+        NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
     private async Task HandleValidSubmit()
