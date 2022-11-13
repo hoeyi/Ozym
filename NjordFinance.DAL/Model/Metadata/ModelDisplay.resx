@@ -984,6 +984,12 @@
   <data name="SecurityType_CanHavePosition_Name" xml:space="preserve">
     <value>Enable Positions</value>
   </data>
+  <data name="SecurityType_HeldInWallet_Description" xml:space="preserve">
+    <value>Indicates whether securities of this type are held in a cryptocurrency wallet.</value>
+  </data>
+  <data name="SecurityType_HeldInWallet_Name" xml:space="preserve">
+    <value>Held in Crypto. Wallet</value>
+  </data>
   <data name="SecurityType_SecurityTypeGroupID_Description" xml:space="preserve">
     <value>The security type group.</value>
   </data>

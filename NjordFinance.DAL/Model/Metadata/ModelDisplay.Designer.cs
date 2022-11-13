@@ -2779,6 +2779,24 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Indicates whether securities of this type are held in a cryptocurrency wallet..
+        /// </summary>
+        public static string SecurityType_HeldInWallet_Description {
+            get {
+                return ResourceManager.GetString("SecurityType_HeldInWallet_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Held in Crypto. Wallet.
+        /// </summary>
+        public static string SecurityType_HeldInWallet_Name {
+            get {
+                return ResourceManager.GetString("SecurityType_HeldInWallet_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The security type group..
         /// </summary>
         public static string SecurityType_SecurityTypeGroupID_Description {

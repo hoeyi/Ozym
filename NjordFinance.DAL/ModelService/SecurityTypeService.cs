@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Model;
+using NjordFinance.Model.ConstraintType;
 using NjordFinance.ModelService.Abstractions;
 
 namespace NjordFinance.ModelService
@@ -29,7 +30,9 @@ namespace NjordFinance.ModelService
             Reader = new ModelReaderService<SecurityType>(
                 contextFactory, modelMetadata, logger)
             {
-                IncludeDelegate = (queryable) => queryable.Include(a => a.AttributeMemberNavigation)
+                IncludeDelegate = (queryable) => queryable
+                    .Include(a => a.AttributeMemberNavigation)
+                    .Include(a => a.SecurityTypeGroup)
             };
 
             Writer = new ModelWriterService<SecurityType>(
@@ -44,6 +47,13 @@ namespace NjordFinance.ModelService
                         .SaveChangesAsync() > 0;
 
                     return new DbActionResult<SecurityType>(model, result);
+                },
+                GetDefaultDelegate = () => new SecurityType()
+                {
+                    AttributeMemberNavigation = new()
+                    {
+                        AttributeId = (int)ModelAttributeEnum.SecurityType
+                    }
                 },
                 UpdateDelegate = async (context, model) =>
                 {
