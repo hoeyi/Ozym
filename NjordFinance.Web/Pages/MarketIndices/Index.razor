@@ -1,0 +1,60 @@
+﻿@page "/market-indices"
+
+@inherits ModelIndex<MarketIndex>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+    <ThemedComponent>
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models">
+                    <DataGridColumn 
+                        Property=@nameof(MarketIndex.IndexCode)
+                        Caption=@(NameFor(x => x.IndexCode))
+                        Type=@DataGridCellType.Link>
+                        <CellTemplate Context="model">
+                            <a class="custom-nav-link" href=@(FormatDetailUri(model.IndexId)) 
+                                @onclick:preventDefault
+                                @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.IndexCode.ToUpper()
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property=@nameof(MarketIndex.IndexDescription)
+                        Caption=@(NameFor(x => x.IndexDescription))>
+                        <CellTemplate Context="model">
+                            @model.IndexDescription
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        ActionMenu = GetDefaultIndexMenu();
+
+        MaxRecordCount = -1;
+
+        await base.OnInitializedAsync();
+    }
+
+    private void Detail_OnClick(MarketIndex model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.IndexId));
+    }
+}

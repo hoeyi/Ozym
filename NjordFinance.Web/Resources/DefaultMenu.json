@@ -47,6 +47,21 @@
         },
         "2": {
           "IconKey": null,
+          "Caption": "Indices",
+          "UriStem": "/market-indices",
+          "Children": {
+            "1": {
+              "IconKey": null,
+              "Caption": "Index Rates",
+              "UriStem": "/market-indices/rates",
+              "Children": {},
+              "HasChildren":  false
+            }
+          },
+          "HasChildren": true
+        },
+        "3": {
+          "IconKey": null,
           "Caption": "Prices",
           "UriStem": "/prices",
           "Children": {},
