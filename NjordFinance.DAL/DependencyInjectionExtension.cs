@@ -63,6 +63,7 @@ namespace NjordFinance
                 .AddScoped<IModelBatchService<MarketIndexPrice>, MarketIndexPriceService>()
                 .AddScoped<IModelBatchService<ModelAttributeMember>, ModelAttributeMemberService>()
                 .AddScoped<IModelBatchService<SecurityAttributeMemberEntry>, SecurityAttributeService>()
+                .AddScoped<IModelBatchService<SecurityExchange>, SecurityExchangeBatchService>()
                 .AddScoped<IModelBatchService<SecurityPrice>, SecurityPriceService>()
                 .AddScoped<IModelBatchService<SecuritySymbol>, SecuritySymbolService>();
         }
@@ -104,7 +105,7 @@ namespace NjordFinance
                 .AddScoped<IBatchController<AccountAttributeMemberEntry>, ModelBatchController<AccountAttributeMemberEntry>>()
                 .AddScoped<IBatchController<AccountCompositeMember>, ModelBatchController<AccountCompositeMember>>()
                 .AddScoped<IBatchController<AccountCustodian>, ModelBatchController<AccountCustodian>>()
-                .AddTransient<IBatchController<Country>, ModelBatchController<Country>>()
+                .AddScoped<IBatchController<Country>, ModelBatchController<Country>>()
                 .AddScoped<IBatchController<AccountWallet>, ModelBatchController<AccountWallet>>()
                 .AddScoped<IBatchController<BankTransaction>, ModelBatchController<BankTransaction>>()
                 .AddScoped<IBatchController<BankTransactionCode>, ModelBatchController<BankTransactionCode>>()
@@ -120,6 +121,7 @@ namespace NjordFinance
                 .AddScoped<IBatchController<MarketIndexPrice>, ModelBatchController<MarketIndexPrice>>()
                 .AddScoped<IBatchController<ModelAttributeMember>, ModelBatchController<ModelAttributeMember>>()
                 .AddScoped<IBatchController<SecurityAttributeMemberEntry>, ModelBatchController<SecurityAttributeMemberEntry>>()
+                .AddScoped<IBatchController<SecurityExchange>, ModelBatchController<SecurityExchange>>()
                 .AddScoped<IBatchController<SecurityPrice>, ModelBatchController<SecurityPrice>>()
                 .AddScoped<IBatchController<SecuritySymbol>, ModelBatchController<SecuritySymbol>>();
         }
