@@ -8,20 +8,6 @@
     <UserSecretsId>aspnet-NjordFinance.Web-8127480B-07E8-4478-AEFA-EAC0AACF174B</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Pages\Securities\**" />
-    <Compile Remove="Pages\SecurityTypeGroups\**" />
-    <Compile Remove="Pages\SecurityTypes\**" />
-    <Content Remove="Pages\Securities\**" />
-    <Content Remove="Pages\SecurityTypeGroups\**" />
-    <Content Remove="Pages\SecurityTypes\**" />
-    <EmbeddedResource Remove="Pages\Securities\**" />
-    <EmbeddedResource Remove="Pages\SecurityTypeGroups\**" />
-    <EmbeddedResource Remove="Pages\SecurityTypes\**" />
-    <None Remove="Pages\Securities\**" />
-    <None Remove="Pages\SecurityTypeGroups\**" />
-    <None Remove="Pages\SecurityTypes\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Resources\DefaultMenu.json" />

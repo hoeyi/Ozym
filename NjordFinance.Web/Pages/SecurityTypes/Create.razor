@@ -1,0 +1,134 @@
+﻿@page "/security-types/create/{RequestGuid:guid}"
+
+@inherits ModelDetail<SecurityType>
+
+@inject IReferenceDataService ReferenceData
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.CreateSingle())" />
+
+        <ContentTile>
+            <Body>
+                <CascadingValue Value="@Model" Name="@nameof(SecurityTypeCRUD.ViewModel)">
+                    <EditForm class="model-editor" Model="@Model"
+                          OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <ActionButtonMenu>
+                            <button type="submit" class="form-control button">
+                                @Strings.Caption_Button_Save
+                            </button>
+                            <button type="button" class="form-control button"
+                                @onclick="Delete_OnClick"
+                                @onclick:preventDefault>
+                                @Strings.Caption_Button_Delete
+                            </button>
+                            <button type="button" class="form-control button"
+                                @onclick="Cancel_OnClick"
+                                @onclick:preventDefault>
+                                @Strings.Caption_Button_Cancel
+                            </button>
+                        </ActionButtonMenu>
+                        <SecurityTypeCRUD Disabled="false" ReadOnly="false"
+                                      SecurityTypeGroups="@SecurityTypeGroups" />
+                    </EditForm>
+                </CascadingValue>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <summary>
+    /// Gets or sets the unique identifier for the creation action.
+    /// </summary>
+    [Parameter]
+    public Guid RequestGuid { get; init; }
+
+    private IEnumerable<LookupModel<int, string>> SecurityTypeGroups { get; set; }
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.GetDefaultAsync();
+            var typeGroupsQuery = ReferenceData
+                .CreateQueryBuilder<SecurityTypeGroup>()
+                .SelectWhereAsync(x => true);
+
+            await Task.WhenAll(modelQuery, typeGroupsQuery);
+
+            SecurityTypeGroups = (await typeGroupsQuery)
+                .ToLookups(key: x => x.SecurityTypeGroupId, display: x => x.SecurityTypeGroupName);
+
+            if ((await modelQuery).Value is SecurityType model)
+                Model = model;
+
+            ActionMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                    {
+                        // Add return to index button.
+                        { 0, new MenuItem()
+                            {
+                                IconKey = "caret-back-circle",
+                                Caption = string.Format(
+                                    Strings.Caption_NavigateBackTo,
+                                    ModelMetadata
+                                        .GetAttribute<SecurityType, NounAttribute>()
+                                        ?.GetPlural()),
+                                UriStem = $"{IndexUriRelativePath}"
+                            }
+                        },
+                        // Add edit button.
+                        { 1, new MenuItem()
+                            {
+                                IconKey = "pencil",
+                                Caption = string.Format(
+                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
+                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
+                            }
+                        }
+                    }
+                };
+        }
+        finally
+        {
+            IsLoading = Model is null || SecurityTypeGroups is null;
+        }
+    }
+
+    private void Cancel_OnClick()
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(IndexUriRelativePath));
+    }
+
+    private async Task Delete_OnClick()
+    {
+        var result = await Controller.DeleteAsync(Model!);
+
+        if (result is NoContentResult ncr)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var result = await Controller.CreateAsync(Model);
+
+        if (result.Result is CreatedAtActionResult cr)
+            NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
+    }
+}

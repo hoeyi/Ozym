@@ -1,0 +1,83 @@
+﻿@page "/security-types"
+
+@inherits ModelIndex<SecurityType>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+    <ThemedComponent>
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models">
+                    <DataGridColumn Property=@nameof(SecurityType.SecurityTypeName)
+                                Caption=@(NameFor(x => x.SecurityTypeName))
+                                Type=@DataGridCellType.Link>
+                        <CellTemplate Context="model">
+                            <a class="custom-nav-link" href=@(FormatDetailUri(model.SecurityTypeId)) 
+                            @onclick:preventDefault
+                            @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.SecurityTypeName
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property=@nameof(SecurityType.SecurityTypeGroup)
+                        Caption=@(NameFor(x => x.SecurityTypeGroupId))>
+                        <CellTemplate Context="model">
+                            @model.SecurityTypeGroup?.SecurityTypeGroupName
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(SecurityType.CanHaveDerivative)
+                                Caption=@(NameFor(x => x.CanHaveDerivative))>
+                        <CellTemplate Context="model">
+                            @model.CanHaveDerivative
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(SecurityType.CanHavePosition)
+                                Caption=@(NameFor(x => x.CanHavePosition))>
+                        <CellTemplate Context="model">
+                            @model.CanHavePosition
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(SecurityType.HeldInWallet)
+                                Caption=@(NameFor(x => x.HeldInWallet))>
+                        <CellTemplate Context="model">
+                            @model.HeldInWallet
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(SecurityType.ValuationFactor)
+                                Caption=@(NameFor(x => x.ValuationFactor))>
+                        <CellTemplate Context="model">
+                            @model.ValuationFactor
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        ActionMenu = GetDefaultIndexMenu();
+
+        MaxRecordCount = -1;
+
+        await base.OnInitializedAsync();
+    }
+
+    private void Detail_OnClick(SecurityType model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.SecurityTypeId));
+    }
+}
