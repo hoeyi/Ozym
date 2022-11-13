@@ -9,10 +9,10 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.ReadSingle(Model.IndexCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
-                         Header="@(PageTitle.ReadSingle(Model.IndexCode))" />
+                         Header="@(PageTitle.CreateSingle())" />
 
         <ContentTile>
             <Body>
