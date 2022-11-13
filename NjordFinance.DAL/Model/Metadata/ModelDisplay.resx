@@ -966,11 +966,23 @@
   <data name="SecuritySymbol_Ticker_Name" xml:space="preserve">
     <value>Ticker</value>
   </data>
+  <data name="SecurityTypeGroup_DepositSource_Description" xml:space="preserve">
+    <value>Indicates whether securities in this type group can be external deposit sources to brokerage accounts.</value>
+  </data>
+  <data name="SecurityTypeGroup_DepositSource_Name" xml:space="preserve">
+    <value>Is Deposit Source</value>
+  </data>
   <data name="SecurityTypeGroup_SecurityTypeGroupName_Description" xml:space="preserve">
     <value>The security type group name.</value>
   </data>
   <data name="SecurityTypeGroup_SecurityTypeGroupName_Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="SecurityTypeGroup_Transactable_Description" xml:space="preserve">
+    <value>Indicates whether securities in this type group can be the source of broker transactions.</value>
+  </data>
+  <data name="SecurityTypeGroup_Transactable_Name" xml:space="preserve">
+    <value>Transactable</value>
   </data>
   <data name="SecurityType_CanHaveDerivative_Description" xml:space="preserve">
     <value>Whether securities of the type can underly derivative securities.</value>

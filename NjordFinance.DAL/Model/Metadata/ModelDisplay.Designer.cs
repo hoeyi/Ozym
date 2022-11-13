@@ -2851,6 +2851,24 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Indicates whether securities in this type group can be external deposit sources to brokerage accounts..
+        /// </summary>
+        public static string SecurityTypeGroup_DepositSource_Description {
+            get {
+                return ResourceManager.GetString("SecurityTypeGroup_DepositSource_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Deposit Source.
+        /// </summary>
+        public static string SecurityTypeGroup_DepositSource_Name {
+            get {
+                return ResourceManager.GetString("SecurityTypeGroup_DepositSource_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The security type group name..
         /// </summary>
         public static string SecurityTypeGroup_SecurityTypeGroupName_Description {
@@ -2865,6 +2883,24 @@ namespace NjordFinance.Model.Metadata {
         public static string SecurityTypeGroup_SecurityTypeGroupName_Name {
             get {
                 return ResourceManager.GetString("SecurityTypeGroup_SecurityTypeGroupName_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indicates whether securities in this type group can be the source of broker transactions..
+        /// </summary>
+        public static string SecurityTypeGroup_Transactable_Description {
+            get {
+                return ResourceManager.GetString("SecurityTypeGroup_Transactable_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transactable.
+        /// </summary>
+        public static string SecurityTypeGroup_Transactable_Name {
+            get {
+                return ResourceManager.GetString("SecurityTypeGroup_Transactable_Name", resourceCulture);
             }
         }
     }
