@@ -17,8 +17,9 @@
             ActionMenu="@ActionMenu" Header="@(PageTitle.UpdateSingle(Model.AccountCompositeCode))" />
 
         <CascadingValue Value="@ViewModel">
-            <EditForm class="model-editor" Model="@ViewModel" 
-            OnValidSubmit="HandleValidSubmit">
+            <EditForm class="model-editor" 
+                Model="@ViewModel" 
+                OnValidSubmit="HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <ContentTile>
                     <Body>
@@ -69,25 +70,10 @@
             var compositeQuery = Controller.ReadAsync(AccountCompositeId);
             var accountsQuery = ReferenceData.AccountListAsync();
 
+            await Task.WhenAll(compositeQuery, accountsQuery);
+
             Model = (await compositeQuery).Value;
             Accounts = (await accountsQuery).ToLookups();
-
-            ActionMenu = new()
-                {
-                    IconKey = "reorder-four",
-                    Children = new()
-                        {
-                            // Add index button.
-                            { 0, new MenuItem()
-                                {
-                                    IconKey = "list",
-                                    Caption = string.Format(
-                                        Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
-                                    UriStem = $"{IndexUriRelativePath}"
-                                }
-                            }
-                        }
-                };
 
             ViewModel = new(Model);
         }
@@ -112,7 +98,7 @@
 
     private async Task HandleValidSubmit()
     {
-        Model = ViewModel.ToAccountComposite();
+        Model = ViewModel.ToEntity();
 
         var result = await Controller.UpdateAsync(AccountCompositeId, Model);
 
