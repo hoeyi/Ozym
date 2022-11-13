@@ -1,0 +1,61 @@
+﻿@page "/security-exchanges"
+
+@inherits ModelIndex<SecurityExchange>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+    <ThemedComponent>
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models">
+                    <DataGridColumn Property=@nameof(SecurityExchange)
+                                Caption=@(NameFor(x => x.ExchangeCode))>
+                        <CellTemplate Context="model">
+                            @model.ExchangeCode
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(SecurityExchange.ExchangeDescription)
+                                Caption=@(NameFor(x => x.ExchangeDescription))>
+                        <CellTemplate Context="model">
+                            @model.ExchangeDescription
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+@code {
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        ActionMenu = new()
+            {
+                IconKey = "reorder-four",
+                Children = new()
+            {
+                { 0, new MenuItem()
+                    {
+                        IconKey = "pencil",
+                        Caption = string.Format(
+                            Strings.Caption_EditMany, ModelNoun?.GetPlural()),
+                        UriStem = $"{IndexUriRelativePath}/edit"
+                    }
+                }
+            }
+            };
+
+        MaxRecordCount = -1;
+
+        await base.OnInitializedAsync();
+    }
+}

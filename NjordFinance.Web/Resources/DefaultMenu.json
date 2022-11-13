@@ -75,6 +75,13 @@
           "HasChildren": false
         },
         "3": {
+          "IconKey": null,
+          "Caption": "Security Exchanges",
+          "UriStem": "/security-exchanges",
+          "Children": {},
+          "HasChildren":  false
+        },
+        "4": {
           "IconKey": "card",
           "Caption": "Transactions",
           "UriStem": null,

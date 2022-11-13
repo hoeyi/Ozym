@@ -9,6 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Securities\**" />
+    <Compile Remove="Pages\SecurityTypeGroups\**" />
+    <Compile Remove="Pages\SecurityTypes\**" />
+    <Content Remove="Pages\Securities\**" />
+    <Content Remove="Pages\SecurityTypeGroups\**" />
+    <Content Remove="Pages\SecurityTypes\**" />
+    <EmbeddedResource Remove="Pages\Securities\**" />
+    <EmbeddedResource Remove="Pages\SecurityTypeGroups\**" />
+    <EmbeddedResource Remove="Pages\SecurityTypes\**" />
+    <None Remove="Pages\Securities\**" />
+    <None Remove="Pages\SecurityTypeGroups\**" />
+    <None Remove="Pages\SecurityTypes\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Resources\DefaultMenu.json" />
   </ItemGroup>
 
@@ -69,11 +84,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\Securities\" />
-    <Folder Include="Pages\Securities\" />
   </ItemGroup>
 
 </Project>
