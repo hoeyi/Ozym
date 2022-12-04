@@ -36,6 +36,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Update="Model\Metadata\CheckConstraintDisplay.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CheckConstraintDisplay.resx</DependentUpon>
+    </Compile>
     <Compile Update="UserInterface\Images.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -101,6 +106,10 @@
     <EmbeddedResource Update="ModelService\Query\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Model\Metadata\CheckConstraintDisplay.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CheckConstraintDisplay.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="UserInterface\Images.resx">
       <Generator>ResXFileCodeGenerator</Generator>

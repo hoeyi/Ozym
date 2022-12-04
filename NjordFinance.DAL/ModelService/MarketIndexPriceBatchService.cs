@@ -12,21 +12,36 @@ namespace NjordFinance.ModelService
     /// The class for servicing single CRUD requests against the <see cref="MarketIndexPrice"/> 
     /// data store.
     /// </summary>
-    internal class MarketIndexPriceService : ModelBatchService<MarketIndexPrice>
+    internal class MarketIndexPriceBatchService : ModelBatchService<MarketIndexPrice>
     {
         /// <summary>
-        /// Creates a new <see cref="MarketIndexPriceService"/> instance.
+        /// Creates a new <see cref="MarketIndexPriceBatchService"/> instance.
         /// </summary>
         /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
         /// instance.</param>
         /// <param name="modelMetadata">An <see cref="IModelMetadataService"/> instance.</param>
         /// <param name="logger">An <see cref="ILogger"/> instance.</param>
-        public MarketIndexPriceService(
+        public MarketIndexPriceBatchService(
                 IDbContextFactory<FinanceDbContext> contextFactory,
                 IModelMetadataService modelMetadata,
                 ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
+            Reader = new ModelReaderService<MarketIndexPrice>(
+                this, _modelMetadata, _logger)
+            {
+                ParentExpression = x => true,
+                IncludeDelegate = (queryable) => queryable
+                    .Include(a => a.MarketIndex)
+            };
+
+            Writer = new ModelWriterBatchService<MarketIndexPrice>(
+                this, _modelMetadata, _logger)
+            {
+                GetDefaultModelDelegate = () => new()
+                {
+                }
+            };
         }
 
         public override bool ForParent(int parentId, out Exception e)

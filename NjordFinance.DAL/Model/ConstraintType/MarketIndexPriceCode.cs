@@ -1,4 +1,8 @@
-﻿using System.Runtime.Serialization;
+﻿using NjordFinance.Model.Metadata;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Security.AccessControl;
+using System.Xml.Linq;
 
 namespace NjordFinance.Model
 {
@@ -7,9 +11,15 @@ namespace NjordFinance.Model
     /// </summary>
     public enum MarketIndexPriceCode
     {
+        [Display(
+            Name = nameof(CheckConstraintDisplay.MarketIndexPrice_PriceCode_PriceReturn),
+            ResourceType = typeof(CheckConstraintDisplay))]
         [EnumMember(Value = "p")]
         PriceReturn,
 
+        [Display(
+            Name = nameof(CheckConstraintDisplay.MarketIndexPrice_PriceCode_TotalReturn),
+            ResourceType = typeof(CheckConstraintDisplay))]
         [EnumMember(Value = "t")]
         TotalReturn
     }
