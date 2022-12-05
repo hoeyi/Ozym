@@ -40,6 +40,8 @@ namespace NjordFinance.ModelService
             {
                 GetDefaultModelDelegate = () => new()
                 {
+                    PriceCode = string.Empty,
+                    PriceDate = DateTime.UtcNow.Date
                 }
             };
         }

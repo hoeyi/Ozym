@@ -8,9 +8,8 @@ using NjordFinance.ModelService.Query;
 using NjordFinance.Model.Annotations;
 using System.Reflection;
 using NjordFinance.Model.ViewModel.Generic;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
+using System.Linq;
+using Microsoft.EntityFrameworkCore.Update;
 
 namespace NjordFinance.ModelService
 {
@@ -125,6 +124,45 @@ namespace NjordFinance.ModelService
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="LookupModel"/> models, including 
         /// a default lookup entry.</returns>
         Task<IEnumerable<Security>> TransactableSecurityListAsync();
+
+        /// <summary>
+        /// Returns a key-value representation of a record. Only the 
+        /// fields matching the <paramref name="key"/> and <paramref name="display"/> parameters 
+        /// are included in the query.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="predicate"></param>
+        /// <param name="key"></param>
+        /// <param name="display"></param>
+        /// <returns></returns>
+        IEnumerable<LookupModel<TKey, TValue>> SelectDTOsFromEnum<TEnum, TKey, TValue>(
+            Func<TEnum, bool> predicate,
+            Expression<Func<TEnum, TKey>> key,
+            Expression<Func<TEnum, TValue>> display,
+            Func<LookupModel<TKey, TValue>> placeHolderDelegate = null)
+            where TEnum : struct, Enum
+        {
+            var keyDeleg = key.Compile();
+            var displayDeleg = display.Compile();
+
+            var results = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()
+                .Where(predicate)
+                .Select(x => new LookupModel<TKey, TValue>()
+                {
+                    Key = keyDeleg(x),
+                    Display = displayDeleg(x)
+                })
+                .ToList();
+
+            if(placeHolderDelegate is not null)
+            {
+                var placeHolder = placeHolderDelegate.Invoke();
+                results.Insert(0, placeHolder);
+            }
+
+            return results;
+        }
     }
 
     public partial interface IReferenceDataService
@@ -140,5 +178,6 @@ namespace NjordFinance.ModelService
             where T : IAttributeEntryViewModel =>
             typeof(T).GetCustomAttribute<ModelAttributeSupportAttribute>()
             ?.SupportedScopes.ToStringArray() ?? Array.Empty<string>();
+
     }
 }

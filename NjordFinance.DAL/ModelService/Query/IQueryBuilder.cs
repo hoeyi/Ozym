@@ -37,12 +37,6 @@ namespace NjordFinance.ModelService.Query
             where TProperty : class, new();
 
         /// <summary>
-        /// Configures a query-builder to return a placeholder in DTO list
-        /// </summary>
-        /// <returns></returns>
-        IQueryBuilder<TSource> WithPlaceholder();
-
-        /// <summary>
         /// Executes the select query and returns the data to the caller as an 
         /// <see cref="IEnumerable{T}"/> collection.
         /// </summary>
@@ -65,11 +59,15 @@ namespace NjordFinance.ModelService.Query
         /// <param name="maxCount"></param>
         /// <param name="key"></param>
         /// <param name="display"></param>
+        /// <param name="defaultKey"></param>
+        /// <param name="defaultDisplay"></param>
         /// <returns></returns>
         Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
             Expression<Func<TSource, bool>> predicate,
             int maxCount,
             Expression<Func<TSource, TKey>> key,
-            Expression<Func<TSource, TValue>> display);
+            Expression<Func<TSource, TValue>> display,
+            TKey defaultKey = default,
+            TValue defaultDisplay = default);
     }
 }
