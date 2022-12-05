@@ -24,7 +24,7 @@ namespace NjordFinance.Test.ModelService
         }
 
         protected override IModelBatchService<MarketIndexPrice> GetModelService() =>
-            BuildModelService<MarketIndexPriceService>().WithParent(parentId: _marketIndexId);
+            BuildModelService<MarketIndexPriceBatchService>().WithParent(parentId: _marketIndexId);
 
     }
 }
