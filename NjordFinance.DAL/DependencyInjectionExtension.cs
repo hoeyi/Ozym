@@ -60,7 +60,7 @@ namespace NjordFinance
                 .AddScoped<IModelBatchService<InvestmentPerformanceEntry>, InvestmentPerformanceService>()
                 .AddScoped<IModelBatchService<InvestmentStrategyTarget>, InvestmentStrategyTargetService>()
                 .AddScoped<IModelBatchService<MarketHolidayObservance>, MarketHolidayObservanceService>()
-                .AddScoped<IModelBatchService<MarketIndexPrice>, MarketIndexPriceService>()
+                .AddScoped<IModelBatchService<MarketIndexPrice>, MarketIndexPriceBatchService>()
                 .AddScoped<IModelBatchService<ModelAttributeMember>, ModelAttributeMemberService>()
                 .AddScoped<IModelBatchService<SecurityAttributeMemberEntry>, SecurityAttributeService>()
                 .AddScoped<IModelBatchService<SecurityExchange>, SecurityExchangeBatchService>()

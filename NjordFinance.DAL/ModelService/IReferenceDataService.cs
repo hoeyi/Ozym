@@ -21,7 +21,13 @@ namespace NjordFinance.ModelService
     /// <typeparam name="T"></typeparam>
     public partial interface IReferenceDataService
     {
-
+        /// <summary>
+        /// Gets the collection of <see cref="MarketIndexPriceCode"/> values.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> containing each defined value for
+        /// <see cref="MarketIndexPriceCode"/>.</returns>
+        Task<IEnumerable<MarketIndexPriceCode>> MarketIndexPriceCodesAsync();
+        
         /// <summary>
         /// Gets the collection representing <see cref="AccountCustodian"/> models as a reference list.
         /// </summary>
@@ -134,73 +140,5 @@ namespace NjordFinance.ModelService
             where T : IAttributeEntryViewModel =>
             typeof(T).GetCustomAttribute<ModelAttributeSupportAttribute>()
             ?.SupportedScopes.ToStringArray() ?? Array.Empty<string>();
-    }
-
-    /// <summary>
-    /// Represents a simplified database record that is referenced in a foreign key relationship.
-    /// </summary>
-    public record LookupModel
-    {
-        internal LookupModel()
-        {
-
-        }
-        internal LookupModel(int key, string display)
-        {
-            Key = key;
-            Display = display;
-        }
-
-        /// <summary>
-        /// Gets the key of this record.
-        /// </summary>
-        public int Key { get; init; }
-
-        /// <summary>
-        /// Gets the display value of this record.
-        /// </summary>
-        public string Display { get; init; }
-
-        /// <summary>
-        /// Gets a lookup record instance representing a placeholder for an undefined field.
-        /// </summary>
-        /// <returns>A <see cref="LookupModel"/> representing a placeholder.</returns>
-        public static LookupModel GetPlaceHolder() => new()
-        {
-            Key = default,
-            Display = UserInterface.Strings.Caption_InputSelect_Placeholder
-        };
-    }
-
-    /// <summary>
-    /// Represents a simplified database record that is referenced in a foreign key relationship.
-    /// </summary>
-    /// <typeparam name="TKey">The key type.</typeparam>
-    /// <typeparam name="TDisplay">The diplay type.</typeparam>
-    public record LookupModel<TKey, TDisplay>
-    {
-        /// <summary>
-        /// Gets the key of this record.
-        /// </summary>
-        public TKey Key { get; init; }
-
-        /// <summary>
-        /// Gets the display value of this record.
-        /// </summary>
-        public TDisplay Display { get; init; }
-
-        /// <summary>
-        /// Gets a lookup record instance representing a placeholder for an undefined field.
-        /// </summary>
-        /// <param name="key">Specifies the default <typeparamref name="TKey"/> to use as the key.</param>
-        /// <param name="display">Specifies the default <typeparamref name="TDisplay"/> to use 
-        /// as the display value.</param>
-        /// <returns>A <see cref="LookupModel{TKey, TDisplay}"/> representing a placeholder.</returns>
-        public static LookupModel<TKey, TDisplay> GetPlaceHolder(
-            TKey key = default, TDisplay display = default) => new()
-            {
-                Key = key,
-                Display = display
-            };
     }
 }

@@ -32,7 +32,16 @@ namespace NjordFinance.ModelService.Query
 
         ~QueryBuilder() => Dispose();
 
+        /// <summary>
+        /// Gets or sets the <see cref="IQueryable{T}"/> instance sensitive to requests to 
+        /// include direct and indirect relationships.
+        /// </summary>
         private IQueryable<TSource> Queryable { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether to include a placeholder data transfer object.
+        /// </summary>
+        private bool IncludeDTOPlaceholder { get; set; }
 
         public void Dispose()
         {
@@ -44,6 +53,7 @@ namespace NjordFinance.ModelService.Query
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
         public IQueryBuilder<TSource> WithDirectRelationship<TProperty>(
             Expression<Func<TSource, TProperty>> navigationPropertyPath) 
         {
@@ -52,6 +62,7 @@ namespace NjordFinance.ModelService.Query
             return this;
         }
 
+        /// <inheritdoc/>
         public IQueryBuilder<TSource> WithIndirectRelationship<TPreviousProperty, TProperty>(
             Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath)
             where TPreviousProperty : class, new()
@@ -62,6 +73,13 @@ namespace NjordFinance.ModelService.Query
             else
                 throw new InvalidOperationException(Strings.QueryBuilder_Exception_InvalidJoin);
 
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IQueryBuilder<TSource> WithPlaceholder()
+        {
+            IncludeDTOPlaceholder = true;
             return this;
         }
 
@@ -80,11 +98,69 @@ namespace NjordFinance.ModelService.Query
             else
                 result = await Queryable.Where(predicate).Take(maxCount).ToListAsync();
 
-            ResetQueryable();
+            ResetQuery();
 
             return result;
         }
 
+        /// <inheritdoc/>
+        public async Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
+            Expression<Func<TSource, bool>> predicate, 
+            int maxCount, 
+            Expression<Func<TSource, TKey>> key, 
+            Expression<Func<TSource, TValue>> display)
+        {
+            if (maxCount < 0)
+                throw new InvalidOperationException(
+                    message: string.Format(
+                        Strings.QueryBuilder_Execute_InvalidCount, maxCount.ToString()));
+
+            var keyDeleg = key.Compile();
+            var displayDeleg = display.Compile();
+
+            IList<LookupModel<TKey, TValue>> result;
+            
+            if(maxCount == 0)
+            {
+                result = await Queryable.Where(predicate)
+                    .Select(x => new LookupModel<TKey, TValue>()
+                    {
+                        Key = keyDeleg(x),
+                        Display = displayDeleg(x)
+                    })
+                    .ToListAsync();
+            }
+            else
+            {
+                result = Queryable.Where(predicate)
+                    .Select(x => new LookupModel<TKey, TValue>()
+                    {
+                        Key = keyDeleg(x),
+                        Display = displayDeleg(x)
+                    })
+                    .Take(maxCount)
+                    .ToList();
+            }
+                
+            if (IncludeDTOPlaceholder)
+                result.Insert(0, LookupModel<TKey, TValue>.GetPlaceHolder());
+
+            ResetQuery();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Resets the configuration of this builder to default settings.
+        /// </summary>
+        private void ResetQuery()
+        {
+            ResetQuery();
+            ResetIncludeDTOPlaceholder();
+        }
         private void ResetQueryable() => Queryable = _context.Set<TSource>();
+
+        private void ResetIncludeDTOPlaceholder() => IncludeDTOPlaceholder = false;
+
     }
 }

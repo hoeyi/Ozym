@@ -35,7 +35,13 @@ namespace NjordFinance.ModelService.Query
             Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath)
             where TPreviousProperty : class, new()
             where TProperty : class, new();
-        
+
+        /// <summary>
+        /// Configures a query-builder to return a placeholder in DTO list
+        /// </summary>
+        /// <returns></returns>
+        IQueryBuilder<TSource> WithPlaceholder();
+
         /// <summary>
         /// Executes the select query and returns the data to the caller as an 
         /// <see cref="IEnumerable{T}"/> collection.
@@ -47,5 +53,23 @@ namespace NjordFinance.ModelService.Query
         /// implementing <see cref="IEnumerable{T}"/>.</returns>
         Task<IEnumerable<TSource>> SelectWhereAsync(
             Expression<Func<TSource, bool>> predicate, int maxCount = 0);
+
+        /// <summary>
+        /// Executes a select query return a key-value representation of a record. Only the 
+        /// fields matching the <paramref name="key"/> and <paramref name="display"/> parameters 
+        /// are included in the query.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="predicate"></param>
+        /// <param name="maxCount"></param>
+        /// <param name="key"></param>
+        /// <param name="display"></param>
+        /// <returns></returns>
+        Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
+            Expression<Func<TSource, bool>> predicate,
+            int maxCount,
+            Expression<Func<TSource, TKey>> key,
+            Expression<Func<TSource, TValue>> display);
     }
 }

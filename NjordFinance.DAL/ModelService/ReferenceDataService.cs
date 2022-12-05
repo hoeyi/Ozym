@@ -16,6 +16,7 @@ namespace NjordFinance.ModelService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
 
+        /// <inheritdoc/>
         public ReferenceDataService(IDbContextFactory<FinanceDbContext> contextFactory)
         {
             if (contextFactory is null)
@@ -24,6 +25,7 @@ namespace NjordFinance.ModelService
             _contextFactory = contextFactory;   
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<AccountCustodian>> AccountCustodianListAsync()
         {
             using var context = _contextFactory.CreateDbContext();
@@ -32,6 +34,7 @@ namespace NjordFinance.ModelService
                 .ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Account>> AccountListAsync()
         {
             using var context = _contextFactory.CreateDbContext();
@@ -41,6 +44,7 @@ namespace NjordFinance.ModelService
                 .ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Security>> CashOrExternalSecurityListAsync()
         {
             using var context = _contextFactory.CreateDbContext();
@@ -53,6 +57,7 @@ namespace NjordFinance.ModelService
                 .ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Country>> CountryListAsync()
         {
             using var context = _contextFactory.CreateDbContext();
@@ -60,10 +65,12 @@ namespace NjordFinance.ModelService
             return await context.Countries.ToListAsync();
         }
 
+        /// <inheritdoc/>
         public IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
             where TSource : class, new() => 
                 new QueryBuilder<TSource>(_contextFactory.CreateDbContext());
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Security>> CryptocurrencyListAsync()
         {
             using var context = _contextFactory.CreateDbContext();
@@ -75,6 +82,7 @@ namespace NjordFinance.ModelService
                 .ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<T>> GetManyAsync<T>(
             Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null) 
             where T : class, new()
@@ -87,6 +95,7 @@ namespace NjordFinance.ModelService
                 return await context.Set<T>().Where(predicate).Include(include).ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<T> GetSingleAsync<T>(
             Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null)
             where T : class, new()
@@ -101,7 +110,14 @@ namespace NjordFinance.ModelService
                                 .Include(include)
                                 .SingleAsync(predicate);
         }
-        
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<MarketIndexPriceCode>> MarketIndexPriceCodesAsync()
+        {
+            return await Task.Run(() => Enum.GetValues<MarketIndexPriceCode>());
+        }
+
+        /// <inheritdoc/>
         public async Task<IEnumerable<ModelAttribute>> ModelAttributeListAsync(
             ModelAttributeScopeCode scopeCode)
         {
@@ -123,6 +139,7 @@ namespace NjordFinance.ModelService
                 .ToListAsync();
         }
         
+        /// <inheritdoc/>
         public async Task<IEnumerable<ModelAttributeMember>> ModelAttributeMemberListAsync(
             int attributeId)
         {
@@ -133,6 +150,7 @@ namespace NjordFinance.ModelService
                 .ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Security>> TransactableSecurityListAsync()
         {
             using var context = _contextFactory.CreateDbContext();
