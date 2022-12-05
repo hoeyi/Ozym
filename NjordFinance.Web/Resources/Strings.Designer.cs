@@ -61,6 +61,15 @@ namespace NjordFinance.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt; Select &gt;.
+        /// </summary>
+        internal static string Caption_InputSelect_Placeholder {
+            get {
+                return ResourceManager.GetString("Caption_InputSelect_Placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Host terminated unexpectedly..
         /// </summary>
         internal static string Exception_Application_Fatal {
