@@ -94,5 +94,31 @@ namespace NjordFinance.ModelService
 
             return result;
         }
+
+        /// <summary>
+        /// Gets the display <typeparamref name="TValue"/> value for the first DTO in the 
+        /// collection matching the given <typeparamref name="TKey"/> key.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dtos"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static TValue? GetDisplayName<TKey, TValue>(
+            this IEnumerable<LookupModel<TKey, TValue>> dtos,
+            TKey key)
+        {
+            if (dtos is null || key is null)
+                return default;
+
+            // Match the first or default result. Use of object.Equals could be problematic, 
+            // but need more information. May be fine since TKey will almost always be an integer.
+            var firstMatchDTO = dtos?.FirstOrDefault(x => key.Equals(x));
+
+            if (firstMatchDTO is null)
+                return default;
+            else
+                return firstMatchDTO.Display;
+        } 
     }
 }

@@ -31,14 +31,14 @@
                             Property="@nameof(BrokerTransaction.TransactionCodeId)"
                             Caption="@NameFor(x => x.TransactionCodeId)">
                             <CellTemplate Context="model">
-                                @GetLookupDisplayName(TransactionCodes, model.TransactionCodeId)
+                                @DepositSecurities.GetDisplayName(model.TransactionCodeId)
                             </CellTemplate>
                         </DataGridColumn>
                         <DataGridColumn
                             Property="@nameof(BrokerTransaction.SecurityId)"
                             Caption="@NameFor(x => x.SecurityId)">
                             <CellTemplate Context="model">
-                                @GetLookupDisplayName(TransactableSecurities, model.SecurityId)
+                                @DepositSecurities.GetDisplayName(model.SecurityId)
                             </CellTemplate>
                         </DataGridColumn>
                         <DataGridColumn
@@ -93,7 +93,7 @@
                             Property="@nameof(BrokerTransaction.DepSecurityId)"
                             Caption="@NameFor(x => x.DepSecurityId)">
                             <CellTemplate Context="model">
-                                @GetLookupDisplayName(DepositSecurities, model.DepSecurityId)
+                                @DepositSecurities.GetDisplayName(model.DepSecurityId)
                             </CellTemplate>
                         </DataGridColumn>
                     </DataGrid>
@@ -191,10 +191,4 @@
 
     private void Cancel_OnClick() => NavigationHelper
         .NavigateTo($"{IndexUriRelativePath}/{AccountId}/detail");
-
-    private string? GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
-        lookupModels.FirstOrDefault(x => x.Key == id)?.Display;
-
-    private string? GetLookupDisplayName(IEnumerable<LookupModel> lookupModels, int id) =>
-        lookupModels.FirstOrDefault(x => x.Key == id)?.Display;
 }

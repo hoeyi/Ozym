@@ -28,7 +28,7 @@ else
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @SecurityTypeDisplayName(ViewModel.SecurityTypeId)
+                    @(SecurityTypes.GetDisplayName(ViewModel.SecurityTypeId))
                 </div>
             }
             else
@@ -104,7 +104,7 @@ else
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @SecurityExchangeDisplayName(ViewModel.SecurityExchangeId)
+                    @(SecurityTypes.GetDisplayName(ViewModel.SecurityExchangeId ?? default))
                 </div>
             }
             else
@@ -125,10 +125,10 @@ else
 
 @code{
     [Parameter, EditorRequired]
-    public IEnumerable<LookupModel> SecurityTypes { get; set; }
+    public IEnumerable<LookupModel<int, string>> SecurityTypes { get; set; }
 
     [Parameter, EditorRequired]
-    public IEnumerable<LookupModel> SecurityExchanges { get; set; }
+    public IEnumerable<LookupModel<int, string>> SecurityExchanges { get; set; }
 
     [Parameter, EditorRequired]
     public IEnumerable<string> Issuers { get; set; }
@@ -140,9 +140,4 @@ else
             || SecurityExchanges is null
             || Issuers is null;
     }
-    private string? SecurityTypeDisplayName(int? id) =>
-    SecurityTypes?.FirstOrDefault(a => a.Key == id)?.Display;
-
-    private string? SecurityExchangeDisplayName(int? id) =>
-        SecurityExchanges.FirstOrDefault(a => a.Key == id)?.Display;
 }
