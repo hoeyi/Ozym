@@ -7,7 +7,8 @@
     /// <summary>
     /// Gets or sets the <see cref="TViewModel"/> for this component.
     /// </summary>
-    [CascadingParameter(Name = nameof(ViewModel))]
+    //[CascadingParameter(Name = nameof(ViewModel))]
+    [CascadingParameter]
     public TViewModel ViewModel { get; set; } = default!;
 
     /// <summary>

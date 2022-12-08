@@ -18,7 +18,7 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@Model" Name="@nameof(SecurityTypeCRUD.ViewModel)">
+                <CascadingValue Value="@Model">
                     <EditForm class="model-editor" Model="@Model"
                         OnValidSubmit="HandleValidSubmit">
                         <DataAnnotationsValidator />

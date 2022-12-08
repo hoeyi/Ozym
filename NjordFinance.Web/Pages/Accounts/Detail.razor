@@ -17,7 +17,8 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ViewModel">
+                <CascadingValue 
+                    Value="@ViewModel" >
                     <EditForm class="model-editor" Model="@ViewModel">
                         <AccountCRUD AccountCustodians="@Custodians" 
                             Disabled="false" ReadOnly="true" />
@@ -117,7 +118,7 @@
         }
         finally
         {
-            IsLoading = Custodians is null || Model is null;
+            IsLoading = Custodians is null || Model is null || ViewModel is null;
         }
 
         // TODO: Take corrective action here, accountQuery.Value should be Account
