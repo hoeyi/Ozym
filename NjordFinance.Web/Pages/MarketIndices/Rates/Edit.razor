@@ -182,17 +182,7 @@
             var queryActionResultTask = Controller!
                 .SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
 
-            await queryActionResultTask;
-
-            using var queryBuilder = ReferenceData.CreateQueryBuilder<MarketIndex>();
-
-            var indexLookupTask = queryBuilder.SelectDTOsAsync(
-                    predicate: x => true,
-                    maxCount: 0,
-                    key: x => x.IndexId,
-                    display: x => x.IndexCode,
-                    defaultDisplay: Resources.Strings.Caption_InputSelect_Placeholder 
-            );
+            var indexLookupTask = ReferenceData.GetMarketIndexDTOsAsync();
 
             PriceCodeLookup = ReferenceData
                 .SelectDTOsFromEnum<MarketIndexPriceCode, string, string>(

@@ -33,7 +33,7 @@
     [Parameter]
     public int AccountId { get; set; }
 
-    private IEnumerable<LookupModel> Custodians { get; set; }
+    private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
     private AccountViewModel ViewModel { get; set; }
 
@@ -111,8 +111,12 @@
                         UriStem = $"{FormatEditUri(Model.AccountId)}/wallets"
                     });
 
-
-            Custodians = (await ReferenceData.AccountCustodianListAsync()).ToLookups();
+            Custodians = await ReferenceData
+                .SelectDTOsAsync<AccountCustodian, int, string>(
+                    key: x => x.AccountCustodianId,
+                    display: x => x.DisplayName,
+                    defaultKey: default,
+                    defaultDisplay: Resources.Strings.Caption_InputSelect_Placeholder);
 
             ViewModel = new(Model);
         }

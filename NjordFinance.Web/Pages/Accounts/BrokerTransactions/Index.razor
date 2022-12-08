@@ -109,11 +109,11 @@
 
     private IList<BrokerTransaction> BrokerTransactions { get; set; }
 
-    private IEnumerable<LookupModel> DepositSecurities { get; set; }
+    private IEnumerable<LookupModel<int, string>> DepositSecurities { get; set; }
 
-    private IEnumerable<LookupModel> TransactionCodes { get; set; }
+    private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
 
-    private IEnumerable<LookupModel> TransactableSecurities { get; set; }
+    private IEnumerable<LookupModel<int, string>> TransactableSecurities { get; set; }
 
     private Account ParentAccount { get; set; }
 
@@ -148,9 +148,9 @@
 
         try
         {
-            var securityListTask = ReferenceData.TransactableSecurityListAsync();
-            var depositSecurityListTask = ReferenceData.CashOrExternalSecurityListAsync();
-            var transactionCodeListTask = ReferenceData.GetManyAsync<BrokerTransactionCode>(x => true);
+            var securityDTOsTask = ReferenceData.GetTransactableSecurityDTOsAsync();
+            var depositySecurityDTOsTask = ReferenceData.GetCashOrExternalSecurityDTOsAsync();
+            var trasnsactionCodeDTOsTask = ReferenceData.GetBrokerTransactionCodeDTOsAsync();
 
             ParentAccount = await ReferenceData.GetSingleAsync<Account>(
                 a => a.AccountId == AccountId, path: a => a.AccountNavigation);
@@ -164,14 +164,14 @@
 
             await Task.WhenAll(
                 transactionListTask,
-                securityListTask,
-                depositSecurityListTask,
-                transactionCodeListTask);
+                securityDTOsTask,
+                depositySecurityDTOsTask,
+                trasnsactionCodeDTOsTask);
 
             BrokerTransactions = (await transactionListTask).Value;
-            DepositSecurities = (await depositSecurityListTask).ToLookups();
-            TransactableSecurities = (await securityListTask).ToLookups();
-            TransactionCodes = (await transactionCodeListTask).ToLookups();
+            DepositSecurities = await depositySecurityDTOsTask;
+            TransactableSecurities = await securityDTOsTask;
+            TransactionCodes = await trasnsactionCodeDTOsTask;
 
         }
         finally
@@ -192,7 +192,9 @@
     private void Cancel_OnClick() => NavigationHelper
         .NavigateTo($"{IndexUriRelativePath}/{AccountId}/detail");
 
-    private string? GetLookupDisplayName(IEnumerable<LookupModel> lookupModels, int id) =>
+    private string? GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
         lookupModels.FirstOrDefault(x => x.Key == id)?.Display;
 
+    private string? GetLookupDisplayName(IEnumerable<LookupModel> lookupModels, int id) =>
+        lookupModels.FirstOrDefault(x => x.Key == id)?.Display;
 }

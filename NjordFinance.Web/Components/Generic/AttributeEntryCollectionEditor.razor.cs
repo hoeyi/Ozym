@@ -175,7 +175,7 @@ namespace NjordFinance.Web.Components.Generic
         /// Gets the <see cref="DateTime"/> value of <see cref="EffectiveDate" /> 
         /// from the given <see cref="TViewModelChild" />.
         /// </summary>
-        private DateTime GetGroupEffectiveDate(TViewModelChild group) => group.EffectiveDate;
+        private static DateTime GetGroupEffectiveDate(TViewModelChild group) => group.EffectiveDate;
 
         /// <summary>
         /// Handles the close event of the modal form used to select a <see cref="ModelAttribute"/> 

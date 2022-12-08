@@ -182,7 +182,7 @@ else
 }
 @code {
     [Parameter]
-    public IEnumerable<LookupModel> AccountCustodians { get; set; }
+    public IEnumerable<LookupModel<int, string>> AccountCustodians { get; set; }
 
     private string? CustodianDisplayName(int? id) =>
          AccountCustodians.FirstOrDefault(a => a.Key == id)?.Display;

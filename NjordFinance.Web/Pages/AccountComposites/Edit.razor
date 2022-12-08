@@ -56,7 +56,7 @@
     [Parameter]
     public int AccountCompositeId { get; set; }
 
-    private IEnumerable<LookupModel> Accounts { get; set; }
+    private IEnumerable<LookupModel<int, string>> Accounts { get; set; }
 
     private AccountCompositeViewModel ViewModel { get; set; }
 
@@ -68,12 +68,12 @@
         try
         {
             var compositeQuery = Controller.ReadAsync(AccountCompositeId);
-            var accountsQuery = ReferenceData.AccountListAsync();
+            var accountsQuery = ReferenceData.GetAccountDTOsAsync();
 
             await Task.WhenAll(compositeQuery, accountsQuery);
 
             Model = (await compositeQuery).Value;
-            Accounts = (await accountsQuery).ToLookups();
+            Accounts = await accountsQuery;
 
             ViewModel = new(Model);
         }

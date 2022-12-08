@@ -46,7 +46,7 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private IEnumerable<LookupModel> Custodians { get; set; }
+    private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
     private AccountViewModel ViewModel { get; set; }
 
@@ -57,11 +57,16 @@
 
         try
         {
-            var getDefaultModelTask = Controller.GetDefaultAsync();
-            var refreshCustodianListTask = ReferenceData.AccountCustodianListAsync();
+            var defaultModelTask = Controller.GetDefaultAsync();
+            var custodianListTask = ReferenceData
+                .SelectDTOsAsync<AccountCustodian, int, string>(
+                    key: x => x.AccountCustodianId,
+                    display: x => x.DisplayName,
+                    defaultKey: default,
+                    defaultDisplay: Resources.Strings.Caption_InputSelect_Placeholder);
 
-            Model = (await getDefaultModelTask).Value;
-            Custodians = (await refreshCustodianListTask).ToLookups();
+            Model = (await defaultModelTask).Value;
+            Custodians = await custodianListTask;
 
             ViewModel = new(Model);
         }

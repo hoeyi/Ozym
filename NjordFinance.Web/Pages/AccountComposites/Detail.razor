@@ -39,7 +39,7 @@
     [Parameter]
     public int AccountCompositeId { get; set; }
 
-    private IEnumerable<LookupModel> Accounts { get; set; }
+    private IEnumerable<LookupModel<int, string>> Accounts { get; set; }
 
     private AccountCompositeViewModel ViewModel { get; set; }
 
@@ -51,8 +51,16 @@
 
         try
         {
-            var accountQuery = await Controller.ReadAsync(AccountCompositeId);
-            if (accountQuery.Value is AccountComposite composite)
+            var compositeQuery = await Controller.ReadAsync(AccountCompositeId);
+            var accountsQuery = ReferenceData.CreateQueryBuilder<Account>()
+                .WithDirectRelationship(a => a.AccountNavigation)
+                .Build()
+                .SelectDTOsAsync(
+                    key: x => x.AccountId,
+                    display: x => x.AccountCode,
+                    defaultDisplay: Resources.Strings.Caption_InputSelect_Placeholder);
+
+            if (compositeQuery.Value is AccountComposite composite)
                 Model = composite;
 
             ActionMenu = new()
@@ -84,7 +92,7 @@
                     }
                 };
 
-            Accounts = (await ReferenceData.AccountListAsync()).ToLookups();
+            Accounts = await ReferenceData.GetAccountDTOsAsync();
             ViewModel = new(Model);
         }
         finally

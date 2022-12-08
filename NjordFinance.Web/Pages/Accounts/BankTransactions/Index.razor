@@ -98,7 +98,7 @@
 
         try
         {
-            var transactionCodeListTask = ReferenceData.GetManyAsync<BankTransactionCode>(x => true);
+            var transactionCodeDTOsTask = ReferenceData.GetBankTransactionCodeDTOsAsync();
 
             ParentAccount = await ReferenceData.GetSingleAsync<Account>(
                 a => a.AccountId == AccountId, path: a => a.AccountNavigation);
@@ -108,15 +108,14 @@
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
 
-            var transactionListTask = Controller.SelectAllAsync();
+            var transactionsQueryTask = Controller.SelectAllAsync();
 
             await Task.WhenAll(
-                transactionListTask,
-                transactionCodeListTask);
+                transactionsQueryTask,
+                transactionCodeDTOsTask);
 
-            BankTransactions = (await transactionListTask).Value;
-            TransactionCodes = (await transactionCodeListTask)
-                .ToLookups(key: x => x.TransactionCodeId, display: x => x.DisplayName);
+            BankTransactions = (await transactionsQueryTask).Value;
+            TransactionCodes = await transactionCodeDTOsTask;
 
         }
         finally

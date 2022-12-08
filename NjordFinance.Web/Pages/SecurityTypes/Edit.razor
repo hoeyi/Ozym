@@ -64,14 +64,11 @@
         try
         {
             var modelQuery = Controller.ReadAsync(SecurityTypeId);
-            var typeGroupsQuery = ReferenceData
-                .CreateQueryBuilder<SecurityTypeGroup>()
-                .SelectWhereAsync(x => true);
+            var typeGroupsQuery = ReferenceData.GetSecurityTypeGroupDTOsAsync();
 
             await Task.WhenAll(modelQuery, typeGroupsQuery);
 
-            SecurityTypeGroups = (await typeGroupsQuery)
-                .ToLookups(key: x => x.SecurityTypeGroupId, display: x => x.SecurityTypeGroupName);
+            SecurityTypeGroups = await typeGroupsQuery;
 
             if ((await modelQuery).Value is SecurityType model)
                 Model = model;

@@ -52,7 +52,7 @@
     [Parameter]
     public int AccountId { get; set; }
 
-    private IEnumerable<LookupModel> Custodians { get; set; }
+    private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
     private AccountViewModel ViewModel { get; set; }
 
@@ -64,14 +64,19 @@
         try
         {
             var accountQuery = Controller.ReadAsync(AccountId);
-            var custodiansQuery = ReferenceData.AccountCustodianListAsync();
+            var custodiansQuery = ReferenceData
+                .SelectDTOsAsync<AccountCustodian, int, string>(
+                    key: x => x.AccountCustodianId,
+                    display: x => x.DisplayName,
+                    defaultKey: default,
+                    defaultDisplay: Resources.Strings.Caption_InputSelect_Placeholder);
 
             if ((await accountQuery).Value is Account account)
             {
                 Model = account;
             }
 
-            Custodians = (await custodiansQuery).ToLookups();
+            Custodians = await custodiansQuery;
 
             ViewModel = new(Model);
         }

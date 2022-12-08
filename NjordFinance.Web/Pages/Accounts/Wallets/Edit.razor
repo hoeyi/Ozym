@@ -97,7 +97,7 @@
 
     private IList<AccountWallet> Wallets { get; set; }
 
-    private IEnumerable<LookupModel> DenominationSecurities { get; set; }
+    private IEnumerable<LookupModel<int, string>> DenominationSecurities { get; set; }
 
     private Account ParentAccount { get; set; }
 
@@ -115,7 +115,7 @@
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
 
-            DenominationSecurities = (await ReferenceData.CryptocurrencyListAsync()).ToLookups();
+            DenominationSecurities = await ReferenceData.GetCryptocurrencyDTOsAsync();
             Wallets = (await Controller.SelectAllAsync()).Value;
 
             if (!Wallets.Any())
