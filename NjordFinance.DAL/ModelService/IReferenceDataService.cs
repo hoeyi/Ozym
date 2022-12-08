@@ -10,70 +10,18 @@ using System.Reflection;
 using NjordFinance.Model.ViewModel.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Update;
+using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using Microsoft.CodeAnalysis.CSharp;
+using System.Security.Cryptography.X509Certificates;
 
 namespace NjordFinance.ModelService
 {
-
     /// <summary>
-    /// Represents a read-only service for extracting common reference lists.
+    /// Represents a read-only service for extracting DTOs representing foreign-key relationships.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public partial interface IReferenceDataService
     {
-        /// <summary>
-        /// Gets the collection of <see cref="MarketIndexPriceCode"/> values.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable{T}"/> containing each defined value for
-        /// <see cref="MarketIndexPriceCode"/>.</returns>
-        Task<IEnumerable<MarketIndexPriceCode>> MarketIndexPriceCodesAsync();
-        
-        /// <summary>
-        /// Gets the collection representing <see cref="AccountCustodian"/> models as a reference list.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="AccountCustodian"/> models, including 
-        /// a default lookup entry.</returns>
-        Task<IEnumerable<AccountCustodian>> AccountCustodianListAsync();
-
-        /// <summary>
-        /// Gets the collection representing <see cref= "Account" /> models as a reference list.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Account"/> models, including 
-        /// a default lookup entry.</returns>
-        Task<IEnumerable<Account>> AccountListAsync();
-
-        /// <summary>
-        /// Gets the collection representing <see cref="Security"/> models as a reference list, 
-        /// restricted to securities that are valid end-points for brokerage transactions.
-        /// </summary>
-        /// <returns>An <see cref="IList{T}"/> of <see cref="Security"/> models, including 
-        /// a default lookup entry.</returns>
-        Task<IEnumerable<Security>> CashOrExternalSecurityListAsync();
-
-        /// <summary>
-        /// Gets the collection representing <see cref="Country"/> models as a reference list.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Country"/> models, including 
-        /// a default lookup entry.</returns>
-        Task<IEnumerable<Country>> CountryListAsync();
-
-        /// <summary>
-        /// Creates a new instance implementing <see cref="IQueryBuilder{TSource}"/> where 
-        /// <typeparamref name="TSource"/> is the target object.
-        /// </summary>
-        /// <typeparam name="TSource">Is the target of the query built using this interface.</typeparam>
-        /// <returns>An <see cref="IQueryBuilder{TSource}"/> for <typeparamref name="TSource"/> models.</returns>
-        /// <remarks>Calls to this method should use its <see cref="IDisposable"/> implementation.</remarks>
-        IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
-            where TSource : class, new();
-
-        /// <summary>
-        /// Gets the collection representing <see cref="Security"/> models as a reference list, 
-        /// restricted to securities that are crypto-currencies or storable in a digital wallet.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Security"/> models, including 
-        /// a default lookup entry.</returns>
-        Task<IEnumerable<Security>> CryptocurrencyListAsync();
-
         /// <summary>
         /// Returns a collection of <typeparamref name="T"/> models from the data store.
         /// </summary>
@@ -100,30 +48,20 @@ namespace NjordFinance.ModelService
         Task<T> GetSingleAsync<T>(
             Expression<Func<T, bool>> predicate, Expression<Func<T, object>> path = null)
             where T : class, new();
+    }
 
+    public partial interface IReferenceDataService
+    {
         /// <summary>
-        /// Gets the collection representing <see cref="ModelAttribute"/> models as a reference list, 
-        /// restricted to entries with the given <see cref="ModelAttributeScopeCode"/>.
+        /// Creates a new instance implementing <see cref="IQueryBuilder{TSource}"/> where 
+        /// <typeparamref name="TSource"/> is the target object.
         /// </summary>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="LookupModel"/> models, including 
-        /// a default lookup entry.</returns>
-        Task<IEnumerable<ModelAttribute>> ModelAttributeListAsync(ModelAttributeScopeCode scopeCode);
-
-        /// <summary>
-        /// Gets the collection representing <see cref="ModelAttributeMember"/> models as a reference list, 
-        /// restricted to the given <see cref="ModelAttribute.AttributeId"/>.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="LookupModel"/> models, including 
-        /// a default lookup entry.</returns>
-        Task<IEnumerable<ModelAttributeMember>> ModelAttributeMemberListAsync(int attributeId);
-
-        /// <summary>
-        /// Gets the collection representing <see cref="Security"/> models as a reference list, restricted to 
-        /// securities that are valid subjects for brokerage transactions.
-        /// </summary>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="LookupModel"/> models, including 
-        /// a default lookup entry.</returns>
-        Task<IEnumerable<Security>> TransactableSecurityListAsync();
+        /// <typeparam name="TSource">Is the target of the query built using this interface.
+        /// </typeparam>
+        /// <returns>An <see cref="IQueryBuilder{TSource}"/> for <typeparamref name="TSource"/> 
+        /// models.</returns>
+        IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
+            where TSource : class, new();
 
         /// <summary>
         /// Returns a key-value representation of a record. Only the 
@@ -163,8 +101,174 @@ namespace NjordFinance.ModelService
 
             return results;
         }
+
+        /// <summary>
+        /// Executes a select query returning a key-value representation of <typeparamref name="TSource"/> 
+        /// records. Only the fields matching the <paramref name="key"/> and <paramref name="display"/> parameters 
+        /// are included in the query.
+        /// </summary>
+        /// <typeparamref name="TSource"/>
+        /// <typeparam name="TKey">The key type for the lookup record.</typeparam>
+        /// <typeparam name="TValue">Teh display type for the lookup record.</typeparam>
+        /// <param name="key">Expression indicating the attribute to use as the key.</param>
+        /// <param name="display">Expression indicating the attribute to use for display.</param>
+        /// <param name="defaultKey">Default key value to use for placeholder record.</param>
+        /// <param name="defaultDisplay">Default display value to use for the placeholder record.</param>
+        /// <returns>A task representing an asynchronous query and DTO-mapping. The task result is an
+        /// <see cref="IEnumerable{T}"/> containing key-value records represent a foregin key reference.</returns>
+        async Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TSource, TKey, TValue>(
+            Expression<Func<TSource, TKey>> key,
+            Expression<Func<TSource, TValue>> display,
+            TKey defaultKey = default,
+            TValue defaultDisplay = default)
+            where TSource : class, new()
+        {
+            using var queryBuilder = CreateQueryBuilder<TSource>();
+
+            return await queryBuilder.Build().SelectDTOsAsync(key, display, defaultKey, defaultDisplay);
+        }
+
+        /// <summary>
+        /// Executes a select query returning a key-value representation of <typeparamref name="TSource"/> 
+        /// records. Only the fields matching the <paramref name="key"/> and <paramref name="display"/> parameters 
+        /// are included in the query.
+        /// Wrapper method for DTOs that will have an integer key and string display value.
+        /// </summary>
+        /// <typeparamref name="TSource"/>
+        /// <param name="key">Expression indicating the attribute to use as the key.</param>
+        /// <param name="display">Expression indicating the attribute to use for display.</param>
+        /// <param name="defaultKey">Default key value to use for placeholder record.</param>
+        /// <param name="defaultDisplay">Default display value to use for the placeholder record.</param>
+        /// <returns>A task representing an asynchronous query and DTO-mapping. The task result is an
+        /// <see cref="IEnumerable{T}"/> containing key-value records represent a foregin key reference.</returns>
+        async Task<IEnumerable<LookupModel<int, string>>> SelectDTOsAsync<TSource>(
+            Expression<Func<TSource, int>> key,
+            Expression<Func<TSource, string>> display,
+            int defaultKey = default,
+            string defaultDisplay = default)
+            where TSource : class, new()
+        {
+            return await SelectDTOsAsync(key, display, defaultKey, defaultDisplay);
+        }
     }
 
+    #region Built-in queries
+    public partial interface IReferenceDataService
+    {
+        async Task<IEnumerable<LookupModel<int, string>>> GetAccountCustodianDTOsAsync()
+        {
+            using var queryBuilder = CreateQueryBuilder<AccountCustodian>();
+
+            return await queryBuilder.Build().SelectDTOsAsync(
+                key: x => x.AccountCustodianId,
+                display: x => x.DisplayName,
+                defaultKey: default,
+                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+        }
+        
+        async Task<IEnumerable<LookupModel<int, string>>> GetAccountDTOsAsync()
+        {
+            using var queryBuilder = CreateQueryBuilder<Account>()
+                .WithDirectRelationship(x => x.AccountNavigation);
+
+            return await queryBuilder.Build().SelectDTOsAsync(
+                key: x => x.AccountId,
+                display: x => x.AccountCode,
+                defaultKey: default,
+                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+        }
+
+        async Task<IEnumerable<LookupModel<int, string>>> GetBankTransactionCodeDTOsAsync()
+        {
+            return await SelectDTOsAsync<BankTransactionCode>(
+                key: x => x.TransactionCodeId,
+                display: x => x.TransactionCode,
+                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+        }
+
+        async Task<IEnumerable<LookupModel<int, string>>> GetBrokerTransactionCodeDTOsAsync()
+        {
+            return await SelectDTOsAsync<BrokerTransactionCode>(
+                key: x => x.TransactionCodeId,
+                display: x => x.DisplayName,
+                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+        }
+
+        async Task<IEnumerable<LookupModel<int, string>>> GetCashOrExternalSecurityDTOsAsync()
+        {
+            using var queryBuilder = CreateQueryBuilder<Security>()
+                .WithDirectRelationship(x => x.SecuritySymbols)
+                .WithDirectRelationship(x => x.SecurityType)
+                .WithIndirectRelationship<SecurityType, SecurityTypeGroup>(x => x.SecurityTypeGroup);
+
+            return await queryBuilder.Build().SelectDTOsAsync(
+                predicate: x => x.SecurityType.SecurityTypeGroup.Transactable,
+                maxCount: 0,
+                key: x => x.SecurityId,
+                display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
+                defaultKey: default,
+                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+        }
+
+        async Task<IEnumerable<LookupModel<int, string>>> GetCryptocurrencyDTOsAsync()
+        {
+            using var queryBuilder = CreateQueryBuilder<Security>()
+                .WithDirectRelationship(x => x.SecuritySymbols)
+                .WithDirectRelationship(x => x.SecurityType);
+
+            return await queryBuilder.Build().SelectDTOsAsync(
+                predicate: x => x.SecurityType.HeldInWallet,
+                maxCount: 0,
+                key: x => x.SecurityId,
+                display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
+                defaultKey: default,
+                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+        }
+
+        async Task<IEnumerable<LookupModel<int, string>>> GetMarketIndexDTOsAsync()
+        {
+            return await SelectDTOsAsync<MarketIndex>(
+                key: x => x.IndexId,
+                display: x => x.IndexCode,
+                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+        }
+
+        async Task<IEnumerable<LookupModel<int, string>>> GetSecurityTypeDTOsAsync()
+        {
+            return await SelectDTOsAsync<SecurityType>(
+                key: x => x.SecurityTypeId,
+                display: x => x.SecurityTypeName,
+                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+        }
+
+        async Task<IEnumerable<LookupModel<int, string>>> GetSecurityTypeGroupDTOsAsync()
+        {
+            return await SelectDTOsAsync<SecurityTypeGroup>(
+                key: x => x.SecurityTypeGroupId,
+                display: x => x.SecurityTypeGroupName,
+                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+        }
+
+        async Task<IEnumerable<LookupModel<int, string>>> GetTransactableSecurityDTOsAsync()
+        {
+            using var queryBuilder = CreateQueryBuilder<Security>()
+                .WithDirectRelationship(x => x.SecuritySymbols)
+                .WithDirectRelationship(x => x.SecurityType)
+                .WithIndirectRelationship<SecurityType, SecurityTypeGroup>(x => x.SecurityTypeGroup);
+
+            return await queryBuilder.Build().SelectDTOsAsync(
+                predicate: x => x.SecurityType.SecurityTypeGroup.Transactable,
+                maxCount: 0,
+                key: x => x.SecurityId,
+                display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
+                defaultKey: default,
+                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+        }
+
+    }
+    #endregion
+
+    #region Static helper methods
     public partial interface IReferenceDataService
     {
         /// <summary>
@@ -178,6 +282,6 @@ namespace NjordFinance.ModelService
             where T : IAttributeEntryViewModel =>
             typeof(T).GetCustomAttribute<ModelAttributeSupportAttribute>()
             ?.SupportedScopes.ToStringArray() ?? Array.Empty<string>();
-
     }
+    #endregion
 }

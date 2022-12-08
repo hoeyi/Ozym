@@ -26,61 +26,9 @@ namespace NjordFinance.ModelService
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<AccountCustodian>> AccountCustodianListAsync()
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await context.AccountCustodians
-                .ToListAsync();
-        }
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<Account>> AccountListAsync()
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await context.Accounts
-                .Include(a => a.AccountNavigation)
-                .ToListAsync();
-        }
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<Security>> CashOrExternalSecurityListAsync()
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await context.Securities
-                .Include(s => s.SecuritySymbols)
-                .Include(s => s.SecurityType)
-                .ThenInclude(s => s.SecurityTypeGroup)
-                .Where(s => s.SecurityType.SecurityTypeGroup.Transactable)
-                .ToListAsync();
-        }
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<Country>> CountryListAsync()
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await context.Countries.ToListAsync();
-        }
-
-        /// <inheritdoc/>
         public IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
-            where TSource : class, new() => 
-                new QueryBuilder<TSource>(_contextFactory.CreateDbContext());
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<Security>> CryptocurrencyListAsync()
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await context.Securities
-                .Include(s => s.SecuritySymbols)
-                .Include(s => s.SecurityType)
-                .Where(s => s.SecurityType.HeldInWallet)
-                .ToListAsync();
-        }
+        where TSource : class, new() => 
+            new QueryBuilder<TSource>(_contextFactory.CreateDbContext());
 
         /// <inheritdoc/>
         public async Task<IEnumerable<T>> GetManyAsync<T>(
@@ -110,57 +58,41 @@ namespace NjordFinance.ModelService
                                 .Include(include)
                                 .SingleAsync(predicate);
         }
+    }
 
-        /// <inheritdoc/>
-        public async Task<IEnumerable<MarketIndexPriceCode>> MarketIndexPriceCodesAsync()
+    /// <summary>
+    /// Extension method class for converting <see cref="IEnumerable{T}"/> to <see cref="IList{T}"/> 
+    /// collections of <see cref="LookupModel"/> instances.
+    /// </summary>
+    public static partial class ReferenceDataServiceHelper
+    {
+        /// <summary>
+        /// Converts this collection of <see cref="ModelAttributeMember"/> instances to a new list 
+        /// of <see cref="LookupModel"/> instances.
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="displaySelector">A function for defining <see cref="LookupModel.Display"/>.</param>
+        /// <returns>An <see cref="IList{T}"/> containing <see cref="LookupModel"/> instances.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IList<LookupModel> ToLookups(
+            this IEnumerable<ModelAttributeMember> collection,
+            Func<ModelAttributeMember, string> displaySelector = null)
         {
-            return await Task.Run(() => Enum.GetValues<MarketIndexPriceCode>());
-        }
+            if (collection is null)
+                throw new ArgumentNullException(paramName: nameof(collection));
 
-        /// <inheritdoc/>
-        public async Task<IEnumerable<ModelAttribute>> ModelAttributeListAsync(
-            ModelAttributeScopeCode scopeCode)
-        {
-            using var context = _contextFactory.CreateDbContext();
+            var result = collection.Select(model => new LookupModel()
+            {
+                Key = model.AttributeMemberId,
+                Display = displaySelector is null ?
+                    model.DisplayName : displaySelector(model)
+            })
+            .OrderBy(m => m.Display)
+            .ToList();
 
-            // Convert the enum from a bit field to an array of string codes.
-            var scopeCodes = Enum
-                .GetValues(typeof(ModelAttributeScopeCode))
-                .Cast<Enum>()
-                .Where(scopeCode.HasFlag)
-                .Cast<ModelAttributeScopeCode>()
-                .Select(m => m.ConvertToStringCode())
-                .ToArray();
+            result.Insert(0, LookupModel.GetPlaceHolder());
 
-            // Check model attribute scope codes against scope codes dervied from bit field.
-            return await context.ModelAttributes
-                .Include(a => a.ModelAttributeScopes)
-                .Where(a => a.ModelAttributeScopes.Any(b => scopeCodes.Contains(b.ScopeCode)))
-                .ToListAsync();
-        }
-        
-        /// <inheritdoc/>
-        public async Task<IEnumerable<ModelAttributeMember>> ModelAttributeMemberListAsync(
-            int attributeId)
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await context.ModelAttributeMembers
-                .Where(a => a.AttributeId == attributeId)
-                .ToListAsync();
-        }
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<Security>> TransactableSecurityListAsync()
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            return await context.Securities
-                .Include(s => s.SecuritySymbols)
-                .Include(s => s.SecurityType)
-                .ThenInclude(sectype => sectype.SecurityTypeGroup)
-                .Where(s => s.SecurityType.SecurityTypeGroup.Transactable)
-                .ToListAsync();
+            return result;
         }
     }
 }
