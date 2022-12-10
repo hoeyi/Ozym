@@ -15,7 +15,7 @@ namespace NjordFinance.ModelService
     public partial class ReferenceDataService : IReferenceDataService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
-        static readonly object _locker = new object();
+        static readonly object _locker = new();
 
         private FinanceDbContext NewDbContext()
         {
