@@ -2,7 +2,7 @@
 
 @inherits ModelDetail<AccountComposite>
 
-@inject IReferenceDataService ReferenceData
+@inject IQueryService QueryService
 
 <ThemedComponent>
     @if (IsLoading)
@@ -52,7 +52,7 @@
         try
         {
             var compositeQuery = await Controller.ReadAsync(AccountCompositeId);
-            var accountsQuery = ReferenceData.CreateQueryBuilder<Account>()
+            var accountsQuery = QueryService.CreateQueryBuilder<Account>()
                 .WithDirectRelationship(a => a.AccountNavigation)
                 .Build()
                 .SelectDTOsAsync(
@@ -92,7 +92,7 @@
                     }
                 };
 
-            Accounts = await ReferenceData.GetAccountDTOsAsync();
+            Accounts = await QueryService.GetAccountDTOsAsync();
             ViewModel = new(Model);
         }
         finally

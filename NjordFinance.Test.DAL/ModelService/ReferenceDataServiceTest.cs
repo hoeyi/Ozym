@@ -6,14 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NjordFinance.ModelService.Query;
 
 namespace NjordFinance.Test.ModelService
 {
     [TestClass]
     public class ReferenceDataServiceTest
     {
-        private static readonly IReferenceDataService _dataService = 
-            new ReferenceDataService(TestUtility.DbContextFactory);
+        private static readonly IQueryService _dataService = 
+            new QueryService(TestUtility.DbContextFactory);
 
         [TestMethod]
         public async Task GetAccountCustodianDTOsAsync_ReturnsCollection()

@@ -16,12 +16,12 @@ using Microsoft.CodeAnalysis.CSharp;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace NjordFinance.ModelService
+namespace NjordFinance.ModelService.Query
 {
     /// <summary>
     /// Represents a read-only service for extracting DTOs representing foreign-key relationships.
     /// </summary>
-    public partial interface IReferenceDataService
+    public partial interface IQueryService
     {
         /// <summary>
         /// Returns a collection of <typeparamref name="T"/> models from the data store.
@@ -51,7 +51,7 @@ namespace NjordFinance.ModelService
             where T : class, new();
     }
 
-    public partial interface IReferenceDataService
+    public partial interface IQueryService
     {
         /// <summary>
         /// Creates a new instance implementing <see cref="IQueryBuilder{TSource}"/> where 
@@ -156,7 +156,7 @@ namespace NjordFinance.ModelService
     }
 
     #region Built-in queries
-    public partial interface IReferenceDataService
+    public partial interface IQueryService
     {
         async Task<IEnumerable<LookupModel<int, string>>> GetAccountCustodianDTOsAsync()
         {
@@ -289,7 +289,7 @@ namespace NjordFinance.ModelService
     #endregion
 
     #region Static helper methods
-    public partial interface IReferenceDataService
+    public partial interface IQueryService
     {
         public static string DisplayFor(ModelAttributeMember attributeMember)
         {

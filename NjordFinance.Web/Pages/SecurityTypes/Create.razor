@@ -2,7 +2,7 @@
 
 @inherits ModelDetail<SecurityType>
 
-@inject IReferenceDataService ReferenceData
+@inject IQueryService QueryService
 
 <ThemedComponent>
     @if (IsLoading)
@@ -59,7 +59,7 @@
         try
         {
             var modelQuery = Controller.GetDefaultAsync();
-            var typeGroupsQuery = ReferenceData.GetSecurityTypeGroupDTOsAsync();
+            var typeGroupsQuery = QueryService.GetSecurityTypeGroupDTOsAsync();
 
             await Task.WhenAll(modelQuery, typeGroupsQuery);
 

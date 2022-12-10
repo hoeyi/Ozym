@@ -3,7 +3,7 @@
 @inherits ModelPage<BankTransaction>
 
 @inject IBatchController<BankTransaction> Controller
-@inject IReferenceDataService ReferenceData
+@inject IQueryService QueryService
 
 <ThemedComponent>
     @if (IsLoading)
@@ -98,9 +98,9 @@
 
         try
         {
-            var transactionCodeDTOsTask = ReferenceData.GetBankTransactionCodeDTOsAsync();
+            var transactionCodeDTOsTask = QueryService.GetBankTransactionCodeDTOsAsync();
 
-            ParentAccount = await ReferenceData.GetSingleAsync<Account>(
+            ParentAccount = await QueryService.GetSingleAsync<Account>(
                 a => a.AccountId == AccountId, path: a => a.AccountNavigation);
 
             var initResult = Controller.ForParent(ParentAccount.AccountId);

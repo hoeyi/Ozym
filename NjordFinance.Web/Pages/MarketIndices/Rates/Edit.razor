@@ -3,7 +3,7 @@
 @inherits ModelPage<MarketIndexPrice>
 
 @inject IBatchController<MarketIndexPrice> Controller
-@inject IReferenceDataService ReferenceData
+@inject IQueryService QueryService
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -182,9 +182,9 @@
             var queryActionResultTask = Controller!
                 .SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
 
-            var indexLookupTask = ReferenceData.GetMarketIndexDTOsAsync();
+            var indexLookupTask = QueryService.GetMarketIndexDTOsAsync();
 
-            PriceCodeLookup = ReferenceData
+            PriceCodeLookup = QueryService
                 .SelectDTOsFromEnum<MarketIndexPriceCode, string, string>(
                     predicate: x => true,
                     key: x => x.ConvertToStringCode(),

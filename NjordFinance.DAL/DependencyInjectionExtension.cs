@@ -2,6 +2,8 @@
 using NjordFinance.Controllers.Abstractions;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
+using NjordFinance.ModelService.Query;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace NjordFinance
@@ -19,7 +21,7 @@ namespace NjordFinance
         public static void AddModelServices(this IServiceCollection services)
         {
             // Add reference data service for querying lookup lists.
-            services.AddSingleton<IReferenceDataService, ReferenceDataService>();
+            services.AddSingleton<IQueryService, QueryService>();
 
             // Add single-entity services.
             services

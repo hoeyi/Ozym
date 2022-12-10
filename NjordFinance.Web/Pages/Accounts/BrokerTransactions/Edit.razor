@@ -3,7 +3,7 @@
 @inherits ModelPage<BrokerTransaction>
 
 @inject IBatchController<BrokerTransaction> Controller
-@inject IReferenceDataService ReferenceData
+@inject IQueryService QueryService
 
 <ThemedComponent>
     @if (IsLoading)
@@ -171,11 +171,11 @@
 
         try
         {
-            var securityDTOsTask = ReferenceData.GetTransactableSecurityDTOsAsync();
-            var depositySecurityDTOsTask = ReferenceData.GetCashOrExternalSecurityDTOsAsync();
-            var trasnsactionCodeDTOsTask = ReferenceData.GetBrokerTransactionCodeDTOsAsync();
+            var securityDTOsTask = QueryService.GetTransactableSecurityDTOsAsync();
+            var depositySecurityDTOsTask = QueryService.GetCashOrExternalSecurityDTOsAsync();
+            var trasnsactionCodeDTOsTask = QueryService.GetBrokerTransactionCodeDTOsAsync();
 
-            ParentAccount = await ReferenceData.GetSingleAsync<Account>(
+            ParentAccount = await QueryService.GetSingleAsync<Account>(
                 a => a.AccountId == AccountId, path: a => a.AccountNavigation);
 
             var initResult = Controller.ForParent(ParentAccount.AccountId);

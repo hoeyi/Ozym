@@ -2,7 +2,7 @@
 
 @inherits ModelDetail<Account>
 
-@inject IReferenceDataService ReferenceData
+@inject IQueryService QueryService
 
 <ThemedComponent>
     @if (IsLoading)
@@ -64,7 +64,7 @@
         try
         {
             var accountQuery = Controller.ReadAsync(AccountId);
-            var custodiansQuery = ReferenceData
+            var custodiansQuery = QueryService
                 .SelectDTOsAsync<AccountCustodian, int, string>(
                     key: x => x.AccountCustodianId,
                     display: x => x.DisplayName,

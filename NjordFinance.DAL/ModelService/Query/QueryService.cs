@@ -7,15 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using NjordFinance.ModelService.Query;
 
-namespace NjordFinance.ModelService
+namespace NjordFinance.ModelService.Query
 {
     /// <summary>
     /// Represents an implementation of <see cref="IReferenceDataService"/>, providing features 
     /// for querying varying data stores and conversion to DTOs.
     /// </summary>
-    public partial class ReferenceDataService : IReferenceDataService
+    public partial class QueryService : IQueryService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
         static readonly object _locker = new();
@@ -27,28 +26,33 @@ namespace NjordFinance.ModelService
         /// <returns></returns>
         private FinanceDbContext NewDbContext()
         {
-            lock(_locker)
+            lock (_locker)
             {
                 return _contextFactory.CreateDbContext();
             }
         }
-        /// <inheritdoc/>
-        public ReferenceDataService(IDbContextFactory<FinanceDbContext> contextFactory)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QueryService"/> class.
+        /// </summary>
+        /// <param name="contextFactory">An <see cref="IDbContextFactory{TContext}"/> to use for 
+        /// generating data contexts.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="contextFactory"/> was null.</exception>
+        public QueryService(IDbContextFactory<FinanceDbContext> contextFactory)
         {
             if (contextFactory is null)
                 throw new ArgumentNullException(paramName: nameof(contextFactory));
 
-            _contextFactory = contextFactory;   
+            _contextFactory = contextFactory;
         }
 
         /// <inheritdoc/>
         public IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
-        where TSource : class, new() => 
+        where TSource : class, new() =>
             new QueryBuilder<TSource>(context: NewDbContext());
 
         /// <inheritdoc/>
         public async Task<IEnumerable<T>> GetManyAsync<T>(
-            Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null) 
+            Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null)
             where T : class, new()
         {
             using var context = _contextFactory.CreateDbContext();
@@ -105,6 +109,6 @@ namespace NjordFinance.ModelService
                 return default;
             else
                 return firstMatchDTO.Display;
-        } 
+        }
     }
 }

@@ -3,7 +3,7 @@
 @inherits ModelPage<AccountWallet>
 
 @inject IBatchController<AccountWallet> Controller
-@inject IReferenceDataService ReferenceData
+@inject IQueryService QueryService
 
 <ThemedComponent>
     @if (IsLoading)
@@ -107,7 +107,7 @@
 
         try
         {
-            ParentAccount = await ReferenceData.GetSingleAsync<Account>(
+            ParentAccount = await QueryService.GetSingleAsync<Account>(
                 a => a.AccountId == AccountId, path: a => a.AccountNavigation);
 
             var initResult = Controller.ForParent(ParentAccount.AccountId);
@@ -115,7 +115,7 @@
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
 
-            DenominationSecurities = await ReferenceData.GetCryptocurrencyDTOsAsync();
+            DenominationSecurities = await QueryService.GetCryptocurrencyDTOsAsync();
             Wallets = (await Controller.SelectAllAsync()).Value;
 
             if (!Wallets.Any())

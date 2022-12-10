@@ -2,7 +2,7 @@
 
 @inherits ModelDetail<Account>
 
-@inject IReferenceDataService ReferenceData
+@inject IQueryService QueryService
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
@@ -58,7 +58,7 @@
         try
         {
             var defaultModelTask = Controller.GetDefaultAsync();
-            var custodianListTask = ReferenceData
+            var custodianListTask = QueryService
                 .SelectDTOsAsync<AccountCustodian, int, string>(
                     key: x => x.AccountCustodianId,
                     display: x => x.DisplayName,

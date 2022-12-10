@@ -2,7 +2,7 @@
 
 @inherits ModelDetail<Account>
 
-@inject IReferenceDataService ReferenceData
+@inject IQueryService QueryService
 
 <ThemedComponent>
     @if (IsLoading)
@@ -111,7 +111,7 @@
                         UriStem = $"{FormatEditUri(Model.AccountId)}/wallets"
                     });
 
-            Custodians = await ReferenceData
+            Custodians = await QueryService
                 .SelectDTOsAsync<AccountCustodian, int, string>(
                     key: x => x.AccountCustodianId,
                     display: x => x.DisplayName,

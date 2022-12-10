@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using NjordFinance.Model;
 using NjordFinance.Model.ViewModel.Generic;
 using NjordFinance.ModelService;
+using NjordFinance.ModelService.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,11 @@ namespace NjordFinance.Web.Components.Generic
         where TViewModelParent : IAttributeEntryUnweightedCollection<TModel, TModelChild, TViewModelChild>
     {
         /// <summary>
-        /// Gets or sets <see cref="IReferenceDataService"/> used to query lookup and reference 
+        /// Gets or sets <see cref="IQueryService"/> used to query lookup and reference 
         /// data for this component.
         /// </summary>
         [Inject]
-        IReferenceDataService ReferenceData { get; set; }
+        IQueryService QueryService { get; set; }
 
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
@@ -35,7 +36,7 @@ namespace NjordFinance.Web.Components.Generic
         /// for the <typeparamref name="TViewModelParent"/> instance worked using this component.
         /// </summary>
         protected string[] SupportedModelAttributeScopes { get; } =
-            IReferenceDataService.GetSupportedAttributeScopeCodes<TViewModelParent>();
+            IQueryService.GetSupportedAttributeScopeCodes<TViewModelParent>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -53,7 +54,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns></returns>
         private async Task<IEnumerable<ModelAttribute>> GetSupportedAttributesAsync()
         {
-            using var queryBuilder = ReferenceData
+            using var queryBuilder = QueryService
                 .CreateQueryBuilder<ModelAttribute>()
                 .WithDirectRelationship(a => a.ModelAttributeMembers)
                 .WithDirectRelationship(a => a.ModelAttributeScopes);
@@ -66,12 +67,12 @@ namespace NjordFinance.Web.Components.Generic
             return await attributeQuery;
         }
 
-        private IEnumerable<LookupModel<int, string>> GetAttributeMembers(
+        private static IEnumerable<LookupModel<int, string>> GetAttributeMembers(
             ModelAttribute attribute) => attribute.ModelAttributeMembers
                 .Select(x => new LookupModel<int, string>()
                 {
                     Key = x.AttributeMemberId,
-                    Display = IReferenceDataService.DisplayFor(x)
+                    Display = IQueryService.DisplayFor(x)
                 })
             .ToList();
                 

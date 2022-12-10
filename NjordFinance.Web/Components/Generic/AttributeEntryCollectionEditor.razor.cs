@@ -1,5 +1,6 @@
 ﻿using NjordFinance.Model;
 using NjordFinance.ModelService;
+using NjordFinance.ModelService.Query;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -33,18 +34,18 @@ namespace NjordFinance.Web.Components.Generic
         where TViewModelParent: IAttributeEntryWeightedCollection<TModel, TModelChild, TViewModelChild>
     {
         /// <summary>
-        /// Gets or sets <see cref="IReferenceDataService"/> used to query lookup and reference 
+        /// Gets or sets <see cref="IQueryService"/> used to query lookup and reference 
         /// data for this component.
         /// </summary>
         [Inject]
-        IReferenceDataService ReferenceData { get; set; }
+        IQueryService QueryService { get; set; }
 
         /// <summary>
         /// Gets the string codes representing the allowable <see cref="ModelAttribute"/> selections 
         /// for the <typeparamref name="TViewModelParent"/> instance worked using this component.
         /// </summary>
         protected string[] SupportedModelAttributeScopes { get; } = 
-            IReferenceDataService.GetSupportedAttributeScopeCodes<TViewModelParent>();
+            IQueryService.GetSupportedAttributeScopeCodes<TViewModelParent>();
 
         /// <summary>
         /// Gets or sets the current <typeparamref name="TViewModelChild"/> instance.
@@ -81,7 +82,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns></returns>
         protected async Task<IEnumerable<ModelAttribute>> GetSupportedAttributesAsync()
         {
-            using var queryBuilder = ReferenceData
+            using var queryBuilder = QueryService
                 .CreateQueryBuilder<ModelAttribute>()
                 .WithDirectRelationship(a => a.ModelAttributeScopes);
 
@@ -113,7 +114,7 @@ namespace NjordFinance.Web.Components.Generic
         protected async Task OnChildViewSelect(TViewModelChild childViewModel)
         {
             CurrentViewModelChild = childViewModel;
-            CurrentAttributeMemberLookup = await ReferenceData
+            CurrentAttributeMemberLookup = await QueryService
                 .GetModelAttributeMemberDTOsAsync(
                     attributeId: childViewModel.ParentAttribute.AttributeId);
 
