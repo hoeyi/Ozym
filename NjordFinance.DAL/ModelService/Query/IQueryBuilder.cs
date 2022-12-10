@@ -11,7 +11,7 @@ namespace NjordFinance.ModelService.Query
     /// </summary>
     /// <typeparam name="TSource">The source model type. Relationships are expressed 
     /// using this type as the starting point.</typeparam>
-    public interface IQueryBuilder<TSource> : IDisposable, IQueryDataStore<TSource>
+    public interface IQueryBuilder<TSource> : IDisposable//, IQueryDataStore<TSource>
         where TSource : class, new()
     {
         /// <summary>
@@ -42,6 +42,6 @@ namespace NjordFinance.ModelService.Query
         /// configuration.
         /// </summary>
         /// <returns>An <see cref="IQueryBuilder{TSource}"/> instance.</returns>
-        IQueryDataStore<TSource> Build() => this;
+        IQueryDataStore<TSource> Build();
     }
 }

@@ -15,7 +15,15 @@ namespace NjordFinance.ModelService
     public partial class ReferenceDataService : IReferenceDataService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
+        static readonly object _locker = new object();
 
+        private FinanceDbContext NewDbContext()
+        {
+            lock(_locker)
+            {
+                return _contextFactory.CreateDbContext();
+            }
+        }
         /// <inheritdoc/>
         public ReferenceDataService(IDbContextFactory<FinanceDbContext> contextFactory)
         {
@@ -28,7 +36,7 @@ namespace NjordFinance.ModelService
         /// <inheritdoc/>
         public IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
         where TSource : class, new() => 
-            new QueryBuilder<TSource>(_contextFactory.CreateDbContext());
+            new QueryBuilder<TSource>(context: NewDbContext());
 
         /// <inheritdoc/>
         public async Task<IEnumerable<T>> GetManyAsync<T>(
@@ -61,40 +69,10 @@ namespace NjordFinance.ModelService
     }
 
     /// <summary>
-    /// Extension method class for converting <see cref="IEnumerable{T}"/> to <see cref="IList{T}"/> 
-    /// collections of <see cref="LookupModel"/> instances.
+    /// Extension method class for collections of <see cref="LookupModel{TKey, TDisplay}"/>.
     /// </summary>
     public static partial class ReferenceDataServiceHelper
     {
-        /// <summary>
-        /// Converts this collection of <see cref="ModelAttributeMember"/> instances to a new list 
-        /// of <see cref="LookupModel"/> instances.
-        /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="displaySelector">A function for defining <see cref="LookupModel.Display"/>.</param>
-        /// <returns>An <see cref="IList{T}"/> containing <see cref="LookupModel"/> instances.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public static IList<LookupModel> ToLookups(
-            this IEnumerable<ModelAttributeMember> collection,
-            Func<ModelAttributeMember, string> displaySelector = null)
-        {
-            if (collection is null)
-                throw new ArgumentNullException(paramName: nameof(collection));
-
-            var result = collection.Select(model => new LookupModel()
-            {
-                Key = model.AttributeMemberId,
-                Display = displaySelector is null ?
-                    model.DisplayName : displaySelector(model)
-            })
-            .OrderBy(m => m.Display)
-            .ToList();
-
-            result.Insert(0, LookupModel.GetPlaceHolder());
-
-            return result;
-        }
-
         /// <summary>
         /// Gets the display <typeparamref name="TValue"/> value for the first DTO in the 
         /// collection matching the given <typeparamref name="TKey"/> key.

@@ -84,6 +84,9 @@ namespace NjordFinance.ModelService.Query
     internal sealed partial class QueryBuilder<TSource> : IQueryDataStore<TSource>
     {
         /// <inheritdoc/>
+        public IQueryDataStore<TSource> Build() => this;
+
+        /// <inheritdoc/>
         public async Task<IEnumerable<TSource>> SelectWhereAsync(
             Expression<Func<TSource, bool>> predicate, int maxCount = 0)
         {
@@ -122,33 +125,34 @@ namespace NjordFinance.ModelService.Query
             var keyDeleg = key.Compile();
             var displayDeleg = display.Compile();
 
-            IList<LookupModel<TKey, TValue>> result;
-            
+            IQueryable<LookupModel<TKey, TValue>> query;
+            List<LookupModel<TKey, TValue>> resultList;
+
             try
             {
                 if(maxCount == 0)
                 {
-                    result = await Queryable.Where(predicate)
+                    query = Queryable.Where(predicate)
                         .Select(x => new LookupModel<TKey, TValue>()
                         {
                             Key = keyDeleg(x),
                             Display = displayDeleg(x)
-                        })
-                        .ToListAsync();
+                        });
                 }
                 else
                 {
-                    result = await Queryable.Where(predicate)
+                    query = Queryable.Where(predicate)
                         .Select(x => new LookupModel<TKey, TValue>()
                         {
                             Key = keyDeleg(x),
                             Display = displayDeleg(x)
                         })
-                        .Take(maxCount)
-                        .ToListAsync();
+                        .Take(maxCount);
                 }
-                
-                result.Insert(0, LookupModel<TKey, TValue>.GetPlaceHolder(
+
+                resultList = await query.ToListAsync();
+
+                resultList.Insert(0, LookupModel<TKey, TValue>.GetPlaceHolder(
                     key: defaultKey,
                     display: defaultDisplay));
             }
@@ -162,7 +166,7 @@ namespace NjordFinance.ModelService.Query
                 QueryCompleted?.Invoke(this, EventArgs.Empty);
             }
 
-            return result;
+            return resultList;
         }
 
         /// <inheritdoc/>

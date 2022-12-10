@@ -14,6 +14,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace NjordFinance.ModelService
 {
@@ -148,7 +149,9 @@ namespace NjordFinance.ModelService
             string defaultDisplay = default)
             where TSource : class, new()
         {
-            return await SelectDTOsAsync(key, display, defaultKey, defaultDisplay);
+            using var queryBuilder = CreateQueryBuilder<TSource>();
+
+            return await queryBuilder.Build().SelectDTOsAsync(key, display, defaultKey, defaultDisplay);
         }
     }
 
@@ -265,12 +268,37 @@ namespace NjordFinance.ModelService
                 defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
         }
 
+        async Task<IEnumerable<LookupModel<int, string>>> GetModelAttributeMemberDTOsAsync(
+            int attributeId)
+        {
+            using var queryBuilder = CreateQueryBuilder<ModelAttributeMember>()
+                .WithDirectRelationship(x => x.Country)
+                .WithDirectRelationship(x => x.SecurityType)
+                .WithDirectRelationship(x => x.SecurityTypeGroup);
+
+            return await queryBuilder.Build()
+                .SelectDTOsAsync(
+                    predicate: x => x.AttributeId == attributeId,
+                    maxCount: 0,
+                    key: x => x.AttributeMemberId,
+                    display: x => DisplayFor(x),
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+        }
     }
+
     #endregion
 
     #region Static helper methods
     public partial interface IReferenceDataService
     {
+        public static string DisplayFor(ModelAttributeMember attributeMember)
+        {
+            if (attributeMember.Country is not null)
+                return $"{attributeMember.Country.DisplayName} ({attributeMember.Country.IsoCode3})";
+
+            return attributeMember.DisplayName;
+        }
+
         /// <summary>
         /// Gets the array of string codes representing the supported <see cref="ModelAttributeScope"/> 
         /// for this type.
