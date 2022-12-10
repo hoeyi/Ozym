@@ -11,12 +11,20 @@ using NjordFinance.ModelService.Query;
 
 namespace NjordFinance.ModelService
 {
-
+    /// <summary>
+    /// Represents an implementation of <see cref="IReferenceDataService"/>, providing features 
+    /// for querying varying data stores and conversion to DTOs.
+    /// </summary>
     public partial class ReferenceDataService : IReferenceDataService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
         static readonly object _locker = new();
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="FinanceDbContext"/> from the factory instance
+        /// assigned to <see cref="_contextFactory"/>.
+        /// </summary>
+        /// <returns></returns>
         private FinanceDbContext NewDbContext()
         {
             lock(_locker)

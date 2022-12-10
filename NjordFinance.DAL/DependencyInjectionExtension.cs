@@ -19,7 +19,7 @@ namespace NjordFinance
         public static void AddModelServices(this IServiceCollection services)
         {
             // Add reference data service for querying lookup lists.
-            services.AddScoped<IReferenceDataService, ReferenceDataService>();
+            services.AddSingleton<IReferenceDataService, ReferenceDataService>();
 
             // Add single-entity services.
             services
@@ -47,7 +47,7 @@ namespace NjordFinance
                 .AddScoped<IModelBatchService<AccountAttributeMemberEntry>, AccountAttributeMemberService>()
                 .AddScoped<IModelBatchService<AccountCompositeMember>, AccountCompositeMemberService>()
                 .AddScoped<IModelBatchService<AccountCustodian>, AccountCustodianBatchService>()
-                .AddTransient<IModelBatchService<Country>, CountryBatchService>()
+                .AddScoped<IModelBatchService<Country>, CountryBatchService>()
                 .AddScoped<IModelBatchService<AccountWallet>, AccountWalletService>()
                 .AddScoped<IModelBatchService<BankTransaction>, BankTransactionService>()
                 .AddScoped<IModelBatchService<BankTransactionCode>, BankTransactionCodeBatchService>()
