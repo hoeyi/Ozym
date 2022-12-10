@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using NjordFinance.Model;
 using NjordFinance.Model.ViewModel.Generic;
 using NjordFinance.ModelService;
@@ -50,14 +51,14 @@ namespace NjordFinance.Web.Components.Generic
         /// the <typeparamref name="TModel"/> instance worked by this component.
         /// </summary>
         /// <returns></returns>
-        protected async Task<IEnumerable<ModelAttribute>> GetSupportedAttributesAsync()
+        private async Task<IEnumerable<ModelAttribute>> GetSupportedAttributesAsync()
         {
             using var queryBuilder = ReferenceData
                 .CreateQueryBuilder<ModelAttribute>()
                 .WithDirectRelationship(a => a.ModelAttributeMembers)
                 .WithDirectRelationship(a => a.ModelAttributeScopes);
 
-            var attributeQuery = queryBuilder.SelectWhereAsync(
+            var attributeQuery = queryBuilder.Build().SelectWhereAsync(
                 predicate: attr => attr.ModelAttributeScopes.Any(
                     msc => SupportedModelAttributeScopes.Contains(msc.ScopeCode)),
                 maxCount: 0);
@@ -65,13 +66,15 @@ namespace NjordFinance.Web.Components.Generic
             return await attributeQuery;
         }
 
-        private IEnumerable<LookupModel> GetAttributeMembers(
-            ModelAttribute modelAttribute) =>
-            AllowableModelAttributes
-                .FirstOrDefault(a => a.AttributeId == modelAttribute.AttributeId)
-                .ModelAttributeMembers
-                .ToLookups();
-
+        private IEnumerable<LookupModel<int, string>> GetAttributeMembers(
+            ModelAttribute attribute) => attribute.ModelAttributeMembers
+                .Select(x => new LookupModel<int, string>()
+                {
+                    Key = x.AttributeMemberId,
+                    Display = IReferenceDataService.DisplayFor(x)
+                })
+            .ToList();
+                
         /// <summary>
         /// Gets or sets whether the modal dialog for selecting an attribute is drawn. Default is
         /// <see cref="false" />.

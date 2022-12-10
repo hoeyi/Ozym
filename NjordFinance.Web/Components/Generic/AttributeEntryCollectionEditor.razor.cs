@@ -54,7 +54,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <summary>
         /// Gets or sets the valid entries to the currently selected attribute.
         /// </summary>
-        protected IEnumerable<LookupModel> CurrentAttributeMemberLookup { get; set; }
+        protected IEnumerable<LookupModel<int, string>> CurrentAttributeMemberLookup { get; set; }
 
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
@@ -85,7 +85,7 @@ namespace NjordFinance.Web.Components.Generic
                 .CreateQueryBuilder<ModelAttribute>()
                 .WithDirectRelationship(a => a.ModelAttributeScopes);
 
-            var attributeQuery = queryBuilder.SelectWhereAsync(
+            var attributeQuery = queryBuilder.Build().SelectWhereAsync(
                 predicate: attr => attr.ModelAttributeScopes.Any(
                     msc => SupportedModelAttributeScopes.Contains(msc.ScopeCode)),
                 maxCount: 0);
@@ -112,20 +112,10 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns></returns>
         protected async Task OnChildViewSelect(TViewModelChild childViewModel)
         {
-            using var queryBuilder = ReferenceData
-                .CreateQueryBuilder<ModelAttributeMember>()
-                .WithDirectRelationship(a => a.Country);
-
             CurrentViewModelChild = childViewModel;
-            CurrentAttributeMemberLookup = (await queryBuilder.SelectWhereAsync(a =>
-                 a.AttributeId == childViewModel.ParentAttribute.AttributeId))
-                .ToLookups(displaySelector: x =>
-                {
-                    if (x.Country is null)
-                        return x.DisplayName;
-                    else
-                        return $"{x.Country.DisplayName} ({x.Country.IsoCode3})";
-                });
+            CurrentAttributeMemberLookup = await ReferenceData
+                .GetModelAttributeMemberDTOsAsync(
+                    attributeId: childViewModel.ParentAttribute.AttributeId);
 
             DrawViewModelChildModelEditor = 
                 CurrentViewModelChild is not null && CurrentAttributeMemberLookup is not null;

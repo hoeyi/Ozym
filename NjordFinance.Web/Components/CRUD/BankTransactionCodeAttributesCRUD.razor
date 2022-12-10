@@ -89,7 +89,7 @@ else
 
 @code {
     [CascadingParameter(Name = nameof(AttributeMemberLookup))]
-    public IEnumerable<LookupModel> AttributeMemberLookup { get; set; }
+    public IEnumerable<LookupModel<int, string>> AttributeMemberLookup { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

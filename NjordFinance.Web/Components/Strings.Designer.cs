@@ -151,7 +151,7 @@ namespace NjordFinance.Web.Components {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;select&gt;.
+        ///   Looks up a localized string similar to &lt; Select &gt;.
         /// </summary>
         public static string Caption_InputSelect_Prompt {
             get {
