@@ -3,7 +3,6 @@
 @inherits ModelPage<BrokerTransaction>
 
 @inject IBatchController<BrokerTransaction> Controller
-@inject IReferenceDataService ReferenceData
 
 <ThemedComponent>
     @if (IsLoading)
@@ -157,11 +156,11 @@
 
     private IList<BrokerTransaction> BrokerTransactions { get; set; }
 
-    private IEnumerable<LookupModel> DepositSecurities { get; set; }
+    private IEnumerable<LookupModel<int, string>> DepositSecurities { get; set; }
 
-    private IEnumerable<LookupModel> TransactionCodes { get; set; }
+    private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
 
-    private IEnumerable<LookupModel> TransactableSecurities { get; set; }
+    private IEnumerable<LookupModel<int, string>> TransactableSecurities { get; set; }
 
     private Account ParentAccount { get; set; }
 
@@ -171,12 +170,18 @@
 
         try
         {
-            var securityListTask = ReferenceData.TransactableSecurityListAsync();
-            var depositSecurityListTask = ReferenceData.CashOrExternalSecurityListAsync();
-            var transactionCodeListTask = ReferenceData.GetManyAsync<BrokerTransactionCode>(x => true);
+            var securityDTOsTask = Controller.ReferenceQueries
+                .GetTransactableSecurityDTOsAsync();
+            var depositySecurityDTOsTask = Controller.ReferenceQueries
+                .GetCashOrExternalSecurityDTOsAsync();
+            var trasnsactionCodeDTOsTask = Controller.ReferenceQueries
+                .GetBrokerTransactionCodeDTOsAsync();
 
-            ParentAccount = await ReferenceData.GetSingleAsync<Account>(
-                a => a.AccountId == AccountId, path: a => a.AccountNavigation);
+            ParentAccount = (
+                await Controller.ReferenceQueries
+                    .GetSingleAsync<Account>(
+                        predicate: a => a.AccountId == AccountId,
+                        path: a => a.AccountNavigation)).Value;
 
             var initResult = Controller.ForParent(ParentAccount.AccountId);
 
@@ -185,20 +190,28 @@
 
             var transactionListTask = Controller.SelectAllAsync();
 
-            await Task.WhenAll(
+            var dataTasks = Task.WhenAll(
                 transactionListTask,
-                securityListTask,
-                depositSecurityListTask,
-                transactionCodeListTask);
+                securityDTOsTask,
+                depositySecurityDTOsTask,
+                trasnsactionCodeDTOsTask);
+            await dataTasks;
 
-            BrokerTransactions = (await transactionListTask).Value;
-            DepositSecurities = (await depositSecurityListTask).ToLookups();
-            TransactableSecurities = (await securityListTask).ToLookups();
-            TransactionCodes = (await transactionCodeListTask).ToLookups();
-
-            if (!BrokerTransactions.Any())
+            if (dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                await AddNewAsync(args: null);
+                BrokerTransactions = (await transactionListTask).Value;
+                DepositSecurities = (await depositySecurityDTOsTask).Value;
+                TransactableSecurities = (await securityDTOsTask).Value;
+                TransactionCodes = (await trasnsactionCodeDTOsTask).Value;
+                
+                if (!BrokerTransactions.Any())
+                {
+                    await AddNewAsync(args: null);
+                }
+            }
+            else
+            {
+                throw dataTasks.Exception.Flatten();
             }
         }
         finally

@@ -137,6 +137,9 @@ Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;</value>
   <data name="ModelService_ReadSingle_Failed" xml:space="preserve">
     <value>{@Model} could not be accessed.</value>
   </data>
+  <data name="ModelService_SaveChanges_ConcurrencyConflict" xml:space="preserve">
+    <value>An error occured when saving changes. Another user may have modified the same entries. Refresh results and re-apply changes.</value>
+  </data>
   <data name="ModelService_SaveChanges_Failed" xml:space="preserve">
     <value>Changes were not saved.</value>
   </data>

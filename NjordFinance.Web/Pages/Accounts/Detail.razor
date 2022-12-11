@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<Account>
 
-@inject IReferenceDataService ReferenceData
-
 <ThemedComponent>
     @if (IsLoading)
     {
@@ -33,7 +31,7 @@
     [Parameter]
     public int AccountId { get; set; }
 
-    private IEnumerable<LookupModel> Custodians { get; set; }
+    private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
     private AccountViewModel ViewModel { get; set; }
 
@@ -46,8 +44,7 @@
         try
         {
             var accountQuery = await Controller.ReadAsync(AccountId);
-            if (accountQuery.Value is Account account)
-                Model = account;
+            Model = accountQuery.Value;
 
             ActionMenu = new()
                 {
@@ -111,8 +108,7 @@
                         UriStem = $"{FormatEditUri(Model.AccountId)}/wallets"
                     });
 
-
-            Custodians = (await ReferenceData.AccountCustodianListAsync()).ToLookups();
+            Custodians = (await Controller.ReferenceQueries.GetAccountCustodianDTOsAsync()).Value;
 
             ViewModel = new(Model);
         }

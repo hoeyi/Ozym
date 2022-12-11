@@ -40,12 +40,20 @@ namespace NjordFinance.Logging
                         eventId: new EventId(403, nameof(ModelServiceSaveChangesFailed)),
                         formatString: ExceptionMessage.ModelService_SaveChanges_Failed);
 
+        private static readonly Action<ILogger, Exception>
+            _modelServiceConcurrencyConflict =
+                LoggerMessage
+                    .Define(
+                        logLevel: LogLevel.Error,
+                        eventId: new EventId(404, name: nameof(ModelServiceConcurrencyConflict)),
+                        formatString: ExceptionMessage.ModelService_SaveChanges_ConcurrencyConflict);
+
         private static readonly Action<ILogger, object, Exception> 
             _modelServiceNotInitialized =
                 LoggerMessage
                     .Define<object>(
                         logLevel: LogLevel.Error,
-                        eventId: new EventId(404, name: nameof(ModelServiceNotInitialized)),
+                        eventId: new EventId(410, name: nameof(ModelServiceNotInitialized)),
                         formatString: ExceptionMessage.ModelService_NotInitialized);
 
         private static readonly Action<ILogger, object, Exception>
@@ -53,8 +61,9 @@ namespace NjordFinance.Logging
                 LoggerMessage
                     .Define<object>(
                         logLevel: LogLevel.Error,
-                        eventId: new EventId(405, name: nameof(ModelServiceParentSetFailed)),
+                        eventId: new EventId(411, name: nameof(ModelServiceParentSetFailed)),
                         formatString: ExceptionMessage.ModelService_InitializationFailed);
+
 
         /// <summary>
         /// Creates an error-level entry representing an addition that resulted in a model 
@@ -130,6 +139,16 @@ namespace NjordFinance.Logging
             object service)
             => _modelServiceInitializationFailed(logger, service, null);
 
+        /// <summary>
+        /// Creates an error-level entry representing a failure due to a concurrency conflict.
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="model">An object identifying the worked model.</param>
+        /// <param name="exception">The exception that caused the failure.</param>
+        public static void ModelServiceConcurrencyConflict(
+            this ILogger logger,
+            Exception exception)
+            => _modelServiceConcurrencyConflict(logger, exception);
     }
 
     #endregion

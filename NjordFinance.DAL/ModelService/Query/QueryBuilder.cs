@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.TagHelpers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using NjordFinance.Context;
 using System;
@@ -17,7 +18,7 @@ namespace NjordFinance.ModelService.Query
     /// <remarks>
     /// Reltionship inclusions must be expressed in terms of <typeparamref name="TSource"/>.
     /// </remarks>
-    internal sealed class QueryBuilder<TSource> : IQueryBuilder<TSource>
+    internal sealed partial class QueryBuilder<TSource> : IQueryBuilder<TSource>
         where TSource : class, new()
     {
         private readonly FinanceDbContext _context;
@@ -28,21 +29,14 @@ namespace NjordFinance.ModelService.Query
                 throw new ArgumentNullException(paramName: nameof(context));
 
             _context = context;
-            Queryable = context.Set<TSource>();
+            Queryable = _context.Set<TSource>();
 
             QueryCompleted += QueryBuilder_QueryCompleted;
         }
 
-
-
         ~QueryBuilder() => Dispose();
 
-        /// <summary>
-        /// Gets or sets the <see cref="IQueryable{T}"/> instance sensitive to requests to 
-        /// include direct and indirect relationships.
-        /// </summary>
-        private IQueryable<TSource> Queryable { get; set; }
-
+        /// <inheritdoc/>
         public void Dispose()
         {
             _context?.Dispose();
@@ -52,6 +46,12 @@ namespace NjordFinance.ModelService.Query
 
             GC.SuppressFinalize(this);
         }
+
+        /// <summary>
+        /// Gets or sets the <see cref="IQueryable{T}"/> instance sensitive to requests to 
+        /// include direct and indirect relationships.
+        /// </summary>
+        private IQueryable<TSource> Queryable { get; set; }
 
         /// <inheritdoc/>
         public IQueryBuilder<TSource> WithDirectRelationship<TProperty>(
@@ -76,6 +76,17 @@ namespace NjordFinance.ModelService.Query
             return this;
         }
 
+        private event EventHandler QueryCompleted;
+
+        private void QueryBuilder_QueryCompleted(object sender, EventArgs e) => _ = e;
+    }
+
+    internal sealed partial class QueryBuilder<TSource> : IQueryDataStore<TSource>
+    {
+        /// <inheritdoc/>
+        public IQueryDataStore<TSource> Build() => this;
+
+        /// <inheritdoc/>
         public async Task<IEnumerable<TSource>> SelectWhereAsync(
             Expression<Func<TSource, bool>> predicate, int maxCount = 0)
         {
@@ -114,39 +125,39 @@ namespace NjordFinance.ModelService.Query
             var keyDeleg = key.Compile();
             var displayDeleg = display.Compile();
 
-            IList<LookupModel<TKey, TValue>> result;
-            
+            IQueryable<LookupModel<TKey, TValue>> query;
+            List<LookupModel<TKey, TValue>> resultList;
+
             try
             {
                 if(maxCount == 0)
                 {
-                    result = await Queryable.Where(predicate)
+                    query = Queryable.Where(predicate)
                         .Select(x => new LookupModel<TKey, TValue>()
                         {
                             Key = keyDeleg(x),
                             Display = displayDeleg(x)
-                        })
-                        .ToListAsync();
+                        });
                 }
                 else
                 {
-                    result = await Queryable.Where(predicate)
+                    query = Queryable.Where(predicate)
                         .Select(x => new LookupModel<TKey, TValue>()
                         {
                             Key = keyDeleg(x),
                             Display = displayDeleg(x)
                         })
-                        .Take(maxCount)
-                        .ToListAsync();
+                        .Take(maxCount);
                 }
-                
-                result.Insert(0, LookupModel<TKey, TValue>.GetPlaceHolder(
+
+                resultList = await query.ToListAsync();
+
+                resultList.Insert(0, LookupModel<TKey, TValue>.GetPlaceHolder(
                     key: defaultKey,
                     display: defaultDisplay));
             }
             catch(Exception e)
             {
-                _ = e;
                 Debug.Write(e);
                 throw;
             }
@@ -155,21 +166,20 @@ namespace NjordFinance.ModelService.Query
                 QueryCompleted?.Invoke(this, EventArgs.Empty);
             }
 
-            return result;
+            return resultList;
         }
 
-        private event EventHandler QueryCompleted;
-
-        /// <summary>
-        /// Resets the configuration of this builder to default settings.
-        /// </summary>
-        private void ResetQueryToDefault()
-        {
-            //ResetQueryToDefault();
-        }
-
-        private void ResetQueryable() => Queryable = _context.Set<TSource>();
-
-        private void QueryBuilder_QueryCompleted(object sender, EventArgs e) => ResetQueryToDefault();
+        /// <inheritdoc/>
+        public async Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
+            Expression<Func<TSource, TKey>> key,
+            Expression<Func<TSource, TValue>> display,
+            TKey defaultKey = default, TValue
+            defaultDisplay = default) => await SelectDTOsAsync(
+                predicate: x => true,
+                maxCount: 0,
+                key: key,
+                display: display,
+                defaultKey: defaultKey,
+                defaultDisplay: defaultDisplay);
     }
 }

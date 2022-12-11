@@ -3,7 +3,6 @@
 @inherits ModelPage<BankTransaction>
 
 @inject IBatchController<BankTransaction> Controller
-@inject IReferenceDataService ReferenceData
 
 <ThemedComponent>
     @if (IsLoading)
@@ -110,26 +109,33 @@
 
         try
         {
-            var transactionCodeListTask = ReferenceData.GetManyAsync<BankTransactionCode>(x => true);
+            var transactionCodeDTOsTask = Controller.ReferenceQueries.GetBankTransactionCodeDTOsAsync();
 
-            ParentAccount = await ReferenceData.GetSingleAsync<Account>(
-                a => a.AccountId == AccountId, path: a => a.AccountNavigation);
+            ParentAccount = (
+                await Controller.ReferenceQueries
+                    .GetSingleAsync<Account>(
+                        predicate: a => a.AccountId == AccountId,
+                        path: a => a.AccountNavigation)).Value;
 
             var initResult = Controller.ForParent(ParentAccount.AccountId);
 
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
 
-            var transactionListTask = Controller.SelectAllAsync();
+            var transactionsQueryTask = Controller.SelectAllAsync();
 
-            await Task.WhenAll(
-                transactionListTask,
-                transactionCodeListTask);
+            var dataTasks = Task.WhenAll(transactionsQueryTask, transactionCodeDTOsTask);
+            await dataTasks;
 
-            BankTransactions = (await transactionListTask).Value;
-            TransactionCodes = (await transactionCodeListTask)
-                .ToLookups(key: x => x.TransactionCodeId, display: x => x.DisplayName);
-
+            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                BankTransactions = (await transactionsQueryTask).Value;
+                TransactionCodes = (await transactionCodeDTOsTask).Value;
+            }
+            else
+            {
+                throw dataTasks.Exception.Flatten();
+            }
         }
         finally
         {

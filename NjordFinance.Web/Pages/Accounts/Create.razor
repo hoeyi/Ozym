@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<Account>
 
-@inject IReferenceDataService ReferenceData
-
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
 <ThemedComponent>
@@ -46,7 +44,7 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private IEnumerable<LookupModel> Custodians { get; set; }
+    private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
     private AccountViewModel ViewModel { get; set; }
 
@@ -57,13 +55,22 @@
 
         try
         {
-            var getDefaultModelTask = Controller.GetDefaultAsync();
-            var refreshCustodianListTask = ReferenceData.AccountCustodianListAsync();
+            var defaultModelTask = Controller.GetDefaultAsync();
+            var custodiansQuery = Controller.ReferenceQueries.GetAccountCustodianDTOsAsync();
 
-            Model = (await getDefaultModelTask).Value;
-            Custodians = (await refreshCustodianListTask).ToLookups();
+            var dataTasks = Task.WhenAll(defaultModelTask, custodiansQuery);
+            await dataTasks;
 
-            ViewModel = new(Model);
+            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                Model = (await defaultModelTask).Value;
+                Custodians = (await custodiansQuery).Value;
+                ViewModel = new(Model);
+            }
+            else
+            {
+                throw dataTasks.Exception.Flatten();
+            }
         }
         finally
         {

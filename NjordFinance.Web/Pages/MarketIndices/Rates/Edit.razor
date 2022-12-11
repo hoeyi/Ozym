@@ -3,7 +3,6 @@
 @inherits ModelPage<MarketIndexPrice>
 
 @inject IBatchController<MarketIndexPrice> Controller
-@inject IReferenceDataService ReferenceData
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -182,19 +181,9 @@
             var queryActionResultTask = Controller!
                 .SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
 
-            await queryActionResultTask;
+            var indexDtosTask = Controller.ReferenceQueries.GetMarketIndexDTOsAsync();
 
-            using var queryBuilder = ReferenceData.CreateQueryBuilder<MarketIndex>();
-
-            var indexLookupTask = queryBuilder.SelectDTOsAsync(
-                    predicate: x => true,
-                    maxCount: 0,
-                    key: x => x.IndexId,
-                    display: x => x.IndexCode,
-                    defaultDisplay: Resources.Strings.Caption_InputSelect_Placeholder 
-            );
-
-            PriceCodeLookup = ReferenceData
+            var priceCodeDtoTask = Controller.ReferenceQueries
                 .SelectDTOsFromEnum<MarketIndexPriceCode, string, string>(
                     predicate: x => true,
                     key: x => x.ConvertToStringCode(),
@@ -206,12 +195,17 @@
                     });
 
 
-            var aggregateTask = Task.WhenAll(queryActionResultTask, indexLookupTask);
-            await aggregateTask;
+            var dataTasks = Task.WhenAll(queryActionResultTask, indexDtosTask, priceCodeDtoTask);
+            await dataTasks;
 
-            IndexPrices = (await queryActionResultTask).Value;
-            MarketIndexLookup = await indexLookupTask;
-            _context = new(IndexPrices);
+            if(dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                IndexPrices = (await queryActionResultTask).Value;
+                MarketIndexLookup = (await indexDtosTask).Value;
+                PriceCodeLookup = (await priceCodeDtoTask).Value;
+                _context = new(IndexPrices);
+            }
+
         }
         finally
         {

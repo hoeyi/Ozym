@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using NjordFinance.Exceptions;
 using NjordFinance.Logging;
 using NjordFinance.ModelService;
+using NjordFinance.ModelService.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -13,20 +14,30 @@ namespace NjordFinance.Controllers.Abstractions
     public class ModelBatchController<T> : ControllerBase, IBatchController<T>
         where T : class, new()
     {
-        protected readonly IModelBatchService<T> _modelService;
-        protected readonly ILogger _logger;
+        private readonly IModelBatchService<T> _modelService;
+        private readonly IQueryController _queryController;
+        private readonly ILogger _logger;
+
+
         public ModelBatchController(
             IModelBatchService<T> modelService,
+            IQueryService queryService,
             ILogger logger)
         {
             if (modelService is null)
                 throw new ArgumentNullException(paramName: nameof(modelService));
+            if (queryService is null)
+                throw new ArgumentNullException(paramName: nameof(queryService));
             if (logger is null)
                 throw new ArgumentNullException(paramName: nameof(logger));
 
             _modelService = modelService;
+            _queryController = new QueryController(queryService, logger);
             _logger = logger;
         }
+
+        /// <inheritdoc/>
+        public IQueryController ReferenceQueries => _queryController;
 
         /// <inheritdoc/>
         public async Task<IActionResult> AddAsync(T model)

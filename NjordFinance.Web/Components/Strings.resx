@@ -154,7 +154,7 @@
     <comment>{0} is text indicating the type/record to edit, e.g., account or account 1234</comment>
   </data>
   <data name="Caption_InputSelect_Prompt" xml:space="preserve">
-    <value>&lt;select&gt;</value>
+    <value>&lt; Select &gt;</value>
   </data>
   <data name="Caption_InputSelect_SearchField" xml:space="preserve">
     <value>Search for:</value>

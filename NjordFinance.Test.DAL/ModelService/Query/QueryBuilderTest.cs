@@ -29,11 +29,11 @@ namespace NjordFinance.Test.ModelService.Query
         {
             using var context = CreateContext();
 
-            using IQueryBuilder<Account> queryBuilder = new QueryBuilder<Account>(context);
+            using IQueryBuilder<Account> queryBuilder = new QueryBuilder<Account>(context)
+                .WithDirectRelationship(a => a.AccountNavigation);
 
-            var result = await queryBuilder
-                .WithDirectRelationship(a => a.AccountNavigation)
-                .SelectWhereAsync(predicate: x => true);
+
+            var result = await queryBuilder.Build().SelectWhereAsync(x => true);
 
             Assert.IsInstanceOfType(result, typeof(IEnumerable<Account>));
             Assert.IsTrue(condition: result.Any());
@@ -44,12 +44,12 @@ namespace NjordFinance.Test.ModelService.Query
         {
             using var context = CreateContext();
 
-            using IQueryBuilder<Security> queryBuilder = new QueryBuilder<Security>(context);
-
-            var result = await queryBuilder
+            using IQueryBuilder<Security> queryBuilder = new QueryBuilder<Security>(context)
                 .WithDirectRelationship(s => s.SecuritySymbols)
                 .WithDirectRelationship(s => s.SecurityType)
-                .WithIndirectRelationship<SecurityType, SecurityTypeGroup>(s => s.SecurityTypeGroup)
+                .WithIndirectRelationship<SecurityType, SecurityTypeGroup>(s => s.SecurityTypeGroup);
+
+            var result = await queryBuilder.Build()
                 .SelectWhereAsync(predicate: x => true);
                 
 

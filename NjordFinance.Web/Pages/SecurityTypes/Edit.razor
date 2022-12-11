@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<SecurityType>
 
-@inject IReferenceDataService ReferenceData
-
 <ThemedComponent>
     @if (IsLoading)
     {
@@ -64,14 +62,12 @@
         try
         {
             var modelQuery = Controller.ReadAsync(SecurityTypeId);
-            var typeGroupsQuery = ReferenceData
-                .CreateQueryBuilder<SecurityTypeGroup>()
-                .SelectWhereAsync(x => true);
+            var typeGroupsQuery = Controller.ReferenceQueries.GetSecurityTypeGroupDTOsAsync();
 
-            await Task.WhenAll(modelQuery, typeGroupsQuery);
+            Task dataTasks = Task.WhenAll(modelQuery, typeGroupsQuery);
+            await dataTasks;
 
-            SecurityTypeGroups = (await typeGroupsQuery)
-                .ToLookups(key: x => x.SecurityTypeGroupId, display: x => x.SecurityTypeGroupName);
+            SecurityTypeGroups = (await typeGroupsQuery).Value;
 
             if ((await modelQuery).Value is SecurityType model)
                 Model = model;

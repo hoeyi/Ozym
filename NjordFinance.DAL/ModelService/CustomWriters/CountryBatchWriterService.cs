@@ -73,7 +73,7 @@ namespace NjordFinance.ModelService.CustomWriters
             }
             catch (DbUpdateConcurrencyException duc)
             {
-                _logger.LogWarning(duc, duc.Message);
+                _logger.ModelServiceConcurrencyConflict(duc);
                 throw new ModelUpdateException(duc.Message);
             }
             catch (DbUpdateException du)

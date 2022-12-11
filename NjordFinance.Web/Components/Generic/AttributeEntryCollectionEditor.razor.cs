@@ -1,5 +1,6 @@
 ﻿using NjordFinance.Model;
 using NjordFinance.ModelService;
+using NjordFinance.ModelService.Query;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -33,18 +34,18 @@ namespace NjordFinance.Web.Components.Generic
         where TViewModelParent: IAttributeEntryWeightedCollection<TModel, TModelChild, TViewModelChild>
     {
         /// <summary>
-        /// Gets or sets <see cref="IReferenceDataService"/> used to query lookup and reference 
+        /// Gets or sets <see cref="IQueryService"/> used to query lookup and reference 
         /// data for this component.
         /// </summary>
         [Inject]
-        IReferenceDataService ReferenceData { get; set; }
+        IQueryService QueryService { get; set; }
 
         /// <summary>
         /// Gets the string codes representing the allowable <see cref="ModelAttribute"/> selections 
         /// for the <typeparamref name="TViewModelParent"/> instance worked using this component.
         /// </summary>
         protected string[] SupportedModelAttributeScopes { get; } = 
-            IReferenceDataService.GetSupportedAttributeScopeCodes<TViewModelParent>();
+            IQueryService.GetSupportedAttributeScopeCodes<TViewModelParent>();
 
         /// <summary>
         /// Gets or sets the current <typeparamref name="TViewModelChild"/> instance.
@@ -54,7 +55,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <summary>
         /// Gets or sets the valid entries to the currently selected attribute.
         /// </summary>
-        protected IEnumerable<LookupModel> CurrentAttributeMemberLookup { get; set; }
+        protected IEnumerable<LookupModel<int, string>> CurrentAttributeMemberLookup { get; set; }
 
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
@@ -81,11 +82,11 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns></returns>
         protected async Task<IEnumerable<ModelAttribute>> GetSupportedAttributesAsync()
         {
-            using var queryBuilder = ReferenceData
+            using var queryBuilder = QueryService
                 .CreateQueryBuilder<ModelAttribute>()
                 .WithDirectRelationship(a => a.ModelAttributeScopes);
 
-            var attributeQuery = queryBuilder.SelectWhereAsync(
+            var attributeQuery = queryBuilder.Build().SelectWhereAsync(
                 predicate: attr => attr.ModelAttributeScopes.Any(
                     msc => SupportedModelAttributeScopes.Contains(msc.ScopeCode)),
                 maxCount: 0);
@@ -112,20 +113,10 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns></returns>
         protected async Task OnChildViewSelect(TViewModelChild childViewModel)
         {
-            using var queryBuilder = ReferenceData
-                .CreateQueryBuilder<ModelAttributeMember>()
-                .WithDirectRelationship(a => a.Country);
-
             CurrentViewModelChild = childViewModel;
-            CurrentAttributeMemberLookup = (await queryBuilder.SelectWhereAsync(a =>
-                 a.AttributeId == childViewModel.ParentAttribute.AttributeId))
-                .ToLookups(displaySelector: x =>
-                {
-                    if (x.Country is null)
-                        return x.DisplayName;
-                    else
-                        return $"{x.Country.DisplayName} ({x.Country.IsoCode3})";
-                });
+            CurrentAttributeMemberLookup = await QueryService
+                .GetModelAttributeMemberDTOsAsync(
+                    attributeId: childViewModel.ParentAttribute.AttributeId);
 
             DrawViewModelChildModelEditor = 
                 CurrentViewModelChild is not null && CurrentAttributeMemberLookup is not null;
@@ -175,7 +166,7 @@ namespace NjordFinance.Web.Components.Generic
         /// Gets the <see cref="DateTime"/> value of <see cref="EffectiveDate" /> 
         /// from the given <see cref="TViewModelChild" />.
         /// </summary>
-        private DateTime GetGroupEffectiveDate(TViewModelChild group) => group.EffectiveDate;
+        private static DateTime GetGroupEffectiveDate(TViewModelChild group) => group.EffectiveDate;
 
         /// <summary>
         /// Handles the close event of the modal form used to select a <see cref="ModelAttribute"/> 
