@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<Account>
 
-@inject IQueryService QueryService
-
 <ThemedComponent>
     @if (IsLoading)
     {
@@ -46,8 +44,7 @@
         try
         {
             var accountQuery = await Controller.ReadAsync(AccountId);
-            if (accountQuery.Value is Account account)
-                Model = account;
+            Model = accountQuery.Value;
 
             ActionMenu = new()
                 {
@@ -111,12 +108,7 @@
                         UriStem = $"{FormatEditUri(Model.AccountId)}/wallets"
                     });
 
-            Custodians = await QueryService
-                .SelectDTOsAsync<AccountCustodian, int, string>(
-                    key: x => x.AccountCustodianId,
-                    display: x => x.DisplayName,
-                    defaultKey: default,
-                    defaultDisplay: Resources.Strings.Caption_InputSelect_Placeholder);
+            Custodians = (await Controller.ReferenceQueries.GetAccountCustodianDTOsAsync()).Value;
 
             ViewModel = new(Model);
         }

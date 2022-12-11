@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<AccountComposite>
 
-@inject IQueryService QueryService
-
 <ThemedComponent>
     @if (IsLoading)
     {
@@ -68,12 +66,12 @@
         try
         {
             var compositeQuery = Controller.ReadAsync(AccountCompositeId);
-            var accountsQuery = QueryService.GetAccountDTOsAsync();
+            var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
 
-            await Task.WhenAll(compositeQuery, accountsQuery);
+            Task dataTask = Task.WhenAll(compositeQuery, accountsQuery);
 
             Model = (await compositeQuery).Value;
-            Accounts = await accountsQuery;
+            Accounts = (await accountsQuery).Value;
 
             ViewModel = new(Model);
         }

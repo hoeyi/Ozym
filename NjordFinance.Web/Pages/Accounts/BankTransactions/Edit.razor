@@ -3,7 +3,6 @@
 @inherits ModelPage<BankTransaction>
 
 @inject IBatchController<BankTransaction> Controller
-@inject IQueryService QueryService
 
 <ThemedComponent>
     @if (IsLoading)
@@ -110,10 +109,13 @@
 
         try
         {
-            var transactionCodeDTOsTask = QueryService.GetBankTransactionCodeDTOsAsync();
+            var transactionCodeDTOsTask = Controller.ReferenceQueries.GetBankTransactionCodeDTOsAsync();
 
-            ParentAccount = await QueryService.GetSingleAsync<Account>(
-                a => a.AccountId == AccountId, path: a => a.AccountNavigation);
+            ParentAccount = (
+                await Controller.ReferenceQueries
+                    .GetSingleAsync<Account>(
+                        predicate: a => a.AccountId == AccountId,
+                        path: a => a.AccountNavigation)).Value;
 
             var initResult = Controller.ForParent(ParentAccount.AccountId);
 
@@ -122,13 +124,18 @@
 
             var transactionsQueryTask = Controller.SelectAllAsync();
 
-            await Task.WhenAll(
-                transactionsQueryTask,
-                transactionCodeDTOsTask);
+            var dataTasks = Task.WhenAll(transactionsQueryTask, transactionCodeDTOsTask);
+            await dataTasks;
 
-            BankTransactions = (await transactionsQueryTask).Value;
-            TransactionCodes = await transactionCodeDTOsTask;
-
+            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                BankTransactions = (await transactionsQueryTask).Value;
+                TransactionCodes = (await transactionCodeDTOsTask).Value;
+            }
+            else
+            {
+                throw dataTasks.Exception.Flatten();
+            }
         }
         finally
         {

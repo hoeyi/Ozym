@@ -3,7 +3,6 @@
 @inherits ModelPage<MarketIndexPrice>
 
 @inject IBatchController<MarketIndexPrice> Controller
-@inject IQueryService QueryService
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -182,9 +181,9 @@
             var queryActionResultTask = Controller!
                 .SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
 
-            var indexLookupTask = QueryService.GetMarketIndexDTOsAsync();
+            var indexDtosTask = Controller.ReferenceQueries.GetMarketIndexDTOsAsync();
 
-            PriceCodeLookup = QueryService
+            var priceCodeDtoTask = Controller.ReferenceQueries
                 .SelectDTOsFromEnum<MarketIndexPriceCode, string, string>(
                     predicate: x => true,
                     key: x => x.ConvertToStringCode(),
@@ -196,12 +195,17 @@
                     });
 
 
-            var aggregateTask = Task.WhenAll(queryActionResultTask, indexLookupTask);
-            await aggregateTask;
+            var dataTasks = Task.WhenAll(queryActionResultTask, indexDtosTask, priceCodeDtoTask);
+            await dataTasks;
 
-            IndexPrices = (await queryActionResultTask).Value;
-            MarketIndexLookup = await indexLookupTask;
-            _context = new(IndexPrices);
+            if(dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                IndexPrices = (await queryActionResultTask).Value;
+                MarketIndexLookup = (await indexDtosTask).Value;
+                PriceCodeLookup = (await priceCodeDtoTask).Value;
+                _context = new(IndexPrices);
+            }
+
         }
         finally
         {

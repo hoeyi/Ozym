@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace NjordFinance.ModelService.Query
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IReferenceDataService"/>, providing features 
+    /// Represents an implementation of <see cref="IQueryService"/>, providing features 
     /// for querying varying data stores and conversion to DTOs.
     /// </summary>
     public partial class QueryService : IQueryService

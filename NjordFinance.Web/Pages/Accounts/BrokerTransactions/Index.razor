@@ -3,7 +3,6 @@
 @inherits ModelPage<BrokerTransaction>
 
 @inject IBatchController<BrokerTransaction> Controller
-@inject IQueryService QueryService
 
 <ThemedComponent>
     @if (IsLoading)
@@ -148,12 +147,18 @@
 
         try
         {
-            var securityDTOsTask = QueryService.GetTransactableSecurityDTOsAsync();
-            var depositySecurityDTOsTask = QueryService.GetCashOrExternalSecurityDTOsAsync();
-            var trasnsactionCodeDTOsTask = QueryService.GetBrokerTransactionCodeDTOsAsync();
+            var securityDTOsTask = Controller.ReferenceQueries
+                .GetTransactableSecurityDTOsAsync();
+            var depositySecurityDTOsTask = Controller.ReferenceQueries
+                .GetCashOrExternalSecurityDTOsAsync();
+            var trasnsactionCodeDTOsTask = Controller.ReferenceQueries
+                .GetBrokerTransactionCodeDTOsAsync();
 
-            ParentAccount = await QueryService.GetSingleAsync<Account>(
-                a => a.AccountId == AccountId, path: a => a.AccountNavigation);
+            ParentAccount = (
+                await Controller.ReferenceQueries
+                    .GetSingleAsync<Account>(
+                        predicate: a => a.AccountId == AccountId,
+                        path: a => a.AccountNavigation)).Value;
 
             var initResult = Controller.ForParent(ParentAccount.AccountId);
 
@@ -162,21 +167,24 @@
 
             var transactionListTask = Controller.SelectAllAsync();
 
-            await Task.WhenAll(
+            var dataTasks = Task.WhenAll(
                 transactionListTask,
                 securityDTOsTask,
                 depositySecurityDTOsTask,
                 trasnsactionCodeDTOsTask);
+            await dataTasks;
 
-            BrokerTransactions = (await transactionListTask).Value;
-            DepositSecurities = await depositySecurityDTOsTask;
-            TransactableSecurities = await securityDTOsTask;
-            TransactionCodes = await trasnsactionCodeDTOsTask;
-
-        }
-        catch(Exception e)
-        {
-            System.Diagnostics.Debug.Write(e);
+            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                BrokerTransactions = (await transactionListTask).Value;
+                DepositSecurities = (await depositySecurityDTOsTask).Value;
+                TransactableSecurities = (await securityDTOsTask).Value;
+                TransactionCodes = (await trasnsactionCodeDTOsTask).Value;
+            }
+            else
+            {
+                throw dataTasks.Exception.Flatten();
+            }
         }
         finally
         {

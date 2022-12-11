@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<SecurityType>
 
-@inject IQueryService QueryService
-
 <ThemedComponent>
     @if (IsLoading)
     {
@@ -64,11 +62,12 @@
         try
         {
             var modelQuery = Controller.ReadAsync(SecurityTypeId);
-            var typeGroupsQuery = QueryService.GetSecurityTypeGroupDTOsAsync();
+            var typeGroupsQuery = Controller.ReferenceQueries.GetSecurityTypeGroupDTOsAsync();
 
-            await Task.WhenAll(modelQuery, typeGroupsQuery);
+            Task dataTasks = Task.WhenAll(modelQuery, typeGroupsQuery);
+            await dataTasks;
 
-            SecurityTypeGroups = await typeGroupsQuery;
+            SecurityTypeGroups = (await typeGroupsQuery).Value;
 
             if ((await modelQuery).Value is SecurityType model)
                 Model = model;

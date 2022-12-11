@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<AccountComposite>
 
-@inject IQueryService QueryService
-
 <ThemedComponent>
     @if (IsLoading)
     {
@@ -51,16 +49,13 @@
 
         try
         {
-            var compositeQuery = await Controller.ReadAsync(AccountCompositeId);
-            var accountsQuery = QueryService.CreateQueryBuilder<Account>()
-                .WithDirectRelationship(a => a.AccountNavigation)
-                .Build()
-                .SelectDTOsAsync(
-                    key: x => x.AccountId,
-                    display: x => x.AccountCode,
-                    defaultDisplay: Resources.Strings.Caption_InputSelect_Placeholder);
+            var compositeQuery = Controller.ReadAsync(AccountCompositeId);
+            var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
 
-            if (compositeQuery.Value is AccountComposite composite)
+            Task dataTasks = Task.WhenAll(compositeQuery, accountsQuery);
+            await dataTasks;
+
+            if ((await compositeQuery).Value is AccountComposite composite)
                 Model = composite;
 
             ActionMenu = new()
@@ -92,7 +87,7 @@
                     }
                 };
 
-            Accounts = await QueryService.GetAccountDTOsAsync();
+            Accounts = (await accountsQuery).Value;
             ViewModel = new(Model);
         }
         finally

@@ -3,7 +3,6 @@
 @inherits ModelPage<AccountWallet>
 
 @inject IBatchController<AccountWallet> Controller
-@inject IQueryService QueryService
 
 <ThemedComponent>
     @if (IsLoading)
@@ -107,21 +106,39 @@
 
         try
         {
-            ParentAccount = await QueryService.GetSingleAsync<Account>(
-                a => a.AccountId == AccountId, path: a => a.AccountNavigation);
+            ParentAccount = (
+                await Controller.ReferenceQueries
+                    .GetSingleAsync<Account>(
+                        predicate: a => a.AccountId == AccountId,
+                        path: a => a.AccountNavigation)).Value;
 
             var initResult = Controller.ForParent(ParentAccount.AccountId);
 
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
 
-            DenominationSecurities = await QueryService.GetCryptocurrencyDTOsAsync();
-            Wallets = (await Controller.SelectAllAsync()).Value;
+            var denominationDtosTask = Controller.ReferenceQueries
+                .GetAccountCustodianDTOsAsync();
+            var walletsTask = Controller.SelectAllAsync();
 
-            if (!Wallets.Any())
+            var dataTasks = Task.WhenAll(denominationDtosTask, walletsTask);
+            await dataTasks;
+
+            if (dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                await AddNewAsync(args: null);
+                Wallets = (await walletsTask).Value;
+                DenominationSecurities = (await denominationDtosTask).Value;
+
+                if (!Wallets.Any())
+                {
+                    await AddNewAsync(args: null);
+                }
             }
+            else
+            {
+                throw dataTasks.Exception.Flatten();
+            }
+
         }
         finally
         {

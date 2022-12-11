@@ -14,6 +14,12 @@ namespace NjordFinance.Controllers
         where T: class, new()
     {
         /// <summary>
+        /// Represents the <see cref="IQueryController"/> instance used for retrieving data-transfer 
+        /// objects representing valid foreign-key value options.
+        /// </summary>
+        IQueryController ReferenceQueries { get; }
+
+        /// <summary>
         /// Initializes the intance with the given parent key. Call this method before all others.
         /// </summary>
         /// <param name="parentId">The key for the parent of models worked by this service.

@@ -162,11 +162,13 @@ namespace NjordFinance.ModelService.Query
         {
             using var queryBuilder = CreateQueryBuilder<AccountCustodian>();
 
-            return await queryBuilder.Build().SelectDTOsAsync(
-                key: x => x.AccountCustodianId,
-                display: x => x.DisplayName,
-                defaultKey: default,
-                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+            return await queryBuilder.Build()
+                .SelectDTOsAsync(
+                    key: x => x.AccountCustodianId,
+                    display: x => x.DisplayName,
+                    defaultKey: default,
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
+                .OrderByAsync(x => x.Display); ;
         }
         
         async Task<IEnumerable<LookupModel<int, string>>> GetAccountDTOsAsync()
@@ -174,27 +176,31 @@ namespace NjordFinance.ModelService.Query
             using var queryBuilder = CreateQueryBuilder<Account>()
                 .WithDirectRelationship(x => x.AccountNavigation);
 
-            return await queryBuilder.Build().SelectDTOsAsync(
-                key: x => x.AccountId,
-                display: x => x.AccountCode,
-                defaultKey: default,
-                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+            return await queryBuilder.Build()
+                .SelectDTOsAsync(
+                    key: x => x.AccountId,
+                    display: x => x.AccountCode,
+                    defaultKey: default,
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
+                .OrderByAsync(x => x.Display);
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetBankTransactionCodeDTOsAsync()
         {
             return await SelectDTOsAsync<BankTransactionCode>(
-                key: x => x.TransactionCodeId,
-                display: x => x.TransactionCode,
-                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+                    key: x => x.TransactionCodeId,
+                    display: x => x.TransactionCode,
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
+                .OrderByAsync(x => x.Display); ;
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetBrokerTransactionCodeDTOsAsync()
         {
             return await SelectDTOsAsync<BrokerTransactionCode>(
-                key: x => x.TransactionCodeId,
-                display: x => x.DisplayName,
-                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+                    key: x => x.TransactionCodeId,
+                    display: x => x.DisplayName,
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
+                .OrderByAsync(x => x.Display); ;
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetCashOrExternalSecurityDTOsAsync()
@@ -204,13 +210,15 @@ namespace NjordFinance.ModelService.Query
                 .WithDirectRelationship(x => x.SecurityType)
                 .WithIndirectRelationship<SecurityType, SecurityTypeGroup>(x => x.SecurityTypeGroup);
 
-            return await queryBuilder.Build().SelectDTOsAsync(
-                predicate: x => x.SecurityType.SecurityTypeGroup.Transactable,
-                maxCount: 0,
-                key: x => x.SecurityId,
-                display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
-                defaultKey: default,
-                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+            return await queryBuilder.Build()
+                .SelectDTOsAsync(
+                    predicate: x => x.SecurityType.SecurityTypeGroup.DepositSource,
+                    maxCount: 0,
+                    key: x => x.SecurityId,
+                    display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
+                    defaultKey: default,
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
+                .OrderByAsync(x => x.Display);
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetCryptocurrencyDTOsAsync()
@@ -219,37 +227,42 @@ namespace NjordFinance.ModelService.Query
                 .WithDirectRelationship(x => x.SecuritySymbols)
                 .WithDirectRelationship(x => x.SecurityType);
 
-            return await queryBuilder.Build().SelectDTOsAsync(
-                predicate: x => x.SecurityType.HeldInWallet,
-                maxCount: 0,
-                key: x => x.SecurityId,
-                display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
-                defaultKey: default,
-                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+            return await queryBuilder.Build()
+                .SelectDTOsAsync(
+                    predicate: x => x.SecurityType.HeldInWallet,
+                    maxCount: 0,
+                    key: x => x.SecurityId,
+                    display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
+                    defaultKey: default,
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
+                .OrderByAsync(x => x.Display); ;
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetMarketIndexDTOsAsync()
         {
             return await SelectDTOsAsync<MarketIndex>(
-                key: x => x.IndexId,
-                display: x => x.IndexCode,
-                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+                    key: x => x.IndexId,
+                    display: x => x.IndexCode,
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
+                .OrderByAsync(x => x.Display); ;
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetSecurityTypeDTOsAsync()
         {
             return await SelectDTOsAsync<SecurityType>(
-                key: x => x.SecurityTypeId,
-                display: x => x.SecurityTypeName,
-                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+                    key: x => x.SecurityTypeId,
+                    display: x => x.SecurityTypeName,
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
+                .OrderByAsync(x => x.Display); ;
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetSecurityTypeGroupDTOsAsync()
         {
             return await SelectDTOsAsync<SecurityTypeGroup>(
-                key: x => x.SecurityTypeGroupId,
-                display: x => x.SecurityTypeGroupName,
-                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+                    key: x => x.SecurityTypeGroupId,
+                    display: x => x.SecurityTypeGroupName,
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
+                .OrderByAsync(x => x.Display);
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetTransactableSecurityDTOsAsync()
@@ -259,13 +272,15 @@ namespace NjordFinance.ModelService.Query
                 .WithDirectRelationship(x => x.SecurityType)
                 .WithIndirectRelationship<SecurityType, SecurityTypeGroup>(x => x.SecurityTypeGroup);
 
-            return await queryBuilder.Build().SelectDTOsAsync(
-                predicate: x => x.SecurityType.SecurityTypeGroup.Transactable,
-                maxCount: 0,
-                key: x => x.SecurityId,
-                display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
-                defaultKey: default,
-                defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+            return await queryBuilder.Build()
+                .SelectDTOsAsync(
+                    predicate: x => x.SecurityType.SecurityTypeGroup.Transactable,
+                    maxCount: 0,
+                    key: x => x.SecurityId,
+                    display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
+                    defaultKey: default,
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
+                .OrderByAsync(x => x.Display);
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetModelAttributeMemberDTOsAsync(
@@ -282,7 +297,8 @@ namespace NjordFinance.ModelService.Query
                     maxCount: 0,
                     key: x => x.AttributeMemberId,
                     display: x => DisplayFor(x),
-                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder);
+                    defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
+               .OrderByAsync(x => x.Display);
         }
     }
 
@@ -312,4 +328,18 @@ namespace NjordFinance.ModelService.Query
             ?.SupportedScopes.ToStringArray() ?? Array.Empty<string>();
     }
     #endregion
+    static class QueryServiceExtension
+    {
+        /// <summary>
+        /// Orders this enumerable by the display value for each 
+        /// <see cref="LookupModel{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="lookupModelQueryTask"></param>
+        /// <returns>A task representing an asynchronous query call and subsequent re-ordering of 
+        /// the returned results.</returns>
+        public static async Task<IEnumerable<LookupModel<TKey, TValue>>> OrderByAsync<TKey, TValue>(
+            this Task<IEnumerable<LookupModel<TKey, TValue>>> lookupModelQueryTask,
+            Func<LookupModel<TKey, TValue>, TValue> keySelector)
+                => (await lookupModelQueryTask).OrderBy(keySelector);
+    }
 }

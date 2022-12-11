@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<Account>
 
-@inject IQueryService QueryService
-
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
 <ThemedComponent>
@@ -58,17 +56,21 @@
         try
         {
             var defaultModelTask = Controller.GetDefaultAsync();
-            var custodianListTask = QueryService
-                .SelectDTOsAsync<AccountCustodian, int, string>(
-                    key: x => x.AccountCustodianId,
-                    display: x => x.DisplayName,
-                    defaultKey: default,
-                    defaultDisplay: Resources.Strings.Caption_InputSelect_Placeholder);
+            var custodiansQuery = Controller.ReferenceQueries.GetAccountCustodianDTOsAsync();
 
-            Model = (await defaultModelTask).Value;
-            Custodians = await custodianListTask;
+            var dataTasks = Task.WhenAll(defaultModelTask, custodiansQuery);
+            await dataTasks;
 
-            ViewModel = new(Model);
+            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                Model = (await defaultModelTask).Value;
+                Custodians = (await custodiansQuery).Value;
+                ViewModel = new(Model);
+            }
+            else
+            {
+                throw dataTasks.Exception.Flatten();
+            }
         }
         finally
         {

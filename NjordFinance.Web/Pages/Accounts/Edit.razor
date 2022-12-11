@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<Account>
 
-@inject IQueryService QueryService
-
 <ThemedComponent>
     @if (IsLoading)
     {
@@ -64,21 +62,21 @@
         try
         {
             var accountQuery = Controller.ReadAsync(AccountId);
-            var custodiansQuery = QueryService
-                .SelectDTOsAsync<AccountCustodian, int, string>(
-                    key: x => x.AccountCustodianId,
-                    display: x => x.DisplayName,
-                    defaultKey: default,
-                    defaultDisplay: Resources.Strings.Caption_InputSelect_Placeholder);
+            var custodiansQuery = Controller.ReferenceQueries.GetAccountCustodianDTOsAsync();
 
-            if ((await accountQuery).Value is Account account)
+            var dataTasks = Task.WhenAll(accountQuery, custodiansQuery);
+            await dataTasks;
+
+            if(dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                Model = account;
+                Model = (await accountQuery).Value;
+                Custodians = (await custodiansQuery).Value;
+                ViewModel = new(Model);
             }
-
-            Custodians = await custodiansQuery;
-
-            ViewModel = new(Model);
+            else
+            {
+                throw dataTasks.Exception.Flatten();
+            }
         }
         finally
         {
