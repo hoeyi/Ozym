@@ -120,4 +120,7 @@
   <data name="BrokerTransactionBLL_IncompleteObjectGraph" xml:space="preserve">
     <value>Missing required related record {0} in object graph.</value>
   </data>
+  <data name="BrokerTransactionBLL_TaxLotStatus_NotSupported" xml:space="preserve">
+    <value>Argument '{0}' is not valid for this method.</value>
+  </data>
 </root>

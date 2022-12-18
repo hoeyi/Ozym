@@ -68,5 +68,14 @@ namespace NjordFinance.BusinessLogic {
                 return ResourceManager.GetString("BrokerTransactionBLL_IncompleteObjectGraph", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Argument &apos;{0}&apos; is not valid for this method..
+        /// </summary>
+        internal static string BrokerTransactionBLL_TaxLotStatus_NotSupported {
+            get {
+                return ResourceManager.GetString("BrokerTransactionBLL_TaxLotStatus_NotSupported", resourceCulture);
+            }
+        }
     }
 }
