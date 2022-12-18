@@ -26,6 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="BusinessLogic\ExceptionString.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExceptionString.resx</DependentUpon>
+    </Compile>
     <Compile Update="Context\Configuration\BuiltInStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -99,6 +104,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="BusinessLogic\ExceptionString.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Context\Configuration\BuiltInStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>BuiltInStrings.Designer.cs</LastGenOutput>

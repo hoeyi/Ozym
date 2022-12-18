@@ -5,7 +5,7 @@ using NjordFinance.Model.Validation;
 using NjordFinance.Configuration;
 using System.Xml;
 
-namespace NjordFinance.Test.Unit
+namespace NjordFinance.Test.ModelService.Validation
 {
     [TestClass]
     [TestCategory("UnitTest")]
