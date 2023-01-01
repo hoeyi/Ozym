@@ -30,6 +30,15 @@ namespace NjordFinance.Controllers.Abstractions
         }
 
         /// <inheritdoc/>
+        public async Task<ActionResult<IEnumerable<TSource>>> GetManyAsync<TSource>(
+            Expression<Func<TSource, bool>> predicate, 
+            Expression<Func<TSource, object>> path = null) where TSource : class, new()
+        {
+            return new ActionResult<IEnumerable<TSource>>(
+                await _queryService.GetManyAsync<TSource>(predicate, path));
+        }
+
+        /// <inheritdoc/>
         public async Task<ActionResult<TSource>> GetSingleAsync<TSource>(
             Expression<Func<TSource, bool>> predicate, 
             Expression<Func<TSource, object>> path = null) 

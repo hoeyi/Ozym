@@ -29,6 +29,19 @@ namespace NjordFinance.Controllers
             where TSource : class, new();
 
         /// <summary>
+        /// Returns a collection of <typeparamref name="TSource"/> models from the data store.
+        /// </summary>
+        /// <typeparam name="TSource">The model type to return.</typeparam>
+        /// <param name="predicate">The expression to match the <typeparamref name="TSource"/>.</param>
+        /// <param name="path">The path for the navigation property to include. 
+        /// The default is null, which does not load related data.</param>
+        /// <returns>The <typeparamref name="TSource"/> instance that matches the 
+        /// <paramref name="predicate"/>.</returns>
+        Task<ActionResult<IEnumerable<TSource>>> GetManyAsync<TSource>(
+            Expression<Func<TSource, bool>> predicate, Expression<Func<TSource, object>> path = null)
+            where TSource : class, new();
+
+        /// <summary>
         /// Selects all account custodian lookup DTOs.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing an asynchronous select query for 
