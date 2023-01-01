@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NjordFinance.ModelService
+﻿namespace NjordFinance.ModelService
 {
     /// <summary>
     /// Represents a simplified database record that is referenced in a foreign key relationship.

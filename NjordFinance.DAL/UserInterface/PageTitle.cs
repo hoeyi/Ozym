@@ -1,5 +1,4 @@
-﻿using Ichosys.DataModel;
-using Ichosys.DataModel.Annotations;
+﻿using Ichosys.DataModel.Annotations;
 using System;
 using Ichosys.Extensions.Common.Localization;
 using System.Reflection;

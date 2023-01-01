@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Identity;
 using NjordFinance.Model;
 using NjordFinance.Model.ViewModel.Generic;
 using NjordFinance.ModelService;

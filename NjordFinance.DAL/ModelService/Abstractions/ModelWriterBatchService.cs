@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using NjordFinance.Context;
 using NjordFinance.Logging;
 using System.Linq.Expressions;
-using NjordFinance.ModelMetadata;
 using Ichosys.DataModel.Annotations;
 
 namespace NjordFinance.ModelService.Abstractions

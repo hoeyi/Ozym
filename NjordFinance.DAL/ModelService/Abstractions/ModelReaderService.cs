@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
-using NjordFinance.Exceptions;
 using NjordFinance.Logging;
 using System;
 using System.Collections.Generic;

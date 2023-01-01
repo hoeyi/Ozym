@@ -8,9 +8,7 @@ using NjordFinance.Model;
 using NjordFinance.Model.ConstraintType;
 using NjordFinance.ModelService.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NjordFinance.ModelService.CustomWriters

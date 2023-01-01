@@ -1,13 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordFinance.BusinessLogic;
-using NjordFinance.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NjordFinance.Model;
 
-namespace NjordFinance.Test.BusinessLogic
+namespace NjordFinance.BusinessLogic.Test
 {
     [TestClass]
     [TestCategory("Unit")]

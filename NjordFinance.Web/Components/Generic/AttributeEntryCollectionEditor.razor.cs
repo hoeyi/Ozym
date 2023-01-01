@@ -5,9 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 using System;
-using Microsoft.AspNetCore.Components.Web;
 using NjordFinance.Model.ViewModel.Generic;
 
 namespace NjordFinance.Web.Components.Generic

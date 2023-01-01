@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NjordFinance.Context;
-using NjordFinance.Model;
-using NjordFinance.ModelMetadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;

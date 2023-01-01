@@ -1,12 +1,9 @@
 ﻿using NjordFinance.Model.Metadata;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NjordFinance.Model.ViewModel.Generic;
 using NjordFinance.Model.Annotations;
-using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow.ValueContentAnalysis;
-using System.Transactions;
 
 namespace NjordFinance.Model.ViewModel
 {

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.TagHelpers;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using NjordFinance.Context;
 using System;

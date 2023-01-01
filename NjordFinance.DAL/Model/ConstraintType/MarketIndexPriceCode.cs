@@ -1,8 +1,6 @@
 ﻿using NjordFinance.Model.Metadata;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using System.Security.AccessControl;
-using System.Xml.Linq;
 
 namespace NjordFinance.Model
 {

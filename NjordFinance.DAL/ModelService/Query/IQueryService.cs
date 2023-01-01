@@ -4,17 +4,10 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NjordFinance.ModelMetadata;
-using NjordFinance.ModelService.Query;
 using NjordFinance.Model.Annotations;
 using System.Reflection;
 using NjordFinance.Model.ViewModel.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore.Update;
-using Newtonsoft.Json.Linq;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
-using Microsoft.CodeAnalysis.CSharp;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace NjordFinance.ModelService.Query
 {

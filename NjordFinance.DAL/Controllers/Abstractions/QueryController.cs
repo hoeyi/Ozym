@@ -4,9 +4,7 @@ using NjordFinance.ModelService;
 using NjordFinance.ModelService.Query;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NjordFinance.Controllers.Abstractions
