@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NjordFinance.BusinessLogic\NjordFinance.BusinessLogic.csproj" />
     <ProjectReference Include="..\NjordFinance.DAL\NjordFinance.DAL.csproj" />
   </ItemGroup>
 
