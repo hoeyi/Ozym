@@ -8,6 +8,7 @@ using NjordFinance.Model.Annotations;
 using System.Reflection;
 using NjordFinance.Model.ViewModel.Generic;
 using System.Linq;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace NjordFinance.ModelService.Query
 {
@@ -161,7 +162,7 @@ namespace NjordFinance.ModelService.Query
                     display: x => x.DisplayName,
                     defaultKey: default,
                     defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
-                .OrderByAsync(x => x.Display); ;
+                .OrderByWithDefaultFirstAsync();
         }
         
         async Task<IEnumerable<LookupModel<int, string>>> GetAccountDTOsAsync()
@@ -175,7 +176,7 @@ namespace NjordFinance.ModelService.Query
                     display: x => x.AccountCode,
                     defaultKey: default,
                     defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
-                .OrderByAsync(x => x.Display);
+                .OrderByWithDefaultFirstAsync();
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetBankTransactionCodeDTOsAsync()
@@ -184,7 +185,7 @@ namespace NjordFinance.ModelService.Query
                     key: x => x.TransactionCodeId,
                     display: x => x.TransactionCode,
                     defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
-                .OrderByAsync(x => x.Display); ;
+                .OrderByWithDefaultFirstAsync();
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetBrokerTransactionCodeDTOsAsync()
@@ -193,7 +194,7 @@ namespace NjordFinance.ModelService.Query
                     key: x => x.TransactionCodeId,
                     display: x => x.DisplayName,
                     defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
-                .OrderByAsync(x => x.Display); ;
+                .OrderByWithDefaultFirstAsync();
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetCashOrExternalSecurityDTOsAsync()
@@ -211,7 +212,7 @@ namespace NjordFinance.ModelService.Query
                     display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
                     defaultKey: default,
                     defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
-                .OrderByAsync(x => x.Display);
+                .OrderByWithDefaultFirstAsync();
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetCryptocurrencyDTOsAsync()
@@ -228,7 +229,7 @@ namespace NjordFinance.ModelService.Query
                     display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
                     defaultKey: default,
                     defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
-                .OrderByAsync(x => x.Display); ;
+                .OrderByWithDefaultFirstAsync();
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetMarketIndexDTOsAsync()
@@ -237,7 +238,7 @@ namespace NjordFinance.ModelService.Query
                     key: x => x.IndexId,
                     display: x => x.IndexCode,
                     defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
-                .OrderByAsync(x => x.Display); ;
+                .OrderByWithDefaultFirstAsync();
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetSecurityTypeDTOsAsync()
@@ -246,7 +247,7 @@ namespace NjordFinance.ModelService.Query
                     key: x => x.SecurityTypeId,
                     display: x => x.SecurityTypeName,
                     defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
-                .OrderByAsync(x => x.Display); ;
+                .OrderByWithDefaultFirstAsync();
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetSecurityTypeGroupDTOsAsync()
@@ -255,7 +256,7 @@ namespace NjordFinance.ModelService.Query
                     key: x => x.SecurityTypeGroupId,
                     display: x => x.SecurityTypeGroupName,
                     defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
-                .OrderByAsync(x => x.Display);
+                .OrderByWithDefaultFirstAsync();
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetTransactableSecurityDTOsAsync()
@@ -273,7 +274,7 @@ namespace NjordFinance.ModelService.Query
                     display: x => $"{x.SecuritySymbol ?? "----"} {x.SecurityDescription}",
                     defaultKey: default,
                     defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
-                .OrderByAsync(x => x.Display);
+                .OrderByWithDefaultFirstAsync();
         }
 
         async Task<IEnumerable<LookupModel<int, string>>> GetModelAttributeMemberDTOsAsync(
@@ -291,7 +292,7 @@ namespace NjordFinance.ModelService.Query
                     key: x => x.AttributeMemberId,
                     display: x => DisplayFor(x),
                     defaultDisplay: UserInterface.Strings.Caption_InputSelect_Placeholder)
-               .OrderByAsync(x => x.Display);
+                .OrderByWithDefaultFirstAsync();
         }
     }
 
@@ -324,15 +325,20 @@ namespace NjordFinance.ModelService.Query
     static class QueryServiceExtension
     {
         /// <summary>
-        /// Orders this enumerable by the display value for each 
-        /// <see cref="LookupModel{TKey, TValue}"/>.
+        /// Orders this enumerbale collection by the records with the default <typeparamref name="TKey"/> 
+        /// value first, then by the <typeparamref name="TDisplay"/> display value of the record.
         /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TDisplay"></typeparam>
         /// <param name="lookupModelQueryTask"></param>
-        /// <returns>A task representing an asynchronous query call and subsequent re-ordering of 
+        /// <returns>A <see cref="Task"/> representing an asynchronous query call and subsequent re-ordering of 
         /// the returned results.</returns>
-        public static async Task<IEnumerable<LookupModel<TKey, TValue>>> OrderByAsync<TKey, TValue>(
-            this Task<IEnumerable<LookupModel<TKey, TValue>>> lookupModelQueryTask,
-            Func<LookupModel<TKey, TValue>, TValue> keySelector)
-                => (await lookupModelQueryTask).OrderBy(keySelector);
+        public static async Task<IEnumerable<LookupModel<TKey, TDisplay>>>
+            OrderByWithDefaultFirstAsync<TKey, TDisplay>(
+                this Task<IEnumerable<LookupModel<TKey, TDisplay>>> lookupModelQueryTask)
+            => (await lookupModelQueryTask)
+                .OrderByDescending(x => x.Key.Equals(default(TKey)))
+                .ThenBy(x => x.Display)
+                .ToList();
     }
 }

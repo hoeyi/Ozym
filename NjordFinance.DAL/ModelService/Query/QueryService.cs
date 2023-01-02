@@ -29,6 +29,7 @@ namespace NjordFinance.ModelService.Query
                 return _contextFactory.CreateDbContext();
             }
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryService"/> class.
         /// </summary>
@@ -43,7 +44,7 @@ namespace NjordFinance.ModelService.Query
             _contextFactory = contextFactory;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc/> 
         public IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
         where TSource : class, new() =>
             new QueryBuilder<TSource>(context: NewDbContext());
@@ -101,7 +102,7 @@ namespace NjordFinance.ModelService.Query
 
             // Match the first or default result. Use of object.Equals could be problematic, 
             // but need more information. May be fine since TKey will almost always be an integer.
-            var firstMatchDTO = dtos?.FirstOrDefault(x => key.Equals(x));
+            var firstMatchDTO = dtos?.FirstOrDefault(x => x.Key.Equals(key));
 
             if (firstMatchDTO is null)
                 return default;
