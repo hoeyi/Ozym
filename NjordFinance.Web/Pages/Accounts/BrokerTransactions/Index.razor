@@ -30,14 +30,14 @@
                             Property="@nameof(BrokerTransaction.TransactionCodeId)"
                             Caption="@NameFor(x => x.TransactionCodeId)">
                             <CellTemplate Context="model">
-                                @DepositSecurities.GetDisplayName(model.TransactionCodeId)
+                                @TransactionCodes.GetDisplayName(model.TransactionCodeId)
                             </CellTemplate>
                         </DataGridColumn>
                         <DataGridColumn
                             Property="@nameof(BrokerTransaction.SecurityId)"
                             Caption="@NameFor(x => x.SecurityId)">
                             <CellTemplate Context="model">
-                                @DepositSecurities.GetDisplayName(model.SecurityId)
+                                @TransactableSecurities.GetDisplayName(model.SecurityId)
                             </CellTemplate>
                         </DataGridColumn>
                         <DataGridColumn
