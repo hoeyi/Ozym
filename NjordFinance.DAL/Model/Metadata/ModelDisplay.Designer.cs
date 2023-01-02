@@ -2176,7 +2176,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (no symbol).
+        ///   Looks up a localized string similar to none.
         /// </summary>
         public static string Security_CurrentSecuritySymbol_Empty {
             get {

@@ -1021,7 +1021,7 @@
     <value>Valuation Factor</value>
   </data>
   <data name="Security_CurrentSecuritySymbol_Empty" xml:space="preserve">
-    <value>(no symbol)</value>
+    <value>none</value>
   </data>
   <data name="Security_CurrentSymbol_Description" xml:space="preserve">
     <value>The current symbol of the security.</value>
