@@ -6,6 +6,33 @@ namespace NjordFinance.BusinessLogic.Test
     [TestCategory("Unit")]
     public class BrokerTransactionBLLTest
     {
+        private static readonly List<BrokerTransactionCode> _exampleTransactionCodes = new()
+        {
+            new()
+            {
+                DisplayName = "QuantityEffect-Zero",
+                TransactionCodeId = 0,
+                QuantityEffect = 0
+            },
+            new()
+            {
+                DisplayName = "QuantityEffect-MinusOne",
+                TransactionCodeId = -1,
+                QuantityEffect = -1
+            },
+            new()
+            {
+                DisplayName = "QuantityEffect-PlusOne",
+                TransactionCodeId = -1,
+                QuantityEffect = 1
+            }
+        };
+
+        private static readonly Account _exampleAccount = new()
+        {
+            AccountId = -1
+        };
+
         [TestMethod]
         public void Constructor_WithRelatedTransactionCodeObject_ReturnsInstance()
         {
@@ -26,7 +53,9 @@ namespace NjordFinance.BusinessLogic.Test
                             QuantityEffect = 0
                         }
                     }
-                });
+                },
+                _exampleTransactionCodes,
+                _exampleAccount);
 
             Assert.IsInstanceOfType(brokerTranssactionBLL, typeof(BrokerTransactionBLL));
         }
@@ -46,7 +75,10 @@ namespace NjordFinance.BusinessLogic.Test
                         Quantity = 100M,
                         Amount = 1000M,
                     }
-                });
+                },
+                _exampleTransactionCodes,
+                _exampleAccount);
+
 
             Assert.ThrowsException<InvalidOperationException>(brokerTranssactionBLLBuilder);
         }
@@ -60,7 +92,9 @@ namespace NjordFinance.BusinessLogic.Test
                     // Add transactions that create taxlots
                     SampleTransaction_QuantityEffect_IsAboveZero,
                     SampleTransaction_QuantityEffect_IsAboveZero_FromTradeDate
-                });
+                },
+                _exampleTransactionCodes,
+                _exampleAccount);
 
             TaxLotStatus include = TaxLotStatus.Open | TaxLotStatus.Closed;
 
@@ -78,7 +112,9 @@ namespace NjordFinance.BusinessLogic.Test
                     // Add transactions that do not create taxlots
                     SampleTransaction_QuantityEffect_IsZero,
                     SampleTransaction_QuantityEffect_IsBelowZero
-                });
+                },
+                _exampleTransactionCodes,
+                _exampleAccount);
 
             var taxLots = brokerTransactionBLL.GetTaxLots(TaxLotStatus.Open | TaxLotStatus.Closed);
 
@@ -98,7 +134,9 @@ namespace NjordFinance.BusinessLogic.Test
                     // Add transactions that do not create taxlots
                     SampleTransaction_QuantityEffect_IsZero,
                     SampleTransaction_QuantityEffect_IsBelowZero
-                });
+                },
+                _exampleTransactionCodes,
+                _exampleAccount);
 
             var taxLots = brokerTransactionBLL.GetTaxLots(TaxLotStatus.Open | TaxLotStatus.Closed);
 
@@ -113,7 +151,9 @@ namespace NjordFinance.BusinessLogic.Test
                 {
                     SampleTransaction_QuantityEffect_IsAboveZero,
                     SampleTransaction_QuantityEffect_IsAboveZero_FromTradeDate
-                });
+                },
+                _exampleTransactionCodes,
+                _exampleAccount);
 
             var taxLots = brokerTransactionBLL.GetTaxLots(TaxLotStatus.Open);
 
@@ -160,7 +200,9 @@ namespace NjordFinance.BusinessLogic.Test
                         },
                         TaxLotId = 0
                     }
-                });
+                },
+                _exampleTransactionCodes,
+                _exampleAccount);
 
             // Define the expected tax lot, which:
             // - Lowers the unclosed quantity by 10
@@ -231,7 +273,9 @@ namespace NjordFinance.BusinessLogic.Test
                         },
                         TaxLotId = 0
                     }
-                });
+                },
+                _exampleTransactionCodes,
+                _exampleAccount);
 
             // Execute the test method.
             var taxLots = transactionBLL.GetTaxLots(TaxLotStatus.Open);
@@ -280,7 +324,9 @@ namespace NjordFinance.BusinessLogic.Test
                         },
                         TaxLotId = 0
                     }
-                });
+                },
+                _exampleTransactionCodes,
+                _exampleAccount);
 
             // Define the expected tax lot, which:
             // - Lowers the unclosed quantity by 10
@@ -351,7 +397,9 @@ namespace NjordFinance.BusinessLogic.Test
                         },
                         TaxLotId = 0
                     }
-                });
+                },
+                _exampleTransactionCodes,
+                _exampleAccount);
 
             // Execute the test method.
             var taxLots = transactionBLL.GetTaxLots(TaxLotStatus.Closed);
