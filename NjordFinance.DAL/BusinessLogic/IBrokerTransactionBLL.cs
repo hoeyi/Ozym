@@ -1,4 +1,5 @@
 ﻿using NjordFinance.Model;
+using System.Collections.Generic;
 
 namespace NjordFinance.BusinessLogic
 {

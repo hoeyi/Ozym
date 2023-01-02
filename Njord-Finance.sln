@@ -25,10 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 		ScaffoldNjordDbContext.bat = ScaffoldNjordDbContext.bat
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NjordFinance.BusinessLogic", "NjordFinance.BusinessLogic\NjordFinance.BusinessLogic.csproj", "{F259D0A7-2E1A-4D1F-90C7-C713E51268C8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NjordFinance.BusinessLogic.Test", "NjordFinance.BusinessLogic.Test\NjordFinance.BusinessLogic.Test.csproj", "{0754D08F-6A04-4CE9-BAD6-4EBB448B0638}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,14 +47,6 @@ Global
 		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F259D0A7-2E1A-4D1F-90C7-C713E51268C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F259D0A7-2E1A-4D1F-90C7-C713E51268C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F259D0A7-2E1A-4D1F-90C7-C713E51268C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F259D0A7-2E1A-4D1F-90C7-C713E51268C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0754D08F-6A04-4CE9-BAD6-4EBB448B0638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0754D08F-6A04-4CE9-BAD6-4EBB448B0638}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0754D08F-6A04-4CE9-BAD6-4EBB448B0638}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0754D08F-6A04-4CE9-BAD6-4EBB448B0638}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

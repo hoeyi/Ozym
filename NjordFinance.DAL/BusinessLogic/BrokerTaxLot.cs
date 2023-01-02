@@ -1,4 +1,5 @@
 ﻿using NjordFinance.Model;
+using System;
 
 namespace NjordFinance.BusinessLogic
 {
