@@ -70,6 +70,15 @@ namespace NjordFinance.BusinessLogic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Record set passed to the constructor contains a mix of account identifiers. Business logic for this data supports working collections for a single account at a time..
+        /// </summary>
+        internal static string BrokerTransactionBLL_InvalidCollectionParent {
+            get {
+                return ResourceManager.GetString("BrokerTransactionBLL_InvalidCollectionParent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Argument &apos;{0}&apos; is not valid for this method..
         /// </summary>
         internal static string BrokerTransactionBLL_TaxLotStatus_NotSupported {

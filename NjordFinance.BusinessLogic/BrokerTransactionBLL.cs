@@ -1,4 +1,6 @@
 ﻿using NjordFinance.Model;
+using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace NjordFinance.BusinessLogic
 {
@@ -21,22 +23,49 @@ namespace NjordFinance.BusinessLogic
         Closed = 2
     }
 
-    public class BrokerTransactionBLL
+    /// <summary>
+    /// Represents the collection of business rules for modifying <see cref="BrokerTransaction"/> 
+    /// records as children of an <see cref="Account"/> record.
+    /// </summary>
+    public class BrokerTransactionBLL : IBrokerTransactionBLL
     {
-        private readonly IList<BrokerTransaction> _brokerTransactions;
-        public BrokerTransactionBLL(IList<BrokerTransaction> brokerTransactions)
+        private readonly BindingList<BrokerTransaction> _brokerTransactions;
+        private readonly IEnumerable<BrokerTransactionCode> _brokerTransactionCodes;
+        private readonly Account _parentAccount;
+        public BrokerTransactionBLL(
+            IList<BrokerTransaction> brokerTransactions,
+            IEnumerable<BrokerTransactionCode> transactionCodes,
+            Account parentAccount)
         {
             if (brokerTransactions is null)
                 throw new ArgumentNullException(paramName: nameof(brokerTransactions));
 
+            if (transactionCodes is null)
+                throw new ArgumentNullException(paramName: nameof(transactionCodes));
+
+            if (parentAccount is null)
+                throw new ArgumentNullException(paramName: nameof(parentAccount));
+
             if (brokerTransactions.Any(x => x.TransactionCode is null))
                 throw new InvalidOperationException(message:
                     string.Format(
-                        ExceptionString.BrokerTransactionBLL_IncompleteObjectGraph, 
+                        ExceptionString.BrokerTransactionBLL_IncompleteObjectGraph,
                         nameof(BrokerTransaction.TransactionCode)));
 
-            _brokerTransactions = brokerTransactions;
+            if (brokerTransactions.Any(x => x.AccountId != parentAccount.AccountId))
+                throw new InvalidOperationException(
+                    message: ExceptionString.BrokerTransactionBLL_InvalidCollectionParent);
+
+            _brokerTransactions = new(brokerTransactions);
+            _brokerTransactionCodes = transactionCodes;
+            _parentAccount = parentAccount;
+
+            //_brokerTransactions.CollectionChanged += BrokerTransactions_OnCollectionChanged;
+            //_brokerTransactions.ListChanged += BrokerTransactions_ListChanged;
         }
+
+        /// <inheritdoc/>
+        public IReadOnlyCollection<BrokerTransaction> Entries => _brokerTransactions;
 
         /// <summary>
         /// Gets an enumeration of <see cref="BrokerTransaction"/> records that create tax lots.
@@ -57,15 +86,46 @@ namespace NjordFinance.BusinessLogic
                     && x.AccountId != default
                     && x.SecurityId != default
                     && x.TaxLotId is not null);
+
+        /// <inheritdoc/>
+        public BrokerTransaction AddTransaction()
+        {
+            BrokerTransaction newTransaction = new()
+            {
+                TransactionCodeId = default,
+                TransactionCode = _brokerTransactionCodes
+                    .FirstOrDefault(x => x.TransactionCodeId == default),
+                AccountId = _parentAccount.AccountId
+            };
+
+            _brokerTransactions.Insert(0, newTransaction);
+
+            return newTransaction;
+        }
+
+        /// <inheritdoc/>
+        public void UpdateTransactionCode(BrokerTransaction model, int newId)
+        {
+            if (model is null)
+                throw new ArgumentNullException(paramName: nameof(model));
+
+            if (model.TransactionCodeId == newId &&
+                (model.TransactionCode?.TransactionCodeId ?? newId * -1) == newId)
+                return;
+
+            model.TransactionCodeId = newId;
+            model.TransactionCode = _brokerTransactionCodes
+                .FirstOrDefault(x => x.TransactionCodeId == newId);
+        }
+
+        /// <inheritdoc/>
+        public void RemoveTransaction(BrokerTransaction model) => _brokerTransactions.Remove(model);
         
-        /// <summary>
-        /// Gets the collection of <see cref="BrokerTaxLot"/> for this instance, subject to the 
-        /// value(s) of <see cref="TaxLotStatus"/> provided.
-        /// </summary>
-        /// <param name="taxLotStatus">The status of the tax lot to return.
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTaxLot"/>.</returns>
-        /// <exception cref="NotSupportedException">The value of passed to 
-        /// <paramref name="taxLotStatus"/> is not valid for this method.</exception>
+        /// <inheritdoc/>
+        public void RevertRemoveTransaction(BrokerTransaction model) 
+            => _brokerTransactions.Add(model);
+
+        /// <inheritdoc/>
         public IEnumerable<BrokerTaxLot> GetTaxLots(TaxLotStatus taxLotStatus)
         {
             return taxLotStatus switch
@@ -75,7 +135,8 @@ namespace NjordFinance.BusinessLogic
                 TaxLotStatus.Closed => GetClosedTaxLots(),
                 _ => throw new NotSupportedException(
                     message: string.Format(
-                    ExceptionString.BrokerTransactionBLL_TaxLotStatus_NotSupported, taxLotStatus))
+                        ExceptionString.BrokerTransactionBLL_TaxLotStatus_NotSupported,
+                        taxLotStatus))
             };
         }
 
@@ -111,7 +172,7 @@ namespace NjordFinance.BusinessLogic
         private IEnumerable<BrokerTaxLot> GetOpenTaxLots() =>
             GetBrokerTaxLotsWithUnclosedQuantity()
                 .Where(x => x.UnclosedQuantity > 0);
-        
+
         /// <summary>
         /// Gets a collection of <see cref="BrokerTaxLotActivitySummary"/> representing each tax
         /// lot observed in the <see cref="BrokerTransaction"/> collection, combined with closing 
@@ -130,21 +191,22 @@ namespace NjordFinance.BusinessLogic
                     QuantityClosed = x.Sum(y => y.Quantity * y.TransactionCode.QuantityEffect)
                 });
 
-                return from tl in taxLots
-                       join ca in closingActivity on tl.TaxLotId equals ca.TaxLotId into ir
-                       from summary in ir.DefaultIfEmpty()
-                       select new BrokerTaxLot()
-                       {
-                           TaxLotId = tl.TaxLotId,
-                           AccountId = tl.AccountId,
-                           SecurityId = tl.SecurityId,
-                           AcquisitionDate = tl.AcquisitionDate,
-                           OriginalCostBasis = tl.OriginalCostBasis,
-                           OriginalQuantity = tl.OriginalQuantity,
-                           UnclosedQuantity = tl.OriginalQuantity + (summary?.QuantityClosed ?? 0)
-                       };
+            return from tl in taxLots
+                   join ca in closingActivity on tl.TaxLotId equals ca.TaxLotId into ir
+                   from summary in ir.DefaultIfEmpty()
+                   select new BrokerTaxLot()
+                   {
+                       TaxLotId = tl.TaxLotId,
+                       AccountId = tl.AccountId,
+                       SecurityId = tl.SecurityId,
+                       AcquisitionDate = tl.AcquisitionDate,
+                       OriginalCostBasis = tl.OriginalCostBasis,
+                       OriginalQuantity = tl.OriginalQuantity,
+                       UnclosedQuantity = tl.OriginalQuantity + (summary?.QuantityClosed ?? 0)
+                   };
 
         }
+
     }
 
     /// <summary>
