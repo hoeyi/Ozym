@@ -64,16 +64,17 @@ namespace NjordFinance.Model
         /// the current system date and time.
         /// </summary>
         [NotMapped]
-        public string SecuritySymbol
-        {
-            get
-            {
-                return SecuritySymbols?.
-                    Where(s => s.EffectiveDate < DateTime.Now)
-                    ?.OrderByDescending(s => s.EffectiveDate)
-                    ?.FirstOrDefault()
-                    ?.SymbolCode ?? ModelDisplay.Security_CurrentSecuritySymbol_Empty;
-            }
-        }
+        public string SecuritySymbol => 
+            $"({CurrentSecuritySymbol?.SymbolCode?.ToUpper() ?? ModelDisplay.Security_CurrentSecuritySymbol_Empty})";
+
+        /// <summary>
+        /// Gets the current symbol based on the current UTC system time.
+        /// </summary>
+        [NotMapped]
+        private SecuritySymbol? CurrentSecuritySymbol =>
+            SecuritySymbols?.
+                Where(s => s.EffectiveDate < DateTime.UtcNow.Date)
+                ?.OrderByDescending(s => s.EffectiveDate)
+                ?.FirstOrDefault();
     }
 }

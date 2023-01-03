@@ -3,7 +3,7 @@ using NjordFinance.Controllers.Abstractions;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
 using NjordFinance.ModelService.Query;
-
+using NjordFinance.BusinessLogic;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace NjordFinance
@@ -112,7 +112,8 @@ namespace NjordFinance
                 .AddScoped<IBatchController<BankTransaction>, ModelBatchController<BankTransaction>>()
                 .AddScoped<IBatchController<BankTransactionCode>, ModelBatchController<BankTransactionCode>>()
                 .AddScoped<IBatchController<BankTransactionCodeAttributeMemberEntry>, ModelBatchController<BankTransactionCodeAttributeMemberEntry>>()
-                .AddScoped<IBatchController<BrokerTransaction>, ModelBatchController<BrokerTransaction>>()
+                //.AddScoped<IBatchController<BrokerTransaction>, ModelBatchController<BrokerTransaction>>()
+                .AddScoped<IBrokerTransactionController, BrokerTransactionController>()
                 .AddScoped<IBatchController<BrokerTransactionCode>, ModelBatchController<BrokerTransactionCode>>()
                 .AddScoped<IBatchController<BrokerTransactionCodeAttributeMemberEntry>, ModelBatchController<BrokerTransactionCodeAttributeMemberEntry>>()
                 .AddScoped<IBatchController<CountryAttributeMemberEntry>, ModelBatchController<CountryAttributeMemberEntry>>()

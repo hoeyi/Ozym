@@ -4,9 +4,7 @@ using NjordFinance.ModelService;
 using NjordFinance.ModelService.Query;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NjordFinance.Controllers.Abstractions
@@ -29,6 +27,15 @@ namespace NjordFinance.Controllers.Abstractions
 
             _queryService = queryService;
             _logger = logger;
+        }
+
+        /// <inheritdoc/>
+        public async Task<ActionResult<IEnumerable<TSource>>> GetManyAsync<TSource>(
+            Expression<Func<TSource, bool>> predicate, 
+            Expression<Func<TSource, object>> path = null) where TSource : class, new()
+        {
+            return new ActionResult<IEnumerable<TSource>>(
+                await _queryService.GetManyAsync<TSource>(predicate, path));
         }
 
         /// <inheritdoc/>

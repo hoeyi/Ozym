@@ -1,13 +1,10 @@
 ﻿using Ichosys.DataModel.Annotations;
 using NjordFinance.UserInterface;
 using NjordFinance.Web.Components.Shared;
-using System.Linq.Expressions;
 using System;
 using System.Linq;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography;
-using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Web.Components.Generic
 {

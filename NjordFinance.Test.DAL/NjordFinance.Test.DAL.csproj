@@ -31,4 +31,8 @@
     <ProjectReference Include="..\NjordFinance.DAL\NjordFinance.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Unit\" />
+  </ItemGroup>
+
 </Project>

@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Model;
 using NjordFinance.Model.ConstraintType;
-using NjordFinance.ModelMetadata;
 using NjordFinance.ModelService.Abstractions;
 using NjordFinance.ModelService.CustomWriters;
 

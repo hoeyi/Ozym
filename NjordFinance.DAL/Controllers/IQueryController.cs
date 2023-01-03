@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NjordFinance.Model;
 using NjordFinance.ModelService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NjordFinance.Controllers
@@ -28,6 +26,19 @@ namespace NjordFinance.Controllers
         Task<ActionResult<TSource>> GetSingleAsync<TSource>(
             Expression<Func<TSource, bool>> predicate,
             Expression<Func<TSource, object>> path = null)
+            where TSource : class, new();
+
+        /// <summary>
+        /// Returns a collection of <typeparamref name="TSource"/> models from the data store.
+        /// </summary>
+        /// <typeparam name="TSource">The model type to return.</typeparam>
+        /// <param name="predicate">The expression to match the <typeparamref name="TSource"/>.</param>
+        /// <param name="path">The path for the navigation property to include. 
+        /// The default is null, which does not load related data.</param>
+        /// <returns>The <typeparamref name="TSource"/> instance that matches the 
+        /// <paramref name="predicate"/>.</returns>
+        Task<ActionResult<IEnumerable<TSource>>> GetManyAsync<TSource>(
+            Expression<Func<TSource, bool>> predicate, Expression<Func<TSource, object>> path = null)
             where TSource : class, new();
 
         /// <summary>

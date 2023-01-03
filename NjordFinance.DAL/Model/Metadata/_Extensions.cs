@@ -1,13 +1,8 @@
-﻿using Ichosys.DataModel;
-using Ichosys.DataModel.Annotations;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NjordFinance.Model;
+﻿using NjordFinance.Model;
 using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 
 namespace NjordFinance.ModelMetadata
 {

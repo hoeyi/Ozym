@@ -47,7 +47,7 @@ namespace NjordFinance.Test.ModelService
             var updated = context.BrokerTransactionCodes
                 .FirstOrDefault(x => x.TransactionCodeId == original.TransactionCodeId);
 
-            Assert.IsTrue(result && TestUtility.SimplePropertiesAreEqual(updated, original));
+            Assert.IsTrue(result && !TestUtility.SimplePropertiesAreEqual(updated, original));
         }
     }
     public partial class BrokerTransactionCodeServiceTest

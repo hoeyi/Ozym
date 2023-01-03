@@ -4,7 +4,7 @@ using NjordFinance.ModelService.Abstractions;
 using NjordFinance.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NjordFinance.Test.Unit
+namespace NjordFinance.Test.ModelService.Abstractions
 {
     [TestClass]
     [TestCategory("UnitTest")]
