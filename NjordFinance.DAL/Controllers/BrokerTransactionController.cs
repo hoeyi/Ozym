@@ -30,7 +30,7 @@ namespace NjordFinance.Controllers
 
         public async Task<IActionResult> AddNewAsync()
         {
-            var newModel = new BrokerTransaction();
+            var newModel = _transactionBLL.AddTransaction();
             await UpdateTransactionCodeAsync(newModel, newModel.TransactionCodeId);
 
             return await AddAsync(newModel);
@@ -38,10 +38,10 @@ namespace NjordFinance.Controllers
 
         public override async Task<IActionResult> DeleteOrDetachAsync(BrokerTransaction model)
         {
-            var result = await base.DeleteOrDetachAsync(model);
-
             _transactionBLL.RemoveTransaction(model);
 
+            var result = await base.DeleteOrDetachAsync(model);
+            
             return result;
         }
         /// <inheritdoc/>
