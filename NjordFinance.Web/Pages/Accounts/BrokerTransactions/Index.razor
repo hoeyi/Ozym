@@ -2,7 +2,7 @@
 
 @inherits ModelPage<BrokerTransaction>
 
-@inject IBatchController<BrokerTransaction> Controller
+@inject IBrokerTransactionController Controller
 
 <ThemedComponent>
     @if (IsLoading)
@@ -160,7 +160,7 @@
                         predicate: a => a.AccountId == AccountId,
                         path: a => a.AccountNavigation)).Value;
 
-            var initResult = Controller.ForParent(ParentAccount.AccountId);
+            var initResult = await Controller.ForParent(ParentAccount.AccountId);
 
             if (initResult is not OkResult)
                 throw new InvalidOperationException();

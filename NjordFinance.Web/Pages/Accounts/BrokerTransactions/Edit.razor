@@ -2,7 +2,7 @@
 
 @inherits ModelPage<BrokerTransaction>
 
-@inject IBatchController<BrokerTransaction> Controller
+@inject IBrokerTransactionController Controller
 
 <ThemedComponent>
     @if (IsLoading)
@@ -21,7 +21,7 @@
                 {
                     <div class="error-text">@ErrorMessage</div>
                 }
-                <EditForm width="100%" Model="@BrokerTransactions">
+                <EditForm width="100%" Model="@Entries">
                     <ActionButtonMenu>
                         <button class="form-control button"
                             @onclick="@(async (args) => await Submit_OnClick(context, args))">
@@ -38,14 +38,17 @@
                     </ActionButtonMenu>
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <DataGrid Data="@BrokerTransactions">
+                    <DataGrid Data="@Entries">
                         <DataGridColumn 
                             Type="DataGridCellType.Control"
                             Property="@nameof(BrokerTransaction.TransactionCodeId)"
                             Caption="@NameFor(x => x.TransactionCodeId)">
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
-                                    @bind-Value="@model.TransactionCodeId">
+                                    ValueExpression="@(() => model.TransactionCodeId)"
+                                    Value="@model.TransactionCodeId"
+                                    ValueChanged="@(async (int id) => 
+                                        await TransactionCode_OnValueChanged(model, id))">
                                     @foreach (var lookup in TransactionCodes)
                                     {
                                         <option value=@lookup.Key>@lookup.Display</option>
@@ -154,7 +157,7 @@
     [Parameter]
     public int AccountId { get; set; }
 
-    private IList<BrokerTransaction> BrokerTransactions { get; set; }
+    private IEnumerable<BrokerTransaction> Entries { get; set; }
 
     private IEnumerable<LookupModel<int, string>> DepositSecurities { get; set; }
 
@@ -174,50 +177,46 @@
                 .GetTransactableSecurityDTOsAsync();
             var depositySecurityDTOsTask = Controller.ReferenceQueries
                 .GetCashOrExternalSecurityDTOsAsync();
-            var trasnsactionCodeDTOsTask = Controller.ReferenceQueries
+            var transactionCodeDTOsTask = Controller.ReferenceQueries
                 .GetBrokerTransactionCodeDTOsAsync();
+            var parentAccountTask = Controller.ReferenceQueries
+                .GetSingleAsync<Account>(
+                    predicate: x => x.AccountId == AccountId,
+                    path: x => x.AccountNavigation);
+            var loadRecordsTask = Controller.LoadRecordsAsync(parentId: AccountId);
 
-            ParentAccount = (
-                await Controller.ReferenceQueries
-                    .GetSingleAsync<Account>(
-                        predicate: a => a.AccountId == AccountId,
-                        path: a => a.AccountNavigation)).Value;
-
-            var initResult = Controller.ForParent(ParentAccount.AccountId);
-
-            if (initResult is not OkResult)
-                throw new InvalidOperationException();
-
-            var transactionListTask = Controller.SelectAllAsync();
-
-            var dataTasks = Task.WhenAll(
-                transactionListTask,
+            var initTasks = Task.WhenAll(
                 securityDTOsTask,
                 depositySecurityDTOsTask,
-                trasnsactionCodeDTOsTask);
-            await dataTasks;
+                transactionCodeDTOsTask,
+                parentAccountTask,
+                loadRecordsTask);
 
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            await initTasks;
+
+            if (initTasks.Status == TaskStatus.RanToCompletion)
             {
-                BrokerTransactions = (await transactionListTask).Value;
+                //BrokerTransactions = (await transactionListTask).Value;
                 DepositSecurities = (await depositySecurityDTOsTask).Value;
                 TransactableSecurities = (await securityDTOsTask).Value;
-                TransactionCodes = (await trasnsactionCodeDTOsTask).Value;
-                
-                if (!BrokerTransactions.Any())
+                TransactionCodes = (await transactionCodeDTOsTask).Value;
+                Entries = (await loadRecordsTask);
+                ParentAccount = (await parentAccountTask).Value;
+
+                if (!Entries.Any())
                 {
                     await AddNewAsync(args: null);
-                }
+                } 
+
             }
             else
             {
-                throw dataTasks.Exception.Flatten();
+                throw initTasks.Exception.Flatten();
             }
         }
         finally
         {
-            IsLoading = BrokerTransactions is null 
-                || ParentAccount is null 
+            IsLoading = ParentAccount is null
                 || DepositSecurities is null
                 || TransactionCodes is null
                 || TransactableSecurities is null;
@@ -233,26 +232,30 @@
     {
         // TODO: Do something with MouseEventArgs?
 
-        var getDefaultTask = await Controller.GetDefaultAsync();
-        await Controller.AddAsync(getDefaultTask.Value);
+        await Controller.AddNewAsync();
 
-        if (getDefaultTask.Value is BrokerTransaction brokerTransaction)
-            BrokerTransactions.Insert(0, brokerTransaction);
+        // TODO: interpret IActionResult?
     }
 
     private async Task DeleteAsync(MouseEventArgs args, BrokerTransaction brokerTransaction)
     {
         var result = await Controller.DeleteOrDetachAsync(brokerTransaction);
-
-        if (result is OkResult)
-            BrokerTransactions.Remove(brokerTransaction);
+        if(result is OkResult)
+        {
+            // TODO: interpret the response.
+        }
         else
+        {
             throw new InvalidOperationException();
-
-        // TODO: interpret the response.
+        }
     }
 
     private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelative);
+
+    private async Task TransactionCode_OnValueChanged(BrokerTransaction model, int newId)
+    {
+        await Controller.UpdateTransactionCodeAsync(model, newId);
+    }
 
     private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
     {
