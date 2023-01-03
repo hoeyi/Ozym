@@ -22,10 +22,10 @@
                 {
                     <div class="error-text">@ErrorMessage</div>
                 }
-                <EditForm width="100%" Model="@BrokerTransactions">
+                <EditForm width="100%" Model="@Entries">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <DataGrid Data="@BrokerTransactions">
+                    <DataGrid Data="@Entries">
                         <DataGridColumn 
                             Property="@nameof(BrokerTransaction.TransactionCodeId)"
                             Caption="@NameFor(x => x.TransactionCodeId)">
@@ -106,7 +106,7 @@
     [Parameter]
     public int AccountId { get; set; }
 
-    private IList<BrokerTransaction> BrokerTransactions { get; set; }
+    private IEnumerable<BrokerTransaction> Entries { get; set; }
 
     private IEnumerable<LookupModel<int, string>> DepositSecurities { get; set; }
 
@@ -151,44 +151,40 @@
                 .GetTransactableSecurityDTOsAsync();
             var depositySecurityDTOsTask = Controller.ReferenceQueries
                 .GetCashOrExternalSecurityDTOsAsync();
-            var trasnsactionCodeDTOsTask = Controller.ReferenceQueries
+            var transactionCodeDTOsTask = Controller.ReferenceQueries
                 .GetBrokerTransactionCodeDTOsAsync();
+            var parentAccountTask = Controller.ReferenceQueries
+                .GetSingleAsync<Account>(
+                    predicate: x => x.AccountId == AccountId,
+                    path: x => x.AccountNavigation);
+            var loadRecordsTask = Controller.LoadRecordsAsync(parentId: AccountId);
 
-            ParentAccount = (
-                await Controller.ReferenceQueries
-                    .GetSingleAsync<Account>(
-                        predicate: a => a.AccountId == AccountId,
-                        path: a => a.AccountNavigation)).Value;
-
-            var initResult = await Controller.ForParent(ParentAccount.AccountId);
-
-            if (initResult is not OkResult)
-                throw new InvalidOperationException();
-
-            var transactionListTask = Controller.SelectAllAsync();
-
-            var dataTasks = Task.WhenAll(
-                transactionListTask,
+            var initTasks = Task.WhenAll(
                 securityDTOsTask,
                 depositySecurityDTOsTask,
-                trasnsactionCodeDTOsTask);
-            await dataTasks;
+                transactionCodeDTOsTask,
+                parentAccountTask,
+                loadRecordsTask);
 
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            await initTasks;
+
+            if (initTasks.Status == TaskStatus.RanToCompletion)
             {
-                BrokerTransactions = (await transactionListTask).Value;
+                //BrokerTransactions = (await transactionListTask).Value;
                 DepositSecurities = (await depositySecurityDTOsTask).Value;
                 TransactableSecurities = (await securityDTOsTask).Value;
-                TransactionCodes = (await trasnsactionCodeDTOsTask).Value;
+                TransactionCodes = (await transactionCodeDTOsTask).Value;
+                Entries = (await loadRecordsTask);
+                ParentAccount = (await parentAccountTask).Value;
             }
             else
             {
-                throw dataTasks.Exception.Flatten();
+                throw initTasks.Exception.Flatten();
             }
         }
         finally
         {
-            IsLoading = BrokerTransactions is null
+            IsLoading = Entries is null
                 || ParentAccount is null
                 || DepositSecurities is null
                 || TransactionCodes is null
