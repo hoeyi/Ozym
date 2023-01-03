@@ -93,6 +93,7 @@ namespace NjordFinance.BusinessLogic
         private readonly BindingList<BrokerTransaction> _brokerTransactions;
         private readonly IEnumerable<BrokerTransactionCode> _brokerTransactionCodes;
         private readonly Account _parentAccount;
+
         public BrokerTransactionBLL(
             IList<BrokerTransaction> brokerTransactions,
             IEnumerable<BrokerTransactionCode> transactionCodes,

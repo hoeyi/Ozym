@@ -1,5 +1,6 @@
 ﻿using NjordFinance.Model;
 using System.Collections.Generic;
+using System;
 
 namespace NjordFinance.BusinessLogic
 {
@@ -12,6 +13,12 @@ namespace NjordFinance.BusinessLogic
         IReadOnlyCollection<BrokerTransaction> Entries { get; }
 
         /// <summary>
+        /// Adds a new transaction to the collection.
+        /// </summary>
+        /// <returns>A new instance of <see cref="BrokerTransaction"/>.</returns>
+        BrokerTransaction AddTransaction();
+
+        /// <summary>
         /// Gets the collection of <see cref="BrokerTaxLot"/> for this instance, subject to the 
         /// value(s) of <see cref="TaxLotStatus"/> provided.
         /// </summary>
@@ -21,13 +28,10 @@ namespace NjordFinance.BusinessLogic
         /// <paramref name="taxLotStatus"/> is not valid for this method.</exception>
         IEnumerable<BrokerTaxLot> GetTaxLots(TaxLotStatus taxLotStatus);
 
-        void UpdateTransactionCode(BrokerTransaction model, int newId);
-
-        BrokerTransaction AddTransaction();
+        void RemoveTransaction(BrokerTransaction model);
 
         void RevertRemoveTransaction(BrokerTransaction model);
 
-        void RemoveTransaction(BrokerTransaction model);
-
+        void UpdateTransactionCode(BrokerTransaction model, int newId);
     }
 }

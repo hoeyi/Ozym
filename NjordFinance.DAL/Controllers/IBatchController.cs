@@ -28,7 +28,7 @@ namespace NjordFinance.Controllers
         /// </returns>
         /// <remarks>Calls to other methods fail if this method has not been successfully called 
         /// first.</remarks>
-        IActionResult ForParent(int parentId);
+        Task<IActionResult> ForParent(int parentId);
 
         /// <summary>
         /// Adds the model pending a call to <see cref="SaveChangesAsync"/>.
@@ -73,7 +73,6 @@ namespace NjordFinance.Controllers
         /// <exception cref="InvalidOperationException"> parent key is not valid for this call.
         /// </exception>
         Task<ActionResult> SaveChangesAsync();
-
 
         /// <summary>
         /// Selects all records accessible to this controller.
