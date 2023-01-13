@@ -79,6 +79,15 @@ namespace NjordFinance.BusinessLogic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no tax lots available to close against..
+        /// </summary>
+        internal static string BrokerTransactionBLL_NoAvailableTaxLotsToClose {
+            get {
+                return ResourceManager.GetString("BrokerTransactionBLL_NoAvailableTaxLotsToClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Argument &apos;{0}&apos; is not valid for this method..
         /// </summary>
         internal static string BrokerTransactionBLL_TaxLotStatus_NotSupported {

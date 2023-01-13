@@ -32,6 +32,54 @@ namespace NjordFinance.BusinessLogic
 
         void RevertRemoveTransaction(BrokerTransaction model);
 
-        void UpdateTransactionCode(BrokerTransaction model, int newId);
+        ITransactionCodeUpdateResponse UpdateTransactionCode(BrokerTransaction model, int newId);
+    }
+
+    public interface ITransactionCodeUpdateResponse
+    {
+        TransactionUpdateStatus UpdateStatus { get; }
+    }
+
+#nullable enable
+    public interface ITransactionCodeUpdateResponse<T> : ITransactionCodeUpdateResponse
+        where T : class?
+    {
+        T ResponseObject { get; }
+    }
+#nullable disable
+
+    /// <summary>
+    /// Represents the response received after initiating a change to the 
+    /// <see cref="BrokerTransactionCode"/> member of a <see cref="BrokerTransaction"/> record.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class TransactionCodeUpdateResponse<T> : ITransactionCodeUpdateResponse
+    {
+        public TransactionUpdateStatus UpdateStatus { get; init; } 
+
+        public T ReponseObject { get; init; }
+    }
+
+    /// <summary>
+    /// Represents the possible statuses of a request to change the <see cref="BrokerTransactionCode"/> 
+    /// member of a <see cref="BrokerTransaction"/> record.
+    /// </summary>
+    public enum TransactionUpdateStatus
+    {
+        /// <summary>
+        /// The update succeeded and no further action is required.
+        /// </summary>
+        Completed,
+
+        /// <summary>
+        /// The update requires instruction on which tax lots to close before proceeding.
+        /// </summary>
+        PendingLotClosure,
+
+        /// <summary>
+        /// The update fails due. Paired with an exception response object to provide reason for 
+        /// the failure.
+        /// </summary>
+        Faulted
     }
 }

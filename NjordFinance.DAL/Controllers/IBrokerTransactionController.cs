@@ -31,5 +31,11 @@ namespace NjordFinance.Controllers
         /// <param name="newId"></param>
         /// <returns></returns>
         Task<IActionResult> UpdateTransactionCodeAsync(BrokerTransaction model, int newId);
+
+        Task<IActionResult> PostAllocationInstruction(
+            BrokerTransaction model, IEnumerable<AllocationInstruction> instructions);
+
+        Task<IActionResult> CloseTransactionVersusLotAsync(
+            BrokerTransaction model, BrokerTaxLot taxLot);
     }
 }

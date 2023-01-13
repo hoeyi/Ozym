@@ -28,6 +28,7 @@ namespace NjordFinance.Controllers
         {
         }
 
+        /// <inheritdoc/>
         public async Task<IActionResult> AddNewAsync()
         {
             var newModel = _transactionBLL.AddTransaction();
@@ -36,6 +37,7 @@ namespace NjordFinance.Controllers
             return await AddAsync(newModel);
         }
 
+        /// <inheritdoc/>
         public override async Task<IActionResult> DeleteOrDetachAsync(BrokerTransaction model)
         {
             _transactionBLL.RemoveTransaction(model);
@@ -100,11 +102,26 @@ namespace NjordFinance.Controllers
         public async Task<IActionResult> UpdateTransactionCodeAsync(
             BrokerTransaction model, int newId)
         {
+            ITransactionCodeUpdateResponse<IEnumerable<BrokerTaxLot>> ConvertResponse(
+                ITransactionCodeUpdateResponse response)
+            {
+                if (response is ITransactionCodeUpdateResponse<IEnumerable<BrokerTaxLot>>
+                    taxLotResponse)
+                    return taxLotResponse;
+                else return null;
+            };
+
             var updateTransactionCodeTask = Task.Run(() =>
             {
-                _transactionBLL.UpdateTransactionCode(model, newId);
+                var response  = _transactionBLL.UpdateTransactionCode(model, newId);
 
-                return Accepted();
+                return response.UpdateStatus switch
+                {
+                    TransactionUpdateStatus.Completed => Accepted(),
+                    TransactionUpdateStatus.PendingLotClosure => Accepted(
+                        ConvertResponse(response).ResponseObject)
+                    _ => throw new InvalidOperationException()
+                };
             });
 
             var actionResult = await updateTransactionCodeTask;

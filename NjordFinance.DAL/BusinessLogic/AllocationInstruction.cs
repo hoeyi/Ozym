@@ -11,6 +11,6 @@ namespace NjordFinance.BusinessLogic
     {
         public BrokerTaxLot TaxLot { get; init; }
 
-        public decimal ClosingQuantity { get; init; }
+        public decimal ClosingQuantity { get; set; }
     }
 }

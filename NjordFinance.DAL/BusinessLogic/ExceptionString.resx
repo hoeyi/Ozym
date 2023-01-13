@@ -123,6 +123,9 @@
   <data name="BrokerTransactionBLL_InvalidCollectionParent" xml:space="preserve">
     <value>Record set passed to the constructor contains a mix of account identifiers. Business logic for this data supports working collections for a single account at a time.</value>
   </data>
+  <data name="BrokerTransactionBLL_NoAvailableTaxLotsToClose" xml:space="preserve">
+    <value>There are no tax lots available to close against.</value>
+  </data>
   <data name="BrokerTransactionBLL_TaxLotStatus_NotSupported" xml:space="preserve">
     <value>Argument '{0}' is not valid for this method.</value>
   </data>

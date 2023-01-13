@@ -29,18 +29,63 @@ namespace NjordFinance.BusinessLogic
         }
 
         /// <inheritdoc/>
-        public void UpdateTransactionCode(BrokerTransaction model, int newId)
+        public ITransactionCodeUpdateResponse UpdateTransactionCode(BrokerTransaction model, int newId)
         {
             if (model is null)
                 throw new ArgumentNullException(paramName: nameof(model));
 
-            if (model.TransactionCodeId == newId &&
-                (model.TransactionCode?.TransactionCodeId ?? newId * -1) == newId)
-                return;
+            // Check if any action is required.
+            if (model.TransactionCodeId != newId)
+                model.TransactionCodeId = newId;
 
-            model.TransactionCodeId = newId;
-            model.TransactionCode = _brokerTransactionCodes
-                .FirstOrDefault(x => x.TransactionCodeId == newId);
+            if((model.TransactionCode?.TransactionCodeId ?? newId * -1) != newId)
+                model.TransactionCode = _brokerTransactionCodes
+                    .FirstOrDefault(x => x.TransactionCodeId == newId);
+
+            // If a closing action, we need to know which lots to close against.
+            if (model.TransactionCode.QuantityEffect < 0)
+            {
+                var openLots = GetOpenTaxLots().Where(x => x.SecurityId == model.SecurityId);
+
+                // If no lots are available, return a faulted response.
+                if (!openLots.Any())
+                    return new TransactionCodeUpdateResponse<InvalidOperationException>()
+                    {
+                        UpdateStatus = TransactionUpdateStatus.Faulted,
+                        ReponseObject = new InvalidOperationException(
+                            message: ExceptionString.BrokerTransactionBLL_NoAvailableTaxLotsToClose)
+                    };
+
+                // If only lot is available, automatically apply update.
+                if(openLots.Count() == 1)
+                {
+                    model.TaxLotId = openLots.First().TaxLotId;
+
+                    // No further action is needed. Return a completed response.
+                    return new TransactionCodeUpdateResponse<object>()
+                    {
+                        UpdateStatus = TransactionUpdateStatus.Completed,
+                        ReponseObject = null
+                    };
+                }
+
+                // If more than 1 lot is available, send response indicating instructions 
+                // are needed.
+                return new TransactionCodeUpdateResponse<IEnumerable<BrokerTaxLot>>()
+                {
+                    UpdateStatus = TransactionUpdateStatus.PendingLotClosure,
+                    ReponseObject = GetOpenTaxLots().Where(x => x.SecurityId == model.SecurityId)
+                };
+            }
+            else
+            {
+                // If not a closing action, return an empty response object.
+                return new TransactionCodeUpdateResponse<object>()
+                {
+                    UpdateStatus = TransactionUpdateStatus.Completed,
+                    ReponseObject = null
+                };
+            }
         }
 
         /// <inheritdoc/>
@@ -150,7 +195,7 @@ namespace NjordFinance.BusinessLogic
         /// </summary>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTaxLot"/>.</returns>
         private IEnumerable<BrokerTaxLot> GetClosedTaxLots() =>
-            GetBrokerTaxLotsWithUnclosedQuantity()
+            GetTaxLotsWithUnclosedQuantity()
                 .Where(x => x.UnclosedQuantity == 0);
 
         /// <summary>
@@ -158,7 +203,7 @@ namespace NjordFinance.BusinessLogic
         /// </summary>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTaxLot"/>.</returns>
         private IEnumerable<BrokerTaxLot> GetOpenTaxLots() =>
-            GetBrokerTaxLotsWithUnclosedQuantity()
+            GetTaxLotsWithUnclosedQuantity()
                 .Where(x => x.UnclosedQuantity > 0);
 
         /// <summary>
@@ -167,7 +212,7 @@ namespace NjordFinance.BusinessLogic
         /// activity derived from that same collection.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTaxLotActivitySummary"/>.</returns>
-        private IEnumerable<BrokerTaxLot> GetBrokerTaxLotsWithUnclosedQuantity()
+        private IEnumerable<BrokerTaxLot> GetTaxLotsWithUnclosedQuantity()
         {
             var taxLots = GetAllTaxLots();
 
