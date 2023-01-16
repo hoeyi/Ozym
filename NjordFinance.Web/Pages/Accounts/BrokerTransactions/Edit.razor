@@ -172,7 +172,7 @@
                     DialogOptions="DialogResult.OK | DialogResult.Cancel"
                     OnClose="@(async (args) => await PostAllocationInstructionAsync(args))" 
                     ReadOnly="false" >
-                    <BrokerTaxLotSelector />
+                    <BrokerAllocationInstructionCRUD />
                 </Modal>
             </CascadingValue>
         }
