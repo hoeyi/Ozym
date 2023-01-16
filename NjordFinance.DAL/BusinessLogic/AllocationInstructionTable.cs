@@ -1,44 +1,22 @@
-﻿using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Ichosys.DataModel.Annotations;
 using NjordFinance.Model;
-using NjordFinance.Model.Annotations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace NjordFinance.BusinessLogic
 {
     /// <summary>
-    /// Represents a single-line instructing the quantity to close against a <see cref="BrokerTaxLot"/> 
-    /// record.
+    /// Represents a collection of instructions closing against <see cref="BrokerTaxLot"/> records.
     /// </summary>
-    public class AllocationInstruction
-    {
-        /// <summary>
-        /// Gets the <see cref="BrokerTaxLot"/> to which this instruction applies.
-        /// </summary>
-        public BrokerTaxLot TaxLot { get; init; }
-
-        /// <summary>
-        /// Gets the quantity to of the <see cref="TaxLot"/> quantity to close.
-        /// </summary>
-        [Range(
-            minimum: default, 
-            maximum: double.MaxValue,
-            ErrorMessageResourceName = nameof(ExceptionString.AllocationInstruction_Validation_ClosingQuantity),
-            ErrorMessageResourceType = typeof(ExceptionString))]
-        public decimal ClosingQuantity { get; set; }
-    }
-
     [Display(
         Name = nameof(DisplayString.AllocationInstructionSet_Name),
         ResourceType = typeof(DisplayString))]
-    /// <summary>
-    /// Represents a collection of instructions closing against <see cref="BrokerTaxLot"/> records.
-    /// </summary>
     public class AllocationInstructionTable
     {
         /// <summary>
@@ -53,15 +31,15 @@ namespace NjordFinance.BusinessLogic
         public IReadOnlyCollection<BrokerTaxLot> AvailableTaxLots { get; init; }
 
         /// <summary>
-        /// Gets the <see cref="IList{T}"/> of <see cref="AllocationInstruction"/> records in this 
+        /// Gets the <see cref="IList{T}"/> of <see cref="AllocationInstructionRow"/> records in this 
         /// table.
         /// </summary>
-        public IList<AllocationInstruction> Instructions { get; init; }
+        public IList<AllocationInstructionRow> Instructions { get; init; }
 
         /// <summary>
         /// Gets the total quantity remaining to be closed. Calculated as the difference of the 
         /// <see cref="QuantityToClose"/> value and the sum of closing quantities from the 
-        /// member <see cref="AllocationInstruction"/> records.
+        /// member <see cref="AllocationInstructionRow"/> records.
         /// </summary>
         [ExactValue(
             value: 0D,

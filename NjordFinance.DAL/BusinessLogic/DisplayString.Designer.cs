@@ -61,6 +61,42 @@ namespace NjordFinance.BusinessLogic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quantity to close in each lot..
+        /// </summary>
+        public static string AllocationInstruction_ClosingQuantity_Description {
+            get {
+                return ResourceManager.GetString("AllocationInstruction_ClosingQuantity_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close shares.
+        /// </summary>
+        public static string AllocationInstruction_ClosingQuantity_Name {
+            get {
+                return ResourceManager.GetString("AllocationInstruction_ClosingQuantity_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string AllocationInstruction_Noun_PluralArticle {
+            get {
+                return ResourceManager.GetString("AllocationInstruction_Noun_PluralArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to lot instruction row.
+        /// </summary>
+        public static string AllocationInstruction_Noun_Singular {
+            get {
+                return ResourceManager.GetString("AllocationInstruction_Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specify lot closure.
         /// </summary>
         public static string AllocationInstructionSet_Name {
@@ -84,6 +120,105 @@ namespace NjordFinance.BusinessLogic {
         public static string AllocationInstructionSet_RemainingQuantity_Name {
             get {
                 return ResourceManager.GetString("AllocationInstructionSet_RemainingQuantity_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to allocation rows.
+        /// </summary>
+        public static string AlloctionInstruction_Noun_Plural {
+            get {
+                return ResourceManager.GetString("AlloctionInstruction_Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date of the original acquisition..
+        /// </summary>
+        public static string BrokerTaxLot_AcquisitionDate_Description {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_AcquisitionDate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Acquisition Date.
+        /// </summary>
+        public static string BrokerTaxLot_AcquisitionDate_Name {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_AcquisitionDate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tax lots.
+        /// </summary>
+        public static string BrokerTaxLot_Noun_Plural {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string BrokerTaxLot_Noun_PluralArticle {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_Noun_PluralArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tax lot.
+        /// </summary>
+        public static string BrokerTaxLot_Noun_Singular {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string BrokerTaxLot_Noun_SingularArticle {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_Noun_SingularArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of shares available for closing..
+        /// </summary>
+        public static string BrokerTaxLot_UnclosedQuantity_Description {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_UnclosedQuantity_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available shares.
+        /// </summary>
+        public static string BrokerTaxLot_UnclosedQuantity_Name {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_UnclosedQuantity_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Per share cost from the original acquisition..
+        /// </summary>
+        public static string BrokerTaxLot_UnitCostBasis_Description {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_UnitCostBasis_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit Cost.
+        /// </summary>
+        public static string BrokerTaxLot_UnitCostBasis_Name {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_UnitCostBasis_Name", resourceCulture);
             }
         }
     }

@@ -192,9 +192,6 @@ namespace NjordFinance.BusinessLogic
             _brokerTransactions = new(brokerTransactions);
             _brokerTransactionCodes = transactionCodes;
             _parentAccount = parentAccount;
-
-            //_brokerTransactions.CollectionChanged += BrokerTransactions_OnCollectionChanged;
-            //_brokerTransactions.ListChanged += BrokerTransactions_ListChanged;
         }
 
         /// <summary>
@@ -296,7 +293,7 @@ namespace NjordFinance.BusinessLogic
             return new()
                 {
                     Instructions = availableTaxLots
-                                    .Select(x => new AllocationInstruction()
+                                    .Select(x => new AllocationInstructionRow()
                                     {
                                         TaxLot = x,
                                         ClosingQuantity = 0M
@@ -306,22 +303,5 @@ namespace NjordFinance.BusinessLogic
                     Transaction = model
                 };
         }
-    }
-
-    /// <summary>
-    /// Represents a intermediate query result summarizing a <see cref="BrokerTaxLot"/> and 
-    /// the closing activity against it.
-    /// </summary>
-    class BrokerTaxLotActivitySummary
-    {
-        /// <summary>
-        /// Gets the <see cref="BrokerTaxLot"/> for which activity is summarized.
-        /// </summary>
-        public BrokerTaxLot TaxLot { get; init; }
-
-        /// <summary>
-        /// Gets the total quantity closed against the <see cref="TaxLot"/> for this instance.
-        /// </summary>
-        public decimal? QuantityClosed { get; init; }
     }
 }

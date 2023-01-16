@@ -32,6 +32,11 @@ namespace NjordFinance.Controllers
         /// <returns></returns>
         Task<IActionResult> UpdateTransactionCodeAsync(BrokerTransaction model, int newId);
 
+        /// <summary>
+        /// Posts the given allocation instructions to the loaded transactions.
+        /// </summary>
+        /// <param name="instruction"></param>
+        /// <returns></returns>
         Task<IActionResult> PostAllocationInstruction(AllocationInstructionTable instruction);
     }
 }

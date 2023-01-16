@@ -127,4 +127,49 @@
   <data name="AllocationInstructionSet_RemainingQuantity_Name" xml:space="preserve">
     <value>Remaining quantity</value>
   </data>
+  <data name="AllocationInstruction_ClosingQuantity_Description" xml:space="preserve">
+    <value>Quantity to close in each lot.</value>
+  </data>
+  <data name="AllocationInstruction_ClosingQuantity_Name" xml:space="preserve">
+    <value>Close shares</value>
+  </data>
+  <data name="AllocationInstruction_Noun_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="AllocationInstruction_Noun_Singular" xml:space="preserve">
+    <value>lot instruction row</value>
+  </data>
+  <data name="AlloctionInstruction_Noun_Plural" xml:space="preserve">
+    <value>allocation rows</value>
+  </data>
+  <data name="BrokerTaxLot_AcquisitionDate_Description" xml:space="preserve">
+    <value>Date of the original acquisition.</value>
+  </data>
+  <data name="BrokerTaxLot_AcquisitionDate_Name" xml:space="preserve">
+    <value>Acquisition Date</value>
+  </data>
+  <data name="BrokerTaxLot_Noun_Plural" xml:space="preserve">
+    <value>tax lots</value>
+  </data>
+  <data name="BrokerTaxLot_Noun_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTaxLot_Noun_Singular" xml:space="preserve">
+    <value>tax lot</value>
+  </data>
+  <data name="BrokerTaxLot_Noun_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTaxLot_UnclosedQuantity_Description" xml:space="preserve">
+    <value>Number of shares available for closing.</value>
+  </data>
+  <data name="BrokerTaxLot_UnclosedQuantity_Name" xml:space="preserve">
+    <value>Available shares</value>
+  </data>
+  <data name="BrokerTaxLot_UnitCostBasis_Description" xml:space="preserve">
+    <value>Per share cost from the original acquisition.</value>
+  </data>
+  <data name="BrokerTaxLot_UnitCostBasis_Name" xml:space="preserve">
+    <value>Unit Cost</value>
+  </data>
 </root>
