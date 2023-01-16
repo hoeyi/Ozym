@@ -11,10 +11,11 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.UpdateMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(
+             PageTitle.UpdateMany(ParentAccount.AccountCode).AsPageTitle()
+             )</PageTitle>
 
         <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
-
         <ContentTile>
             <Body>
                 @if (!string.IsNullOrEmpty(ErrorMessage))
@@ -146,10 +147,35 @@
                                 </ToolTip>
                             </CellEditTemplate>
                         </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                    Property="@nameof(BrokerTransaction.TransactionId)"
+                                    Caption="@(NameFor(x => x.TransactionId))">
+                            <CellTemplate Context="model">
+                                <div class="form-control">@model.TransactionId</div>
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                    Property="@nameof(BrokerTransaction.TaxLotId)"
+                                    Caption="@(NameFor(x => x.TaxLotId))">
+                            <CellTemplate Context="model">
+                                <div class="form-control">@model.TaxLotId</div>
+                            </CellTemplate>
+                        </DataGridColumn>
                     </DataGrid>
                 </EditForm>
             </Body>
         </ContentTile>
+        if (ShowAllocationInstructionTable)
+        {
+            <CascadingValue Value="@CurrentAllocationInstruction">
+                <Modal TViewModel="AllocationInstructionTable"
+                    DialogOptions="DialogResult.OK | DialogResult.Cancel"
+                    OnClose="@(async (args) => await PostAllocationInstructionAsync(args))" 
+                    ReadOnly="false" >
+                    <BrokerTaxLotSelector />
+                </Modal>
+            </CascadingValue>
+        }
     }
 </ThemedComponent>
 
@@ -166,6 +192,10 @@
     private IEnumerable<LookupModel<int, string>> TransactableSecurities { get; set; }
 
     private Account ParentAccount { get; set; }
+
+    private bool ShowAllocationInstructionTable => CurrentAllocationInstruction is not null;
+
+    private AllocationInstructionTable CurrentAllocationInstruction { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -196,7 +226,7 @@
 
             if (initTasks.Status == TaskStatus.RanToCompletion)
             {
-                //BrokerTransactions = (await transactionListTask).Value;
+                // BrokerTransactions = (await transactionListTask).Value;
                 DepositSecurities = (await depositySecurityDTOsTask).Value;
                 TransactableSecurities = (await securityDTOsTask).Value;
                 TransactionCodes = (await transactionCodeDTOsTask).Value;
@@ -254,7 +284,54 @@
 
     private async Task TransactionCode_OnValueChanged(BrokerTransaction model, int newId)
     {
-        await Controller.UpdateTransactionCodeAsync(model, newId);
+        ErrorMessage = null;
+
+        void processResponse(ITransactionUpdateResponse response)
+        {
+            switch (response.UpdateStatus)
+            {
+                case TransactionUpdateStatus.Completed:
+                    break;
+                case TransactionUpdateStatus.PendingLotClosure:
+                    var contentResponse = response as ITransactionUpdateResponse<AllocationInstructionTable>;
+                    CurrentAllocationInstruction = contentResponse.ResponseObject;
+                    break;
+                case TransactionUpdateStatus.Faulted:
+                    var errorResponse = response as ITransactionUpdateResponse<InvalidOperationException>;
+                    ErrorMessage = errorResponse.ResponseObject.Message;
+                    break;
+            }
+        };
+
+        var actionResult = await Controller.UpdateTransactionCodeAsync(model, newId);
+        if (actionResult is ObjectResult result &&
+            result.Value is ITransactionUpdateResponse response)
+            processResponse(response);
+    }
+
+    /// <summary>
+    /// Handles an event representing successful submission of an allocation instruction object.
+    /// </summary>
+    /// <param name="modalEventArgs"></param>
+    /// <returns></returns>
+    private async Task PostAllocationInstructionAsync(
+        ModalEventArgs<AllocationInstructionTable> modalEventArgs)
+    {
+        // Clear the reference to the allocation instruction table now that a valid
+        // response is received.
+        CurrentAllocationInstruction = null;
+
+        // Handle valid submission event
+        if(modalEventArgs.Result == DialogResult.OK)
+        {
+            var postTask = Controller.PostAllocationInstruction(modalEventArgs.Model);
+
+            await postTask;
+
+            if (postTask.Result is AcceptedResult)
+                return;
+        }
+        // TODO: Handle cancel event
     }
 
     private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
