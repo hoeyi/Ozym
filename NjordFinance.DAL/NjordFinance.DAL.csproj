@@ -26,6 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="BusinessLogic\DisplayString.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DisplayString.resx</DependentUpon>
+    </Compile>
     <Compile Update="BusinessLogic\ExceptionString.Designer.cs">
       <DependentUpon>ExceptionString.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -104,6 +109,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="BusinessLogic\DisplayString.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DisplayString.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="BusinessLogic\ExceptionString.resx">
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>

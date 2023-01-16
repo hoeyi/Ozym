@@ -26,7 +26,7 @@ namespace NjordFinance.Model.Annotations
         /// <param name="value">The required value.</param>
         /// <param name="errorMessage">The validation error message or template.</param>
         /// <param name="ErrorMessageResourceName">The name of the string resource or the template.</param>
-        /// <param name="ErrorMessageResourceType">The type containing 
+        /// <param name="ErrorMessageResourceType">The type containing the error message resources.
         /// <paramref name="ErrorMessageResourceName"/>.</param>
         public ExactValueAttribute(
             int value,
@@ -46,7 +46,7 @@ namespace NjordFinance.Model.Annotations
         /// <param name="value">The required value.</param>
         /// <param name="errorMessage">The validation error message or template.</param>
         /// <param name="ErrorMessageResourceName">The name of the string resource or the template.</param>
-        /// <param name="ErrorMessageResourceType">The type containing 
+        /// <param name="ErrorMessageResourceType">The type containing the error message resources.
         /// <paramref name="ErrorMessageResourceName"/>.</param>
         public ExactValueAttribute(
             double value,
@@ -57,6 +57,37 @@ namespace NjordFinance.Model.Annotations
         {
             RequiredValue = value;
             OperandType = typeof(double);
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="ExactValueAttribute"/> from a given <see cref="double"/> 
+        /// converted to the <see cref="Type"/> given by <paramref name="overrideType"/>.
+        /// </summary>
+        /// <param name="value">The required value.</param>
+        /// <param name="errorMessage">The validation error message or template.</param>
+        /// <param name="ErrorMessageResourceName">The name of the string resource or the template.</param>
+        /// <param name="ErrorMessageResourceType">The type containing the error message resources.
+        /// <paramref name="ErrorMessageResourceName"/>.</param>
+        /// <exception cref="ArgumentException">The value for <paramref name="overrideType"/> is 
+        /// not supported.</exception>
+        public ExactValueAttribute(
+            double value,
+            Type overrideType,
+            string errorMessage = null,
+            string ErrorMessageResourceName = null,
+            Type ErrorMessageResourceType = null) :
+            this(errorMessage, ErrorMessageResourceName, ErrorMessageResourceType)
+        {
+            if(overrideType == typeof(decimal))
+            {
+                RequiredValue = Convert.ToDecimal(value);
+                OperandType = overrideType;
+            }
+            else
+            {
+                throw new ArgumentException(
+                    message: $"[param = {nameof(overrideType)}; value = {overrideType.FullName}]");
+            }
         }
 
         /// <summary>
@@ -78,7 +109,7 @@ namespace NjordFinance.Model.Annotations
             RequiredValue = value;
             OperandType = typeof(bool);
         }
-
+        
         private ExactValueAttribute(
             string errorMessage = null,
             string ErrorMessageResourceName = null,
@@ -169,6 +200,8 @@ namespace NjordFinance.Model.Annotations
                 Initialize((int)RequiredValue, v => Convert.ToInt32(v, CultureInfo.InvariantCulture));
             else if (OperandType == typeof(double))
                 Initialize((double)RequiredValue, v => Convert.ToDouble(v, CultureInfo.InvariantCulture));
+            else if (OperandType == typeof(decimal))
+                Initialize((decimal)RequiredValue, v => Convert.ToDecimal(v, CultureInfo.InvariantCulture));
             else if (OperandType == typeof(bool))
                 Initialize((bool)RequiredValue, v => Convert.ToBoolean(v));
             else

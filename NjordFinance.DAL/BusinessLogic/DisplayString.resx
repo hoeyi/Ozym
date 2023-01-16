@@ -117,27 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllocationInstructionTable_InstructionIsIncomplete" xml:space="preserve">
-    <value>Instructions must allocate 100% of the transaction quantity.</value>
+  <data name="AllocationInstructionSet_Name" xml:space="preserve">
+    <value>Specify lot closure</value>
+    <comment>Caption for user prompt to specify tax lot closure instructions.</comment>
   </data>
-  <data name="AllocationInstruction_Validation_ClosingQuantity" xml:space="preserve">
-    <value>Cannot close negative shares against lots.</value>
+  <data name="AllocationInstructionSet_RemainingQuantity_Description" xml:space="preserve">
+    <value>The quantity of this transaction less closing instructions.</value>
   </data>
-  <data name="BrokerTransactionBLL_IncompleteObjectGraph" xml:space="preserve">
-    <value>Missing required related record {0} in object graph.</value>
-  </data>
-  <data name="BrokerTransactionBLL_InsufficientQuantityToCloseAgainst" xml:space="preserve">
-    <value>There are not enough shares open to close against. Available = {0}, Requested = {1}.</value>
-    <comment>{0} is the available quantity to close
-{1} is the requested quantity to close</comment>
-  </data>
-  <data name="BrokerTransactionBLL_InvalidCollectionParent" xml:space="preserve">
-    <value>Record set passed to the constructor contains a mix of account identifiers. Business logic for this data supports working collections for a single account at a time.</value>
-  </data>
-  <data name="BrokerTransactionBLL_NoAvailableTaxLotsToClose" xml:space="preserve">
-    <value>There are no tax lots available to close against.</value>
-  </data>
-  <data name="BrokerTransactionBLL_TaxLotStatus_NotSupported" xml:space="preserve">
-    <value>Argument '{0}' is not valid for this method.</value>
+  <data name="AllocationInstructionSet_RemainingQuantity_Name" xml:space="preserve">
+    <value>Remaining quantity</value>
   </data>
 </root>

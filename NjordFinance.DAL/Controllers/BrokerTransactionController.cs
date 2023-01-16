@@ -46,6 +46,7 @@ namespace NjordFinance.Controllers
             
             return result;
         }
+
         /// <inheritdoc/>
         public async Task<ActionResult<IEnumerable<BrokerTaxLot>>> GetTaxLots(
             TaxLotStatus taxLotStatus)
@@ -55,6 +56,7 @@ namespace NjordFinance.Controllers
             return Ok(result);
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<BrokerTransaction>> LoadRecordsAsync(int parentId)
         {
             var forParentResult = await ForParent(parentId);
@@ -79,7 +81,7 @@ namespace NjordFinance.Controllers
                     var parentResult = await parentTask;
 
                     _transactionBLL = new BrokerTransactionBLL(
-                        transactionsResult.Value,
+                        transactionsResult.Value.OrderByDescending(x => x.TradeDate).ToList(),
                         codesResult.Value, 
                         parentResult.Value);
 
@@ -99,15 +101,31 @@ namespace NjordFinance.Controllers
         }
 
         /// <inheritdoc/>
+        public Task<IActionResult> PostAllocationInstruction(
+            AllocationInstructionTable instruction)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
         public async Task<IActionResult> UpdateTransactionCodeAsync(
             BrokerTransaction model, int newId)
         {
-            ITransactionCodeUpdateResponse<IEnumerable<BrokerTaxLot>> ConvertResponse(
-                ITransactionCodeUpdateResponse response)
+            static ITransactionUpdateResponse<AllocationInstructionTable> ConvertToAllocationResponse(
+                ITransactionUpdateResponse response)
             {
-                if (response is ITransactionCodeUpdateResponse<IEnumerable<BrokerTaxLot>>
-                    taxLotResponse)
-                    return taxLotResponse;
+                if (response is ITransactionUpdateResponse<AllocationInstructionTable>
+                    allcoationResponse)
+                    return allcoationResponse;
+                else return null;
+            };
+
+            static ITransactionUpdateResponse<InvalidOperationException> ConvertToErrorResponse(
+                ITransactionUpdateResponse response)
+            {
+                if (response is ITransactionUpdateResponse<InvalidOperationException>
+                    errorResponse)
+                    return errorResponse;
                 else return null;
             };
 
@@ -115,13 +133,22 @@ namespace NjordFinance.Controllers
             {
                 var response  = _transactionBLL.UpdateTransactionCode(model, newId);
 
-                return response.UpdateStatus switch
+                IActionResult result = response.UpdateStatus switch
                 {
                     TransactionUpdateStatus.Completed => Accepted(),
-                    TransactionUpdateStatus.PendingLotClosure => Accepted(
-                        ConvertResponse(response).ResponseObject)
+                    
+                    TransactionUpdateStatus.PendingAdditionalDetail => Accepted(),
+                    
+                    TransactionUpdateStatus.PendingLotClosure => 
+                        Accepted(ConvertToAllocationResponse(response)),
+
+                    TransactionUpdateStatus.Faulted => 
+                        Conflict(ConvertToErrorResponse(response)),
+
                     _ => throw new InvalidOperationException()
                 };
+
+                return result;
             });
 
             var actionResult = await updateTransactionCodeTask;

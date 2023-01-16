@@ -32,32 +32,49 @@ namespace NjordFinance.BusinessLogic
 
         void RevertRemoveTransaction(BrokerTransaction model);
 
-        ITransactionCodeUpdateResponse UpdateTransactionCode(BrokerTransaction model, int newId);
+        ITransactionUpdateResponse UpdateTransactionCode(BrokerTransaction model, int newId);
     }
 
-    public interface ITransactionCodeUpdateResponse
+    /// <summary>
+    /// Represents the response received after initiating a change to a <see cref="BrokerTransaction"/> 
+    /// record.
+    /// </summary>
+    public interface ITransactionUpdateResponse
     {
+        /// <summary>
+        /// Gets the <see cref="TransactionUpdateStatus"/> representing the status of the update.
+        /// </summary>
         TransactionUpdateStatus UpdateStatus { get; }
     }
 
-#nullable enable
-    public interface ITransactionCodeUpdateResponse<T> : ITransactionCodeUpdateResponse
-        where T : class?
+    /// <summary>
+    /// Represents the response received after initiating a change to a <see cref="BrokerTransaction"/> 
+    /// record.
+    /// </summary>
+    /// <typeparam name="T">The type of the <see cref="ResponseObject"/>.</typeparam>
+    public interface ITransactionUpdateResponse<T> : ITransactionUpdateResponse
+        where T : class
     {
+        /// <summary>
+        /// Gets the <typeparamref name="T"/> instance related to the response. Typically, an 
+        /// instruction object that requires user input.
+        /// </summary>
         T ResponseObject { get; }
     }
-#nullable disable
 
     /// <summary>
-    /// Represents the response received after initiating a change to the 
-    /// <see cref="BrokerTransactionCode"/> member of a <see cref="BrokerTransaction"/> record.
+    /// Represents the response received after initiating a change to a <see cref="BrokerTransaction"/> 
+    /// record.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class TransactionCodeUpdateResponse<T> : ITransactionCodeUpdateResponse
+    public class TransactionUpdateResponse<T> : ITransactionUpdateResponse, ITransactionUpdateResponse<T>
+        where T : class
     {
-        public TransactionUpdateStatus UpdateStatus { get; init; } 
+        /// <inheritdoc/>
+        public TransactionUpdateStatus UpdateStatus { get; init; }
 
-        public T ReponseObject { get; init; }
+        /// <inheritdoc/>
+        public T ResponseObject { get; init; }
     }
 
     /// <summary>
@@ -75,6 +92,12 @@ namespace NjordFinance.BusinessLogic
         /// The update requires instruction on which tax lots to close before proceeding.
         /// </summary>
         PendingLotClosure,
+
+        /// <summary>
+        /// The update is accepted but requires additional detail in order to proceed, e.g., the 
+        /// transacted security or quantity has not been provided.
+        /// </summary>
+        PendingAdditionalDetail,
 
         /// <summary>
         /// The update fails due. Paired with an exception response object to provide reason for 

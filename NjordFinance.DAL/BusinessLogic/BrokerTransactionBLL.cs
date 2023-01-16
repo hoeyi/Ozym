@@ -1,4 +1,5 @@
-﻿using NjordFinance.Model;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using NjordFinance.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -20,6 +21,7 @@ namespace NjordFinance.BusinessLogic
                 TransactionCodeId = default,
                 TransactionCode = _brokerTransactionCodes
                     .FirstOrDefault(x => x.TransactionCodeId == default),
+                TradeDate = DateTime.UtcNow.Date,
                 AccountId = _parentAccount.AccountId
             };
 
@@ -29,7 +31,7 @@ namespace NjordFinance.BusinessLogic
         }
 
         /// <inheritdoc/>
-        public ITransactionCodeUpdateResponse UpdateTransactionCode(BrokerTransaction model, int newId)
+        public ITransactionUpdateResponse UpdateTransactionCode(BrokerTransaction model, int newId)
         {
             if (model is null)
                 throw new ArgumentNullException(paramName: nameof(model));
@@ -37,6 +39,20 @@ namespace NjordFinance.BusinessLogic
             // Check if any action is required.
             if (model.TransactionCodeId != newId)
                 model.TransactionCodeId = newId;
+            
+            // 1. Scenario: Transaction is incomplete.
+            //              Required infortmation:
+            //              - SecurityId
+            //              - Quantity
+            // 1. Action:   Return pending status.
+            if (model.TransactionCodeId == default || 
+                model.SecurityId == default || 
+                (model.Quantity ?? default) == default)
+                return new TransactionUpdateResponse<object>()
+                {
+                    UpdateStatus = TransactionUpdateStatus.PendingAdditionalDetail,
+                    ResponseObject = null
+                };
 
             if((model.TransactionCode?.TransactionCodeId ?? newId * -1) != newId)
                 model.TransactionCode = _brokerTransactionCodes
@@ -45,45 +61,73 @@ namespace NjordFinance.BusinessLogic
             // If a closing action, we need to know which lots to close against.
             if (model.TransactionCode.QuantityEffect < 0)
             {
+
                 var openLots = GetOpenTaxLots().Where(x => x.SecurityId == model.SecurityId);
 
-                // If no lots are available, return a faulted response.
+                // 2. Scenario: Transaction is complete, but no lots are available.
+                // 2. Action:   Return faulted status with invalid operation exception.
                 if (!openLots.Any())
-                    return new TransactionCodeUpdateResponse<InvalidOperationException>()
+                    return new TransactionUpdateResponse<InvalidOperationException>()
                     {
                         UpdateStatus = TransactionUpdateStatus.Faulted,
-                        ReponseObject = new InvalidOperationException(
+                        ResponseObject = new InvalidOperationException(
                             message: ExceptionString.BrokerTransactionBLL_NoAvailableTaxLotsToClose)
                     };
 
-                // If only lot is available, automatically apply update.
+                // 3. Scenario: Transaction is complete, but transaction quantity is greater than 
+                //              available quantity.
+                // 3. Action:   Return faulted status with invalid operation exception.
+                decimal availableQuantity = openLots.Sum(x => x.UnclosedQuantity);
+                decimal requestedQuantity = model.Quantity ?? default;
+
+                if (availableQuantity < requestedQuantity)
+                    return new TransactionUpdateResponse<InvalidOperationException>()
+                    {
+                        UpdateStatus = TransactionUpdateStatus.Faulted,
+                        ResponseObject = new(message: string.Format(
+                            ExceptionString.BrokerTransactionBLL_InsufficientQuantityToCloseAgainst,
+                            availableQuantity,
+                            requestedQuantity))
+                    };
+                
+                // 4. Scenario: Transaction is complete, but only tax lot is available to close
+                //              against.
+                // 4. Action:   Apply update and return completed status.
                 if(openLots.Count() == 1)
                 {
+                    var taxLot = openLots.First();
+
                     model.TaxLotId = openLots.First().TaxLotId;
 
                     // No further action is needed. Return a completed response.
-                    return new TransactionCodeUpdateResponse<object>()
+                    return new TransactionUpdateResponse<object>()
                     {
                         UpdateStatus = TransactionUpdateStatus.Completed,
-                        ReponseObject = null
+                        ResponseObject = null
                     };
                 }
 
-                // If more than 1 lot is available, send response indicating instructions 
-                // are needed.
-                return new TransactionCodeUpdateResponse<IEnumerable<BrokerTaxLot>>()
+                // 5. Scenario: Transaction is complete, but multiple tax lots are available to
+                //              close against.
+                // 5. Action:   Return pending status with instruction table object for the client
+                //              to complete.
+                return new TransactionUpdateResponse<AllocationInstructionTable>()
                 {
                     UpdateStatus = TransactionUpdateStatus.PendingLotClosure,
-                    ReponseObject = GetOpenTaxLots().Where(x => x.SecurityId == model.SecurityId)
+                    ResponseObject = InitAllocationInstructionTable(model, openLots)
                 };
             }
             else
             {
-                // If not a closing action, return an empty response object.
-                return new TransactionCodeUpdateResponse<object>()
+                // 6. Scenario: Transaction is complete, but it is not a closing action.
+                // 6. Action:   Clear tax lot id and return completed status.
+                model.TaxLotId = null;
+                model.TaxLot = null;
+
+                return new TransactionUpdateResponse<object>()
                 {
                     UpdateStatus = TransactionUpdateStatus.Completed,
-                    ReponseObject = null
+                    ResponseObject = null
                 };
             }
         }
@@ -238,6 +282,29 @@ namespace NjordFinance.BusinessLogic
                        UnclosedQuantity = tl.OriginalQuantity + (summary?.QuantityClosed ?? 0)
                    };
 
+        }
+
+        /// <summary>
+        /// Initializes a new <see cref="AllocationInstructionTable" /> from the given 
+        /// <see cref="BrokerTransaction"/> record.
+        /// </summary>
+        /// <param name="model">The record that is initiating closing action.</param>
+        /// <returns>A new instance of <see cref="AllocationInstructionTable" />.</returns>
+        private static AllocationInstructionTable InitAllocationInstructionTable(
+            BrokerTransaction model, IEnumerable<BrokerTaxLot> availableTaxLots)
+        {
+            return new()
+                {
+                    Instructions = availableTaxLots
+                                    .Select(x => new AllocationInstruction()
+                                    {
+                                        TaxLot = x,
+                                        ClosingQuantity = 0M
+                                    })
+                                    .ToList(),
+                    AvailableTaxLots = availableTaxLots.ToList(),
+                    Transaction = model
+                };
         }
     }
 

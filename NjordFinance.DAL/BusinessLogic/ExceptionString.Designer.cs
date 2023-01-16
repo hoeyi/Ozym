@@ -61,11 +61,38 @@ namespace NjordFinance.BusinessLogic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot close negative shares against lots..
+        /// </summary>
+        internal static string AllocationInstruction_Validation_ClosingQuantity {
+            get {
+                return ResourceManager.GetString("AllocationInstruction_Validation_ClosingQuantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instructions must allocate 100% of the transaction quantity..
+        /// </summary>
+        internal static string AllocationInstructionTable_InstructionIsIncomplete {
+            get {
+                return ResourceManager.GetString("AllocationInstructionTable_InstructionIsIncomplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing required related record {0} in object graph..
         /// </summary>
         internal static string BrokerTransactionBLL_IncompleteObjectGraph {
             get {
                 return ResourceManager.GetString("BrokerTransactionBLL_IncompleteObjectGraph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are not enough shares open to close against. Available = {0}, Requested = {1}..
+        /// </summary>
+        internal static string BrokerTransactionBLL_InsufficientQuantityToCloseAgainst {
+            get {
+                return ResourceManager.GetString("BrokerTransactionBLL_InsufficientQuantityToCloseAgainst", resourceCulture);
             }
         }
         
