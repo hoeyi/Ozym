@@ -94,6 +94,7 @@ namespace NjordFinance.Model.ViewModel.Generic
         protected TGroupViewModel ConvertGroupingToViewModel(
             IGrouping<TGroupKey, TChildEntity> grouping) =>
                 _groupConverterDelegate.Invoke(grouping, ParentEntity);
+        
         protected TGroupViewModel CreateGroupViewModel(
             TParentEntity parent, TGroupKey groupKey) => _groupConstructorDelegate.Invoke(parent, groupKey);
 
