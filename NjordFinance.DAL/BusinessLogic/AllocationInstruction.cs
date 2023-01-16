@@ -65,14 +65,13 @@ namespace NjordFinance.BusinessLogic
         /// </summary>
         [ExactValue(
             value: 0D,
-            overrideType: typeof(decimal),
             ErrorMessageResourceName = nameof(ExceptionString.AllocationInstructionTable_InstructionIsIncomplete),
             ErrorMessageResourceType = typeof(ExceptionString))]
         [Display(
             Name = nameof(DisplayString.AllocationInstructionSet_RemainingQuantity_Name),
             Description = nameof(DisplayString.AllocationInstructionSet_RemainingQuantity_Description),
             ResourceType = typeof(DisplayString))]
-        public decimal RemainingTransactionQuantity =>
-            (Transaction.Quantity ?? default) - Instructions.Select(x => x.ClosingQuantity).Sum();
+        public double RemainingTransactionQuantity =>
+            (double)((Transaction.Quantity ?? default) - Instructions.Select(x => x.ClosingQuantity).Sum());
     }
 }
