@@ -63,72 +63,81 @@ namespace NjordFinance.BusinessLogic {
         /// <summary>
         ///   Looks up a localized string similar to Quantity to close in each lot..
         /// </summary>
-        public static string AllocationInstruction_ClosingQuantity_Description {
+        public static string AllocationInstructionRow_ClosingQuantity_Description {
             get {
-                return ResourceManager.GetString("AllocationInstruction_ClosingQuantity_Description", resourceCulture);
+                return ResourceManager.GetString("AllocationInstructionRow_ClosingQuantity_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Close shares.
         /// </summary>
-        public static string AllocationInstruction_ClosingQuantity_Name {
+        public static string AllocationInstructionRow_ClosingQuantity_Name {
             get {
-                return ResourceManager.GetString("AllocationInstruction_ClosingQuantity_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to the.
-        /// </summary>
-        public static string AllocationInstruction_Noun_PluralArticle {
-            get {
-                return ResourceManager.GetString("AllocationInstruction_Noun_PluralArticle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to lot instruction row.
-        /// </summary>
-        public static string AllocationInstruction_Noun_Singular {
-            get {
-                return ResourceManager.GetString("AllocationInstruction_Noun_Singular", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Specify lot closure.
-        /// </summary>
-        public static string AllocationInstructionSet_Name {
-            get {
-                return ResourceManager.GetString("AllocationInstructionSet_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The quantity of this transaction less closing instructions..
-        /// </summary>
-        public static string AllocationInstructionSet_RemainingQuantity_Description {
-            get {
-                return ResourceManager.GetString("AllocationInstructionSet_RemainingQuantity_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remaining quantity.
-        /// </summary>
-        public static string AllocationInstructionSet_RemainingQuantity_Name {
-            get {
-                return ResourceManager.GetString("AllocationInstructionSet_RemainingQuantity_Name", resourceCulture);
+                return ResourceManager.GetString("AllocationInstructionRow_ClosingQuantity_Name", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to allocation rows.
         /// </summary>
-        public static string AlloctionInstruction_Noun_Plural {
+        public static string AllocationInstructionRow_Noun_Plural {
             get {
-                return ResourceManager.GetString("AlloctionInstruction_Noun_Plural", resourceCulture);
+                return ResourceManager.GetString("AllocationInstructionRow_Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string AllocationInstructionRow_Noun_PluralArticle {
+            get {
+                return ResourceManager.GetString("AllocationInstructionRow_Noun_PluralArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to allocation row.
+        /// </summary>
+        public static string AllocationInstructionRow_Noun_Singular {
+            get {
+                return ResourceManager.GetString("AllocationInstructionRow_Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string AllocationInstructionRow_Noun_SingularArticle {
+            get {
+                return ResourceManager.GetString("AllocationInstructionRow_Noun_SingularArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify lot closure.
+        /// </summary>
+        public static string AllocationInstructionTable_Name {
+            get {
+                return ResourceManager.GetString("AllocationInstructionTable_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The quantity of this transaction less closing instructions..
+        /// </summary>
+        public static string AllocationInstructionTable_RemainingQuantity_Description {
+            get {
+                return ResourceManager.GetString("AllocationInstructionTable_RemainingQuantity_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remaining quantity.
+        /// </summary>
+        public static string AllocationInstructionTable_RemainingQuantity_Name {
+            get {
+                return ResourceManager.GetString("AllocationInstructionTable_RemainingQuantity_Name", resourceCulture);
             }
         }
         

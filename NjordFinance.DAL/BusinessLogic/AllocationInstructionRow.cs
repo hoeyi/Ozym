@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Routing;
+﻿using Ichosys.DataModel.Annotations;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore.Metadata;
 using NjordFinance.Model;
 using NjordFinance.Model.Annotations;
@@ -15,6 +16,13 @@ namespace NjordFinance.BusinessLogic
     /// Represents a single-line instructing the quantity to close against a <see cref="BrokerTaxLot"/> 
     /// record.
     /// </summary>
+
+    [Noun(
+        Plural = nameof(DisplayString.AllocationInstructionRow_Noun_Plural),
+        PluralArticle = nameof(DisplayString.AllocationInstructionRow_Noun_PluralArticle),
+        Singular = nameof(DisplayString.AllocationInstructionRow_Noun_Singular),
+        SingularArticle = nameof(DisplayString.AllocationInstructionRow_Noun_SingularArticle),
+        ResourceType = typeof(DisplayString))]
     public class AllocationInstructionRow
     {
         /// <summary>
@@ -27,8 +35,8 @@ namespace NjordFinance.BusinessLogic
         /// </summary>
 
         [Display(
-            Name = nameof(DisplayString.AllocationInstruction_ClosingQuantity_Name),
-            Description = nameof(DisplayString.AllocationInstruction_ClosingQuantity_Description),
+            Name = nameof(DisplayString.AllocationInstructionRow_ClosingQuantity_Name),
+            Description = nameof(DisplayString.AllocationInstructionRow_ClosingQuantity_Description),
             ResourceType = typeof(DisplayString))]
         [Range(
             minimum: default, 

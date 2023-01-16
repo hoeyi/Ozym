@@ -15,7 +15,7 @@ namespace NjordFinance.BusinessLogic
     /// Represents a collection of instructions closing against <see cref="BrokerTaxLot"/> records.
     /// </summary>
     [Display(
-        Name = nameof(DisplayString.AllocationInstructionSet_Name),
+        Name = nameof(DisplayString.AllocationInstructionTable_Name),
         ResourceType = typeof(DisplayString))]
     public class AllocationInstructionTable
     {
@@ -46,8 +46,8 @@ namespace NjordFinance.BusinessLogic
             ErrorMessageResourceName = nameof(ExceptionString.AllocationInstructionTable_InstructionIsIncomplete),
             ErrorMessageResourceType = typeof(ExceptionString))]
         [Display(
-            Name = nameof(DisplayString.AllocationInstructionSet_RemainingQuantity_Name),
-            Description = nameof(DisplayString.AllocationInstructionSet_RemainingQuantity_Description),
+            Name = nameof(DisplayString.AllocationInstructionTable_RemainingQuantity_Name),
+            Description = nameof(DisplayString.AllocationInstructionTable_RemainingQuantity_Description),
             ResourceType = typeof(DisplayString))]
         public double RemainingTransactionQuantity =>
             (double)((Transaction.Quantity ?? default) - Instructions.Select(x => x.ClosingQuantity).Sum());
