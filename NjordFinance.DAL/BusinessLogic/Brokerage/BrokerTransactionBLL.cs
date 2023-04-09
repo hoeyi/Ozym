@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using NjordFinance.BusinessLogic.Brokerage;
 using NjordFinance.Model;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.ComponentModel;
 using System.Composition;
 using System.Linq;
 
-namespace NjordFinance.BusinessLogic
+namespace NjordFinance.BusinessLogic.Brokerage
 {
     public partial class BrokerTransactionBLL : IBrokerTransactionBLL
     {

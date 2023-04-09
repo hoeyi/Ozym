@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NjordFinance.BusinessLogic.Brokerage;
 using NjordFinance.Model;
 using System;
 using System.Collections.Generic;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace NjordFinance.BusinessLogic
+namespace NjordFinance.BusinessLogic.Brokerage
 {
     public interface IBrokerTransactionBLL
     {

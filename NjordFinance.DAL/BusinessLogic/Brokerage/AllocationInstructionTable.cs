@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace NjordFinance.BusinessLogic
+namespace NjordFinance.BusinessLogic.Brokerage
 {
     /// <summary>
     /// Represents a collection of instructions closing against <see cref="BrokerTaxLot"/> records.

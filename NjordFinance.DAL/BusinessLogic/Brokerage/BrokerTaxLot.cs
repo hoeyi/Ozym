@@ -3,7 +3,7 @@ using NjordFinance.Model;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NjordFinance.BusinessLogic
+namespace NjordFinance.BusinessLogic.Brokerage
 {
 
     /// <summary>   

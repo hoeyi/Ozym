@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NjordFinance.BusinessLogic
+namespace NjordFinance.BusinessLogic.Brokerage
 {
     /// <summary>
     /// Represents a single-line instructing the quantity to close against a <see cref="BrokerTaxLot"/> 
@@ -39,7 +39,7 @@ namespace NjordFinance.BusinessLogic
             Description = nameof(DisplayString.AllocationInstructionRow_ClosingQuantity_Description),
             ResourceType = typeof(DisplayString))]
         [Range(
-            minimum: default, 
+            minimum: default,
             maximum: double.MaxValue,
             ErrorMessageResourceName = nameof(ExceptionString.AllocationInstruction_Validation_ClosingQuantity),
             ErrorMessageResourceType = typeof(ExceptionString))]
