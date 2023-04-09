@@ -101,10 +101,19 @@ namespace NjordFinance.Controllers
         }
 
         /// <inheritdoc/>
-        public Task<IActionResult> PostAllocationInstruction(
+        public async Task<IActionResult> PostAllocationInstructionAsync(
             AllocationInstructionTable instruction)
         {
-            throw new NotImplementedException();
+            var postTask = Task.Run(() => _transactionBLL.PostAllocation(instruction));
+
+            var result = await postTask;
+
+            return result.UpdateStatus switch
+            {
+                TransactionUpdateStatus.Completed => Accepted(result),
+                TransactionUpdateStatus.Faulted => Conflict(result),
+                _ => throw new InvalidOperationException(),
+            };
         }
 
         /// <inheritdoc/>

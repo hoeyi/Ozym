@@ -79,6 +79,15 @@ namespace NjordFinance.BusinessLogic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Closing {0} of zero cannot be allocated..
+        /// </summary>
+        internal static string BrokerTransactionBLL_ClosingField_NotSet {
+            get {
+                return ResourceManager.GetString("BrokerTransactionBLL_ClosingField_NotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing required related record {0} in object graph..
         /// </summary>
         internal static string BrokerTransactionBLL_IncompleteObjectGraph {

@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using NjordFinance.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Composition;
 using System.Linq;
 
 namespace NjordFinance.BusinessLogic
@@ -90,7 +92,7 @@ namespace NjordFinance.BusinessLogic
                             requestedQuantity))
                     };
                 
-                // 4. Scenario: Transaction is complete, but only tax lot is available to close
+                // 4. Scenario: Transaction is complete, but only one tax lot is available to close
                 //              against.
                 // 4. Action:   Apply update and return completed status.
                 if(openLots.Count() == 1)
@@ -151,6 +153,85 @@ namespace NjordFinance.BusinessLogic
                     message: string.Format(
                         ExceptionString.BrokerTransactionBLL_TaxLotStatus_NotSupported,
                         taxLotStatus))
+            };
+        }
+
+        /// <inheritdoc/>
+        public ITransactionUpdateResponse PostAllocation(AllocationInstructionTable allocationTable)
+        {
+            // Applies an instruction row to a broker transaction.
+            static void ApplyInstruction(BrokerTransaction brokerTransaction, AllocationInstructionRow instruction)
+            {
+                decimal proportion = instruction.ClosingQuantity / brokerTransaction.Quantity ?? 0M;
+
+                brokerTransaction.Quantity = ProRate(brokerTransaction.Quantity, proportion, 6);
+                brokerTransaction.Fee = ProRate(brokerTransaction.Fee, proportion, 2); ;
+                brokerTransaction.Withholding = ProRate(brokerTransaction.Withholding, proportion, 2);
+                brokerTransaction.Amount = ProRate(brokerTransaction.Amount, proportion, 2) ?? default;
+
+                brokerTransaction.TaxLotId = instruction.TaxLot.TaxLotId;
+            }
+            
+            // Copies all attributes of the source broker transaction to the destination broker 
+            // transaction, except for TaxLot and TaxLotId.
+            static BrokerTransaction CopyTo(BrokerTransaction source, BrokerTransaction destination)
+            {
+                destination.AccountId = source.AccountId;
+                destination.SecurityId = source.SecurityId;
+                destination.TradeDate = source.TradeDate;
+                destination.SettleDate = source.SettleDate;
+                destination.AcquisitionDate = source.AcquisitionDate;
+                destination.Quantity = source.Quantity;
+                destination.Amount = source.Amount;
+                destination.Fee = source.Fee;
+                destination.Withholding = source.Withholding;
+                destination.DepSecurityId = source.DepSecurityId;
+                destination.TransactionCodeId = -source.TransactionCodeId;
+
+                return destination;
+            };
+
+            // Returns the originalAmount pro-rated based on factor and decimal precision, 
+            // or null if the originalAmount is null.
+            static decimal? ProRate(decimal? originalAmount, decimal factor, int decimals) =>
+                originalAmount is null ? 
+                    null : Math.Round((originalAmount ?? default) * factor, decimals);
+
+            var initTransaction = allocationTable.Transaction;
+
+            // Verify the quantity value is set.
+            if ((initTransaction.Quantity ?? default) == 0M)
+                throw new ArgumentException(
+                    message: string.Format(
+                            ExceptionString.BrokerTransactionBLL_ClosingField_NotSet,
+                            nameof(BrokerTransaction.Quantity)));
+
+            // Verify the amount value is set.  
+            if(initTransaction.Amount == 0M)
+                throw new ArgumentException(
+                    message: string.Format(
+                            ExceptionString.BrokerTransactionBLL_ClosingField_NotSet,
+                            nameof(BrokerTransaction.Amount)));
+
+            var splitTransactions = Enumerable.Repeat(
+                element: CopyTo(source: initTransaction, destination: AddTransaction()),
+                count: allocationTable.Instructions.Count - 1)
+                .Append(initTransaction)
+                .ToList();
+
+            for(int i = 0; i < allocationTable.Instructions.Count; i++)
+            {
+                var transaction = splitTransactions[i];
+                var instruction = allocationTable.Instructions[i];
+
+                ApplyInstruction(transaction, instruction);
+
+                transaction.TaxLotId = instruction.TaxLot.TaxLotId;
+            }
+
+            return new TransactionUpdateResponse<object>()
+            {
+                UpdateStatus = TransactionUpdateStatus.Completed
             };
         }
     }

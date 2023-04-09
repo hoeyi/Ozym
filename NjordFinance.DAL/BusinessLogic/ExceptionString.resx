@@ -123,6 +123,10 @@
   <data name="AllocationInstruction_Validation_ClosingQuantity" xml:space="preserve">
     <value>Cannot close negative shares against lots.</value>
   </data>
+  <data name="BrokerTransactionBLL_ClosingField_NotSet" xml:space="preserve">
+    <value>Closing {0} of zero cannot be allocated.</value>
+    <comment>{0} is the attribute name</comment>
+  </data>
   <data name="BrokerTransactionBLL_IncompleteObjectGraph" xml:space="preserve">
     <value>Missing required related record {0} in object graph.</value>
   </data>

@@ -30,8 +30,8 @@ else
             <DataGrid Data="@InstructionTable.Instructions">
                 <DataGridColumn
                     Type="DataGridCellType.Control"
-                    Property="@nameof(AllocationInstruction.ClosingQuantity)"
-                    Caption="@(ModelMetadata.NameFor<AllocationInstruction>(x => x.ClosingQuantity))">
+                    Property="@nameof(AllocationInstructionRow.ClosingQuantity)"
+                    Caption="@(ModelMetadata.NameFor<AllocationInstructionRow>(x => x.ClosingQuantity))">
                     <CellEditTemplate Context="model">
                         <InputNumber class="form-control" @bind-Value="model.ClosingQuantity" />
                     </CellEditTemplate>

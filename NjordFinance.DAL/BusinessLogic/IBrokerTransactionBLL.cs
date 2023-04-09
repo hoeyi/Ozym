@@ -33,6 +33,8 @@ namespace NjordFinance.BusinessLogic
         void RevertRemoveTransaction(BrokerTransaction model);
 
         ITransactionUpdateResponse UpdateTransactionCode(BrokerTransaction model, int newId);
+
+        ITransactionUpdateResponse PostAllocation(AllocationInstructionTable instructions);
     }
 
     /// <summary>

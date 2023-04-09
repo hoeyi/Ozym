@@ -1,6 +1,8 @@
-﻿using NjordFinance.Model;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NjordFinance.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace NjordFinance.BusinessLogic.Test
@@ -411,7 +413,90 @@ namespace NjordFinance.BusinessLogic.Test
             Assert.IsTrue(!taxLots.Any());
         }
 
+        [TestMethod]
+        public void PostAllocation_AgainstTwoLots_Returns()
+        {
+            // Create test instance. Both BrokerTransaction records will have the same
+            // AccountId, SecurityId, and TransactionId of the opening action must match 
+            // the TaxLotId of the closing action. Quantity opened is greater than quantity closed.
+            BrokerTransactionBLL transactionBLL = new(
+                new List<BrokerTransaction>()
+                {
+                    new()
+                    {
+                        TransactionId = 10,
+                        TransactionCodeId = -1,
+                        AccountId = -1,
+                        SecurityId = -1,
+                        Quantity = 100,
+                        Amount = 1000,
+                        AcquisitionDate = DateTime.Now.AddDays(-21).AddYears(-1),
+                        TransactionCode = new()
+                        {
+                            TransactionCodeId = -1,
+                            QuantityEffect = 1
+                        }
+                    },
+                    new()
+                    {
+                        TransactionId = 11,
+                        AccountId = -1,
+                        SecurityId = -1,
+                        Quantity = 250,
+                        Amount = 1375,
+                        AcquisitionDate = DateTime.Now.AddDays(-7),
+                        TransactionCode = new()
+                        {
+                            TransactionCodeId = -1,
+                            QuantityEffect = 1
+                        }
+                    },
+                    new()
+                    {
+                        TransactionCodeId = -2,
+                        AccountId = -1,
+                        SecurityId = -1,
+                        TradeDate = DateTime.Now,
+                        Quantity = 75,
+                        Amount = 500,
+                        TransactionCode = new()
+                        {
+                            TransactionCodeId = -2,
+                            QuantityEffect = -1
+                        },
+                        TaxLotId = 0
+                    }
+                },
+                _exampleTransactionCodes,
+                _exampleAccount);
 
+
+            var allocationTable = new AllocationInstructionTable()
+            {
+                Instructions = transactionBLL.GetTaxLots(taxLotStatus: TaxLotStatus.Open)
+                    .Where(a => a.SecurityId == -1)
+                    .Select(x => new AllocationInstructionRow()
+                    {
+                        TaxLot = x,
+                        ClosingQuantity = 0M
+                    })
+                    .ToList(),
+                AvailableTaxLots = transactionBLL
+                    .GetTaxLots(taxLotStatus: TaxLotStatus.Open)
+                    .Where(a => a.SecurityId == -1)
+                    .ToList(),
+                Transaction = transactionBLL.Entries.Last()
+            };
+
+            allocationTable.Instructions[0].ClosingQuantity = 25M;
+            allocationTable.Instructions[1].ClosingQuantity = 50M;
+
+            var response = transactionBLL.PostAllocation(allocationTable);
+
+            Assert.IsTrue(response.UpdateStatus == TransactionUpdateStatus.Completed);
+
+        }
+        
         /// <summary>
         /// Gets a new sample instance of the <see cref="BrokerTransaction"/> class, representing 
         /// a transaction that creates a tax-lot from a prior purchase or acquisition, i.e., 

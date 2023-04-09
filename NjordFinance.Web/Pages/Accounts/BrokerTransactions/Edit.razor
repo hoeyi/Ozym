@@ -324,12 +324,15 @@
         // Handle valid submission event
         if(modalEventArgs.Result == DialogResult.OK)
         {
-            var postTask = Controller.PostAllocationInstruction(modalEventArgs.Model);
+            var postTask = Controller.PostAllocationInstructionAsync(modalEventArgs.Model);
 
             await postTask;
 
             if (postTask.Result is AcceptedResult)
+            {
+                StateHasChanged();
                 return;
+            }
         }
         // TODO: Handle cancel event
     }

@@ -37,6 +37,6 @@ namespace NjordFinance.Controllers
         /// </summary>
         /// <param name="instruction"></param>
         /// <returns></returns>
-        Task<IActionResult> PostAllocationInstruction(AllocationInstructionTable instruction);
+        Task<IActionResult> PostAllocationInstructionAsync(AllocationInstructionTable instruction);
     }
 }
