@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using NjordFinance.Model;
+using NjordFinance.ViewModel.Generic;
 
-namespace NjordFinance.Model.ViewModel.Generic
+namespace NjordFinance.ViewModel.Generic
 {
     public abstract partial class AttributeEntryCollection<
         TParentEntity, TChildEntity, TGroupViewModel, TGroupKey>

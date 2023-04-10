@@ -2,10 +2,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using NjordFinance.Model.ViewModel.Generic;
+using NjordFinance.ViewModel.Generic;
 using NjordFinance.Model.Annotations;
+using NjordFinance.Model;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.ViewModel
 {
     [ModelAttributeSupport(
             SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]
@@ -25,7 +26,7 @@ namespace NjordFinance.Model.ViewModel
         /// <see cref="InvestmentStrategyTarget.AttributeMember"/> members.</exception>
         public InvestmentModelViewModel(InvestmentStrategy sourceModel)
             : base(
-                  parentEntity: sourceModel, 
+                  parentEntity: sourceModel,
                   groupConstructor: (parent, key) =>
                   {
                       return new InvestmentModelTargetGrouping(parent, key.Item1, key.Item2);
@@ -48,7 +49,7 @@ namespace NjordFinance.Model.ViewModel
                             var forDate = g.Key.EffectiveDate;
 
                             var group = new AttributeGrouping<
-                                (ModelAttribute, DateTime), 
+                                (ModelAttribute, DateTime),
                                 InvestmentStrategyTarget>(
                                 key: (attribute, forDate), collection: g);
 

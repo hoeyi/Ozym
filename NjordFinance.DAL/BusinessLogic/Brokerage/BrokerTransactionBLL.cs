@@ -244,7 +244,7 @@ namespace NjordFinance.BusinessLogic.Brokerage
     public partial class BrokerTransactionBLL
     {
         private readonly BindingList<BrokerTransaction> _brokerTransactions;
-        private readonly IEnumerable<BrokerTransactionCode> _brokerTransactionCodes;
+        private readonly IEnumerable<BrokerTransactionCode>_brokerTransactionCodes;
         private readonly Account _parentAccount;
 
         public BrokerTransactionBLL(
@@ -330,11 +330,11 @@ namespace NjordFinance.BusinessLogic.Brokerage
                 .Where(x => x.UnclosedQuantity > 0);
 
         /// <summary>
-        /// Gets a collection of <see cref="BrokerTaxLotActivitySummary"/> representing each tax
+        /// Gets a collection of <see cref="BrokerTaxLot"/> representing each tax
         /// lot observed in the <see cref="BrokerTransaction"/> collection, combined with closing 
         /// activity derived from that same collection.
         /// </summary>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTaxLotActivitySummary"/>.</returns>
+        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTaxLot"/>.</returns>
         private IEnumerable<BrokerTaxLot> GetTaxLotsWithUnclosedQuantity()
         {
             var taxLots = GetAllTaxLots();

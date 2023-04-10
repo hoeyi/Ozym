@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NjordFinance.Model;
 
-namespace NjordFinance.Model.ViewModel.Generic
+namespace NjordFinance.ViewModel.Generic
 {
     public interface IAttributeEntryCollection<TParentEntity, TChildEntity, TGroupModel>
         : IAttributeEntryViewModel

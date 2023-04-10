@@ -1,8 +1,10 @@
-﻿using NjordFinance.Model.ViewModel.Generic;
+﻿using NjordFinance.Model;
+using NjordFinance.ViewModel.Generic;
+using NjordFinance.ViewModel.Generic;
 using System;
 using System.Collections.Generic;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.ViewModel
 {
     public class BankTransactionCodeAttributeGrouping
         : AttributeEntryUnweightedGrouping<BankTransactionCode, BankTransactionCodeAttributeMemberEntry>,
@@ -16,7 +18,7 @@ namespace NjordFinance.Model.ViewModel
         /// <param name="modelAttribute">The <see cref="ModelAttribute"/> that entries in the instance describe.</param>
         /// <param name="effectiveDate">The effective date for entries in the instance.</param>
         public BankTransactionCodeAttributeGrouping(
-            BankTransactionCode parentEntity, ModelAttribute modelAttribute) 
+            BankTransactionCode parentEntity, ModelAttribute modelAttribute)
             : base(parentEntity, modelAttribute)
         {
         }
@@ -27,7 +29,7 @@ namespace NjordFinance.Model.ViewModel
 
         /// <inheritdoc/>
         protected override Func<BankTransactionCodeAttributeMemberEntry, bool> EntrySelector => x =>
-            (x.AttributeMember is null || x.AttributeMember.AttributeId == ParentAttribute.AttributeId);
+            x.AttributeMember is null || x.AttributeMember.AttributeId == ParentAttribute.AttributeId;
 
         /// <inheritdoc/>
         protected override Func<BankTransactionCodeAttributeMemberEntry, decimal> WeightSelector =>

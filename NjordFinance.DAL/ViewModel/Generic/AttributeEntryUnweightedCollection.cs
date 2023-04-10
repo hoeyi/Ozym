@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NjordFinance.Model;
+using NjordFinance.ViewModel.Generic;
 
-namespace NjordFinance.Model.ViewModel.Generic
+namespace NjordFinance.ViewModel.Generic
 {
     public abstract partial class AttributeEntryUnweightedCollection<
         TParentEntity, TChildEntity, TGroupViewModel> :
@@ -15,12 +17,12 @@ namespace NjordFinance.Model.ViewModel.Generic
         private readonly Func<TChildEntity, DateTime> _entryDateSelector;
 
         protected AttributeEntryUnweightedCollection(
-            TParentEntity parentEntity, 
-            Func<TParentEntity, ModelAttribute, TGroupViewModel> groupConstructor, 
-            Func<IGrouping<ModelAttribute, TChildEntity>, TParentEntity, TGroupViewModel> groupConverter, 
-            Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<ModelAttribute, TChildEntity>>> groupingFunc, 
+            TParentEntity parentEntity,
+            Func<TParentEntity, ModelAttribute, TGroupViewModel> groupConstructor,
+            Func<IGrouping<ModelAttribute, TChildEntity>, TParentEntity, TGroupViewModel> groupConverter,
+            Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<ModelAttribute, TChildEntity>>> groupingFunc,
             Func<TParentEntity, IEnumerable<TChildEntity>> entryMemberSelector,
-            Func<TChildEntity, DateTime> entryDateSelector) 
+            Func<TChildEntity, DateTime> entryDateSelector)
             : base(parentEntity, groupConstructor, groupConverter, groupingFunc, entryMemberSelector)
         {
             if (entryDateSelector is null)

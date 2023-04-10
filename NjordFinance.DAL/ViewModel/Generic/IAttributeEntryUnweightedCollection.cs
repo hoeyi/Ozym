@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using NjordFinance.Model;
 
-namespace NjordFinance.Model.ViewModel.Generic
+namespace NjordFinance.ViewModel.Generic
 {
     public interface IAttributeEntryUnweightedCollection<
         TParentEntity, TChildEntity, TGroupModel>

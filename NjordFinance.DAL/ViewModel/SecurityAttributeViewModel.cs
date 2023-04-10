@@ -1,9 +1,10 @@
-﻿using NjordFinance.Model.Annotations;
-using NjordFinance.Model.ViewModel.Generic;
+﻿using NjordFinance.Model;
+using NjordFinance.Model.Annotations;
+using NjordFinance.ViewModel.Generic;
 using System;
 using System.Linq;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.ViewModel
 {
     [ModelAttributeSupport(
             SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]

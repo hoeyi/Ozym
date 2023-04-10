@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NjordFinance.Model;
 
-namespace NjordFinance.Model.ViewModel.Generic
+namespace NjordFinance.ViewModel.Generic
 {
     /// <summary>
     /// Represents a collection of <typeparamref name="TElement"/> records grouped by 

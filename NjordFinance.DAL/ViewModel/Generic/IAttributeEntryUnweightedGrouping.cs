@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using NjordFinance.Model;
 
-namespace NjordFinance.Model.ViewModel.Generic
+namespace NjordFinance.ViewModel.Generic
 {
     /// <summary>
     /// Represents a collection of <typeparamref name="TEntryEntity"/> that describe an instance 
@@ -11,7 +12,7 @@ namespace NjordFinance.Model.ViewModel.Generic
     public interface IAttributeEntryUnweightedGrouping<TParentEntity, TEntryEntity>
         where TParentEntity : class, new()
         where TEntryEntity : class, new()
-    { 
+    {
         /// <summary>
         /// Gets the collection of <typeparamref name="TEntryEntity"/> entries in this model.
         /// </summary>

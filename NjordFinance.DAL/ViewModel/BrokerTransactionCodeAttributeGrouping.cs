@@ -1,8 +1,10 @@
-﻿using NjordFinance.Model.ViewModel.Generic;
+﻿using NjordFinance.Model;
+using NjordFinance.ViewModel.Generic;
+using NjordFinance.ViewModel.Generic;
 using System;
 using System.Collections.Generic;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.ViewModel
 {
     public class BrokerTransactionCodeAttributeGrouping
         : AttributeEntryUnweightedGrouping<BrokerTransactionCode, BrokerTransactionCodeAttributeMemberEntry>,
@@ -27,7 +29,7 @@ namespace NjordFinance.Model.ViewModel
 
         /// <inheritdoc/>
         protected override Func<BrokerTransactionCodeAttributeMemberEntry, bool> EntrySelector => x =>
-            (x.AttributeMember is null || x.AttributeMember.AttributeId == ParentAttribute.AttributeId);
+            x.AttributeMember is null || x.AttributeMember.AttributeId == ParentAttribute.AttributeId;
 
         /// <inheritdoc/>
         protected override Func<BrokerTransactionCodeAttributeMemberEntry, decimal> WeightSelector =>

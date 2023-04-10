@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using NjordFinance.Model;
 
-namespace NjordFinance.Model.ViewModel.Generic
+namespace NjordFinance.ViewModel.Generic
 {
     /// <summary>
     /// Represents a view model responsible for handling CRUD operations for a parent entity and 
