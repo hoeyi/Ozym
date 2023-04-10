@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NjordFinance.BusinessLogic;
+using NjordFinance.BusinessLogic.Brokerage;
 using NjordFinance.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -31,5 +31,12 @@ namespace NjordFinance.Controllers
         /// <param name="newId"></param>
         /// <returns></returns>
         Task<IActionResult> UpdateTransactionCodeAsync(BrokerTransaction model, int newId);
+
+        /// <summary>
+        /// Posts the given allocation instructions to the loaded transactions.
+        /// </summary>
+        /// <param name="instruction"></param>
+        /// <returns></returns>
+        Task<IActionResult> PostAllocationInstructionAsync(AllocationInstructionTable instruction);
     }
 }

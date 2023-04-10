@@ -117,31 +117,62 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AllocationInstructionTable_InstructionIsIncomplete" xml:space="preserve">
-    <value>Instructions must allocate 100% of the transaction quantity.</value>
+  <data name="AllocationInstructionRow_ClosingQuantity_Description" xml:space="preserve">
+    <value>Quantity to close in each lot.</value>
   </data>
-  <data name="AllocationInstruction_Validation_ClosingQuantity" xml:space="preserve">
-    <value>Cannot close negative shares against lots.</value>
+  <data name="AllocationInstructionRow_ClosingQuantity_Name" xml:space="preserve">
+    <value>Close shares</value>
   </data>
-  <data name="BrokerTransactionBLL_ClosingField_NotSet" xml:space="preserve">
-    <value>Closing {0} of zero cannot be allocated.</value>
-    <comment>{0} is the attribute name</comment>
+  <data name="AllocationInstructionRow_Noun_Plural" xml:space="preserve">
+    <value>allocation rows</value>
   </data>
-  <data name="BrokerTransactionBLL_IncompleteObjectGraph" xml:space="preserve">
-    <value>Missing required related record {0} in object graph.</value>
+  <data name="AllocationInstructionRow_Noun_PluralArticle" xml:space="preserve">
+    <value>the</value>
   </data>
-  <data name="BrokerTransactionBLL_InsufficientQuantityToCloseAgainst" xml:space="preserve">
-    <value>There are not enough shares open to close against. Available = {0}, Requested = {1}.</value>
-    <comment>{0} is the available quantity to close
-{1} is the requested quantity to close</comment>
+  <data name="AllocationInstructionRow_Noun_Singular" xml:space="preserve">
+    <value>allocation row</value>
   </data>
-  <data name="BrokerTransactionBLL_InvalidCollectionParent" xml:space="preserve">
-    <value>Record set passed to the constructor contains a mix of account identifiers. Business logic for this data supports working collections for a single account at a time.</value>
+  <data name="AllocationInstructionRow_Noun_SingularArticle" xml:space="preserve">
+    <value>the</value>
   </data>
-  <data name="BrokerTransactionBLL_NoAvailableTaxLotsToClose" xml:space="preserve">
-    <value>There are no tax lots available to close against.</value>
+  <data name="AllocationInstructionTable_Name" xml:space="preserve">
+    <value>Specify lot closure</value>
+    <comment>Caption for user prompt to specify tax lot closure instructions.</comment>
   </data>
-  <data name="BrokerTransactionBLL_TaxLotStatus_NotSupported" xml:space="preserve">
-    <value>Argument '{0}' is not valid for this method.</value>
+  <data name="AllocationInstructionTable_RemainingQuantity_Description" xml:space="preserve">
+    <value>The quantity of this transaction less closing instructions.</value>
+  </data>
+  <data name="AllocationInstructionTable_RemainingQuantity_Name" xml:space="preserve">
+    <value>Remaining quantity</value>
+  </data>
+  <data name="BrokerTaxLot_AcquisitionDate_Description" xml:space="preserve">
+    <value>Date of the original acquisition.</value>
+  </data>
+  <data name="BrokerTaxLot_AcquisitionDate_Name" xml:space="preserve">
+    <value>Acquisition Date</value>
+  </data>
+  <data name="BrokerTaxLot_Noun_Plural" xml:space="preserve">
+    <value>tax lots</value>
+  </data>
+  <data name="BrokerTaxLot_Noun_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTaxLot_Noun_Singular" xml:space="preserve">
+    <value>tax lot</value>
+  </data>
+  <data name="BrokerTaxLot_Noun_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTaxLot_UnclosedQuantity_Description" xml:space="preserve">
+    <value>Number of shares available for closing.</value>
+  </data>
+  <data name="BrokerTaxLot_UnclosedQuantity_Name" xml:space="preserve">
+    <value>Available shares</value>
+  </data>
+  <data name="BrokerTaxLot_UnitCostBasis_Description" xml:space="preserve">
+    <value>Per share cost from the original acquisition.</value>
+  </data>
+  <data name="BrokerTaxLot_UnitCostBasis_Name" xml:space="preserve">
+    <value>Unit Cost</value>
   </data>
 </root>

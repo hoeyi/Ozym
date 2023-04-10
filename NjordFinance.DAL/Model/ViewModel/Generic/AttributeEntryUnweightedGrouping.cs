@@ -1,4 +1,5 @@
-﻿using NjordFinance.Model.Annotations;
+﻿using Ichosys.DataModel.Annotations;
+using NjordFinance.Model.Annotations;
 using NjordFinance.Model.Metadata;
 using System;
 using System.Collections.Generic;

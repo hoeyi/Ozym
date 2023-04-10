@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace NjordFinance.BusinessLogic
+namespace NjordFinance.BusinessLogic.Brokerage
 {
     public interface IBrokerTransactionBLL
     {
@@ -32,6 +32,8 @@ namespace NjordFinance.BusinessLogic
 
         void RevertRemoveTransaction(BrokerTransaction model);
 
-        void UpdateTransactionCode(BrokerTransaction model, int newId);
+        ITransactionUpdateResponse UpdateTransactionCode(BrokerTransaction model, int newId);
+
+        ITransactionUpdateResponse PostAllocation(AllocationInstructionTable instructions);
     }
 }

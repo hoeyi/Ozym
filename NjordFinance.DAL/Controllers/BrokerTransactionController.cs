@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using NjordFinance.BusinessLogic;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json.Linq;
+using NjordFinance.BusinessLogic.Brokerage;
 
 namespace NjordFinance.Controllers
 {
@@ -28,6 +29,7 @@ namespace NjordFinance.Controllers
         {
         }
 
+        /// <inheritdoc/>
         public async Task<IActionResult> AddNewAsync()
         {
             var newModel = _transactionBLL.AddTransaction();
@@ -36,6 +38,7 @@ namespace NjordFinance.Controllers
             return await AddAsync(newModel);
         }
 
+        /// <inheritdoc/>
         public override async Task<IActionResult> DeleteOrDetachAsync(BrokerTransaction model)
         {
             _transactionBLL.RemoveTransaction(model);
@@ -44,6 +47,7 @@ namespace NjordFinance.Controllers
             
             return result;
         }
+
         /// <inheritdoc/>
         public async Task<ActionResult<IEnumerable<BrokerTaxLot>>> GetTaxLots(
             TaxLotStatus taxLotStatus)
@@ -53,6 +57,7 @@ namespace NjordFinance.Controllers
             return Ok(result);
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<BrokerTransaction>> LoadRecordsAsync(int parentId)
         {
             var forParentResult = await ForParent(parentId);
@@ -77,7 +82,7 @@ namespace NjordFinance.Controllers
                     var parentResult = await parentTask;
 
                     _transactionBLL = new BrokerTransactionBLL(
-                        transactionsResult.Value,
+                        transactionsResult.Value.OrderByDescending(x => x.TradeDate).ToList(),
                         codesResult.Value, 
                         parentResult.Value);
 
@@ -97,14 +102,63 @@ namespace NjordFinance.Controllers
         }
 
         /// <inheritdoc/>
+        public async Task<IActionResult> PostAllocationInstructionAsync(
+            AllocationInstructionTable instruction)
+        {
+            var postTask = Task.Run(() => _transactionBLL.PostAllocation(instruction));
+
+            var result = await postTask;
+
+            return result.UpdateStatus switch
+            {
+                TransactionUpdateStatus.Completed => Accepted(result),
+                TransactionUpdateStatus.Faulted => Conflict(result),
+                _ => throw new InvalidOperationException(),
+            };
+        }
+
+        /// <inheritdoc/>
         public async Task<IActionResult> UpdateTransactionCodeAsync(
             BrokerTransaction model, int newId)
         {
+            static ITransactionUpdateResponse<AllocationInstructionTable> ConvertToAllocationResponse(
+                ITransactionUpdateResponse response)
+            {
+                if (response is ITransactionUpdateResponse<AllocationInstructionTable>
+                    allcoationResponse)
+                    return allcoationResponse;
+                else return null;
+            };
+
+            static ITransactionUpdateResponse<InvalidOperationException> ConvertToErrorResponse(
+                ITransactionUpdateResponse response)
+            {
+                if (response is ITransactionUpdateResponse<InvalidOperationException>
+                    errorResponse)
+                    return errorResponse;
+                else return null;
+            };
+
             var updateTransactionCodeTask = Task.Run(() =>
             {
-                _transactionBLL.UpdateTransactionCode(model, newId);
+                var response  = _transactionBLL.UpdateTransactionCode(model, newId);
 
-                return Accepted();
+                IActionResult result = response.UpdateStatus switch
+                {
+                    TransactionUpdateStatus.Completed => Accepted(),
+                    
+                    TransactionUpdateStatus.PendingAdditionalDetail => Accepted(),
+                    
+                    TransactionUpdateStatus.PendingLotClosure => 
+                        Accepted(ConvertToAllocationResponse(response)),
+
+                    TransactionUpdateStatus.Faulted => 
+                        Conflict(ConvertToErrorResponse(response)),
+
+                    _ => throw new InvalidOperationException()
+                };
+
+                return result;
             });
 
             var actionResult = await updateTransactionCodeTask;

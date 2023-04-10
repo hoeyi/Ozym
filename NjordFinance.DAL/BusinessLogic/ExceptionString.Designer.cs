@@ -61,6 +61,33 @@ namespace NjordFinance.BusinessLogic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot close negative shares against lots..
+        /// </summary>
+        internal static string AllocationInstruction_Validation_ClosingQuantity {
+            get {
+                return ResourceManager.GetString("AllocationInstruction_Validation_ClosingQuantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instructions must allocate 100% of the transaction quantity..
+        /// </summary>
+        internal static string AllocationInstructionTable_InstructionIsIncomplete {
+            get {
+                return ResourceManager.GetString("AllocationInstructionTable_InstructionIsIncomplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closing {0} of zero cannot be allocated..
+        /// </summary>
+        internal static string BrokerTransactionBLL_ClosingField_NotSet {
+            get {
+                return ResourceManager.GetString("BrokerTransactionBLL_ClosingField_NotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing required related record {0} in object graph..
         /// </summary>
         internal static string BrokerTransactionBLL_IncompleteObjectGraph {
@@ -70,11 +97,29 @@ namespace NjordFinance.BusinessLogic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are not enough shares open to close against. Available = {0}, Requested = {1}..
+        /// </summary>
+        internal static string BrokerTransactionBLL_InsufficientQuantityToCloseAgainst {
+            get {
+                return ResourceManager.GetString("BrokerTransactionBLL_InsufficientQuantityToCloseAgainst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Record set passed to the constructor contains a mix of account identifiers. Business logic for this data supports working collections for a single account at a time..
         /// </summary>
         internal static string BrokerTransactionBLL_InvalidCollectionParent {
             get {
                 return ResourceManager.GetString("BrokerTransactionBLL_InvalidCollectionParent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no tax lots available to close against..
+        /// </summary>
+        internal static string BrokerTransactionBLL_NoAvailableTaxLotsToClose {
+            get {
+                return ResourceManager.GetString("BrokerTransactionBLL_NoAvailableTaxLotsToClose", resourceCulture);
             }
         }
         
