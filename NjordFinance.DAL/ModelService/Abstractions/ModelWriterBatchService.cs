@@ -105,13 +105,17 @@ namespace NjordFinance.ModelService.Abstractions
                 throw new InvalidOperationException(
                     ExceptionString.ModelBatchService_SharedContextNotSet);
 
-            SharedContext.Context.Set<T>().Remove(model);
+            int key = GetKey(model) ?? default;
+
+            if (key == default)
+                SharedContext.Context.Entry(model).State = EntityState.Detached;
+            else
+                SharedContext.Context.Set<T>().Remove(model);
 
             EntityState observedState = SharedContext.Context.Entry(model).State;
             
-            int? key = GetKey(model);
-            bool result = (key is null && observedState == EntityState.Detached) ^
-                (key is not null && observedState == EntityState.Deleted);
+            bool result = (key == default && observedState == EntityState.Detached) ^
+                (key != default && observedState == EntityState.Deleted);
 
             object m = new
             {
