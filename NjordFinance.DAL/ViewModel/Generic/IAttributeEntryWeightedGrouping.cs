@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NjordFinance.Model.ViewModel.Generic
+namespace NjordFinance.ViewModel.Generic
 {
     public interface IAttributeEntryWeightedGrouping<TParentEntity, TEntryEntity>
         : IAttributeEntryUnweightedGrouping<TParentEntity, TEntryEntity>

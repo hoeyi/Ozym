@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace NjordFinance.Model.ViewModel.Generic
+namespace NjordFinance.ViewModel.Generic
 {
     internal interface IAttributeInternalFactory
         <TParentEntity, TGroupKey, TChildEntity, TGroupViewModel>

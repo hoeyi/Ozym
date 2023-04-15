@@ -1,11 +1,13 @@
-﻿using NjordFinance.Model.Annotations;
+﻿using NjordFinance.Model;
+using NjordFinance.Model.Annotations;
 using NjordFinance.Model.Metadata;
-using NjordFinance.Model.ViewModel.Generic;
+using NjordFinance.ViewModel.Generic;
+using NjordFinance.ViewModel.Generic;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.ViewModel
 {
     [ModelAttributeSupport(
             SupportedScopes = ModelAttributeScopeCode.BankTransactionCode)]

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using NjordFinance.ModelMetadata;
 using NjordFinance.Model.Annotations;
 using System.Reflection;
-using NjordFinance.Model.ViewModel.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using NjordFinance.ViewModel.Generic;
 
 namespace NjordFinance.ModelService.Query
 {

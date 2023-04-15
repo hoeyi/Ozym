@@ -2,8 +2,9 @@
 using NjordFinance.Model.Metadata;
 using System;
 using System.ComponentModel.DataAnnotations;
+using NjordFinance.Model;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.ViewModel
 {
     public class AccountViewModel : AccountObjectViewModel
     {

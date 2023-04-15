@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using NjordFinance.Model.ViewModel.Generic;
+using NjordFinance.Model;
+using NjordFinance.ViewModel.Generic;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.ViewModel
 {
     /// <summary>
     /// Represents a collection of <see cref="InvestmentStrategyTarget"/> instances with the same 
@@ -17,11 +18,11 @@ namespace NjordFinance.Model.ViewModel
         {
         }
 
-        protected override Func<InvestmentStrategy, ICollection<InvestmentStrategyTarget>> 
+        protected override Func<InvestmentStrategy, ICollection<InvestmentStrategyTarget>>
             ParentEntryMemberSelector => x => x.InvestmentStrategyTargets;
 
-        protected override Func<InvestmentStrategyTarget, bool> EntrySelector => x => 
-            (x.AttributeMember is null || x.AttributeMember.AttributeId == ParentAttribute.AttributeId) 
+        protected override Func<InvestmentStrategyTarget, bool> EntrySelector => x =>
+            (x.AttributeMember is null || x.AttributeMember.AttributeId == ParentAttribute.AttributeId)
                 && x.EffectiveDate == EffectiveDate;
 
         protected override Func<InvestmentStrategyTarget, decimal> WeightSelector => x => x.Weight;

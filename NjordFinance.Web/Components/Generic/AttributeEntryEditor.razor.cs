@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using NjordFinance.Model;
-using NjordFinance.Model.ViewModel.Generic;
 using NjordFinance.ModelService;
 using NjordFinance.ModelService.Query;
+using NjordFinance.ViewModel.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;

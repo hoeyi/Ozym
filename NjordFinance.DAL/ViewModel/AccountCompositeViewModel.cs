@@ -1,20 +1,21 @@
-﻿using NjordFinance.ModelMetadata;
+﻿using NjordFinance.Model;
+using NjordFinance.ModelMetadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.ViewModel
 {
     public class AccountCompositeViewModel : AccountObjectViewModel
     {
         private readonly AccountComposite _composite;
-        
+
         public AccountCompositeViewModel(AccountComposite sourceModel)
             : this(sourceModel, sourceModel.AccountCompositeNavigation)
         {
         }
 
-        AccountCompositeViewModel(AccountComposite composite, AccountObject accountObject) 
+        AccountCompositeViewModel(AccountComposite composite, AccountObject accountObject)
             : base(accountObject)
         {
             if (composite is null)
@@ -24,8 +25,8 @@ namespace NjordFinance.Model.ViewModel
         }
 
         public override string ObjecTypeCode => AccountObjectType.Composite.ConvertToStringCode();
-        
-        public IReadOnlyCollection<AccountCompositeMember> Members => 
+
+        public IReadOnlyCollection<AccountCompositeMember> Members =>
             _composite.AccountCompositeMembers.ToList();
 
         public void AddMember() =>

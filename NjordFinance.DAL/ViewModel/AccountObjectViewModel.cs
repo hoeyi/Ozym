@@ -1,8 +1,9 @@
-﻿using NjordFinance.Model.Metadata;
+﻿using NjordFinance.Model;
+using NjordFinance.Model.Metadata;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.ViewModel
 {
     /// <summary>
     /// Provides a flattened view-object for working with complex type <see cref="Model.AccountObject"/>.

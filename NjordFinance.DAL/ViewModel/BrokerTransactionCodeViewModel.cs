@@ -3,9 +3,11 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NjordFinance.Model.Annotations;
-using NjordFinance.Model.ViewModel.Generic;
+using NjordFinance.ViewModel.Generic;
+using NjordFinance.ViewModel.Generic;
+using NjordFinance.Model;
 
-namespace NjordFinance.Model.ViewModel
+namespace NjordFinance.ViewModel
 {
     [ModelAttributeSupport(
             SupportedScopes = ModelAttributeScopeCode.BrokerTransactionCode)]
@@ -78,7 +80,7 @@ namespace NjordFinance.Model.ViewModel
             ErrorMessageResourceType = typeof(ModelValidation))]
         public string TransactionCode
         {
-            get { return ParentEntity.TransactionCode;  }
+            get { return ParentEntity.TransactionCode; }
             set
             {
                 if (ParentEntity.TransactionCode != value)
