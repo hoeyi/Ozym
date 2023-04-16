@@ -13,7 +13,8 @@ namespace NjordFinance.ModelService.Abstractions
     /// Base class for <typeparamref name="T"/> model service.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal abstract class ModelService<T> : ModelServiceBase<T>, IModelService<T>
+    internal abstract class ModelService<T> : 
+        ModelServiceBase<T>, IModelService<T>, ISharedContext
         where T : class, new()
     {
         /// <summary>
@@ -28,8 +29,12 @@ namespace NjordFinance.ModelService.Abstractions
             ILogger logger)
                 : base(contextFactory, metadataService, logger)
         {
+            Context = _contextFactory.CreateDbContext();
         }
-        
+
+        /// <inheritdoc/>
+        public FinanceDbContext Context { get; private set; }
+
         /// <summary>
         /// Gets or sets the service that handles read requests for this service.
         /// </summary>
