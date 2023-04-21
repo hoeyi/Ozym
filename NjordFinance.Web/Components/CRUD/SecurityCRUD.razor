@@ -86,20 +86,6 @@ else
                     DisplayName="@NameFor(x => x.HasPerpetualPrice)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.Issuer)">
-            @if (ReadOnly)
-            {
-                <div class="form-control">
-                    @ViewModel.Issuer
-                </div>
-            }
-            else
-            {
-                <InputText class="form-control" @bind-Value="ViewModel.Issuer"
-                   disable="@Disabled"
-                   DisplayName="@NameFor(x => x.Issuer)" />
-            }
-        </ModelFormLineItem>
         <ModelFormLineItem ForMember="@(() => ViewModel.SecurityExchangeId)">
             @if (ReadOnly)
             {
