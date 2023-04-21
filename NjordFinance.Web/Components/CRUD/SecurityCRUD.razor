@@ -67,9 +67,9 @@ else
             }
             else
             {
-                <InputCheckbox class="form-control" @bind-Value="ViewModel.HasPerpetualMarket"
-                   disable="@Disabled"
-                       DisplayName="@NameFor(x => x.HasPerpetualMarket)" />
+                <InputCheckbox @bind-Value="ViewModel.HasPerpetualMarket"
+                    disable="@Disabled"
+                    DisplayName="@NameFor(x => x.HasPerpetualMarket)" />
             }
         </ModelFormLineItem>
         <ModelFormLineItem ForMember="@(() => ViewModel.HasPerpetualPrice)">
@@ -81,9 +81,9 @@ else
             }
             else
             {
-                <InputCheckbox class="form-control" @bind-Value="ViewModel.HasPerpetualMarket"
-                   disable="@Disabled"
-                       DisplayName="@NameFor(x => x.HasPerpetualMarket)" />
+                <InputCheckbox @bind-Value="ViewModel.HasPerpetualPrice"
+                    disable="@Disabled"
+                    DisplayName="@NameFor(x => x.HasPerpetualPrice)" />
             }
         </ModelFormLineItem>
         <ModelFormLineItem ForMember="@(() => ViewModel.Issuer)">
