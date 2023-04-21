@@ -1,14 +1,6 @@
 ﻿using Ichosys.DataModel.Annotations;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore.Metadata;
-using NjordFinance.Model;
-using NjordFinance.Model.Annotations;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NjordFinance.BusinessLogic.Brokerage
 {

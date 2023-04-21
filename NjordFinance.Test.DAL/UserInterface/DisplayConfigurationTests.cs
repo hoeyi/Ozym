@@ -1,6 +1,5 @@
 ﻿using NjordFinance.Model;
 using NjordFinance.UserInterface;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 

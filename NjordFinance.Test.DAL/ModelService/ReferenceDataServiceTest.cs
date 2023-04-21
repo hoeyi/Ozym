@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordFinance.ModelService;
+﻿using NjordFinance.ModelService;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NjordFinance.ModelService.Query;

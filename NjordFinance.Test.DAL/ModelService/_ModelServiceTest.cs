@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using NjordFinance.ModelService;
 using Microsoft.Extensions.Logging;
 using Ichosys.DataModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using NjordFinance.Exceptions;
 using System.Collections.Generic;

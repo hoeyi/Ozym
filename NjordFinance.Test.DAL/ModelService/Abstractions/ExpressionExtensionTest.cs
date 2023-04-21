@@ -2,7 +2,6 @@
 using System.Linq;
 using NjordFinance.ModelService.Abstractions;
 using NjordFinance.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NjordFinance.Test.ModelService.Abstractions
 {

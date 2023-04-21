@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using NjordFinance.ModelService;
 using System;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;

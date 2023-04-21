@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using NjordFinance.BusinessLogic.Brokerage;
-using NjordFinance.Model;
+﻿using NjordFinance.Model;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Composition;
 using System.Linq;
 
 namespace NjordFinance.BusinessLogic.Brokerage

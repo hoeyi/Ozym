@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NjordFinance.Model.Annotations;
 using NjordFinance.ViewModel.Generic;
-using NjordFinance.ViewModel.Generic;
 using NjordFinance.Model;
 
 namespace NjordFinance.ViewModel

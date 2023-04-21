@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordFinance.Model;
+﻿using NjordFinance.Model;
 using NjordFinance.ViewModel;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,5 @@
 ﻿using NjordFinance.Model;
 using NjordFinance.ViewModel.Generic;
-using NjordFinance.ViewModel.Generic;
 using System;
 using System.Collections.Generic;
 

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NjordFinance.Model;
-using NjordFinance.ViewModel;
-using NjordFinance.ViewModel.Generic;
 
 namespace NjordFinance.ViewModel.Generic
 {

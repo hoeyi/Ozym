@@ -2,7 +2,6 @@
 using NjordFinance.Model.Annotations;
 using NjordFinance.Model.Metadata;
 using NjordFinance.ViewModel.Generic;
-using NjordFinance.ViewModel.Generic;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;

@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordFinance.Messaging;
+﻿using NjordFinance.Messaging;
 
 namespace NjordFinance.Test.Messaging
 {
