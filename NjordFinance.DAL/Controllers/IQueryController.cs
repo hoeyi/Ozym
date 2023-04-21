@@ -42,6 +42,27 @@ namespace NjordFinance.Controllers
             where TSource : class, new();
 
         /// <summary>
+        /// Executes a select query returning a key-value representation of <typeparamref name="TSource"/> 
+        /// records. Only the fields matching the <paramref name="key"/> and <paramref name="display"/> parameters 
+        /// are included in the query.
+        /// </summary>
+        /// <typeparamref name="TSource"/>
+        /// <typeparam name="TKey">The key type for the lookup record.</typeparam>
+        /// <typeparam name="TValue">Teh display type for the lookup record.</typeparam>
+        /// <param name="key">Expression indicating the attribute to use as the key.</param>
+        /// <param name="display">Expression indicating the attribute to use for display.</param>
+        /// <param name="defaultKey">Default key value to use for placeholder record.</param>
+        /// <param name="defaultDisplay">Default display value to use for the placeholder record.</param>
+        /// <returns>A task representing an asynchronous query and DTO-mapping. The task result is an <see cref="ActionResult"/>
+        /// containing an <see cref="IEnumerable{T}"/> of key-value records represent a foregin key reference.</returns>
+        Task<ActionResult<IEnumerable<LookupModel<TKey, TValue>>>> GetDtosAsync<TSource, TKey, TValue>(
+            Expression<Func<TSource, TKey>> key,
+            Expression<Func<TSource, TValue>> display,
+            TKey defaultKey = default,
+            TValue defaultDisplay = default)
+            where TSource : class, new();
+
+        /// <summary>
         /// Selects all account custodian lookup DTOs.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing an asynchronous select query for 

@@ -30,12 +30,31 @@ namespace NjordFinance.Controllers.Abstractions
         }
 
         /// <inheritdoc/>
+        public async Task<ActionResult<IEnumerable<LookupModel<TKey, TValue>>>> 
+            GetDtosAsync<TSource, TKey, TValue>(
+                Expression<Func<TSource, TKey>> key, 
+                Expression<Func<TSource, TValue>> display, 
+                TKey defaultKey = default, 
+                TValue defaultDisplay = default)
+            where TSource : class, new()
+        {
+            var task = _queryService.SelectDTOsAsync(
+                key,
+                display,
+                defaultKey,
+                defaultDisplay);
+
+            return await task.ContinueWith(x =>
+                new ActionResult<IEnumerable<LookupModel<TKey, TValue>>>(x.Result));
+        }
+
+        /// <inheritdoc/>
         public async Task<ActionResult<IEnumerable<TSource>>> GetManyAsync<TSource>(
             Expression<Func<TSource, bool>> predicate, 
             Expression<Func<TSource, object>> path = null) where TSource : class, new()
         {
             return new ActionResult<IEnumerable<TSource>>(
-                await _queryService.GetManyAsync<TSource>(predicate, path));
+                await _queryService.GetManyAsync(predicate, path));
         }
 
         /// <inheritdoc/>
