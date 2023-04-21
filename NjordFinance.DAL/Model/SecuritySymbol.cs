@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Ichosys.DataModel.Annotations;
 using Microsoft.EntityFrameworkCore;
 using NjordFinance.Model.Metadata;
 
@@ -10,6 +11,12 @@ namespace NjordFinance.Model
     [Table("SecuritySymbol", Schema = "FinanceApp")]
     [Index(nameof(SymbolTypeId), Name = "IX_SecuritySymbol_SymbolTypeID")]
     [Index(nameof(SecurityId), nameof(EffectiveDate), Name = "UNI_SecuritySymbol_Column", IsUnique = true)]
+    [Noun(
+        Plural = nameof(ModelNoun.SecuritySymbol_Plural),
+        PluralArticle = nameof(ModelNoun.SecuritySymbol_PluralArticle),
+        Singular = nameof(ModelNoun.SecuritySymbol_SingularArticle),
+        SingularArticle = nameof(ModelNoun.SecuritySymbol_Singular),
+        ResourceType = typeof(ModelNoun))]
     public partial class SecuritySymbol
     {
         public SecuritySymbol()

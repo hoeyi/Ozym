@@ -19,12 +19,14 @@ namespace NjordFinance.Model
         )]
     public class SecurityMetadata
     {
+        [Searchable]
         [Display(
             Name = nameof(ModelDisplay.Security_SecurityDescription_Name),
             Description = nameof(ModelDisplay.Security_SecurityDescription_Description),
             ResourceType = typeof(ModelDisplay))]
         public string SecurityDescription { get; set; }
 
+        [Searchable]
         [Display(
             Name = nameof(ModelDisplay.Security_Issuer_Name),
             Description = nameof(ModelDisplay.Security_Issuer_Description),
@@ -54,6 +56,13 @@ namespace NjordFinance.Model
             Description = nameof(ModelDisplay.Security_HasPerpetualPrice_Description),
             ResourceType = typeof(ModelDisplay))]
         public bool HasPerpetualPrice { get; set; }
+
+        [Display(
+            Name = nameof(ModelDisplay.Security_CurrentSymbol_Name),
+            Description = nameof(ModelDisplay.Security_CurrentSymbol_Description),
+            ResourceType = typeof(ModelDisplay))]
+        public string SecuritySymbol { get; }
+
     }
 
     [MetadataType(typeof(SecurityMetadata))]
