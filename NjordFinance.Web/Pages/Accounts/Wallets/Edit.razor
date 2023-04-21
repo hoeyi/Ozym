@@ -118,7 +118,7 @@
                 throw new InvalidOperationException();
 
             var denominationDtosTask = Controller.ReferenceQueries
-                .GetAccountCustodianDTOsAsync();
+                .GetCryptocurrencyDTOsAsync();
             var walletsTask = Controller.SelectAllAsync();
 
             var dataTasks = Task.WhenAll(denominationDtosTask, walletsTask);
