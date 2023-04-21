@@ -191,12 +191,14 @@
             color: var(--theme-text-color-0, white) !important;
         }
 
-::deep input[type=checkbox]:checked:before {
-    background: var(--theme-hexcolor-primary-1, inherit);
+/* Handle the color of checkboxes */ 
+::deep input[type=checkbox].checkbox-themed:checked {
+    accent-color: var(--theme-hexcolor-secondary-2-1, inherit);
 }
 
-::deep input[type=checkbox]:checked:after {
-    background: var(--theme-hexcolor-primary-1, inherit);
+/* Handle the width of date input controls. */
+::deep input[type=date] {
+    width: auto;
 }
 
 ::deep .validation-message {

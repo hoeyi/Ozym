@@ -30,7 +30,7 @@ else
             }
             else
             {
-                <InputCheckbox @bind-Value="ViewModel.Transactable"
+                <InputCheckbox class="checkbox-themed" @bind-Value="ViewModel.Transactable"
                        disable="@Disabled"
                        DisplayName="@NameFor(x => x.Transactable)" />
             }
@@ -44,7 +44,7 @@ else
             }
             else
             {
-                <InputCheckbox @bind-Value="ViewModel.DepositSource"
+                <InputCheckbox class="checkbox-themed" @bind-Value="ViewModel.DepositSource"
                        disable="@Disabled"
                        DisplayName="@NameFor(x => x.DepositSource)" />
             }
