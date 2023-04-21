@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Query;
 using NjordFinance.Context;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace NjordFinance.ModelService.Query
     /// <remarks>
     /// Reltionship inclusions must be expressed in terms of <typeparamref name="TSource"/>.
     /// </remarks>
-    internal sealed class QueryBuilder<TSource> : IQueryBuilder<TSource>
+    internal sealed partial class QueryBuilder<TSource> : IQueryBuilder<TSource>
         where TSource : class, new()
     {
         private readonly FinanceDbContext _context;
@@ -28,12 +29,13 @@ namespace NjordFinance.ModelService.Query
 
             _context = context;
             Queryable = _context.Set<TSource>();
+
+            QueryCompleted += QueryBuilder_QueryCompleted;
         }
 
         ~QueryBuilder() => Dispose();
 
-        private IQueryable<TSource> Queryable { get; set; }
-
+        /// <inheritdoc/>
         public void Dispose()
         {
             _context?.Dispose();
@@ -44,6 +46,13 @@ namespace NjordFinance.ModelService.Query
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="IQueryable{T}"/> instance sensitive to requests to 
+        /// include direct and indirect relationships.
+        /// </summary>
+        private IQueryable<TSource> Queryable { get; set; }
+
+        /// <inheritdoc/>
         public IQueryBuilder<TSource> WithDirectRelationship<TProperty>(
             Expression<Func<TSource, TProperty>> navigationPropertyPath) 
         {
@@ -52,6 +61,7 @@ namespace NjordFinance.ModelService.Query
             return this;
         }
 
+        /// <inheritdoc/>
         public IQueryBuilder<TSource> WithIndirectRelationship<TPreviousProperty, TProperty>(
             Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath)
             where TPreviousProperty : class, new()
@@ -65,6 +75,17 @@ namespace NjordFinance.ModelService.Query
             return this;
         }
 
+        private event EventHandler QueryCompleted;
+
+        private void QueryBuilder_QueryCompleted(object sender, EventArgs e) => _ = e;
+    }
+
+    internal sealed partial class QueryBuilder<TSource> : IQueryDataStore<TSource>
+    {
+        /// <inheritdoc/>
+        public IQueryDataStore<TSource> Build() => this;
+
+        /// <inheritdoc/>
         public async Task<IEnumerable<TSource>> SelectWhereAsync(
             Expression<Func<TSource, bool>> predicate, int maxCount = 0)
         {
@@ -80,11 +101,84 @@ namespace NjordFinance.ModelService.Query
             else
                 result = await Queryable.Where(predicate).Take(maxCount).ToListAsync();
 
-            ResetQueryable();
+            //QueryCompleted?.Invoke(this, EventArgs.Empty);
 
             return result;
         }
 
-        private void ResetQueryable() => Queryable = _context.Set<TSource>();
+        /// <inheritdoc/>
+        public async Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
+            Expression<Func<TSource, bool>> predicate, 
+            int maxCount, 
+            Expression<Func<TSource, TKey>> key, 
+            Expression<Func<TSource, TValue>> display,
+            TKey defaultKey = default,
+            TValue defaultDisplay = default
+            )
+        {
+            if (maxCount < 0)
+                throw new InvalidOperationException(
+                    message: string.Format(
+                        Strings.QueryBuilder_Execute_InvalidCount, maxCount.ToString()));
+
+            var keyDeleg = key.Compile();
+            var displayDeleg = display.Compile();
+
+            IQueryable<LookupModel<TKey, TValue>> query;
+            List<LookupModel<TKey, TValue>> resultList;
+
+            try
+            {
+                if(maxCount == 0)
+                {
+                    query = Queryable.Where(predicate)
+                        .Select(x => new LookupModel<TKey, TValue>()
+                        {
+                            Key = keyDeleg(x),
+                            Display = displayDeleg(x)
+                        });
+                }
+                else
+                {
+                    query = Queryable.Where(predicate)
+                        .Select(x => new LookupModel<TKey, TValue>()
+                        {
+                            Key = keyDeleg(x),
+                            Display = displayDeleg(x)
+                        })
+                        .Take(maxCount);
+                }
+
+                resultList = await query.ToListAsync();
+
+                resultList.Insert(0, LookupModel<TKey, TValue>.GetPlaceHolder(
+                    key: defaultKey,
+                    display: defaultDisplay));
+            }
+            catch(Exception e)
+            {
+                Debug.Write(e);
+                throw;
+            }
+            finally
+            {
+                QueryCompleted?.Invoke(this, EventArgs.Empty);
+            }
+
+            return resultList;
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
+            Expression<Func<TSource, TKey>> key,
+            Expression<Func<TSource, TValue>> display,
+            TKey defaultKey = default, TValue
+            defaultDisplay = default) => await SelectDTOsAsync(
+                predicate: x => true,
+                maxCount: 0,
+                key: key,
+                display: display,
+                defaultKey: defaultKey,
+                defaultDisplay: defaultDisplay);
     }
 }

@@ -6,30 +6,40 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordFinance.ModelService;
+using NjordFinance.ModelService.Query;
 
 namespace NjordFinance.Controllers.Abstractions
 {
     /// <summary>
-    /// Base class for MVC controllers responsible for <typeparamref name="T"/> models.
+    /// Base class for controllers responsible for directing application flow when 
+    /// working <typeparamref name="T"/> models.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ModelController<T> : ControllerBase, IController<T>
+    public partial class ModelController<T> : ControllerBase, IController<T>
         where T : class, new()
     {
-        protected readonly IModelService<T> _modelService;
-        protected readonly ILogger _logger;
+        private readonly IModelService<T> _modelService;
+        private readonly IQueryController _queryController;
+        private readonly ILogger _logger;
         public ModelController(
             IModelService<T> modelService,
+            IQueryService queryService,
             ILogger logger)
         {
             if (modelService is null)
                 throw new ArgumentNullException(paramName: nameof(modelService));
+            if (queryService is null)
+                throw new ArgumentNullException(paramName: nameof(queryService));
             if (logger is null)
                 throw new ArgumentNullException(paramName: nameof(logger));
 
             _modelService = modelService;
+            _queryController = new QueryController(queryService, logger);
             _logger = logger;
         }
+
+        /// <inheritdoc/>
+        public IQueryController ReferenceQueries => _queryController;
 
         /// <inheritdoc/>
         public async Task<ActionResult<T>> CreateAsync(T model)
@@ -138,4 +148,6 @@ namespace NjordFinance.Controllers.Abstractions
             }
         }
     }
+
+
 }

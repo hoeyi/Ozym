@@ -1,0 +1,92 @@
+﻿@page "/security-types/{SecurityTypeId:int}/detail"
+
+@inherits ModelDetail<SecurityType>
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.ReadSingle(Model.SecurityTypeName).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.ReadSingle(Model.SecurityTypeName))" />
+
+        <ContentTile>
+            <Body>
+                <CascadingValue Value="@Model">
+                    <EditForm class="model-editor" Model="@Model">
+                        <SecurityTypeCRUD Disabled="false" ReadOnly="true" 
+                            SecurityTypeGroups="@SecurityTypeGroups" />
+                    </EditForm>
+                </CascadingValue>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <summary>
+    /// Gets or sets the identifier for the <see cref="SecurityType" /> worked using this page.
+    /// </summary>
+    [Parameter]
+    public int SecurityTypeId { get; set; }
+
+    private IEnumerable<LookupModel<int, string>> SecurityTypeGroups { get; set; }
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.ReadAsync(SecurityTypeId);
+            var typeGroupsQuery = Controller.ReferenceQueries.GetSecurityTypeGroupDTOsAsync();
+
+            Task dataTasks = Task.WhenAll(modelQuery, typeGroupsQuery);
+            await dataTasks;
+
+            SecurityTypeGroups = (await typeGroupsQuery).Value;
+
+            if ((await modelQuery).Value is SecurityType model)
+                Model = model;
+            
+            ActionMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                    {
+                        // Add return to index button.
+                        { 0, new MenuItem()
+                            {
+                                IconKey = "caret-back-circle",
+                                Caption = string.Format(
+                                    Strings.Caption_NavigateBackTo,
+                                    ModelMetadata
+                                        .GetAttribute<SecurityType, NounAttribute>()
+                                        ?.GetPlural()),
+                                UriStem = $"{IndexUriRelativePath}"
+                            }
+                        },
+                        // Add edit button.
+                        { 1, new MenuItem()
+                            {
+                                IconKey = "pencil",
+                                Caption = string.Format(
+                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
+                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
+                            }
+                        }
+                    }
+                };
+        }
+        finally
+        {
+            IsLoading = Model is null || SecurityTypeGroups is null;
+        }
+    }
+}

@@ -154,10 +154,17 @@
     <comment>{0} is text indicating the type/record to edit, e.g., account or account 1234</comment>
   </data>
   <data name="Caption_InputSelect_Prompt" xml:space="preserve">
-    <value>&lt;select&gt;</value>
+    <value>&lt; Select &gt;</value>
   </data>
   <data name="Caption_InputSelect_SearchField" xml:space="preserve">
     <value>Search for:</value>
+  </data>
+  <data name="Caption_NavigateBack" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Caption_NavigateBackTo" xml:space="preserve">
+    <value>Return to {0}</value>
+    <comment>{0} is the description of the destination</comment>
   </data>
   <data name="Caption_NoContent" xml:space="preserve">
     <value>(No content)</value>

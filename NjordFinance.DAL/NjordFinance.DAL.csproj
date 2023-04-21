@@ -26,6 +26,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="BusinessLogic\DisplayString.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DisplayString.resx</DependentUpon>
+    </Compile>
+    <Compile Update="BusinessLogic\ExceptionString.Designer.cs">
+      <DependentUpon>ExceptionString.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Context\Configuration\BuiltInStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -35,6 +45,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Model\Metadata\CheckConstraintDisplay.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CheckConstraintDisplay.resx</DependentUpon>
     </Compile>
     <Compile Update="UserInterface\Images.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -91,9 +106,22 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Update="ViewModel\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="BusinessLogic\DisplayString.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DisplayString.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="BusinessLogic\ExceptionString.resx">
+      <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Context\Configuration\BuiltInStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>BuiltInStrings.Designer.cs</LastGenOutput>
@@ -101,6 +129,10 @@
     <EmbeddedResource Update="ModelService\Query\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Model\Metadata\CheckConstraintDisplay.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CheckConstraintDisplay.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="UserInterface\Images.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -143,6 +175,10 @@
       <LastGenOutput>InformationMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="UserInterface\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ViewModel\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>

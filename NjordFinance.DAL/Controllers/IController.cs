@@ -64,5 +64,11 @@ namespace NjordFinance.Controllers
         /// <returns>A <see cref="IList{T}"/> representing the records matching the predicate, limited to a maximum count.</returns>
         Task<ActionResult<IList<T>>> SelectWhereAysnc(
             Expression<Func<T, bool>> predicate, int maxCount = 0);
+
+        /// <summary>
+        /// Represents the <see cref="IQueryController"/> instance used for retrieving data-transfer 
+        /// objects representing valid foreign-key value options.
+        /// </summary>
+        IQueryController ReferenceQueries { get; }
     }
 }

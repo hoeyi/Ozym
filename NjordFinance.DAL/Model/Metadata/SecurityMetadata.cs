@@ -19,12 +19,14 @@ namespace NjordFinance.Model
         )]
     public class SecurityMetadata
     {
+        [Searchable]
         [Display(
             Name = nameof(ModelDisplay.Security_SecurityDescription_Name),
             Description = nameof(ModelDisplay.Security_SecurityDescription_Description),
             ResourceType = typeof(ModelDisplay))]
         public string SecurityDescription { get; set; }
 
+        [Searchable]
         [Display(
             Name = nameof(ModelDisplay.Security_Issuer_Name),
             Description = nameof(ModelDisplay.Security_Issuer_Description),
@@ -54,6 +56,13 @@ namespace NjordFinance.Model
             Description = nameof(ModelDisplay.Security_HasPerpetualPrice_Description),
             ResourceType = typeof(ModelDisplay))]
         public bool HasPerpetualPrice { get; set; }
+
+        [Display(
+            Name = nameof(ModelDisplay.Security_CurrentSymbol_Name),
+            Description = nameof(ModelDisplay.Security_CurrentSymbol_Description),
+            ResourceType = typeof(ModelDisplay))]
+        public string SecuritySymbol { get; }
+
     }
 
     [MetadataType(typeof(SecurityMetadata))]
@@ -64,16 +73,17 @@ namespace NjordFinance.Model
         /// the current system date and time.
         /// </summary>
         [NotMapped]
-        public string SecuritySymbol
-        {
-            get
-            {
-                return SecuritySymbols?.
-                    Where(s => s.EffectiveDate < DateTime.Now)
-                    ?.OrderByDescending(s => s.EffectiveDate)
-                    ?.FirstOrDefault()
-                    ?.SymbolCode ?? ModelDisplay.Security_CurrentSecuritySymbol_Empty;
-            }
-        }
+        public string SecuritySymbol => 
+            $"({CurrentSecuritySymbol?.SymbolCode?.ToUpper() ?? ModelDisplay.Security_CurrentSecuritySymbol_Empty})";
+
+        /// <summary>
+        /// Gets the current symbol based on the current UTC system time.
+        /// </summary>
+        [NotMapped]
+        private SecuritySymbol? CurrentSecuritySymbol =>
+            SecuritySymbols?.
+                Where(s => s.EffectiveDate < DateTime.UtcNow.Date)
+                ?.OrderByDescending(s => s.EffectiveDate)
+                ?.FirstOrDefault();
     }
 }

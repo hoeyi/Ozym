@@ -1,0 +1,64 @@
+﻿@page "/security-type-groups"
+
+@inherits ModelIndex<SecurityTypeGroup>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+    <ThemedComponent>
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models">
+                    <DataGridColumn Property=@nameof(SecurityTypeGroup.SecurityTypeGroupName)
+                                Caption=@(NameFor(x => x.SecurityTypeGroupName))
+                                Type=@DataGridCellType.Link>
+                        <CellTemplate Context="model">
+                            <a class="custom-nav-link" href=@(FormatDetailUri(model.SecurityTypeGroupId))
+                           @onclick:preventDefault
+                           @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.SecurityTypeGroupName
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(SecurityTypeGroup.DepositSource)
+                                Caption=@(NameFor(x => x.DepositSource))>
+                        <CellTemplate Context="model">
+                            @model.DepositSource
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(SecurityTypeGroup.Transactable)
+                                Caption=@(NameFor(x => x.Transactable))>
+                        <CellTemplate Context="model">
+                            @model.Transactable
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        ActionMenu = GetDefaultIndexMenu();
+
+        MaxRecordCount = -1;
+
+        await base.OnInitializedAsync();
+    }
+
+    private void Detail_OnClick(SecurityTypeGroup model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.SecurityTypeGroupId));
+    }
+}

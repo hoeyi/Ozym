@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace NjordFinance.Test.ViewModel
+﻿namespace NjordFinance.Test.ViewModel
 {
     [TestClass]
     public class BrokerTransactionCodeAttributeViewModelTest

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
 using System;

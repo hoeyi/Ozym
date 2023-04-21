@@ -90,6 +90,15 @@ namespace NjordFinance.UserInterface {
         /// <summary>
         ///   Looks up a localized string similar to {0}: {1}.
         /// </summary>
+        internal static string IndexModelAsChild {
+            get {
+                return ResourceManager.GetString("IndexModelAsChild", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: {1}.
+        /// </summary>
         internal static string ReadModel {
             get {
                 return ResourceManager.GetString("ReadModel", resourceCulture);

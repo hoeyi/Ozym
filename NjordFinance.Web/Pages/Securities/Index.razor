@@ -1,0 +1,104 @@
+﻿@page "/securities"
+
+@inherits ModelIndex<Security>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+    <ThemedComponent>
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+        <ContentTile>
+            <Body>
+                <SearchInputTable TModel="Security"
+                              ComparisonOperators=@ComparisonOperators
+                              ExpressionBuilder=@ExpressionBuilder
+                              SearchFields=@SearchFields
+                              OnSearchClick=@(async (args) => await SearchClicked(args))>
+                </SearchInputTable>
+            </Body>
+        </ContentTile>
+
+        @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models">
+                    <DataGridColumn Property=@nameof(Security.SecurityDescription)
+                                Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityDescription))
+                                Type=@DataGridCellType.Link>
+                        <CellTemplate Context="model">
+                            <a class="custom-nav-link" href=@(FormatDetailUri(model.SecurityId)) @onclick:preventDefault
+                                @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.SecurityDescription
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Security.SecuritySymbol)
+                                Caption=@(ModelMetadata.NameFor<Security>(x => x.SecuritySymbol))
+                                Type=@DataGridCellType.Text>
+                        <CellTemplate Context="model">
+                                @model.SecuritySymbol
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Security.SecurityTypeId)
+                                Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityTypeId))
+                                Type=@DataGridCellType.Text>
+                        <CellTemplate Context="model">
+                            @model.SecurityType?.SecurityTypeName
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Security.Issuer)
+                            Caption=@(ModelMetadata.NameFor<Security>(x => x.Issuer))
+                            Type=@DataGridCellType.Text>
+                        <CellTemplate Context="model">
+                            @model.Issuer
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Security.SecurityExchangeId)
+                            Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityExchangeId))
+                            Type=@DataGridCellType.Text>
+                        <CellTemplate Context="model">
+                            @model.SecurityExchange?.ExchangeCode
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Security.HasPerpetualMarket)
+                            Caption=@(ModelMetadata.NameFor<Security>(x => x.HasPerpetualMarket))
+                            Type=@DataGridCellType.Text>
+                        <CellTemplate Context="model">
+                            @model.HasPerpetualMarket
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(Security.HasPerpetualPrice)
+                                Caption=@(ModelMetadata.NameFor<Security>(x => x.HasPerpetualPrice))
+                            Type=@DataGridCellType.Text>
+                        <CellTemplate Context="model">
+                            @model.HasPerpetualPrice
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        ActionMenu = GetDefaultIndexMenu();
+
+        MaxRecordCount = -1;
+
+        await base.OnInitializedAsync();
+    }
+
+    private void Detail_OnClick(Security model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.SecurityId));
+    }
+}

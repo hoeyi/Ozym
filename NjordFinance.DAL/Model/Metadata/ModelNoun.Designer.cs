@@ -349,7 +349,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to transactions.
+        ///   Looks up a localized string similar to bank transactions.
         /// </summary>
         public static string BankTransaction_Plural {
             get {
@@ -367,7 +367,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to transaction.
+        ///   Looks up a localized string similar to bank transaction.
         /// </summary>
         public static string BankTransaction_Singular {
             get {
@@ -457,7 +457,43 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to transactions.
+        ///   Looks up a localized string similar to tax lots.
+        /// </summary>
+        public static string BrokerTaxLot_Plural {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string BrokerTaxLot_PluralArticle {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_PluralArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tax lot.
+        /// </summary>
+        public static string BrokerTaxLot_Singular {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string BrokerTaxLot_SingularArticle {
+            get {
+                return ResourceManager.GetString("BrokerTaxLot_SingularArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to broker transactions.
         /// </summary>
         public static string BrokerTransaction_Plural {
             get {
@@ -475,7 +511,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to transaction.
+        ///   Looks up a localized string similar to broker transaction.
         /// </summary>
         public static string BrokerTransaction_Singular {
             get {

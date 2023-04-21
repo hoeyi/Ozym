@@ -1,0 +1,354 @@
+﻿@page "/accounts/{AccountId:int}/edit/broker-transactions"
+
+@inherits ModelPage<BrokerTransaction>
+
+@inject IBrokerTransactionController Controller
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(
+             PageTitle.UpdateMany(ParentAccount.AccountCode).AsPageTitle()
+             )</PageTitle>
+
+        <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
+        <ContentTile>
+            <Body>
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <div class="error-text">@ErrorMessage</div>
+                }
+                <EditForm width="100%" Model="@Entries">
+                    <ActionButtonMenu>
+                        <button class="form-control button"
+                            @onclick="@(async (args) => await Submit_OnClick(context, args))">
+                            @Strings.Caption_Button_Save
+                        </button>
+                        <button class="form-control button"
+                            @onclick=@(async (args) => await AddNewAsync(args))>
+                            @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
+                        </button>
+                        <button class="form-control button" @onclick="Cancel_OnClick"
+                            @onclick:preventDefault>
+                            @Strings.Caption_Button_Cancel
+                        </button>
+                    </ActionButtonMenu>
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <DataGrid Data="@Entries">
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.TransactionCodeId)"
+                            Caption="@NameFor(x => x.TransactionCodeId)">
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control"
+                                    ValueExpression="@(() => model.TransactionCodeId)"
+                                    Value="@model.TransactionCodeId"
+                                    ValueChanged="@(async (int id) => 
+                                        await TransactionCode_OnValueChanged(model, id))">
+                                    @foreach (var lookup in TransactionCodes)
+                                    {
+                                        <option value=@lookup.Key>@lookup.Display</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.SecurityId)"
+                            Caption="@NameFor(x => x.SecurityId)">
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control"
+                                    @bind-Value="@model.SecurityId">
+                                    @foreach (var lookup in TransactableSecurities)
+                                    {
+                                        <option value=@lookup.Key>@lookup.Display</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.TradeDate)"
+                            Caption="@(NameFor(x => x.TradeDate))">
+                            <CellEditTemplate Context="model">
+                                <InputDate class="form-control" @bind-Value="@model.TradeDate" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.SettleDate)"
+                            Caption="@(NameFor(x => x.SettleDate))">
+                            <CellEditTemplate Context="model">
+                                <InputDate class="form-control" @bind-Value="@model.SettleDate" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                    Property="@nameof(BrokerTransaction.AcquisitionDate)"
+                                    Caption="@(NameFor(x => x.AcquisitionDate))">
+                            <CellEditTemplate Context="model">
+                                <InputDate class="form-control" @bind-Value="@model.AcquisitionDate" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.Quantity)"
+                            Caption="@(NameFor(x => x.Quantity))">
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="@model.Quantity" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.Amount)"
+                                    Caption="@(NameFor(x => x.Amount))">
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="@model.Amount" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                    Property="@nameof(BrokerTransaction.Fee)"
+                                    Caption="@(NameFor(x => x.Fee))">
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="@model.Fee" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                    Property="@nameof(BrokerTransaction.Withholding)"
+                                    Caption="@(NameFor(x => x.Withholding))">
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="@model.Withholding" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BrokerTransaction.DepSecurityId)"
+                            Caption="@NameFor(x => x.DepSecurityId)">
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control"
+                                    @bind-Value="@model.DepSecurityId">
+                                    @foreach (var security in DepositSecurities)
+                                    {
+                                        <option value=@security.Key>@security.Display</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon"
+                                        type="button"
+                                        @onclick="async (args) => await DeleteAsync(args, model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                    Property="@nameof(BrokerTransaction.TransactionId)"
+                                    Caption="@(NameFor(x => x.TransactionId))">
+                            <CellTemplate Context="model">
+                                <div class="form-control">@model.TransactionId</div>
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                    Property="@nameof(BrokerTransaction.TaxLotId)"
+                                    Caption="@(NameFor(x => x.TaxLotId))">
+                            <CellTemplate Context="model">
+                                <div class="form-control">@model.TaxLotId</div>
+                            </CellTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </EditForm>
+            </Body>
+        </ContentTile>
+        if (ShowAllocationInstructionTable)
+        {
+            <CascadingValue Value="@CurrentAllocationInstruction">
+                <Modal TViewModel="AllocationInstructionTable"
+                    DialogOptions="DialogResult.OK | DialogResult.Cancel"
+                    OnClose="@(async (args) => await PostAllocationInstructionAsync(args))" 
+                    ReadOnly="false" >
+                    <BrokerAllocationInstructionCRUD />
+                </Modal>
+            </CascadingValue>
+        }
+    }
+</ThemedComponent>
+
+@code {
+    [Parameter]
+    public int AccountId { get; set; }
+
+    private IEnumerable<BrokerTransaction> Entries { get; set; }
+
+    private IEnumerable<LookupModel<int, string>> DepositSecurities { get; set; }
+
+    private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
+
+    private IEnumerable<LookupModel<int, string>> TransactableSecurities { get; set; }
+
+    private Account ParentAccount { get; set; }
+
+    private bool ShowAllocationInstructionTable => CurrentAllocationInstruction is not null;
+
+    private AllocationInstructionTable CurrentAllocationInstruction { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var securityDTOsTask = Controller.ReferenceQueries
+                .GetTransactableSecurityDTOsAsync();
+            var depositySecurityDTOsTask = Controller.ReferenceQueries
+                .GetCashOrExternalSecurityDTOsAsync();
+            var transactionCodeDTOsTask = Controller.ReferenceQueries
+                .GetBrokerTransactionCodeDTOsAsync();
+            var parentAccountTask = Controller.ReferenceQueries
+                .GetSingleAsync<Account>(
+                    predicate: x => x.AccountId == AccountId,
+                    path: x => x.AccountNavigation);
+            var loadRecordsTask = Controller.LoadRecordsAsync(parentId: AccountId);
+
+            var initTasks = Task.WhenAll(
+                securityDTOsTask,
+                depositySecurityDTOsTask,
+                transactionCodeDTOsTask,
+                parentAccountTask,
+                loadRecordsTask);
+
+            await initTasks;
+
+            if (initTasks.Status == TaskStatus.RanToCompletion)
+            {
+                // BrokerTransactions = (await transactionListTask).Value;
+                DepositSecurities = (await depositySecurityDTOsTask).Value;
+                TransactableSecurities = (await securityDTOsTask).Value;
+                TransactionCodes = (await transactionCodeDTOsTask).Value;
+                Entries = (await loadRecordsTask);
+                ParentAccount = (await parentAccountTask).Value;
+
+                if (!Entries.Any())
+                {
+                    await AddNewAsync(args: null);
+                } 
+
+            }
+            else
+            {
+                throw initTasks.Exception.Flatten();
+            }
+        }
+        finally
+        {
+            IsLoading = ParentAccount is null
+                || DepositSecurities is null
+                || TransactionCodes is null
+                || TransactableSecurities is null;
+        }
+    }
+
+    /// <summary>
+    /// Gets the index uri stem to this page.
+    /// </summary>
+    private string IndexUriRelative => $"{IndexUriRelativePath}/{AccountId}/detail/broker-transactions";
+
+    private async Task AddNewAsync(MouseEventArgs args)
+    {
+        // TODO: Do something with MouseEventArgs?
+
+        await Controller.AddNewAsync();
+
+        // TODO: interpret IActionResult?
+    }
+
+    private async Task DeleteAsync(MouseEventArgs args, BrokerTransaction brokerTransaction)
+    {
+        var result = await Controller.DeleteOrDetachAsync(brokerTransaction);
+        if(result is OkResult)
+        {
+            // TODO: interpret the response.
+        }
+        else
+        {
+            throw new InvalidOperationException();
+        }
+    }
+
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelative);
+
+    private async Task TransactionCode_OnValueChanged(BrokerTransaction model, int newId)
+    {
+        ErrorMessage = null;
+
+        void processResponse(ITransactionUpdateResponse response)
+        {
+            switch (response.UpdateStatus)
+            {
+                case TransactionUpdateStatus.Completed:
+                    break;
+                case TransactionUpdateStatus.PendingLotClosure:
+                    var contentResponse = response as ITransactionUpdateResponse<AllocationInstructionTable>;
+                    CurrentAllocationInstruction = contentResponse.ResponseObject;
+                    break;
+                case TransactionUpdateStatus.Faulted:
+                    var errorResponse = response as ITransactionUpdateResponse<InvalidOperationException>;
+                    ErrorMessage = errorResponse.ResponseObject.Message;
+                    break;
+            }
+        };
+
+        var actionResult = await Controller.UpdateTransactionCodeAsync(model, newId);
+        if (actionResult is ObjectResult result &&
+            result.Value is ITransactionUpdateResponse response)
+            processResponse(response);
+    }
+
+    /// <summary>
+    /// Handles an event representing successful submission of an allocation instruction object.
+    /// </summary>
+    /// <param name="modalEventArgs"></param>
+    /// <returns></returns>
+    private async Task PostAllocationInstructionAsync(
+        ModalEventArgs<AllocationInstructionTable> modalEventArgs)
+    {
+        // Clear the reference to the allocation instruction table now that a valid
+        // response is received.
+        CurrentAllocationInstruction = null;
+
+        // Handle valid submission event
+        if(modalEventArgs.Result == DialogResult.OK)
+        {
+            var postTask = Controller.PostAllocationInstructionAsync(modalEventArgs.Model);
+
+            await postTask;
+
+            if (postTask.Result is AcceptedResult)
+            {
+                StateHasChanged();
+                return;
+            }
+        }
+        // TODO: Handle cancel event
+    }
+
+    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
+    {
+        bool isValid = context.Validate();
+        if (isValid)
+        {
+            var saveResult = await Controller.SaveChangesAsync();
+
+            if (saveResult is NoContentResult)
+                NavigationHelper.NavigateTo(IndexUriRelative);
+
+            else if (saveResult is ObjectResult objectResult)
+                ErrorMessage = (objectResult.Value as Exception)?.Message;
+        }
+    }
+}

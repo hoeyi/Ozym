@@ -46,7 +46,7 @@ else
             <button class="form-control button" 
                 @onclick="args => ViewModel.AddMember()">
                 @Strings.Caption_CreateNew.Format(ModelMetadata
-                    .GetAttribute<AccountComposite, NounAttribute>()?.GetSingular())
+                    .GetAttribute<AccountCompositeMember, NounAttribute>()?.GetSingular())
             </button>
         </ActionButtonMenu>
         <DataGrid TModel="AccountCompositeMember" Data="@ViewModel.Members">
@@ -105,7 +105,7 @@ else
 
 @code {
     [Parameter, EditorRequired]
-    public IEnumerable<LookupModel> Accounts { get; set; }
+    public IEnumerable<LookupModel<int, string>> Accounts { get; set; }
 
     private string? MemberDisplay(int? id) => 
         Accounts.FirstOrDefault(a => a.Key == id)?.Display;

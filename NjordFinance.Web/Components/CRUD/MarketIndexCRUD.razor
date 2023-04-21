@@ -21,5 +21,19 @@ else
                    DisplayName=@(NameFor(x => x.IndexCode)) />
             }
         </ModelFormLineItem>
+        <ModelFormLineItem ForMember="@(() => ViewModel.IndexDescription)">
+            @if(ReadOnly)
+            {
+                <div class="form-control">
+                    @ViewModel.IndexDescription
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ViewModel.IndexDescription
+                    disable="@Disabled"
+                    DisplayName="@NameFor(x => x.IndexDescription)" />
+            }
+        </ModelFormLineItem>
     </ModelForm>
 }

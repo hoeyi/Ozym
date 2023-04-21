@@ -15,7 +15,7 @@ namespace NjordFinance.ModelService
     internal class BrokerTransactionCodeBatchService : ModelBatchService<BrokerTransactionCode>
     {
         /// <summary>
-        /// Creates a new <see cref="BankTransactionCodeBatchService"/> instance.
+        /// Creates a new <see cref="BrokerTransactionCodeBatchService"/> instance.
         /// </summary>
         /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
         /// instance.</param>

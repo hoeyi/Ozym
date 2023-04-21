@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<BankTransactionCode>
 
-@inject IReferenceDataService ReferenceData
-
 <ThemedComponent>
     @if (IsLoading)
     {
@@ -76,12 +74,15 @@
                     IconKey = "reorder-four",
                     Children = new()
                     {
-                        // Add index button.
+                        // Add return to index button.
                         { 0, new MenuItem()
                             {
-                                IconKey = "list",
+                                IconKey = "caret-back-circle",
                                 Caption = string.Format(
-                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                    Strings.Caption_NavigateBackTo,
+                                    ModelMetadata
+                                        .GetAttribute<BankTransactionCode, NounAttribute>()
+                                        ?.GetPlural()),
                                 UriStem = $"{IndexUriRelativePath}"
                             }
                         },

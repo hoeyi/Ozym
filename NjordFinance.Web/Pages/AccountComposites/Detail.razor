@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<AccountComposite>
 
-@inject IReferenceDataService ReferenceData
-
 <ThemedComponent>
     @if (IsLoading)
     {
@@ -39,7 +37,7 @@
     [Parameter]
     public int AccountCompositeId { get; set; }
 
-    private IEnumerable<LookupModel> Accounts { get; set; }
+    private IEnumerable<LookupModel<int, string>> Accounts { get; set; }
 
     private AccountCompositeViewModel ViewModel { get; set; }
 
@@ -51,8 +49,13 @@
 
         try
         {
-            var accountQuery = await Controller.ReadAsync(AccountCompositeId);
-            if (accountQuery.Value is AccountComposite composite)
+            var compositeQuery = Controller.ReadAsync(AccountCompositeId);
+            var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
+
+            Task dataTasks = Task.WhenAll(compositeQuery, accountsQuery);
+            await dataTasks;
+
+            if ((await compositeQuery).Value is AccountComposite composite)
                 Model = composite;
 
             ActionMenu = new()
@@ -60,12 +63,15 @@
                     IconKey = "reorder-four",
                     Children = new()
                     {
-                        // Add index button.
+                        // Add return to index button.
                         { 0, new MenuItem()
                             {
-                                IconKey = "list",
+                                IconKey = "caret-back-circle",
                                 Caption = string.Format(
-                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                    Strings.Caption_NavigateBackTo,
+                                    ModelMetadata
+                                        .GetAttribute<AccountComposite, NounAttribute>()
+                                        ?.GetPlural()),
                                 UriStem = $"{IndexUriRelativePath}"
                             }
                         },
@@ -81,7 +87,7 @@
                     }
                 };
 
-            Accounts = (await ReferenceData.AccountListAsync()).ToLookups();
+            Accounts = (await accountsQuery).Value;
             ViewModel = new(Model);
         }
         finally

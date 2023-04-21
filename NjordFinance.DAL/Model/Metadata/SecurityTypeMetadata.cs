@@ -45,6 +45,12 @@ namespace NjordFinance.Model
             Description = nameof(ModelDisplay.SecurityType_CanHavePosition_Description),
             ResourceType = typeof(ModelDisplay))]
         public bool CanHavePosition { get; set; }
+
+        [Display(
+            Name = nameof(ModelDisplay.SecurityType_HeldInWallet_Name),
+            Description = nameof(ModelDisplay.SecurityType_HeldInWallet_Description),
+            ResourceType = typeof(ModelDisplay))]
+        public bool HeldInWallet { get; set; }
     }
 
     [MetadataType(typeof(SecurityTypeMetadata))]

@@ -21,6 +21,18 @@ namespace NjordFinance.Model
             Description = nameof(ModelDisplay.SecurityTypeGroup_SecurityTypeGroupName_Description),
             ResourceType = typeof(ModelDisplay))]
         public string SecurityTypeGroupName { get; set; }
+
+        [Display(
+            Name = nameof(ModelDisplay.SecurityTypeGroup_Transactable_Name),
+            Description = nameof(ModelDisplay.SecurityTypeGroup_Transactable_Description),
+            ResourceType = typeof(ModelDisplay))]
+        public bool Transactable { get; set; }
+
+        [Display(
+            Name = nameof(ModelDisplay.SecurityTypeGroup_DepositSource_Name),
+            Description = nameof(ModelDisplay.SecurityTypeGroup_DepositSource_Description),
+            ResourceType = typeof(ModelDisplay))]
+        public bool DepositSource { get; set; }
     }
 
     [MetadataType(typeof(SecurityTypeGroupMetadata))]

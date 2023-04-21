@@ -151,7 +151,7 @@ namespace NjordFinance.Web.Components {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;select&gt;.
+        ///   Looks up a localized string similar to &lt; Select &gt;.
         /// </summary>
         public static string Caption_InputSelect_Prompt {
             get {
@@ -165,6 +165,24 @@ namespace NjordFinance.Web.Components {
         public static string Caption_InputSelect_SearchField {
             get {
                 return ResourceManager.GetString("Caption_InputSelect_SearchField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string Caption_NavigateBack {
+            get {
+                return ResourceManager.GetString("Caption_NavigateBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Return to {0}.
+        /// </summary>
+        public static string Caption_NavigateBackTo {
+            get {
+                return ResourceManager.GetString("Caption_NavigateBackTo", resourceCulture);
             }
         }
         

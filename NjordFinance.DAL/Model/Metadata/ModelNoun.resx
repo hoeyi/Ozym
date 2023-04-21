@@ -238,15 +238,27 @@
     <value>the</value>
   </data>
   <data name="BankTransaction_Plural" xml:space="preserve">
-    <value>transactions</value>
+    <value>bank transactions</value>
   </data>
   <data name="BankTransaction_PluralArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="BankTransaction_Singular" xml:space="preserve">
-    <value>transaction</value>
+    <value>bank transaction</value>
   </data>
   <data name="BankTransaction_SingularArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTaxLot_Plural" xml:space="preserve">
+    <value>tax lots</value>
+  </data>
+  <data name="BrokerTaxLot_PluralArticle" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="BrokerTaxLot_Singular" xml:space="preserve">
+    <value>tax lot</value>
+  </data>
+  <data name="BrokerTaxLot_SingularArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="BrokerTransactionCodeAttributeMemberEntry_Plural" xml:space="preserve">
@@ -286,13 +298,13 @@
     <value>the</value>
   </data>
   <data name="BrokerTransaction_Plural" xml:space="preserve">
-    <value>transactions</value>
+    <value>broker transactions</value>
   </data>
   <data name="BrokerTransaction_PluralArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="BrokerTransaction_Singular" xml:space="preserve">
-    <value>transaction</value>
+    <value>broker transaction</value>
   </data>
   <data name="BrokerTransaction_SingularArticle" xml:space="preserve">
     <value>the</value>

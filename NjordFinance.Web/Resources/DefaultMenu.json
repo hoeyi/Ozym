@@ -47,6 +47,21 @@
         },
         "2": {
           "IconKey": null,
+          "Caption": "Indices",
+          "UriStem": "/market-indices",
+          "Children": {
+            "1": {
+              "IconKey": null,
+              "Caption": "Index Rates",
+              "UriStem": "/market-indices/rates",
+              "Children": {},
+              "HasChildren":  false
+            }
+          },
+          "HasChildren": true
+        },
+        "3": {
+          "IconKey": null,
           "Caption": "Prices",
           "UriStem": "/prices",
           "Children": {},
@@ -75,6 +90,27 @@
           "HasChildren": false
         },
         "3": {
+          "IconKey": null,
+          "Caption": "Security Exchanges",
+          "UriStem": "/security-exchanges",
+          "Children": {},
+          "HasChildren": false
+        },
+        "4": {
+          "IconKey": null,
+          "Caption": "Security Types",
+          "UriStem": "/security-types",
+          "Children": {},
+          "HasChildren": false
+        },
+        "5": {
+          "IconKey": null,
+          "Caption": "Security Type Groups",
+          "UriStem": "/security-type-groups",
+          "Children": {},
+          "HasChildren": false
+        },
+        "6": {
           "IconKey": "card",
           "Caption": "Transactions",
           "UriStem": null,

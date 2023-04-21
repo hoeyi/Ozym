@@ -364,3 +364,4 @@ FodyWeavers.xsd
 /.editorconfig
 /NjordFinance.Web/Migrations
 /NjordFinance.DAL/Migrations
+/NjordFinance.Test.Web/Properties/launchSettings.json

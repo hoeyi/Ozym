@@ -1,0 +1,88 @@
+﻿@page "/security-types/create/{RequestGuid:guid}"
+
+@inherits ModelDetail<SecurityType>
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.CreateSingle())" />
+
+        <ContentTile>
+            <Body>
+                <CascadingValue Value="@Model">
+                    <EditForm class="model-editor" Model="@Model"
+                          OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <ActionButtonMenu>
+                            <button type="submit" class="form-control button">
+                                @Strings.Caption_Button_Save
+                            </button>
+                            <button type="button" class="form-control button"
+                                @onclick="Cancel_OnClick"
+                                @onclick:preventDefault>
+                                @Strings.Caption_Button_Cancel
+                            </button>
+                        </ActionButtonMenu>
+                        <SecurityTypeCRUD Disabled="false" ReadOnly="false"
+                                      SecurityTypeGroups="@SecurityTypeGroups" />
+                    </EditForm>
+                </CascadingValue>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <summary>
+    /// Gets or sets the unique identifier for the creation action.
+    /// </summary>
+    [Parameter]
+    public Guid RequestGuid { get; init; }
+
+    private IEnumerable<LookupModel<int, string>> SecurityTypeGroups { get; set; }
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.GetDefaultAsync();
+            var typeGroupsQuery = Controller.ReferenceQueries.GetSecurityTypeGroupDTOsAsync();
+
+            Task dataTasks = Task.WhenAll(modelQuery, typeGroupsQuery);
+            await dataTasks;
+
+            SecurityTypeGroups = (await typeGroupsQuery).Value;
+
+            if ((await modelQuery).Value is SecurityType model)
+                Model = model;
+        }
+        finally
+        {
+            IsLoading = Model is null || SecurityTypeGroups is null;
+        }
+    }
+
+    private void Cancel_OnClick()
+    {
+        NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var result = await Controller.CreateAsync(Model);
+
+        if (result.Result is CreatedAtActionResult cr)
+            NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
+    }
+}

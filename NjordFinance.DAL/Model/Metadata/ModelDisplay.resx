@@ -375,7 +375,7 @@
   <data name="BankTransaction_TransactionCodeID_Description" xml:space="preserve">
     <value>The bank code for the transaction.</value>
   </data>
-  <data name="BankTransaction_TransactionCodeId_Name" xml:space="preserve">
+  <data name="BankTransaction_TransactionCodeID_Name" xml:space="preserve">
     <value>Transaction Code</value>
   </data>
   <data name="BankTransaction_TransactionDate_Description" xml:space="preserve">
@@ -477,7 +477,7 @@
   <data name="BrokerTransaction_SecurityID_Description" xml:space="preserve">
     <value>The security transacted.</value>
   </data>
-  <data name="BrokerTransaction_SecurityId_Name" xml:space="preserve">
+  <data name="BrokerTransaction_SecurityID_Name" xml:space="preserve">
     <value>Security</value>
   </data>
   <data name="BrokerTransaction_SettleDate_Description" xml:space="preserve">
@@ -501,7 +501,7 @@
   <data name="BrokerTransaction_TransactionCodeID_Description" xml:space="preserve">
     <value>The transaction type.</value>
   </data>
-  <data name="BrokerTransaction_TransactionCodeId_Name" xml:space="preserve">
+  <data name="BrokerTransaction_TransactionCodeID_Name" xml:space="preserve">
     <value>Action</value>
   </data>
   <data name="BrokerTransaction_Withholding_Description" xml:space="preserve">
@@ -966,11 +966,23 @@
   <data name="SecuritySymbol_Ticker_Name" xml:space="preserve">
     <value>Ticker</value>
   </data>
+  <data name="SecurityTypeGroup_DepositSource_Description" xml:space="preserve">
+    <value>Indicates whether securities in this type group can be external deposit sources to brokerage accounts.</value>
+  </data>
+  <data name="SecurityTypeGroup_DepositSource_Name" xml:space="preserve">
+    <value>Is Deposit Source</value>
+  </data>
   <data name="SecurityTypeGroup_SecurityTypeGroupName_Description" xml:space="preserve">
     <value>The security type group name.</value>
   </data>
   <data name="SecurityTypeGroup_SecurityTypeGroupName_Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="SecurityTypeGroup_Transactable_Description" xml:space="preserve">
+    <value>Indicates whether securities in this type group can be the source of broker transactions.</value>
+  </data>
+  <data name="SecurityTypeGroup_Transactable_Name" xml:space="preserve">
+    <value>Transactable</value>
   </data>
   <data name="SecurityType_CanHaveDerivative_Description" xml:space="preserve">
     <value>Whether securities of the type can underly derivative securities.</value>
@@ -983,6 +995,12 @@
   </data>
   <data name="SecurityType_CanHavePosition_Name" xml:space="preserve">
     <value>Enable Positions</value>
+  </data>
+  <data name="SecurityType_HeldInWallet_Description" xml:space="preserve">
+    <value>Indicates whether securities of this type are held in a cryptocurrency wallet.</value>
+  </data>
+  <data name="SecurityType_HeldInWallet_Name" xml:space="preserve">
+    <value>Held in Crypto. Wallet</value>
   </data>
   <data name="SecurityType_SecurityTypeGroupID_Description" xml:space="preserve">
     <value>The security type group.</value>
@@ -1003,7 +1021,7 @@
     <value>Valuation Factor</value>
   </data>
   <data name="Security_CurrentSecuritySymbol_Empty" xml:space="preserve">
-    <value>(no symbol)</value>
+    <value>none</value>
   </data>
   <data name="Security_CurrentSymbol_Description" xml:space="preserve">
     <value>The current symbol of the security.</value>

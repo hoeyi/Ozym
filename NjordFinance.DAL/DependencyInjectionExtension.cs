@@ -2,6 +2,7 @@
 using NjordFinance.Controllers.Abstractions;
 using NjordFinance.Model;
 using NjordFinance.ModelService;
+using NjordFinance.ModelService.Query;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace NjordFinance
@@ -19,7 +20,7 @@ namespace NjordFinance
         public static void AddModelServices(this IServiceCollection services)
         {
             // Add reference data service for querying lookup lists.
-            services.AddScoped<IReferenceDataService, ReferenceDataService>();
+            services.AddSingleton<IQueryService, QueryService>();
 
             // Add single-entity services.
             services
@@ -47,7 +48,7 @@ namespace NjordFinance
                 .AddScoped<IModelBatchService<AccountAttributeMemberEntry>, AccountAttributeMemberService>()
                 .AddScoped<IModelBatchService<AccountCompositeMember>, AccountCompositeMemberService>()
                 .AddScoped<IModelBatchService<AccountCustodian>, AccountCustodianBatchService>()
-                .AddTransient<IModelBatchService<Country>, CountryBatchService>()
+                .AddScoped<IModelBatchService<Country>, CountryBatchService>()
                 .AddScoped<IModelBatchService<AccountWallet>, AccountWalletService>()
                 .AddScoped<IModelBatchService<BankTransaction>, BankTransactionService>()
                 .AddScoped<IModelBatchService<BankTransactionCode>, BankTransactionCodeBatchService>()
@@ -60,9 +61,10 @@ namespace NjordFinance
                 .AddScoped<IModelBatchService<InvestmentPerformanceEntry>, InvestmentPerformanceService>()
                 .AddScoped<IModelBatchService<InvestmentStrategyTarget>, InvestmentStrategyTargetService>()
                 .AddScoped<IModelBatchService<MarketHolidayObservance>, MarketHolidayObservanceService>()
-                .AddScoped<IModelBatchService<MarketIndexPrice>, MarketIndexPriceService>()
+                .AddScoped<IModelBatchService<MarketIndexPrice>, MarketIndexPriceBatchService>()
                 .AddScoped<IModelBatchService<ModelAttributeMember>, ModelAttributeMemberService>()
                 .AddScoped<IModelBatchService<SecurityAttributeMemberEntry>, SecurityAttributeService>()
+                .AddScoped<IModelBatchService<SecurityExchange>, SecurityExchangeBatchService>()
                 .AddScoped<IModelBatchService<SecurityPrice>, SecurityPriceService>()
                 .AddScoped<IModelBatchService<SecuritySymbol>, SecuritySymbolService>();
         }
@@ -104,12 +106,13 @@ namespace NjordFinance
                 .AddScoped<IBatchController<AccountAttributeMemberEntry>, ModelBatchController<AccountAttributeMemberEntry>>()
                 .AddScoped<IBatchController<AccountCompositeMember>, ModelBatchController<AccountCompositeMember>>()
                 .AddScoped<IBatchController<AccountCustodian>, ModelBatchController<AccountCustodian>>()
-                .AddTransient<IBatchController<Country>, ModelBatchController<Country>>()
+                .AddScoped<IBatchController<Country>, ModelBatchController<Country>>()
                 .AddScoped<IBatchController<AccountWallet>, ModelBatchController<AccountWallet>>()
                 .AddScoped<IBatchController<BankTransaction>, ModelBatchController<BankTransaction>>()
                 .AddScoped<IBatchController<BankTransactionCode>, ModelBatchController<BankTransactionCode>>()
                 .AddScoped<IBatchController<BankTransactionCodeAttributeMemberEntry>, ModelBatchController<BankTransactionCodeAttributeMemberEntry>>()
-                .AddScoped<IBatchController<BrokerTransaction>, ModelBatchController<BrokerTransaction>>()
+                //.AddScoped<IBatchController<BrokerTransaction>, ModelBatchController<BrokerTransaction>>()
+                .AddScoped<IBrokerTransactionController, BrokerTransactionController>()
                 .AddScoped<IBatchController<BrokerTransactionCode>, ModelBatchController<BrokerTransactionCode>>()
                 .AddScoped<IBatchController<BrokerTransactionCodeAttributeMemberEntry>, ModelBatchController<BrokerTransactionCodeAttributeMemberEntry>>()
                 .AddScoped<IBatchController<CountryAttributeMemberEntry>, ModelBatchController<CountryAttributeMemberEntry>>()
@@ -120,6 +123,7 @@ namespace NjordFinance
                 .AddScoped<IBatchController<MarketIndexPrice>, ModelBatchController<MarketIndexPrice>>()
                 .AddScoped<IBatchController<ModelAttributeMember>, ModelBatchController<ModelAttributeMember>>()
                 .AddScoped<IBatchController<SecurityAttributeMemberEntry>, ModelBatchController<SecurityAttributeMemberEntry>>()
+                .AddScoped<IBatchController<SecurityExchange>, ModelBatchController<SecurityExchange>>()
                 .AddScoped<IBatchController<SecurityPrice>, ModelBatchController<SecurityPrice>>()
                 .AddScoped<IBatchController<SecuritySymbol>, ModelBatchController<SecuritySymbol>>();
         }

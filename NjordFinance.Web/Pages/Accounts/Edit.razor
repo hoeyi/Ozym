@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<Account>
 
-@inject IReferenceDataService ReferenceData
-
 <ThemedComponent>
     @if (IsLoading)
     {
@@ -36,10 +34,8 @@
                                 @Strings.Caption_Button_Cancel
                             </button>
                         </ActionButtonMenu>
-                        <div>
-                            <AccountCRUD AccountCustodians="@Custodians" 
-                                Disabled="false" ReadOnly="@false" />
-                        </div>
+                        <AccountCRUD AccountCustodians="@Custodians" 
+                            Disabled="false" ReadOnly="false" />
                     </EditForm>
                 </CascadingValue>
             </Body>
@@ -54,7 +50,7 @@
     [Parameter]
     public int AccountId { get; set; }
 
-    private IEnumerable<LookupModel> Custodians { get; set; }
+    private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
     private AccountViewModel ViewModel { get; set; }
 
@@ -66,33 +62,21 @@
         try
         {
             var accountQuery = Controller.ReadAsync(AccountId);
-            var custodiansQuery = ReferenceData.AccountCustodianListAsync();
+            var custodiansQuery = Controller.ReferenceQueries.GetAccountCustodianDTOsAsync();
 
-            if ((await accountQuery).Value is Account account)
+            var dataTasks = Task.WhenAll(accountQuery, custodiansQuery);
+            await dataTasks;
+
+            if(dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                Model = account;
+                Model = (await accountQuery).Value;
+                Custodians = (await custodiansQuery).Value;
+                ViewModel = new(Model);
             }
-
-            Custodians = (await custodiansQuery).ToLookups();
-
-            ActionMenu = new()
-                {
-                    IconKey = "reorder-four",
-                    Children = new()
-                        {
-                            // Add index button.
-                            { 0, new MenuItem()
-                                {
-                                    IconKey = "list",
-                                    Caption = string.Format(
-                                        Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
-                                    UriStem = $"{IndexUriRelativePath}"
-                                }
-                            }
-                        }
-                };
-
-            ViewModel = new(Model);
+            else
+            {
+                throw dataTasks.Exception.Flatten();
+            }
         }
         finally
         {

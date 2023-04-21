@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordFinance.Model.ViewModel;
+﻿using NjordFinance.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,12 +13,16 @@ namespace NjordFinance.Test.ViewModel
         [TestMethod]
         public void ViewModel_AddEntry_KeyNotExists_AddsToCollection()
         {
+            var currentDate = DateTime.UtcNow.Date;
+
             var viewModel = new SecurityAttributeGrouping(
-                new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
+                new() { SecurityId = 1 }, new() { AttributeId = 1 }, currentDate);
 
             viewModel.AddEntry(new()
             {
+                SecurityId = 1,
                 AttributeMemberId = 1,
+                EffectiveDate = currentDate,
                 Weight = 0.1275M
             });
 
@@ -29,19 +32,25 @@ namespace NjordFinance.Test.ViewModel
         [TestMethod]
         public void ViewModel_ValidCollection_YieldsValidatedState()
         {
+            var currentDate = DateTime.UtcNow.Date;
+
             var viewModel = new SecurityAttributeGrouping(
-                new() { SecurityId = 1 }, new() { AttributeId = 1 }, DateTime.Now);
+                new() { SecurityId = 1 }, new() { AttributeId = 1 }, currentDate);
 
             viewModel.AddRange(new SecurityAttributeMemberEntry[]
                 {
                     new()
                     {
                         AttributeMemberId = 1,
+                        SecurityId = 1,
+                        EffectiveDate = currentDate,
                         Weight = 0.655M
                     },
                     new()
                     {
                         AttributeMemberId = 2,
+                        SecurityId = 1,
+                        EffectiveDate = currentDate,
                         Weight = 0.345M
                     }
                 });
@@ -49,7 +58,8 @@ namespace NjordFinance.Test.ViewModel
             var context = new ValidationContext(viewModel, serviceProvider: null, items: null);
             var validationResults = new List<ValidationResult>();
 
-            Assert.IsTrue(Validator.TryValidateObject(viewModel, context, validationResults, true));
+            bool isValid = Validator.TryValidateObject(viewModel, context, validationResults, true);
+            Assert.IsTrue(isValid);
         }
 
         [TestMethod]

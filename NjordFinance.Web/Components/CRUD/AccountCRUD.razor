@@ -137,7 +137,7 @@ else
             }
             else
             {
-                <InputCheckbox @bind-Value=ViewModel.IsComplianceTradable disabled="@Disabled" />
+                <InputCheckbox class="checkbox-themed" @bind-Value=ViewModel.IsComplianceTradable disabled="@Disabled" />
             }
         </ModelFormLineItem>
         <ModelFormLineItem ForMember="@(() => ViewModel.HasWallet)">
@@ -149,7 +149,7 @@ else
             }
             else
             {
-                <InputCheckbox @bind-Value=ViewModel.HasWallet disabled="@Disabled" />
+                <InputCheckbox class="checkbox-themed" @bind-Value=ViewModel.HasWallet disabled="@Disabled" />
                 <ValidationMessage For="@(() => ViewModel.HasWallet)" />
             }
         </ModelFormLineItem>
@@ -162,7 +162,7 @@ else
             }
             else
             {
-                <InputCheckbox @bind-Value=ViewModel.HasBankTransaction disabled="@Disabled" />
+                <InputCheckbox class="checkbox-themed" @bind-Value=ViewModel.HasBankTransaction disabled="@Disabled" />
                 <ValidationMessage For="@(() => ViewModel.HasBankTransaction)" />
             }
         </ModelFormLineItem>
@@ -175,14 +175,14 @@ else
             }
             else
             {
-                <InputCheckbox @bind-Value=ViewModel.HasBrokerTransaction disabled="@Disabled" />
+                <InputCheckbox class="checkbox-themed" @bind-Value=ViewModel.HasBrokerTransaction disabled="@Disabled" />
             }
         </ModelFormLineItem>
     </ModelForm>
 }
 @code {
     [Parameter]
-    public IEnumerable<LookupModel> AccountCustodians { get; set; }
+    public IEnumerable<LookupModel<int, string>> AccountCustodians { get; set; }
 
     private string? CustodianDisplayName(int? id) =>
          AccountCustodians.FirstOrDefault(a => a.Key == id)?.Display;

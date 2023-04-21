@@ -1,0 +1,192 @@
+﻿@page "/accounts/{AccountId:int}/edit/bank-transactions"
+
+@inherits ModelPage<BankTransaction>
+
+@inject IBatchController<BankTransaction> Controller
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+            <LoadingSvg />
+    }
+    else
+    {
+            <PageTitle>@(PageTitle.UpdateMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
+
+            <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
+
+            <ContentTile>
+                <Body>
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                            <div class="error-text">@ErrorMessage</div>
+                }
+                    <EditForm width="100%" Model="@BankTransactions">
+                        <ActionButtonMenu>
+                            <button class="form-control button" width="20%"
+                                @onclick="@(async (args) => await Submit_OnClick(context, args))">
+                                @Strings.Caption_Button_Save
+                            </button>
+                        <button class="form-control button" width="20%"
+                                @onclick=@(async (args) => await AddNewAsync(args))>
+                                @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
+                            </button>
+                            <button class="form-control button" width="20%"
+                                @onclick="Cancel_OnClick"
+                                @onclick:preventDefault>
+                                @Strings.Caption_Button_Cancel
+                            </button>
+                        </ActionButtonMenu>
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                    <DataGrid Data="@BankTransactions">
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BankTransaction.TransactionCodeId)"
+                            Caption="@NameFor(x => x.TransactionCodeId)">
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control"
+                                         @bind-Value="@model.TransactionCodeId">
+                                    @foreach (var lookup in TransactionCodes)
+                                    {
+                                        <option value=@lookup.Key>@lookup.Display</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(BankTransaction.TransactionDate)"
+                            Caption="@(NameFor(x => x.TransactionDate))">
+                            <CellTemplate Context="model">
+                                <InputDate class="form-control" @bind-Value="@model.TransactionDate" />
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control" 
+                            Property="@nameof(BankTransaction.Amount)"
+                            Caption="@(NameFor(x => x.Amount))">
+                            <CellTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="@model.Amount" />
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property="@nameof(BankTransaction.Comment)"
+                                    Caption="@(NameFor(x => x.Comment))">
+                            <CellTemplate Context="model">
+                                <InputText class="form-control" @bind-Value="@model.Comment" />
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                <button class="form-control button icon" type="button"
+                                    @onclick="async (args) => await DeleteAsync(args, model)">
+                                    <IonIcon Name="close-circle" />
+                                </button>
+                                </ToolTip>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                    </EditForm>
+                </Body>
+            </ContentTile>
+    }
+</ThemedComponent>
+
+@code {
+    [Parameter]
+    public int AccountId { get; set; }
+
+    private IList<BankTransaction> BankTransactions { get; set; }
+
+    private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
+
+    private Account ParentAccount { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var transactionCodeDTOsTask = Controller.ReferenceQueries.GetBankTransactionCodeDTOsAsync();
+
+            ParentAccount = (
+                await Controller.ReferenceQueries
+                    .GetSingleAsync<Account>(
+                        predicate: a => a.AccountId == AccountId,
+                        path: a => a.AccountNavigation)).Value;
+
+            var initResult = await Controller.ForParent(ParentAccount.AccountId);
+
+            if (initResult is not OkResult)
+                throw new InvalidOperationException();
+
+            var transactionsQueryTask = Controller.SelectAllAsync();
+
+            var dataTasks = Task.WhenAll(transactionsQueryTask, transactionCodeDTOsTask);
+            await dataTasks;
+
+            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                BankTransactions = (await transactionsQueryTask).Value;
+                TransactionCodes = (await transactionCodeDTOsTask).Value;
+            }
+            else
+            {
+                throw dataTasks.Exception.Flatten();
+            }
+        }
+        finally
+        {
+            IsLoading = BankTransactions is null
+                || ParentAccount is null
+                || TransactionCodes is null;
+        }
+    }
+
+    /// <summary>
+    /// Gets the index uri stem to this page.
+    /// </summary>
+    private string IndexUriRelative => $"{IndexUriRelativePath}/{AccountId}/detail/bank-transactions";
+
+    private async Task AddNewAsync(MouseEventArgs? args)
+    {
+        // TODO: Do something with MouseEventArgs?
+
+        var getDefaultTask = await Controller.GetDefaultAsync();
+        await Controller.AddAsync(getDefaultTask.Value);
+
+        if (getDefaultTask.Value is BankTransaction model)
+            BankTransactions.Insert(0, model);
+    }
+
+    private async Task DeleteAsync(MouseEventArgs args, BankTransaction model)
+    {
+        var result = await Controller.DeleteOrDetachAsync(model);
+
+        if (result is OkResult)
+            BankTransactions.Remove(model);
+        else
+            throw new InvalidOperationException();
+
+        // TODO: interpret the response.
+    }
+
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelative);
+
+    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
+    {
+        bool isValid = context.Validate();
+        if (isValid)
+        {
+            var saveResult = await Controller.SaveChangesAsync();
+
+            if (saveResult is NoContentResult)
+                NavigationHelper.NavigateTo(IndexUriRelative);
+
+            else if (saveResult is ObjectResult objectResult)
+                ErrorMessage = (objectResult.Value as Exception)?.Message;
+        }
+    }
+}

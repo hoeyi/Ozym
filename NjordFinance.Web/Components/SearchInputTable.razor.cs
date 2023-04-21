@@ -1,14 +1,10 @@
 ﻿using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using NjordFinance.Web.Components.Shared;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace NjordFinance.Web.Components

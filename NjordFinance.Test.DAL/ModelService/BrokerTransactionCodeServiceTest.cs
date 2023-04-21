@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordFinance.Model;
+﻿using NjordFinance.Model;
 using NjordFinance.ModelService;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,7 +46,7 @@ namespace NjordFinance.Test.ModelService
             var updated = context.BrokerTransactionCodes
                 .FirstOrDefault(x => x.TransactionCodeId == original.TransactionCodeId);
 
-            Assert.IsTrue(result && TestUtility.SimplePropertiesAreEqual(updated, original));
+            Assert.IsTrue(result && !TestUtility.SimplePropertiesAreEqual(updated, original));
         }
     }
     public partial class BrokerTransactionCodeServiceTest

@@ -1,0 +1,191 @@
+﻿@page "/market-indices/rates"
+
+@inherits ModelPage<MarketIndexPrice>
+
+@inject IBatchController<MarketIndexPrice> Controller
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+    <ThemedComponent>
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+        <ContentTile>
+            <Body>
+                <SearchInputTable TModel="MarketIndexPrice"
+                              ComparisonOperators=@ComparisonOperators
+                              ExpressionBuilder=@ExpressionBuilder
+                              SearchFields=@SearchFields
+                              OnSearchClick=@(async (args) => await SearchClicked(args))>
+                </SearchInputTable>
+            </Body>
+        </ContentTile>
+
+        @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@IndexPrices">
+                    <DataGridColumn Property=@nameof(MarketIndexPrice.MarketIndexId)
+                                Caption=@(NameFor(x => x.MarketIndexId))>
+                        <CellTemplate Context="model">
+                            @model.MarketIndex?.IndexCode
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(MarketIndexPrice.PriceCode)
+                        Caption=@(NameFor(x => x.PriceCode))>
+                        <CellTemplate Context="model">
+                            @GetPriceCodeDisplayValue(model.PriceCodeMember)
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(MarketIndexPrice.PriceDate)
+                        Caption=@(NameFor(x => x.PriceDate))>
+                         <CellTemplate Context="model">
+                            @model.PriceDate.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(MarketIndexPrice.Price)
+                        Caption=@(NameFor(x => x.Price))>
+                        <CellTemplate Context="model">
+                            @model.Price
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+@code {
+
+    private IList<MarketIndexPrice> IndexPrices { get; set; }
+
+    private int MaxRecordCount { get; set; } = 100;
+
+    private DateTime GetLastBusinessDay()
+    {
+        var currentDateTime = DateTime.UtcNow;
+
+        DateTime lastBusinessDate  = currentDateTime.DayOfWeek switch
+        {
+            DayOfWeek.Saturday => currentDateTime.Date.AddDays(-1),
+            DayOfWeek.Sunday => currentDateTime.Date.AddDays(-2),
+            _ => currentDateTime.Date
+        };
+
+        return lastBusinessDate;
+    }
+    private Expression<Func<MarketIndexPrice, bool>> InitialSearchExpression { get; set; }
+
+    #region Search componenents
+    /// <summary>
+    /// Gets or sets the <see cref="IExpressionBuilder"/> for this component.
+    /// </summary>
+    [Inject]
+    protected IExpressionBuilder ExpressionBuilder { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the collection of searchables fields for the type: <typeparamref name="TModel"/>.
+    /// </summary>
+    private IEnumerable<ISearchableMemberMetadata> SearchFields { get; set; }
+        = Array.Empty<ISearchableMemberMetadata>();
+
+    /// <summary>
+    /// Gets or sets the collection of allowable <see cref="ComparisonOperator"/> for
+    /// the type: <typeparamref name="TModel"/>.
+    /// </summary>
+    private IEnumerable<ComparisonOperator> ComparisonOperators { get; set; }
+        = Array.Empty<ComparisonOperator>();
+
+    #endregion
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        ActionMenu = new()
+            {
+                IconKey = "reorder-four",
+                Children = new()
+                {
+                    { 0, new MenuItem()
+                        {
+                            IconKey = "pencil",
+                            Caption = string.Format(
+                                Strings.Caption_EditMany, ModelNoun?.GetPlural()),
+                            UriStem = $"{IndexUriRelativePath}/rates/edit"
+                        }
+                    }
+                }
+            };
+
+
+        try
+        {
+            if (ExpressionBuilder is null)
+                throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
+
+            if (Controller is null)
+                throw new ArgumentNullException(paramName: nameof(Controller));
+
+            DateTime lastBusinessDay = GetLastBusinessDay();
+
+            // InitialSearchExpression = x => x.PriceDate == lastBusinessDay;
+            InitialSearchExpression = x => true;
+
+            SearchFields = ExpressionBuilder!.GetSearchableMembers<MarketIndexPrice>();
+            ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
+
+            var queryActionResultTask = Controller!
+                .SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+
+            IndexPrices = (await queryActionResultTask).Value;
+
+        }
+        finally
+        {
+            IsLoading = IndexPrices is null;
+        }
+    }
+
+    /// <summary>
+    /// Handles search submission events that that contain 
+    /// <see cref="SearchSubmittedEventArgs{TModel}"/> data.
+    /// </summary>
+    /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that 
+    /// containst the data for the invoked event.</param>
+    /// <returns>A task representing an asynchronous operator. Successful ooperation will 
+    /// cause <see cref="IndexPrices"/> to update to the collection matching the event arguments 
+    /// search expression.</returns>
+    protected async Task SearchClicked(SearchSubmittedEventArgs<MarketIndexPrice> args)
+    {
+        try
+        {
+            IsLoading = true;
+            if (args is not null)
+            {
+                var actionResult = await Controller!.SelectWhereAysnc(
+                        predicate: args.SearchExpression, maxCount: MaxRecordCount);
+
+                IndexPrices = actionResult.Value ?? new List<MarketIndexPrice>();
+            }
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+        }
+
+    private string GetPriceCodeDisplayValue(MarketIndexPriceCode? priceCodeMember)
+    {
+        if(priceCodeMember is null)
+            return null;
+
+        return NameFor<MarketIndexPriceCode>((MarketIndexPriceCode)priceCodeMember);
+    }
+}

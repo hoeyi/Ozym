@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using NjordFinance.Exceptions;
 using NjordFinance.Logging;
 using NjordFinance.ModelService;
+using NjordFinance.ModelService.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -13,23 +14,33 @@ namespace NjordFinance.Controllers.Abstractions
     public class ModelBatchController<T> : ControllerBase, IBatchController<T>
         where T : class, new()
     {
-        protected readonly IModelBatchService<T> _modelService;
-        protected readonly ILogger _logger;
+        private readonly IModelBatchService<T> _modelService;
+        private readonly IQueryController _queryController;
+        private readonly ILogger _logger;
+
+
         public ModelBatchController(
             IModelBatchService<T> modelService,
+            IQueryService queryService,
             ILogger logger)
         {
             if (modelService is null)
                 throw new ArgumentNullException(paramName: nameof(modelService));
+            if (queryService is null)
+                throw new ArgumentNullException(paramName: nameof(queryService));
             if (logger is null)
                 throw new ArgumentNullException(paramName: nameof(logger));
 
             _modelService = modelService;
+            _queryController = new QueryController(queryService, logger);
             _logger = logger;
         }
 
         /// <inheritdoc/>
-        public async Task<IActionResult> AddAsync(T model)
+        public IQueryController ReferenceQueries => _queryController;
+
+        /// <inheritdoc/>
+        public virtual async Task<IActionResult> AddAsync(T model)
         {
             IActionResult Add()
             {
@@ -49,7 +60,7 @@ namespace NjordFinance.Controllers.Abstractions
         }
 
         /// <inheritdoc/>
-        public async Task<IActionResult> DeleteOrDetachAsync(T model)
+        public virtual async Task<IActionResult> DeleteOrDetachAsync(T model)
         {
             IActionResult Delete()
             {
@@ -70,26 +81,33 @@ namespace NjordFinance.Controllers.Abstractions
         }
 
         /// <inheritdoc/>
-        public IActionResult ForParent(int parentId)
+        public virtual async Task<IActionResult> ForParent(int parentId)
         {
-            if (_modelService.ForParent(parentId, out Exception e))
-                return Ok();
-            else
+            IActionResult RegisterParent()
             {
-                _logger.ModelServiceParentSetFailed(service: new
+                if (_modelService.ForParent(parentId, out Exception e))
+                    return Ok();
+                else
                 {
-                    Service = _modelService.GetType().Name,
-                    KeyType = parentId.GetType().Name,
-                    KeyValue = parentId,
-                    Message = e?.Message ?? string.Empty
-                });
+                    _logger.ModelServiceParentSetFailed(service: new
+                    {
+                        Service = _modelService.GetType().Name,
+                        KeyType = parentId.GetType().Name,
+                        KeyValue = parentId,
+                        Message = e?.Message ?? string.Empty
+                    });
 
-                return Conflict();
+                    return Conflict();
+                }
             }
+
+            var result = await Task.Run(() => RegisterParent());
+
+            return result;
         }
 
         /// <inheritdoc/>
-        public async Task<ActionResult<T>> GetDefaultAsync()
+        public virtual async Task<ActionResult<T>> GetDefaultAsync()
         {
             return await _modelService.GetDefaultAsync();
         }

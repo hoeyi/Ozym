@@ -60,7 +60,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <summary>
         /// Gets or sets the default <see cref="Menu"/> instance for this class.
         /// </summary>
-        private Menu _defaultMenu { get; set; }
+        private Menu DefaultMenu { get; set; }
 
         /// <inheritdoc/>   
         protected override async Task OnInitializedAsync()
@@ -84,7 +84,7 @@ namespace NjordFinance.Web.Components.Generic
             }
             finally
             {
-                IsLoading = false;
+                IsLoading = Models is null;
             }
         }
 
@@ -125,7 +125,7 @@ namespace NjordFinance.Web.Components.Generic
         /// method.</remarks>
         protected Menu GetDefaultIndexMenu() 
         {
-            _defaultMenu ??= new()
+            DefaultMenu ??= new()
             {
                 IconKey = "reorder-four",
                 Children = new()
@@ -140,7 +140,7 @@ namespace NjordFinance.Web.Components.Generic
                 }
             };
 
-            return _defaultMenu;
+            return DefaultMenu;
         }
     }
 }

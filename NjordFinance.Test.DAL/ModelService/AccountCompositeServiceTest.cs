@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NjordFinance.Model;
 using NjordFinance.ModelMetadata;
 using NjordFinance.ModelService;

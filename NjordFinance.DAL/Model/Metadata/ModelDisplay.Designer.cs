@@ -711,9 +711,9 @@ namespace NjordFinance.Model.Metadata {
         /// <summary>
         ///   Looks up a localized string similar to Transaction Code.
         /// </summary>
-        public static string BankTransaction_TransactionCodeId_Name {
+        public static string BankTransaction_TransactionCodeID_Name {
             get {
-                return ResourceManager.GetString("BankTransaction_TransactionCodeId_Name", resourceCulture);
+                return ResourceManager.GetString("BankTransaction_TransactionCodeID_Name", resourceCulture);
             }
         }
         
@@ -981,9 +981,9 @@ namespace NjordFinance.Model.Metadata {
         /// <summary>
         ///   Looks up a localized string similar to Security.
         /// </summary>
-        public static string BrokerTransaction_SecurityId_Name {
+        public static string BrokerTransaction_SecurityID_Name {
             get {
-                return ResourceManager.GetString("BrokerTransaction_SecurityId_Name", resourceCulture);
+                return ResourceManager.GetString("BrokerTransaction_SecurityID_Name", resourceCulture);
             }
         }
         
@@ -1053,9 +1053,9 @@ namespace NjordFinance.Model.Metadata {
         /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
-        public static string BrokerTransaction_TransactionCodeId_Name {
+        public static string BrokerTransaction_TransactionCodeID_Name {
             get {
-                return ResourceManager.GetString("BrokerTransaction_TransactionCodeId_Name", resourceCulture);
+                return ResourceManager.GetString("BrokerTransaction_TransactionCodeID_Name", resourceCulture);
             }
         }
         
@@ -2176,7 +2176,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (no symbol).
+        ///   Looks up a localized string similar to none.
         /// </summary>
         public static string Security_CurrentSecuritySymbol_Empty {
             get {
@@ -2779,6 +2779,24 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Indicates whether securities of this type are held in a cryptocurrency wallet..
+        /// </summary>
+        public static string SecurityType_HeldInWallet_Description {
+            get {
+                return ResourceManager.GetString("SecurityType_HeldInWallet_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Held in Crypto. Wallet.
+        /// </summary>
+        public static string SecurityType_HeldInWallet_Name {
+            get {
+                return ResourceManager.GetString("SecurityType_HeldInWallet_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The security type group..
         /// </summary>
         public static string SecurityType_SecurityTypeGroupID_Description {
@@ -2833,6 +2851,24 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Indicates whether securities in this type group can be external deposit sources to brokerage accounts..
+        /// </summary>
+        public static string SecurityTypeGroup_DepositSource_Description {
+            get {
+                return ResourceManager.GetString("SecurityTypeGroup_DepositSource_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Deposit Source.
+        /// </summary>
+        public static string SecurityTypeGroup_DepositSource_Name {
+            get {
+                return ResourceManager.GetString("SecurityTypeGroup_DepositSource_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The security type group name..
         /// </summary>
         public static string SecurityTypeGroup_SecurityTypeGroupName_Description {
@@ -2847,6 +2883,24 @@ namespace NjordFinance.Model.Metadata {
         public static string SecurityTypeGroup_SecurityTypeGroupName_Name {
             get {
                 return ResourceManager.GetString("SecurityTypeGroup_SecurityTypeGroupName_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indicates whether securities in this type group can be the source of broker transactions..
+        /// </summary>
+        public static string SecurityTypeGroup_Transactable_Description {
+            get {
+                return ResourceManager.GetString("SecurityTypeGroup_Transactable_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transactable.
+        /// </summary>
+        public static string SecurityTypeGroup_Transactable_Name {
+            get {
+                return ResourceManager.GetString("SecurityTypeGroup_Transactable_Name", resourceCulture);
             }
         }
     }

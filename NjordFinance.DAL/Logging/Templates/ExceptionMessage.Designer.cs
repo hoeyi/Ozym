@@ -117,6 +117,15 @@ namespace NjordFinance.Logging.Templates {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occured when saving changes. Another user may have modified the same entries. Refresh results and re-apply changes..
+        /// </summary>
+        internal static string ModelService_SaveChanges_ConcurrencyConflict {
+            get {
+                return ResourceManager.GetString("ModelService_SaveChanges_ConcurrencyConflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Changes were not saved..
         /// </summary>
         internal static string ModelService_SaveChanges_Failed {

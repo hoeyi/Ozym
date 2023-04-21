@@ -61,7 +61,6 @@
 ::deep .datagrid-cell a {
     color: var(--theme-text-color-0, black);
     font-weight: bold;
-    text-indent: 0.5rem;
     text-decoration: none;
     display: inline-block;
     width: 100%;
@@ -70,7 +69,7 @@
     padding-bottom: 0.25rem;
 }
 
-    ::deep .datagrid-cell a:hover {
+    ::deep .datagrid-cell.link:hover {
         background-color: var(--theme-tablecell-onhover-color, gray);
         color: var(--theme-text-color-0, black);
         cursor: pointer;
@@ -91,8 +90,9 @@
     color: var(--theme-tablecell-fore-color, black);
 }
 
-::deep .datagrid-cell.text {
-    text-indent: 0.5rem;
+::deep .datagrid-cell:not(.button):not(.control) div {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
     ::deep .datagrid-cell.button .form-control.button.icon {
@@ -191,8 +191,14 @@
             color: var(--theme-text-color-0, white) !important;
         }
 
-::deep input[type=checkbox]:checked:before {
-    background: var(--theme-hexcolor-primary-1, inherit);
+/* Handle the color of checkboxes */ 
+::deep input[type=checkbox].checkbox-themed:checked {
+    accent-color: var(--theme-hexcolor-secondary-2-1, inherit);
+}
+
+/* Handle the width of date input controls. */
+::deep input[type=date] {
+    width: auto;
 }
 
 ::deep .validation-message {

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Model;
+using NjordFinance.Model.ConstraintType;
 using NjordFinance.ModelService.Abstractions;
 
 namespace NjordFinance.ModelService
@@ -44,6 +45,13 @@ namespace NjordFinance.ModelService
                         .SaveChangesAsync() > 0;
 
                     return new DbActionResult<SecurityTypeGroup>(model, result);
+                },
+                GetDefaultDelegate = () => new SecurityTypeGroup()
+                {
+                    AttributeMemberNavigation = new()
+                    {
+                        AttributeId = (int)ModelAttributeEnum.SecurityTypeGroup
+                    }
                 },
                 UpdateDelegate = async (context, model) =>
                 {

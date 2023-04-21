@@ -34,7 +34,8 @@ namespace NjordFinance.ModelService
             Reader = new ModelReaderService<BrokerTransaction>(
                 this, _modelMetadata, _logger)
             {
-                ParentExpression = x => x.AccountId == parentId
+                ParentExpression = x => x.AccountId == parentId,
+                IncludeDelegate = (queryable) => queryable.Include(x => x.TransactionCode)
             };
 
             Writer = new ModelWriterBatchService<BrokerTransaction>(

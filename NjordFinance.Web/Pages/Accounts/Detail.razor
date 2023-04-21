@@ -2,8 +2,6 @@
 
 @inherits ModelDetail<Account>
 
-@inject IReferenceDataService ReferenceData
-
 <ThemedComponent>
     @if (IsLoading)
     {
@@ -17,7 +15,8 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ViewModel">
+                <CascadingValue 
+                    Value="@ViewModel" >
                     <EditForm class="model-editor" Model="@ViewModel">
                         <AccountCRUD AccountCustodians="@Custodians" 
                             Disabled="false" ReadOnly="true" />
@@ -32,7 +31,7 @@
     [Parameter]
     public int AccountId { get; set; }
 
-    private IEnumerable<LookupModel> Custodians { get; set; }
+    private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
     private AccountViewModel ViewModel { get; set; }
 
@@ -45,20 +44,22 @@
         try
         {
             var accountQuery = await Controller.ReadAsync(AccountId);
-            if (accountQuery.Value is Account account)
-                Model = account;
+            Model = accountQuery.Value;
 
             ActionMenu = new()
                 {
                     IconKey = "reorder-four",
                     Children = new()
                     {
-                        // Add index button.
+                        // Add return to index button.
                         { 0, new MenuItem()
                             {
-                                IconKey = "list",
+                                IconKey = "caret-back-circle",
                                 Caption = string.Format(
-                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
+                                    Strings.Caption_NavigateBackTo,
+                                    ModelMetadata
+                                        .GetAttribute<Account, NounAttribute>()
+                                        ?.GetPlural()),
                                 UriStem = $"{IndexUriRelativePath}"
                             }
                         },
@@ -74,9 +75,31 @@
                     }
                 };
 
-            // Add view wallets button.
+            // Add view bank transactions menu item.
+            if (Model.HasBankTransaction)
+                ActionMenu.Children.Add(ActionMenu.Children.Max(kv => kv.Key) + 1, new MenuItem()
+                    {
+                        IconKey = "journal",
+                        Caption = string.Format(
+                                Strings.Caption_ViewMany,
+                                ModelMetadata.GetAttribute<BankTransaction, NounAttribute>()?.GetPlural()),
+                        UriStem = $"{FormatDetailUri(AccountId)}/bank-transactions"
+                    });
+
+            // Add view broker transactions menu item.
+            if(Model.HasBrokerTransaction)
+                ActionMenu.Children.Add(ActionMenu.Children.Max(kv => kv.Key) + 1, new MenuItem()
+                    {
+                        IconKey = "journal",
+                        Caption = string.Format(
+                            Strings.Caption_ViewMany,
+                            ModelMetadata.GetAttribute<BrokerTransaction, NounAttribute>()?.GetPlural()),
+                        UriStem = $"{FormatDetailUri(Model.AccountId)}/broker-transactions"
+                    });
+
+            // Add view wallets menu item.
             if (Model.HasWallet)
-                ActionMenu.Children.Add(2, new MenuItem()
+                ActionMenu.Children.Add(ActionMenu.Children.Max(kv => kv.Key) + 1, new MenuItem()
                     {
                         IconKey = "wallet",
                         Caption = string.Format(
@@ -85,13 +108,13 @@
                         UriStem = $"{FormatEditUri(Model.AccountId)}/wallets"
                     });
 
-            Custodians = (await ReferenceData.AccountCustodianListAsync()).ToLookups();
+            Custodians = (await Controller.ReferenceQueries.GetAccountCustodianDTOsAsync()).Value;
 
             ViewModel = new(Model);
         }
         finally
         {
-            IsLoading = Custodians is null || Model is null;
+            IsLoading = Custodians is null || Model is null || ViewModel is null;
         }
 
         // TODO: Take corrective action here, accountQuery.Value should be Account
