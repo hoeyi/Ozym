@@ -1,12 +1,22 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Ichosys.DataModel.Annotations;
+using System.Security.AccessControl;
 using Microsoft.EntityFrameworkCore;
+using NjordFinance.Model.Metadata;
 
 namespace NjordFinance.Model
 {
     [Table("CountryAttributeMemberEntry", Schema = "FinanceApp")]
     [Index(nameof(CountryId), Name = "IX_CountryAttributeMemberEntry_CountryID")]
+    [Noun(
+        Plural = nameof(ModelNoun.CountryAttributeMemberEntry_Plural),
+        PluralArticle = nameof(ModelNoun.CountryAttributeMemberEntry_PluralArticle),
+        Singular = nameof(ModelNoun.CountryAttributeMemberEntry_Singular),
+        SingularArticle = nameof(ModelNoun.CountryAttributeMemberEntry_SingularArticle),
+        ResourceType = typeof(ModelNoun)
+        )]
     public partial class CountryAttributeMemberEntry
     {
         [Key]
