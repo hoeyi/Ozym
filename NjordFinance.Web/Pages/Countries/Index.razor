@@ -28,30 +28,20 @@
         <ContentTile>
             <Body>
                 <DataGrid Data="@Models">
-                    <DataGridColumn Property=@nameof(Country.DisplayName)
+                    <DataGridColumn Type="DataGridCellType.Link" Property=@nameof(Country.DisplayName)
                                 Caption=@(NameFor(x => x.DisplayName))>
                         <CellTemplate Context="model">
-                            @model.DisplayName
+                            <a class="custom-nav-link" href=@(FormatDetailUri(model.CountryId)) 
+                                @onclick:preventDefault
+                                @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.DisplayName
+                            </a>
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Country.IsoCode3)
                                 Caption=@(NameFor(x => x.IsoCode3))>
                         <CellTemplate Context="model">
                             @model.IsoCode3
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Type="DataGridCellType.Button">
-                        <CellTemplate Context="model">
-                            <ToolTip Text=@(Strings.Caption_ViewMany.Format(
-                                ModelMetadata
-                                    .GetAttribute<CountryAttributeMemberEntry, NounAttribute>()
-                                    ?.GetPlural()))>
-                                <button class="form-control button icon"
-                                    type="button"
-                                    @onclick="(args) => OnAttributeDetailSelect(args, model)">
-                                    <IonIcon Name="list-circle" />
-                                </button>
-                            </ToolTip>
                         </CellTemplate>
                     </DataGridColumn>
                 </DataGrid>
@@ -85,6 +75,8 @@
         await base.OnInitializedAsync();
     }
 
-    private void OnAttributeDetailSelect(MouseEventArgs args, Country model) =>
-        NavigationHelper.NavigateTo(FormatDetailUri(GetKeyValueOrDefault<int>(model)));
+    private void Detail_OnClick(Country model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.CountryId));
+    }
 }
