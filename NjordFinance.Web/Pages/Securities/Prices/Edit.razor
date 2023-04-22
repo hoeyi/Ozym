@@ -1,0 +1,288 @@
+﻿@page "/securities/prices/edit"
+
+@inherits ModelPage<SecurityPrice>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+<ThemedComponent>
+    <ModelPageMenuHeader Header="@(PageTitle.ReadMany())" />
+
+    <ContentTile>
+        <Body>
+            <SearchInputTable TModel="SecurityPrice"
+                            ComparisonOperators=@ComparisonOperators
+                            ExpressionBuilder=@ExpressionBuilder
+                            SearchFields=@SearchFields
+                            OnSearchClick=@(async (args) => await SearchClicked(args))>
+            </SearchInputTable>
+        </Body>
+    </ContentTile>
+
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <div class="error-text">@ErrorMessage</div>
+                }
+                <EditForm width="100%" EditContext="@_context">
+                    <ActionButtonMenu>
+                        <button class="form-control button"
+                            @onclick="@(async (args) => await Submit_OnClick(context, args))">
+                            @Strings.Caption_Button_Save
+                        </button>
+                        <button class="form-control button"
+                            @onclick="(async (args) => await AddNewAsync(args))">
+                            @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
+                        </button>
+                        <button class="form-control button" @onclick="Cancel_OnClick"
+                            @onclick:preventDefault>
+                            @Strings.Caption_Button_Cancel
+                        </button>
+                    </ActionButtonMenu>
+                    <DataAnnotationsValidator />
+                    <DataGrid Data="@SecurityPrices">
+                        <DataGridColumn Property=@nameof(SecurityPrice.SecurityId)
+                            Type="DataGridCellType.Control"
+                            Caption=@(NameFor(x => x.SecurityId))>
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control" @bind-Value="@model.SecurityId">
+                                    @foreach (var lookup in SecurityLookup)
+                                    {
+                                        <option value=@lookup.Key>@lookup.Display</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(SecurityPrice.PriceDate)
+                            Type="DataGridCellType.Control"
+                            Caption=@(NameFor(x => x.PriceDate))>
+                            <CellEditTemplate Context="model">
+                                <InputDate class="form-control" @bind-Value="model.PriceDate" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(SecurityPrice.PriceClose)
+                            Type="DataGridCellType.Control"
+                            Caption=@(NameFor(x => x.PriceClose))>
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="model.PriceClose" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(SecurityPrice.PriceOpen)
+                            Type="DataGridCellType.Control"
+                            Caption=@(NameFor(x => x.PriceOpen))>
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="model.PriceOpen" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(SecurityPrice.PriceHigh)
+                            Type="DataGridCellType.Control"
+                            Caption=@(NameFor(x => x.PriceHigh))>
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="model.PriceHigh" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(SecurityPrice.PriceLow)
+                            Type="DataGridCellType.Control"
+                            Caption=@(NameFor(x => x.PriceLow))>
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="model.PriceClose" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(SecurityPrice.Volume)
+                            Type="DataGridCellType.Control"
+                            Caption=@(NameFor(x => x.Volume))>
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="model.Volume" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon"
+                                        type="button"
+                                        @onclick="async (args) => await DeleteAsync(args, model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </EditForm>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+@code {
+    [Inject]
+    protected IBatchController<SecurityPrice> Controller { get; set; }
+
+    private IList<SecurityPrice> SecurityPrices { get; set; }
+
+    private IEnumerable<LookupModel<int, string>> SecurityLookup { get; set; }
+
+    private EditContext _context;
+
+    private int MaxRecordCount { get; set; } = 100;
+
+    private DateTime GetLastBusinessDay()
+    {
+        var currentDateTime = DateTime.UtcNow;
+
+        DateTime lastBusinessDate = currentDateTime.DayOfWeek switch
+        {
+            DayOfWeek.Saturday => currentDateTime.Date.AddDays(-1),
+            DayOfWeek.Sunday => currentDateTime.Date.AddDays(-2),
+            _ => currentDateTime.Date
+        };
+
+        return lastBusinessDate;
+    }
+    private Expression<Func<SecurityPrice, bool>> InitialSearchExpression { get; set; }
+
+    #region Search componenents
+    /// <summary>
+    /// Gets or sets the <see cref="IExpressionBuilder"/> for this component.
+    /// </summary>
+    [Inject]
+    protected IExpressionBuilder ExpressionBuilder { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the collection of searchables fields for the type: <typeparamref name="TModel"/>.
+    /// </summary>
+    private IEnumerable<ISearchableMemberMetadata> SearchFields { get; set; }
+        = Array.Empty<ISearchableMemberMetadata>();
+
+    /// <summary>
+    /// Gets or sets the collection of allowable <see cref="ComparisonOperator"/> for
+    /// the type: <typeparamref name="TModel"/>.
+    /// </summary>
+    private IEnumerable<ComparisonOperator> ComparisonOperators { get; set; }
+        = Array.Empty<ComparisonOperator>();
+
+    #endregion
+
+    private bool UpodateLoading() => SecurityLookup is null || SecurityPrices is null;
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            if (ExpressionBuilder is null)
+                throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
+
+            if (Controller is null)
+                throw new ArgumentNullException(paramName: nameof(Controller));
+
+            DateTime lastBusinessDay = GetLastBusinessDay();
+
+            //InitialSearchExpression = x => x.PriceDate == lastBusinessDay;
+            InitialSearchExpression = x => true;
+
+            SearchFields = ExpressionBuilder!.GetSearchableMembers<SecurityPrice>();
+            ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
+
+            var pricesTask = Controller.SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+            var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
+                key: x => x.SecurityId,
+                display: x => x.SecurityDescription,
+                defaultKey: default,
+                defaultDisplay: Strings.Caption_InputSelect_Prompt);
+
+            var dataTasks = Task.WhenAll(pricesTask, securityDtosTask);
+            await dataTasks;
+
+            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                var pricesResult = await pricesTask;
+                var securityDtoResult = await securityDtosTask;
+
+                SecurityLookup = securityDtoResult.Value;
+                SecurityPrices = pricesResult.Value;
+            }
+        }
+        finally
+        {
+            SecurityPrices ??= new List<SecurityPrice>();
+
+            _context = new(SecurityPrices);
+            IsLoading = UpodateLoading();
+        }
+    }
+
+    private async Task AddNewAsync(MouseEventArgs args)
+    {
+        // TODO: Do something with MouseEventArgs?
+
+        var getDefaultTask = await Controller.GetDefaultAsync();
+        await Controller.AddAsync(getDefaultTask.Value);
+
+        if (getDefaultTask.Value is SecurityPrice model)
+            SecurityPrices.Insert(0, model);
+    }
+
+    private async Task DeleteAsync(MouseEventArgs args, SecurityPrice model)
+    {
+        var result = await Controller.DeleteOrDetachAsync(model);
+
+        if (result is OkResult)
+            SecurityPrices.Remove(model);
+        else
+            throw new InvalidOperationException();
+
+        // TODO: interpret the response.
+    }
+
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo($"{IndexUriRelativePath}/prices");
+
+    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
+    {
+        bool isValid = context.Validate();
+        if (isValid)
+        {
+            var saveResult = await Controller.SaveChangesAsync();
+
+            if (saveResult is NoContentResult)
+                NavigationHelper.NavigateTo($"{IndexUriRelativePath}/prices");
+
+            else if (saveResult is ObjectResult objectResult)
+                ErrorMessage = (objectResult.Value as Exception)?.Message;
+        }
+    }
+
+    /// <summary>
+    /// Handles search submission events that that contain
+    /// <see cref="SearchSubmittedEventArgs{TModel}"/> data.
+    /// </summary>
+    /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that
+    /// containst the data for the invoked event.</param>
+    /// <returns>A task representing an asynchronous operator. Successful operation will
+    /// cause <see cref="Models"/> to update to the collection matching the event arguments
+    /// search expression.</returns>
+    protected async Task SearchClicked(SearchSubmittedEventArgs<SecurityPrice> args)
+    {
+        try
+        {
+            IsLoading = true;
+            if (args is not null)
+            {
+                var actionResult = await Controller!.SelectWhereAysnc(
+                        predicate: args.SearchExpression, maxCount: MaxRecordCount);
+
+                SecurityPrices = actionResult.Value ?? new List<SecurityPrice>();
+            }
+        }
+        finally
+        {
+            IsLoading = UpodateLoading();
+        }
+    }
+}
