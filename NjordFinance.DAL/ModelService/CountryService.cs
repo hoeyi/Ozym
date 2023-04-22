@@ -59,7 +59,8 @@ namespace NjordFinance.ModelService
                             .FirstAsync(m => m.CountryId == model.CountryId);
 
             // Mark children with altered index as deleted.
-            context.CountryAttributeMemberEntries.RemoveRange(existingEntity.CountryAttributeMemberEntries
+            context.CountryAttributeMemberEntries.RemoveRange(existingEntity
+                .CountryAttributeMemberEntries
                 .Where(a => !model.CountryAttributeMemberEntries.Any(b =>
                     b.CountryId == a.CountryId &&
                     b.AttributeMemberId == a.AttributeMemberId &&
@@ -85,7 +86,7 @@ namespace NjordFinance.ModelService
                     b.EffectiveDate == a.EffectiveDate)))
             {
                 // Define the new entity.
-                var newEntity = new InvestmentStrategyTarget();
+                var newEntity = new CountryAttributeMemberEntry();
                 context.Add(newEntity);
 
                 // Update the new entity values.
