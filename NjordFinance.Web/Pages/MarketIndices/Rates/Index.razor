@@ -2,8 +2,6 @@
 
 @inherits ModelPage<MarketIndexPrice>
 
-@inject IBatchController<MarketIndexPrice> Controller
-
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
     <ThemedComponent>
@@ -61,6 +59,8 @@
 </ThemedComponent>
 
 @code {
+    [Inject]
+    protected IBatchController<MarketIndexPrice> Controller { get; set; }
 
     private IList<MarketIndexPrice> IndexPrices { get; set; }
 
@@ -159,7 +159,7 @@
     /// </summary>
     /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that 
     /// containst the data for the invoked event.</param>
-    /// <returns>A task representing an asynchronous operator. Successful ooperation will 
+    /// <returns>A task representing an asynchronous operator. Successful operation will 
     /// cause <see cref="IndexPrices"/> to update to the collection matching the event arguments 
     /// search expression.</returns>
     protected async Task SearchClicked(SearchSubmittedEventArgs<MarketIndexPrice> args)
@@ -179,7 +179,7 @@
         {
             IsLoading = false;
         }
-        }
+    }
 
     private string GetPriceCodeDisplayValue(MarketIndexPriceCode? priceCodeMember)
     {
