@@ -9,7 +9,7 @@
     --border-size: 1px;
     --hover-color: var(--theme-elevation-backcolor-2);
     --hover-color-detail: var(--theme-elevation-backcolor-5);
-    --default-height: 32px;
+    --default-height: 40px;
     --icon-max-width: 32px;
     --menu-fontfamily-default: Arial, Helvetica, sans-serif;
 }

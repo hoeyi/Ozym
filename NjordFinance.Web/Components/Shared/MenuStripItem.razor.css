@@ -15,7 +15,7 @@ a {
     line-height: 100%;
     display: inline-grid;
     grid-template-areas: "a b c";
-    grid-template-columns: minmax(32px, 1fr) minmax(64px, 8fr) minmax(16px, auto);
+    grid-template-columns: minmax(32px, 2fr) minmax(64px, 8fr) minmax(16px, auto);
     justify-content: space-between;
 }
 
@@ -72,7 +72,7 @@ a {
 .icon.left {
     grid-area: a;
     margin: auto;
-    max-height: 65%;
+    max-height: 55%;
 }
 
 ::deep svg {
