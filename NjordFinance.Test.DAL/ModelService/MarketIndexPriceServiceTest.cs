@@ -10,8 +10,7 @@ namespace NjordFinance.Test.ModelService
         : ModelBatchServiceTest<MarketIndexPrice>
     {
         private const int _marketIndexId = -4;
-        protected override Expression<Func<MarketIndexPrice, bool>> ParentExpression =>
-            x => x.MarketIndexId == _marketIndexId;
+        protected override Expression<Func<MarketIndexPrice, bool>> ParentExpression => x => true;
 
         /// <inheritdoc/>
         /// <remarks>Always passes because <see cref="UpdatePendingSave_IsDirty_Is_True"/> the 
@@ -23,7 +22,7 @@ namespace NjordFinance.Test.ModelService
         }
 
         protected override IModelBatchService<MarketIndexPrice> GetModelService() =>
-            BuildModelService<MarketIndexPriceBatchService>().WithParent(parentId: _marketIndexId);
+            BuildModelService<MarketIndexPriceBatchService>();
 
     }
 }

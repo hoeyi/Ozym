@@ -144,4 +144,8 @@
     <comment>{0} is the model noun singular
 {1} is the model identifier</comment>
   </data>
+  <data name="UpdateModelNoParent" xml:space="preserve">
+    <value>Edit {0}</value>
+    <comment>{0} is the model plural</comment>
+  </data>
 </root>

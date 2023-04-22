@@ -30,7 +30,7 @@ namespace NjordFinance.ModelService
             Reader = new ModelReaderService<MarketIndexPrice>(
                 this, _modelMetadata, _logger)
             {
-                ParentExpression = x => true,
+                ParentExpression = null,
                 IncludeDelegate = (queryable) => queryable
                     .Include(a => a.MarketIndex)
             };
@@ -38,6 +38,7 @@ namespace NjordFinance.ModelService
             Writer = new ModelWriterBatchService<MarketIndexPrice>(
                 this, _modelMetadata, _logger)
             {
+                ParentExpression = null,
                 GetDefaultModelDelegate = () => new()
                 {
                     PriceCode = string.Empty,
@@ -48,24 +49,9 @@ namespace NjordFinance.ModelService
 
         public override bool ForParent(int parentId, out Exception e)
         {
-            Reader = new ModelReaderService<MarketIndexPrice>(
-                this, _modelMetadata, _logger)
-            {
-                ParentExpression = x => x.MarketIndexId == parentId
-            };
-
-            Writer = new ModelWriterBatchService<MarketIndexPrice>(
-                this, _modelMetadata, _logger)
-            {
-                ParentExpression = x => x.MarketIndexId == parentId,
-                GetDefaultModelDelegate = () => new()
-                {
-                    MarketIndexId = parentId
-                }
-            };
-
-            e = null;
-            return true;
+            e = new NotSupportedException(
+                message: Exceptions.ExceptionString.ModelService_ParentNotSupported);
+            return false;
         }
     }
 }

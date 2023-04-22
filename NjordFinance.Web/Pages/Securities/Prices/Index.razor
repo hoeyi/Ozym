@@ -1,6 +1,6 @@
-﻿@page "/market-indices/rates"
+﻿@page "/securities/prices"
 
-@inherits ModelPage<MarketIndexPrice>
+@inherits ModelPage<SecurityPrice>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -9,7 +9,7 @@
 
         <ContentTile>
             <Body>
-                <SearchInputTable TModel="MarketIndexPrice"
+                <SearchInputTable TModel="SecurityPrice"
                               ComparisonOperators=@ComparisonOperators
                               ExpressionBuilder=@ExpressionBuilder
                               SearchFields=@SearchFields
@@ -18,7 +18,7 @@
             </Body>
         </ContentTile>
 
-        @if (IsLoading)
+    @if (IsLoading)
     {
         <LoadingSvg />
     }
@@ -27,29 +27,47 @@
 
         <ContentTile>
             <Body>
-                <DataGrid Data="@IndexPrices">
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.MarketIndexId)
-                                Caption=@(NameFor(x => x.MarketIndexId))>
+                <DataGrid Data="@SecurityPrices">
+                    <DataGridColumn Property="@nameof(SecurityPrice.SecurityId)"
+                        Caption="@(NameFor(x => x.SecurityId))">
                         <CellTemplate Context="model">
-                            @model.MarketIndex?.IndexCode
+                            @GetSecurityDisplay(model.SecurityId)
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.PriceCode)
-                        Caption=@(NameFor(x => x.PriceCode))>
-                        <CellTemplate Context="model">
-                            @GetPriceCodeDisplayValue(model.PriceCodeMember)
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.PriceDate)
+                    <DataGridColumn Property=@nameof(SecurityPrice.PriceDate)
                         Caption=@(NameFor(x => x.PriceDate))>
-                         <CellTemplate Context="model">
+                        <CellTemplate Context="model">
                             @model.PriceDate.ToShortDateString()
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.Price)
-                        Caption=@(NameFor(x => x.Price))>
+                    <DataGridColumn Property=@nameof(SecurityPrice.PriceClose)
+                        Caption=@(NameFor(x => x.PriceClose))>
                         <CellTemplate Context="model">
-                            @model.Price
+                            @model.PriceClose
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(SecurityPrice.PriceOpen)
+                        Caption=@(NameFor(x => x.PriceOpen))>
+                        <CellTemplate Context="model">
+                            @model.PriceOpen
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(SecurityPrice.PriceHigh)
+                        Caption=@(NameFor(x => x.PriceHigh))>
+                        <CellTemplate Context="model">
+                            @model.PriceHigh
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(SecurityPrice.PriceLow)
+                        Caption=@(NameFor(x => x.PriceLow))>
+                        <CellTemplate Context="model">
+                            @model.PriceLow
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(SecurityPrice.Volume)
+                                Caption=@(NameFor(x => x.Volume))>
+                        <CellTemplate Context="model">
+                            @model.Volume
                         </CellTemplate>
                     </DataGridColumn>
                 </DataGrid>
@@ -60,9 +78,11 @@
 
 @code {
     [Inject]
-    protected IBatchController<MarketIndexPrice> Controller { get; set; }
+    protected IBatchController<SecurityPrice> Controller { get; set; }
 
-    private IList<MarketIndexPrice> IndexPrices { get; set; }
+    private IDictionary<int, string> SecurityDtos { get; set; }
+
+    private IList<SecurityPrice> SecurityPrices { get; set; }
 
     private int MaxRecordCount { get; set; } = 100;
 
@@ -79,7 +99,7 @@
 
         return lastBusinessDate;
     }
-    private Expression<Func<MarketIndexPrice, bool>> InitialSearchExpression { get; set; }
+    private Expression<Func<SecurityPrice, bool>> InitialSearchExpression { get; set; }
 
     #region Search componenents
     /// <summary>
@@ -118,12 +138,11 @@
                             IconKey = "pencil",
                             Caption = string.Format(
                                 Strings.Caption_EditMany, ModelNoun?.GetPlural()),
-                            UriStem = $"{IndexUriRelativePath}/rates/edit"
+                            UriStem = $"{IndexUriRelativePath}/prices/edit"
                         }
                     }
                 }
             };
-
 
         try
         {
@@ -135,34 +154,53 @@
 
             DateTime lastBusinessDay = GetLastBusinessDay();
 
-            // InitialSearchExpression = x => x.PriceDate == lastBusinessDay;
+            //InitialSearchExpression = x => x.PriceDate == lastBusinessDay;
             InitialSearchExpression = x => true;
 
-            SearchFields = ExpressionBuilder!.GetSearchableMembers<MarketIndexPrice>();
+            SearchFields = ExpressionBuilder!.GetSearchableMembers<SecurityPrice>();
             ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
-            var queryActionResultTask = Controller!
-                .SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+            var pricesTask = Controller.SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+            var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
+                key: x => x.SecurityId,
+                display: x => x.SecurityDescription);
 
-            IndexPrices = (await queryActionResultTask).Value;
+            var dataTasks = Task.WhenAll(pricesTask, securityDtosTask);
+            await dataTasks;
 
+            if(dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                var pricesResult = await pricesTask;
+                var securityDtoResult = await securityDtosTask;
+
+                SecurityDtos = securityDtoResult.Value.ToDictionary(k => k.Key, v => v.Display);
+                SecurityPrices = pricesResult.Value;
+            }
         }
         finally
         {
-            IsLoading = IndexPrices is null;
+            IsLoading = SecurityPrices is null || SecurityDtos is null;
         }
     }
 
+    private string GetSecurityDisplay(int securityId)
+    {
+        if (SecurityDtos.TryGetValue(securityId, out string display))
+            return display;
+        else
+            return string.Empty;
+    }
+
     /// <summary>
-    /// Handles search submission events that that contain 
+    /// Handles search submission events that that contain
     /// <see cref="SearchSubmittedEventArgs{TModel}"/> data.
     /// </summary>
-    /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that 
+    /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that
     /// containst the data for the invoked event.</param>
-    /// <returns>A task representing an asynchronous operator. Successful operation will 
-    /// cause <see cref="IndexPrices"/> to update to the collection matching the event arguments 
+    /// <returns>A task representing an asynchronous operator. Successful operation will
+    /// cause <see cref="Models"/> to update to the collection matching the event arguments
     /// search expression.</returns>
-    protected async Task SearchClicked(SearchSubmittedEventArgs<MarketIndexPrice> args)
+    protected async Task SearchClicked(SearchSubmittedEventArgs<SecurityPrice> args)
     {
         try
         {
@@ -172,20 +210,12 @@
                 var actionResult = await Controller!.SelectWhereAysnc(
                         predicate: args.SearchExpression, maxCount: MaxRecordCount);
 
-                IndexPrices = actionResult.Value ?? new List<MarketIndexPrice>();
+                SecurityPrices = actionResult.Value ?? new List<SecurityPrice>();
             }
         }
         finally
         {
             IsLoading = false;
         }
-    }
-
-    private string GetPriceCodeDisplayValue(MarketIndexPriceCode? priceCodeMember)
-    {
-        if(priceCodeMember is null)
-            return null;
-
-        return NameFor<MarketIndexPriceCode>((MarketIndexPriceCode)priceCodeMember);
     }
 }

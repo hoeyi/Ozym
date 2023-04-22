@@ -135,6 +135,10 @@
     border-bottom-right-radius: 1rem;
 }
 
+::deep .datagrid-footer .datagrid-cell.text {
+    padding-left: 0.5rem;
+}
+
 ::deep .datagrid-row .datagrid-cell.button {
     width: 2rem;
     white-space: nowrap;
@@ -194,6 +198,19 @@
 /* Handle the color of checkboxes */ 
 ::deep input[type=checkbox].checkbox-themed:checked {
     accent-color: var(--theme-hexcolor-secondary-2-1, inherit);
+}
+
+/* Remove the InputNumber element's selector control */
+/* Chrome, Safari, Edge, Opera */
+::deep input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+::deep input[type=number] {
+    -moz-appearance: textfield;
 }
 
 /* Handle the width of date input controls. */

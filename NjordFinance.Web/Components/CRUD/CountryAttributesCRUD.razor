@@ -38,14 +38,14 @@ else
                 <ValidationMessage For=@(() => ViewModel.SumOfMemberWeights) />
                 @if (ReadOnly)
                 {
-                    <DataGridColumn Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
-                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.AttributeMemberId))>
+                    <DataGridColumn Property=@nameof(CountryAttributeMemberEntry.AttributeMemberId)
+                            Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.AttributeMemberId))>
                         <CellTemplate Context="model">
                             @model.AttributeMember.DisplayName
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(InvestmentStrategyTarget.Weight)
-                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.Weight))>
+                    <DataGridColumn Property=@nameof(CountryAttributeMemberEntry.Weight)
+                            Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.Weight))>
                         <CellTemplate Context="model">
                             @model.Weight
                         </CellTemplate>
@@ -53,8 +53,8 @@ else
                 }
                 else
                 {
-                    <DataGridColumn Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
-                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.AttributeMemberId))>
+                    <DataGridColumn Property=@nameof(CountryAttributeMemberEntry.AttributeMemberId)
+                            Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.AttributeMemberId))>
                         <CellEditTemplate Context="model">
                             <InputSelect class="form-control"
                                  @bind-Value="@model.AttributeMemberId">
@@ -65,8 +65,8 @@ else
                             </InputSelect>
                         </CellEditTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(InvestmentStrategyTarget.Weight)
-                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.Weight))>
+                    <DataGridColumn Property=@nameof(CountryAttributeMemberEntry.Weight)
+                            Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.Weight))>
                         <CellEditTemplate Context="model">
                             <InputNumber class="form-control" @bind-Value="@model.Weight" />
                         </CellEditTemplate>
