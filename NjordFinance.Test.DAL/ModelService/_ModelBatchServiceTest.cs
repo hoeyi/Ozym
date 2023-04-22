@@ -111,12 +111,13 @@ namespace NjordFinance.Test.ModelService
 
             var models = await service.SelectAllAsync();
 
+            Assert.IsTrue(models.Count > 0);
+            Assert.IsInstanceOfType(models, typeof(List<T>));
+
             var count = models.Count();
             var expcount = models.AsQueryable().Where(ParentExpression).Count();
 
-            Assert.IsTrue(models.Count > 0);
             Assert.AreEqual(expcount, count);
-            Assert.IsInstanceOfType(models, typeof(List<T>));
         }
 
         /// <inheritdoc/>
