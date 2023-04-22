@@ -370,13 +370,13 @@
     <value>the</value>
   </data>
   <data name="InvestmentStrategy_Plural" xml:space="preserve">
-    <value>investment strategies</value>
+    <value>investment models</value>
   </data>
   <data name="InvestmentStrategy_PluralArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="InvestmentStrategy_Singular" xml:space="preserve">
-    <value>investment strategy</value>
+    <value>investment model</value>
   </data>
   <data name="InvestmentStrategy_SingularArticle" xml:space="preserve">
     <value>the</value>
@@ -406,13 +406,13 @@
     <value>the</value>
   </data>
   <data name="MarketIndexPrice_Plural" xml:space="preserve">
-    <value>index prices</value>
+    <value>index rates</value>
   </data>
   <data name="MarketIndexPrice_PluralArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="MarketIndexPrice_Singular" xml:space="preserve">
-    <value>index price</value>
+    <value>index rate</value>
   </data>
   <data name="MarketIndexPrice_SingularArticle" xml:space="preserve">
     <value>the</value>

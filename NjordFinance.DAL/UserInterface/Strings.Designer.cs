@@ -113,5 +113,14 @@ namespace NjordFinance.UserInterface {
                 return ResourceManager.GetString("UpdateModel", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit {0}.
+        /// </summary>
+        internal static string UpdateModelNoParent {
+            get {
+                return ResourceManager.GetString("UpdateModelNoParent", resourceCulture);
+            }
+        }
     }
 }

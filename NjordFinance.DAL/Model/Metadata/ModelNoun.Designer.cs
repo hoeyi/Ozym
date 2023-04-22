@@ -781,7 +781,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to investment strategies.
+        ///   Looks up a localized string similar to investment models.
         /// </summary>
         public static string InvestmentStrategy_Plural {
             get {
@@ -799,7 +799,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to investment strategy.
+        ///   Looks up a localized string similar to investment model.
         /// </summary>
         public static string InvestmentStrategy_Singular {
             get {
@@ -961,7 +961,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to index prices.
+        ///   Looks up a localized string similar to index rates.
         /// </summary>
         public static string MarketIndexPrice_Plural {
             get {
@@ -979,7 +979,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to index price.
+        ///   Looks up a localized string similar to index rate.
         /// </summary>
         public static string MarketIndexPrice_Singular {
             get {
