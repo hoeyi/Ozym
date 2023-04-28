@@ -32,6 +32,7 @@ namespace NjordFinance.ModelService
                 contextFactory, modelMetadata, logger)
             {
                 IncludeDelegate = (queryable) => queryable
+                    .Include(a => a.AttributeMemberNavigation)
                     .Include(a => a.CountryAttributeMemberEntries)
                     .ThenInclude(b => b.AttributeMember)
                     .ThenInclude(c => c.Attribute)
@@ -40,11 +41,37 @@ namespace NjordFinance.ModelService
             Writer = new ModelWriterService<Country>(
                 contextFactory, modelMetadata, logger)
             {
+                CreateDelegate = async(context, model) =>
+                {
+                    model.AttributeMemberNavigation.DisplayName = model.IsoCode3;
+
+                    var result = await context.MarkForCreation(model).SaveChangesAsync() > 0;
+
+                    return new DbActionResult<Country>(model, result);
+                },
                 UpdateDelegate = async (context, model) =>
                 {
                     var result = await UpdateGraphAsync(context, model);
 
                     return new DbActionResult<bool>(result, result);
+                },
+                DeleteDelegate = async (context, model) =>
+                {
+                    using var transaction = await context.Database.BeginTransactionAsync();
+
+                    context.MarkForDeletion(model);
+
+                    // Save changes because cascade delete is not used.
+                    await context.SaveChangesAsync();
+
+                    context.MarkForDeletion<ModelAttributeMember>(
+                            x => x.AttributeMemberId == model.CountryId);
+
+                    bool deleteSuccessful = await context.SaveChangesAsync() > 0;
+
+                    await transaction.CommitAsync();
+
+                    return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
                 }
             };
         }
@@ -56,6 +83,7 @@ namespace NjordFinance.ModelService
             // Capture the currently saved entity.
             var existingEntity = await context.Countries
                             .Include(a => a.CountryAttributeMemberEntries)
+                            .Include(a => a.AttributeMemberNavigation)
                             .FirstAsync(m => m.CountryId == model.CountryId);
 
             // Mark children with altered index as deleted.
@@ -95,6 +123,10 @@ namespace NjordFinance.ModelService
 
             // Udpate the curent values for the parameter model.
             context.Entry(existingEntity).CurrentValues.SetValues(model);
+
+            context.Entry(existingEntity.AttributeMemberNavigation)
+                .CurrentValues
+                .SetValues(model.AttributeMemberNavigation);
 
             bool result = await context.SaveChangesAsync() > 0;
 
