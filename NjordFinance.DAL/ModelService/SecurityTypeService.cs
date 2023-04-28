@@ -48,6 +48,24 @@ namespace NjordFinance.ModelService
 
                     return new DbActionResult<SecurityType>(model, result);
                 },
+                DeleteDelegate = async (context, model) =>
+                {
+                    using var transaction = await context.Database.BeginTransactionAsync();
+
+                    context.MarkForDeletion(model);
+
+                    // Save changes because cascade delete is not used.
+                    await context.SaveChangesAsync();
+
+                    context.MarkForDeletion<ModelAttributeMember>(
+                            x => x.AttributeMemberId == model.SecurityTypeId);
+
+                    bool deleteSuccessful = await context.SaveChangesAsync() > 0;
+
+                    await transaction.CommitAsync();
+
+                    return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
+                },
                 GetDefaultDelegate = () => new SecurityType()
                 {
                     AttributeMemberNavigation = new()

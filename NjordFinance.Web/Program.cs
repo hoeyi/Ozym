@@ -141,7 +141,7 @@ partial class Program
     {
         var config = new ConfigurationBuilder()
             .AddSecureJsonWritable(
-                path: "appsettings.protected.json",
+                path: "appsettings.Development.json",
                 logger: logger,
                 optional: false,
                 reloadOnChange: true)
