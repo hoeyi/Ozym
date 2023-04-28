@@ -121,10 +121,10 @@
     <value>Asset Class</value>
   </data>
   <data name="ModelAttribute_BrokerTransactionCategory" xml:space="preserve">
-    <value>Broker Transaction Category</value>
+    <value>Transaction Category</value>
   </data>
   <data name="ModelAttribute_BrokerTransactionClass" xml:space="preserve">
-    <value>Broker Transaction Class</value>
+    <value>Transaction Class</value>
   </data>
   <data name="ModelAttribute_CountryExposure" xml:space="preserve">
     <value>Country Exposure</value>
