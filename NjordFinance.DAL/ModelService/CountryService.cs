@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Model;
+using NjordFinance.Model.ConstraintType;
 using NjordFinance.ModelService.Abstractions;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,12 +50,6 @@ namespace NjordFinance.ModelService
 
                     return new DbActionResult<Country>(model, result);
                 },
-                UpdateDelegate = async (context, model) =>
-                {
-                    var result = await UpdateGraphAsync(context, model);
-
-                    return new DbActionResult<bool>(result, result);
-                },
                 DeleteDelegate = async (context, model) =>
                 {
                     using var transaction = await context.Database.BeginTransactionAsync();
@@ -72,6 +67,19 @@ namespace NjordFinance.ModelService
                     await transaction.CommitAsync();
 
                     return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
+                },
+                GetDefaultDelegate = () => new Country()
+                {
+                    AttributeMemberNavigation = new()
+                    {
+                        AttributeId = (int)ModelAttributeEnum.CountryExposure
+                    }
+                },
+                UpdateDelegate = async (context, model) =>
+                {
+                    var result = await UpdateGraphAsync(context, model);
+
+                    return new DbActionResult<bool>(result, result);
                 }
             };
         }

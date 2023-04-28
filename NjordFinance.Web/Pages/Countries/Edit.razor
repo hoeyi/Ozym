@@ -26,7 +26,7 @@
             ViewModel="@ViewModel"
             Mode="EditorMode.Edit">
             <ViewModelCRUD>
-                <CountryCRUD Disabled="false" ReadOnly="false" />
+                <CountryViewModelCRUD Disabled="false" ReadOnly="false" />
             </ViewModelCRUD>
             <ViewModelChildCRUD>
                 <CountryAttributesCRUD Disabled="false" ReadOnly="false" />
@@ -63,7 +63,7 @@
     /// <summary>
     /// Handles the delete click event of this page.
     /// </summary>
-    protected virtual async Task DeleteModelHandler(MouseEventArgs args)
+    private async Task DeleteModelHandler(MouseEventArgs args)
     {
         var result = await Controller.DeleteAsync(Model);
 
@@ -74,7 +74,7 @@
     /// <summary>
     /// Handles the valid form submission event of this page.
     /// </summary>
-    protected virtual async Task ValidFormSubmitHandler(EditContext args)
+    private async Task ValidFormSubmitHandler(EditContext args)
     {
         Model = ViewModel.ToEntity();
 
@@ -87,6 +87,6 @@
     /// <summary>
     /// Handles the cancel editor event of this page.
     /// </summary>
-    protected virtual void CancelEditorHandler(MouseEventArgs args) =>
+    private void CancelEditorHandler(MouseEventArgs args) =>
         NavigationHelper.NavigateTo(FormatDetailUri(Model.CountryId));
 }

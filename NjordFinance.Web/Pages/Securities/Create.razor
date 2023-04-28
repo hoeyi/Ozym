@@ -96,6 +96,8 @@
                 Exchanges = (await exchangesDtoQuery).Value;
                 SecurityTypes = (await securityTypesQuery).Value;
                 Issuers = (await issuersQuery).Value.Select(x => x.Issuer).Distinct();
+                
+                ViewModel = Model;
             }
             else
             {
@@ -130,8 +132,6 @@
                         }
                     }
                 };
-
-            ViewModel = Model;
         }
         finally
         {
