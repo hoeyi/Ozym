@@ -35,14 +35,14 @@ namespace NjordFinance.ModelService
         public override bool ForParent(int parentId, out Exception e)
         {
             Reader = new ModelReaderService<Country>(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = x => true,
                 IncludeDelegate = (queryable) => queryable.Include(a => a.AttributeMemberNavigation)
             };
 
             Writer = new CountryBatchWriterService(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = x => true,
                 GetDefaultModelDelegate = () => new Country()

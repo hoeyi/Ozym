@@ -41,7 +41,7 @@ namespace NjordFinance.ModelService.Abstractions
         /// <param name="metadataService"></param>
         /// <param name="logger"></param>
         public ModelWriterService(
-            ISharedContext sharedContext,
+            FinanceDbContext sharedContext,
             IModelMetadataService metadataService,
             ILogger logger)
             : base(sharedContext, metadataService, logger)
@@ -59,8 +59,7 @@ namespace NjordFinance.ModelService.Abstractions
             DbActionResult<T> createAction;
             
             if(HasSharedContext)
-                createAction = await DoWriteOperationAsync(
-                    SharedContext.Context, CreateDelegate, model);
+                createAction = await DoWriteOperationAsync(SharedContext, CreateDelegate, model);
             else
             {
                 using var context = await _contextFactory.CreateDbContextAsync();
@@ -113,8 +112,7 @@ namespace NjordFinance.ModelService.Abstractions
             DbActionResult<bool> deleteAction;
 
             if (HasSharedContext)
-                deleteAction = await DoWriteOperationAsync(
-                    SharedContext.Context, DeleteDelegate, model);
+                deleteAction = await DoWriteOperationAsync(SharedContext, DeleteDelegate, model);
             else
             {
                 using var context = await _contextFactory.CreateDbContextAsync();
@@ -151,7 +149,7 @@ namespace NjordFinance.ModelService.Abstractions
 
             if (HasSharedContext)
                 udpateAction = await DoWriteOperationAsync(
-                    SharedContext.Context, UpdateDelegate, model);
+                    SharedContext, UpdateDelegate, model);
             else
             {
                 using var context = await _contextFactory.CreateDbContextAsync();

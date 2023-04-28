@@ -13,8 +13,7 @@ namespace NjordFinance.ModelService.Abstractions
     /// Base class for <typeparamref name="T"/> model batch service.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal abstract class ModelBatchService<T> 
-        : ModelServiceBase<T>, IModelBatchService<T>, ISharedContext
+    internal abstract class ModelBatchService<T> : ModelServiceBase<T>, IModelBatchService<T>
         where T : class, new()
     {
         public FinanceDbContext Context { get; private set; }

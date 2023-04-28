@@ -40,7 +40,7 @@ namespace NjordFinance.ModelService.CustomWriters
         /// <param name="metadataService"></param>
         /// <param name="logger"></param>
         public CountryBatchWriterService(
-            ISharedContext sharedContext,
+            FinanceDbContext sharedContext,
             IModelMetadataService metadataService,
             ILogger logger)
             : base(sharedContext, metadataService, logger)
@@ -52,18 +52,18 @@ namespace NjordFinance.ModelService.CustomWriters
         {
             try
             {
-                using var transaction = await SharedContext.Context.Database.BeginTransactionAsync();
+                using var transaction = await SharedContext.Database.BeginTransactionAsync();
 
-                int recordsModified = await SharedContext.Context.SaveChangesAsync();
+                int recordsModified = await SharedContext.SaveChangesAsync();
 
-                var orphanedCountryAttributes = SharedContext.Context.ModelAttributeMembers
+                var orphanedCountryAttributes = SharedContext.ModelAttributeMembers
                     .Include(a => a.Country)
                     .Where(a => a.Country == null && a.AttributeId == (int)ModelAttributeEnum.CountryExposure);
 
                 if(orphanedCountryAttributes.Any())
-                    SharedContext.Context.RemoveRange(orphanedCountryAttributes);
+                    SharedContext.RemoveRange(orphanedCountryAttributes);
 
-                await SharedContext.Context.SaveChangesAsync();
+                await SharedContext.SaveChangesAsync();
 
                 await transaction.CommitAsync();
 
