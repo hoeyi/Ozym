@@ -47,19 +47,22 @@ else
             </CascadingValue>
         </Body>
     </ContentTile>
-    @foreach (var group in ViewModel.EntryCollection)
+    @if(ViewModelChildCRUD is not null)
     {
-        <ContentTile>
-            <Body>
-                <CascadingValue Value="@group">
-                    <CascadingValue 
-                        Value="@GetAttributeMembers(group.ParentAttribute)" 
-                        Name="AttributeMemberLookup">
-                        @ViewModelChildCRUD
+        @foreach (var group in ViewModel.EntryCollection)
+        {
+            <ContentTile>
+                <Body>
+                    <CascadingValue Value="@group">
+                        <CascadingValue 
+                            Value="@GetAttributeMembers(group.ParentAttribute)" 
+                            Name="AttributeMemberLookup">
+                            @ViewModelChildCRUD
+                        </CascadingValue>
                     </CascadingValue>
-                </CascadingValue>
-            </Body>
-        </ContentTile>
+                </Body>
+            </ContentTile>
+        }
     }
 
     @if (DrawAttributeSelectorDialog)
@@ -109,7 +112,7 @@ else
     /// Gets or sets the component responsible for presenting editor controls for
     /// <typeparamref name="TViewModelChild"/> instances.
     /// </summary>
-    [Parameter, EditorRequired]
+    [Parameter]
     public RenderFragment ViewModelChildCRUD { get; set; }
 
     /// <summary>

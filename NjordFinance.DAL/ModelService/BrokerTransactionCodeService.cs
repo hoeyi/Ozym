@@ -54,13 +54,13 @@ namespace NjordFinance.ModelService
             using var transaction = await context.Database.BeginTransactionAsync();
 
             // Capture the currently saved entity.
-            var existingEntity = await context.BankTransactionCodes
-                .Include(x => x.BankTransactionCodeAttributeMemberEntries)
+            var existingEntity = await context.BrokerTransactionCodes
+                .Include(x => x.BrokerTransactionCodeAttributeMemberEntries)
                 .FirstAsync(x => x.TransactionCodeId == model.TransactionCodeId);
 
             // Mark children with altered index as deleted.
-            context.BankTransactionCodeAttributeMemberEntries.RemoveRange(
-                existingEntity.BankTransactionCodeAttributeMemberEntries
+            context.BrokerTransactionCodeAttributeMemberEntries.RemoveRange(
+                existingEntity.BrokerTransactionCodeAttributeMemberEntries
                 .Where(a => !model.BrokerTransactionCodeAttributeMemberEntries.Any(b =>
                     b.TransactionCodeId == a.TransactionCodeId &&
                     b.AttributeMemberId == a.AttributeMemberId &&
@@ -69,10 +69,10 @@ namespace NjordFinance.ModelService
             // Update children where the index is unchanged.
             foreach (var childEntry in model.BrokerTransactionCodeAttributeMemberEntries)
             {
-                if (existingEntity.BankTransactionCodeAttributeMemberEntries.FirstOrDefault(t =>
+                if (existingEntity.BrokerTransactionCodeAttributeMemberEntries.FirstOrDefault(t =>
                     t.TransactionCodeId == childEntry.TransactionCodeId &&
                     t.AttributeMemberId == childEntry.AttributeMemberId &&
-                    t.EffectiveDate == childEntry.EffectiveDate) is BankTransactionCodeAttributeMemberEntry match)
+                    t.EffectiveDate == childEntry.EffectiveDate) is BrokerTransactionCodeAttributeMemberEntry match)
                 {
                     context.Entry(match).CurrentValues.SetValues(childEntry);
                 }
@@ -80,13 +80,13 @@ namespace NjordFinance.ModelService
 
             // Add children where there is no current index match.
             foreach (var childEntry in model.BrokerTransactionCodeAttributeMemberEntries.Where(a =>
-                !existingEntity.BankTransactionCodeAttributeMemberEntries.Any(b =>
+                !existingEntity.BrokerTransactionCodeAttributeMemberEntries.Any(b =>
                     b.TransactionCodeId == a.TransactionCodeId &&
                     b.AttributeMemberId == a.AttributeMemberId &&
                     b.EffectiveDate == a.EffectiveDate)))
             {
                 // Define the new entity.
-                var newEntity = new BankTransactionCodeAttributeMemberEntry()
+                var newEntity = new BrokerTransactionCodeAttributeMemberEntry()
                 {
                     TransactionCodeId = childEntry.TransactionCodeId,
                     AttributeMemberId = childEntry.AttributeMemberId,

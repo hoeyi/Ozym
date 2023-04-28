@@ -70,7 +70,7 @@ namespace NjordFinance.Context.Configuration {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Broker Transaction Category.
+        ///   Looks up a localized string similar to Transaction Category.
         /// </summary>
         internal static string ModelAttribute_BrokerTransactionCategory {
             get {
@@ -79,7 +79,7 @@ namespace NjordFinance.Context.Configuration {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Broker Transaction Class.
+        ///   Looks up a localized string similar to Transaction Class.
         /// </summary>
         internal static string ModelAttribute_BrokerTransactionClass {
             get {
