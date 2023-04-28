@@ -12,7 +12,7 @@ namespace NjordFinance.Logging
             _modelServiceAddReturnedInvalidState =
                 LoggerMessage
                     .Define<object, EntityState, EntityState>(
-                        logLevel: LogLevel.Information,
+                        logLevel: LogLevel.Error,
                         eventId: new EventId(400, name: nameof(ModelServiceAddReturnedInvalidState)),
                         formatString: ExceptionMessage.ModelService_AfterAdd_InvalidState);
 
