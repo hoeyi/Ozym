@@ -28,7 +28,7 @@ namespace NjordFinance.ModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<MarketIndexPrice>(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = null,
                 IncludeDelegate = (queryable) => queryable
@@ -36,7 +36,7 @@ namespace NjordFinance.ModelService
             };
 
             Writer = new ModelWriterBatchService<MarketIndexPrice>(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = null,
                 GetDefaultModelDelegate = () => new()

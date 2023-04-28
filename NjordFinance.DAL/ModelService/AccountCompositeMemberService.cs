@@ -32,13 +32,13 @@ namespace NjordFinance.ModelService
         public override bool ForParent(int parentId, out Exception e)
         {
             Reader = new ModelReaderService<AccountCompositeMember>(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = x => x.AccountCompositeId == parentId
             };
 
             Writer = new ModelWriterBatchService<AccountCompositeMember>(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = x => x.AccountCompositeId == parentId,
                 GetDefaultModelDelegate = () => new AccountCompositeMember()

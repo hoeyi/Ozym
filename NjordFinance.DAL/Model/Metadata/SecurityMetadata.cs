@@ -80,10 +80,12 @@ namespace NjordFinance.Model
         /// Gets the current symbol based on the current UTC system time.
         /// </summary>
         [NotMapped]
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         private SecuritySymbol? CurrentSecuritySymbol =>
             SecuritySymbols?.
                 Where(s => s.EffectiveDate < DateTime.UtcNow.Date)
                 ?.OrderByDescending(s => s.EffectiveDate)
                 ?.FirstOrDefault();
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
     }
 }

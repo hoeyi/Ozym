@@ -13,8 +13,7 @@ namespace NjordFinance.ModelService.Abstractions
     /// Base class for <typeparamref name="T"/> model service.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal abstract class ModelService<T> : 
-        ModelServiceBase<T>, IModelService<T>, ISharedContext
+    internal abstract class ModelService<T> : ModelServiceBase<T>, IModelService<T>
         where T : class, new()
     {
         /// <summary>

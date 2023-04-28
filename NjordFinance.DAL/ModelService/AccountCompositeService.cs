@@ -29,14 +29,14 @@ namespace NjordFinance.ModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<AccountComposite>(
-                this, modelMetadata, logger)
+                Context, modelMetadata, logger)
             {
                 IncludeDelegate = (queryable) => queryable
                     .Include(a => a.AccountCompositeNavigation)
                     .Include(a => a.AccountCompositeMembers)
             };
             Writer = new ModelWriterService<AccountComposite>(
-                this, modelMetadata, logger)
+                Context, modelMetadata, logger)
             {
                 CreateDelegate = async (context, model) =>
                 {

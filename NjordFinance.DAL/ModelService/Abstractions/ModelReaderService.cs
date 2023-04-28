@@ -44,7 +44,7 @@ namespace NjordFinance.ModelService.Abstractions
         /// <param name="metadataService"></param>
         /// <param name="logger"></param>
         public ModelReaderService(
-            ISharedContext sharedContext,
+            FinanceDbContext sharedContext,
             IModelMetadataService metadataService,
             ILogger logger)
             : base(sharedContext, metadataService, logger)
@@ -76,7 +76,7 @@ namespace NjordFinance.ModelService.Abstractions
                 keySearch = ParentExpression.AndAlso(keySearch);
 
             if (HasSharedContext)
-                return Exists(SharedContext.Context, keySearch);
+                return Exists(SharedContext, keySearch);
 
             using var context = _contextFactory.CreateDbContext();
 
@@ -154,7 +154,7 @@ namespace NjordFinance.ModelService.Abstractions
                 predicate = ParentExpression.AndAlso(predicate);
 
             if (HasSharedContext)
-                return await ReadAsync(SharedContext.Context, predicate, maxCount);
+                return await ReadAsync(SharedContext, predicate, maxCount);
 
             using var context = await _contextFactory.CreateDbContextAsync();
 

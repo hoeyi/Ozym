@@ -19,7 +19,7 @@ namespace NjordFinance.ModelService.Abstractions
         /// <summary>
         /// The shared context for this instance.
         /// </summary>
-        protected readonly ISharedContext _sharedContext;
+        private readonly FinanceDbContext _sharedContext;
 
         /// <summary>
         /// The data context factory for this service.
@@ -65,22 +65,18 @@ namespace NjordFinance.ModelService.Abstractions
         /// Base constructor for <see cref="ModelBatchService{T}"/>-derived classes where a
         /// shared context is used.
         /// </summary>
-        /// <param name="sharedContext"></param>
+        /// <param name="sharedContext">A <see cref="FinanceDbContext"/> instance resolved via 
+        /// dependency injection.</param>
         /// <param name="metadataService"></param>
         /// <param name="logger"></param>
         protected ModelServiceBase(
-            ISharedContext sharedContext,
+            FinanceDbContext sharedContext,
             IModelMetadataService metadataService,
             ILogger logger)
         {
             _sharedContext = sharedContext;
             _modelMetadata = metadataService;
             _logger = logger;
-        }
-
-        ~ModelServiceBase()
-        {
-            SharedContext?.Context?.Dispose();
         }
 
         public bool HasSharedContext
@@ -98,9 +94,9 @@ namespace NjordFinance.ModelService.Abstractions
         }
 
         /// <summary>
-        /// Gets or sets the shared context for this service instance.
+        /// Gets the shared context for this service instance.
         /// </summary>
-        protected ISharedContext SharedContext
+        protected FinanceDbContext SharedContext
         {
             get { return _sharedContext; }
         }

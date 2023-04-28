@@ -93,7 +93,9 @@ namespace NjordFinance.ModelService.Query
         /// <param name="dtos"></param>
         /// <param name="key"></param>
         /// <returns></returns>
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         public static TValue? GetDisplayName<TKey, TValue>(
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
             this IEnumerable<LookupModel<TKey, TValue>> dtos,
             TKey key)
         {

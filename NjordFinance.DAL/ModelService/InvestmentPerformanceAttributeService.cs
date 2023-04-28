@@ -49,14 +49,14 @@ namespace NjordFinance.ModelService
             }
 
             Reader = new ModelReaderService<InvestmentPerformanceAttributeMemberEntry>(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = x => x.AccountObjectId == ParentCompositeKey.AccountObjectId
                     && x.AttributeMemberId == ParentCompositeKey.AttributeMemberId
             };
 
             Writer = new ModelWriterBatchService<InvestmentPerformanceAttributeMemberEntry>(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = x => x.AccountObjectId == ParentCompositeKey.AccountObjectId
                     && x.AttributeMemberId == ParentCompositeKey.AttributeMemberId,

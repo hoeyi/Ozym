@@ -32,14 +32,14 @@ namespace NjordFinance.ModelService
         public override bool ForParent(int parentId, out Exception e)
         {
             Reader = new ModelReaderService<BrokerTransaction>(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = x => x.AccountId == parentId,
                 IncludeDelegate = (queryable) => queryable.Include(x => x.TransactionCode)
             };
 
             Writer = new ModelWriterBatchService<BrokerTransaction>(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = x => x.AccountId == parentId,
                 GetDefaultModelDelegate = () => new BrokerTransaction()

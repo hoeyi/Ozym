@@ -40,11 +40,12 @@ namespace NjordFinance.ModelService.Abstractions
         /// Base constructor for <see cref="ModelWriterBatchService{T}"/> instances where a
         /// shared context is used.
         /// </summary>
-        /// <param name="sharedContext"></param>
+        /// <param name="sharedContext">A <see cref="FinanceDbContext"/> instance resolved via 
+        /// dependency injection.</param>
         /// <param name="metadataService"></param>
         /// <param name="logger"></param>
         public ModelWriterBatchService(
-            ISharedContext sharedContext,
+            FinanceDbContext sharedContext,
             IModelMetadataService metadataService,
             ILogger logger)
             : base(sharedContext, metadataService, logger)
@@ -52,7 +53,7 @@ namespace NjordFinance.ModelService.Abstractions
         }
 
         /// <inheritdoc/>
-        public bool IsDirty => SharedContext.Context.ChangeTracker?.HasChanges() ?? false;
+        public bool IsDirty => SharedContext.ChangeTracker?.HasChanges() ?? false;
 
         /// <inheritdoc/>
         public bool AddPendingSave(T model)
@@ -69,13 +70,13 @@ namespace NjordFinance.ModelService.Abstractions
 
             }
 
-            if (SharedContext?.Context is null)
+            if (!HasSharedContext)
                 throw new InvalidOperationException(
                     ExceptionString.ModelBatchService_SharedContextNotSet);
 
-            SharedContext.Context.Set<T>().Add(model);
+            SharedContext.Set<T>().Add(model);
 
-            EntityState observedState = SharedContext.Context.Entry(model).State;
+            EntityState observedState = SharedContext.Entry(model).State;
 
             bool result = observedState == EntityState.Added;
 
@@ -101,18 +102,18 @@ namespace NjordFinance.ModelService.Abstractions
         /// not set for this service.</exception>
         public bool DeletePendingSave(T model)
         {
-            if (SharedContext?.Context is null)
+            if (!HasSharedContext)
                 throw new InvalidOperationException(
                     ExceptionString.ModelBatchService_SharedContextNotSet);
 
             int key = GetKey(model) ?? default;
 
             if (key == default)
-                SharedContext.Context.Entry(model).State = EntityState.Detached;
+                SharedContext.Entry(model).State = EntityState.Detached;
             else
-                SharedContext.Context.Set<T>().Remove(model);
+                SharedContext.Set<T>().Remove(model);
 
-            EntityState observedState = SharedContext.Context.Entry(model).State;
+            EntityState observedState = SharedContext.Entry(model).State;
             
             bool result = (key == default && observedState == EntityState.Detached) ^
                 (key != default && observedState == EntityState.Deleted);
@@ -151,12 +152,12 @@ namespace NjordFinance.ModelService.Abstractions
         {
             try
             {
-                return await SharedContext.Context.SaveChangesAsync();
+                return await SharedContext.SaveChangesAsync();
 
             }
             catch (DbUpdateConcurrencyException duc)
             {
-                _logger.LogWarning(duc, duc.Message);
+                _logger.ModelServiceConcurrencyConflict(duc);
                 throw new ModelUpdateException(duc.Message);
             }
             catch (DbUpdateException du)

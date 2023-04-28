@@ -28,13 +28,13 @@ namespace NjordFinance.ModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<MarketHolidayObservance>(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = null
             };
 
             Writer = new ModelWriterBatchService<MarketHolidayObservance>(
-                this, _modelMetadata, _logger)
+                Context, _modelMetadata, _logger)
             {
                 ParentExpression = null,
                 GetDefaultModelDelegate = () => new()
