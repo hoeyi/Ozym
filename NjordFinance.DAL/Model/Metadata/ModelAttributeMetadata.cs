@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using NjordFinance.Model.Metadata;
 using Ichosys.DataModel.Annotations;
+using System.Collections.Generic;
 
 namespace NjordFinance.Model
 {
@@ -22,6 +23,12 @@ namespace NjordFinance.Model
             Description = nameof(ModelDisplay.ModelAttribute_DisplayName_Description),
             ResourceType = typeof(ModelDisplay))]
         public string DisplayName { get; set; }
+
+        [Display(
+            Name = nameof(ModelDisplay.ModelAttribute_ModelAttributeScopes_Name),
+            Description = nameof(ModelDisplay.ModelAttribute_ModelAttributeScopes_Description),
+            ResourceType = typeof(ModelDisplay))]
+        public ICollection<ModelAttributeScope> ModelAttributeScopes { get; set; }
     }
 
     [MetadataType(typeof(ModelAttributeMetadata))]

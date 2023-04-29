@@ -123,4 +123,25 @@
   <data name="MarketIndexPrice_PriceCode_TotalReturn" xml:space="preserve">
     <value>Total</value>
   </data>
+  <data name="ModelAttributeScope_Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="ModelAttributeScope_BankTransactionCode" xml:space="preserve">
+    <value>Bank Transaction</value>
+  </data>
+  <data name="ModelAttributeScope_BrokerTransactionCode" xml:space="preserve">
+    <value>Broker Transaction</value>
+  </data>
+  <data name="ModelAttributeScope_Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="ModelAttributeScope_Custodian" xml:space="preserve">
+    <value>Custodian</value>
+  </data>
+  <data name="ModelAttributeScope_Exchange" xml:space="preserve">
+    <value>Security Exchange</value>
+  </data>
+  <data name="ModelAttributeScope_Security" xml:space="preserve">
+    <value>Security</value>
+  </data>
 </root>
