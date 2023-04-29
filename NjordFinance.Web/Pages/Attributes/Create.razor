@@ -1,0 +1,147 @@
+﻿@page "/attributes/create/{RequestGuid:guid}"
+
+@inherits ModelDetail<ModelAttribute>
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.CreateSingle())" />
+
+        <CascadingValue Value="@ViewModel">
+            <EditForm class="model-editor"
+                  Model="@ViewModel"
+                  OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ContentTile>
+                    <Body>
+                        <ActionButtonMenu>
+                            <button type="submit" class="form-control button">
+                                @Strings.Caption_Button_Save
+                            </button>
+                            <button type="button" class="form-control button"
+                                @onclick="Cancel_OnClick"
+                                @onclick:preventDefault>
+                                @Strings.Caption_Button_Cancel
+                            </button>
+                        </ActionButtonMenu>
+                        <ModelAttributeCRUD Disabled="false" ReadOnly="false" />
+                    </Body>
+                </ContentTile>
+            </EditForm>
+            <EditForm Model="@ViewModel">
+                <ContentTile>
+                    <Body>
+                        <ActionButtonMenu>
+                            <button class="form-control button"
+                                @onclick="args => ViewModel.AddNewAttributeScope()">
+                                @Strings.Caption_CreateNew.Format(ModelMetadata
+                            .GetAttribute<ModelAttributeScope, NounAttribute>()?.GetSingular())
+                            </button>
+                        </ActionButtonMenu>
+                        <DataGrid Data="@ViewModel.AttributeScopes">
+                            <DataGridColumn Type="DataGridCellType.Control"
+                                        Property="@nameof(ModelAttributeScope.ScopeCode)"
+                                        Caption="@(ModelMetadata.NameFor<ModelAttributeScope>(x => x.ScopeCode))">
+                                <CellEditTemplate Context="model">
+                                    <InputSelect class="form-control" @bind-Value="@model.ScopeCode">
+                                        @foreach (var scopeLookup in AttributeScopeDtos)
+                                        {
+                                            <option value=@scopeLookup.Key>@scopeLookup.Display</option>
+                                        }
+                                    </InputSelect>
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn Type="DataGridCellType.Button">
+                                <CellEditTemplate Context="model">
+                                    <ToolTip Text="@Strings.Caption_Button_Delete">
+                                        <button class="form-control button icon"
+                                            type="button"
+                                            @onclick="async (args) => ViewModel.RemoveScope(model)">
+                                            <IonIcon Name="close-circle" />
+                                        </button>
+                                    </ToolTip>
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                        </DataGrid>
+                    </Body>
+                </ContentTile>
+            </EditForm>
+        </CascadingValue>
+    }
+</ThemedComponent>
+
+@code {
+    [Parameter]
+    public Guid RequestGuid { get; set; }
+
+    private ModelAttributeViewModel ViewModel { get; set; }
+
+    private IEnumerable<LookupModel<string, string>> AttributeScopeDtos { get; set; }
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.GetDefaultAsync();
+            var scopesQuery = Controller.ReferenceQueries
+                .SelectDTOsFromEnum<ModelAttributeScopeCode, string, string>(
+                    predicate: x => true,
+                    key: x => x.ConvertToStringCode(),
+                    display: x => NameFor<ModelAttributeScopeCode>(x),
+                    placeHolderDelegate: () => new LookupModel<string, string>()
+                        {
+                            Key = string.Empty,
+                            Display = Resources.Strings.Caption_InputSelect_Placeholder
+                        });
+            var dataTasks = Task.WhenAll(modelQuery, scopesQuery);
+            await dataTasks;
+
+            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                Model = (await modelQuery).Value;
+                ViewModel = new(Model);
+                AttributeScopeDtos = (await scopesQuery).Value;
+            }
+        }
+        finally
+        {
+            IsLoading = Model is null || ViewModel is null || !(AttributeScopeDtos?.Any() ?? false);
+        }
+
+        // TODO: Take corrective action here, accountQuery.Value should be Account
+    }
+
+    private void Cancel_OnClick()
+    {
+        NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    private async Task Delete_OnClick()
+    {
+        var result = await Controller.DeleteAsync(Model);
+
+        if (result is NoContentResult ncr)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    private void DeleteScope(ModelAttributeScope attributeScope) => ViewModel.RemoveScope(attributeScope);
+
+    private async Task HandleValidSubmit()
+    {
+        Model = ViewModel.ToEntity();
+
+        var result = await Controller.CreateAsync(Model);
+
+        if (result.Result is CreatedAtActionResult cr)
+            NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
+    }
+}
