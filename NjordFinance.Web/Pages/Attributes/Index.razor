@@ -1,0 +1,68 @@
+﻿@page "/attributes"
+
+@inherits ModelIndex<ModelAttribute>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+    <ThemedComponent>
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+        @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models">
+                    <DataGridColumn Property="@nameof(ModelAttribute.DisplayName)"
+                         Caption="@(ModelMetadata.NameFor<ModelAttribute>(x => x.DisplayName))"
+                         Type="DataGridCellType.Link" >
+                         <CellTemplate Context="model">
+                            <a class="custom-nav-link" href="@(FormatDetailUri(model.AttributeId))" 
+                                @onclick:preventDefault
+                                @onclick="@(args => Detail_OnClick(model, args))">
+                                 @model.DisplayName
+                            </a>
+                         </CellTemplate>
+                     </DataGridColumn>
+                     <DataGridColumn Property="@nameof(ModelAttribute.ModelAttributeScopes)"
+                        Caption=@(ModelMetadata.NameFor<ModelAttribute>(x => x.ModelAttributeScopes))
+                        Type="DataGridCellType.Text">
+                        <CellTemplate Context="model">
+                            @GetAttributeScopeDisplayString(model)
+                        </CellTemplate>
+                     </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+@code {
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        ActionMenu = GetDefaultIndexMenu();
+
+        MaxRecordCount = -1;
+
+        await base.OnInitializedAsync();
+    }
+
+    private void Detail_OnClick(ModelAttribute model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.AttributeId));
+    }
+
+    private string GetAttributeScopeDisplayString(ModelAttribute model)
+    {
+        if (model.ModelAttributeScopes is null)
+            throw new InvalidOperationException();
+
+        return string.Join(", ",
+            model.ModelAttributeScopes.Select(a => 
+                a.ScopeCode.ConvertFromStringCode<ModelAttributeScopeCode>()?.GetDisplayName()));
+    }
+}
