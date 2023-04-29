@@ -1,5 +1,6 @@
 ﻿using NjordFinance.Model;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -84,6 +85,21 @@ namespace NjordFinance.ModelMetadata
                 .Cast<TEnum>()
                 .Select(m => m.ConvertToStringCode())
                 .ToArray();
+        }
+
+        /// <summary>
+        /// Gets the display name applied to a field of this <see cref="ModelAttributeScopeCode". />
+        /// </summary>
+        /// <param name="attributeScope"></param>
+        /// <returns>A localized string representing the field, or null if not defined.</returns>
+        /// <remarks>The behavior of this function has not been tested on enumeration types 
+        /// defined as bit flags.</remarks>
+        public static string GetDisplayName(this ModelAttributeScopeCode attributeScope)
+        {
+            return typeof(ModelAttributeScopeCode)
+                .GetField(Enum.GetName(typeof(ModelAttributeScopeCode), attributeScope))
+                ?.GetCustomAttribute<DisplayAttribute>()
+                ?.GetName();
         }
     }
 }
