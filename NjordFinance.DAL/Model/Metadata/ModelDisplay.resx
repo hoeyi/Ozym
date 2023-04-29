@@ -774,6 +774,12 @@
   <data name="ModelAttribute_DisplayName_Name" xml:space="preserve">
     <value>Display Name</value>
   </data>
+  <data name="ModelAttribute_ModelAttributeScopes_Description" xml:space="preserve">
+    <value>The types of objects to which this attribute applies.</value>
+  </data>
+  <data name="ModelAttribute_ModelAttributeScopes_Name" xml:space="preserve">
+    <value>Scope</value>
+  </data>
   <data name="ReportConfiguration_ConfigurationCode_Description" xml:space="preserve">
     <value>The short code identifying the configuration.</value>
   </data>

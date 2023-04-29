@@ -1942,6 +1942,24 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The types of objects to which this attribute applies..
+        /// </summary>
+        public static string ModelAttribute_ModelAttributeScopes_Description {
+            get {
+                return ResourceManager.GetString("ModelAttribute_ModelAttributeScopes_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scope.
+        /// </summary>
+        public static string ModelAttribute_ModelAttributeScopes_Name {
+            get {
+                return ResourceManager.GetString("ModelAttribute_ModelAttributeScopes_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The attribute to which the member applies..
         /// </summary>
         public static string ModelAttributeMember_AttributeID_Description {

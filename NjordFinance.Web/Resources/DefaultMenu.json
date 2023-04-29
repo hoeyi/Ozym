@@ -77,41 +77,48 @@
       "UriStem": null,
       "Children": {
         "1": {
+          "IconKey": null,
+          "Caption": "Attributes",
+          "UriStem": "/attributes",
+          "Children": {},
+          "HasChildren":  false
+        },
+        "2": {
           "IconKey": "earth",
           "Caption": "Countries",
           "UriStem": "/countries",
           "Children": {},
           "HasChildren": false
         },
-        "2": {
+        "3": {
           "IconKey": null,
           "Caption": "Custodians",
           "UriStem": "/custodians",
           "Children": {},
           "HasChildren": false
         },
-        "3": {
+        "4": {
           "IconKey": null,
           "Caption": "Security Exchanges",
           "UriStem": "/security-exchanges",
           "Children": {},
           "HasChildren": false
         },
-        "4": {
+        "5": {
           "IconKey": null,
           "Caption": "Security Types",
           "UriStem": "/security-types",
           "Children": {},
           "HasChildren": false
         },
-        "5": {
+        "6": {
           "IconKey": null,
           "Caption": "Security Type Groups",
           "UriStem": "/security-type-groups",
           "Children": {},
           "HasChildren": false
         },
-        "6": {
+        "7": {
           "IconKey": "card",
           "Caption": "Transactions",
           "UriStem": null,

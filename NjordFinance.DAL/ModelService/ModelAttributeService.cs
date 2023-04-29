@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using NjordFinance.Context;
 using NjordFinance.Model;
 using NjordFinance.ModelService.Abstractions;
+using System.Collections.Generic;
 
 namespace NjordFinance.ModelService
 {
@@ -27,9 +28,20 @@ namespace NjordFinance.ModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<ModelAttribute>(
-                contextFactory, modelMetadata, logger);
+                Context, modelMetadata, logger)
+            {
+                IncludeDelegate = (queryable) => queryable
+                    .Include(a => a.ModelAttributeScopes)
+                    .Include(a => a.ModelAttributeMembers)
+            };
             Writer = new ModelWriterService<ModelAttribute>(
-                contextFactory, modelMetadata, logger);
+                Context, modelMetadata, logger)
+            {
+                GetDefaultDelegate = () => new ModelAttribute()
+                {
+                    ModelAttributeScopes = new List<ModelAttributeScope>()
+                }
+            };
         }
     }
 }

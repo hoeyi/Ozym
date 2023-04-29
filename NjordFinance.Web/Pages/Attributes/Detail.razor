@@ -1,0 +1,103 @@
+﻿@page "/attributes/{ModelId:int}/detail"
+
+@inherits ModelDetail<ModelAttribute>
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+
+        <ContentTile>
+            <Body>
+                <CascadingValue Value="@ViewModel">
+                    <EditForm class="model-editor" Model="@ViewModel">
+                        <ModelAttributeCRUD Disabled="false" ReadOnly="true" />
+                    </EditForm>
+                </CascadingValue>
+            </Body>
+        </ContentTile>
+        <ContentTile>
+            <Body>
+                <EditForm class="model-editor" Model="@ViewModel.AttributeScopes">
+                    <DataGrid Data="@ViewModel.AttributeScopes">
+                        <DataGridColumn
+                            Type="DataGridCellType.Text"
+                            Property="@nameof(ModelAttributeScope.ScopeCode)"
+                            Caption="@(ModelMetadata.NameFor<ModelAttributeScope>(x => x.ScopeCode))">
+                            <CellTemplate Context="model">
+                                @GetDisplayName(model)
+                            </CellTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </EditForm>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+@code {
+    [Parameter]
+    public int ModelId { get; set; }
+
+    private ModelAttributeViewModel ViewModel { get; set; }
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = await Controller.ReadAsync(ModelId);
+            Model = modelQuery.Value;
+
+            ActionMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                    {
+                        // Add return to index button.
+                        { 0, new MenuItem()
+                            {
+                                IconKey = "caret-back-circle",
+                                Caption = string.Format(
+                                    Strings.Caption_NavigateBackTo,
+                                    ModelMetadata
+                                        .GetAttribute<ModelAttribute, NounAttribute>()
+                                        ?.GetPlural()),
+                                UriStem = $"{IndexUriRelativePath}"
+                            }
+                        },
+                        // Add edit button.
+                        { 1, new MenuItem()
+                            {
+                                IconKey = "pencil",
+                                Caption = string.Format(
+                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
+                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
+                            }
+                        }
+                    }
+                };
+
+            ViewModel = new(Model);
+        }
+        finally
+        {
+            IsLoading = Model is null || ViewModel is null;
+        }
+
+        // TODO: Take corrective action here, accountQuery.Value should be Account
+    }
+
+    private string GetDisplayName(ModelAttributeScope attributeScope) =>
+        attributeScope.ScopeCode.ConvertFromStringCode<ModelAttributeScopeCode>()?.GetDisplayName() ??
+        string.Empty;
+}

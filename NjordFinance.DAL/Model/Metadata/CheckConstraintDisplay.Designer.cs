@@ -77,5 +77,68 @@ namespace NjordFinance.Model.Metadata {
                 return ResourceManager.GetString("MarketIndexPrice_PriceCode_TotalReturn", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        public static string ModelAttributeScope_Account {
+            get {
+                return ResourceManager.GetString("ModelAttributeScope_Account", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bank Transaction.
+        /// </summary>
+        public static string ModelAttributeScope_BankTransactionCode {
+            get {
+                return ResourceManager.GetString("ModelAttributeScope_BankTransactionCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Broker Transaction.
+        /// </summary>
+        public static string ModelAttributeScope_BrokerTransactionCode {
+            get {
+                return ResourceManager.GetString("ModelAttributeScope_BrokerTransactionCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country.
+        /// </summary>
+        public static string ModelAttributeScope_Country {
+            get {
+                return ResourceManager.GetString("ModelAttributeScope_Country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custodian.
+        /// </summary>
+        public static string ModelAttributeScope_Custodian {
+            get {
+                return ResourceManager.GetString("ModelAttributeScope_Custodian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security Exchange.
+        /// </summary>
+        public static string ModelAttributeScope_Exchange {
+            get {
+                return ResourceManager.GetString("ModelAttributeScope_Exchange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security.
+        /// </summary>
+        public static string ModelAttributeScope_Security {
+            get {
+                return ResourceManager.GetString("ModelAttributeScope_Security", resourceCulture);
+            }
+        }
     }
 }
