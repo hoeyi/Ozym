@@ -46,9 +46,11 @@ else
                     }
                     else
                     {
-                        <DataGridColumn Property=@nameof(
-                                BrokerTransactionCodeAttributeMemberEntry.AttributeMemberId)
-                                Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
+                        <DataGridColumn 
+                            Property=@nameof(BrokerTransactionCodeAttributeMemberEntry
+                                .AttributeMemberId)
+                            Type="DataGridCellType.Control"
+                            Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
                                 x => x.AttributeMemberId))>
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
@@ -61,7 +63,8 @@ else
                             </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property=@nameof(BrokerTransactionCodeAttributeMemberEntry.EffectiveDate)
-                                Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
+                            Type="DataGridCellType.Control"
+                            Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
                                 x => x.EffectiveDate))>
                             <CellEditTemplate Context="model">
                                 <InputDate class="form-control"

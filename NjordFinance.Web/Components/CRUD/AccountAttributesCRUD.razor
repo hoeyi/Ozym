@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<BankTransactionCodeAttributeGrouping>
+﻿@inherits ModelCRUD<AccountAttributeGrouping>
 
 @if (IsLoading)
 {
@@ -27,17 +27,15 @@ else
                 <DataGrid Data="@ViewModel.Entries">
                     @if (ReadOnly)
                     {
-                        <DataGridColumn 
-                            Property=@nameof(BankTransactionCodeAttributeMemberEntry.AttributeMemberId)
-                            Caption=@(ModelMetadata.NameFor<BankTransactionCodeAttributeMemberEntry>(
+                        <DataGridColumn Property=@nameof(AccountAttributeMemberEntry.AttributeMemberId)
+                                Caption=@(ModelMetadata.NameFor<AccountAttributeMemberEntry>(
                                 x => x.AttributeMemberId))>
                             <CellTemplate Context="model">
                                 @model.AttributeMember.DisplayName
                             </CellTemplate>
                         </DataGridColumn>
-                        <DataGridColumn 
-                            Property=@nameof(BankTransactionCodeAttributeMemberEntry.EffectiveDate)
-                            Caption=@(ModelMetadata.NameFor<BankTransactionCodeAttributeMemberEntry>(
+                        <DataGridColumn Property=@nameof(AccountAttributeMemberEntry.EffectiveDate)
+                                Caption=@(ModelMetadata.NameFor<AccountAttributeMemberEntry>(
                                 x => x.EffectiveDate))>
                             <CellTemplate Context="model">
                                 @model.EffectiveDate.ToShortDateString()
@@ -46,14 +44,13 @@ else
                     }
                     else
                     {
-                        <DataGridColumn
-                            Property=@nameof(BankTransactionCodeAttributeMemberEntry.AttributeMemberId)
+                        <DataGridColumn Property=@nameof(AccountAttributeMemberEntry.AttributeMemberId)
                             Type="DataGridCellType.Control"
-                            Caption=@(ModelMetadata.NameFor<BankTransactionCodeAttributeMemberEntry>(
+                            Caption=@(ModelMetadata.NameFor<AccountAttributeMemberEntry>(
                                 x => x.AttributeMemberId))>
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
-                                    @bind-Value="@model.AttributeMemberId">
+                                     @bind-Value="@model.AttributeMemberId">
                                     @foreach (var member in AttributeMemberLookup)
                                     {
                                         <option value="@member.Key">@member.Display</option>
@@ -61,14 +58,13 @@ else
                                 </InputSelect>
                             </CellEditTemplate>
                         </DataGridColumn>
-                        <DataGridColumn 
+                        <DataGridColumn Property=@nameof(AccountAttributeMemberEntry.EffectiveDate)
                             Type="DataGridCellType.Control"
-                            Property=@nameof(BankTransactionCodeAttributeMemberEntry.EffectiveDate)
-                            Caption=@(ModelMetadata.NameFor<BankTransactionCodeAttributeMemberEntry>(
-                                x => x.EffectiveDate))>
+                            Caption=@(ModelMetadata.NameFor<AccountAttributeMemberEntry>(
+                            x => x.EffectiveDate))>
                             <CellEditTemplate Context="model">
                                 <InputDate class="form-control"
-                                    @bind-Value="@model.EffectiveDate" />
+                                   @bind-Value="@model.EffectiveDate" />
                             </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Type="DataGridCellType.Button">
@@ -106,7 +102,7 @@ else
     }
 
     private void RemoveExisting_OnClick(
-        MouseEventArgs e, BankTransactionCodeAttributeMemberEntry model)
+        MouseEventArgs e, AccountAttributeMemberEntry model)
     {
         // TODO: Do something with MouseEventArgs ?
 
