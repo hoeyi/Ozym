@@ -1,13 +1,23 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Ichosys.DataModel.Annotations;
+using System.Security.AccessControl;
 using Microsoft.EntityFrameworkCore;
+using NjordFinance.Model.Metadata;
 
 namespace NjordFinance.Model
 {
     [Table("SecurityAttributeMemberEntry", Schema = "FinanceApp")]
     [Index(nameof(AttributeMemberId), Name = "IX_SecurityAttributeMemberEntry_AttributeMemberID")]
     [Index(nameof(SecurityId), Name = "IX_SecurityAttributeMemberEntry_SecurityID")]
+    [Noun(
+        Plural = nameof(ModelNoun.SecurityAttributeMemberEntry_Plural),
+        PluralArticle = nameof(ModelNoun.SecurityAttributeMemberEntry_PluralArticle),
+        Singular = nameof(ModelNoun.SecurityAttributeMemberEntry_Singular),
+        SingularArticle = nameof(ModelNoun.SecurityAttributeMemberEntry_SingularArticle),
+        ResourceType = typeof(ModelNoun)
+        )]
     public partial class SecurityAttributeMemberEntry
     {
         [Key]
