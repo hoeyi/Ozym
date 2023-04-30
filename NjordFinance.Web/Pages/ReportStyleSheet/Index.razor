@@ -1,0 +1,58 @@
+﻿@page "/style-sheets"
+
+@inherits ModelIndex<ReportStyleSheet>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+    <ThemedComponent>
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+        @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models">
+                    <DataGridColumn Property=@nameof(ReportStyleSheet.StyleSheetCode)
+                                Caption=@(NameFor(x => x.StyleSheetCode))
+                                Type=@DataGridCellType.Link>
+                        <CellTemplate Context="model">
+                            <a class="custom-nav-link" href=@(FormatDetailUri(model.StyleSheetId))
+                                @onclick:preventDefault
+                                @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.StyleSheetCode
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(ReportStyleSheet.StyleSheetDescription)
+                                Caption=@(NameFor(x => x.StyleSheetDescription))>
+                        <CellTemplate Context="model">
+                            @model.StyleSheetDescription
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        ActionMenu = GetDefaultIndexMenu();
+
+        MaxRecordCount = -1;
+
+        await base.OnInitializedAsync();
+    }
+
+    private void Detail_OnClick(ReportStyleSheet model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.StyleSheetId));
+    }
+}
