@@ -732,7 +732,7 @@ namespace NjordFinance.Test.ModelService.Configuration
                     },
                     new()
                     { 
-                        AttributeMemberId = -16, AttributeId = -5, DisplayName = "Discetionary",
+                        AttributeMemberId = -16, AttributeId = -5, DisplayName = "Discretionary",
                         DisplayOrder = 1
                     },
                     new()
