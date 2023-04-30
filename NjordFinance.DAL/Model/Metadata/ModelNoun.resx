@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountAttributeMemberEntry_Plural" xml:space="preserve">
-    <value>attribute entries</value>
+    <value>attributes</value>
   </data>
   <data name="AccountAttributeMemberEntry_PluralArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="AccountAttributeMemberEntry_Singular" xml:space="preserve">
-    <value>attribute entry</value>
+    <value>attribute</value>
   </data>
   <data name="AccountAttributeMemberEntry_SingularArticle" xml:space="preserve">
     <value>the</value>
@@ -310,13 +310,13 @@
     <value>the</value>
   </data>
   <data name="CountryAttributeMemberEntry_Plural" xml:space="preserve">
-    <value>attribute entries</value>
+    <value>attributes</value>
   </data>
   <data name="CountryAttributeMemberEntry_PluralArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="CountryAttributeMemberEntry_Singular" xml:space="preserve">
-    <value>attribute entry</value>
+    <value>attribute</value>
   </data>
   <data name="CountryAttributeMemberEntry_SingularArticle" xml:space="preserve">
     <value>the</value>
@@ -334,13 +334,13 @@
     <value>the</value>
   </data>
   <data name="InvestmentPerformanceAttributeMemberEntry_Plural" xml:space="preserve">
-    <value>attribute entries</value>
+    <value>attributes</value>
   </data>
   <data name="InvestmentPerformanceAttributeMemberEntry_PluralArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="InvestmentPerformanceAttributeMemberEntry_Singular" xml:space="preserve">
-    <value>attribute entry</value>
+    <value>attrribute</value>
   </data>
   <data name="InvestmentPerformanceAttributeMemberEntry_SingularArticle" xml:space="preserve">
     <value>the</value>
@@ -430,13 +430,13 @@
     <value>the</value>
   </data>
   <data name="ModelAttributeMember_Plural" xml:space="preserve">
-    <value>attribute members</value>
+    <value>attribute values</value>
   </data>
   <data name="ModelAttributeMember_PluralArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="ModelAttributeMember_Singular" xml:space="preserve">
-    <value>attribute member</value>
+    <value>attribute value</value>
   </data>
   <data name="ModelAttributeMember_SingularArticle" xml:space="preserve">
     <value>the</value>
@@ -502,13 +502,13 @@
     <value>the</value>
   </data>
   <data name="SecurityAttributeMemberEntry_Plural" xml:space="preserve">
-    <value>attribute entries</value>
+    <value>attributes</value>
   </data>
   <data name="SecurityAttributeMemberEntry_PluralArticle" xml:space="preserve">
     <value>the</value>
   </data>
   <data name="SecurityAttributeMemberEntry_Singular" xml:space="preserve">
-    <value>attribute entry</value>
+    <value>attribute</value>
   </data>
   <data name="SecurityAttributeMemberEntry_SingularArticle" xml:space="preserve">
     <value>the</value>

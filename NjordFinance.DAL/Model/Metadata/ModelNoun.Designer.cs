@@ -97,7 +97,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entries.
+        ///   Looks up a localized string similar to attributes.
         /// </summary>
         public static string AccountAttributeMemberEntry_Plural {
             get {
@@ -115,7 +115,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entry.
+        ///   Looks up a localized string similar to attribute.
         /// </summary>
         public static string AccountAttributeMemberEntry_Singular {
             get {
@@ -673,7 +673,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entries.
+        ///   Looks up a localized string similar to attributes.
         /// </summary>
         public static string CountryAttributeMemberEntry_Plural {
             get {
@@ -691,7 +691,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entry.
+        ///   Looks up a localized string similar to attribute.
         /// </summary>
         public static string CountryAttributeMemberEntry_Singular {
             get {
@@ -709,7 +709,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entries.
+        ///   Looks up a localized string similar to attributes.
         /// </summary>
         public static string InvestmentPerformanceAttributeMemberEntry_Plural {
             get {
@@ -727,7 +727,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entry.
+        ///   Looks up a localized string similar to attrribute.
         /// </summary>
         public static string InvestmentPerformanceAttributeMemberEntry_Singular {
             get {
@@ -1033,7 +1033,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute members.
+        ///   Looks up a localized string similar to attribute values.
         /// </summary>
         public static string ModelAttributeMember_Plural {
             get {
@@ -1051,7 +1051,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute member.
+        ///   Looks up a localized string similar to attribute value.
         /// </summary>
         public static string ModelAttributeMember_Singular {
             get {
@@ -1249,7 +1249,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entries.
+        ///   Looks up a localized string similar to attributes.
         /// </summary>
         public static string SecurityAttributeMemberEntry_Plural {
             get {
@@ -1267,7 +1267,7 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to attribute entry.
+        ///   Looks up a localized string similar to attribute.
         /// </summary>
         public static string SecurityAttributeMemberEntry_Singular {
             get {
