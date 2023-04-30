@@ -152,6 +152,7 @@ namespace NjordFinance.ModelService
 
             // Udpate the curent values for the parameter model.
             context.Entry(existingEntity).CurrentValues.SetValues(model);
+            context.Entry(existingEntity.AccountNavigation).CurrentValues.SetValues(model.AccountNavigation);
 
             bool result = await context.SaveChangesAsync() > 0;
 
