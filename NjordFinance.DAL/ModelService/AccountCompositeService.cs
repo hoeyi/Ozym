@@ -35,6 +35,8 @@ namespace NjordFinance.ModelService
                 IncludeDelegate = (queryable) => queryable
                     .Include(a => a.AccountCompositeNavigation)
                     .ThenInclude(b => b.AccountAttributeMemberEntries)
+                    .ThenInclude(c => c.AttributeMember)
+                    .ThenInclude(d => d.Attribute)
                     .Include(a => a.AccountCompositeMembers)
             };
             Writer = new ModelWriterService<AccountComposite>(
