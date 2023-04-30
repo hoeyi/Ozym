@@ -10,12 +10,15 @@ namespace NjordFinance.ViewModel
     /// </summary>
     public abstract class AccountObjectViewModel
     {
+        private readonly AccountAttributeViewModel _attributeViewModel;
+        private readonly AccountObject _accountObject;
         protected AccountObjectViewModel(AccountObject accountObject)
         {
             if (accountObject is null)
                 throw new ArgumentNullException(paramName: nameof(accountObject));
 
-            AccountObject = accountObject;
+            _accountObject = accountObject;
+            _attributeViewModel = new(_accountObject);
         }
 
         /// <summary>
@@ -23,9 +26,15 @@ namespace NjordFinance.ViewModel
         /// </summary>
         public abstract string ObjecTypeCode { get; }
 
+        /// <summary>
+        /// Gets the <see cref="AccountAttributeViewModel"/> representing the attributes applied 
+        /// to this account object instance.
+        /// </summary>
+        public AccountAttributeViewModel AttributeViewModel => _attributeViewModel;
+
         protected int AccountObjectId
         {
-            get { return AccountObject.AccountObjectId; }
+            get { return _accountObject.AccountObjectId; }
         }
 
         [Display(
@@ -40,11 +49,11 @@ namespace NjordFinance.ViewModel
             ErrorMessageResourceType = typeof(ModelValidation))]
         public string AccountObjectCode
         {
-            get { return AccountObject.AccountObjectCode; }
+            get { return _accountObject.AccountObjectCode; }
             set
             {
-                if (AccountObject.AccountObjectCode != value)
-                    AccountObject.AccountObjectCode = value;
+                if (_accountObject.AccountObjectCode != value)
+                    _accountObject.AccountObjectCode = value;
             }
         }
         [Display(
@@ -60,11 +69,11 @@ namespace NjordFinance.ViewModel
             ErrorMessageResourceType = typeof(ModelValidation))]
         public string DisplayName
         {
-            get { return AccountObject.ObjectDisplayName; }
+            get { return _accountObject.ObjectDisplayName; }
             set
             {
-                if (AccountObject.ObjectDisplayName != value)
-                    AccountObject.ObjectDisplayName = value;
+                if (_accountObject.ObjectDisplayName != value)
+                    _accountObject.ObjectDisplayName = value;
             }
         }
         [Display(
@@ -77,11 +86,11 @@ namespace NjordFinance.ViewModel
             ErrorMessageResourceType = typeof(ModelValidation))]
         public string Description
         {
-            get { return AccountObject.ObjectDescription; }
+            get { return _accountObject.ObjectDescription; }
             set
             {
-                if (AccountObject.ObjectDescription != value)
-                    AccountObject.ObjectDescription = value;
+                if (_accountObject.ObjectDescription != value)
+                    _accountObject.ObjectDescription = value;
             }
         }
         [Display(
@@ -91,11 +100,11 @@ namespace NjordFinance.ViewModel
             )]
         public DateTime StartDate
         {
-            get { return AccountObject.StartDate; }
+            get { return _accountObject.StartDate; }
             set
             {
-                if (AccountObject.StartDate != value)
-                    AccountObject.StartDate = value;
+                if (_accountObject.StartDate != value)
+                    _accountObject.StartDate = value;
             }
         }
         [Display(
@@ -105,14 +114,12 @@ namespace NjordFinance.ViewModel
             )]
         public DateTime? CloseDate
         {
-            get { return AccountObject.CloseDate; }
+            get { return _accountObject.CloseDate; }
             set
             {
-                if (AccountObject.CloseDate != value)
-                    AccountObject.CloseDate = value;
+                if (_accountObject.CloseDate != value)
+                    _accountObject.CloseDate = value;
             }
         }
-
-        protected AccountObject AccountObject { get; }
     }
 }
