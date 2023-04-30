@@ -63,7 +63,7 @@
               "Caption": "Index Rates",
               "UriStem": "/market-indices/rates",
               "Children": {},
-              "HasChildren":  false
+              "HasChildren": false
             }
           },
           "HasChildren": true
@@ -81,7 +81,7 @@
           "Caption": "Attributes",
           "UriStem": "/attributes",
           "Children": {},
-          "HasChildren":  false
+          "HasChildren": false
         },
         "2": {
           "IconKey": "earth",
@@ -144,6 +144,21 @@
       "HasChildren": true
     },
     "3": {
+      "IconKey": null,
+      "Caption": "Configuration",
+      "UriStem": null,
+      "Children": {
+        "0": {
+          "IconKey": null,
+          "Caption": "Reports",
+          "UriStem": "/report-configurations",
+          "Children": {},
+          "HasChildren": false
+        }
+      },
+      "HasChildren": true
+    },
+    "4": {
       "IconKey": null,
       "Caption": "About",
       "UriStem": "/about",

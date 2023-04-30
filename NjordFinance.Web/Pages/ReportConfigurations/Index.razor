@@ -1,0 +1,58 @@
+﻿@page "/report-configurations"
+
+@inherits ModelIndex<ReportConfiguration>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+    <ThemedComponent>
+        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+
+        @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Models">
+                    <DataGridColumn Property=@nameof(ReportConfiguration.ConfigurationCode)
+                                Caption=@(NameFor(x => x.ConfigurationCode))
+                                Type=@DataGridCellType.Link>
+                        <CellTemplate Context="model">
+                            <a class="custom-nav-link" href=@(FormatDetailUri(model.ConfigurationId))
+                           @onclick:preventDefault
+                           @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.ConfigurationCode
+                            </a>
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property=@nameof(ReportConfiguration.ConfigurationDescription)
+                                Caption=@(NameFor(x => x.ConfigurationDescription))>
+                        <CellTemplate Context="model">
+                            @model.ConfigurationDescription
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        ActionMenu = GetDefaultIndexMenu();
+
+        MaxRecordCount = -1;
+
+        await base.OnInitializedAsync();
+    }
+
+    private void Detail_OnClick(ReportConfiguration model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.ConfigurationId));
+    }
+}

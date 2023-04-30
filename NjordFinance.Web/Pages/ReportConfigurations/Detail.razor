@@ -1,0 +1,83 @@
+﻿@page "/report-configurations/{ModelId:int}/detail"
+
+@inherits ModelDetail<ReportConfiguration>
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.ReadSingle(Model.ConfigurationCode).AsPageTitle())</PageTitle>
+
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                         Header="@(PageTitle.ReadSingle(Model.ConfigurationCode))" />
+
+        <ContentTile>
+            <Body>
+                <CascadingValue Value="@Model">
+                    <EditForm class="model-editor" Model="@Model">
+                        <ReportConfigurationCRUD Disabled="false" ReadOnly="true" />
+                    </EditForm>
+                </CascadingValue>
+            </Body>
+        </ContentTile>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <summary>
+    /// Gets or sets the identifier for the <see cref="ReportConfiguration" /> worked using this page.
+    /// </summary>
+    [Parameter]
+    public int ModelId { get; set; }
+
+    /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.ReadAsync(ModelId);
+
+            if ((await modelQuery).Value is ReportConfiguration model)
+                Model = model;
+
+            ActionMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                    {
+                        // Add return to index button.
+                        { 0, new MenuItem()
+                            {
+                                IconKey = "caret-back-circle",
+                                Caption = string.Format(
+                                    Strings.Caption_NavigateBackTo,
+                                    ModelMetadata
+                                        .GetAttribute<ReportConfiguration, NounAttribute>()
+                                        ?.GetPlural()),
+                                UriStem = $"{IndexUriRelativePath}"
+                            }
+                        },
+                        // Add edit button.
+                        { 1, new MenuItem()
+                            {
+                                IconKey = "pencil",
+                                Caption = string.Format(
+                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
+                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
+                            }
+                        }
+                    }
+                };
+        }
+        finally
+        {
+            IsLoading = Model is null;
+        }
+    }
+}
