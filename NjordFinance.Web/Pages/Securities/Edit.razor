@@ -10,42 +10,36 @@
     else
     {
         <PageTitle>
-            @(PageTitle.ReadSingle($"{Model.SecuritySymbol} {Model.SecurityDescription}").AsPageTitle())
+            @(PageTitle.UpdateSingle($"{Model.SecuritySymbol} {Model.SecurityDescription}").AsPageTitle())
         </PageTitle>
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
-                         Header="@(PageTitle.ReadSingle(Model.SecurityDescription))" />
+                         Header="@(PageTitle.UpdateSingle(Model.SecurityDescription))" />
 
-        <ContentTile>
-            <Body>
-                <CascadingValue Value="@ViewModel">
-                    <EditForm class="model-editor" Model="@ViewModel"
-                        OnValidSubmit="HandleValidSubmit" >
-                        <DataAnnotationsValidator />
-                        <ActionButtonMenu>
-                            <button type="submit" class="form-control button">
-                                @Strings.Caption_Button_Save
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="Delete_OnClick"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Delete
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="Cancel_OnClick"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Cancel
-                            </button>
-                        </ActionButtonMenu>
-                        <SecurityCRUD 
-                            SecurityTypes="SecurityTypes"
-                            SecurityExchanges="Exchanges"
-                            Issuers="Issuers"
-                            Disabled="false" ReadOnly="false" />
-                    </EditForm>
-                </CascadingValue>
-            </Body>
-        </ContentTile>
+        <CascadingValue Value="@ViewModel">
+            <AttributeEntryCollectionEditor 
+                TViewModelParent="SecurityAttributeViewModel"
+                TViewModelChild="SecurityAttributeGrouping"
+                TModel="Security"
+                TModelChild="SecurityAttributeMemberEntry"
+                OnCancelEditorClick="CancelEditorHandler"
+                OnDeleteModelClick="DeleteModelHandler"
+                OnValidFormSubmit="ValidFormSubmitHandler"
+                EffectiveDatePath="@(x => x.EffectiveDate)"
+                ViewModel="@ViewModel.AttributeViewModel"
+                Mode="EditorMode.Edit">
+                <ViewModelCRUD>
+                    <SecurityCRUD 
+                        SecurityTypes="SecurityTypes"
+                        SecurityExchanges="Exchanges"
+                        Issuers="Issuers"
+                        Disabled="false" ReadOnly="false" />
+                </ViewModelCRUD>
+                <ViewModelChildCRUD>
+                    <SecurityAttributesCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelChildCRUD>
+            </AttributeEntryCollectionEditor>
+        </CascadingValue>
     }
 </ThemedComponent>
 
@@ -59,7 +53,7 @@
 
     private IEnumerable<string> Issuers { get; set; }
 
-    private Security ViewModel { get; set; }
+    private SecurityViewModel ViewModel { get; set; }
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
@@ -134,13 +128,15 @@
                     }
                 };
 
-            ViewModel = Model;
+            ViewModel = new(Model);
         }
         finally
         {
             IsLoading = Exchanges is null ||
                 SecurityTypes is null ||
-                Issuers is null || Model is null || ViewModel is null;
+                Issuers is null || 
+                Model is null || 
+                ViewModel is null;
         }
     }
 
@@ -164,4 +160,34 @@
         if (result.Value is not null)
             NavigationHelper.NavigateTo(FormatDetailUri(result.Value.SecurityId));
     }
+
+    /// <summary>
+    /// Handles the delete click event of this page.
+    /// </summary>
+    private async Task DeleteModelHandler(MouseEventArgs args)
+    {
+        var result = await Controller.DeleteAsync(Model);
+
+        if (result is NoContentResult _)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
+    {
+        Model = ViewModel.ToEntity();
+
+        var result = await Controller.UpdateAsync(Model.SecurityId, Model);
+
+        if (Model is not null)
+            NavigationHelper.NavigateTo(FormatDetailUri(Model.SecurityId));
+    }
+
+    /// <summary>edit
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void CancelEditorHandler(MouseEventArgs args) =>
+        NavigationHelper.NavigateTo(FormatDetailUri(Model.SecurityId));
 }
