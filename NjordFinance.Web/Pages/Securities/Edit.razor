@@ -40,6 +40,100 @@
                 </ViewModelChildCRUD>
             </AttributeEntryCollectionEditor>
         </CascadingValue>
+        <ContentTile>
+            <TitleAlignLeft>
+                @(ModelMetadata
+                    .GetAttribute<SecuritySymbol, NounAttribute>()
+                    .GetPlural().ToTitleCase())
+            </TitleAlignLeft>
+            <TitleAlignRight>
+                <button id="add-new-entry-button"
+                    class="form-control button icon"
+                    type="button"
+                    @onclick="() => ViewModel.AddNewSecuritySymbol()">
+                    <IonIcon Name="add" />
+                </button>
+            </TitleAlignRight>
+            <Body>
+                <EditForm width="100%" Model="@ViewModel.SecuritySymbols">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <DataGrid Data="@ViewModel.SecuritySymbols">
+                        <DataGridColumn 
+                            Property="@nameof(SecuritySymbol.SymbolTypeId)"
+                            Type="DataGridCellType.Control"
+                            Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.SymbolTypeId))">
+                            <CellEditTemplate Context="model" >
+                                  <InputSelect class="form-control" @bind-Value="model.SymbolTypeId">
+                                    @foreach(var lookup in SymbolTypes)
+                                    {
+                                        <option value="@lookup.Key">@lookup.Display</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(SecuritySymbol.SymbolCode)"
+                            Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.SymbolCode))">
+                            <CellTemplate Context="model">
+                                <div class="form-control">@model.SymbolCode</div>
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(SecuritySymbol.EffectiveDate)"
+                            Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.EffectiveDate))">
+                            <CellEditTemplate Context="model">
+                                <InputDate class="form-control" @bind-Value="model.EffectiveDate" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(SecuritySymbol.Ticker)"
+                            Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.Ticker))">
+                            <CellEditTemplate Context="model">
+                                <InputText class="form-control" @bind-Value="model.Ticker" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(SecuritySymbol.Cusip)"
+                            Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.Cusip))">
+                            <CellEditTemplate Context="model">
+                                <InputText class="form-control" @bind-Value="model.Cusip" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control" 
+                            Property="@nameof(SecuritySymbol.CustomSymbol)"
+                            Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.CustomSymbol))">
+                            <CellEditTemplate Context="model">
+                                <InputText class="form-control" @bind-Value="model.CustomSymbol" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property="@nameof(SecuritySymbol.OptionTicker)"
+                            Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.OptionTicker))">
+                            <CellEditTemplate Context="model">
+                                <InputText class="form-control" @bind-Value="model.OptionTicker" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon" type="button"
+                                        @onclick="() => ViewModel.RemoveSecuritySymbol(model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </EditForm>
+            </Body>
+        </ContentTile>
     }
 </ThemedComponent>
 
@@ -50,6 +144,10 @@
     private IEnumerable<LookupModel<int, string>> Exchanges { get; set; }
 
     private IEnumerable<LookupModel<int, string>> SecurityTypes { get; set; }
+
+    private IEnumerable<LookupModel<int, string>> SymbolTypes { get; set; }
+
+    private IEnumerable<LookupModel<string, string>> SymbolCodes { get; set; }
 
     private IEnumerable<string> Issuers { get; set; }
 
@@ -78,12 +176,17 @@
 
             var securityQuery = Controller.ReadAsync(SecurityId);
 
-
+            var symbolTypesQuery = Controller.ReferenceQueries
+                .GetDtosAsync<SecuritySymbolType, int, string>(
+                    key: x => x.SymbolTypeId,
+                    display: x => x.SymbolTypeName);
+            
             var dataTasks = Task.WhenAll(
                 exchangesDtoQuery,
                 securityTypesQuery,
                 issuersQuery,
-                securityQuery);
+                securityQuery,
+                symbolTypesQuery);
 
             await dataTasks;
 
@@ -93,6 +196,7 @@
                 Exchanges = (await exchangesDtoQuery).Value;
                 SecurityTypes = (await securityTypesQuery).Value;
                 Issuers = (await issuersQuery).Value.Select(x => x.Issuer).Distinct();
+                SymbolTypes = (await symbolTypesQuery).Value;
             }
             else
             {
@@ -134,31 +238,11 @@
         {
             IsLoading = Exchanges is null ||
                 SecurityTypes is null ||
-                Issuers is null || 
-                Model is null || 
-                ViewModel is null;
+                Issuers is null ||
+                Model is null ||
+                ViewModel is null ||
+                SymbolTypes is null;
         }
-    }
-
-    private void Cancel_OnClick()
-    {
-        NavigationHelper.NavigateTo(FormatDetailUri(SecurityId));
-    }
-
-    private async Task Delete_OnClick()
-    {
-        var result = await Controller.DeleteAsync(Model!);
-
-        if (result is NoContentResult ncr)
-            NavigationHelper.NavigateTo(IndexUriRelativePath);
-    }
-
-    private async Task HandleValidSubmit()
-    {
-        var result = await Controller.UpdateAsync(SecurityId, Model);
-
-        if (result.Value is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.SecurityId));
     }
 
     /// <summary>
