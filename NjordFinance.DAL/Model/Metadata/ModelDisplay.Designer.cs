@@ -2653,6 +2653,24 @@ namespace NjordFinance.Model.Metadata {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Symbol used to represent this security..
+        /// </summary>
+        public static string SecuritySymbol_SymbolCode_Description {
+            get {
+                return ResourceManager.GetString("SecuritySymbol_SymbolCode_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primary Identifier.
+        /// </summary>
+        public static string SecuritySymbol_SymbolCode_Name {
+            get {
+                return ResourceManager.GetString("SecuritySymbol_SymbolCode_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The symbol type..
         /// </summary>
         public static string SecuritySymbol_SymbolTypeID_Description {

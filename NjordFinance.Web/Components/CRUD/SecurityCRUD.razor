@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<Security>
+﻿@inherits ModelCRUD<SecurityViewModel>
 
 @if (ViewModel is null
     || SecurityTypes is null
@@ -9,7 +9,7 @@
 }
 else
 {
-    <ModelForm TViewModel="Security">
+    <ModelForm TViewModel="SecurityViewModel">
         <ModelFormLineItem ForMember="@(() => ViewModel.SecurityDescription)">
             @if (ReadOnly)
             {
