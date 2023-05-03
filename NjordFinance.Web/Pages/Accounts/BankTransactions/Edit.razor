@@ -58,23 +58,23 @@
                             Type="DataGridCellType.Control"
                             Property="@nameof(BankTransaction.TransactionDate)"
                             Caption="@(NameFor(x => x.TransactionDate))">
-                            <CellTemplate Context="model">
+                            <CellEditTemplate Context="model">
                                 <InputDate class="form-control" @bind-Value="@model.TransactionDate" />
-                            </CellTemplate>
+                            </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn 
                             Type="DataGridCellType.Control" 
                             Property="@nameof(BankTransaction.Amount)"
                             Caption="@(NameFor(x => x.Amount))">
-                            <CellTemplate Context="model">
+                            <CellEditTemplate Context="model">
                                 <InputNumber class="form-control" @bind-Value="@model.Amount" />
-                            </CellTemplate>
+                            </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property="@nameof(BankTransaction.Comment)"
                                     Caption="@(NameFor(x => x.Comment))">
-                            <CellTemplate Context="model">
+                            <CellEditTemplate Context="model">
                                 <InputText class="form-control" @bind-Value="@model.Comment" />
-                            </CellTemplate>
+                            </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Type="DataGridCellType.Button">
                             <CellEditTemplate Context="model">
