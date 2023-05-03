@@ -46,15 +46,12 @@ namespace NjordFinance.ModelService
                     using var transaction = await context.Database.BeginTransactionAsync();
 
                     // Remove child records.
-                    context
-                        .MarkForDeletion<SecurityPrice>(x => x.SecurityId == model.SecurityId)
-                        .MarkForDeletion<SecuritySymbol>(x => x.SecurityId == model.SecurityId)
-                        .MarkForDeletion<SecurityAttributeMemberEntry>(x => x.SecurityId == model.SecurityId);
+                    context.MarkForDeletion<SecurityPrice>(x => x.SecurityId == model.SecurityId);
 
                     // Save changes because cascade delete is not used.
                     await context.SaveChangesAsync();
 
-                    // Remove account.
+                    // Remove model.
                     // Save changes because cascade delete is not used.
                     bool deleteSuccessful = await context
                         .MarkForDeletion(model)
