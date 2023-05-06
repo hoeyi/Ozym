@@ -55,7 +55,7 @@ else
                     }
                     else
                     {
-                        <DataGridColumn 
+                        <DataGridColumn Type="DataGridCellType.Control"
                             Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
                             Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.AttributeMemberId))>
                                 <CellEditTemplate Context="model">
@@ -68,7 +68,7 @@ else
                                     </InputSelect>
                                 </CellEditTemplate>
                         </DataGridColumn>
-                        <DataGridColumn 
+                        <DataGridColumn Type="DataGridCellType.Control"
                             Property=@nameof(InvestmentStrategyTarget.Weight)
                             Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.Weight))>
                                 <CellEditTemplate Context="model">

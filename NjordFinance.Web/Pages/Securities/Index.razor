@@ -7,18 +7,21 @@
     <ThemedComponent>
         <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
+    @if(SearchFields is not null)
+    {
         <ContentTile>
-            <Body>
-                <SearchInputTable TModel="Security"
-                              ComparisonOperators=@ComparisonOperators
-                              ExpressionBuilder=@ExpressionBuilder
-                              SearchFields=@SearchFields
-                              OnSearchClick=@(async (args) => await SearchClicked(args))>
-                </SearchInputTable>
-            </Body>
-        </ContentTile>
+                <Body>
+                    <SearchInputTable TModel="Security"
+                                  ComparisonOperators=@ComparisonOperators
+                                  ExpressionBuilder=@ExpressionBuilder
+                                  SearchFields=@SearchFields
+                                  OnSearchClick=@(async (args) => await SearchClicked(args))>
+                    </SearchInputTable>
+                </Body>
+            </ContentTile>
+    }
 
-        @if (IsLoading)
+    @if (IsLoading)
     {
         <LoadingSvg />
     }
@@ -48,7 +51,7 @@
                                 Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityTypeId))
                                 Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
-                            @model.SecurityType?.SecurityTypeName
+                            @GetLookupDisplayName(SecurityTypes, model.SecurityTypeId)
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Security.Issuer)
@@ -62,7 +65,7 @@
                             Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityExchangeId))
                             Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
-                            @model.SecurityExchange?.ExchangeCode
+                            @GetLookupDisplayName(Exchanges, model.SecurityExchangeId ?? default)
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(Security.HasPerpetualMarket)
@@ -87,18 +90,56 @@
 
 
 @code {
+    private IEnumerable<LookupModel<int, string>> Exchanges { get; set; }
+
+    private IEnumerable<LookupModel<int, string>> SecurityTypes { get; set; }
+
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         ActionMenu = GetDefaultIndexMenu();
-
         MaxRecordCount = -1;
 
         await base.OnInitializedAsync();
+        IsLoading = true;
+
+        try
+        {
+            var exchangesQuery = Controller.ReferenceQueries
+                .GetDtosAsync<SecurityExchange, int, string>(
+                    key: x => x.ExchangeId,
+                    display: x => x.ExchangeCode);
+
+            var secTypesQuery = Controller.ReferenceQueries
+                .GetDtosAsync<SecurityType, int, string>(
+                    key: x => x.SecurityTypeId,
+                    display: x => x.SecurityTypeName);
+
+            var dataTasks = Task.WhenAll(exchangesQuery, secTypesQuery);
+
+            await dataTasks;
+
+            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            {
+                Exchanges = (await exchangesQuery).Value;
+                SecurityTypes = (await secTypesQuery).Value;
+            }
+            else
+            {
+                throw dataTasks.Exception.Flatten();
+            }
+        }
+        finally
+        {
+            IsLoading = Models is null || Exchanges is null | SecurityTypes is null;
+        }
     }
 
     private void Detail_OnClick(Security model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.SecurityId));
     }
+
+    private string? GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
+        lookupModels.FirstOrDefault(x => x.Key == id)?.Display;
 }

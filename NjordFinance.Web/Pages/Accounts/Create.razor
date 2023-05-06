@@ -85,7 +85,7 @@
 
     private async Task HandleValidSubmit()
     {
-        Model = ViewModel.ToAccount();
+        Model = ViewModel.ToEntity();
 
         var result = await Controller.CreateAsync(Model);
 

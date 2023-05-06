@@ -13,33 +13,24 @@
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.UpdateSingle(Model.AccountCode))" />
 
-        <ContentTile>
-            <Body>
-                <CascadingValue Value="@ViewModel">
-                    <EditForm class="model-editor" Model="@ViewModel" 
-                        OnValidSubmit="HandleValidSubmit" >
-                        <DataAnnotationsValidator/>
-                        <ActionButtonMenu>
-                            <button type="submit" class="form-control button">
-                                @Strings.Caption_Button_Save
-                            </button>
-                            <button type="button" class="form-control button" 
-                                @onclick="Delete_OnClick"
-                                @onclick:preventDefault >
-                                @Strings.Caption_Button_Delete
-                            </button>
-                            <button type="button" class="form-control button" 
-                                @onclick="Cancel_OnClick"
-                                @onclick:preventDefault >
-                                @Strings.Caption_Button_Cancel
-                            </button>
-                        </ActionButtonMenu>
-                        <AccountCRUD AccountCustodians="@Custodians" 
-                            Disabled="false" ReadOnly="false" />
-                    </EditForm>
-                </CascadingValue>
-            </Body>
-        </ContentTile>
+        <CascadingValue Value="@ViewModel">
+            <AttributeEntryEditor TViewModelParent="AccountAttributeViewModel"
+                TViewModelChild="AccountAttributeGrouping"
+                TModel="AccountObject"
+                TModelChild="AccountAttributeMemberEntry"
+                OnCancelEditorClick="CancelEditorHandler"
+                OnDeleteModelClick="DeleteModelHandler"
+                OnValidFormSubmit="ValidFormSubmitHandler"
+                ViewModel="@ViewModel.AttributeViewModel"
+                Mode="EditorMode.Edit">
+                <ViewModelCRUD>
+                    <AccountCRUD AccountCustodians="@Custodians" Disabled="false" ReadOnly="false" />
+                </ViewModelCRUD>
+                <ViewModelChildCRUD>
+                    <AccountAttributesCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelChildCRUD>
+            </AttributeEntryEditor>
+        </CascadingValue>
     }
 </ThemedComponent>
 
@@ -84,26 +75,33 @@
         }
     }
 
-    private void Cancel_OnClick()
+    /// <summary>
+    /// Handles the delete click event of this page.
+    /// </summary>
+    private async Task DeleteModelHandler(MouseEventArgs args)
     {
-        NavigationHelper.NavigateTo(FormatDetailUri(AccountId));
-    }
+        var result = await Controller.DeleteAsync(Model);
 
-    private async Task Delete_OnClick()
-    {
-        var result = await Controller.DeleteAsync(Model!);
-
-        if (result is NoContentResult ncr)
+        if (result is NoContentResult _)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
-    private async Task HandleValidSubmit()
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
     {
-        Model = ViewModel.ToAccount();
+        Model = ViewModel.ToEntity();
 
-        var result = await Controller.UpdateAsync(AccountId, Model);
+        var result = await Controller.UpdateAsync(Model.AccountId, Model);
 
-        if (result.Value is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.AccountId));
+        if (Model is not null)
+            NavigationHelper.NavigateTo(FormatDetailUri(Model.AccountId));
     }
+
+    /// <summary>edit
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void CancelEditorHandler(MouseEventArgs args) =>
+        NavigationHelper.NavigateTo(FormatDetailUri(Model.AccountId));
 }

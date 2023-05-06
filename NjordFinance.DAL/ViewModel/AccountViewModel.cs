@@ -121,6 +121,6 @@ namespace NjordFinance.ViewModel
             }
         }
 
-        public Account ToAccount() => _account;
+        public Account ToEntity() => _account;
     }
 }

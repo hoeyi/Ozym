@@ -960,6 +960,12 @@
   <data name="SecuritySymbol_SecurityID_Name" xml:space="preserve">
     <value>Security</value>
   </data>
+  <data name="SecuritySymbol_SymbolCode_Description" xml:space="preserve">
+    <value>Symbol used to represent this security.</value>
+  </data>
+  <data name="SecuritySymbol_SymbolCode_Name" xml:space="preserve">
+    <value>Primary Identifier</value>
+  </data>
   <data name="SecuritySymbol_SymbolTypeID_Description" xml:space="preserve">
     <value>The symbol type.</value>
   </data>

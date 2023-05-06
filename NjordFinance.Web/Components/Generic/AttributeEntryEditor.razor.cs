@@ -66,14 +66,23 @@ namespace NjordFinance.Web.Components.Generic
             return await attributeQuery;
         }
 
-        private static IEnumerable<LookupModel<int, string>> GetAttributeMembers(
-            ModelAttribute attribute) => attribute.ModelAttributeMembers
-                .Select(x => new LookupModel<int, string>()
-                {
-                    Key = x.AttributeMemberId,
-                    Display = IQueryService.DisplayFor(x)
-                })
-            .ToList();
+        private IEnumerable<LookupModel<int, string>> GetAttributeMembers(ModelAttribute attribute)
+            => Task.Run(() => GetAttributeMembersAsync(attribute)).Result;
+
+        private async Task<IEnumerable<LookupModel<int, string>>> GetAttributeMembersAsync(
+            ModelAttribute attribute)
+        {
+            var queryTask = QueryService.GetModelAttributeMemberDTOsAsync(attribute.AttributeId);
+
+            var lookupList = await queryTask;
+
+            return queryTask.Status switch
+            {
+                TaskStatus.RanToCompletion => lookupList,
+                TaskStatus.Faulted => throw queryTask.Exception.Flatten(),
+                _ => throw new InvalidOperationException()
+            };
+        }
                 
         /// <summary>
         /// Gets or sets whether the modal dialog for selecting an attribute is drawn. Default is

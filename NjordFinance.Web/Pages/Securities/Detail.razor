@@ -29,6 +29,78 @@
                 </CascadingValue>
             </Body>
         </ContentTile>
+        @foreach(var group in ViewModel.AttributeViewModel.CurrentEntryCollectionGroups.OrderBy(g => 
+            g.ParentAttribute.DisplayName))
+        {
+            <ContentTile>
+                <Body>
+                    <CascadingValue Value="@group">
+                        <EditForm class="model-editor" Model="@group">
+                            <SecurityAttributesCRUD 
+                                Disabled="false"
+                                ReadOnly="true" />
+                        </EditForm>
+                    </CascadingValue>
+                </Body>
+            </ContentTile>
+        }
+        <ContentTile>
+            <TitleAlignLeft>
+                @(ModelMetadata
+                    .GetAttribute<SecuritySymbol, NounAttribute>()
+                    .GetPlural().ToTitleCase())
+            </TitleAlignLeft>
+            <Body>
+                <EditForm width="100%" Model="@ViewModel.SecuritySymbols">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <DataGrid Data="@ViewModel.SecuritySymbols">
+                        <DataGridColumn Property="@nameof(SecuritySymbol.SymbolTypeId)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.SymbolTypeId))">
+                            <CellTemplate Context="model">
+                                @GetLookupDisplayName(SymbolTypes, model.SymbolTypeId)
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property="@nameof(SecuritySymbol.SymbolCode)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.SymbolCode))">
+                            <CellTemplate Context="model">
+                                @model.SymbolCode
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property="@nameof(SecuritySymbol.EffectiveDate)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.EffectiveDate))">
+                            <CellTemplate Context="model">
+                                @model.EffectiveDate.ToShortDateString()
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property="@nameof(SecuritySymbol.Ticker)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.Ticker))">
+                            <CellTemplate Context="model">
+                                @model.Ticker
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property="@nameof(SecuritySymbol.Cusip)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.Cusip))">
+                            <CellTemplate Context="model">
+                                @model.Cusip
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property="@nameof(SecuritySymbol.CustomSymbol)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.CustomSymbol))">
+                            <CellTemplate Context="model">
+                                @model.CustomSymbol
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property="@nameof(SecuritySymbol.OptionTicker)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.OptionTicker))">
+                            <CellTemplate Context="model">
+                                @model.OptionTicker
+                            </CellTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </EditForm>
+            </Body>
+        </ContentTile>
     }
 </ThemedComponent>
 
@@ -40,9 +112,11 @@
 
     private IEnumerable<LookupModel<int, string>> SecurityTypes { get; set; }
 
+    private IEnumerable<LookupModel<int, string>> SymbolTypes { get; set; }
+
     private IEnumerable<string> Issuers { get; set; }
 
-    private Security ViewModel { get; set; }
+    private SecurityViewModel ViewModel { get; set; }
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
@@ -67,12 +141,17 @@
 
             var securityQuery = Controller.ReadAsync(SecurityId);
 
+            var symbolTypesQuery = Controller.ReferenceQueries
+                .GetDtosAsync<SecuritySymbolType, int, string>(
+                    key: x => x.SymbolTypeId,
+                    display: x => x.SymbolTypeName);
 
             var dataTasks = Task.WhenAll(
                 exchangesDtoQuery,
                 securityTypesQuery,
                 issuersQuery,
-                securityQuery);
+                securityQuery,
+                symbolTypesQuery);
 
             await dataTasks;
 
@@ -82,6 +161,7 @@
                 Exchanges = (await exchangesDtoQuery).Value;
                 SecurityTypes  = (await securityTypesQuery).Value;
                 Issuers = (await issuersQuery).Value.Select(x => x.Issuer).Distinct();
+                SymbolTypes = (await symbolTypesQuery).Value;
             }
 
             else
@@ -118,35 +198,21 @@
                     }
                 };
 
-            // Add view attributes menu item.
-            ActionMenu.Children.Add(ActionMenu.Children.Max(kv => kv.Key) + 1, new MenuItem()
-                {
-                    IconKey = "journal",
-                    Caption = string.Format(
-                                Strings.Caption_ViewMany,
-                                ModelMetadata.GetAttribute<ModelAttribute, NounAttribute>()?.GetPlural()),
-                    UriStem = $"{FormatDetailUri(Model.SecurityId)}/attributes"
-                });
-
-            // Add view symbols menu item.
-            ActionMenu.Children.Add(ActionMenu.Children.Max(kv => kv.Key) + 1, new MenuItem()
-                {
-                    IconKey = "journal",
-                    Caption = string.Format(
-                            Strings.Caption_ViewMany,
-                            ModelMetadata.GetAttribute<SecuritySymbol, NounAttribute>()?.GetPlural()),
-                    UriStem = $"{FormatDetailUri(Model.SecurityId)}/symbols"
-                });
-
-            ViewModel = Model;
+            ViewModel = new(Model);
         }
         finally
         {
-            IsLoading = Exchanges is null || 
-                SecurityTypes is null || 
-                Issuers is null || Model is null || ViewModel is null;
+            IsLoading = Exchanges is null ||
+                SecurityTypes is null ||
+                Issuers is null ||
+                Model is null ||
+                ViewModel is null ||
+                SymbolTypes is null;
         }
 
         // TODO: Take corrective action here, accountQuery.Value should be Account
     }
+
+    private string? GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
+        lookupModels.FirstOrDefault(x => x.Key == id)?.Display;
 }

@@ -45,3 +45,4 @@ namespace NjordFinance.ModelService
         }
     }
 }
+

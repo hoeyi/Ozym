@@ -72,6 +72,46 @@
                     </Body>
                 </ContentTile>
             </EditForm>
+            <EditForm Model="@ViewModel">
+                <ContentTile>
+                    <Body>
+                        <ActionButtonMenu>
+                            <button class="form-control button"
+                                @onclick="args => ViewModel.AddAttributeMember()">
+                                @Strings.Caption_CreateNew.Format(ModelMetadata
+                            .GetAttribute<ModelAttributeMember, NounAttribute>()?.GetSingular())
+                            </button>
+                        </ActionButtonMenu>
+                        <DataGrid Data="@ViewModel.AttributeMembers">
+                            <DataGridColumn Type="DataGridCellType.Control"
+                                        Property="@nameof(ModelAttributeMember.DisplayName)"
+                                        Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayName))">
+                                <CellEditTemplate Context="model">
+                                    <InputText class="form-control" @bind-Value="model.DisplayName" />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn Type="DataGridCellType.Control"
+                                        Property="@nameof(ModelAttributeMember.DisplayOrder)"
+                                        Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayOrder))">
+                                <CellEditTemplate Context="model">
+                                    <InputNumber class="form-control" @bind-Value="@model.DisplayOrder" />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn Type="DataGridCellType.Button">
+                                <CellEditTemplate Context="model">
+                                    <ToolTip Text="@Strings.Caption_Button_Delete">
+                                        <button class="form-control button icon"
+                                            type="button"
+                                            @onclick="async (args) => ViewModel.RemoveAttributeMember(model)">
+                                            <IonIcon Name="close-circle" />
+                                        </button>
+                                    </ToolTip>
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                        </DataGrid>
+                    </Body>
+                </ContentTile>
+            </EditForm>
         </CascadingValue>
     }
 </ThemedComponent>
