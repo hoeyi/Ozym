@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<CountryViewModel>
+﻿@inherits ModelCRUD<CountryDto>
 
 @if (IsLoading)
 {
@@ -6,7 +6,7 @@
 }
 else
 {
-    <ModelForm TViewModel="CountryViewModel">
+    <ModelForm TViewModel="CountryDto">
         <ModelFormLineItem ForMember="@(() => ViewModel.DisplayName)">
             @if (ReadOnly)
             {

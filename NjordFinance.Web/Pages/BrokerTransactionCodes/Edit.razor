@@ -14,7 +14,7 @@
             <ModelPageMenuHeader ActionMenu="@ActionMenu"
                          Header="@(PageTitle.CreateSingle())" />
 
-            <AttributeEntryEditor TViewModelParent="BrokerTransactionCodeViewModel"
+            <AttributeEntryEditor TViewModelParent="BrokerTransactionCodeDto"
                           TViewModelChild="BrokerTransactionCodeAttributeGrouping"
                           TModel="BrokerTransactionCode"
                           TModelChild="BrokerTransactionCodeAttributeMemberEntry"
@@ -42,9 +42,9 @@
     public int ModelId { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="BrokerTransactionCodeViewModel" /> worked by this page.
+    /// Gets or sets the <see cref="BrokerTransactionCodeDto" /> worked by this page.
     /// </summary>
-    private BrokerTransactionCodeViewModel ViewModel { get; set; }
+    private BrokerTransactionCodeDto ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

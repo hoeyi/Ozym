@@ -1,5 +1,5 @@
 ﻿using NjordFinance.EntityModel;
-using NjordFinance.ViewModel;
+using NjordFinance.DataTransfer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -96,7 +96,7 @@ namespace NjordFinance.Test.ViewModel
             };
 
             // Act
-            InvestmentModelViewModel viewModel = new(model);
+            InvestmentModelDto viewModel = new(model);
 
             // Assert
             var obsGroupCount = viewModel.EntryCollectionGroups.Count();
@@ -181,7 +181,7 @@ namespace NjordFinance.Test.ViewModel
                 }
             };
 
-            InvestmentModelViewModel viewModel = new(model);
+            InvestmentModelDto viewModel = new(model);
 
             // Act
             InvestmentStrategy convertedEntity = viewModel.ToEntity();
@@ -285,7 +285,7 @@ namespace NjordFinance.Test.ViewModel
                 }
             };
 
-            InvestmentModelViewModel viewModel = new(model);
+            InvestmentModelDto viewModel = new(model);
 
             var context = new ValidationContext(viewModel, serviceProvider: null, items: null);
             var validationResults = new List<ValidationResult>();
@@ -364,7 +364,7 @@ namespace NjordFinance.Test.ViewModel
                 }
             };
 
-            InvestmentModelViewModel viewModel = new(model);
+            InvestmentModelDto viewModel = new(model);
 
             var context = new ValidationContext(viewModel, serviceProvider: null, items: null);
             var validationResults = new List<ValidationResult>();

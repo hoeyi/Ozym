@@ -2,7 +2,7 @@
 using NjordFinance.EntityModel;
 using NjordFinance.EntityModelService;
 using NjordFinance.EntityModelService.Query;
-using NjordFinance.ViewModel.Generic;
+using NjordFinance.DataTransfer.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;

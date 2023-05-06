@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<BrokerTransactionCodeViewModel>
+﻿@inherits ModelCRUD<BrokerTransactionCodeDto>
 
 @if (ViewModel is null)
 {
@@ -6,7 +6,7 @@
 }
 else
 {
-    <ModelForm TViewModel="BrokerTransactionCodeViewModel">
+    <ModelForm TViewModel="BrokerTransactionCodeDto">
         <ModelFormLineItem ForMember="@(() => ViewModel.TransactionCode)">
             @if (ReadOnly)
             {
