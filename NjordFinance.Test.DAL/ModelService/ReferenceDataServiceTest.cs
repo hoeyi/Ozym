@@ -1,7 +1,7 @@
-﻿using NjordFinance.ModelService;
+﻿using NjordFinance.EntityModelService;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NjordFinance.ModelService.Query;
+using NjordFinance.EntityModelService.Query;
 
 namespace NjordFinance.Test.ModelService
 {

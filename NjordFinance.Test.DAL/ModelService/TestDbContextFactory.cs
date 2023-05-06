@@ -1,4 +1,4 @@
-﻿using NjordFinance.Context;
+﻿using NjordFinance.EntityModel.Context;
 using Microsoft.EntityFrameworkCore;
 using NjordFinance.Test.ModelService.Configuration;
 

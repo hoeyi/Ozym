@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NjordFinance.Model;
-using NjordFinance.Model.Metadata;
+using NjordFinance.EntityModel;
+using NjordFinance.EntityModel.Metadata;
 
 namespace NjordFinance.ViewModel
 {

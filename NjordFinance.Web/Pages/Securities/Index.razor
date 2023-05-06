@@ -140,6 +140,6 @@
         NavigationHelper.NavigateTo(FormatDetailUri(model.SecurityId));
     }
 
-    private string? GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
-        lookupModels.FirstOrDefault(x => x.Key == id)?.Display;
+    private string GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
+        lookupModels.FirstOrDefault(x => x.Key == id)?.Display ?? string.Empty;
 }

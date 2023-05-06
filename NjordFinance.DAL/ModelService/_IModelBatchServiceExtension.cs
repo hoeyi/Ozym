@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NjordFinance.ModelService
+namespace NjordFinance.EntityModelService
 {
     public static class IModelBatchServiceExtension
     {

@@ -10,13 +10,13 @@ namespace NjordFinance.Web.Components.Generic
 {
     public partial class ModelPage<TViewModel> : ModelComponent<TViewModel>, INavigationSource
     {
-        private NounAttribute _modelNoun;
-        private string _indexUriRelativePath;
+        private NounAttribute? _modelNoun;
+        private string? _indexUriRelativePath;
 
         /// <summary>
         /// Gets or sets the <see cref="Menu"/> containing available actions for this component.
         /// </summary>
-        protected Menu ActionMenu { get; set; }
+        protected Menu? ActionMenu { get; set; }
 
         /// <summary>
         /// Gets the <see cref="NounAttribute"/> associated with <typeparamref name="TModel"/>.
@@ -38,7 +38,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <summary>
         /// Gets or sets the current text describing this page's error state.
         /// </summary>
-        protected string ErrorMessage { get; set; }
+        protected string? ErrorMessage { get; set; }
 
         /// <summary>
         /// Gets the relative uri for the index page that represents this model.

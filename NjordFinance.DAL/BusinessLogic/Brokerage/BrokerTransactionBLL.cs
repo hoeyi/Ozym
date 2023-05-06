@@ -1,4 +1,4 @@
-﻿using NjordFinance.Model;
+﻿using NjordFinance.EntityModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

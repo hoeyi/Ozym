@@ -1,13 +1,13 @@
 ﻿using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NjordFinance.Context;
+using NjordFinance.EntityModel.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordFinance.ModelService.Abstractions
+namespace NjordFinance.EntityModelService.Abstractions
 {
     /// <summary>
     /// Base class for <typeparamref name="T"/> model batch service.

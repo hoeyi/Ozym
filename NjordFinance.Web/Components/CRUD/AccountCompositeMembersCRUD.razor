@@ -105,8 +105,8 @@ else
 
 @code {
     [Parameter, EditorRequired]
-    public IEnumerable<LookupModel<int, string>> Accounts { get; set; }
+    public IEnumerable<LookupModel<int, string>> Accounts { get; set; } = default!;
 
-    private string? MemberDisplay(int? id) => 
-        Accounts.FirstOrDefault(a => a.Key == id)?.Display;
+    private string MemberDisplay(int? id) =>
+        Accounts.FirstOrDefault(a => a.Key == id)?.Display ?? string.Empty;
 }            

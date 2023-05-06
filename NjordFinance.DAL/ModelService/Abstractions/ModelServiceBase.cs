@@ -1,4 +1,4 @@
-﻿using NjordFinance.Context;
+﻿using NjordFinance.EntityModel.Context;
 using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -8,7 +8,7 @@ using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 
-namespace NjordFinance.ModelService.Abstractions
+namespace NjordFinance.EntityModelService.Abstractions
 {
     /// <summary>
     /// Base class from which model service classes are derived.

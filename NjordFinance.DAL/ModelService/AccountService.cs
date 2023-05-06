@@ -1,14 +1,14 @@
-﻿using NjordFinance.Context;
-using NjordFinance.Model;
-using NjordFinance.ModelMetadata;
+﻿using NjordFinance.EntityModel.Context;
+using NjordFinance.EntityModel;
+using NjordFinance.EntityModel.Metadata;
 using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NjordFinance.ModelService.Abstractions;
+using NjordFinance.EntityModelService.Abstractions;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NjordFinance.ModelService
+namespace NjordFinance.EntityModelService
 {
     /// <summary>
     /// The class for servicing single CRUD requests against the <see cref="Account"/> 

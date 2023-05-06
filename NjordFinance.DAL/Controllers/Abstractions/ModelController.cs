@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NjordFinance.ModelService;
-using NjordFinance.ModelService.Query;
+using NjordFinance.EntityModelService;
+using NjordFinance.EntityModelService.Query;
 
 namespace NjordFinance.Controllers.Abstractions
 {

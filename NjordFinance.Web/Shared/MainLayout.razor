@@ -32,11 +32,11 @@
 
 @code {
 
-    private Menu? MainMenu { get; set; }
+    private Menu MainMenu { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        MainMenu = await Resources.ResourceHelper.GetDefaultMenu();
+        MainMenu = await Resources.ResourceHelper.GetDefaultMenu() ?? new();
     }
 
     private readonly IReadOnlySet<MenuItem> menuItems = new HashSet<MenuItem>()

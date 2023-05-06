@@ -10,29 +10,33 @@
     [Inject]
     protected IModelMetadataService ModelMetadata { get; set; } = default!;
 
-    protected static string? DescriptionFor<TEnum>(TEnum @enum) =>
-        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetDescription();
+    protected static string DescriptionFor<TEnum>(TEnum @enum) =>
+        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetDescription() ?? string.Empty;
 
-    protected static string? GroupNameFor<TEnum>(TEnum @enum) =>
-        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetGroupName();
+    protected static string GroupNameFor<TEnum>(TEnum @enum) =>
+        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetGroupName() ?? string.Empty;
 
     protected static string NameFor<TEnum>(TEnum @enum) =>
-        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetName();
+        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetName() ?? string.Empty;
 
     protected static int? OrderFor<TEnum>(TEnum @enum) =>
         GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetOrder();
 
-    protected static string? PromptFor<TEnum>(TEnum @enum) =>
-        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetPrompt();
+    protected static string PromptFor<TEnum>(TEnum @enum) =>
+        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetPrompt() ?? string.Empty;
 
-    protected static string? ShortNameFor<TEnum>(TEnum @enum) =>
-        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetShortName();
+    protected static string ShortNameFor<TEnum>(TEnum @enum) =>
+        GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetShortName() ?? string.Empty;
 
     private static TAttribute GetAttribute<TEnum, TAttribute>(TEnum @enum)
         where TAttribute : Attribute
     {
+        if (@enum is null)
+            throw new ArgumentNullException(paramName: nameof(@enum));
+
         var enumType = typeof(TEnum);
-        var name = Enum.GetName(enumType, @enum);
+        var name = Enum.GetName(enumType, @enum) ?? string.Empty;
+
 
         var memberAttribute = enumType
             .GetMember(name)

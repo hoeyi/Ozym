@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using NjordFinance.ModelService;
+using NjordFinance.EntityModelService;
 using NjordFinance.Exceptions;
 
 namespace NjordFinance.Test.ModelService

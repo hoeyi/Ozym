@@ -1,9 +1,9 @@
-﻿using NjordFinance.Context;
+﻿using NjordFinance.EntityModel.Context;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace NjordFinance.ModelService
+namespace NjordFinance.EntityModelService
 {
     /// <summary>
     /// Container class for <see cref="FinanceDbContext"/> extensions.

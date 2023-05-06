@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordFinance.ModelService.Query
+namespace NjordFinance.EntityModelService.Query
 {
     /// <summary>
     /// Represents a query data store with pre-configured relationship inclusions. 

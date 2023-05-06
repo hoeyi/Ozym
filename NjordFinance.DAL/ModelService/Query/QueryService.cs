@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NjordFinance.Context;
+using NjordFinance.EntityModel.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordFinance.ModelService.Query
+namespace NjordFinance.EntityModelService.Query
 {
     /// <summary>
     /// Represents an implementation of <see cref="IQueryService"/>, providing features 

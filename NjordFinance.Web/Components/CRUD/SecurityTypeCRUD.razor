@@ -108,6 +108,6 @@ else
     {
         IsLoading = ViewModel is null | SecurityTypeGroups is null;
     }
-    private string? SecurityTypeGroupDisplayName(int? id) =>
+    private string SecurityTypeGroupDisplayName(int? id) =>
         SecurityTypeGroups?.FirstOrDefault(a => a.Key == id)?.Display;
 }

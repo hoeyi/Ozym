@@ -32,7 +32,7 @@
     private ModelForm<TViewModel> ParentForm { get; set; }
 
     [Parameter, EditorRequired] 
-    public RenderFragment? ChildContent { get; set; }
+    public RenderFragment ChildContent { get; set; }
 
     [Parameter, EditorRequired]
     public Expression<Func<object>> ForMember { get; set; }

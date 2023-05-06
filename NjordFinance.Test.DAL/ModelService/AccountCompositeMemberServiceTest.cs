@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using NjordFinance.Model;
-using NjordFinance.ModelService;
+using NjordFinance.EntityModel;
+using NjordFinance.EntityModelService;
 using System;
 using System.Linq;
 using System.Linq.Expressions;

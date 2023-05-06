@@ -10,7 +10,7 @@
     /// </summary>
     /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
     /// <returns>A <see cref="string"/> representing the description if defined, else null.</returns>
-    protected string? DescriptionFor(Expression<Func<TViewModel, object>> expression)
+    protected string DescriptionFor(Expression<Func<TViewModel, object>> expression)
         => ViewHelper.DescriptionFor(expression);
 
     /// <summary>
@@ -18,7 +18,7 @@
     /// </summary>
     /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
     /// <returns>A <see cref="string"/> representing the description if defined, else null.</returns>
-    protected string? GroupNameFor(Expression<Func<TViewModel, object>> expression)
+    protected string GroupNameFor(Expression<Func<TViewModel, object>> expression)
         => ViewHelper.GroupNameFor(expression);
 
     /// <summary>
@@ -26,7 +26,7 @@
     /// </summary>
     /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
     /// <returns>A <see cref="string"/> representing the name if defined, else null.</returns>
-    protected string? NameFor(Expression<Func<TViewModel, object>> expression)
+    protected string NameFor(Expression<Func<TViewModel, object>> expression)
         => ViewHelper.NameFor(expression);
 
     /// <summary>
@@ -42,7 +42,7 @@
     /// </summary>
     /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
     /// <returns>A <see cref="string"/> representing the input prompt if defined, else null.</returns>
-    protected string? PromptFor(Expression<Func<TViewModel, object>> expression)
+    protected string PromptFor(Expression<Func<TViewModel, object>> expression)
         => ViewHelper.PromptFor(expression);
 
     /// <summary>
@@ -50,7 +50,7 @@
     /// </summary>
     /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
     /// <returns>A <see cref="string"/> representing the short name if defined, else null.</returns>
-    protected string? ShortNameFor(Expression<Func<TViewModel, object>> expression)
+    protected string ShortNameFor(Expression<Func<TViewModel, object>> expression)
             => ViewHelper.ShortNameFor(expression);
 
     /// <summary>

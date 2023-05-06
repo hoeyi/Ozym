@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using NjordFinance.ModelService;
+using NjordFinance.EntityModelService;
 
 namespace NjordFinance.Test.ModelService
 {

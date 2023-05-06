@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NjordFinance.Controllers.Abstractions;
-using NjordFinance.Model;
-using NjordFinance.ModelService;
-using NjordFinance.ModelService.Query;
+using NjordFinance.EntityModel;
+using NjordFinance.EntityModelService;
+using NjordFinance.EntityModelService.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;

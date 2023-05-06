@@ -1,15 +1,15 @@
-﻿using NjordFinance.Model;
+﻿using NjordFinance.EntityModel;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using NjordFinance.ModelMetadata;
-using NjordFinance.Model.Annotations;
+using NjordFinance.EntityModel.Metadata;
+using NjordFinance.EntityModel.Annotations;
 using System.Reflection;
 using System.Linq;
 using NjordFinance.ViewModel.Generic;
 
-namespace NjordFinance.ModelService.Query
+namespace NjordFinance.EntityModelService.Query
 {
     /// <summary>
     /// Represents a read-only service for extracting DTOs representing foreign-key relationships.

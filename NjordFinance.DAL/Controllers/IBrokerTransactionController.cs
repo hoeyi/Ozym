@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NjordFinance.BusinessLogic.Brokerage;
-using NjordFinance.Model;
+using NjordFinance.EntityModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

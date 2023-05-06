@@ -141,7 +141,7 @@
     private void Cancel_OnClick() => NavigationHelper
         .NavigateTo($"{IndexUriRelativePath}/{AccountId}/detail");
 
-    private string? GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
-        lookupModels.FirstOrDefault(x => x.Key == id)?.Display;
+    private string GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
+        lookupModels.FirstOrDefault(x => x.Key == id)?.Display ?? string.Empty;
 
 }

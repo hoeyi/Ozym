@@ -1,4 +1,4 @@
-﻿using NjordFinance.Model;
+﻿using NjordFinance.EntityModel;
 using NjordFinance.UserInterface;
 using Newtonsoft.Json;
 using System.Collections.Generic;

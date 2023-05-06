@@ -3,6 +3,7 @@ using NjordFinance.Web.Areas.Identity;
 using NjordFinance.Web.Areas.Identity.Data;
 using NjordFinance.Web.Data;
 using NjordFinance.Messaging;
+using NjordFinance.EntityModel;
 using Ichosys.DataModel;
 using Ichosys.DataModel.Expressions;
 using Ichosys.Extensions.Configuration;
@@ -63,7 +64,7 @@ builder.Services.AddSingleton<IModelMetadataService, ModelMetadataService>();
 builder.Services.AddSingleton<IMessageService, MessageService>();
 
 // Add database service.
-builder.Services.AddDbContextFactory<NjordFinance.Context.FinanceDbContext>(options =>
+builder.Services.AddDbContextFactory<NjordFinance.EntityModel.Context.FinanceDbContext>(options =>
     options.UseSqlServer("Name=ConnectionStrings:NjordWorks"));
 
 // Register model services and controllers.

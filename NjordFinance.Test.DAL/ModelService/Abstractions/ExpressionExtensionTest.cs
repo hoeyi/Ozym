@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using NjordFinance.ModelService.Abstractions;
-using NjordFinance.Model;
+using NjordFinance.EntityModelService.Abstractions;
+using NjordFinance.EntityModel;
 
 namespace NjordFinance.Test.ModelService.Abstractions
 {

@@ -65,7 +65,7 @@ namespace NjordFinance.Configuration {
         ///  &quot;Id&quot;: 0,
         ///  &quot;ObjectGuid&quot;: &quot;9ced3bce-4e09-4217-b013-88518257e1c4&quot;,
         ///  &quot;Name&quot;: &quot;Display.Account&quot;,
-        ///  &quot;ApplicableTo&quot;: &quot;NjordFinance.Model.Account, NjordFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null&quot;,
+        ///  &quot;ApplicableTo&quot;: &quot;NjordFinance.EntityModel.Account, NjordFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null&quot;,
         ///  &quot;DisplayOrder&quot;: {
         ///    &quot;AccountObject.AccountObjectCode&quot;: 0,
         ///    &quot;AccountObject.StartDate&quot;: 1,

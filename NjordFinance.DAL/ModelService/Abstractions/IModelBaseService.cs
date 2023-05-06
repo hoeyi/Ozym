@@ -1,4 +1,4 @@
-﻿namespace NjordFinance.ModelService.Abstractions
+﻿namespace NjordFinance.EntityModelService.Abstractions
 {
     public interface IModelBaseService<T>
         where T : class, new()

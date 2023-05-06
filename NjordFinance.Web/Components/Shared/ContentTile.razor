@@ -36,10 +36,10 @@
     [Parameter]
     public RenderFragment Body { get; set; }
 
-    private string? ClassModifiers { get; set; }
+    private string ClassModifiers { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? InputAttributes { get; set; }
+    public Dictionary<string, object> InputAttributes { get; set; } = new();
 
     private bool RenderTitleSection => 
         TitleAlignLeft is not null || TitleAlignRight is not null;

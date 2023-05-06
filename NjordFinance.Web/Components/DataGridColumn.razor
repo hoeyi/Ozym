@@ -36,19 +36,19 @@
     /// Gets or sets the header text for this column.
     /// </summary>
     [Parameter]
-    public string? Caption { get; set; }
+    public string Caption { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the tool-tip text that describes this column.
     /// </summary>
     [Parameter]
-    public string? ToolTip { get; set; } = string.Empty;
+    public string ToolTip { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the string format for the data type of this column.
     /// </summary>
     [Parameter]
-    public string? Format { get; set; }
+    public string Format { get; set; }
 
     /// <summary>
     /// Gets or sets the column cell type. The default is <see cref="DataGridCellType.Text" />.
@@ -82,7 +82,7 @@
         base.OnInitialized();
     }
 
-    public object? GetValue(TModel model)
+    public object GetValue(TModel model)
     {
         if (model is null)
             throw new ArgumentNullException(paramName: nameof(model));
