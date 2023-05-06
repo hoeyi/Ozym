@@ -1,10 +1,10 @@
-﻿using NjordFinance.Model.Metadata;
+﻿using NjordFinance.EntityModel.Metadata;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using NjordFinance.Model.Annotations;
+using NjordFinance.EntityModel.Annotations;
 using NjordFinance.ViewModel.Generic;
-using NjordFinance.Model;
+using NjordFinance.EntityModel;
 
 namespace NjordFinance.ViewModel
 {

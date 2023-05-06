@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using NjordFinance.Model;
-using NjordFinance.ModelService;
-using NjordFinance.ModelService.Query;
+using NjordFinance.EntityModel;
+using NjordFinance.EntityModelService;
+using NjordFinance.EntityModelService.Query;
 using NjordFinance.ViewModel.Generic;
 using System;
 using System.Collections.Generic;
@@ -23,12 +23,12 @@ namespace NjordFinance.Web.Components.Generic
         /// data for this component.
         /// </summary>
         [Inject]
-        IQueryService QueryService { get; set; }
+        IQueryService? QueryService { get; set; }
 
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
         /// </summary>
-        protected IEnumerable<ModelAttribute> AllowableModelAttributes { get; set; }
+        protected IEnumerable<ModelAttribute>? AllowableModelAttributes { get; set; }
 
         /// <summary>
         /// Gets the string codes representing the allowable <see cref="ModelAttribute"/> selections 
@@ -40,6 +40,9 @@ namespace NjordFinance.Web.Components.Generic
         protected override async Task OnInitializedAsync()
         {
             IsLoading = true;
+
+            if (QueryService is null)
+                throw new ArgumentNullException(paramName: nameof(QueryService));
 
             AllowableModelAttributes = await GetSupportedAttributesAsync();
 
@@ -53,7 +56,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns></returns>
         private async Task<IEnumerable<ModelAttribute>> GetSupportedAttributesAsync()
         {
-            using var queryBuilder = QueryService
+            using var queryBuilder = QueryService!
                 .CreateQueryBuilder<ModelAttribute>()
                 .WithDirectRelationship(a => a.ModelAttributeMembers)
                 .WithDirectRelationship(a => a.ModelAttributeScopes);
@@ -72,14 +75,14 @@ namespace NjordFinance.Web.Components.Generic
         private async Task<IEnumerable<LookupModel<int, string>>> GetAttributeMembersAsync(
             ModelAttribute attribute)
         {
-            var queryTask = QueryService.GetModelAttributeMemberDTOsAsync(attribute.AttributeId);
+            var queryTask = QueryService!.GetModelAttributeMemberDTOsAsync(attribute.AttributeId);
 
             var lookupList = await queryTask;
 
             return queryTask.Status switch
             {
                 TaskStatus.RanToCompletion => lookupList,
-                TaskStatus.Faulted => throw queryTask.Exception.Flatten(),
+                TaskStatus.Faulted => throw queryTask!.Exception!.Flatten(),
                 _ => throw new InvalidOperationException()
             };
         }

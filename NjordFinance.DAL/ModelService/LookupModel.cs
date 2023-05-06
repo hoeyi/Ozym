@@ -1,4 +1,4 @@
-﻿namespace NjordFinance.ModelService
+﻿namespace NjordFinance.EntityModelService
 {
     /// <summary>
     /// Represents a simplified database record that is referenced in a foreign key relationship.

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using NjordFinance.Context;
+using NjordFinance.EntityModel.Context;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordFinance.ModelService.Query
+namespace NjordFinance.EntityModelService.Query
 {
     /// <summary>
     /// Builder class for constructing and executing complex reads of the model data store.

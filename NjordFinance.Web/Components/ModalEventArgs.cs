@@ -12,7 +12,7 @@ namespace NjordFinance.Web.Components
         /// <summary>
         /// Gets the <typeparamref name="T"/> that is model object of the modal form.
         /// </summary>
-        public T Model { get; init; }
+        public T? Model { get; init; }
 
         /// <summary>
         /// Gets the result of the modal form.

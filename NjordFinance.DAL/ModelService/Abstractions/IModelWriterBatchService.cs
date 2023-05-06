@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace NjordFinance.ModelService.Abstractions
+namespace NjordFinance.EntityModelService.Abstractions
 {
     /// <summary>
     /// An implementation that provides write operations for a batch of 

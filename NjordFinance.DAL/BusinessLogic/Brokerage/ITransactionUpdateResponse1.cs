@@ -1,4 +1,4 @@
-﻿using NjordFinance.Model;
+﻿using NjordFinance.EntityModel;
 
 namespace NjordFinance.BusinessLogic.Brokerage
 {

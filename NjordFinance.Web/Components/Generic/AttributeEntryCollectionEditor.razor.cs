@@ -1,6 +1,6 @@
-﻿using NjordFinance.Model;
-using NjordFinance.ModelService;
-using NjordFinance.ModelService.Query;
+﻿using NjordFinance.EntityModel;
+using NjordFinance.EntityModelService;
+using NjordFinance.EntityModelService.Query;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -36,7 +36,7 @@ namespace NjordFinance.Web.Components.Generic
         /// data for this component.
         /// </summary>
         [Inject]
-        IQueryService QueryService { get; set; }
+        IQueryService? QueryService { get; set; } 
 
         /// <summary>
         /// Gets the string codes representing the allowable <see cref="ModelAttribute"/> selections 
@@ -54,11 +54,13 @@ namespace NjordFinance.Web.Components.Generic
         /// Gets or sets the valid entries to the currently selected attribute.
         /// </summary>
         protected IEnumerable<LookupModel<int, string>> CurrentAttributeMemberLookup { get; set; }
+            = new List<LookupModel<int, string>>();
 
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
         /// </summary>
-        protected IEnumerable<ModelAttribute> AllowableModelAttributes { get; set; }
+        protected IEnumerable<ModelAttribute> AllowableModelAttributes { get; set; } =
+            new List<ModelAttribute>();
 
         /// <summary>
         /// Gets or sets whether the modal editor for the current <typeparamref name="TViewModelChild"/>  
@@ -70,6 +72,9 @@ namespace NjordFinance.Web.Components.Generic
         {
             AllowableModelAttributes = await GetSupportedAttributesAsync();
 
+            if (QueryService is null)
+                throw new ArgumentNullException(paramName: nameof(QueryService));
+
             IsLoading = AllowableModelAttributes is null;
         }
 
@@ -80,7 +85,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <returns></returns>
         protected async Task<IEnumerable<ModelAttribute>> GetSupportedAttributesAsync()
         {
-            using var queryBuilder = QueryService
+            using var queryBuilder = QueryService!
                 .CreateQueryBuilder<ModelAttribute>()
                 .WithDirectRelationship(a => a.ModelAttributeScopes);
 
@@ -112,7 +117,7 @@ namespace NjordFinance.Web.Components.Generic
         protected async Task OnChildViewSelect(TViewModelChild childViewModel)
         {
             CurrentViewModelChild = childViewModel;
-            CurrentAttributeMemberLookup = await QueryService
+            CurrentAttributeMemberLookup = await QueryService!
                 .GetModelAttributeMemberDTOsAsync(
                     attributeId: childViewModel.ParentAttribute.AttributeId);
 
@@ -134,7 +139,8 @@ namespace NjordFinance.Web.Components.Generic
             switch (modalEventArgs.Result)
             {
                 case DialogResult.Delete:
-                    ViewModel.RemoveExising(modalEventArgs.Model);
+                    if(modalEventArgs.Model is not null)
+                        ViewModel.RemoveExising(modalEventArgs.Model);
                     break;
                 case DialogResult.None:
                     break;

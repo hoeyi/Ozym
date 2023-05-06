@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Model\Metadata\ReportStyleSheet.xsd" />
+    <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Ichosys.DataModel" Version="3.0.0.3901" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
       <PrivateAssets>all</PrivateAssets>
@@ -26,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NjordFinance.EntityModel\NjordFinance.EntityModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="BusinessLogic\DisplayString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -36,20 +41,10 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="Context\Configuration\BuiltInStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>BuiltInStrings.resx</DependentUpon>
-    </Compile>
     <Compile Update="ModelService\Query\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Model\Metadata\CheckConstraintDisplay.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CheckConstraintDisplay.resx</DependentUpon>
     </Compile>
     <Compile Update="UserInterface\Images.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -61,25 +56,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>WarningMessage.resx</DependentUpon>
     </Compile>
-    <Compile Update="Model\Metadata\ModelDisplay.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ModelDisplay.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Model\Metadata\ModelNoun.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ModelNoun.resx</DependentUpon>
-    </Compile>
     <Compile Update="Logging\Templates\DebugMessage.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>DebugMessage.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Model\Metadata\ModelValidation.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ModelValidation.resx</DependentUpon>
     </Compile>
     <Compile Update="Exceptions\ExceptionString.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -122,17 +102,9 @@
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Context\Configuration\BuiltInStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>BuiltInStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="ModelService\Query\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Model\Metadata\CheckConstraintDisplay.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CheckConstraintDisplay.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="UserInterface\Images.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -142,21 +114,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WarningMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Model\Metadata\ModelDisplay.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ModelDisplay.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Model\Metadata\ModelNoun.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ModelNoun.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Logging\Templates\DebugMessage.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DebugMessage.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Model\Metadata\ModelValidation.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ModelValidation.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Exceptions\ExceptionString.resx">
       <Generator>ResXFileCodeGenerator</Generator>

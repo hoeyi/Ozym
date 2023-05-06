@@ -1,7 +1,7 @@
-﻿using NjordFinance.ModelService.Abstractions;
+﻿using NjordFinance.EntityModelService.Abstractions;
 using System;
 
-namespace NjordFinance.ModelService
+namespace NjordFinance.EntityModelService
 {
     /// <summary>
     /// A serivce implementation responsible for reading and writing models. Edit requests 

@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System;
 
 namespace NjordFinance.Web.Resources
 {
@@ -13,10 +14,13 @@ namespace NjordFinance.Web.Resources
     {
         private const string DefaultMenuJsonQualifiedName 
             = "NjordFinance.Web.Resources.DefaultMenu.json";
-        public static async Task<Menu> GetDefaultMenu()
+        public static async Task<Menu?> GetDefaultMenu()
         {
             using var stream = Assembly.GetExecutingAssembly()
                 .GetManifestResourceStream(DefaultMenuJsonQualifiedName);
+
+            if (stream is null)
+                throw new InvalidOperationException();
 
             using var reader = new StreamReader(stream);
 

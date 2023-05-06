@@ -1,17 +1,17 @@
 ﻿using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NjordFinance.Context;
+using NjordFinance.EntityModel.Context;
 using NjordFinance.Exceptions;
 using NjordFinance.Logging;
-using NjordFinance.Model;
-using NjordFinance.Model.ConstraintType;
-using NjordFinance.ModelService.Abstractions;
+using NjordFinance.EntityModel;
+using NjordFinance.EntityModel.ConstraintType;
+using NjordFinance.EntityModelService.Abstractions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NjordFinance.ModelService.CustomWriters
+namespace NjordFinance.EntityModelService.CustomWriters
 {
     internal class CountryBatchWriterService : ModelWriterBatchService<Country>
     {

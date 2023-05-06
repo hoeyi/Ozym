@@ -1,12 +1,12 @@
-﻿using NjordFinance.Model;
-using NjordFinance.Model.Annotations;
-using NjordFinance.ViewModel.Generic;
+﻿using NjordFinance.ViewModel.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using NjordFinance.EntityModel;
+using NjordFinance.EntityModel.Annotations;
 
 namespace NjordFinance.ViewModel
 {

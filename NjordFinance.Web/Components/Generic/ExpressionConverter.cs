@@ -133,7 +133,7 @@ namespace NjordFinance.Web.Components.Generic
             // If the given expression has a child member expression, continue the 
             // call the method with an incremented recursion count.
             if (memberExpression.Expression is MemberExpression childMemberExpression
-                && childMemberExpression.Expression.NodeType != ExpressionType.Constant)
+                && childMemberExpression!.Expression?.NodeType != ExpressionType.Constant)
                 return GetNestedExpressionPath(childMemberExpression, memberList, ++recursionCount);
             else
             {

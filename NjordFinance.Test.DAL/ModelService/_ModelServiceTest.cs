@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using NjordFinance.ModelService;
+using NjordFinance.EntityModelService;
 using Microsoft.Extensions.Logging;
 using Ichosys.DataModel;
 using System.Threading.Tasks;

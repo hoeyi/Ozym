@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NjordFinance.Model;
-using NjordFinance.ModelService.Query;
-using NjordFinance.Context;
+using NjordFinance.EntityModel;
+using NjordFinance.EntityModelService.Query;
+using NjordFinance.EntityModel.Context;
+
 
 namespace NjordFinance.Test.ModelService.Query
 {

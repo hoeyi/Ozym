@@ -11,11 +11,11 @@
     /// Gets or sets the <see="Menu" /> for the component.
     /// </summary>
     [Parameter]
-    public Menu ActionMenu { get; set; }
+    public Menu ActionMenu { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the text header for the component.
     /// </summary>
     [Parameter]
-    public string Header { get; set; }
+    public string Header { get; set; } = string.Empty;
 }

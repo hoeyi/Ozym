@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using NjordFinance.Model;
-using NjordFinance.Model.Annotations;
+using NjordFinance.EntityModel;
+using NjordFinance.EntityModel.Annotations;
 using NjordFinance.ViewModel.Generic;
 
 namespace NjordFinance.ViewModel

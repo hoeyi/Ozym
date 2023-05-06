@@ -4,12 +4,12 @@ using Microsoft.Extensions.Logging;
 using NjordFinance.Exceptions;
 using System;
 using System.Threading.Tasks;
-using NjordFinance.Context;
+using NjordFinance.EntityModel.Context;
 using NjordFinance.Logging;
 using System.Linq.Expressions;
 using Ichosys.DataModel.Annotations;
 
-namespace NjordFinance.ModelService.Abstractions
+namespace NjordFinance.EntityModelService.Abstractions
 {
     /// <summary>
     /// Provides batch-write operations for <typeparamref name="T"/> models.

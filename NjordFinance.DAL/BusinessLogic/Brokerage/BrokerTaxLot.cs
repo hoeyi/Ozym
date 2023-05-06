@@ -1,5 +1,5 @@
 ﻿using Ichosys.DataModel.Annotations;
-using NjordFinance.Model;
+using NjordFinance.EntityModel;
 using System;
 using System.ComponentModel.DataAnnotations;
 

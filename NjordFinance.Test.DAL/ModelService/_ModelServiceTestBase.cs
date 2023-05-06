@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NjordFinance.Context;
+using NjordFinance.EntityModel.Context;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;

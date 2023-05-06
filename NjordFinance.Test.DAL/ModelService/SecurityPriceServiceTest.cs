@@ -1,5 +1,5 @@
-﻿using NjordFinance.Model;
-using NjordFinance.ModelService;
+﻿using NjordFinance.EntityModel;
+using NjordFinance.EntityModelService;
 using System;
 using System.Linq.Expressions;
 

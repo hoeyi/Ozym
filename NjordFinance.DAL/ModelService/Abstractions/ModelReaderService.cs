@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
-using NjordFinance.Context;
+using NjordFinance.EntityModel.Context;
 using NjordFinance.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordFinance.ModelService.Abstractions
+namespace NjordFinance.EntityModelService.Abstractions
 {
     /// <summary>
     /// Variant <see cref="ModelServiceBase{T}"/> class that services read and search requests.

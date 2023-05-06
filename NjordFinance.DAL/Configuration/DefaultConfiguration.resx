@@ -122,7 +122,7 @@
   "Id": 0,
   "ObjectGuid": "9ced3bce-4e09-4217-b013-88518257e1c4",
   "Name": "Display.Account",
-  "ApplicableTo": "NjordFinance.Model.Account, NjordFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+  "ApplicableTo": "NjordFinance.EntityModel.Account, NjordFinance, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
   "DisplayOrder": {
     "AccountObject.AccountObjectCode": 0,
     "AccountObject.StartDate": 1,

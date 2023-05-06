@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NjordFinance.Model.Validation;
+using NjordFinance.EntityModel.Validation;
 using NjordFinance.Configuration;
 using System.Xml;
 
@@ -11,7 +11,7 @@ namespace NjordFinance.Test.ModelService.Validation
     public class XmlValidatorTest
     {
         private const string TestXmlSchemaDefitintion = 
-            "NjordFinance.Model.Metadata.ReportStyleSheet.xsd";
+            "NjordFinance.EntityModel.Metadata.ReportStyleSheet.xsd";
 
         private readonly XmlValidator _testValidator = new(TestXmlSchemaDefitintion);
 

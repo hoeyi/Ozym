@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using NjordFinance.Context.Configuration;
-using NjordFinance.Model;
-using NjordFinance.ModelMetadata;
+using NjordFinance.EntityModel.Context.Configuration;
+using NjordFinance.EntityModel;
+using NjordFinance.EntityModel.Metadata;
 
 namespace NjordFinance.Test.ModelService.Configuration
 {

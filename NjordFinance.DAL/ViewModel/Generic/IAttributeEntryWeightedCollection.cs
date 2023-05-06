@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NjordFinance.Model;
+using NjordFinance.EntityModel;
 
 namespace NjordFinance.ViewModel.Generic
 {

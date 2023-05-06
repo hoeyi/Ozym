@@ -184,6 +184,6 @@ else
     [Parameter]
     public IEnumerable<LookupModel<int, string>> AccountCustodians { get; set; }
 
-    private string? CustodianDisplayName(int? id) =>
-         AccountCustodians.FirstOrDefault(a => a.Key == id)?.Display;
+    private string CustodianDisplayName(int? id) =>
+         AccountCustodians.FirstOrDefault(a => a.Key == id)?.Display ?? string.Empty;
 }

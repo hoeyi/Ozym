@@ -1,6 +1,6 @@
 ﻿using Ichosys.DataModel;
 using Microsoft.Extensions.Logging;
-using NjordFinance.ModelService;
+using NjordFinance.EntityModelService;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;

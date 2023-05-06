@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NjordFinance.DAL\NjordFinance.DAL.csproj" />
+    <ProjectReference Include="..\NjordFinance.EntityModel\NjordFinance.EntityModel.csproj" />
   </ItemGroup>
 
   <ItemGroup>

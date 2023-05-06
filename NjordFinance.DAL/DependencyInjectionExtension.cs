@@ -1,8 +1,8 @@
 ﻿using NjordFinance.Controllers;
 using NjordFinance.Controllers.Abstractions;
-using NjordFinance.Model;
-using NjordFinance.ModelService;
-using NjordFinance.ModelService.Query;
+using NjordFinance.EntityModel;
+using NjordFinance.EntityModelService;
+using NjordFinance.EntityModelService.Query;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace NjordFinance

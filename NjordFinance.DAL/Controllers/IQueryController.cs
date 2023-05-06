@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NjordFinance.ModelService;
+using NjordFinance.EntityModelService;
 using System;
 using System.Collections.Generic;
 using System.Linq;

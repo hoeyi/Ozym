@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace NjordFinance.ModelService.Query
+namespace NjordFinance.EntityModelService.Query
 {
     /// <summary>
     /// Represents a utility class for constructing simple and complex reads of the model data store.

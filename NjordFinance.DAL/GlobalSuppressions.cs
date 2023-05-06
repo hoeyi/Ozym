@@ -4,4 +4,4 @@
 // a specific target and scoped to a namespace, type, member, etc.
 
 
-//[assembly: SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "<Pending>", Scope = "member", Target = "~P:NjordFinance.ModelService.ModelChildrenWriterService`2.ParentKey")]
+//[assembly: SuppressMessage("Usage", "CA2254:Template should be a static expression", Justification = "<Pending>", Scope = "member", Target = "~P:NjordFinance.EntityModelService.ModelChildrenWriterService`2.ParentKey")]
