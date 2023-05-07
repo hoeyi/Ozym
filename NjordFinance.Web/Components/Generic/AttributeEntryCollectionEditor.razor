@@ -31,14 +31,14 @@ else
                     @Strings.Caption_Button_Delete
                 </button>
             }
-            @if(OnCancelEditorClick.HasDelegate)
-            {
-                <button type="button" class="form-control button"
-                    @onclick="@(async(args) => await OnCancelEditorClick.InvokeAsync(args))"
-                    @onclick:preventDefault>
-                    @Strings.Caption_Button_Cancel
-                </button>
-            }
+        }
+        @if(OnCancelEditorClick.HasDelegate)
+        {
+            <button type="button" class="form-control button"
+                @onclick="@(async(args) => await OnCancelEditorClick.InvokeAsync(args))"
+                @onclick:preventDefault>
+                @Strings.Caption_Button_Cancel
+            </button>
         }
     </ActionButtonMenu>
     <ContentTile class="left">
