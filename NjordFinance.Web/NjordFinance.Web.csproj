@@ -1,10 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
-	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <UserSecretsId>aspnet-NjordFinance.Web-8127480B-07E8-4478-AEFA-EAC0AACF174B</UserSecretsId>
   </PropertyGroup>
 
