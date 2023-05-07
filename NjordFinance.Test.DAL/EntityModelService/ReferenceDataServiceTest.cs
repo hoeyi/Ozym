@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NjordFinance.Test.ModelService
+namespace NjordFinance.Test.EntityModelService
 {
     [TestClass]
     public class ReferenceDataServiceTest

@@ -1,4 +1,4 @@
-﻿using NjordFinance.Test.ModelService;
+﻿using NjordFinance.Test.EntityModelService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

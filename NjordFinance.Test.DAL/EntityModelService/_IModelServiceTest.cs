@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace NjordFinance.Test.ModelService
+namespace NjordFinance.Test.EntityModelService
 {
     /// <summary>
     /// Required tests for classes implementing <see cref="IModelService{T}"/>.

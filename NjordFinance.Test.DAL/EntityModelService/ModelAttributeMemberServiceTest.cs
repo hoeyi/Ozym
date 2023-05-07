@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace NjordFinance.Test.ModelService
+namespace NjordFinance.Test.EntityModelService
 {
     [TestClass]
     public class ModelAttributeMemberServiceTest

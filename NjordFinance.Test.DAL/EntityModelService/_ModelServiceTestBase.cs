@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace NjordFinance.Test.ModelService
+namespace NjordFinance.Test.EntityModelService
 {
     /// <summary>
     /// Base class for model service test classes.

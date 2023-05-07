@@ -2,7 +2,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace NjordFinance.Test.ModelService
+namespace NjordFinance.Test.EntityModelService
 {
     [TestClass]
     public class MarketHolidayObservanceServiceTest

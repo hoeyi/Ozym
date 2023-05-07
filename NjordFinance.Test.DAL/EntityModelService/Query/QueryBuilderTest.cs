@@ -5,7 +5,7 @@ using NjordFinance.EntityModel;
 using NjordFinance.EntityModel.Context;
 using NjordFinance.EntityModelService.Query;
 
-namespace NjordFinance.Test.ModelService.Query
+namespace NjordFinance.Test.EntityModelService.Query
 {
     [TestClass]
     public class QueryBuilderTest

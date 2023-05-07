@@ -3,7 +3,7 @@ using System.Linq;
 using NjordFinance.EntityModel.Context.Configuration;
 using NjordFinance.EntityModel;
 
-namespace NjordFinance.Test.ModelService.Configuration
+namespace NjordFinance.Test.EntityModelService.Configuration
 {
     /// <summary>
     /// A collection of models to seed for integration testing.

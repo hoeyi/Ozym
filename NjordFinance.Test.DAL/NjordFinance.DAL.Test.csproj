@@ -5,7 +5,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>NjordFinance.Test</AssemblyName>
+    <AssemblyName>NjordFinance.DAL.Test</AssemblyName>
 
     <RootNamespace>NjordFinance.Test</RootNamespace>
 

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("NjordFinance.Test")]
+[assembly: InternalsVisibleTo("NjordFinance.DAL.Test")]
 
 namespace NjordFinance.EntityModel
 {

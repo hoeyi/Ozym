@@ -3,7 +3,7 @@ using System.Linq;
 using NjordFinance.EntityModelService.Abstractions;
 using NjordFinance.EntityModel;
 
-namespace NjordFinance.Test.ModelService.Abstractions
+namespace NjordFinance.Test.EntityModelService.Abstractions
 {
     [TestClass]
     [TestCategory("UnitTest")]
