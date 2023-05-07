@@ -1,8 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ichosys.DataModel.Annotations;
-using System.Security.AccessControl;
 using Microsoft.EntityFrameworkCore;
 using NjordFinance.EntityModel.Metadata;
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using NjordFinance.EntityModel.Metadata;
 using Ichosys.DataModel.Annotations;
 using System.ComponentModel.DataAnnotations.Schema;

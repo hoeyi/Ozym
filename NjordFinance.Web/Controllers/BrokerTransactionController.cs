@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NjordFinance.BusinessLogic.Brokerage;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace NjordFinance.Web.Controllers
 {

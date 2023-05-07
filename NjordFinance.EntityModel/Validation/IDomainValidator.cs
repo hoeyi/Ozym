@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NjordFinance.EntityModel.Validation
+﻿namespace NjordFinance.EntityModel.Validation
 {
     public interface IDomainValidator
     {

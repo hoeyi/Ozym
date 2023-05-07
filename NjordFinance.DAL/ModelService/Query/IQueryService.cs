@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using NjordFinance.EntityModel.Metadata;
 using NjordFinance.EntityModel.Annotations;
 using System.Reflection;
 using System.Linq;

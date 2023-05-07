@@ -1,5 +1,5 @@
-﻿using NjordFinance.Web.Controllers;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using NjordFinance.Web.Controllers;
 
 namespace NjordFinance.Web.Components.Generic
 {

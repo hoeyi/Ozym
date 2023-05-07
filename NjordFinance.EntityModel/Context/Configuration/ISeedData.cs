@@ -1,6 +1,4 @@
-﻿using NjordFinance.EntityModel;
-
-namespace NjordFinance.EntityModel.Context.Configuration
+﻿namespace NjordFinance.EntityModel.Context.Configuration
 {
     /// <summary>
     /// Represents a collection models to add to a data store on initialization.

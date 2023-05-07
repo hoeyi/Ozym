@@ -1,6 +1,5 @@
 ﻿using NjordFinance.EntityModel.Context;
 using NjordFinance.EntityModel;
-using NjordFinance.EntityModel.Metadata;
 using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

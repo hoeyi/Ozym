@@ -1,5 +1,4 @@
-﻿using NjordFinance.Web.Controllers;
-using Ichosys.DataModel.Expressions;
+﻿using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,6 +7,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NjordFinance.Web.Components.Shared;
 using NjordFinance.UserInterface;
+using NjordFinance.Web.Controllers;
 
 namespace NjordFinance.Web.Components.Generic
 {
@@ -60,7 +60,7 @@ namespace NjordFinance.Web.Components.Generic
         /// <summary>
         /// Gets or sets the default <see cref="Menu"/> instance for this class.
         /// </summary>
-        private Menu? DefaultMenu { get; set; }
+        private Menu DefaultMenu { get; set; }
 
         /// <inheritdoc/>   
         protected override async Task OnInitializedAsync()

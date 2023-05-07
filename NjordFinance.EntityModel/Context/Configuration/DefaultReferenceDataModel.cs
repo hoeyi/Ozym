@@ -1,8 +1,4 @@
-﻿using NjordFinance.EntityModel;
-using System;
-using System.Linq;
-using NjordFinance.EntityModel;
-using NjordFinance.EntityModel.ConstraintType;
+﻿using NjordFinance.EntityModel.ConstraintType;
 
 namespace NjordFinance.EntityModel.Context.Configuration
 {

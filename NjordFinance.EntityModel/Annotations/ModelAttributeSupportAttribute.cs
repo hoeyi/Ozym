@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NjordFinance.EntityModel.Annotations
+﻿namespace NjordFinance.EntityModel.Annotations
 {
     /// <summary>
     /// Provides a class attribute for specifying the allowable <see cref="ModelAttribute"/> 

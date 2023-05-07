@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NjordFinance.EntityModel;
 
 namespace NjordFinance.EntityModel.Context
 {

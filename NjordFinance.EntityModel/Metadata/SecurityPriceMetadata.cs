@@ -1,11 +1,6 @@
 ﻿using Ichosys.DataModel.Annotations;
 using NjordFinance.EntityModel.Metadata;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NjordFinance.EntityModel
 {

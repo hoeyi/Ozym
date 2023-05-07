@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordFinance.EntityModel.Context;
 using NjordFinance.EntityModel;
-using NjordFinance.EntityModel.Metadata;
 using NjordFinance.EntityModelService.Abstractions;
 using System.Linq;
 using System.Threading.Tasks;

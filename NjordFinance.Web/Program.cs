@@ -3,7 +3,6 @@ using NjordFinance.Web.Areas.Identity;
 using NjordFinance.Web.Areas.Identity.Data;
 using NjordFinance.Web.Data;
 using NjordFinance.Messaging;
-using NjordFinance.EntityModel;
 using Ichosys.DataModel;
 using Ichosys.DataModel.Expressions;
 using Ichosys.Extensions.Configuration;
@@ -19,7 +18,6 @@ using Serilog.Formatting.Compact;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 using Ichosys.Blazor.Ionicons;
 using NjordFinance.Web;
-using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
 #region Configuration, Logger, Helper services
 
 var logger = ConvertFromSerilogILogger(logger: BuildLogger());
-var config = BuildConfiguration(builder.Environment, logger);
+var config = BuildConfiguration(logger);
 
 // Copy UserSecret connection string value to secure configuration.
 config["ConnectionStrings:NjordWorks"] = config["ConnectionStrings:NjordWorks"];
@@ -140,40 +138,24 @@ partial class Program
     /// </summary>
     /// <param name="logger">The <see cref="ILogger"/> to use.</param>
     /// <returns>An <see cref="IConfiguration"/>.</returns>
-    private static IConfigurationRoot BuildConfiguration(IWebHostEnvironment env, ILogger logger)
+    private static IConfigurationRoot BuildConfiguration(ILogger logger)
     {
-        if(env.IsDevelopment())
-        {
-            var config = new ConfigurationBuilder()
-                .AddSecureJsonWritable(
-                    path: "appsettings.Development.json",
-                    logger: logger,
-                    optional: false,
-                    reloadOnChange: true)
-                .AddUserSecrets<Program>()
-                .Build();
+        var config = new ConfigurationBuilder()
+            .AddSecureJsonWritable(
+                path: "appsettings.Development.json",
+                logger: logger,
+                optional: false,
+                reloadOnChange: true)
+            .AddUserSecrets<Program>()
+            .Build();
 
-            string rsaKeyAddress = "_file:RsaKeyContainer";
-            if (config[rsaKeyAddress] is null)
-            {
-                config[rsaKeyAddress] = $"E1EB57FA-8D2C-41CF-912A-DDBC39534A39";
-                config.Commit();
-            }
-            return config;
-        }
-        else
+        string rsaKeyAddress = "_file:RsaKeyContainer";
+        if (config[rsaKeyAddress] is null)
         {
-            var config = new ConfigurationBuilder()
-                .AddSecureJsonWritable(
-                    path: "appsettings.Production.json",
-                    logger: logger,
-                    optional: false,
-                    reloadOnChange: true)
-                .AddUserSecrets<Program>()
-                .Build();
-
-            return config;
+            config[rsaKeyAddress] = $"E1EB57FA-8D2C-41CF-912A-DDBC39534A39";
+            config.Commit();
         }
+        return config;
     }
     
     /// <summary>
@@ -185,6 +167,4 @@ partial class Program
     {
         return new SerilogLoggerFactory(logger).CreateLogger(nameof(Program));
     }
-
-
 }

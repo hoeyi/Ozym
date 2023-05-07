@@ -1,5 +1,4 @@
 ﻿using NjordFinance.EntityModel.Metadata;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
