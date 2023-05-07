@@ -52,7 +52,7 @@ namespace NjordFinance.EntityModelService
                 },
                 DeleteDelegate = async (context, model) =>
                 {
-                    using var transaction = await context.Database.BeginTransactionAsync();
+                    using var transaction = await context.Database.BeginTransactionIfSupportedAsync();
 
                     context.MarkForDeletion(model);
 
@@ -64,7 +64,8 @@ namespace NjordFinance.EntityModelService
 
                     bool deleteSuccessful = await context.SaveChangesAsync() > 0;
 
-                    await transaction.CommitAsync();
+                    if (transaction is not null)
+                        await transaction.CommitAsync();
 
                     return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
                 },
@@ -86,7 +87,7 @@ namespace NjordFinance.EntityModelService
 
         public static async Task<bool> UpdateGraphAsync(FinanceDbContext context, Country model)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
+            using var transaction = await context.Database.BeginTransactionIfSupportedAsync();
 
             // Capture the currently saved entity.
             var existingEntity = await context.Countries
@@ -138,7 +139,8 @@ namespace NjordFinance.EntityModelService
 
             bool result = await context.SaveChangesAsync() > 0;
 
-            await transaction.CommitAsync();
+            if (transaction is not null)
+                await transaction.CommitAsync();
 
             return result;
         }

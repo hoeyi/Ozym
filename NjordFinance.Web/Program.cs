@@ -18,6 +18,8 @@ using Serilog.Formatting.Compact;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 using Ichosys.Blazor.Ionicons;
 using NjordFinance.Web;
+using NjordFinance.EntityModel.Context;
+using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +46,18 @@ builder.Services.AddSingleton(ISvgHelper.Create());
 
 // Add identity management database
 builder.Services.AddDbContext<IdentityDbContext>(options =>
-    options.UseSqlServer("Name=ConnectionStrings:NjordIdentity"));
+{
+    if(builder.Environment.IsDevelopment())
+    {
+        var databaseProvider = System.Environment.GetEnvironmentVariable("DATABASE_PROVIDER");
+        
+        if (string.IsNullOrEmpty(databaseProvider))
+            options.UseInMemoryDatabase("NjordIdentity");
+
+        else if(databaseProvider == "SQL_SERVER")
+            options.UseSqlServer("Name=ConnectionStrings:NjordIdentity");
+    }
+});
 
 builder.Services.AddDefaultIdentity<WebAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<IdentityDbContext>();
@@ -64,8 +77,19 @@ builder.Services.AddSingleton<IModelMetadataService, ModelMetadataService>();
 builder.Services.AddSingleton<IMessageService, MessageService>();
 
 // Add database service.
-builder.Services.AddDbContextFactory<NjordFinance.EntityModel.Context.FinanceDbContext>(options =>
-    options.UseSqlServer("Name=ConnectionStrings:NjordWorks"));
+builder.Services.AddDbContextFactory<FinanceDbContext>(options =>
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            var databaseProvider = System.Environment.GetEnvironmentVariable("DATABASE_PROVIDER");
+    
+            if (string.IsNullOrEmpty(databaseProvider))
+               options.UseInMemoryDatabase("NjordWorks");
+
+            else if (databaseProvider == "SQL_SERVER")
+                options.UseSqlServer("Name=ConnectionStrings:NjordWorks");
+        }
+    });
 
 // Register model services and controllers.
 builder.Services.AddModelServices();

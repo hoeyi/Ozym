@@ -51,7 +51,7 @@ namespace NjordFinance.EntityModelService.CustomWriters
         {
             try
             {
-                using var transaction = await SharedContext.Database.BeginTransactionAsync();
+                using var transaction = await SharedContext.Database.BeginTransactionIfSupportedAsync();
 
                 int recordsModified = await SharedContext.SaveChangesAsync();
 
@@ -64,7 +64,8 @@ namespace NjordFinance.EntityModelService.CustomWriters
 
                 await SharedContext.SaveChangesAsync();
 
-                await transaction.CommitAsync();
+                if (transaction is not null)
+                    await transaction.CommitAsync();
 
                 return recordsModified;     
             }

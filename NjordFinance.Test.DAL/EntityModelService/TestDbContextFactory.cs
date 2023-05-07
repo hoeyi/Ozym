@@ -1,6 +1,7 @@
 ﻿using NjordFinance.EntityModel.Context;
 using Microsoft.EntityFrameworkCore;
 using NjordFinance.Test.EntityModelService.Configuration;
+using System;
 
 namespace NjordFinance.Test.EntityModelService
 {
@@ -58,9 +59,16 @@ namespace NjordFinance.Test.EntityModelService
             }
         }
 
-        private static DbContextOptionsBuilder<FinanceDbContext> ContextOptionsBuilder() =>
-            new DbContextOptionsBuilder<FinanceDbContext>()
-                .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordWorks"])
-                .EnableSensitiveDataLogging();
+        private static DbContextOptionsBuilder<FinanceDbContext> ContextOptionsBuilder()
+        {
+            if(Environment.GetEnvironmentVariable("DATABASE_PROVIDER") == "SQL_SERVER")
+                return new DbContextOptionsBuilder<FinanceDbContext>()
+                    .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordWorks"])
+                    .EnableSensitiveDataLogging();
+            else
+                return new DbContextOptionsBuilder<FinanceDbContext>()
+                    .UseInMemoryDatabase("NjordWorks")
+                    .EnableSensitiveDataLogging();
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace NjordFinance.EntityModelService
             {
                 DeleteDelegate = async (context, model) =>
                 {
-                    using var transaction = await context.Database.BeginTransactionAsync();
+                    using var transaction = await context.Database.BeginTransactionIfSupportedAsync();
 
                     // Remove child records.
                     context.MarkForDeletion<SecurityPrice>(x => x.SecurityId == model.SecurityId);
@@ -57,7 +57,8 @@ namespace NjordFinance.EntityModelService
                         .MarkForDeletion(model)
                         .SaveChangesAsync() > 0;
 
-                    await transaction.CommitAsync();
+                    if (transaction is not null)
+                        await transaction.CommitAsync();
 
                     return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
                 },
@@ -75,7 +76,7 @@ namespace NjordFinance.EntityModelService
         private static async Task<bool> UpdateGraphAsync(
             FinanceDbContext context, Security model)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
+            using var transaction = await context.Database.BeginTransactionIfSupportedAsync();
 
             model.SecurityExchangeId = model.SecurityExchangeId == 0 ? null : model.SecurityExchangeId;
 
@@ -93,7 +94,8 @@ namespace NjordFinance.EntityModelService
 
             bool result = await context.SaveChangesAsync() > 0;
 
-            await transaction.CommitAsync();
+            if (transaction is not null)
+                await transaction.CommitAsync();
 
             return result;
         }
