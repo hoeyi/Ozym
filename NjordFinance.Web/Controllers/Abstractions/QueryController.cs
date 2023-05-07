@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordFinance.Controllers.Abstractions
+namespace NjordFinance.Web.Controllers.Abstractions
 {
     /// <summary>
     /// Base class for handling requests for lookup data-transfer objects for pre-defined 

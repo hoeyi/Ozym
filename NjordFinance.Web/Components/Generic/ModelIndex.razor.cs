@@ -1,4 +1,4 @@
-﻿using NjordFinance.Controllers;
+﻿using NjordFinance.Web.Controllers;
 using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;

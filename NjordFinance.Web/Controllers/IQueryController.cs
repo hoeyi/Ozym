@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordFinance.Controllers
+namespace NjordFinance.Web.Controllers
 {
     /// <summary>
     /// Represents a controller for handling read-only query requests of the data store.

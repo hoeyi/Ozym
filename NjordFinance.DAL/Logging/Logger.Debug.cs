@@ -4,9 +4,7 @@ using System;
 
 namespace NjordFinance.Logging
 {
-    #region Debug delegates
-    // Pass
-    internal static partial class LoggerExtensions
+    public static partial class LoggerExtensions
     {
         private static readonly Action<ILogger, object, Exception> _modelServiceAddedPendingSave =
             LoggerMessage
@@ -38,6 +36,4 @@ namespace NjordFinance.Logging
         public static void ModelServiceDeletedPendingSave(this ILogger logger, object model) =>
             _modelServiceDeletedPendingSave(logger, model, null);
     }
-
-    #endregion
 }

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordFinance.Controllers.Abstractions
+namespace NjordFinance.Web.Controllers.Abstractions
 {
     public class ModelBatchController<T> : ControllerBase, IBatchController<T>
         where T : class, new()

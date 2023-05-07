@@ -9,16 +9,16 @@ namespace NjordFinance.Logging
     /// </summary>
     /// <remarks>
     /// <list type="table"> Event codes are selected based on the logging event.
-    /// <item>Verbose: [0, 100)</item>
-    /// <item>Debug: [100, 200)</item>
-    /// <item>Information: [200, 300)</item>
-    /// <item>Warning: [300, 400)</item>
-    /// <item>Error: [400, 500)</item>
-    /// <item>Fatal: [900, 1000)</item>
+    /// <item><see cref="LogLevel.Trace"/>: [0, 99]</item>
+    /// <item><see cref="LogLevel.Debug"/>: [100, 199]</item>
+    /// <item><see cref="LogLevel.Information"/>: [200, 299]</item>
+    /// <item><see cref="LogLevel.Warning"/>: [300, 399]</item>
+    /// <item><see cref="LogLevel.Error"/>: [400, 499]</item>
+    /// <item><see cref="LogLevel.Critical"/>: [900, 999]</item>
     /// </list>
     /// </remarks>
-    internal static partial class LoggerExtensions
+    public static partial class LoggerExtensions
     {
-        // No members should be defined in this file. Serves as class documentationo hub only.
+        // No members should be defined in this file. Serves as class documentation hub only.
     }
 }

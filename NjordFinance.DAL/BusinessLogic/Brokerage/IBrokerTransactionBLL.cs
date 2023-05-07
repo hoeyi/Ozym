@@ -34,6 +34,7 @@ namespace NjordFinance.BusinessLogic.Brokerage
 
         ITransactionUpdateResponse UpdateTransactionCode(BrokerTransaction model, int newId);
 
-        ITransactionUpdateResponse PostAllocation(AllocationInstructionTable instructions);
+        ITransactionUpdateResponse<IEnumerable<BrokerTransaction>> PostAllocation(
+            AllocationInstructionTable instructions);
     }
 }
