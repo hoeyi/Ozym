@@ -15,7 +15,7 @@
                          Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
 
         <AttributeEntryCollectionEditor 
-            TViewModelParent="CountryViewModel"
+            TViewModelParent="CountryDto"
             TViewModelChild="CountryAttributeGrouping"
             TModel="Country"
             TModelChild="CountryAttributeMemberEntry"
@@ -39,7 +39,7 @@
     [Parameter]
     public int ModelId { get; set; }
 
-    private CountryViewModel ViewModel { get; set; }
+    private CountryDto ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

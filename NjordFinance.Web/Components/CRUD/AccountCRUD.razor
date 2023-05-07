@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<AccountViewModel>
+﻿@inherits ModelCRUD<AccountDto>
 
 @if (ViewModel is null || AccountCustodians is null)
 {
@@ -6,7 +6,7 @@
 }
 else
 {   
-    <ModelForm TViewModel="AccountViewModel">
+    <ModelForm TViewModel="AccountDto">
         @*AccountObject inputs*@
         <ModelFormLineItem ForMember="@(() => ViewModel.AccountObjectCode)">
             @if (ReadOnly)

@@ -16,7 +16,7 @@
             Header="@(PageTitle.UpdateSingle(ViewModel.DisplayName))" />
 
         <AttributeEntryCollectionEditor 
-            TViewModelParent="InvestmentModelViewModel"
+            TViewModelParent="InvestmentModelDto"
             TViewModelChild="InvestmentModelTargetGrouping"
             TModel="InvestmentStrategy"
             TModelChild="InvestmentStrategyTarget"
@@ -44,9 +44,9 @@
     public int ModelId { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="InvestmentModelViewModel" /> worked by this page.
+    /// Gets or sets the <see cref="InvestmentModelDto" /> worked by this page.
     /// </summary>
-    private InvestmentModelViewModel ViewModel { get; set; }
+    private InvestmentModelDto ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

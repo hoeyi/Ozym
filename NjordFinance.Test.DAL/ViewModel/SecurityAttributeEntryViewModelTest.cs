@@ -1,4 +1,4 @@
-﻿using NjordFinance.ViewModel;
+﻿using NjordFinance.DataTransfer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

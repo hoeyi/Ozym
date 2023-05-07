@@ -18,7 +18,7 @@
 
         <CascadingValue Value="@ViewModel">
             <AttributeEntryCollectionEditor 
-                TViewModelParent="SecurityAttributeViewModel"
+                TViewModelParent="SecurityAttributeDto"
                 TViewModelChild="SecurityAttributeGrouping"
                 TModel="Security"
                 TModelChild="SecurityAttributeMemberEntry"
@@ -26,7 +26,7 @@
                 OnValidFormSubmit="ValidFormSubmitHandler"
                 EffectiveDatePath="@(x => x.EffectiveDate)"
                 ViewModel="@ViewModel.AttributeViewModel"
-                Mode="EditorMode.Edit">
+                Mode="EditorMode.Add">
                 <ViewModelCRUD>
                     <SecurityCRUD SecurityTypes="SecurityTypes"
                               SecurityExchanges="Exchanges"
@@ -54,7 +54,7 @@
 
     private IEnumerable<string> Issuers { get; set; }
 
-    private SecurityViewModel ViewModel { get; set; }
+    private SecurityDto ViewModel { get; set; }
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()

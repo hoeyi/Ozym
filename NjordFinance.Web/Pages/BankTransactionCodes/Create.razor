@@ -14,7 +14,7 @@
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
                          Header="@(PageTitle.CreateSingle())" />
 
-        <AttributeEntryEditor TViewModelParent="BankTransactionCodeViewModel"
+        <AttributeEntryEditor TViewModelParent="BankTransactionCodeDto"
                           TViewModelChild="BankTransactionCodeAttributeGrouping"
                           TModel="BankTransactionCode"
                           TModelChild="BankTransactionCodeAttributeMemberEntry"
@@ -46,9 +46,9 @@
     public Guid RequestGuid { get; init; }
 
     /// <summary>
-    /// Gets or sets the <see cref="BankTransactionCodeViewModel" /> worked by this page.
+    /// Gets or sets the <see cref="BankTransactionCodeDto" /> worked by this page.
     /// </summary>
-    private BankTransactionCodeViewModel ViewModel { get; set; }
+    private BankTransactionCodeDto ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

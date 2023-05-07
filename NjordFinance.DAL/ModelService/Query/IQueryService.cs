@@ -7,7 +7,7 @@ using NjordFinance.EntityModel.Metadata;
 using NjordFinance.EntityModel.Annotations;
 using System.Reflection;
 using System.Linq;
-using NjordFinance.ViewModel.Generic;
+using NjordFinance.DataTransfer.Generic;
 
 namespace NjordFinance.EntityModelService.Query
 {
