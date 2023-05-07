@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "NjordFinance.Web.Test": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51027;http://localhost:51028"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NjordFinance.Web.Data;
 
-namespace NjordFinance.Test.Web.Identity
+namespace NjordFinance.Web.Test.Identity
 {
     /// <summary>
     /// Implements <see cref="IDbContextFactory{TContext}"/> for testing model services.

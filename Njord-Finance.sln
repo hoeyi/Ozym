@@ -11,11 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordFinance.DAL", "NjordFinance.DAL\NjordFinance.DAL.csproj", "{F4F5B69C-A774-4412-9464-5AFC878AD5FF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordFinance.DAL.Test", "NjordFinance.Test.DAL\NjordFinance.DAL.Test.csproj", "{AEB6D616-508A-4AA3-B490-F90AF1D4E169}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordFinance.DAL.Test", "NjordFinance.DAL.Test\NjordFinance.DAL.Test.csproj", "{AEB6D616-508A-4AA3-B490-F90AF1D4E169}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordFinance.Web", "NjordFinance.Web\NjordFinance.Web.csproj", "{C56BA965-51AA-4913-94D7-AF19DC2E1243}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordFinance.Test.Web", "NjordFinance.Test.Web\NjordFinance.Test.Web.csproj", "{2AAD1729-E635-4A53-9F58-914A2A81220A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordFinance.Test.Web", "NjordFinance.Web.Test\NjordFinance.Web.Test.csproj", "{2AAD1729-E635-4A53-9F58-914A2A81220A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScripts", "{4BFBE020-17A3-4116-B9E7-E0A23D93CD74}"
 	ProjectSection(SolutionItems) = preProject

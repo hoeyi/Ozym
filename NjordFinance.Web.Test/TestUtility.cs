@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordFinance.Test.Web.Identity;
+using NjordFinance.Web.Test.Identity;
 
-namespace NjordFinance.Test.Web
+namespace NjordFinance.Web.Test
 {
     [TestClass]
     public class TestUtility
