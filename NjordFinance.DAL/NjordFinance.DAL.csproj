@@ -39,7 +39,7 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="ModelService\Query\Strings.Designer.cs">
+    <Compile Update="EntityModelService\Query\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
@@ -59,7 +59,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DebugMessage.resx</DependentUpon>
     </Compile>
-    <Compile Update="Exceptions\ExceptionString.Designer.cs">
+    <Compile Update="EntityModelService\ExceptionString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ExceptionString.resx</DependentUpon>
@@ -79,10 +79,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>InformationMessage.resx</DependentUpon>
     </Compile>
-    <Compile Update="UserInterface\Strings.Designer.cs">
+    <Compile Update="UserInterface\StringTemplate.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Strings.resx</DependentUpon>
+      <DependentUpon>StringTemplate.resx</DependentUpon>
     </Compile>
     <Compile Update="DataTransfer\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -100,7 +100,7 @@
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="ModelService\Query\Strings.resx">
+    <EmbeddedResource Update="EntityModelService\Query\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -116,7 +116,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DebugMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Exceptions\ExceptionString.resx">
+    <EmbeddedResource Update="EntityModelService\ExceptionString.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -132,14 +132,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>InformationMessage.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="UserInterface\Strings.resx">
+    <EmbeddedResource Update="UserInterface\StringTemplate.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <LastGenOutput>StringTemplate.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="DataTransfer\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
   </ItemGroup>
 
 </Project>

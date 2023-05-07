@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NjordFinance.Exceptions;
 using NjordFinance.Logging;
 using NjordFinance.EntityModelService;
 using NjordFinance.EntityModelService.Query;

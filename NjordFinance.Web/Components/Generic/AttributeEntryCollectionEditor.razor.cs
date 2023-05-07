@@ -1,12 +1,12 @@
 ﻿using NjordFinance.EntityModel;
-using NjordFinance.EntityModelService;
-using NjordFinance.EntityModelService.Query;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using System.Linq;
 using System;
 using NjordFinance.DataTransfer.Generic;
+using NjordFinance.EntityModelService.Query;
+using NjordFinance.EntityModelService;
 
 namespace NjordFinance.Web.Components.Generic
 {

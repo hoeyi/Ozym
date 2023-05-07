@@ -1,5 +1,5 @@
 REM Change working directory to the project direct where FinanceDbContext resides.
-cd NjordFinance.DAL
+cd NjordFinance
 
 REM Check for expected positional parameter and redirect as needed.
 if "%1"=="" goto missingparameter

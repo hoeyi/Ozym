@@ -1,4 +1,5 @@
 ﻿using Ichosys.DataModel.Annotations;
+using NjordFinance.BusinessLogic;
 using NjordFinance.EntityModel;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

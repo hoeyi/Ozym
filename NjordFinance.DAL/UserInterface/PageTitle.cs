@@ -3,6 +3,7 @@ using System;
 using Ichosys.Extensions.Common.Localization;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
+using NjordFinance.EntityModelService;
 
 namespace NjordFinance.UserInterface
 {
@@ -54,22 +55,22 @@ namespace NjordFinance.UserInterface
 
             if (_noun is null)
                 throw new InvalidOperationException(
-                    Exceptions.ExceptionString.ModelNoun_NotFound.Format(typeof(TModel).Name));
+                    StringTemplate.ModelNoun_NotFound_Exception.Format(typeof(TModel).Name));
         }
 
         /// <inheritdoc/>
         public string CreateSingle()
         {
-            return Strings.CreateModel.Format(_noun.GetSingular());
+            return StringTemplate.CreateModel.Format(_noun.GetSingular());
         }
 
         /// <inheritdoc/>
         public string ReadMany(string heading = null)
         {
             if(string.IsNullOrEmpty(heading))
-                return Strings.IndexModel.Format(_noun.GetPlural()?.ToTitleCase());
+                return StringTemplate.IndexModel.Format(_noun.GetPlural()?.ToTitleCase());
             else
-                return Strings.IndexModelAsChild.Format(_noun.GetPlural()?.ToTitleCase(), heading);
+                return StringTemplate.IndexModelAsChild.Format(_noun.GetPlural()?.ToTitleCase(), heading);
         }
 
         /// <inheritdoc/>   
@@ -77,14 +78,14 @@ namespace NjordFinance.UserInterface
         {
             heading ??= string.Empty;
 
-            return Strings.ReadModel.Format(_noun.GetSingular()?.ToTitleCase(), heading);
+            return StringTemplate.ReadModel.Format(_noun.GetSingular()?.ToTitleCase(), heading);
         }
 
         public string UpdateMany(string parentHeading)
         {
             parentHeading ??= string.Empty;
 
-            return Strings.UpdateModel.Format(_noun.GetPlural(), parentHeading);
+            return StringTemplate.UpdateModel.Format(_noun.GetPlural(), parentHeading);
         }
 
         /// <inheritdoc/>
@@ -92,7 +93,7 @@ namespace NjordFinance.UserInterface
         {
             heading ??= string.Empty;
 
-            return Strings.UpdateModel.Format(_noun.GetSingular(), heading);
+            return StringTemplate.UpdateModel.Format(_noun.GetSingular(), heading);
         }
 
         /// <summary>

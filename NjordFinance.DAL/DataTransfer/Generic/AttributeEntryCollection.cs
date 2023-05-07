@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using NjordFinance.DataTransfer;
 using NjordFinance.EntityModel;
 
 namespace NjordFinance.DataTransfer.Generic
