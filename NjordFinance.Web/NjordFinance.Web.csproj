@@ -20,7 +20,7 @@
 	
   <ItemGroup>
     <PackageReference Include="Ichosys.Blazor.Ionicons" Version="1.2.0.4133" />
-    <PackageReference Include="Ichosys.DataModel" Version="3.0.0.3901" />
+    <PackageReference Include="Ichosys.DataModel" Version="3.0.0.5515" />
     <PackageReference Include="Ichosys.Extensions.Common" Version="1.4.0.4711" />
     <PackageReference Include="Ichosys.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.9" />
