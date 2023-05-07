@@ -6,6 +6,7 @@ using NjordFinance.EntityModel;
 using NjordFinance.EntityModelService.Abstractions;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace NjordFinance.EntityModelService
 {
@@ -51,7 +52,7 @@ namespace NjordFinance.EntityModelService
                 },
                 DeleteDelegate = async (context, model) =>
                 {
-                    using var transaction = await context.Database.BeginTransactionAsync();
+                    using var transaction = await context.Database.BeginTransactionIfSupportedAsync();
 
                     // Delete child records.
                     await context
@@ -65,7 +66,8 @@ namespace NjordFinance.EntityModelService
                     bool deleteSuccessful = await context.MarkForDeletion(model)
                         .SaveChangesAsync() > 0;
 
-                    await transaction.CommitAsync();
+                    if (transaction is not null)
+                        await transaction.CommitAsync();
 
                     return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
                 },
@@ -89,7 +91,7 @@ namespace NjordFinance.EntityModelService
         private static async Task<bool> UpdateGraphAsync(
         FinanceDbContext context, AccountComposite model)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
+            using var transaction = await context.Database.BeginTransactionIfSupportedAsync();
 
             // Capture the currently saved entity.
             var existingEntity = await context.AccountComposites
@@ -148,7 +150,8 @@ namespace NjordFinance.EntityModelService
 
             bool result = await context.SaveChangesAsync() > 0;
 
-            await transaction.CommitAsync();
+            if (transaction is not null)
+                await transaction.CommitAsync();
 
             return result;
         }

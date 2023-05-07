@@ -48,7 +48,7 @@ namespace NjordFinance.EntityModelService
                 },
                 DeleteDelegate = async(context, model) =>
                 {
-                    using var transaction = await context.Database.BeginTransactionAsync();
+                    using var transaction = await context.Database.BeginTransactionIfSupportedAsync();
 
                     context.MarkForDeletion(model);
 
@@ -60,7 +60,8 @@ namespace NjordFinance.EntityModelService
 
                     bool deleteSuccessful = await context.SaveChangesAsync() > 0;
 
-                    await transaction.CommitAsync();
+                    if (transaction is not null)
+                        await transaction.CommitAsync();
 
                     return new DbActionResult<bool>(deleteSuccessful, deleteSuccessful);
                 },

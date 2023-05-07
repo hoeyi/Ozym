@@ -51,7 +51,7 @@ namespace NjordFinance.EntityModelService
         public static async Task<bool> UpdateGraphAsync(
             FinanceDbContext context, BrokerTransactionCode model)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
+            using var transaction = await context.Database.BeginTransactionIfSupportedAsync();
 
             // Capture the currently saved entity.
             var existingEntity = await context.BrokerTransactionCodes
@@ -104,7 +104,8 @@ namespace NjordFinance.EntityModelService
 
             bool result = await context.SaveChangesAsync() > 0;
 
-            await transaction.CommitAsync();
+            if (transaction is not null)
+                await transaction.CommitAsync();
 
             return result;
         }

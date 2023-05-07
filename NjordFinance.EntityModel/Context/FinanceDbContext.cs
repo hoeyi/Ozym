@@ -139,7 +139,12 @@ namespace NjordFinance.EntityModel.Context
 
                 entity.Property(e => e.ObjectType).IsFixedLength();
 
-                entity.Property(e => e.PrefixedObjectCode).HasComputedColumnSql("(case when [ObjectType]='c' then concat('+',[AccountObjectCode]) else [AccountObjectCode] end)", false);
+                if (ConfigureForSqlServer)
+                    entity.Property(e => e.PrefixedObjectCode)
+                        .HasComputedColumnSql(
+                            "(case when [ObjectType]='c' then concat('+',[AccountObjectCode]) else [AccountObjectCode] end)", false);
+                else
+                    entity.Property(e => e.PrefixedObjectCode).IsRequired(false);
 
                 entity.HasCheckConstraint(
                     name: "CK_AccountObject_ObjectType",
@@ -172,9 +177,12 @@ namespace NjordFinance.EntityModel.Context
 
             modelBuilder.Entity<BankTransaction>(entity =>
             {
-                entity.Property(e => e.TransactionVersion)
-                    .IsRowVersion()
-                    .IsConcurrencyToken();
+                if (ConfigureForSqlServer)
+                    entity.Property(e => e.TransactionVersion)
+                        .IsRowVersion()
+                        .IsConcurrencyToken();
+                else
+                    entity.Property(e => e.TransactionVersion).IsRequired(false);
 
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.BankTransactions)
@@ -509,7 +517,14 @@ namespace NjordFinance.EntityModel.Context
             {
                 entity.Property(e => e.Cusip).IsFixedLength();
 
-                entity.Property(e => e.SymbolCode).HasComputedColumnSql("(case when [SymbolTypeID]=(-10) then [Cusip] when [SymbolTypeID]=(-20) then [CustomSymbol] when [SymbolTypeID]=(-30) then [OptionTicker] when [SymbolTypeID]=(-40) then [Ticker]  end)", true);
+                if (ConfigureForSqlServer)
+                    entity.Property(e => e.SymbolCode)
+                        .HasComputedColumnSql(
+                            "(case when [SymbolTypeID]=(-10) then [Cusip] when [SymbolTypeID]=(-20) then [CustomSymbol] when [SymbolTypeID]=(-30) then [OptionTicker] when [SymbolTypeID]=(-40) then [Ticker]  end)", 
+                            true);
+                else
+                    entity.Property(e => e.SymbolCode).IsRequired(false);
+
 
                 entity.HasOne(d => d.Security)
                     .WithMany(p => p.SecuritySymbols)
