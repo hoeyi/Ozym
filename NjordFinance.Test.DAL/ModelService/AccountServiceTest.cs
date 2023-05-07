@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NjordFinance.EntityModel;
-using NjordFinance.EntityModel.Metadata;
 using NjordFinance.EntityModelService;
 using System;
 using System.Linq;

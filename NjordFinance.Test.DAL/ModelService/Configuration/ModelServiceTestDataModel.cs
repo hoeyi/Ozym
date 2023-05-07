@@ -2,7 +2,6 @@
 using System.Linq;
 using NjordFinance.EntityModel.Context.Configuration;
 using NjordFinance.EntityModel;
-using NjordFinance.EntityModel.Metadata;
 
 namespace NjordFinance.Test.ModelService.Configuration
 {

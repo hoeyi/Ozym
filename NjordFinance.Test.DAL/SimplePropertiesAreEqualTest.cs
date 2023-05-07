@@ -1,5 +1,4 @@
 ﻿using NjordFinance.EntityModel;
-using NjordFinance.EntityModel.Metadata;
 
 namespace NjordFinance.Test
 {
