@@ -61,10 +61,5 @@ namespace EulerFinancial.UnitTest.Web
 
             Assert.IsInstanceOfType(json, typeof(string));
         }
-
-        //[TestMethod]
-        //public void Menu_WithChildren__JsonDeserialization_YieldsMenu()
-        //{
-        //}
     }
 }
