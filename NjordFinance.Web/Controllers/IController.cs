@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordFinance.Controllers
+namespace NjordFinance.Web.Controllers
 {
     /// <summary>
     /// Represents an object responsible for directing application flow

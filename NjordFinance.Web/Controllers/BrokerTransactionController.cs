@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NjordFinance.Controllers.Abstractions;
+using NjordFinance.Web.Controllers.Abstractions;
 using NjordFinance.EntityModel;
 using NjordFinance.EntityModelService;
 using NjordFinance.EntityModelService.Query;
@@ -9,8 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NjordFinance.BusinessLogic.Brokerage;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
-namespace NjordFinance.Controllers
+namespace NjordFinance.Web.Controllers
 {
     public class BrokerTransactionController : 
         ModelBatchController<BrokerTransaction>, IBrokerTransactionController
@@ -104,9 +105,16 @@ namespace NjordFinance.Controllers
 
             var result = await postTask;
 
+            if(result.UpdateStatus == TransactionUpdateStatus.Completed)
+            {
+                foreach(var transaction in result.ResponseObject)
+                {
+                    await AddAsync(transaction);
+                }
+            }
             return result.UpdateStatus switch
             {
-                TransactionUpdateStatus.Completed => Accepted(result),
+                TransactionUpdateStatus.Completed => Accepted(result.UpdateStatus),
                 TransactionUpdateStatus.Faulted => Conflict(result),
                 _ => throw new InvalidOperationException(),
             };

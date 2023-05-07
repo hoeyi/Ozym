@@ -5,8 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Logging
 {
-    #region Error delegates
-    internal static partial class LoggerExtensions
+    public static partial class LoggerExtensions
     {
         private static readonly Action<ILogger, object, EntityState, EntityState, Exception> 
             _modelServiceAddReturnedInvalidState =
@@ -150,6 +149,4 @@ namespace NjordFinance.Logging
             Exception exception)
             => _modelServiceConcurrencyConflict(logger, exception);
     }
-
-    #endregion
 }

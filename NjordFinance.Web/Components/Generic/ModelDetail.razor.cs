@@ -1,4 +1,4 @@
-﻿using NjordFinance.Controllers;
+﻿using NjordFinance.Web.Controllers;
 using Microsoft.AspNetCore.Components;
 
 namespace NjordFinance.Web.Components.Generic

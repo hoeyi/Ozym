@@ -4,7 +4,7 @@ using NjordFinance.EntityModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NjordFinance.Controllers
+namespace NjordFinance.Web.Controllers
 {
     public interface IBrokerTransactionController : IBatchController<BrokerTransaction>
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NjordFinance.Controllers.API
+namespace NjordFinance.Web.Controllers.API
 {
     /// <summary>
     /// Defines required members for an API controller.

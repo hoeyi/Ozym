@@ -5,9 +5,7 @@ using System.Linq.Expressions;
 
 namespace NjordFinance.Logging
 {
-    #region Information delegates
-    // Pass
-    internal static partial class LoggerExtensions
+    public static partial class LoggerExtensions
     {
         private static readonly Action<ILogger, object, Exception> _modelServiceCreatedSingle = 
             LoggerMessage
@@ -135,6 +133,4 @@ namespace NjordFinance.Logging
             int resultCount)
             => _modelServiceSearchResultReturned(logger, type.Name, resultCount, requestGuid, null);
     }
-
-    #endregion
 }

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using NjordFinance.EntityModelService;
 using NjordFinance.EntityModelService.Query;
 
-namespace NjordFinance.Controllers.Abstractions
+namespace NjordFinance.Web.Controllers.Abstractions
 {
     /// <summary>
     /// Base class for controllers responsible for directing application flow when 

@@ -52,6 +52,8 @@ namespace NjordFinance.BusinessLogic.Brokerage
                     ResponseObject = null
                 };
 
+            // TODO: Why is this the criteria for updating the transaction code reference?
+            // TODO: Can this be expressed more clearly?
             if((model.TransactionCode?.TransactionCodeId ?? newId * -1) != newId)
                 model.TransactionCode = _brokerTransactionCodes
                     .FirstOrDefault(x => x.TransactionCodeId == newId);
@@ -153,10 +155,13 @@ namespace NjordFinance.BusinessLogic.Brokerage
         }
 
         /// <inheritdoc/>
-        public ITransactionUpdateResponse PostAllocation(AllocationInstructionTable allocationTable)
+        public ITransactionUpdateResponse<IEnumerable<BrokerTransaction>> PostAllocation(
+            AllocationInstructionTable allocationTable)
         {
             // Applies an instruction row to a broker transaction.
-            static void ApplyInstruction(BrokerTransaction brokerTransaction, AllocationInstructionRow instruction)
+            static void ApplyInstruction(
+                BrokerTransaction brokerTransaction, 
+                AllocationInstructionRow instruction)
             {
                 decimal proportion = instruction.ClosingQuantity / brokerTransaction.Quantity ?? 0M;
 
@@ -182,7 +187,7 @@ namespace NjordFinance.BusinessLogic.Brokerage
                 destination.Fee = source.Fee;
                 destination.Withholding = source.Withholding;
                 destination.DepSecurityId = source.DepSecurityId;
-                destination.TransactionCodeId = -source.TransactionCodeId;
+                destination.TransactionCodeId = source.TransactionCodeId;
 
                 return destination;
             };
@@ -225,9 +230,10 @@ namespace NjordFinance.BusinessLogic.Brokerage
                 transaction.TaxLotId = instruction.TaxLot.TaxLotId;
             }
 
-            return new TransactionUpdateResponse<object>()
+            return new TransactionUpdateResponse<IEnumerable<BrokerTransaction>>()
             {
-                UpdateStatus = TransactionUpdateStatus.Completed
+                UpdateStatus = TransactionUpdateStatus.Completed,
+                ResponseObject = splitTransactions.Where(x => x != initTransaction)
             };
         }
     }
