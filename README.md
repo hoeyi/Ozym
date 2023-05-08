@@ -19,16 +19,16 @@ You will ned the .NET Cli to build the project from source, typically made avail
 
 **1. Clone the source repository**
 ``` Bash
-$ git clone https://github.com/{organization}/Njord-Finance.git
+$ git clone https://github.com/{organization}/NjordinSight.git
 ```
 **2. Restore package dependencies**
 ``` Bash
-$ dotnet restore "NjordFinance.Web/NjordFinance.Web.csproj"
+$ dotnet restore "NjordinSight.Web/NjordinSight.Web.csproj"
 ```
 
 **3. Update the current launch profile**
 
-There are a few different launch profiles. I recommend using `NjordFinance.Web.InMemory` as it is easy to reproduce. The primary data storage method intended for the application is SQL Server, which profile `NjordFinance.Web` is intended to support.
+There are a few different launch profiles. I recommend using `NjordinSight.Web.InMemory` as it is easy to reproduce. The primary data storage method intended for the application is SQL Server, which profile `NjordinSight.Web` is intended to support.
 
 ### **Deploying to Docker container**
 A Dockerfile is stored in the root fo the project directory for use with constructing an image that can be run as a container using the in-memory database provider. 
@@ -38,11 +38,11 @@ From the projects root directory:
 
 **1. Create the Docker image**
 ``` Bash
-$ docker build --tag 'njordfinance.web' .
+$ docker build --tag 'njordinsight.web' .
 ```
 **2. Run a Docker container from the created image**
 ```Bash
-$ docker container run -dp {HostPort}:{ContainerPort} -t 'njord-finance.web'
+$ docker container run -dp {HostPort}:{ContainerPort} -t 'njordinsight.web'
 ```
 <br/>
 
@@ -51,7 +51,7 @@ The following scripts may be used to update a target database.
 
 | Script | Usage |
 |:--- |:--- |
-| **MigrateNjordFinanceModel** | Updates the destintation database set in the startup project connection string using the `FinanceDbContext`.
+| **MigrateNjordWorksModel** | Updates the destintation database set in the startup project connection string using the `FinanceDbContext`.
 | **MigrateNjordIdentityModel** | Updates the destination database set in the startup project connection string using the `IdentityDbContext`.
 
 ## Commit Message Guidelines ##
@@ -88,7 +88,7 @@ The scope is the domain affected. Choose one of the following:
 * **DAL**: Model repository services and data-transfer objects.
 * **EntityModel**: Entity classes and/or ORM.
 * **Logic**: Business logic.
-* **API-{Name}**: API support where {Name} is the API project (e.g., NjordFinance, or a vendor).
+* **API-{Name}**: API support where {Name} is the API project (e.g., NjordinSight, or a vendor).
 
 Example: 
 ```
