@@ -1,0 +1,5 @@
+﻿.alert-info {
+    background-color: var(--theme-hexcolor-secondary-1-1, "red") !important;
+    border-radius: 1rem !important;
+    padding: 0.5rem 1rem 0.5rem 1rem !important;
+}

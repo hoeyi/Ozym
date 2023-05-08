@@ -1,18 +1,11 @@
 ﻿@page "/custodians/edit"
 
-@inherits ModelPage<AccountCustodian>
+@inherits ModelListPage<AccountCustodian>
 
-@inject IBatchController<AccountCustodian> Controller
-
+<PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
 
 <ThemedComponent>
-    <PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
-
     <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
-
-    <CascadingValue Value="@ErrorMessage">
-        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-    </CascadingValue>
 
     @if (IsLoading)
     {
@@ -20,6 +13,10 @@
     }
     else
     {   
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
         <ContentTile>
             <Body>
                 <EditForm width="100%" EditContext="@_context" >
@@ -38,7 +35,7 @@
                         </button>
                     </ActionButtonMenu>
                     <DataAnnotationsValidator/>
-                    <DataGrid Data="@Custodians">
+                    <DataGrid Data="@Entries">
                         <DataGridColumn Property=@nameof(AccountCustodian.CustodianCode)
                                     Caption=@(NameFor(x => x.CustodianCode))>
                             <CellEditTemplate Context="model">
@@ -70,72 +67,3 @@
         </ContentTile>
     }
 </ThemedComponent>
-
-@code {
-    private IList<AccountCustodian> Custodians { get; set; }
-
-    private EditContext _context;
-
-    /// <inheritdoc/>
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        IsLoading = true;
-
-        try
-        {
-            Custodians = (await Controller.SelectAllAsync()).Value;
-
-            if(!Custodians.Any())
-            {
-                await AddNewAsync(args: null);
-            }
-        }
-        finally
-        {
-            _context = new(Custodians);
-            IsLoading = Custodians is null;
-        }
-    }
-
-    private async Task AddNewAsync(MouseEventArgs args)
-    {
-        // TODO: Do something with MouseEventArgs?
-
-        var getDefaultTask = await Controller.GetDefaultAsync();
-        await Controller.AddAsync(getDefaultTask.Value);
-
-        if (getDefaultTask.Value is AccountCustodian custodian)
-            Custodians.Add(custodian);
-    }
-
-    private async Task DeleteAsync(MouseEventArgs args, AccountCustodian custodian)
-    {
-        var result = await Controller.DeleteOrDetachAsync(custodian);
-
-        if (result is OkResult)
-            Custodians.Remove(custodian);
-        else
-            throw new InvalidOperationException();
-
-        // TODO: interpret the response.
-    }
-
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
-    {
-        bool isValid = context.Validate();
-        if(isValid)
-        {
-            var saveResult = await Controller.SaveChangesAsync();
-
-            if (saveResult is NoContentResult)
-                NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-            else if (saveResult is ObjectResult objectResult)
-                ErrorMessage = (objectResult.Value as Exception)?.Message;
-        }
-    }
-}

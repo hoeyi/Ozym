@@ -1,6 +1,6 @@
 ﻿@page "/accounts/{AccountId:int}/edit/wallets"
 
-@inherits ModelPage<AccountWallet>
+@inherits ModelListPage<AccountWallet>
 
 @inject IBatchController<AccountWallet> Controller
 
@@ -92,7 +92,7 @@
 
 @code {
     [Parameter]
-    public int AccountId { get; set; }
+    public int ModelId { get; set; }
 
     private IList<AccountWallet> Wallets { get; set; }
 
@@ -109,7 +109,7 @@
             ParentAccount = (
                 await Controller.ReferenceQueries
                     .GetSingleAsync<Account>(
-                        predicate: a => a.AccountId == AccountId,
+                        predicate: a => a.AccountId == ModelId,
                         path: a => a.AccountNavigation)).Value;
 
             var initResult = await Controller.ForParent(ParentAccount.AccountId);
@@ -145,45 +145,8 @@
             IsLoading = Wallets is null || ParentAccount is null || DenominationSecurities is null;
         }
     }
-
-    private async Task AddNewAsync(MouseEventArgs args)
-    {
-        // TODO: Do something with MouseEventArgs?
-
-        var getDefaultTask = await Controller.GetDefaultAsync();
-        await Controller.AddAsync(getDefaultTask.Value);
-
-        if (getDefaultTask.Value is AccountWallet w)
-            Wallets.Add(w);
-    }
-
-    private async Task DeleteAsync(MouseEventArgs args, AccountWallet wallet)
-    {
-        var result = await Controller.DeleteOrDetachAsync(wallet);
-
-        if (result is OkResult)
-            Wallets.Remove(wallet);
-        else
-            throw new InvalidOperationException();
-
-        // TODO: interpret the response.
-    }
-
-    private void Cancel_OnClick() => NavigationHelper
-        .NavigateTo($"{IndexUriRelativePath}/{AccountId}/detail");
-
-    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
-    {
-        bool isValid = context.Validate();
-        if (isValid)
-        {
-            var saveResult = await Controller.SaveChangesAsync();
-
-            if (saveResult is NoContentResult)
-                NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{AccountId}/detail");
-
-            else if (saveResult is ObjectResult objectResult)
-                ErrorMessage = (objectResult.Value as Exception)?.Message;
-        }
-    }
+    
+    /// <inheritdoc/>
+    protected override void Cancel_OnClick() => 
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
 }

@@ -80,25 +80,14 @@
         }
     }
 
-    private void Cancel_OnClick()
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
+
+    protected override async Task HandleValidSubmit()
     {
-        NavigationHelper.NavigateTo(IndexUriRelativePath);
-    }
+        Model = ViewModel.ToEntity();
 
-    private async Task HandleValidSubmit()
-    {
-        try
-        {
-            Model = ViewModel.ToEntity();
+        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
 
-            var result = await Controller.CreateAsync(Model);
-
-            if (result.Result is CreatedAtActionResult cr)
-                NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
-        }
-        catch(ModelUpdateException meu)
-        {
-            ErrorMessage = meu.Message;   
-        }
+        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
     }
 }

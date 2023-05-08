@@ -1,4 +1,4 @@
-﻿@page "/securities/{SecurityId:int}/edit"
+﻿@page "/securities/{ModelId:int}/edit"
 
 @inherits ModelDetail<Security>
 
@@ -26,8 +26,8 @@
                 TViewModelChild="SecurityAttributeGrouping"
                 TModel="Security"
                 TModelChild="SecurityAttributeMemberEntry"
-                OnCancelEditorClick="CancelEditorHandler"
-                OnDeleteModelClick="DeleteModelHandler"
+                OnCancelEditorClick="FormCancelClickHandler"
+                OnDeleteModelClick="FormDeleteClickHandler"
                 OnValidFormSubmit="ValidFormSubmitHandler"
                 EffectiveDatePath="@(x => x.EffectiveDate)"
                 ViewModel="@ViewModel.AttributeViewModel"
@@ -143,7 +143,7 @@
 
 @code {
     [Parameter]
-    public int SecurityId { get; set; }
+    public int ModelId { get; set; }
 
     private IEnumerable<LookupModel<int, string>> Exchanges { get; set; }
 
@@ -178,13 +178,13 @@
             var issuersQuery = Controller.ReferenceQueries
                 .GetManyAsync<Security>(x => (x.Issuer ?? string.Empty) != string.Empty);
 
-            var securityQuery = Controller.ReadAsync(SecurityId);
+            var securityQuery = Controller.ReadAsync(ModelId);
 
             var symbolTypesQuery = Controller.ReferenceQueries
                 .GetDtosAsync<SecuritySymbolType, int, string>(
                     key: x => x.SymbolTypeId,
                     display: x => x.SymbolTypeName);
-            
+
             var dataTasks = Task.WhenAll(
                 exchangesDtoQuery,
                 securityTypesQuery,
@@ -249,33 +249,23 @@
         }
     }
 
-    /// <summary>
-    /// Handles the delete click event of this page.
-    /// </summary>
-    private async Task DeleteModelHandler(MouseEventArgs args)
+    private async Task FormDeleteClickHandler(MouseEventArgs args)
     {
-        var result = await Controller.DeleteAsync(Model);
+        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
 
         if (result is NoContentResult _)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
-    /// <summary>
-    /// Handles the valid form submission event of this page.
-    /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        Model = ViewModel.ToEntity();
+        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 
-        var result = await Controller.UpdateAsync(Model.SecurityId, Model);
+        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
 
-        if (Model is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(Model.SecurityId));
+        ProcessDetailAtAction(id);
     }
 
-    /// <summary>edit
-    /// Handles the cancel editor event of this page.
-    /// </summary>
-    private void CancelEditorHandler(MouseEventArgs args) =>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
         NavigationHelper.NavigateTo(FormatDetailUri(Model.SecurityId));
 }

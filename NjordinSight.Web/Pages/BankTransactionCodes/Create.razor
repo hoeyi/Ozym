@@ -22,7 +22,7 @@
                           TViewModelChild="BankTransactionCodeAttributeGrouping"
                           TModel="BankTransactionCode"
                           TModelChild="BankTransactionCodeAttributeMemberEntry"
-                          OnCancelEditorClick="CancelEditorHandler"
+                          OnCancelEditorClick="CancelFormHandler"
                           OnValidFormSubmit="ValidFormSubmitHandler"
                           ViewModel="@ViewModel"
                           Mode="EditorMode.Add">
@@ -82,15 +82,14 @@
     {
         Model = ViewModel.ToEntity();
 
-        var result = await Controller.CreateAsync(Model);
+        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
 
-        if (result.Result is CreatedAtActionResult cr)
-            NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
+        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
     }
 
     /// <summary>
     /// Handles the cancel editor event of this page.
     /// </summary>
-    private void CancelEditorHandler(MouseEventArgs args) =>
+    private void CancelFormHandler(MouseEventArgs args) =>
         NavigationHelper.NavigateTo(IndexUriRelativePath);
 }

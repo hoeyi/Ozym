@@ -1,4 +1,4 @@
-﻿@page "/security-types/{SecurityTypeId:int}/edit"
+﻿@page "/security-types/{ModelId:int}/edit"
 
 @inherits ModelDetail<SecurityType>
 
@@ -54,7 +54,7 @@
     /// Gets or sets the identifier for the <see cref="SecurityType" /> worked using this page.
     /// </summary>
     [Parameter]
-    public int SecurityTypeId { get; set; }
+    public int ModelId { get; set; }
 
     private IEnumerable<LookupModel<int, string>> SecurityTypeGroups { get; set; }
 
@@ -65,7 +65,7 @@
 
         try
         {
-            var modelQuery = Controller.ReadAsync(SecurityTypeId);
+            var modelQuery = Controller.ReadAsync(ModelId);
             var typeGroupsQuery = Controller.ReferenceQueries.GetSecurityTypeGroupDTOsAsync();
 
             Task dataTasks = Task.WhenAll(modelQuery, typeGroupsQuery);
@@ -82,24 +82,22 @@
         }
     }
 
-    private void Cancel_OnClick()
-    {
-        NavigationHelper.NavigateTo(FormatDetailUri(SecurityTypeId));
-    }
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 
     private async Task Delete_OnClick()
     {
-        var result = await Controller.DeleteAsync(Model!);
+        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
 
-        if (result is NoContentResult ncr)
+        if (result is NoContentResult _)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
-    private async Task HandleValidSubmit()
+    protected override async Task HandleValidSubmit()
     {
-        var result = await Controller.UpdateAsync(SecurityTypeId, Model);
+        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 
-        if (result.Value is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.SecurityTypeId));
+        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
+
+        ProcessDetailAtAction(id);
     }
 }

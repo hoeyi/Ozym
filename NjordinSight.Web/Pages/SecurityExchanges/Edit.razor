@@ -1,13 +1,10 @@
 ﻿@page "/security-exchanges/edit"
 
-@inherits ModelPage<SecurityExchange>
+@inherits ModelListPage<SecurityExchange>
 
-@inject IBatchController<SecurityExchange> Controller
-
+<PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
 
 <ThemedComponent>
-    <PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
-
     <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
 
     @if (IsLoading)
@@ -16,7 +13,6 @@
     }
     else
     {
-
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
@@ -39,7 +35,7 @@
                         </button>
                     </ActionButtonMenu>
                     <DataAnnotationsValidator />
-                    <DataGrid Data="@SecurityExchanges">
+                    <DataGrid Data="@Entries">
                         <DataGridColumn Property=@nameof(SecurityExchange.ExchangeCode)
                                     Caption=@(NameFor(x => x.ExchangeCode))>
                             <CellEditTemplate Context="model">
@@ -71,72 +67,3 @@
         </ContentTile>
     }
 </ThemedComponent>
-
-@code {
-    private IList<SecurityExchange> SecurityExchanges { get; set; }
-
-    private EditContext _context;
-
-    /// <inheritdoc/>
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        IsLoading = true;
-
-        try
-        {
-            SecurityExchanges = (await Controller.SelectAllAsync()).Value;
-
-            if(!SecurityExchanges.Any())
-            {
-                await AddNewAsync(args: null);
-            }
-        }
-        finally
-        {
-            _context = new(SecurityExchanges);
-            IsLoading = SecurityExchanges is null;
-        }
-    }
-
-    private async Task AddNewAsync(MouseEventArgs args)
-    {
-        // TODO: Do something with MouseEventArgs?
-
-        var getDefaultTask = await Controller.GetDefaultAsync();
-        await Controller.AddAsync(getDefaultTask.Value);
-
-        if (getDefaultTask.Value is SecurityExchange exchange)
-            SecurityExchanges.Add(exchange);
-    }
-
-    private async Task DeleteAsync(MouseEventArgs args, SecurityExchange exchange)
-    {
-        var result = await Controller.DeleteOrDetachAsync(exchange);
-
-        if (result is OkResult)
-            SecurityExchanges.Remove(exchange);
-        else
-            throw new InvalidOperationException();
-
-        // TODO: interpret the response.
-    }
-
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
-    {
-        bool isValid = context.Validate();
-        if (isValid)
-        {
-            var saveResult = await Controller.SaveChangesAsync();
-
-            if (saveResult is NoContentResult)
-                NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-            else if (saveResult is ObjectResult objectResult)
-                ErrorMessage = (objectResult.Value as Exception)?.Message;
-        }
-    }
-}

@@ -1,22 +1,29 @@
 ﻿@page "/securities/prices/edit"
 
-@inherits ModelPage<SecurityPrice>
+@inherits ModelListPage<SecurityPrice>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
 <ThemedComponent>
     <ModelPageMenuHeader Header="@(PageTitle.ReadMany())" />
 
-    <ContentTile>
-        <Body>
-            <SearchInputTable TModel="SecurityPrice"
-                            ComparisonOperators=@ComparisonOperators
-                            ExpressionBuilder=@ExpressionBuilder
-                            SearchFields=@SearchFields
-                            OnSearchClick=@(async (args) => await SearchClicked(args))>
-            </SearchInputTable>
-        </Body>
-    </ContentTile>
+    @if(SearchFields is null)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <SearchInputTable TModel="SecurityPrice"
+                    ComparisonOperators=@ComparisonOperators
+                    ExpressionBuilder=@ExpressionBuilder
+                    SearchFields=@SearchFields
+                    OnSearchClick=@(async (args) => await SearchClicked(args))>
+                </SearchInputTable>
+            </Body>
+        </ContentTile>
+    }
 
     @if (IsLoading)
     {
@@ -27,6 +34,7 @@
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
+
         <ContentTile>
             <Body>
                 <EditForm width="100%" EditContext="@_context">
@@ -45,7 +53,7 @@
                         </button>
                     </ActionButtonMenu>
                     <DataAnnotationsValidator />
-                    <DataGrid Data="@SecurityPrices">
+                    <DataGrid Data="@Entries">
                         <DataGridColumn Property=@nameof(SecurityPrice.SecurityId)
                             Type="DataGridCellType.Control"
                             Caption=@(NameFor(x => x.SecurityId))>
@@ -118,14 +126,7 @@
     }
 </ThemedComponent>
 @code {
-    [Inject]
-    protected IBatchController<SecurityPrice> Controller { get; set; }
-
-    private IList<SecurityPrice> SecurityPrices { get; set; }
-
     private IEnumerable<LookupModel<int, string>> SecurityLookup { get; set; }
-
-    private EditContext _context;
 
     private int MaxRecordCount { get; set; } = 100;
 
@@ -166,7 +167,7 @@
 
     #endregion
 
-    private bool UpodateLoading() => SecurityLookup is null || SecurityPrices is null;
+    private bool UpodateLoading() => SecurityLookup is null || Entries is null;
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
@@ -183,7 +184,7 @@
 
             DateTime lastBusinessDay = GetLastBusinessDay();
 
-            //InitialSearchExpression = x => x.PriceDate == lastBusinessDay;
+            // TODO: Update this to a more useful initial expression.
             InitialSearchExpression = x => true;
 
             SearchFields = ExpressionBuilder!.GetSearchableMembers<SecurityPrice>();
@@ -205,68 +206,23 @@
                 var securityDtoResult = await securityDtosTask;
 
                 SecurityLookup = securityDtoResult.Value;
-                SecurityPrices = pricesResult.Value;
+                Entries = pricesResult.Value;
             }
         }
         finally
         {
-            SecurityPrices ??= new List<SecurityPrice>();
+            Entries ??= new List<SecurityPrice>();
 
-            _context = new(SecurityPrices);
+            _context = new(Entries);
             IsLoading = UpodateLoading();
         }
     }
 
-    private async Task AddNewAsync(MouseEventArgs args)
-    {
-        // TODO: Do something with MouseEventArgs?
+    /// <inheritdoc/>
+    protected override void Cancel_OnClick() => 
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/prices");
 
-        var getDefaultTask = await Controller.GetDefaultAsync();
-        await Controller.AddAsync(getDefaultTask.Value);
-
-        if (getDefaultTask.Value is SecurityPrice model)
-            SecurityPrices.Insert(0, model);
-    }
-
-    private async Task DeleteAsync(MouseEventArgs args, SecurityPrice model)
-    {
-        var result = await Controller.DeleteOrDetachAsync(model);
-
-        if (result is OkResult)
-            SecurityPrices.Remove(model);
-        else
-            throw new InvalidOperationException();
-
-        // TODO: interpret the response.
-    }
-
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo($"{IndexUriRelativePath}/prices");
-
-    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
-    {
-        bool isValid = context.Validate();
-        if (isValid)
-        {
-            var saveResult = await Controller.SaveChangesAsync();
-
-            if (saveResult is NoContentResult)
-                NavigationHelper.NavigateTo($"{IndexUriRelativePath}/prices");
-
-            else if (saveResult is ObjectResult objectResult)
-                ErrorMessage = (objectResult.Value as Exception)?.Message;
-        }
-    }
-
-    /// <summary>
-    /// Handles search submission events that that contain
-    /// <see cref="SearchSubmittedEventArgs{TModel}"/> data.
-    /// </summary>
-    /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that
-    /// containst the data for the invoked event.</param>
-    /// <returns>A task representing an asynchronous operator. Successful operation will
-    /// cause <see cref="Models"/> to update to the collection matching the event arguments
-    /// search expression.</returns>
-    protected async Task SearchClicked(SearchSubmittedEventArgs<SecurityPrice> args)
+    private async Task SearchClicked(SearchSubmittedEventArgs<SecurityPrice> args)
     {
         try
         {
@@ -276,7 +232,7 @@
                 var actionResult = await Controller!.SelectWhereAysnc(
                         predicate: args.SearchExpression, maxCount: MaxRecordCount);
 
-                SecurityPrices = actionResult.Value ?? new List<SecurityPrice>();
+                Entries = actionResult.Value ?? new List<SecurityPrice>();
             }
         }
         finally

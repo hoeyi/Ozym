@@ -22,8 +22,8 @@
                 TViewModelChild="AccountAttributeGrouping"
                 TModel="AccountObject"
                 TModelChild="AccountAttributeMemberEntry"
-                OnCancelEditorClick="CancelEditorHandler"
-                OnDeleteModelClick="DeleteModelHandler"
+                OnCancelEditorClick="FormCancelClickHandler"
+                OnDeleteModelClick="FormDeleteClickHandler"
                 OnValidFormSubmit="ValidFormSubmitHandler"
                 ViewModel="@ViewModel.AttributeViewModel"
                 Mode="EditorMode.Edit">
@@ -43,7 +43,7 @@
     /// Gets or sets the identifier for the <see cref="Account" /> worked using this page.
     /// </summary>
     [Parameter]
-    public int AccountId { get; set; }
+    public int ModelId { get; init; }
 
     private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
@@ -56,7 +56,7 @@
 
         try
         {
-            var accountQuery = Controller.ReadAsync(AccountId);
+            var accountQuery = Controller.ReadAsync(ModelId);
             var custodiansQuery = Controller.ReferenceQueries.GetAccountCustodianDTOsAsync();
 
             var dataTasks = Task.WhenAll(accountQuery, custodiansQuery);
@@ -82,9 +82,9 @@
     /// <summary>
     /// Handles the delete click event of this page.
     /// </summary>
-    private async Task DeleteModelHandler(MouseEventArgs args)
+    private async Task FormDeleteClickHandler(MouseEventArgs args)
     {
-        var result = await Controller.DeleteAsync(Model);
+        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
 
         if (result is NoContentResult _)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
@@ -95,17 +95,16 @@
     /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        Model = ViewModel.ToEntity();
+        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 
-        var result = await Controller.UpdateAsync(Model.AccountId, Model);
+        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
 
-        if (Model is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(Model.AccountId));
+        ProcessDetailAtAction(id);
     }
 
     /// <summary>edit
     /// Handles the cancel editor event of this page.
     /// </summary>
-    private void CancelEditorHandler(MouseEventArgs args) =>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
         NavigationHelper.NavigateTo(FormatDetailUri(Model.AccountId));
 }

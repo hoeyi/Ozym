@@ -1,4 +1,4 @@
-﻿@page "/composites/{AccountCompositeId:int}/edit"
+﻿@page "/composites/{ModelId:int}/edit"
 
 @inherits ModelDetail<AccountComposite>
 
@@ -58,7 +58,7 @@
 
 @code {
     [Parameter]
-    public int AccountCompositeId { get; set; }
+    public int ModelId { get; set; }
 
     private IEnumerable<LookupModel<int, string>> Accounts { get; set; }
 
@@ -71,7 +71,7 @@
 
         try
         {
-            var compositeQuery = Controller.ReadAsync(AccountCompositeId);
+            var compositeQuery = Controller.ReadAsync(ModelId);
             var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
 
             Task dataTask = Task.WhenAll(compositeQuery, accountsQuery);
@@ -87,26 +87,24 @@
         }
     }
 
-    private void Cancel_OnClick()
-    {
-        NavigationHelper.NavigateTo(FormatDetailUri(AccountCompositeId));
-    }
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 
     private async Task Delete_OnClick()
     {
-        var result = await Controller.DeleteAsync(Model);
+        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
 
-        if (result is NoContentResult ncr)
+        if (result is NoContentResult _)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
-    private async Task HandleValidSubmit()
+    protected override async Task HandleValidSubmit()
     {
         Model = ViewModel.ToEntity();
 
-        var result = await Controller.UpdateAsync(AccountCompositeId, Model);
+        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 
-        if (result.Value is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.AccountCompositeId));
+        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
+
+        ProcessDetailAtAction(id);
     }
 }

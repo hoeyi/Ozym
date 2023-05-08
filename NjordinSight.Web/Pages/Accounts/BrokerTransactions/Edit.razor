@@ -262,26 +262,21 @@
     private async Task AddNewAsync(MouseEventArgs args)
     {
         // TODO: Do something with MouseEventArgs?
-
-        await Controller.AddNewAsync();
-
-        // TODO: interpret IActionResult?
+        var result = await Controller.AddNewAsync();
+        if (result is not OkResult)
+            throw new InvalidOperationException();
     }
 
     private async Task DeleteAsync(MouseEventArgs args, BrokerTransaction brokerTransaction)
     {
         var result = await Controller.DeleteOrDetachAsync(brokerTransaction);
-        if(result is OkResult)
-        {
-            // TODO: interpret the response.
-        }
-        else
-        {
+        if (result is not OkResult)
             throw new InvalidOperationException();
-        }
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelative);
+    private void Cancel_OnClick() => 
+        NavigationHelper.NavigateTo(
+            $"{IndexUriRelativePath}/{AccountId}/detail/broker-transactions");
 
     private async Task TransactionCode_OnValueChanged(BrokerTransaction model, int newId)
     {
@@ -335,7 +330,7 @@
                 return;
             }
         }
-        // TODO: Handle cancel event
+        // TODO: Add handling for the cancel event of posting allocation instructions.
     }
 
     private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
@@ -350,6 +345,10 @@
 
             else if (saveResult is ObjectResult objectResult)
                 ErrorMessage = (objectResult.Value as Exception)?.Message;
+        }
+        else
+        {
+            ErrorMessage = string.Join("\n", context.GetValidationMessages());
         }
     }
 }

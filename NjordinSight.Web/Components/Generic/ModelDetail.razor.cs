@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using NjordinSight.Web.Controllers;
+using System.Threading.Tasks;
 
 namespace NjordinSight.Web.Components.Generic
 {
@@ -20,5 +21,12 @@ namespace NjordinSight.Web.Components.Generic
         /// </summary>
         [Inject]
         protected IController<TModel> Controller { get; set; } = default!;
+
+        /// <summary>
+        /// Default implementation of a <see cref="EventCallback{TValue}"/> that returns
+        /// a completed <see cref="Task"/>.
+        /// </summary>
+        /// <returns>A completed <see cref="Task"/>.</returns>
+        protected virtual Task HandleValidSubmit() => Task.CompletedTask;
     }
 }

@@ -15,6 +15,10 @@
             ActionMenu="@ActionMenu" 
             Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
         <ContentTile>
             <Body>
                 <CascadingValue Value="@ViewModel">

@@ -7,16 +7,23 @@
 <ThemedComponent>
     <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
-    <ContentTile>
-        <Body>
-            <SearchInputTable TModel="AccountComposite"
-                ComparisonOperators=@ComparisonOperators
-                ExpressionBuilder=@ExpressionBuilder
-                SearchFields=@SearchFields
-                OnSearchClick=@(async (args) => await SearchClicked(args))>
-            </SearchInputTable>
-        </Body>
-    </ContentTile>
+    @if(SearchFields is null)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <SearchInputTable TModel="AccountComposite"
+                    ComparisonOperators=@ComparisonOperators
+                    ExpressionBuilder=@ExpressionBuilder
+                    SearchFields=@SearchFields
+                    OnSearchClick=@(async (args) => await SearchClicked(args))>
+                </SearchInputTable>
+            </Body>
+        </ContentTile>
+    }
     
     @if (IsLoading)
     {
@@ -24,6 +31,10 @@
     }
     else
     {
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
         <ContentTile>
             <Body>
                 <DataGrid Data="@Models" >

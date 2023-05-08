@@ -1,6 +1,6 @@
 ﻿@page "/accounts/{AccountId:int}/edit/bank-transactions"
 
-@inherits ModelPage<BankTransaction>
+@inherits ModelListPage<BankTransaction>
 
 @inject IBatchController<BankTransaction> Controller
 
@@ -21,7 +21,7 @@
 
         <ContentTile>
             <Body>
-                <EditForm width="100%" Model="@BankTransactions">
+                <EditForm width="100%" Model="@Entries">
                     <ActionButtonMenu>
                         <button class="form-control button" width="20%"
                             @onclick="@(async (args) => await Submit_OnClick(context, args))">
@@ -39,7 +39,7 @@
                     </ActionButtonMenu>
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                <DataGrid Data="@BankTransactions">
+                <DataGrid Data="@Entries">
                     <DataGridColumn 
                         Type="DataGridCellType.Control"
                         Property="@nameof(BankTransaction.TransactionCodeId)"
@@ -95,9 +95,7 @@
 
 @code {
     [Parameter]
-    public int AccountId { get; set; }
-
-    private IList<BankTransaction> BankTransactions { get; set; }
+    public int ModelId { get; set; }
 
     private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
 
@@ -114,7 +112,7 @@
             ParentAccount = (
                 await Controller.ReferenceQueries
                     .GetSingleAsync<Account>(
-                        predicate: a => a.AccountId == AccountId,
+                        predicate: a => a.AccountId == ModelId,
                         path: a => a.AccountNavigation)).Value;
 
             var initResult = await Controller.ForParent(ParentAccount.AccountId);
@@ -129,7 +127,7 @@
 
             if (dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                BankTransactions = (await transactionsQueryTask).Value;
+                Entries = (await transactionsQueryTask).Value;
                 TransactionCodes = (await transactionCodeDTOsTask).Value;
             }
             else
@@ -139,54 +137,12 @@
         }
         finally
         {
-            IsLoading = BankTransactions is null
+            IsLoading = Entries is null
                 || ParentAccount is null
                 || TransactionCodes is null;
         }
     }
 
-    /// <summary>
-    /// Gets the index uri stem to this page.
-    /// </summary>
-    private string IndexUriRelative => $"{IndexUriRelativePath}/{AccountId}/detail/bank-transactions";
-
-    private async Task AddNewAsync(MouseEventArgs args)
-    {
-        // TODO: Do something with MouseEventArgs?
-
-        var getDefaultTask = await Controller.GetDefaultAsync();
-        await Controller.AddAsync(getDefaultTask.Value);
-
-        if (getDefaultTask.Value is BankTransaction model)
-            BankTransactions.Insert(0, model);
-    }
-
-    private async Task DeleteAsync(MouseEventArgs args, BankTransaction model)
-    {
-        var result = await Controller.DeleteOrDetachAsync(model);
-
-        if (result is OkResult)
-            BankTransactions.Remove(model);
-        else
-            throw new InvalidOperationException();
-
-        // TODO: interpret the response.
-    }
-
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelative);
-
-    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
-    {
-        bool isValid = context.Validate();
-        if (isValid)
-        {
-            var saveResult = await Controller.SaveChangesAsync();
-
-            if (saveResult is NoContentResult)
-                NavigationHelper.NavigateTo(IndexUriRelative);
-
-            else if (saveResult is ObjectResult objectResult)
-                ErrorMessage = (objectResult.Value as Exception)?.Message;
-        }
-    }
+    protected override void Cancel_OnClick() => 
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail/bank-transactions");
 }
