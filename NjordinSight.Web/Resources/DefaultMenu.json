@@ -1,0 +1,170 @@
+{
+  "MenuGuid": "3e818369-9889-4b49-b565-244d3bc93217",
+  "IconKey": "home",
+  "Caption": "NjordinSight",
+  "UriStem": "/#",
+  "Children": {
+    "0": {
+      "IconKey": null,
+      "Caption": "Accounts",
+      "UriStem": null,
+      "Children": {
+        "1": {
+          "IconKey": "cash",
+          "Caption": "Accounts",
+          "UriStem": "/accounts",
+          "Children": {},
+          "HasChildren": false
+        },
+        "2": {
+          "IconKey": null,
+          "Caption": "Composites",
+          "UriStem": "/composites",
+          "Children": {},
+          "HasChildren": false
+        },
+        "3": {
+          "IconKey": "options",
+          "Caption": "Models",
+          "UriStem": "/investment-models",
+          "Children": {},
+          "HasChildren": false
+        }
+      },
+      "HasChildren": true
+    },
+    "1": {
+      "IconKey": null,
+      "Caption": "Market Data",
+      "UriStem": "/under-construction",
+      "Children": {
+        "1": {
+          "IconKey": null,
+          "Caption": "Securities",
+          "UriStem": "/securities",
+          "Children": {
+            "1": {
+              "IconKey": null,
+              "Caption": "Prices",
+              "UriStem": "/securities/prices",
+              "Children": {},
+              "HasChildren": false
+            }
+          },
+          "HasChildren": true
+        },
+        "2": {
+          "IconKey": null,
+          "Caption": "Indices",
+          "UriStem": "/market-indices",
+          "Children": {
+            "1": {
+              "IconKey": null,
+              "Caption": "Index Rates",
+              "UriStem": "/market-indices/rates",
+              "Children": {},
+              "HasChildren": false
+            }
+          },
+          "HasChildren": true
+        }
+      },
+      "HasChildren": true
+    },
+    "2": {
+      "IconKey": null,
+      "Caption": "Reference Data",
+      "UriStem": null,
+      "Children": {
+        "1": {
+          "IconKey": null,
+          "Caption": "Attributes",
+          "UriStem": "/attributes",
+          "Children": {},
+          "HasChildren": false
+        },
+        "2": {
+          "IconKey": "earth",
+          "Caption": "Countries",
+          "UriStem": "/countries",
+          "Children": {},
+          "HasChildren": false
+        },
+        "3": {
+          "IconKey": null,
+          "Caption": "Custodians",
+          "UriStem": "/custodians",
+          "Children": {},
+          "HasChildren": false
+        },
+        "4": {
+          "IconKey": null,
+          "Caption": "Security Exchanges",
+          "UriStem": "/security-exchanges",
+          "Children": {},
+          "HasChildren": false
+        },
+        "5": {
+          "IconKey": null,
+          "Caption": "Security Types",
+          "UriStem": "/security-types",
+          "Children": {},
+          "HasChildren": false
+        },
+        "6": {
+          "IconKey": null,
+          "Caption": "Security Type Groups",
+          "UriStem": "/security-type-groups",
+          "Children": {},
+          "HasChildren": false
+        },
+        "7": {
+          "IconKey": "card",
+          "Caption": "Transactions",
+          "UriStem": null,
+          "Children": {
+            "1": {
+              "IconKey": null,
+              "Caption": "Bank",
+              "UriStem": "/bank-transaction-codes",
+              "Children": {},
+              "HasChildren": false
+            },
+            "2": {
+              "IconKey": null,
+              "Caption": "Broker",
+              "UriStem": "/broker-transaction-codes",
+              "Children": {},
+              "HasChildren": false
+            }
+          },
+          "HasChildren": true
+        }
+      },
+      "HasChildren": true
+    },
+    "3": {
+      "IconKey": null,
+      "Caption": "Configuration",
+      "UriStem": null,
+      "Children": {
+        "0": {
+          "IconKey": null,
+          "Caption": "Reports",
+          "UriStem": "/report-configurations",
+          "Children": {},
+          "HasChildren": false
+        }
+      },
+      "HasChildren": true
+    },
+    "4": {
+      "IconKey": null,
+      "Caption": "About",
+      "UriStem": "/about",
+      "Children": {},
+      "HasChildren": false
+    }
+  },
+  "HasChildren": true
+}

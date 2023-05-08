@@ -1,0 +1,50 @@
+﻿@using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+
+@*Add Mvc*@
+@using Microsoft.AspNetCore.Mvc
+
+@*Non-standard namespace references*@
+@using System.Globalization
+@using System.Linq
+@using System.Linq.Expressions
+@using System.Threading
+@using System.Threading.Tasks
+
+@*Logging library*@
+@using Microsoft.Extensions.Logging
+@*@using Serilog;*@
+
+@*Ichosys libraries*@
+@using Ichosys.DataModel
+@using Ichosys.DataModel.Expressions
+@using Ichosys.DataModel.Annotations
+@using Ichosys.Extensions.Common.Localization;
+@using Ichosys.Blazor.Ionicons
+
+@*NjordinSight namespace references*@
+@using NjordinSight.Web
+@using NjordinSight.Web.Shared
+@using NjordinSight.Web.Components
+@using NjordinSight.Web.Components.CRUD
+@using NjordinSight.Web.Components.Generic
+@using NjordinSight.Web.Components.Shared
+
+@using NjordinSight.BusinessLogic
+@using NjordinSight.BusinessLogic.Brokerage
+@using NjordinSight.Web.Controllers
+@using NjordinSight.Web.Controllers.Abstractions;
+@using NjordinSight.EntityModel
+@using NjordinSight.DataTransfer
+@using NjordinSight.DataTransfer.Generic
+@using NjordinSight.EntityModel.Metadata
+@using NjordinSight.EntityModelService
+@using NjordinSight.EntityModelService.Query
+@using NjordinSight.UserInterface

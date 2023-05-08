@@ -1,5 +1,5 @@
 REM Change working directory to the project direct where IdentityDbContext resides.
-cd NjordFinance.Web
+cd NjordinSight.Web
 
 REM Check for expected positional parameter and redirect as needed.
 if "%1"=="" goto missingparameter
@@ -9,15 +9,15 @@ set migration=IdentityDbContext_%1
 
 REM Add the migration. Reference the IdentityDbContext with fully-qualified namespace.
 dotnet ef migrations add %migration% ^
-	--startup-project NjordFinance.Web.csproj ^
-	--context NjordFinance.Web.Data.IdentityDbContext ^
-	--project NjordFinance.Web.csproj
+	--startup-project NjordinSight.Web.csproj ^
+	--context NjordinSight.Web.Data.IdentityDbContext ^
+	--project NjordinSight.Web.csproj
 
 REM Update the database using the added migration.
 dotnet ef database update %migration% ^
-	--context NjordFinance.Web.Data.IdentityDbContext ^
-	--startup-project NjordFinance.Web.csproj ^
-	--project NjordFinance.Web.csproj ^
+	--context NjordinSight.Web.Data.IdentityDbContext ^
+	--startup-project NjordinSight.Web.csproj ^
+	--project NjordinSight.Web.csproj ^
 	--configuration Debug
 
 goto scriptexit
