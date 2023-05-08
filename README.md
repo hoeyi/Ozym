@@ -19,7 +19,7 @@ You will ned the .NET Cli to build the project from source, typically made avail
 
 **1. Clone the source repository**
 ``` Bash
-$ git clone https://github.com/{organization}/Njord-Finance.git
+$ git clone https://github.com/{organization}/NjordinSight.git
 ```
 **2. Restore package dependencies**
 ``` Bash
