@@ -1,6 +1,5 @@
-# Njord Finance #
-Njord Finance, a banking and investing management application, built using ASP .NET Core, EF Core, 
-and Blazor.
+# NjordinSight #
+A web-application for consolidating and reporting spending and investing activity. Built using Blazor, ASP.NET Core, and Entity Framework Core.
 
 * [Getting Started](#getting-started)
 * [Commit Message Guidelines](#commit-message-guidelines)
