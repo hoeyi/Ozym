@@ -133,5 +133,17 @@ namespace NjordinSight.Logging.Templates {
                 return ResourceManager.GetString("ModelService_SaveChanges_Failed", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unhandled exception occurred. Please submit a ticket with the package maintainer, or try your request again.
+        ///
+        ///If submitting a ticket, please include the following timestamp in your report:
+        ///{0}.
+        /// </summary>
+        internal static string UnhandledException {
+            get {
+                return ResourceManager.GetString("UnhandledException", resourceCulture);
+            }
+        }
     }
 }

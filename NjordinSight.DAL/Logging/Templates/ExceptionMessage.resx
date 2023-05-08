@@ -143,4 +143,11 @@ Expected&lt;{ExpectedState}&gt; Observed&lt;{ObservedState}&gt;</value>
   <data name="ModelService_SaveChanges_Failed" xml:space="preserve">
     <value>Changes were not saved.</value>
   </data>
+  <data name="UnhandledException" xml:space="preserve">
+    <value>An unhandled exception occurred. Please submit a ticket with the package maintainer, or try your request again.
+
+If submitting a ticket, please include the following timestamp in your report:
+{0}</value>
+    <comment>Is a UTC timestamp representing the time the exception occurred.</comment>
+  </data>
 </root>

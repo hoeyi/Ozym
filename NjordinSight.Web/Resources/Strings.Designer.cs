@@ -88,6 +88,17 @@ namespace NjordinSight.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An unexpected error occurred. Please submit a ticket with the package maintainer, or try your request again.
+        ///
+        ///If submitting a ticket, please include the following timestamp in your report: {0}.
+        /// </summary>
+        internal static string Exception_Unhandled_Critical {
+            get {
+                return ResourceManager.GetString("Exception_Unhandled_Critical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NjordinSight is a web-application for financial management and reporting, powered by Blazor and ASP.NET..
         /// </summary>
         internal static string Text_ApplicationSummary {

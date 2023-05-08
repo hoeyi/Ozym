@@ -4,8 +4,7 @@
 @using System.Text.Json
 @using NjordinSight.Web.Components.Shared
 
-<PageTitle>NjordinSight.Web</PageTitle>
-
+@*<PageTitle>NjordinSight.Web</PageTitle>*@
 <div class="page" theme_elevation="00">
     <div class="sidebar">
         <MenuButtonGrid MenuItems="@menuItems" NavigationHelper="@NavigationManager"/>
@@ -25,14 +24,33 @@
         </div>
 
         <article class="content px-4">
-            @Body
+            <ErrorBoundary @ref="errorBoundary">
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent Context="exception">
+                    @{
+                        LogUnhandledException(exception);
+                    }
+                    <p class="errorUI">@GetUnhandledExcpetionMessage()</p>
+                </ErrorContent>
+            </ErrorBoundary>
         </article>
     </main>
 </div>
 
 @code {
+    [Inject]
+    protected ILogger Logger { get; set; }
 
     private Menu MainMenu { get; set; }
+
+    private ErrorBoundary? errorBoundary;
+
+    protected override void OnParametersSet()
+    {
+        errorBoundary?.Recover();
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -54,4 +72,10 @@
         else
             NavigationManager.NavigateTo(NavigationManager.BaseUri);
     }
+
+    private string GetUnhandledExcpetionMessage() =>
+        string.Format(Resources.Strings.Exception_Unhandled_Critical, DateTime.Now);
+
+    private void LogUnhandledException(Exception exception) =>
+        Logger?.UnhandledExceptionEncountered(exception);
 }
