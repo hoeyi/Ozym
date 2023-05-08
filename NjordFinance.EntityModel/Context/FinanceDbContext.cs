@@ -53,14 +53,6 @@ namespace NjordFinance.EntityModel.Context
         public virtual DbSet<SecurityType> SecurityTypes { get; set; }
         public virtual DbSet<SecurityTypeGroup> SecurityTypeGroups { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Name=ConnectionStrings:NjordWorks");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>(entity =>
