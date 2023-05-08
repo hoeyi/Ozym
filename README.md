@@ -6,8 +6,48 @@ and Blazor.
 * [Commit Message Guidelines](#commit-message-guidelines)
 
 ## Getting Started ##
+This application may be downloaded and compiled from source and/or used to generate a Docker container 
+to host a sample version of the app.
 
-### Build Scripts ###
+### **Compiling from source** 
+
+**Prerequisites**
+
+You will ned the .NET Cli to build the project from source, typically made available by installing the .NET SDK, which you may download [here](https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net70).
+
+**Note: This process currently fails due to dependencies on packages not available via the Nuget API.**
+
+**1. Clone the source repository**
+``` Bash
+$ git clone https://github.com/{organization}/Njord-Finance.git
+```
+**2. Restore package dependencies**
+``` Bash
+$ dotnet restore "NjordFinance.Web/NjordFinance.Web.csproj"
+```
+
+**3. Update the current launch profile**
+
+There are a few different launch profiles. I recommend using `NjordFinance.Web.InMemory` as it is easy to reproduce. The primary data storage method intended for the application is SQL Server, which profile `NjordFinance.Web` is intended to support.
+
+### **Deploying to Docker container**
+A Dockerfile is stored in the root fo the project directory for use with constructing an image that can be run as a container using the in-memory database provider. 
+**Note: This process currently fails due to dependencies on packages not available via the Nuget API.**
+
+From the projects root directory:
+
+**1. Create the Docker image**
+``` Bash
+$ docker build --tag 'njordfinance.web' .
+```
+**2. Run a Docker container from the created image**
+```Bash
+$ docker container run -dp {HostPort}:{ContainerPort} -t 'njord-finance.web'
+```
+<br/>
+
+### Migration Scripts ###
+The following scripts may be used to update a target database.
 
 | Script | Usage |
 |:--- |:--- |
@@ -44,9 +84,10 @@ Must be one of the following:
 
 ### Scope ###
 The scope is the domain affected. Choose one of the following:
-* **Blazor**: Blazor view, view logic, or components.
-* **DAL**: Data model or data service layer.
-* **Logic**: Business logic or related model.
+* **Blazor**: Blazor pages or components.
+* **DAL**: Model repository services and data-transfer objects.
+* **EntityModel**: Entity classes and/or ORM.
+* **Logic**: Business logic.
 * **API-{Name}**: API support where {Name} is the API project (e.g., NjordFinance, or a vendor).
 
 Example: 
