@@ -76,8 +76,6 @@ builder.Services.AddDbContextFactory<FinanceDbContext>(options =>
     {
         if (builder.Environment.IsDevelopment())
         {
-            var databaseProvider = System.Environment.GetEnvironmentVariable("DATABASE_PROVIDER");
-    
             if (string.IsNullOrEmpty(databaseProvider))
                options.UseInMemoryDatabase("NjordWorks");
 

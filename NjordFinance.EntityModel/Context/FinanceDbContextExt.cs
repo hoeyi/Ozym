@@ -5,10 +5,12 @@ using NjordFinance.EntityModel.Context.Configuration;
 
 namespace NjordFinance.EntityModel.Context
 {
+    /// <summary>
+    /// <see cref="DbContext"/>-derived class for the 'FinanceApp' schema in the data store.
+    /// </summary>
     public partial class FinanceDbContext : DbContext
     {
         private readonly ISeedData _seedData;
-        private readonly bool _configureForSqlServer;
 
         /// <summary>
         /// Initializes a new <see cref="FinanceDbContext"/> instance populated with the 
@@ -22,14 +24,13 @@ namespace NjordFinance.EntityModel.Context
             : base(options)
         {
             _seedData = seedData;
-            ConfigureForSqlServer = Environment
-                .GetEnvironmentVariable("DATABASE_PROVIDER") == "SQL_SERVER";
         }
 
         /// <summary>
         /// Returns true if this context is to be configured for SQL Server, else false.
         /// </summary>
-        public bool ConfigureForSqlServer { get; }
+        private bool ConfigureForSqlServer { get; } = Environment
+                .GetEnvironmentVariable("DATABASE_PROVIDER") == "SQL_SERVER";
 
         /// <summary>
         /// Handles additional configuration steps for the <see cref="FinanceDbContext"/> 
@@ -45,6 +46,15 @@ namespace NjordFinance.EntityModel.Context
             if(_seedData is not null)
                 modelBuilder.SeedInitialData(_seedData);
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseInMemoryDatabase("NjordWorks");
+            }
+        }
+
     }
 
     public static class FinanceDbContextExtension
