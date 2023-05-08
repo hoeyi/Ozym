@@ -20,6 +20,7 @@ using Ichosys.Blazor.Ionicons;
 using NjordFinance.Web;
 using NjordFinance.EntityModel.Context;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,13 +28,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region Configuration, Logger, Helper services
 
+var databaseProvider = System.Environment.GetEnvironmentVariable("DATABASE_PROVIDER");
 var logger = ConvertFromSerilogILogger(logger: BuildLogger());
-var config = BuildConfiguration(logger);
-
-// Copy UserSecret connection string value to secure configuration.
-config["ConnectionStrings:NjordWorks"] = config["ConnectionStrings:NjordWorks"];
-config["ConnectionStrings:NjordIdentity"] = config["ConnectionStrings:NjordIdentity"]; 
-config.Commit();
+var config = BuildConfiguration(logger, databaseProvider == "SQL_SERVER");
 
 builder.Services.AddSingleton(implementationInstance: logger);
 builder.Services.AddSingleton(implementationInstance: config);
@@ -49,8 +46,6 @@ builder.Services.AddDbContext<IdentityDbContext>(options =>
 {
     if(builder.Environment.IsDevelopment())
     {
-        var databaseProvider = System.Environment.GetEnvironmentVariable("DATABASE_PROVIDER");
-        
         if (string.IsNullOrEmpty(databaseProvider))
             options.UseInMemoryDatabase("NjordIdentity");
 
@@ -81,8 +76,6 @@ builder.Services.AddDbContextFactory<FinanceDbContext>(options =>
     {
         if (builder.Environment.IsDevelopment())
         {
-            var databaseProvider = System.Environment.GetEnvironmentVariable("DATABASE_PROVIDER");
-    
             if (string.IsNullOrEmpty(databaseProvider))
                options.UseInMemoryDatabase("NjordWorks");
 
@@ -162,9 +155,12 @@ partial class Program
     /// </summary>
     /// <param name="logger">The <see cref="ILogger"/> to use.</param>
     /// <returns>An <see cref="IConfiguration"/>.</returns>
-    private static IConfigurationRoot BuildConfiguration(ILogger logger)
+    private static IConfigurationRoot BuildConfiguration(ILogger logger, bool configureSecureJson = true)
     {
-        var config = new ConfigurationBuilder()
+        IConfigurationRoot config;
+        if(configureSecureJson)
+        {
+            config = new ConfigurationBuilder()
             .AddSecureJsonWritable(
                 path: "appsettings.Development.json",
                 logger: logger,
@@ -173,12 +169,27 @@ partial class Program
             .AddUserSecrets<Program>()
             .Build();
 
-        string rsaKeyAddress = "_file:RsaKeyContainer";
-        if (config[rsaKeyAddress] is null)
-        {
-            config[rsaKeyAddress] = $"E1EB57FA-8D2C-41CF-912A-DDBC39534A39";
+            string rsaKeyAddress = "_file:RsaKeyContainer";
+            if (config[rsaKeyAddress] is null)
+            {
+                config[rsaKeyAddress] = $"E1EB57FA-8D2C-41CF-912A-DDBC39534A39";
+                config.Commit();
+            }
+
+            config["ConnectionStrings:NjordWorks"] = config["ConnectionStrings:NjordWorks"];
+            config["ConnectionStrings:NjordIdentity"] = config["ConnectionStrings:NjordIdentity"];
             config.Commit();
         }
+        else
+        {
+            config = new ConfigurationBuilder()
+                .AddJsonWritable(
+                    path: "appsettings.Development.json",
+                    optional: false,
+                    reloadOnChange: true)
+                .Build();
+        }
+
         return config;
     }
     

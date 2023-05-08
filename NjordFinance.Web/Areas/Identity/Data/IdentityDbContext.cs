@@ -4,19 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NjordFinance.Web.Data;
 
+
+
 public partial class IdentityDbContext : IdentityDbContext<WebAppUser>
 {
     public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
         : base(options)
     {
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlServer("Name=ConnectionStrings:NjordIdentity");
-        }
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
