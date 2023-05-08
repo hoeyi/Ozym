@@ -16,6 +16,10 @@
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
                          Header="@(PageTitle.UpdateSingle(Model.SecurityDescription))" />
 
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
         <CascadingValue Value="@ViewModel">
             <AttributeEntryCollectionEditor 
                 TViewModelParent="SecurityAttributeDto"

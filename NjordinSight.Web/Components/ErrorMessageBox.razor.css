@@ -1,0 +1,6 @@
+﻿.error-msg-box {
+    background-color: var(--theme-hexcolor-secondary-1-1, "red") !important;
+    border-radius: 1rem;
+    resize: vertical;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+}

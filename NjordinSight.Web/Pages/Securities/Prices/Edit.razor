@@ -24,12 +24,11 @@
     }
     else
     {
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
         <ContentTile>
             <Body>
-                @if (!string.IsNullOrEmpty(ErrorMessage))
-                {
-                    <div class="error-text">@ErrorMessage</div>
-                }
                 <EditForm width="100%" EditContext="@_context">
                     <ActionButtonMenu>
                         <button class="form-control button"

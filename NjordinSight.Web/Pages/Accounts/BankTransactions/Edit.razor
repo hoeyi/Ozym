@@ -11,85 +11,85 @@
     }
     else
     {
-            <PageTitle>@(PageTitle.UpdateMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.UpdateMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
 
-            <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
+        <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
 
-            <ContentTile>
-                <Body>
-                @if (!string.IsNullOrEmpty(ErrorMessage))
-                {
-                            <div class="error-text">@ErrorMessage</div>
-                }
-                    <EditForm width="100%" Model="@BankTransactions">
-                        <ActionButtonMenu>
-                            <button class="form-control button" width="20%"
-                                @onclick="@(async (args) => await Submit_OnClick(context, args))">
-                                @Strings.Caption_Button_Save
-                            </button>
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
+        <ContentTile>
+            <Body>
+                <EditForm width="100%" Model="@BankTransactions">
+                    <ActionButtonMenu>
                         <button class="form-control button" width="20%"
-                                @onclick=@(async (args) => await AddNewAsync(args))>
-                                @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
+                            @onclick="@(async (args) => await Submit_OnClick(context, args))">
+                            @Strings.Caption_Button_Save
+                        </button>
+                    <button class="form-control button" width="20%"
+                            @onclick=@(async (args) => await AddNewAsync(args))>
+                            @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
+                        </button>
+                        <button class="form-control button" width="20%"
+                            @onclick="Cancel_OnClick"
+                            @onclick:preventDefault>
+                            @Strings.Caption_Button_Cancel
+                        </button>
+                    </ActionButtonMenu>
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                <DataGrid Data="@BankTransactions">
+                    <DataGridColumn 
+                        Type="DataGridCellType.Control"
+                        Property="@nameof(BankTransaction.TransactionCodeId)"
+                        Caption="@NameFor(x => x.TransactionCodeId)">
+                        <CellEditTemplate Context="model">
+                            <InputSelect class="form-control"
+                                        @bind-Value="@model.TransactionCodeId">
+                                @foreach (var lookup in TransactionCodes)
+                                {
+                                    <option value=@lookup.Key>@lookup.Display</option>
+                                }
+                            </InputSelect>
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Type="DataGridCellType.Control"
+                        Property="@nameof(BankTransaction.TransactionDate)"
+                        Caption="@(NameFor(x => x.TransactionDate))">
+                        <CellEditTemplate Context="model">
+                            <InputDate class="form-control" @bind-Value="@model.TransactionDate" />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Type="DataGridCellType.Control" 
+                        Property="@nameof(BankTransaction.Amount)"
+                        Caption="@(NameFor(x => x.Amount))">
+                        <CellEditTemplate Context="model">
+                            <InputNumber class="form-control" @bind-Value="@model.Amount" />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property="@nameof(BankTransaction.Comment)"
+                                Caption="@(NameFor(x => x.Comment))">
+                        <CellEditTemplate Context="model">
+                            <InputText class="form-control" @bind-Value="@model.Comment" />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Type="DataGridCellType.Button">
+                        <CellEditTemplate Context="model">
+                            <ToolTip Text="@Strings.Caption_Button_Delete">
+                            <button class="form-control button icon" type="button"
+                                @onclick="async (args) => await DeleteAsync(args, model)">
+                                <IonIcon Name="close-circle" />
                             </button>
-                            <button class="form-control button" width="20%"
-                                @onclick="Cancel_OnClick"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Cancel
-                            </button>
-                        </ActionButtonMenu>
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
-                    <DataGrid Data="@BankTransactions">
-                        <DataGridColumn 
-                            Type="DataGridCellType.Control"
-                            Property="@nameof(BankTransaction.TransactionCodeId)"
-                            Caption="@NameFor(x => x.TransactionCodeId)">
-                            <CellEditTemplate Context="model">
-                                <InputSelect class="form-control"
-                                         @bind-Value="@model.TransactionCodeId">
-                                    @foreach (var lookup in TransactionCodes)
-                                    {
-                                        <option value=@lookup.Key>@lookup.Display</option>
-                                    }
-                                </InputSelect>
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn 
-                            Type="DataGridCellType.Control"
-                            Property="@nameof(BankTransaction.TransactionDate)"
-                            Caption="@(NameFor(x => x.TransactionDate))">
-                            <CellEditTemplate Context="model">
-                                <InputDate class="form-control" @bind-Value="@model.TransactionDate" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn 
-                            Type="DataGridCellType.Control" 
-                            Property="@nameof(BankTransaction.Amount)"
-                            Caption="@(NameFor(x => x.Amount))">
-                            <CellEditTemplate Context="model">
-                                <InputNumber class="form-control" @bind-Value="@model.Amount" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property="@nameof(BankTransaction.Comment)"
-                                    Caption="@(NameFor(x => x.Comment))">
-                            <CellEditTemplate Context="model">
-                                <InputText class="form-control" @bind-Value="@model.Comment" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Type="DataGridCellType.Button">
-                            <CellEditTemplate Context="model">
-                                <ToolTip Text="@Strings.Caption_Button_Delete">
-                                <button class="form-control button icon" type="button"
-                                    @onclick="async (args) => await DeleteAsync(args, model)">
-                                    <IonIcon Name="close-circle" />
-                                </button>
-                                </ToolTip>
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
-                    </EditForm>
-                </Body>
-            </ContentTile>
+                            </ToolTip>
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+                </EditForm>
+            </Body>
+        </ContentTile>
     }
 </ThemedComponent>
 

@@ -13,6 +13,10 @@
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.CreateSingle())" />
 
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic"/>
+        </CascadingValue>
+
         <CascadingValue Value="@ViewModel">
             <EditForm class="model-editor"
                   Model="@ViewModel"
@@ -83,11 +87,18 @@
 
     private async Task HandleValidSubmit()
     {
-        Model = ViewModel.ToEntity();
+        try
+        {
+            Model = ViewModel.ToEntity();
 
-        var result = await Controller.CreateAsync(Model);
+            var result = await Controller.CreateAsync(Model);
 
-        if (result.Result is CreatedAtActionResult cr)
-            NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
+            if (result.Result is CreatedAtActionResult cr)
+                NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
+        }
+        catch(ModelUpdateException meu)
+        {
+            ErrorMessage = meu.Message;   
+        }
     }
 }

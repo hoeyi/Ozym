@@ -4,32 +4,36 @@
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
-        <ThemedComponent>
-        @if (IsLoading)
+<ThemedComponent>
+    @if (IsLoading)
     {
-            <LoadingSvg />
+        <LoadingSvg />
     }
     else
     {
-            <ModelPageMenuHeader ActionMenu="@ActionMenu"
-                         Header="@(PageTitle.CreateSingle())" />
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                        Header="@(PageTitle.CreateSingle())" />
 
-            <AttributeEntryEditor TViewModelParent="BrokerTransactionCodeDto"
-                          TViewModelChild="BrokerTransactionCodeAttributeGrouping"
-                          TModel="BrokerTransactionCode"
-                          TModelChild="BrokerTransactionCodeAttributeMemberEntry"
-                          OnCancelEditorClick="CancelEditorHandler"
-                          OnDeleteModelClick="DeleteModelHandler"
-                          OnValidFormSubmit="ValidFormSubmitHandler"
-                          ViewModel="@ViewModel"
-                          Mode="EditorMode.Edit">
-                <ViewModelCRUD>
-                    <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelCRUD>
-                <ViewModelChildCRUD>
-                    <BrokerTransactionCodeAttributesCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelChildCRUD>
-            </AttributeEntryEditor>
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
+        <AttributeEntryEditor TViewModelParent="BrokerTransactionCodeDto"
+                        TViewModelChild="BrokerTransactionCodeAttributeGrouping"
+                        TModel="BrokerTransactionCode"
+                        TModelChild="BrokerTransactionCodeAttributeMemberEntry"
+                        OnCancelEditorClick="CancelEditorHandler"
+                        OnDeleteModelClick="DeleteModelHandler"
+                        OnValidFormSubmit="ValidFormSubmitHandler"
+                        ViewModel="@ViewModel"
+                        Mode="EditorMode.Edit">
+            <ViewModelCRUD>
+                <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <BrokerTransactionCodeAttributesCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryEditor>
     }
 </ThemedComponent>
 

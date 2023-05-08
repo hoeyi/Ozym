@@ -15,6 +15,10 @@
             ActionMenu="@ActionMenu"
             Header="@(PageTitle.UpdateSingle(ViewModel.DisplayName))" />
 
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
         <AttributeEntryCollectionEditor 
             TViewModelParent="InvestmentModelDto"
             TViewModelChild="InvestmentModelTargetGrouping"

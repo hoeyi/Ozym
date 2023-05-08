@@ -4,7 +4,7 @@
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
-    <ThemedComponent>
+<ThemedComponent>
     @if (IsLoading)
     {
         <LoadingSvg />
@@ -13,6 +13,10 @@
     {
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
                          Header="@(PageTitle.CreateSingle())" />
+
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
 
         <AttributeEntryEditor TViewModelParent="BrokerTransactionCodeDto"
                           TViewModelChild="BrokerTransactionCodeAttributeGrouping"

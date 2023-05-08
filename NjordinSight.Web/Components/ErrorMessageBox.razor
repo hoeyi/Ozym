@@ -1,0 +1,28 @@
+﻿@if(!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="error-msg-box">
+        @if(!string.IsNullOrEmpty(Header))
+        {
+            <div class="error-msg-header">
+                <b>
+                    @Header
+                </b>
+            </div>
+        }
+        @ErrorMessage
+    </div>
+}
+
+@code {
+    /// <summary>
+    /// Gets or sets the text of the error message.
+    /// </summary>
+    [CascadingParameter]
+    public string ErrorMessage { get; set; }
+
+    /// <summary>
+    /// Gets or set the text that appears as the header of the message box.
+    /// </summary>
+    [Parameter]
+    public string? Header { get; init; }
+}
