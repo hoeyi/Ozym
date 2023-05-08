@@ -84,6 +84,11 @@ builder.Services.AddDbContextFactory<FinanceDbContext>(options =>
         }
     });
 
+if(builder.Environment.IsDevelopment() && string.IsNullOrEmpty(databaseProvider))
+{
+    SeedInMemoryDatabase();
+}
+
 // Register model services and controllers.
 builder.Services.AddModelServices();
 builder.Services.AddModelControllers();
@@ -201,5 +206,20 @@ partial class Program
     private static ILogger ConvertFromSerilogILogger(Serilog.ILogger logger)
     {
         return new SerilogLoggerFactory(logger).CreateLogger(nameof(Program));
+    }
+
+    /// <summary>
+    /// Recreates the 'NjordWorks' database, but takes no action on the 'NjordIdentity' database.
+    /// Call only once during start-up to seed data for an in-memory data store.
+    /// </summary>
+    private static void SeedInMemoryDatabase()
+    {
+        var optionsBuild = new DbContextOptionsBuilder<FinanceDbContext>();
+        optionsBuild.UseInMemoryDatabase("NjordWorks");
+            
+        using var context = new FinanceDbContext(optionsBuild.Options);
+
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
     }
 }
