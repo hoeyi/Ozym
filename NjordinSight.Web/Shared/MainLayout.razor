@@ -4,12 +4,7 @@
 @using System.Text.Json
 @using NjordinSight.Web.Components.Shared
 
-@*<PageTitle>NjordinSight.Web</PageTitle>*@
 <div class="page" theme_elevation="00">
-    <div class="sidebar">
-        <MenuButtonGrid MenuItems="@menuItems" NavigationHelper="@NavigationManager"/>
-    </div>
-
     <main>
         <div class="top-row px-4 auth">
             @if(MainMenu is not null)
