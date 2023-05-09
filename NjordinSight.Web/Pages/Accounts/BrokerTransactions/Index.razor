@@ -1,4 +1,4 @@
-﻿@page "/accounts/{AccountId:int}/detail/broker-transactions"
+﻿@page "/accounts/{ModelId:int}/detail/broker-transactions"
 
 @inherits ModelPage<BrokerTransaction>
 
@@ -104,7 +104,7 @@
 
 @code {
     [Parameter]
-    public int AccountId { get; set; }
+    public int ModelId { get; init; }
 
     private IEnumerable<BrokerTransaction> Entries { get; set; }
 
@@ -131,7 +131,7 @@
                             Caption = string.Format(
                                 Strings.Caption_NavigateBackTo,
                                 ModelMetadata.GetAttribute<Account, NounAttribute>()?.GetSingular()),
-                            UriStem = $"{IndexUriRelativePath}/{AccountId}/detail"
+                            UriStem = $"{IndexUriRelativePath}/{ModelId}/detail"
                         }
                     },
                     { 1, new MenuItem()
@@ -139,7 +139,7 @@
                             IconKey = "pencil",
                             Caption = string.Format(
                                 Strings.Caption_EditMany, ModelNoun?.GetPlural()),
-                            UriStem = $"{IndexUriRelativePath}/{AccountId}/edit/broker-transactions"
+                            UriStem = $"{IndexUriRelativePath}/{ModelId}/edit/broker-transactions"
                         }
                     }
                 }
@@ -155,9 +155,9 @@
                 .GetBrokerTransactionCodeDTOsAsync();
             var parentAccountTask = Controller.ReferenceQueries
                 .GetSingleAsync<Account>(
-                    predicate: x => x.AccountId == AccountId,
+                    predicate: x => x.AccountId == ModelId,
                     path: x => x.AccountNavigation);
-            var loadRecordsTask = Controller.LoadRecordsAsync(parentId: AccountId);
+            var loadRecordsTask = Controller.LoadRecordsAsync(parentId: ModelId);
 
             var initTasks = Task.WhenAll(
                 securityDTOsTask,
@@ -195,8 +195,8 @@
     /// <summary>
     /// Gets the index uri stem to this page.
     /// </summary>
-    private string IndexUriRelative => $"{IndexUriRelativePath}/{AccountId}/edit/broker-transactions";
+    private string IndexUriRelative => $"{IndexUriRelativePath}/{ModelId}/edit/broker-transactions";
 
     private void Cancel_OnClick() => NavigationHelper
-        .NavigateTo($"{IndexUriRelativePath}/{AccountId}/detail");
+        .NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
 }

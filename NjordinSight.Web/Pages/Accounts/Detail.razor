@@ -1,4 +1,4 @@
-﻿@page "/accounts/{AccountId:int}/detail"
+﻿@page "/accounts/{ModelId:int}/detail"
 
 @inherits ModelDetail<Account>
 
@@ -56,13 +56,12 @@
 
 @code {
     [Parameter]
-    public int AccountId { get; set; }
+    public int ModelId { get; init; }
 
     private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
     private AccountDto ViewModel { get; set; }
 
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
 
@@ -70,7 +69,7 @@
 
         try
         {
-            var accountQuery = await Controller.ReadAsync(AccountId);
+            var accountQuery = await Controller.ReadAsync(ModelId);
             Model = accountQuery.Value;
 
             ActionMenu = new()
@@ -110,7 +109,7 @@
                         Caption = string.Format(
                                 Strings.Caption_ViewMany,
                                 ModelMetadata.GetAttribute<BankTransaction, NounAttribute>()?.GetPlural()),
-                        UriStem = $"{FormatDetailUri(AccountId)}/bank-transactions"
+                        UriStem = $"{FormatDetailUri(ModelId)}/bank-transactions"
                     });
 
             // Add view broker transactions menu item.

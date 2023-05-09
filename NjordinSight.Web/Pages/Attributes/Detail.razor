@@ -74,11 +74,10 @@
 
 @code {
     [Parameter]
-    public int ModelId { get; set; }
+    public int ModelId { get; init; }
 
     private ModelAttributeDto ViewModel { get; set; }
 
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
 

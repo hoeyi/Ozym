@@ -38,12 +38,8 @@
 </ThemedComponent>
 
 @code {
-    /// <summary>
-    /// Gets or sets the identifier for the <see cref="BankTransactionCode" /> worked using this
-    /// page.
-    /// </summary>
     [Parameter]
-    public int ModelId { get; set; }
+    public int ModelId { get; init; }
 
     /// <summary>
     /// Gets or sets the <see cref="BrokerTransactionCodeDto" /> worked by this page.

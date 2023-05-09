@@ -1,4 +1,4 @@
-﻿@page "/accounts/{AccountId:int}/edit/bank-transactions"
+﻿@page "/accounts/{ModelId:int}/edit/bank-transactions"
 
 @inherits ModelListPage<BankTransaction>
 
@@ -95,7 +95,7 @@
 
 @code {
     [Parameter]
-    public int ModelId { get; set; }
+    public int ModelId { get; init; }
 
     private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
 

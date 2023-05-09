@@ -1,4 +1,4 @@
-﻿@page "/accounts/{AccountId:int}/detail/bank-transactions"
+﻿@page "/accounts/{ModelId:int}/detail/bank-transactions"
 
 @inherits ModelPage<BankTransaction>
 
@@ -58,7 +58,7 @@
 
 @code {
     [Parameter]
-    public int AccountId { get; set; }
+    public int ModelId { get; init; }
 
     private IList<BankTransaction> BankTransactions { get; set; }
 
@@ -81,7 +81,7 @@
                             Caption = string.Format(
                                 Strings.Caption_NavigateBackTo,
                                 ModelMetadata.GetAttribute<Account, NounAttribute>()?.GetSingular()),
-                            UriStem = $"{IndexUriRelativePath}/{AccountId}/detail"
+                            UriStem = $"{IndexUriRelativePath}/{ModelId}/detail"
                         }
                     },
                     { 1, new MenuItem()
@@ -89,7 +89,7 @@
                             IconKey = "pencil",
                             Caption = string.Format(
                                 Strings.Caption_EditMany, ModelNoun?.GetPlural()),
-                            UriStem = $"{IndexUriRelativePath}/{AccountId}/edit/bank-transactions"
+                            UriStem = $"{IndexUriRelativePath}/{ModelId}/edit/bank-transactions"
                         }
                     }
                 }
@@ -102,7 +102,7 @@
             ParentAccount = (
                 await Controller.ReferenceQueries
                     .GetSingleAsync<Account>(
-                        predicate: a => a.AccountId == AccountId,
+                        predicate: a => a.AccountId == ModelId,
                         path: a => a.AccountNavigation)).Value;
 
             var initResult = await Controller.ForParent(ParentAccount.AccountId);
@@ -136,10 +136,10 @@
     /// <summary>
     /// Gets the index uri stem to this page.
     /// </summary>
-    private string IndexUriRelative => $"{IndexUriRelativePath}/{AccountId}/edit/broker-transactions";
+    private string IndexUriRelative => $"{IndexUriRelativePath}/{ModelId}/edit/broker-transactions";
 
     private void Cancel_OnClick() => NavigationHelper
-        .NavigateTo($"{IndexUriRelativePath}/{AccountId}/detail");
+        .NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
 
     private string GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
         lookupModels.FirstOrDefault(x => x.Key == id)?.Display ?? string.Empty;

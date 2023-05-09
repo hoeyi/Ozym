@@ -32,13 +32,9 @@
 
 
 @code {
-    /// <summary>
-    /// Gets or sets the identifier for the <see cref="ReportConfiguration" /> worked using this page.
-    /// </summary>
     [Parameter]
-    public int ModelId { get; set; }
+    public int ModelId { get; init; }
 
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;

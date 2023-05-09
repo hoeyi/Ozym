@@ -44,13 +44,9 @@
 
 
 @code {
-    /// <summary>
-    /// Gets or sets the unique identifier for the creation action.
-    /// </summary>
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;

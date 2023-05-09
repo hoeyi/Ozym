@@ -1,4 +1,4 @@
-﻿@page "/composites/{AccountCompositeId:int}/detail"
+﻿@page "/composites/{ModelId:int}/detail"
 
 @inherits ModelDetail<AccountComposite>
 
@@ -62,13 +62,12 @@
 
 @code {
     [Parameter]
-    public int AccountCompositeId { get; set; }
+    public int ModelId { get; init; }
 
     private IEnumerable<LookupModel<int, string>> Accounts { get; set; }
 
     private AccountCompositeDto ViewModel { get; set; }
 
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
 
@@ -76,7 +75,7 @@
 
         try
         {
-            var compositeQuery = Controller.ReadAsync(AccountCompositeId);
+            var compositeQuery = Controller.ReadAsync(ModelId);
             var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
 
             Task dataTasks = Task.WhenAll(compositeQuery, accountsQuery);

@@ -58,13 +58,12 @@
 
 @code {
     [Parameter]
-    public int ModelId { get; set; }
+    public int ModelId { get; init; }
 
     private IEnumerable<LookupModel<int, string>> Accounts { get; set; }
 
     private AccountCompositeDto ViewModel { get; set; }
 
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;

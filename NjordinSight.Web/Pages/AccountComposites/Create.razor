@@ -51,13 +51,12 @@
 
 @code {
     [Parameter]
-    public Guid RequestGuid { get; set; }
+    public Guid RequestGuid { get; init; }
 
     private IEnumerable<LookupModel<int, string>> AccountDtos { get; set; }
 
     private AccountCompositeDto ViewModel { get; set; }
 
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
