@@ -50,15 +50,11 @@
 
 
 @code {
-    /// <summary>
-    /// Gets or sets the identifier for the <see cref="SecurityType" /> worked using this page.
-    /// </summary>
     [Parameter]
-    public int ModelId { get; set; }
+    public int ModelId { get; init; }
 
     private IEnumerable<LookupModel<int, string>> SecurityTypeGroups { get; set; }
 
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;

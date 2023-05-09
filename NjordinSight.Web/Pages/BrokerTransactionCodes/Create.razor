@@ -36,15 +36,9 @@
 </ThemedComponent>
 
 @code {
-    /// <summary>
-    /// Gets or sets the unique identifier for the model creation request.
-    /// </summary>
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    /// <summary>
-    /// Gets or sets the <see cref="BrokerTransactionCodeDto" /> worked by this page.
-    /// </summary>
     private BrokerTransactionCodeDto ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()

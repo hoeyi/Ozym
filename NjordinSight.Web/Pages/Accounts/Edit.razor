@@ -1,4 +1,4 @@
-﻿@page "/accounts/{AccountId:int}/edit"
+﻿@page "/accounts/{ModelId:int}/edit"
 
 @inherits ModelDetail<Account>
 
@@ -39,17 +39,13 @@
 </ThemedComponent>
 
 @code {
-    /// <summary>
-    /// Gets or sets the identifier for the <see cref="Account" /> worked using this page.
-    /// </summary>
     [Parameter]
     public int ModelId { get; init; }
 
     private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
     private AccountDto ViewModel { get; set; }
-
-    /// <inheritdoc/>
+    
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;

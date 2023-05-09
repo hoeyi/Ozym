@@ -36,22 +36,9 @@
 </ThemedComponent>
 
 @code {
-    /// <summary>
-    /// Gets or sets the identifier for the <see cref="BankTransactionCode" /> worked using this
-    /// page.
-    /// </summary>
-    [Parameter]
-    public int ModelId { get; set; }
-
-    /// <summary>
-    /// Gets or sets the unique identifier for the model creation request.
-    /// </summary>
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    /// <summary>
-    /// Gets or sets the <see cref="BankTransactionCodeDto" /> worked by this page.
-    /// </summary>
     private BankTransactionCodeDto ViewModel { get; set; }
 
     protected override async Task OnInitializedAsync()

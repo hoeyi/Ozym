@@ -1,4 +1,4 @@
-﻿@page "/securities/{SecurityId:int}/detail"
+﻿@page "/securities/{ModelId:int}/detail"
 
 @inherits ModelDetail<Security>
 
@@ -110,7 +110,7 @@
 
 @code {
     [Parameter]
-    public int SecurityId { get; set; }
+    public int ModelId { get; init; }
 
     private IEnumerable<LookupModel<int, string>> Exchanges { get; set; }
 
@@ -122,7 +122,6 @@
 
     private SecurityDto ViewModel { get; set; }
 
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
 
@@ -143,7 +142,7 @@
             var issuersQuery = Controller.ReferenceQueries
                 .GetManyAsync<Security>(x => (x.Issuer ?? string.Empty) != string.Empty);
 
-            var securityQuery = Controller.ReadAsync(SecurityId);
+            var securityQuery = Controller.ReadAsync(ModelId);
 
             var symbolTypesQuery = Controller.ReferenceQueries
                 .GetDtosAsync<SecuritySymbolType, int, string>(

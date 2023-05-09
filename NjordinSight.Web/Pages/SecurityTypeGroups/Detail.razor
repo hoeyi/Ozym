@@ -1,4 +1,4 @@
-﻿@page "/security-type-groups/{SecurityTypeGroupId:int}/detail"
+﻿@page "/security-type-groups/{ModelId:int}/detail"
 
 @inherits ModelDetail<SecurityTypeGroup>
 
@@ -32,20 +32,16 @@
 
 
 @code {
-    /// <summary>
-    /// Gets or sets the identifier for the <see cref="SecurityTypeGroup" /> worked using this page.
-    /// </summary>
     [Parameter]
-    public int SecurityTypeGroupId { get; set; }
+    public int ModelId { get; init; }
 
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
 
         try
         {
-            var modelQuery = Controller.ReadAsync(SecurityTypeGroupId);
+            var modelQuery = Controller.ReadAsync(ModelId);
 
             if ((await modelQuery).Value is SecurityTypeGroup model)
                 Model = model;

@@ -122,13 +122,12 @@
 
 @code {
     [Parameter]
-    public Guid RequestGuid { get; set; }
+    public Guid RequestGuid { get; init; }
 
     private ModelAttributeDto ViewModel { get; set; }
 
     private IEnumerable<LookupModel<string, string>> AttributeScopeDtos { get; set; }
 
-    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;

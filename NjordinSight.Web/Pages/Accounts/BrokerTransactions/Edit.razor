@@ -1,4 +1,4 @@
-﻿@page "/accounts/{AccountId:int}/edit/broker-transactions"
+﻿@page "/accounts/{ModelId:int}/edit/broker-transactions"
 
 @inherits ModelPage<BrokerTransaction>
 
@@ -182,7 +182,7 @@
 
 @code {
     [Parameter]
-    public int AccountId { get; set; }
+    public int ModelId { get; init; }
 
     private IEnumerable<BrokerTransaction> Entries { get; set; }
 
@@ -212,9 +212,9 @@
                 .GetBrokerTransactionCodeDTOsAsync();
             var parentAccountTask = Controller.ReferenceQueries
                 .GetSingleAsync<Account>(
-                    predicate: x => x.AccountId == AccountId,
+                    predicate: x => x.AccountId == ModelId,
                     path: x => x.AccountNavigation);
-            var loadRecordsTask = Controller.LoadRecordsAsync(parentId: AccountId);
+            var loadRecordsTask = Controller.LoadRecordsAsync(parentId: ModelId);
 
             var initTasks = Task.WhenAll(
                 securityDTOsTask,
@@ -257,7 +257,7 @@
     /// <summary>
     /// Gets the index uri stem to this page.
     /// </summary>
-    private string IndexUriRelative => $"{IndexUriRelativePath}/{AccountId}/detail/broker-transactions";
+    private string IndexUriRelative => $"{IndexUriRelativePath}/{ModelId}/detail/broker-transactions";
 
     private async Task AddNewAsync(MouseEventArgs args)
     {
@@ -276,7 +276,7 @@
 
     private void Cancel_OnClick() => 
         NavigationHelper.NavigateTo(
-            $"{IndexUriRelativePath}/{AccountId}/detail/broker-transactions");
+            $"{IndexUriRelativePath}/{ModelId}/detail/broker-transactions");
 
     private async Task TransactionCode_OnValueChanged(BrokerTransaction model, int newId)
     {

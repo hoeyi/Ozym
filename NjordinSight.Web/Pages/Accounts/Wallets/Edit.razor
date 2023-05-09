@@ -1,4 +1,4 @@
-﻿@page "/accounts/{AccountId:int}/edit/wallets"
+﻿@page "/accounts/{ModelId:int}/edit/wallets"
 
 @inherits ModelListPage<AccountWallet>
 
@@ -92,7 +92,7 @@
 
 @code {
     [Parameter]
-    public int ModelId { get; set; }
+    public int ModelId { get; init; }
 
     private IList<AccountWallet> Wallets { get; set; }
 
