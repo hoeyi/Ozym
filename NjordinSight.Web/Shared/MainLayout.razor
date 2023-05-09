@@ -42,12 +42,14 @@
 
     private Menu MainMenu { get; set; }
 
+    #nullable enable
     private ErrorBoundary? errorBoundary;
 
     protected override void OnParametersSet()
     {
         errorBoundary?.Recover();
     }
+    #nullable disable
 
     protected override async Task OnInitializedAsync()
     {

@@ -60,7 +60,7 @@ namespace NjordinSight.Web.Test.Identity
 
         private static DbContextOptionsBuilder<IdentityDbContext> ContextOptionsBuilder() =>
             new DbContextOptionsBuilder<IdentityDbContext>()
-                .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordIdentity"])
+                .UseSqlServer(connectionString: TestUtility.Configuration["ConnectionStrings:NjordIdentity"] ?? string.Empty)
                 .EnableSensitiveDataLogging();
     }
 }
