@@ -1,6 +1,6 @@
 ﻿@inherits ModelCRUD<AccountCompositeDto>
 
-@if(ViewModel is null)
+@if(ModelDto is null)
 {
     <LoadingSvg />
 }
@@ -8,7 +8,7 @@ else
 {
     @if(ReadOnly)
     {
-        <DataGrid TModel="AccountCompositeMember" Data="@ViewModel.Members">
+        <DataGrid TModel="AccountCompositeMember" Data="@ModelDto.Members">
             <DataGridColumn 
                 Property="@nameof(AccountCompositeMember.AccountId)"
                 Caption=@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.AccountId))>
@@ -44,12 +44,12 @@ else
     {
         <ActionButtonMenu>
             <button class="form-control button" 
-                @onclick="args => ViewModel.AddMember()">
+                @onclick="args => ModelDto.AddMember()">
                 @Strings.Caption_CreateNew.Format(ModelMetadata
                     .GetAttribute<AccountCompositeMember, NounAttribute>()?.GetSingular())
             </button>
         </ActionButtonMenu>
-        <DataGrid TModel="AccountCompositeMember" Data="@ViewModel.Members">
+        <DataGrid TModel="AccountCompositeMember" Data="@ModelDto.Members">
             <DataGridColumn 
                 Property="@nameof(AccountCompositeMember.AccountId)"
                     Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.AccountId))">
@@ -93,7 +93,7 @@ else
                     <ToolTip Text="@Strings.Caption_Button_Delete">
                         <button class="form-control button icon"
                             type="button"
-                            @onclick="async (args) => ViewModel.RemoveMember(model)">
+                            @onclick="async (args) => ModelDto.RemoveMember(model)">
                             <IonIcon Name="close-circle" />
                         </button>
                     </ToolTip>

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace NjordinSight.Web.Components.Generic
 {
-    public partial class ModelPage<TViewModel> : ModelComponent<TViewModel>, INavigationSource
+    public partial class ModelPage<TModelDto> : ModelComponent<TModelDto>, INavigationSource
     {
 #nullable enable
         private NounAttribute? _modelNoun;
@@ -28,7 +28,7 @@ namespace NjordinSight.Web.Components.Generic
         {
             get
             {
-                _modelNoun ??= ModelMetadata.GetAttribute<TViewModel, NounAttribute>();
+                _modelNoun ??= ModelMetadata.GetAttribute<TModelDto, NounAttribute>();
                 return _modelNoun;
             }
         }
@@ -36,7 +36,7 @@ namespace NjordinSight.Web.Components.Generic
         /// <summary>
         /// Gets the <see cref="IPageTitle"/> instance for this page.
         /// </summary>
-        protected IPageTitle PageTitle => DisplayHelper.GetPagetTitle<TViewModel>();
+        protected IPageTitle PageTitle => DisplayHelper.GetPagetTitle<TModelDto>();
 
         /// <summary>
         /// Gets or sets the current text describing this page's error state.
@@ -112,13 +112,13 @@ namespace NjordinSight.Web.Components.Generic
         /// <typeparam name="TKey"></typeparam>
         /// <param name="model"></param>
         /// <returns>The <typeparamref name="TKey"/> uniquely identifying the given 
-        /// <typeparamref name="TViewModel"/>, or null if undefined.</returns>
-        protected static TKey? GetKeyValueOrDefault<TKey>(TViewModel model)
+        /// <typeparamref name="TModelDto"/>, or null if undefined.</returns>
+        protected static TKey? GetKeyValueOrDefault<TKey>(TModelDto model)
         {
             if (model is null)
                 throw new ArgumentNullException(paramName: nameof(model));
 
-            var memberInfo = typeof(TViewModel).GetProperties(
+            var memberInfo = typeof(TModelDto).GetProperties(
                 BindingFlags.Instance | BindingFlags.Public).Where(
                 a => a.PropertyType == typeof(TKey) &&
                 a.GetCustomAttribute<KeyAttribute>() is not null)

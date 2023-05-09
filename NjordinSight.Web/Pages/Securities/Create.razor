@@ -20,7 +20,7 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ViewModel">
+        <CascadingValue Value="@ModelDto">
             <AttributeEntryCollectionEditor 
                 TViewModelParent="SecurityAttributeDto"
                 TViewModelChild="SecurityAttributeGrouping"
@@ -29,7 +29,7 @@
                 OnCancelEditorClick="CancelFormHandler"
                 OnValidFormSubmit="ValidFormSubmitHandler"
                 EffectiveDatePath="@(x => x.EffectiveDate)"
-                ViewModel="@ViewModel.AttributeViewModel"
+                ModelDto="@ModelDto.AttributeViewModel"
                 Mode="EditorMode.Add">
                 <ViewModelCRUD>
                     <SecurityCRUD SecurityTypes="SecurityTypes"
@@ -55,7 +55,7 @@
 
     private IEnumerable<string> Issuers { get; set; }
 
-    private SecurityDto ViewModel { get; set; }
+    private SecurityDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -95,7 +95,7 @@
                 SecurityTypes = (await securityTypesQuery).Value;
                 Issuers = (await issuersQuery).Value.Select(x => x.Issuer).Distinct();
                 
-                ViewModel = new(Model);
+                ModelDto = new(Model);
             }
             else
             {
@@ -135,7 +135,7 @@
         {
             IsLoading = Exchanges is null ||
                 SecurityTypes is null ||
-                Issuers is null || Model is null || ViewModel is null;
+                Issuers is null || Model is null || ModelDto is null;
         }
     }
 
@@ -144,7 +144,7 @@
     /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        Model = ViewModel.ToEntity();
+        Model = ModelDto.ToEntity();
 
         var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
 

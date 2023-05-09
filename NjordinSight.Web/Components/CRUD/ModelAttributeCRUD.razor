@@ -1,22 +1,22 @@
 ﻿@inherits ModelCRUD<ModelAttributeDto>
 
-@if(ViewModel is null)
+@if(ModelDto is null)
 {
     <LoadingSvg />
 }
 else
 {
-    <ModelForm TViewModel="ModelAttribute">
-        <ModelFormLineItem ForMember="@(() => ViewModel.DisplayName)">
+    <ModelForm TModelDto="ModelAttribute">
+        <ModelFormLineItem ForMember="@(() => ModelDto.DisplayName)">
             @if(ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.DisplayName
+                    @ModelDto.DisplayName
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value="ViewModel.DisplayName"
+                <InputText class="form-control" @bind-Value="ModelDto.DisplayName"
                     disable="@Disabled"
                     DisplayName="@NameFor(x => x.DisplayName)" />
             }

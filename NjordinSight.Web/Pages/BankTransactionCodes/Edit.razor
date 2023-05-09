@@ -25,7 +25,7 @@
             OnCancelEditorClick="FormCancelClickHandler"
             OnDeleteModelClick="FormDeleteClickHandler"
             OnValidFormSubmit="ValidFormSubmitHandler"
-            ViewModel="@ViewModel"
+            ModelDto="@ModelDto"
             Mode="EditorMode.Edit">
             <ViewModelCRUD>
                 <BankTransactionCodeCRUD Disabled="false" ReadOnly="false" />
@@ -41,7 +41,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private BankTransactionCodeDto ViewModel { get; set; }
+    private BankTransactionCodeDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -73,11 +73,11 @@
                         }
                 };
 
-            ViewModel = new(Model);
+            ModelDto = new(Model);
         }
         finally
         {
-            IsLoading = Model is null || ViewModel is null;
+            IsLoading = Model is null || ModelDto is null;
         }
     }
 

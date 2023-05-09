@@ -17,9 +17,9 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ViewModel">
+        <CascadingValue Value="@ModelDto">
             <EditForm class="model-editor" 
-                Model="@ViewModel" 
+                Model="@ModelDto" 
                 OnValidSubmit="HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <ContentTile>
@@ -43,17 +43,17 @@
                     </Body>
                 </ContentTile>
             </EditForm>
-            <EditForm Model="@ViewModel">
+            <EditForm Model="@ModelDto">
                 <ContentTile>
                     <Body>
                         <ActionButtonMenu>
                             <button class="form-control button"
-                                @onclick="args => ViewModel.AddNewAttributeScope()">
+                                @onclick="args => ModelDto.AddNewAttributeScope()">
                                 @Strings.Caption_CreateNew.Format(ModelMetadata
                                     .GetAttribute<ModelAttributeScope, NounAttribute>()?.GetSingular())
                             </button>
                         </ActionButtonMenu>
-                        <DataGrid Data="@ViewModel.AttributeScopes">
+                        <DataGrid Data="@ModelDto.AttributeScopes">
                             <DataGridColumn Type="DataGridCellType.Control"
                                         Property="@nameof(ModelAttributeScope.ScopeCode)"
                                         Caption="@(ModelMetadata.NameFor<ModelAttributeScope>(x => x.ScopeCode))">
@@ -71,7 +71,7 @@
                                     <ToolTip Text="@Strings.Caption_Button_Delete">
                                         <button class="form-control button icon"
                                             type="button"
-                                            @onclick="async (args) => ViewModel.RemoveScope(model)">
+                                            @onclick="async (args) => ModelDto.RemoveScope(model)">
                                             <IonIcon Name="close-circle" />
                                         </button>
                                     </ToolTip>
@@ -81,17 +81,17 @@
                     </Body>
                 </ContentTile>
             </EditForm>
-            <EditForm Model="@ViewModel">
+            <EditForm Model="@ModelDto">
                 <ContentTile>
                     <Body>
                         <ActionButtonMenu>
                             <button class="form-control button"
-                                @onclick="args => ViewModel.AddAttributeMember()">
+                                @onclick="args => ModelDto.AddAttributeMember()">
                                 @Strings.Caption_CreateNew.Format(ModelMetadata
                                     .GetAttribute<ModelAttributeMember, NounAttribute>()?.GetSingular())
                             </button>
                         </ActionButtonMenu>
-                        <DataGrid Data="@ViewModel.AttributeMembers">
+                        <DataGrid Data="@ModelDto.AttributeMembers">
                             <DataGridColumn Type="DataGridCellType.Control"
                                         Property="@nameof(ModelAttributeMember.DisplayName)"
                                         Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayName))">
@@ -111,7 +111,7 @@
                                     <ToolTip Text="@Strings.Caption_Button_Delete">
                                         <button class="form-control button icon"
                                             type="button"
-                                            @onclick="async (args) => ViewModel.RemoveAttributeMember(model)">
+                                            @onclick="async (args) => ModelDto.RemoveAttributeMember(model)">
                                             <IonIcon Name="close-circle" />
                                         </button>
                                     </ToolTip>
@@ -129,7 +129,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private ModelAttributeDto ViewModel { get; set; }
+    private ModelAttributeDto ModelDto { get; set; }
 
     private IEnumerable<LookupModel<string, string>> AttributeScopeDtos { get; set; }
 
@@ -156,13 +156,13 @@
             if (dataTasks.Status == TaskStatus.RanToCompletion)
             {
                 Model = (await modelQuery).Value;
-                ViewModel = new(Model);
+                ModelDto = new(Model);
                 AttributeScopeDtos = (await scopesQuery).Value;
             }
         }
         finally
         {
-            IsLoading = Model is null || ViewModel is null || !(AttributeScopeDtos?.Any() ?? false);
+            IsLoading = Model is null || ModelDto is null || !(AttributeScopeDtos?.Any() ?? false);
         }
 
         // TODO: Take corrective action here, accountQuery.Value should be Account
@@ -178,7 +178,7 @@
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
-    private void DeleteScope(ModelAttributeScope attributeScope) => ViewModel.RemoveScope(attributeScope);
+    private void DeleteScope(ModelAttributeScope attributeScope) => ModelDto.RemoveScope(attributeScope);
 
     protected override async Task HandleValidSubmit()
     {

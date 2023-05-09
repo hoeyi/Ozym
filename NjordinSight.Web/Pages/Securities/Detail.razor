@@ -22,8 +22,8 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ViewModel">
-                    <EditForm class="model-editor" Model="@ViewModel"> 
+                <CascadingValue Value="@ModelDto">
+                    <EditForm class="model-editor" Model="@ModelDto"> 
                         <SecurityCRUD
                             SecurityTypes="SecurityTypes"
                             SecurityExchanges="Exchanges"
@@ -33,7 +33,7 @@
                 </CascadingValue>
             </Body>
         </ContentTile>
-        @foreach(var group in ViewModel.AttributeViewModel.CurrentEntryCollectionGroups.OrderBy(g => 
+        @foreach(var group in ModelDto.AttributeViewModel.CurrentEntryCollectionGroups.OrderBy(g => 
             g.ParentAttribute.DisplayName))
         {
             <ContentTile>
@@ -55,10 +55,10 @@
                     .GetPlural().ToTitleCase())
             </TitleAlignLeft>
             <Body>
-                <EditForm width="100%" Model="@ViewModel.SecuritySymbols">
+                <EditForm width="100%" Model="@ModelDto.SecuritySymbols">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <DataGrid Data="@ViewModel.SecuritySymbols">
+                    <DataGrid Data="@ModelDto.SecuritySymbols">
                         <DataGridColumn Property="@nameof(SecuritySymbol.SymbolTypeId)"
                                     Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.SymbolTypeId))">
                             <CellTemplate Context="model">
@@ -120,7 +120,7 @@
 
     private IEnumerable<string> Issuers { get; set; }
 
-    private SecurityDto ViewModel { get; set; }
+    private SecurityDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -201,7 +201,7 @@
                     }
                 };
 
-            ViewModel = new(Model);
+            ModelDto = new(Model);
         }
         finally
         {
@@ -209,7 +209,7 @@
                 SecurityTypes is null ||
                 Issuers is null ||
                 Model is null ||
-                ViewModel is null ||
+                ModelDto is null ||
                 SymbolTypes is null;
         }
 

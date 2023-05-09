@@ -20,7 +20,7 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ViewModel">
+        <CascadingValue Value="@ModelDto">
             <AttributeEntryCollectionEditor 
                 TViewModelParent="SecurityAttributeDto"
                 TViewModelChild="SecurityAttributeGrouping"
@@ -30,7 +30,7 @@
                 OnDeleteModelClick="FormDeleteClickHandler"
                 OnValidFormSubmit="ValidFormSubmitHandler"
                 EffectiveDatePath="@(x => x.EffectiveDate)"
-                ViewModel="@ViewModel.AttributeViewModel"
+                ModelDto="@ModelDto.AttributeViewModel"
                 Mode="EditorMode.Edit">
                 <ViewModelCRUD>
                     <SecurityCRUD 
@@ -54,15 +54,15 @@
                 <button id="add-new-entry-button"
                     class="form-control button icon"
                     type="button"
-                    @onclick="() => ViewModel.AddNewSecuritySymbol()">
+                    @onclick="() => ModelDto.AddNewSecuritySymbol()">
                     <IonIcon Name="add" />
                 </button>
             </TitleAlignRight>
             <Body>
-                <EditForm width="100%" Model="@ViewModel.SecuritySymbols">
+                <EditForm width="100%" Model="@ModelDto.SecuritySymbols">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <DataGrid Data="@ViewModel.SecuritySymbols">
+                    <DataGrid Data="@ModelDto.SecuritySymbols">
                         <DataGridColumn 
                             Property="@nameof(SecuritySymbol.SymbolTypeId)"
                             Type="DataGridCellType.Control"
@@ -128,7 +128,7 @@
                             <CellEditTemplate Context="model">
                                 <ToolTip Text="@Strings.Caption_Button_Delete">
                                     <button class="form-control button icon" type="button"
-                                        @onclick="() => ViewModel.RemoveSecuritySymbol(model)">
+                                        @onclick="() => ModelDto.RemoveSecuritySymbol(model)">
                                         <IonIcon Name="close-circle" />
                                     </button>
                                 </ToolTip>
@@ -155,7 +155,7 @@
 
     private IEnumerable<string> Issuers { get; set; }
 
-    private SecurityDto ViewModel { get; set; }
+    private SecurityDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -235,7 +235,7 @@
                     }
                 };
 
-            ViewModel = new(Model);
+            ModelDto = new(Model);
         }
         finally
         {
@@ -243,7 +243,7 @@
                 SecurityTypes is null ||
                 Issuers is null ||
                 Model is null ||
-                ViewModel is null ||
+                ModelDto is null ||
                 SymbolTypes is null;
         }
     }

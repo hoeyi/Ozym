@@ -1,36 +1,36 @@
 ﻿@inherits ModelCRUD<SecurityExchange>
 
-@if (ViewModel is null)
+@if (ModelDto is null)
 {
     <LoadingSvg />
 }
 else
 {
-    <ModelForm TViewModel="ModelAttribute">
-        <ModelFormLineItem ForMember="@(() => ViewModel.ExchangeCode)">
+    <ModelForm TModelDto="ModelAttribute">
+        <ModelFormLineItem ForMember="@(() => ModelDto.ExchangeCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.ExchangeCode
+                    @ModelDto.ExchangeCode
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value="ViewModel.ExchangeCode"
+                <InputText class="form-control" @bind-Value="ModelDto.ExchangeCode"
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.ExchangeCode)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.ExchangeDescription)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.ExchangeDescription)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.ExchangeDescription
+                    @ModelDto.ExchangeDescription
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value="ViewModel.ExchangeDescription"
+                <InputText class="form-control" @bind-Value="ModelDto.ExchangeDescription"
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.ExchangeDescription)" />
             }

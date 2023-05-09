@@ -1,7 +1,7 @@
-﻿@inherits ModelComponent<TViewModel>
+﻿@inherits ModelComponent<TModelDto>
 
-@typeparam TViewModel
-@attribute [CascadingTypeParameter(nameof(TViewModel))]
+@typeparam TModelDto
+@attribute [CascadingTypeParameter(nameof(TModelDto))]
 
 <CascadingValue Value="@this">
     <table class="model-attributes">
@@ -16,5 +16,5 @@
     public RenderFragment ChildContent { get; set; }
 
     [CascadingParameter, EditorRequired]
-    public TViewModel ViewModel { get; set; }
+    public TModelDto ModelDto { get; set; }
 }

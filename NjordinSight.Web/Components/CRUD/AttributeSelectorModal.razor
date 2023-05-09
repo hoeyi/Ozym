@@ -6,7 +6,7 @@
 }
 else
 {
-    <CascadingValue Value="@ViewModel">
+    <CascadingValue Value="@ModelAttributeDto">
         <Modal
             DialogOptions="DialogResult.OK | DialogResult.Cancel"
             OnClose="OnClose"
@@ -49,7 +49,7 @@ else
     /// <summary>
     /// Gets or sets the <see cref="ModelAttribute" /> view model for this selector.
     /// </summary>
-    private ModelAttribute ViewModel { get; set; }
+    private ModelAttribute ModelAttributeDto { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="int?"> identifier for the currently selected attribute.
@@ -61,17 +61,17 @@ else
     {
         await base.OnInitializedAsync();
 
-        ViewModel = AllowableAttributes.OrderBy(a => a.DisplayName).FirstOrDefault();
+        ModelAttributeDto = AllowableAttributes.OrderBy(a => a.DisplayName).FirstOrDefault();
     }
 
 
     /// <summary>
-    /// Updates the current attribute id and <see cref="ViewModel" />.
+    /// Updates the current attribute id and <see cref="ModelAttributeDto" />.
     /// </summary>
     private void AttributeSelect_OnChange(int? eventArgs)
     {
         SelectedAttributeId = eventArgs;
-        ViewModel = AllowableAttributes.FirstOrDefault(a => a.AttributeId == eventArgs);
+        ModelAttributeDto = AllowableAttributes.FirstOrDefault(a => a.AttributeId == eventArgs);
 
         StateHasChanged();
     }

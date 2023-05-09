@@ -1,6 +1,6 @@
 ﻿@inherits ModelCRUD<SecurityDto>
 
-@if (ViewModel is null
+@if (ModelDto is null
     || SecurityTypes is null
     || SecurityExchanges is null
     || Issuers is null)
@@ -9,33 +9,33 @@
 }
 else
 {
-    <ModelForm TViewModel="SecurityDto">
-        <ModelFormLineItem ForMember="@(() => ViewModel.SecurityDescription)">
+    <ModelForm TModelDto="SecurityDto">
+        <ModelFormLineItem ForMember="@(() => ModelDto.SecurityDescription)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.SecurityDescription
+                    @ModelDto.SecurityDescription
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value="ViewModel.SecurityDescription"
+                <InputText class="form-control" @bind-Value="ModelDto.SecurityDescription"
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.SecurityDescription)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.SecurityTypeId)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.SecurityTypeId)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @(SecurityTypes.GetDisplayName(ViewModel.SecurityTypeId))
+                    @(SecurityTypes.GetDisplayName(ModelDto.SecurityTypeId))
                 </div>
             }
             else
             {
                 <InputSelect class="form-control"
                      DisplayName=@(NameFor(x => x.SecurityTypeId))
-                     @bind-Value="ViewModel.SecurityTypeId"
+                     @bind-Value="ModelDto.SecurityTypeId"
                      disabled="@Disabled">
                 @foreach (var lookup in SecurityTypes)
                 {
@@ -44,60 +44,60 @@ else
             </InputSelect>
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.Issuer)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.Issuer)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.Issuer
+                    @ModelDto.Issuer
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value="ViewModel.Issuer"
+                <InputText class="form-control" @bind-Value="ModelDto.Issuer"
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.Issuer)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.HasPerpetualMarket)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.HasPerpetualMarket)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.HasPerpetualMarket
+                    @ModelDto.HasPerpetualMarket
                 </div>
             }
             else
             {
-                <InputCheckbox class="checkbox-themed" @bind-Value="ViewModel.HasPerpetualMarket"
+                <InputCheckbox class="checkbox-themed" @bind-Value="ModelDto.HasPerpetualMarket"
                     disable="@Disabled"
                     DisplayName="@NameFor(x => x.HasPerpetualMarket)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.HasPerpetualPrice)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.HasPerpetualPrice)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.HasPerpetualPrice
+                    @ModelDto.HasPerpetualPrice
                 </div>
             }
             else
             {
-                <InputCheckbox class="checkbox-themed" @bind-Value="ViewModel.HasPerpetualPrice"
+                <InputCheckbox class="checkbox-themed" @bind-Value="ModelDto.HasPerpetualPrice"
                     disable="@Disabled"
                     DisplayName="@NameFor(x => x.HasPerpetualPrice)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.SecurityExchangeId)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.SecurityExchangeId)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @(SecurityTypes.GetDisplayName(ViewModel.SecurityExchangeId ?? default))
+                    @(SecurityTypes.GetDisplayName(ModelDto.SecurityExchangeId ?? default))
                 </div>
             }
             else
             {
                 <InputSelect class="form-control"
                      DisplayName=@(NameFor(x => x.SecurityExchangeId))
-                     @bind-Value="ViewModel.SecurityExchangeId"
+                     @bind-Value="ModelDto.SecurityExchangeId"
                      disabled="@Disabled">
                 @foreach (var lookup in SecurityExchanges)
                 {
@@ -121,7 +121,7 @@ else
 
     protected override void OnInitialized()
     {
-        IsLoading = ViewModel is null
+        IsLoading = ModelDto is null
             || SecurityTypes is null
             || SecurityExchanges is null
             || Issuers is null;

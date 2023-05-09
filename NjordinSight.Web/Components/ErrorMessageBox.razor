@@ -20,9 +20,11 @@
     [CascadingParameter]
     public string ErrorMessage { get; set; }
 
+    #nullable enable
     /// <summary>
     /// Gets or set the text that appears as the header of the message box.
     /// </summary>
     [Parameter]
     public string? Header { get; init; }
+    #nullable disable
 }

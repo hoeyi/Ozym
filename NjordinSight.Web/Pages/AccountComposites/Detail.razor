@@ -19,8 +19,8 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ViewModel">
-            <EditForm class="model-editor" Model="@ViewModel">
+        <CascadingValue Value="@ModelDto">
+            <EditForm class="model-editor" Model="@ModelDto">
                 <ContentTile>
                     <Body>
                         <AccountCompositeCRUD Disabled="false" ReadOnly="true" />
@@ -34,13 +34,13 @@
                 </ContentTile>
             </EditForm>
         </CascadingValue>
-        @foreach (var entry in ViewModel.AttributeViewModel.CurrentEntries.OrderBy(g =>
+        @foreach (var entry in ModelDto.AttributeViewModel.CurrentEntries.OrderBy(g =>
             g.AttributeMember.Attribute.DisplayName))
         {
             <ContentTile>
                 <Body>
                     <EditForm Model="@entry">
-                        <ModelForm TViewModel="AccountAttributeMemberEntry">
+                        <ModelForm TModelDto="AccountAttributeMemberEntry">
                             <ModelFormLineItem LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
                                        ForMember="@(() => entry.AttributeMember.DisplayName)">
                                 <div class="form-control">
@@ -66,7 +66,7 @@
 
     private IEnumerable<LookupModel<int, string>> Accounts { get; set; }
 
-    private AccountCompositeDto ViewModel { get; set; }
+    private AccountCompositeDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -114,7 +114,7 @@
                 };
 
             Accounts = (await accountsQuery).Value;
-            ViewModel = new(Model);
+            ModelDto = new(Model);
         }
         finally
         {

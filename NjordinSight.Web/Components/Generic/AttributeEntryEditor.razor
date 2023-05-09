@@ -37,9 +37,9 @@ else
     </ActionButtonMenu>
     <ContentTile class="left">
         <Body>
-            <CascadingValue Value="@ViewModel">
+            <CascadingValue Value="@ModelDto">
                 <EditForm id="@FormGuid"
-                      Model="@ViewModel"
+                      Model="@ModelDto"
                       OnValidSubmit="@(async (args) => await OnValidFormSubmit.InvokeAsync(args))">
                     <DataAnnotationsValidator />
                     @ViewModelCRUD
@@ -49,7 +49,7 @@ else
     </ContentTile>
     @if(ViewModelChildCRUD is not null)
     {
-        @foreach (var group in ViewModel.EntryCollection)
+        @foreach (var group in ModelDto.EntryCollection)
         {
             <ContentTile>
                 <Body>
@@ -106,7 +106,7 @@ else
     /// Gets or sets the <typeparamref name="TViewModelParent"/> representing the worked model.
     /// </summary>
     [Parameter, EditorRequired]
-    public TViewModelParent ViewModel { get; set; }
+    public TViewModelParent ModelDto { get; set; }
 
     /// <summary>
     /// Gets or sets the component responsible for presenting editor controls for

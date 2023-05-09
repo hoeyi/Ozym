@@ -20,8 +20,8 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ViewModel">
-                    <EditForm class="model-editor" Model="@ViewModel"
+                <CascadingValue Value="@ModelDto">
+                    <EditForm class="model-editor" Model="@ModelDto"
                           OnValidSubmit="HandleValidSubmit">
                         <DataAnnotationsValidator />
                         <ActionButtonMenu>
@@ -47,7 +47,7 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private Country ViewModel { get; set; }
+    private Country ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -60,12 +60,12 @@
             if ((await modelQuery).Value is Country model)
             {
                 Model = model;
-                ViewModel = model;
+                ModelDto = model;
             }
         }
         finally
         {
-            IsLoading = Model is null || ViewModel is null;
+            IsLoading = Model is null || ModelDto is null;
         }
     }
 

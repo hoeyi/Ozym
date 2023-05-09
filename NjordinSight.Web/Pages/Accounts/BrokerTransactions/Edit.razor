@@ -169,7 +169,7 @@
         if (ShowAllocationInstructionTable)
         {
             <CascadingValue Value="@CurrentAllocationInstruction">
-                <Modal TViewModel="AllocationInstructionTable"
+                <Modal TModelDto="AllocationInstructionTable"
                     DialogOptions="DialogResult.OK | DialogResult.Cancel"
                     OnClose="@(async (args) => await PostAllocationInstructionAsync(args))" 
                     ReadOnly="false" >

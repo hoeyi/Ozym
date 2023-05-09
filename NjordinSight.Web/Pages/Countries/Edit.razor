@@ -27,7 +27,7 @@
             OnDeleteModelClick="FormDeleteClickHandler"
             OnValidFormSubmit="ValidFormSubmitHandler"
             EffectiveDatePath="@(x => x.EffectiveDate)"
-            ViewModel="@ViewModel"
+            ModelDto="@ModelDto"
             Mode="EditorMode.Edit">
             <ViewModelCRUD>
                 <CountryViewModelCRUD Disabled="false" ReadOnly="false" />
@@ -43,7 +43,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private CountryDto ViewModel { get; set; }
+    private CountryDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -56,11 +56,11 @@
             if ((await modelQuery).Value is Country model)
                 Model = model;
 
-            ViewModel = new(Model);
+            ModelDto = new(Model);
         }
         finally
         {
-            IsLoading = Model is null || ViewModel is null;
+            IsLoading = Model is null || ModelDto is null;
         }
     }
 

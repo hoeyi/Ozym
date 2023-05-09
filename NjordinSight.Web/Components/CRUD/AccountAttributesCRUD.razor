@@ -8,7 +8,7 @@ else
 {
     <ContentTile>
         <TitleAlignLeft>
-            @ViewModel.ParentAttribute.DisplayName
+            @ModelDto.ParentAttribute.DisplayName
         </TitleAlignLeft>
         <TitleAlignRight>
             @if (!ReadOnly)
@@ -23,8 +23,8 @@ else
 
         </TitleAlignRight>
         <Body>
-            <EditForm Model="@ViewModel">
-                <DataGrid Data="@ViewModel.Entries">
+            <EditForm Model="@ModelDto">
+                <DataGrid Data="@ModelDto.Entries">
                     @if (ReadOnly)
                     {
                         <DataGridColumn Property=@nameof(AccountAttributeMemberEntry.AttributeMemberId)
@@ -91,14 +91,14 @@ else
     {
         await base.OnInitializedAsync();
 
-        IsLoading = ViewModel is null || (ReadOnly ^ (AttributeMemberLookup is null));
+        IsLoading = ModelDto is null || (ReadOnly ^ (AttributeMemberLookup is null));
     }
 
     private void AddNew_OnClick(MouseEventArgs e)
     {
         // TODO: Do something with MouseEventArgs ?
 
-        ViewModel.AddNewEntry();
+        ModelDto.AddNewEntry();
     }
 
     private void RemoveExisting_OnClick(
@@ -106,6 +106,6 @@ else
     {
         // TODO: Do something with MouseEventArgs ?
 
-        ViewModel.RemoveEntry(model);
+        ModelDto.RemoveEntry(model);
     }
 }

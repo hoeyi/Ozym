@@ -1,5 +1,5 @@
-﻿@typeparam TViewModel
-@attribute [CascadingTypeParameter(nameof(TViewModel))]
+﻿@typeparam TModelDto
+@attribute [CascadingTypeParameter(nameof(TModelDto))]
 
 @inherits LocalizableComponent
 
@@ -33,7 +33,7 @@
             {
                 <EditForm
                     class="model-editor"
-                    Model="@ViewModel"
+                    Model="@ModelDto"
                     OnValidSubmit="(async () => await OnClickAsync(DialogResult.OK))">
                     <DataAnnotationsValidator />
                     @ChildContent
@@ -68,7 +68,7 @@
     ///// Gets or sets the event handler for the close event of this form.
     ///// </summary>
     [Parameter]
-    public EventCallback<ModalEventArgs<TViewModel>> OnClose { get; set; }
+    public EventCallback<ModalEventArgs<TModelDto>> OnClose { get; set; }
 
     /// <summary>
     /// Gets or sets the child content to render for this form.
@@ -86,11 +86,11 @@
     public DialogResult DialogOptions { get; set; } = DialogResult.OK | DialogResult.Cancel;
 
     /// <summary>
-    /// Gets or sets the <typeparam name="TViewModel" /> instance that serves as the view model 
+    /// Gets or sets the <typeparam name="TModelDto" /> instance that serves as the view model 
     /// for this modal form.
     /// </summary>
     [CascadingParameter]
-    public TViewModel ViewModel { get; set; } 
+    public TModelDto ModelDto { get; set; } 
 
     /// <summary>
     /// Flags the form to be rendered as a read-only page with a <div> element, or an 
@@ -131,9 +131,9 @@
         if (!DialogOptions.HasFlag(result))
             throw new NotSupportedException();
 
-        var args = new ModalEventArgs<TViewModel>()
+        var args = new ModalEventArgs<TModelDto>()
         {
-            Model = ViewModel,
+            Model = ModelDto,
             Result = result
         };
 

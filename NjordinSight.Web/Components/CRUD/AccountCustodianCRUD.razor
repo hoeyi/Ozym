@@ -1,32 +1,32 @@
 ﻿@inherits ModelCRUD<AccountCustodian>
 
-@if (ViewModel is null)
+@if (ModelDto is null)
 {
     <LoadingSvg />
 }
 else
 {
-    <ModelForm TViewModel="AccountCustodian" >
-        <ModelFormLineItem ForMember="@(() => ViewModel.CustodianCode)">
+    <ModelForm TModelDto="AccountCustodian" >
+        <ModelFormLineItem ForMember="@(() => ModelDto.CustodianCode)">
             @if(ReadOnly)
             {
-                @ViewModel.CustodianCode
+                @ModelDto.CustodianCode
             }
             else
             {
-                <InputText class="form-control" @bind-Value=ViewModel.CustodianCode
+                <InputText class="form-control" @bind-Value=ModelDto.CustodianCode
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.CustodianCode)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.DisplayName)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.DisplayName)">
             @if(ReadOnly)
             {
-                @ViewModel.DisplayName
+                @ModelDto.DisplayName
             }
             else
             {
-                <InputText class="form-control" @bind-Value=ViewModel.DisplayName
+                <InputText class="form-control" @bind-Value=ModelDto.DisplayName
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.DisplayName)) />
             }

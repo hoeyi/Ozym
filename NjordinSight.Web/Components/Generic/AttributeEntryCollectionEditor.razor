@@ -43,9 +43,9 @@ else
     </ActionButtonMenu>
     <ContentTile class="left">
         <Body>
-            <CascadingValue Value="@ViewModel">
+            <CascadingValue Value="@ModelDto">
                 <EditForm id="@FormGuid"
-                        Model="@ViewModel"
+                        Model="@ModelDto"
                         OnValidSubmit="@(async (args) => await OnValidFormSubmit.InvokeAsync(args))">
                     <DataAnnotationsValidator />
                     @ViewModelCRUD
@@ -53,7 +53,7 @@ else
             </CascadingValue>
         </Body>
     </ContentTile>
-    @foreach (var group in ViewModel.EntryCollectionGroups.OrderBy(g => g.Key.DisplayName))
+    @foreach (var group in ModelDto.EntryCollectionGroups.OrderBy(g => g.Key.DisplayName))
     {
         <ContentTile>
             <TitleAlignLeft>
@@ -89,7 +89,7 @@ else
         <CascadingValue Value="@CurrentViewModelChild">
             <CascadingValue Value="@CurrentAttributeMemberLookup">
                 <AttributeTargetModalCRUD 
-                    TViewModel="TViewModelChild"
+                    TModelDto="TViewModelChild"
                     OnClose="OnModalEditor_ForChildView_Close">
                     @ViewModelChildCRUD
                 </AttributeTargetModalCRUD>
@@ -145,7 +145,7 @@ else
     /// Gets or sets the <typeparamref name="TViewModelParent"/> representing the worked model.
     /// </summary>
     [Parameter, EditorRequired]
-    public TViewModelParent ViewModel { get; set; }
+    public TViewModelParent ModelDto { get; set; }
 
     /// <summary>
     /// Gets or sets the component responsible for presenting editor controls for 

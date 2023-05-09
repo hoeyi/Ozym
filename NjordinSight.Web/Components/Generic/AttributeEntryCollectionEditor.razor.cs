@@ -113,7 +113,7 @@ namespace NjordinSight.Web.Components.Generic
         /// <returns></returns>
         protected async Task AddEntryForGrouping(ModelAttribute forModelAttribute)
         {
-            await OnChildViewSelect(ViewModel.AddNew(forAttribute: forModelAttribute));
+            await OnChildViewSelect(ModelDto.AddNew(forAttribute: forModelAttribute));
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace NjordinSight.Web.Components.Generic
             {
                 case DialogResult.Delete:
                     if(modalEventArgs.Model is not null)
-                        ViewModel.RemoveExising(modalEventArgs.Model);
+                        ModelDto.RemoveExising(modalEventArgs.Model);
                     break;
                 case DialogResult.None:
                     break;
