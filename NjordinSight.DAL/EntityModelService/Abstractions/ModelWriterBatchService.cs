@@ -154,6 +154,11 @@ namespace NjordinSight.EntityModelService.Abstractions
                 return await SharedContext.SaveChangesAsync();
 
             }
+            catch (InvalidOperationException ioe)
+            {
+                _logger. LogError(ioe, ioe.Message);
+                throw new ModelUpdateException(ioe.Message);
+            }
             catch (DbUpdateConcurrencyException duc)
             {
                 _logger.ModelServiceConcurrencyConflict(duc);

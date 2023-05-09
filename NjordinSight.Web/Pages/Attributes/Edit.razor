@@ -13,6 +13,10 @@
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
 
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
         <CascadingValue Value="@ViewModel">
             <EditForm class="model-editor" 
                 Model="@ViewModel" 
@@ -165,28 +169,24 @@
         // TODO: Take corrective action here, accountQuery.Value should be Account
     }
 
-    private void Cancel_OnClick()
-    {
-        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
-    }
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 
     private async Task Delete_OnClick()
     {
-        var result = await Controller.DeleteAsync(Model);
+        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
 
-        if (result is NoContentResult ncr)
+        if (result is NoContentResult _)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
     private void DeleteScope(ModelAttributeScope attributeScope) => ViewModel.RemoveScope(attributeScope);
 
-    private async Task HandleValidSubmit()
+    protected override async Task HandleValidSubmit()
     {
-        Model = ViewModel.ToEntity();
+        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 
-        var result = await Controller.UpdateAsync(ModelId, Model);
+        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
 
-        if (result.Value is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.AttributeId));
+        ProcessDetailAtAction(id);
     }
 }

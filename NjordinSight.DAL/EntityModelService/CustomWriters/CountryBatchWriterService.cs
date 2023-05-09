@@ -69,6 +69,11 @@ namespace NjordinSight.EntityModelService.CustomWriters
 
                 return recordsModified;     
             }
+            catch (InvalidOperationException ioe)
+            {
+                _logger.LogWarning(ioe, ioe.Message);
+                throw new ModelUpdateException(ioe.Message);
+            }
             catch (DbUpdateConcurrencyException duc)
             {
                 _logger.ModelServiceConcurrencyConflict(duc);

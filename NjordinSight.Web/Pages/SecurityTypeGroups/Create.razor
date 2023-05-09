@@ -13,6 +13,10 @@
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.CreateSingle())" />
 
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
         <ContentTile>
             <Body>
                 <CascadingValue Value="@Model">
@@ -63,16 +67,12 @@
         }
     }
 
-    private void Cancel_OnClick()
-    {
-        NavigationHelper.NavigateTo(IndexUriRelativePath);
-    }
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 
-    private async Task HandleValidSubmit()
+    protected override async Task HandleValidSubmit()
     {
-        var result = await Controller.CreateAsync(Model);
+        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
 
-        if (result.Result is CreatedAtActionResult cr)
-            NavigationHelper.NavigateTo(FormatDetailUri(cr.RouteValues["id"]));
+        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
     }
 }

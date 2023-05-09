@@ -4,32 +4,36 @@
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
-        <ThemedComponent>
-        @if (IsLoading)
+<ThemedComponent>
+    @if (IsLoading)
     {
-            <LoadingSvg />
+        <LoadingSvg />
     }
     else
     {
-            <ModelPageMenuHeader ActionMenu="@ActionMenu"
-                         Header="@(PageTitle.CreateSingle())" />
+        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+                        Header="@(PageTitle.CreateSingle())" />
 
-            <AttributeEntryEditor TViewModelParent="BrokerTransactionCodeDto"
-                          TViewModelChild="BrokerTransactionCodeAttributeGrouping"
-                          TModel="BrokerTransactionCode"
-                          TModelChild="BrokerTransactionCodeAttributeMemberEntry"
-                          OnCancelEditorClick="CancelEditorHandler"
-                          OnDeleteModelClick="DeleteModelHandler"
-                          OnValidFormSubmit="ValidFormSubmitHandler"
-                          ViewModel="@ViewModel"
-                          Mode="EditorMode.Edit">
-                <ViewModelCRUD>
-                    <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelCRUD>
-                <ViewModelChildCRUD>
-                    <BrokerTransactionCodeAttributesCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelChildCRUD>
-            </AttributeEntryEditor>
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
+        <AttributeEntryEditor TViewModelParent="BrokerTransactionCodeDto"
+                        TViewModelChild="BrokerTransactionCodeAttributeGrouping"
+                        TModel="BrokerTransactionCode"
+                        TModelChild="BrokerTransactionCodeAttributeMemberEntry"
+                        OnCancelEditorClick="FormCancelClickHandler"
+                        OnDeleteModelClick="FormDeleteClickHandler"
+                        OnValidFormSubmit="ValidFormSubmitHandler"
+                        ViewModel="@ViewModel"
+                        Mode="EditorMode.Edit">
+            <ViewModelCRUD>
+                <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <BrokerTransactionCodeAttributesCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryEditor>
     }
 </ThemedComponent>
 
@@ -70,9 +74,9 @@
     /// <summary>
     /// Handles the delete click event of this page.
     /// </summary>
-    private async Task DeleteModelHandler(MouseEventArgs args)
+    private async Task FormDeleteClickHandler(MouseEventArgs args)
     {
-        var result = await Controller.DeleteAsync(Model);
+        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
 
         if (result is NoContentResult _)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
@@ -83,17 +87,16 @@
     /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        Model = ViewModel.ToEntity();
+        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 
-        var result = await Controller.UpdateAsync(Model.TransactionCodeId, Model);
+        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
 
-        if (Model is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(Model.TransactionCodeId));
+        ProcessDetailAtAction(id);
     }
 
     /// <summary>edit
     /// Handles the cancel editor event of this page.
     /// </summary>
-    private void CancelEditorHandler(MouseEventArgs args) =>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
         NavigationHelper.NavigateTo(FormatDetailUri(Model.TransactionCodeId));
 }

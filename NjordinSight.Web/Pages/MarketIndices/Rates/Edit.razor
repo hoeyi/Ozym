@@ -1,121 +1,122 @@
 ﻿@page "/market-indices/rates/edit"
 
-@inherits ModelPage<MarketIndexPrice>
+@inherits ModelListPage<MarketIndexPrice>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
 <ThemedComponent>
     <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
-    <ContentTile>
-        <Body>
-            <SearchInputTable TModel="MarketIndexPrice"
-                            ComparisonOperators=@ComparisonOperators
-                            ExpressionBuilder=@ExpressionBuilder
-                            SearchFields=@SearchFields
-                            OnSearchClick=@(async (args) => await SearchClicked(args))>
-            </SearchInputTable>
-        </Body>
-    </ContentTile>
+    @if(SearchFields is null)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <ContentTile>
+            <Body>
+                <SearchInputTable TModel="MarketIndexPrice"
+                    ComparisonOperators=@ComparisonOperators
+                    ExpressionBuilder=@ExpressionBuilder
+                    SearchFields=@SearchFields
+                    OnSearchClick=@(async (args) => await SearchClicked(args))>
+                </SearchInputTable>
+            </Body>
+        </ContentTile>
+    }
 
-@if (IsLoading)
-{
-    <LoadingSvg />
-}
-else
-{
-    <ContentTile>
-        <Body>
-            @if (!string.IsNullOrEmpty(ErrorMessage))
-            {
-                <div class="error-text">@ErrorMessage</div>
-            }
-            <EditForm width="100%" EditContext="@_context">
-                <ActionButtonMenu>
-                    <button class="form-control button"
-                        @onclick="@(async (args) => await Submit_OnClick(context, args))">
-                        @Strings.Caption_Button_Save
-                    </button>
-                    <button class="form-control button"
-                        @onclick="(async (args) => await AddNewAsync(args))">
-                        @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
-                    </button>
-                    <button class="form-control button" @onclick="Cancel_OnClick"
-                        @onclick:preventDefault>
-                        @Strings.Caption_Button_Cancel
-                    </button>
-                </ActionButtonMenu>
-                <DataAnnotationsValidator />
-                <DataGrid Data="@IndexPrices">
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.MarketIndexId)
-                                Type="DataGridCellType.Control"
-                                Caption=@(NameFor(x => x.MarketIndexId))>
-                        <CellEditTemplate Context="model">
-                            <InputSelect class="form-control"
-                                @bind-Value="@model.MarketIndexId">
-                                @foreach (var lookup in MarketIndexLookup)
-                                {
-                                    <option value=@lookup.Key>@lookup.Display</option>
-                                }
-                            </InputSelect>
-                        </CellEditTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.PriceCode)
-                                Type="DataGridCellType.Control"
-                                Caption=@(NameFor(x => x.PriceCode))>
-                        <CellEditTemplate Context="model">
-                            <InputSelect class="form-control"
-                                @bind-Value="@model.PriceCode">
-                                @foreach (var lookup in PriceCodeLookup)
-                                {
-                                    <option value=@lookup.Key>@lookup.Display</option>
-                                }
-                            </InputSelect>
-                        </CellEditTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.PriceDate)
-                                Type="DataGridCellType.Control"
-                                Caption=@(NameFor(x => x.PriceDate))>
-                        <CellEditTemplate Context="model">
-                            <InputDate class="form-control" @bind-Value="@model.PriceDate" />
-                        </CellEditTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.Price)
-                                Type="DataGridCellType.Control"
-                                Caption=@(NameFor(x => x.Price))>
-                        <CellEditTemplate Context="model">
-                            <InputNumber class="form-control" @bind-Value="@model.Price" />
-                        </CellEditTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Type="DataGridCellType.Button">
-                        <CellEditTemplate Context="model">
-                            <ToolTip Text="@Strings.Caption_Button_Delete">
-                                <button class="form-control button icon"
-                                    type="button"
-                                    @onclick="async (args) => await DeleteAsync(args, model)">
-                                    <IonIcon Name="close-circle" />
-                                </button>
-                            </ToolTip>
-                        </CellEditTemplate>
-                    </DataGridColumn>
-                </DataGrid>
-            </EditForm>
-        </Body>
-    </ContentTile>
-}
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
+        <ContentTile>
+            <Body>
+                <EditForm width="100%" EditContext="@_context">
+                    <ActionButtonMenu>
+                        <button class="form-control button"
+                            @onclick="@(async (args) => await Submit_OnClick(context, args))">
+                            @Strings.Caption_Button_Save
+                        </button>
+                        <button class="form-control button"
+                            @onclick="(async (args) => await AddNewAsync(args))">
+                            @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
+                        </button>
+                        <button class="form-control button" @onclick="Cancel_OnClick"
+                            @onclick:preventDefault>
+                            @Strings.Caption_Button_Cancel
+                        </button>
+                    </ActionButtonMenu>
+                    <DataAnnotationsValidator />
+                    <DataGrid Data="@Entries">
+                        <DataGridColumn Property=@nameof(MarketIndexPrice.MarketIndexId)
+                                    Type="DataGridCellType.Control"
+                                    Caption=@(NameFor(x => x.MarketIndexId))>
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control"
+                                    @bind-Value="@model.MarketIndexId">
+                                    @foreach (var lookup in MarketIndexLookup)
+                                    {
+                                        <option value=@lookup.Key>@lookup.Display</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(MarketIndexPrice.PriceCode)
+                                    Type="DataGridCellType.Control"
+                                    Caption=@(NameFor(x => x.PriceCode))>
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control"
+                                    @bind-Value="@model.PriceCode">
+                                    @foreach (var lookup in PriceCodeLookup)
+                                    {
+                                        <option value=@lookup.Key>@lookup.Display</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(MarketIndexPrice.PriceDate)
+                                    Type="DataGridCellType.Control"
+                                    Caption=@(NameFor(x => x.PriceDate))>
+                            <CellEditTemplate Context="model">
+                                <InputDate class="form-control" @bind-Value="@model.PriceDate" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(MarketIndexPrice.Price)
+                                    Type="DataGridCellType.Control"
+                                    Caption=@(NameFor(x => x.Price))>
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="@model.Price" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon"
+                                        type="button"
+                                        @onclick="async (args) => await DeleteAsync(args, model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </EditForm>
+            </Body>
+        </ContentTile>
+    }
 </ThemedComponent>
 
 @code {
-    [Inject]
-    protected IBatchController<MarketIndexPrice> Controller { get; set; }
-
-    private IList<MarketIndexPrice> IndexPrices { get; set; }
 
     private IEnumerable<LookupModel<string, string>> PriceCodeLookup { get; set; }
 
     private IEnumerable<LookupModel<int, string>> MarketIndexLookup {get; set;}
-
-    private EditContext _context;
 
     private int MaxRecordCount { get; set; } = 100;
 
@@ -199,21 +200,25 @@ else
 
             if(dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                IndexPrices = (await queryActionResultTask).Value;
+                Entries = (await queryActionResultTask).Value;
                 MarketIndexLookup = (await indexDtosTask).Value;
                 PriceCodeLookup = (await priceCodeDtoTask).Value;
-                _context = new(IndexPrices);
+                _context = new(Entries);
             }
 
         }
         finally
         {
-            IsLoading = IndexPrices is null
+            IsLoading = Entries is null
                 || _context is null
                 || MarketIndexLookup is null
                 || PriceCodeLookup is null;
         }
     }
+
+    /// <inheritdoc/>
+    protected override void Cancel_OnClick() => 
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/rates");
 
     /// <summary>
     /// Handles search submission events that that contain
@@ -222,9 +227,9 @@ else
     /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that
     /// containst the data for the invoked event.</param>
     /// <returns>A task representing an asynchronous operator. Successful ooperation will
-    /// cause <see cref="IndexPrices"/> to update to the collection matching the event arguments
+    /// cause <see cref="Entries"/> to update to the collection matching the event arguments
     /// search expression.</returns>
-    protected async Task SearchClicked(SearchSubmittedEventArgs<MarketIndexPrice> args)
+    private async Task SearchClicked(SearchSubmittedEventArgs<MarketIndexPrice> args)
     {
         try
         {
@@ -234,52 +239,12 @@ else
                 var actionResult = await Controller!.SelectWhereAysnc(
                         predicate: args.SearchExpression, maxCount: MaxRecordCount);
 
-                IndexPrices = actionResult.Value ?? new List<MarketIndexPrice>();
+                Entries = actionResult.Value ?? new List<MarketIndexPrice>();
             }
         }
         finally
         {
             IsLoading = false;
-        }
-    }
-
-    private async Task AddNewAsync(MouseEventArgs args)
-    {
-        // TODO: Do something with MouseEventArgs?
-
-        var getDefaultTask = await Controller.GetDefaultAsync();
-        await Controller.AddAsync(getDefaultTask.Value);
-
-        if (getDefaultTask.Value is MarketIndexPrice model)
-            IndexPrices.Insert(0, model);
-    }
-
-    private async Task DeleteAsync(MouseEventArgs args, MarketIndexPrice model)
-    {
-        var result = await Controller.DeleteOrDetachAsync(model);
-
-        if (result is OkResult)
-            IndexPrices.Remove(model);
-        else
-            throw new InvalidOperationException();
-
-        // TODO: interpret the response.
-    }
-
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo($"{IndexUriRelativePath}/rates");
-
-    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
-    {
-        bool isValid = context.Validate();
-        if (isValid)
-        {
-            var saveResult = await Controller.SaveChangesAsync();
-
-            if (saveResult is NoContentResult)
-                NavigationHelper.NavigateTo($"{IndexUriRelativePath}/rates");
-
-            else if (saveResult is ObjectResult objectResult)
-                ErrorMessage = (objectResult.Value as Exception)?.Message;
         }
     }
 }

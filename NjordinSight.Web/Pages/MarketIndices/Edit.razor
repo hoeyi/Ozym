@@ -1,4 +1,4 @@
-﻿@page "/market-indices/{IndexId:int}/edit"
+﻿@page "/market-indices/{ModelId:int}/edit"
 
 @inherits ModelDetail<MarketIndex>
 
@@ -13,6 +13,10 @@
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
                          Header="@(PageTitle.UpdateSingle(Model.IndexCode))" />
+
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
 
         <ContentTile>
             <Body>
@@ -49,7 +53,7 @@
     /// Gets or sets the identifier for the <see cref="MarketIndex" /> worked using this page.
     /// </summary>
     [Parameter]
-    public int IndexId { get; set; }
+    public int ModelId { get; set; }
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
@@ -58,7 +62,7 @@
 
         try
         {
-            var modelQuery = await Controller.ReadAsync(IndexId);
+            var modelQuery = await Controller.ReadAsync(ModelId);
             if (modelQuery.Value is MarketIndex index)
                 Model = index;
         }
@@ -68,24 +72,22 @@
         }
     }
 
-    private void Cancel_OnClick()
-    {
-        NavigationHelper.NavigateTo(FormatDetailUri(IndexId));
-    }
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 
     private async Task Delete_OnClick()
     {
-        var result = await Controller.DeleteAsync(Model!);
+        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
 
-        if (result is NoContentResult ncr)
+        if (result is NoContentResult _)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
-    private async Task HandleValidSubmit()
+    protected override async Task HandleValidSubmit()
     {
-        var result = await Controller.UpdateAsync(IndexId, Model);
+        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 
-        if (result.Value is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.IndexId));
+        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
+
+        ProcessDetailAtAction(id);
     }
 }

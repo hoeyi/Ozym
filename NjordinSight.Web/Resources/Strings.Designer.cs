@@ -79,6 +79,15 @@ namespace NjordinSight.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred:.
+        /// </summary>
+        internal static string Exception_Message_Generic {
+            get {
+                return ResourceManager.GetString("Exception_Message_Generic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The relative base URI is expected to be a string beginning with &apos;/&apos;..
         /// </summary>
         internal static string Exception_Navigation_BaseUriNotValid {

@@ -5,14 +5,17 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using NjordinSight.EntityModelService;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NjordinSight.Web.Components.Generic
 {
     public partial class ModelPage<TViewModel> : ModelComponent<TViewModel>, INavigationSource
     {
+#nullable enable
         private NounAttribute? _modelNoun;
         private string? _indexUriRelativePath;
-
         /// <summary>
         /// Gets or sets the <see cref="Menu"/> containing available actions for this component.
         /// </summary>
@@ -125,6 +128,48 @@ namespace NjordinSight.Web.Components.Generic
                 return key;
             else
                 return default;
+        }
+        protected void ProcessCreatedAtAction(CreatedAtActionResult? createdAtAction)
+        {
+            object? obj = createdAtAction?.RouteValues?["id"];
+
+            if (obj is not null)
+                NavigationHelper.NavigateTo(FormatDetailUri(obj));
+        }
+
+        protected void ProcessDetailAtAction(object? id)
+        {
+            if(id is not null)
+                NavigationHelper.NavigateTo(FormatDetailUri(id));
+        }
+
+#nullable disable
+
+        /// <summary>
+        /// Runs an asynchronous operation catching <see cref="ModelUpdateException"/> throws 
+        /// and handling via an update to <see cref="ErrorMessage"/>.
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="task"></param>
+        /// <returns>A <see cref="Task{TResult}"/> representing an asychronous operation, else
+        /// null if the specified exception is caused a status of faulted.</returns>
+        protected async Task<TResult> RunCatchingModelUpdateException<TResult>(
+            Task<TResult> task) => await RunCatchingException<TResult, ModelUpdateException>(task);
+
+        // TODO: Expand use of this function to other Exception types.
+        private async Task<TResult> RunCatchingException<TResult, TException>(
+            Task<TResult> task)
+            where TException : ModelUpdateException
+        {
+            return await task.ContinueWith(x =>
+            {
+                if (x.Status == TaskStatus.Faulted && x.Exception.InnerException is TException)
+                {
+                    InvokeAsync(() => ErrorMessage = x.Exception.Message);
+                    return default;
+                }
+                return task.Result;
+            });
         }
     }
 }

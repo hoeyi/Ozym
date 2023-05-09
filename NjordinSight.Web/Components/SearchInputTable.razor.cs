@@ -52,7 +52,7 @@ namespace NjordinSight.Web.Components
         /// <summary>
         /// Gets or sets the search error message for this component.
         /// </summary>
-        private string InvalidSearchMessage
+        private string ErrorMessage
         {
             get { return _searchErrorMessage; }
             set
@@ -105,14 +105,14 @@ namespace NjordinSight.Web.Components
                 out Expression<Func<TModel, bool>> expression,
                 out string? errorMessage))
             {
-                InvalidSearchMessage = string.Empty;
+                ErrorMessage = string.Empty;
                 SearchSubmittedEventArgs<TModel> searchArgs = new(args, expression);
 
                 await OnSearchClick.InvokeAsync(searchArgs);
             }
             else
             {
-                InvalidSearchMessage = errorMessage ?? string.Empty;
+                ErrorMessage = errorMessage ?? string.Empty;
             }
         }
 

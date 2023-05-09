@@ -4,15 +4,19 @@
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-    <ThemedComponent>
-        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+<ThemedComponent>
+    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
 
-        @if (IsLoading)
+    @if (IsLoading)
     {
         <LoadingSvg />
     }
     else
     {
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
         <ContentTile>
             <Body>
                 <DataGrid Data="@Models">

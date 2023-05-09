@@ -1,4 +1,4 @@
-﻿@page "/security-type-groups/{SecurityTypeGroupId:int}/edit"
+﻿@page "/security-type-groups/{ModelId:int}/edit"
 
 @inherits ModelDetail<SecurityTypeGroup>
 
@@ -13,6 +13,10 @@
 
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
                          Header="@(PageTitle.UpdateSingle(Model.SecurityTypeGroupName))" />
+
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
 
         <ContentTile>
             <Body>
@@ -49,7 +53,7 @@
     /// Gets or sets the identifier for the <see cref="SecurityTypeGroup" /> worked using this page.
     /// </summary>
     [Parameter]
-    public int SecurityTypeGroupId { get; set; }
+    public int ModelId { get; set; }
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
@@ -58,7 +62,7 @@
 
         try
         {
-            var modelQuery = Controller.ReadAsync(SecurityTypeGroupId);
+            var modelQuery = Controller.ReadAsync(ModelId);
 
             if ((await modelQuery).Value is SecurityTypeGroup model)
                 Model = model;
@@ -69,24 +73,22 @@
         }
     }
 
-    private void Cancel_OnClick()
-    {
-        NavigationHelper.NavigateTo(FormatDetailUri(SecurityTypeGroupId));
-    }
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 
     private async Task Delete_OnClick()
     {
-        var result = await Controller.DeleteAsync(Model!);
+        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
 
-        if (result is NoContentResult ncr)
+        if (result is NoContentResult _)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
-    private async Task HandleValidSubmit()
+    protected override async Task HandleValidSubmit()
     {
-        var result = await Controller.UpdateAsync(SecurityTypeGroupId, Model);
+        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 
-        if (result.Value is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.SecurityTypeGroupId));
+        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
+
+        ProcessDetailAtAction(id);
     }
 }

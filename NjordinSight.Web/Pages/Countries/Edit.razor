@@ -14,13 +14,17 @@
         <ModelPageMenuHeader ActionMenu="@ActionMenu"
                          Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
 
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
         <AttributeEntryCollectionEditor 
             TViewModelParent="CountryDto"
             TViewModelChild="CountryAttributeGrouping"
             TModel="Country"
             TModelChild="CountryAttributeMemberEntry"
-            OnCancelEditorClick="CancelEditorHandler"
-            OnDeleteModelClick="DeleteModelHandler"
+            OnCancelEditorClick="FormCancelClickHandler"
+            OnDeleteModelClick="FormDeleteClickHandler"
             OnValidFormSubmit="ValidFormSubmitHandler"
             EffectiveDatePath="@(x => x.EffectiveDate)"
             ViewModel="@ViewModel"
@@ -63,9 +67,9 @@
     /// <summary>
     /// Handles the delete click event of this page.
     /// </summary>
-    private async Task DeleteModelHandler(MouseEventArgs args)
+    private async Task FormDeleteClickHandler(MouseEventArgs args)
     {
-        var result = await Controller.DeleteAsync(Model);
+        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
 
         if (result is NoContentResult _)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
@@ -76,17 +80,16 @@
     /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        Model = ViewModel.ToEntity();
+        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 
-        var result = await Controller.UpdateAsync(Model.CountryId, Model);
+        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
 
-        if (Model is not null)
-            NavigationHelper.NavigateTo(FormatDetailUri(result.Value.CountryId));
+        ProcessDetailAtAction(id);
     }
 
     /// <summary>
     /// Handles the cancel editor event of this page.
     /// </summary>
-    private void CancelEditorHandler(MouseEventArgs args) =>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
         NavigationHelper.NavigateTo(FormatDetailUri(Model.CountryId));
 }

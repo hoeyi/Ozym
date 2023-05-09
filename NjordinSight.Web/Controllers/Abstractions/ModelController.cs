@@ -53,6 +53,8 @@ namespace NjordinSight.Web.Controllers.Abstractions
                     new { id = _modelService.GetKey(createdModel) },
                     createdModel);
             }
+            // TODO: This code may not be reachable. ModelServices are capturing the
+            // DbUpdateException and wrapping its message in a ModelUpdateException.
             catch (DbUpdateException due)
             {
                 _logger.LogError(exception: due, message: due.Message);

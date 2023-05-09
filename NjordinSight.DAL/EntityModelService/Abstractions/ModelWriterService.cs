@@ -239,6 +239,11 @@ namespace NjordinSight.EntityModelService.Abstractions
             {
                 return await writeDelegate.Invoke(context, model);
             }
+            catch(InvalidOperationException ioe)
+            {
+                _logger.LogWarning(ioe, ioe.Message);
+                throw new ModelUpdateException(ioe.Message);
+            }
             catch (DbUpdateConcurrencyException duc)
             {
                 _logger.LogWarning(duc, duc.Message);
