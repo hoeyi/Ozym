@@ -55,9 +55,8 @@ The following scripts may be used to update a target database.
 
 ## Commit Message Guidelines ##
 
-The structure of these guidelines are based on the [Angular convetion](
-https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#commit) and 
-[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/).
+Commit message guidelines are meant to mirror the style prescribed in [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Changes to
+the types and scope have been made.
 
 Commit messages should follow the format:
 ```
