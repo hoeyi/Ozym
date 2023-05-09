@@ -3,7 +3,6 @@ using System;
 using Ichosys.Extensions.Common.Localization;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
-using NjordinSight.EntityModelService;
 
 namespace NjordinSight.UserInterface
 {

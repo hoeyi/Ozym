@@ -1,5 +1,4 @@
 ﻿using Ichosys.DataModel.Annotations;
-using NjordinSight.BusinessLogic;
 using NjordinSight.EntityModel;
 using System;
 using System.ComponentModel.DataAnnotations;

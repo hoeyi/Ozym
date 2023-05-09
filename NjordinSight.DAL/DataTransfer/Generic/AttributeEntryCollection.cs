@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using NjordinSight.DataTransfer;
 using NjordinSight.EntityModel;
 
 namespace NjordinSight.DataTransfer.Generic

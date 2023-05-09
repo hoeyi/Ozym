@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NjordinSight.Web.Areas.Identity.Data;
-using System;
 
 namespace NjordinSight.Web.Data
 {

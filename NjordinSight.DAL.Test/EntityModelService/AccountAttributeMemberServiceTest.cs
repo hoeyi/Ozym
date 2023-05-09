@@ -1,5 +1,4 @@
-﻿using NjordinSight.EntityModelService;
-using NjordinSight.EntityModel;
+﻿using NjordinSight.EntityModel;
 using System;
 using System.Linq;
 using System.Linq.Expressions;

@@ -1,5 +1,4 @@
 ﻿using Ichosys.DataModel.Annotations;
-using NjordinSight.DataTransfer;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Metadata;
 using System;

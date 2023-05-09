@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using NjordinSight.EntityModelService;
 using NjordinSight.EntityModel;
 using System;
 using System.Linq;

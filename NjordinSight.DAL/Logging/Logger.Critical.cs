@@ -1,7 +1,6 @@
 ﻿using NjordinSight.Logging.Templates;
 using Microsoft.Extensions.Logging;
 using System;
-using Microsoft.EntityFrameworkCore;
 
 namespace NjordinSight.Logging
 {

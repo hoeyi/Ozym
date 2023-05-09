@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModelService.Abstractions;
-using System.Collections.Generic;
 
 namespace NjordinSight.EntityModelService
 {
@@ -38,9 +37,6 @@ namespace NjordinSight.EntityModelService
                 Context, modelMetadata, logger)
             {
                 GetDefaultDelegate = () => new ModelAttribute()
-                {
-                    ModelAttributeScopes = new List<ModelAttributeScope>()
-                }
             };
         }
     }

@@ -19,8 +19,6 @@ using ILogger = Microsoft.Extensions.Logging.ILogger;
 using Ichosys.Blazor.Ionicons;
 using NjordinSight.Web;
 using NjordinSight.EntityModel.Context;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.FlowAnalysis;
 
 var builder = WebApplication.CreateBuilder(args);
 

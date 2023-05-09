@@ -7,6 +7,7 @@ using System;
 using NjordinSight.DataTransfer.Generic;
 using NjordinSight.EntityModelService.Query;
 using NjordinSight.EntityModelService;
+using NjordinSight.EntityModel.ConstraintType;
 
 namespace NjordinSight.Web.Components.Generic
 {
@@ -85,13 +86,20 @@ namespace NjordinSight.Web.Components.Generic
         /// <returns></returns>
         protected async Task<IEnumerable<ModelAttribute>> GetSupportedAttributesAsync()
         {
+            int[] exclusions = new int[2]
+            {
+                (int)ModelAttributeEnum.SecurityType,
+                (int)ModelAttributeEnum.SecurityTypeGroup
+            }; 
+
             using var queryBuilder = QueryService!
                 .CreateQueryBuilder<ModelAttribute>()
                 .WithDirectRelationship(a => a.ModelAttributeScopes);
 
             var attributeQuery = queryBuilder.Build().SelectWhereAsync(
-                predicate: attr => attr.ModelAttributeScopes.Any(
-                    msc => SupportedModelAttributeScopes.Contains(msc.ScopeCode)),
+                predicate: attr => !exclusions.Contains(attr.AttributeId) &&
+                    attr.ModelAttributeScopes.Any(
+                        msc => SupportedModelAttributeScopes.Contains(msc.ScopeCode)),
                 maxCount: 0);
 
             return await attributeQuery;

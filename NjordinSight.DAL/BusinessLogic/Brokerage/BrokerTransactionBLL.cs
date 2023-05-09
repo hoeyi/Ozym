@@ -1,5 +1,4 @@
-﻿using NjordinSight.BusinessLogic;
-using NjordinSight.EntityModel;
+﻿using NjordinSight.EntityModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
