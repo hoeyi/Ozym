@@ -19,8 +19,8 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ViewModel">
-                    <EditForm class="model-editor" Model="@ViewModel">
+                <CascadingValue Value="@ModelDto">
+                    <EditForm class="model-editor" Model="@ModelDto">
                         <ModelAttributeCRUD Disabled="false" ReadOnly="true" />
                     </EditForm>
                 </CascadingValue>
@@ -28,10 +28,10 @@
         </ContentTile>
         <ContentTile>
             <Body>
-                <EditForm Model="@ViewModel">
+                <EditForm Model="@ModelDto">
                     <ContentTile>
                         <Body>
-                            <DataGrid Data="@ViewModel.AttributeScopes">
+                            <DataGrid Data="@ModelDto.AttributeScopes">
                                 <DataGridColumn Type="DataGridCellType.Text"
                                             Property="@nameof(ModelAttributeScope.ScopeCode)"
                                             Caption="@(ModelMetadata.NameFor<ModelAttributeScope>(x => x.ScopeCode))">
@@ -45,10 +45,10 @@
                         </Body>
                     </ContentTile>
                 </EditForm>
-                <EditForm Model="@ViewModel">
+                <EditForm Model="@ModelDto">
                     <ContentTile>
                         <Body>
-                            <DataGrid Data="@ViewModel.AttributeMembers">
+                            <DataGrid Data="@ModelDto.AttributeMembers">
                                 <DataGridColumn Type="DataGridCellType.Text"
                                             Property="@nameof(ModelAttributeMember.DisplayName)"
                                             Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayName))">
@@ -76,7 +76,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private ModelAttributeDto ViewModel { get; set; }
+    private ModelAttributeDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -117,11 +117,11 @@
                     }
                 };
 
-            ViewModel = new(Model);
+            ModelDto = new(Model);
         }
         finally
         {
-            IsLoading = Model is null || ViewModel is null;
+            IsLoading = Model is null || ModelDto is null;
         }
 
         // TODO: Take corrective action here, accountQuery.Value should be Account

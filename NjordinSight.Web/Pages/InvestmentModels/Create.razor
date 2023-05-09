@@ -25,7 +25,7 @@
             OnCancelEditorClick="CancelFormHandler"
             OnValidFormSubmit="ValidFormSubmitHandler"
             EffectiveDatePath="@(x => x.EffectiveDate)"
-            ViewModel="@ViewModel"
+            ModelDto="@ModelDto"
             Mode="EditorMode.Add">
             <ViewModelCRUD>
                 <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
@@ -40,7 +40,7 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private InvestmentModelDto ViewModel { get; set; }
+    private InvestmentModelDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -55,17 +55,17 @@
                 Model = model;
             }
 
-            ViewModel = new(Model);
+            ModelDto = new(Model);
         }
         finally
         {
-            IsLoading = Model is null || ViewModel is null;
+            IsLoading = Model is null || ModelDto is null;
         }
     }
 
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        Model = ViewModel.ToEntity();
+        Model = ModelDto.ToEntity();
 
         var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
 

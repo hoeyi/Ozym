@@ -24,7 +24,7 @@
                           TModelChild="BrokerTransactionCodeAttributeMemberEntry"
                           OnCancelEditorClick="CancelFormHandler"
                           OnValidFormSubmit="ValidFormSubmitHandler"
-                          ViewModel="@ViewModel"
+                          ModelDto="@ModelDto"
                           Mode="EditorMode.Add">
             <ViewModelCRUD>
                 <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="false" />
@@ -39,7 +39,7 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private BrokerTransactionCodeDto ViewModel { get; set; }
+    private BrokerTransactionCodeDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -54,11 +54,11 @@
                 Model = model;
             }
 
-            ViewModel = new(Model);
+            ModelDto = new(Model);
         }
         finally
         {
-            IsLoading = Model is null || ViewModel is null;
+            IsLoading = Model is null || ModelDto is null;
         }
     }
 
@@ -67,7 +67,7 @@
     /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        Model = ViewModel.ToEntity();
+        Model = ModelDto.ToEntity();
 
         var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
 

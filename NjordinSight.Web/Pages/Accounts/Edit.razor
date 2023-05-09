@@ -17,7 +17,7 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ViewModel">
+        <CascadingValue Value="@ModelDto">
             <AttributeEntryEditor TViewModelParent="AccountAttributesDto"
                 TViewModelChild="AccountAttributeGrouping"
                 TModel="AccountObject"
@@ -25,7 +25,7 @@
                 OnCancelEditorClick="FormCancelClickHandler"
                 OnDeleteModelClick="FormDeleteClickHandler"
                 OnValidFormSubmit="ValidFormSubmitHandler"
-                ViewModel="@ViewModel.AttributeViewModel"
+                ModelDto="@ModelDto.AttributeViewModel"
                 Mode="EditorMode.Edit">
                 <ViewModelCRUD>
                     <AccountCRUD AccountCustodians="@Custodians" Disabled="false" ReadOnly="false" />
@@ -44,7 +44,7 @@
 
     private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
-    private AccountDto ViewModel { get; set; }
+    private AccountDto ModelDto { get; set; }
     
     protected override async Task OnInitializedAsync()
     {
@@ -62,7 +62,7 @@
             {
                 Model = (await accountQuery).Value;
                 Custodians = (await custodiansQuery).Value;
-                ViewModel = new(Model);
+                ModelDto = new(Model);
             }
             else
             {

@@ -1,50 +1,50 @@
 ﻿@inherits ModelCRUD<ReportConfiguration>
 
-@if(ViewModel is null)
+@if(ModelDto is null)
 {
     <LoadingSvg />
 }
 else
 {
-    <ModelForm TViewModel="ReportConfiguration">
-        <ModelFormLineItem ForMember="@(() => ViewModel.ConfigurationCode)">
+    <ModelForm TModelDto="ReportConfiguration">
+        <ModelFormLineItem ForMember="@(() => ModelDto.ConfigurationCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.ConfigurationCode
+                    @ModelDto.ConfigurationCode
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value="ViewModel.ConfigurationCode"
+                <InputText class="form-control" @bind-Value="ModelDto.ConfigurationCode"
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.ConfigurationCode)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.ConfigurationDescription)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.ConfigurationDescription)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.ConfigurationDescription
+                    @ModelDto.ConfigurationDescription
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value="ViewModel.ConfigurationDescription"
+                <InputText class="form-control" @bind-Value="ModelDto.ConfigurationDescription"
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.ConfigurationDescription)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.XmlDefinition)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.XmlDefinition)">
             @if(ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.XmlDefinition
+                    @ModelDto.XmlDefinition
                 </div>
             }
             else
             {
-                <InputTextArea class="form-control" @bind-Value="ViewModel.XmlDefinition"
+                <InputTextArea class="form-control" @bind-Value="ModelDto.XmlDefinition"
                     disable="@Disabled"
                    DisplayName="@NameFor(x => x.XmlDefinition)" />
             }

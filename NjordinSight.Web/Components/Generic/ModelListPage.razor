@@ -1,15 +1,15 @@
-﻿@typeparam TViewModel
+﻿@typeparam TModelDto
 
-@inherits ModelPage<TViewModel>
+@inherits ModelPage<TModelDto>
 
 @code {
     [Inject]
-    protected IBatchController<TViewModel> Controller { get; init; }
+    protected IBatchController<TModelDto> Controller { get; init; }
 
     /// <summary>
     /// Gets or sets the collection of entries worked via this page.
     /// </summary>
-    protected IList<TViewModel> Entries { get; set; }
+    protected IList<TModelDto> Entries { get; set; }
 
     protected EditContext _context { get; set; }
 
@@ -26,7 +26,7 @@
         var getDefaultTask = await Controller.GetDefaultAsync();
         await Controller.AddAsync(getDefaultTask.Value);
 
-        if (getDefaultTask.Value is TViewModel model)
+        if (getDefaultTask.Value is TModelDto model)
             Entries.Add(model);
         else
             // TODO: Log error here with useful message.
@@ -40,7 +40,7 @@
     /// <param name="model"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    protected async Task DeleteAsync(MouseEventArgs args, TViewModel model)
+    protected async Task DeleteAsync(MouseEventArgs args, TModelDto model)
     {
         var result = await Controller.DeleteOrDetachAsync(model);
 

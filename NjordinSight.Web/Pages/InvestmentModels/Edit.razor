@@ -9,11 +9,11 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.UpdateSingle(ViewModel.DisplayName).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.UpdateSingle(ModelDto.DisplayName).AsPageTitle())</PageTitle>
 
         <ModelPageMenuHeader 
             ActionMenu="@ActionMenu"
-            Header="@(PageTitle.UpdateSingle(ViewModel.DisplayName))" />
+            Header="@(PageTitle.UpdateSingle(ModelDto.DisplayName))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
@@ -28,7 +28,7 @@
             OnDeleteModelClick="FormDeleteClickHandler"
             OnValidFormSubmit="ValidFormSubmitHandler"
             EffectiveDatePath="@(x => x.EffectiveDate)"
-            ViewModel="@ViewModel"
+            ModelDto="@ModelDto"
             Mode="EditorMode.Edit">
             <ViewModelCRUD>
                 <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
@@ -44,7 +44,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private InvestmentModelDto ViewModel { get; set; }
+    private InvestmentModelDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -76,11 +76,11 @@
                     }
                 };
 
-            ViewModel = new(Model);
+            ModelDto = new(Model);
         }
         finally
         {
-            IsLoading = Model is null || ViewModel is null;
+            IsLoading = Model is null || ModelDto is null;
         }
     }
 
@@ -100,7 +100,7 @@
     /// </summary>
     protected virtual async Task ValidFormSubmitHandler(EditContext args)
     {
-        Model = ViewModel.ToEntity();
+        Model = ModelDto.ToEntity();
 
         var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 

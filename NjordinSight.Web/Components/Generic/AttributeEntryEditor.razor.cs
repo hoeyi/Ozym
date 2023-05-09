@@ -130,7 +130,7 @@ namespace NjordinSight.Web.Components.Generic
         /// <returns></returns>
         protected void AddEntryForGrouping(ModelAttribute forModelAttribute)
         {
-            ViewModel.AddEntryForGrouping(forModelAttribute);
+            ModelDto.AddEntryForGrouping(forModelAttribute);
         }
     }
 }

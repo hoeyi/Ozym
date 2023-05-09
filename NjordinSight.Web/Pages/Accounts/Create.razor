@@ -19,8 +19,8 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ViewModel">
-                    <EditForm class="model-editor" Model="@ViewModel" 
+                <CascadingValue Value="@ModelDto">
+                    <EditForm class="model-editor" Model="@ModelDto" 
                         OnValidSubmit="HandleValidSubmit" >
                         <DataAnnotationsValidator />
                         <ActionButtonMenu>
@@ -47,7 +47,7 @@
 
     private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
 
-    private AccountDto ViewModel { get; set; }
+    private AccountDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -65,7 +65,7 @@
             {
                 Model = (await defaultModelTask).Value;
                 Custodians = (await custodiansQuery).Value;
-                ViewModel = new(Model);
+                ModelDto = new(Model);
             }
             else
             {
@@ -82,7 +82,7 @@
 
     protected override async Task HandleValidSubmit()
     {
-        Model = ViewModel.ToEntity();
+        Model = ModelDto.ToEntity();
 
         var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
 

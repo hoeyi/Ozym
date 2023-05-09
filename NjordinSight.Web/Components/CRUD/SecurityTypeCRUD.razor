@@ -6,33 +6,33 @@
 }
 else
 {
-    <ModelForm TViewModel="SecurityType">
-        <ModelFormLineItem ForMember="@(() => ViewModel.SecurityTypeName)">
+    <ModelForm TModelDto="SecurityType">
+        <ModelFormLineItem ForMember="@(() => ModelDto.SecurityTypeName)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.SecurityTypeName
+                    @ModelDto.SecurityTypeName
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value="ViewModel.SecurityTypeName"
+                <InputText class="form-control" @bind-Value="ModelDto.SecurityTypeName"
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.SecurityTypeName)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.SecurityTypeGroupId)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.SecurityTypeGroupId)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @SecurityTypeGroupDisplayName(ViewModel.SecurityTypeGroupId)
+                    @SecurityTypeGroupDisplayName(ModelDto.SecurityTypeGroupId)
                 </div>
             }
             else
             {
                 <InputSelect class="form-control"
                      DisplayName=@(NameFor(x => x.SecurityTypeGroupId))
-                     @bind-Value="ViewModel.SecurityTypeGroupId"
+                     @bind-Value="ModelDto.SecurityTypeGroupId"
                      disabled="@Disabled">
                 @foreach (var lookup in SecurityTypeGroups)
                 {
@@ -41,58 +41,58 @@ else
             </InputSelect>
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.CanHavePosition)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.CanHavePosition)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.CanHavePosition
+                    @ModelDto.CanHavePosition
                 </div>
             }
             else
             {
-                <InputCheckbox class="checkbox-themed" @bind-Value="ViewModel.CanHavePosition"
+                <InputCheckbox class="checkbox-themed" @bind-Value="ModelDto.CanHavePosition"
                        disable="@Disabled"
                        DisplayName="@NameFor(x => x.CanHavePosition)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.CanHaveDerivative)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.CanHaveDerivative)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.CanHaveDerivative
+                    @ModelDto.CanHaveDerivative
                 </div>
             }
             else
             {
-                <InputCheckbox class="checkbox-themed" @bind-Value="ViewModel.CanHaveDerivative"
+                <InputCheckbox class="checkbox-themed" @bind-Value="ModelDto.CanHaveDerivative"
                        disable="@Disabled"
                        DisplayName="@NameFor(x => x.CanHaveDerivative)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.HeldInWallet)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.HeldInWallet)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.HeldInWallet
+                    @ModelDto.HeldInWallet
                 </div>
             }
             else
             {
-                <InputCheckbox class="checkbox-themed" @bind-Value="ViewModel.HeldInWallet"
+                <InputCheckbox class="checkbox-themed" @bind-Value="ModelDto.HeldInWallet"
                        disable="@Disabled"
                        DisplayName="@NameFor(x => x.HeldInWallet)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.ValuationFactor)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.ValuationFactor)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.ValuationFactor
+                    @ModelDto.ValuationFactor
                 </div>
             }
             else
             {
-                <InputNumber class="form-control" @bind-Value="ViewModel.ValuationFactor"
+                <InputNumber class="form-control" @bind-Value="ModelDto.ValuationFactor"
                    disable="@Disabled"
                      DisplayName="@NameFor(x => x.ValuationFactor)" />
             }
@@ -106,7 +106,7 @@ else
 
     protected override void OnInitialized()
     {
-        IsLoading = ViewModel is null | SecurityTypeGroups is null;
+        IsLoading = ModelDto is null | SecurityTypeGroups is null;
     }
     private string SecurityTypeGroupDisplayName(int? id) =>
         SecurityTypeGroups?.FirstOrDefault(a => a.Key == id)?.Display;

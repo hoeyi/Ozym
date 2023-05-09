@@ -18,9 +18,9 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic"/>
         </CascadingValue>
 
-        <CascadingValue Value="@ViewModel">
+        <CascadingValue Value="@ModelDto">
             <EditForm class="model-editor" 
-                Model="@ViewModel" 
+                Model="@ModelDto" 
                 OnValidSubmit="HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <ContentTile>
@@ -44,7 +44,7 @@
                     </Body>
                 </ContentTile>
             </EditForm>
-            <EditForm Model="@ViewModel">
+            <EditForm Model="@ModelDto">
                 <ContentTile>
                     <Body>
                         <AccountCompositeMembersCRUD 
@@ -62,7 +62,7 @@
 
     private IEnumerable<LookupModel<int, string>> Accounts { get; set; }
 
-    private AccountCompositeDto ViewModel { get; set; }
+    private AccountCompositeDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -78,11 +78,11 @@
             Model = (await compositeQuery).Value;
             Accounts = (await accountsQuery).Value;
 
-            ViewModel = new(Model);
+            ModelDto = new(Model);
         }
         finally
         {
-            IsLoading = Model is null || Accounts is null || ViewModel is null;
+            IsLoading = Model is null || Accounts is null || ModelDto is null;
         }
     }
 
@@ -98,7 +98,7 @@
 
     protected override async Task HandleValidSubmit()
     {
-        Model = ViewModel.ToEntity();
+        Model = ModelDto.ToEntity();
 
         var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 

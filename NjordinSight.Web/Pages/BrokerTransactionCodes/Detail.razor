@@ -20,20 +20,20 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ViewModel">
-                    <EditForm class="model-editor" Model="@ViewModel">
+                <CascadingValue Value="@ModelDto">
+                    <EditForm class="model-editor" Model="@ModelDto">
                         <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="true" />
                     </EditForm>
                 </CascadingValue>
             </Body>
         </ContentTile>
-        @foreach (var entry in ViewModel.CurrentEntries.OrderBy(g =>
+        @foreach (var entry in ModelDto.CurrentEntries.OrderBy(g =>
             g.AttributeMember.Attribute.DisplayName))
         {
             <ContentTile>
                 <Body>
                     <EditForm Model="entry">
-                        <ModelForm TViewModel="BrokerTransactionCodeAttributeMemberEntry">
+                        <ModelForm TModelDto="BrokerTransactionCodeAttributeMemberEntry">
                             <ModelFormLineItem LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
                                        ForMember="@(() => entry.AttributeMember.DisplayName)">
                                 <div class="form-control">
@@ -57,7 +57,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private BrokerTransactionCodeDto ViewModel { get; set; }
+    private BrokerTransactionCodeDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -100,11 +100,11 @@
                     }
                 };
 
-            ViewModel = new(Model);
+            ModelDto = new(Model);
         }
         finally
         {
-            IsLoading = Model is null || ViewModel is null;
+            IsLoading = Model is null || ModelDto is null;
         }
     }
 }

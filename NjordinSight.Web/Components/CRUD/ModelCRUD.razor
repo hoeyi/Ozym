@@ -1,15 +1,15 @@
-﻿@typeparam TViewModel
-@attribute [CascadingTypeParameter(nameof(TViewModel))]
+﻿@typeparam TModelDto
+@attribute [CascadingTypeParameter(nameof(TModelDto))]
 
-@inherits ModelComponent<TViewModel>
+@inherits ModelComponent<TModelDto>
 
 @code {
     /// <summary>
-    /// Gets or sets the <see cref="TViewModel"/> for this component.
+    /// Gets or sets the <see cref="TModelDto"/> for this component.
     /// </summary>
     //[CascadingParameter(Name = nameof(ViewModel))]
     [CascadingParameter]
-    public TViewModel ViewModel { get; set; } = default!;
+    public TModelDto ModelDto { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets whether the component is disabled.

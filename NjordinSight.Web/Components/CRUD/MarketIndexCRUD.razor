@@ -1,36 +1,36 @@
 ﻿@inherits ModelCRUD<MarketIndex>
 
-@if(ViewModel is null)
+@if(ModelDto is null)
 {
     <LoadingSvg />
 }
 else
 {
-    <ModelForm TViewModel="MarketIndex">
-        <ModelFormLineItem ForMember="@(() => ViewModel.IndexCode)">
+    <ModelForm TModelDto="MarketIndex">
+        <ModelFormLineItem ForMember="@(() => ModelDto.IndexCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.IndexCode
+                    @ModelDto.IndexCode
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value=ViewModel.IndexCode
+                <InputText class="form-control" @bind-Value=ModelDto.IndexCode
                    disable="@Disabled"
                    DisplayName=@(NameFor(x => x.IndexCode)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.IndexDescription)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.IndexDescription)">
             @if(ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.IndexDescription
+                    @ModelDto.IndexDescription
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value=ViewModel.IndexDescription
+                <InputText class="form-control" @bind-Value=ModelDto.IndexDescription
                     disable="@Disabled"
                     DisplayName="@NameFor(x => x.IndexDescription)" />
             }

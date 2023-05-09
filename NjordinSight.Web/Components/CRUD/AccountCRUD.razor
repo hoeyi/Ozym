@@ -1,111 +1,111 @@
 ﻿@inherits ModelCRUD<AccountDto>
 
-@if (ViewModel is null || AccountCustodians is null)
+@if (ModelDto is null || AccountCustodians is null)
 {
     <LoadingSvg />
 }
 else
 {   
-    <ModelForm TViewModel="AccountDto">
+    <ModelForm TModelDto="AccountDto">
         @*AccountObject inputs*@
-        <ModelFormLineItem ForMember="@(() => ViewModel.AccountObjectCode)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.AccountObjectCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.AccountObjectCode
+                    @ModelDto.AccountObjectCode
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value=ViewModel.AccountObjectCode
+                <InputText class="form-control" @bind-Value=ModelDto.AccountObjectCode
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.AccountObjectCode)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.DisplayName)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.DisplayName)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.DisplayName
+                    @ModelDto.DisplayName
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value=ViewModel.DisplayName
+                <InputText class="form-control" @bind-Value=ModelDto.DisplayName
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.DisplayName)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.Description)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.Description)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.Description
+                    @ModelDto.Description
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value=ViewModel.Description
+                <InputText class="form-control" @bind-Value=ModelDto.Description
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.Description)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.StartDate)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.StartDate)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.StartDate.ToShortDateString()
+                    @ModelDto.StartDate.ToShortDateString()
                 </div>
             }
             else
             {
-                <InputDate class="form-control" @bind-Value=ViewModel.StartDate 
+                <InputDate class="form-control" @bind-Value=ModelDto.StartDate 
                     disable="@Disabled" 
                     DisplayName=@(NameFor(x => x.StartDate))/>
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.CloseDate)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.CloseDate)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.CloseDate?.ToShortDateString()
+                    @ModelDto.CloseDate?.ToShortDateString()
                 </div>
             }
             else
             {
-                <InputDate class="form-control" @bind-Value=ViewModel.CloseDate 
+                <InputDate class="form-control" @bind-Value=ModelDto.CloseDate 
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.CloseDate)) />
             }
         </ModelFormLineItem>
 
         @*Account inputs*@
-        <ModelFormLineItem ForMember="@(() => ViewModel.AccountNumber)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.AccountNumber)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.AccountNumber
+                    @ModelDto.AccountNumber
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value=ViewModel.AccountNumber
+                <InputText class="form-control" @bind-Value=ModelDto.AccountNumber
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.AccountNumber)) />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.AccountCustodianId)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.AccountCustodianId)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @CustodianDisplayName(ViewModel.AccountCustodianId)
+                    @CustodianDisplayName(ModelDto.AccountCustodianId)
                 </div>
             }
             else
             {
                 <InputSelect class="form-control"
                     DisplayName=@(NameFor(x => x.AccountCustodianId))
-                    @bind-Value="ViewModel.AccountCustodianId"
+                    @bind-Value="ModelDto.AccountCustodianId"
                     disabled="@Disabled">
                     @foreach (var custodian in AccountCustodians)
                     {
@@ -114,68 +114,68 @@ else
                 </InputSelect>
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.BooksClosedDate)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.BooksClosedDate)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.BooksClosedDate?.ToShortDateString()
+                    @ModelDto.BooksClosedDate?.ToShortDateString()
                 </div>
             }
             else
             {
-                <InputDate class="form-control" @bind-Value=ViewModel.BooksClosedDate
+                <InputDate class="form-control" @bind-Value=ModelDto.BooksClosedDate
                         disabled="@Disabled"
                         DisplayName=@(NameFor(x => x.BooksClosedDate))/>
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.IsComplianceTradable)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.IsComplianceTradable)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.IsComplianceTradable
+                    @ModelDto.IsComplianceTradable
                 </div>
             }
             else
             {
-                <InputCheckbox class="checkbox-themed" @bind-Value=ViewModel.IsComplianceTradable disabled="@Disabled" />
+                <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.IsComplianceTradable disabled="@Disabled" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.HasWallet)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.HasWallet)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.HasWallet
+                    @ModelDto.HasWallet
                 </div>
             }
             else
             {
-                <InputCheckbox class="checkbox-themed" @bind-Value=ViewModel.HasWallet disabled="@Disabled" />
-                <ValidationMessage For="@(() => ViewModel.HasWallet)" />
+                <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasWallet disabled="@Disabled" />
+                <ValidationMessage For="@(() => ModelDto.HasWallet)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.HasBankTransaction)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.HasBankTransaction)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.HasBankTransaction
+                    @ModelDto.HasBankTransaction
                 </div>
             }
             else
             {
-                <InputCheckbox class="checkbox-themed" @bind-Value=ViewModel.HasBankTransaction disabled="@Disabled" />
-                <ValidationMessage For="@(() => ViewModel.HasBankTransaction)" />
+                <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasBankTransaction disabled="@Disabled" />
+                <ValidationMessage For="@(() => ModelDto.HasBankTransaction)" />
             }
         </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ViewModel.HasBrokerTransaction)">
+        <ModelFormLineItem ForMember="@(() => ModelDto.HasBrokerTransaction)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ViewModel.HasBrokerTransaction
+                    @ModelDto.HasBrokerTransaction
                 </div>
             }
             else
             {
-                <InputCheckbox class="checkbox-themed" @bind-Value=ViewModel.HasBrokerTransaction disabled="@Disabled" />
+                <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasBrokerTransaction disabled="@Disabled" />
             }
         </ModelFormLineItem>
     </ModelForm>

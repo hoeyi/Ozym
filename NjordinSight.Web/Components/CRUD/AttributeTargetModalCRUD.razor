@@ -1,4 +1,4 @@
-﻿@typeparam TViewModel
+﻿@typeparam TModelDto
 @inherits LocalizableComponent
 
 @if (IsLoading)
@@ -21,7 +21,7 @@ else
     /// Gets or sets the event handler for the close event of this form.
     /// </summary>
     [Parameter]
-    public EventCallback<ModalEventArgs<TViewModel>> OnClose { get; set; }
+    public EventCallback<ModalEventArgs<TModelDto>> OnClose { get; set; }
 
     /// <summary>
     /// Gets or sets the child content to render for this form.
@@ -33,7 +33,7 @@ else
     /// Gets or sets the view model for this form.
     /// </summary>
     [CascadingParameter]
-    public TViewModel ViewModel { get; set; }
+    public TModelDto ModelDto { get; set; }
 
     /// <summary>
     /// Gets or sets the reference list for allowable <see cref="ModelAttributeMember" />
@@ -46,6 +46,6 @@ else
     {
         await base.OnInitializedAsync();
 
-        IsLoading = ViewModel is null || AttributeMemberLookup is null;
+        IsLoading = ModelDto is null || AttributeMemberLookup is null;
     }
 }

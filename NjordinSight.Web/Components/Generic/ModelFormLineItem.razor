@@ -1,4 +1,4 @@
-﻿@typeparam TViewModel
+﻿@typeparam TModelDto
 
 @inherits LocalizableComponent
 
@@ -29,7 +29,7 @@
 
 @code {
     [CascadingParameter]
-    private ModelForm<TViewModel> ParentForm { get; set; }
+    private ModelForm<TModelDto> ParentForm { get; set; }
 
     [Parameter, EditorRequired] 
     public RenderFragment ChildContent { get; set; }
@@ -47,7 +47,7 @@
 
     private string LabelText { get; set; }
 
-    private Expression<Func<TViewModel, object>> TypedAccessor { get; set; }
+    private Expression<Func<TModelDto, object>> TypedAccessor { get; set; }
 
     protected override void OnInitialized()
     {
@@ -56,10 +56,10 @@
 
         // Convert the ForMember parameter into a typed accessor for compatability with the
         // IModelMetadataService methods.
-        TypedAccessor = ExpressionConverter.ConvertAccessor<TViewModel, object>(ForMember);
+        TypedAccessor = ExpressionConverter.ConvertAccessor<TModelDto, object>(ForMember);
 
         LabelText = string.IsNullOrEmpty(LabelOverride) ?
-            ModelMetadata.NameFor<TViewModel>(TypedAccessor) : LabelOverride;
+            ModelMetadata.NameFor<TModelDto>(TypedAccessor) : LabelOverride;
 
         ToolTipText = ModelMetadata.DescriptionFor(TypedAccessor);
     }

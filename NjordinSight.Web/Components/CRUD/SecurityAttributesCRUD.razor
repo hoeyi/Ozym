@@ -8,11 +8,11 @@ else
 {
     <ContentTile>
         <TitleAlignLeft>
-            @ViewModel.ParentAttribute.DisplayName
+            @ModelDto.ParentAttribute.DisplayName
             @if (ReadOnly)
             {
                 <span class="sub-title">
-                    (@ViewModel.EffectiveDate.ToShortDateString())
+                    (@ModelDto.EffectiveDate.ToShortDateString())
                 </span>
             }
         </TitleAlignLeft>
@@ -22,7 +22,7 @@ else
                 <label for="add-new-entry-button">
                     @(NameFor(x => x.EffectiveDate))
                 </label>
-                <InputDate class="form-control right" @bind-Value="@ViewModel.EffectiveDate"
+                <InputDate class="form-control right" @bind-Value="@ModelDto.EffectiveDate"
                    @onchange="RefreshState" />
                 <button id="add-new-entry-button"
                 class="form-control button icon"
@@ -34,8 +34,8 @@ else
 
         </TitleAlignRight>
         <Body>
-            <DataGrid Data="@ViewModel.Entries">
-                <ValidationMessage For=@(() => ViewModel.SumOfMemberWeights) />
+            <DataGrid Data="@ModelDto.Entries">
+                <ValidationMessage For=@(() => ModelDto.SumOfMemberWeights) />
                 @if (ReadOnly)
                 {
                     <DataGridColumn Property=@nameof(SecurityAttributeMemberEntry.AttributeMemberId)
@@ -94,21 +94,21 @@ else
     {
         await base.OnInitializedAsync();
 
-        IsLoading = ViewModel is null || (ReadOnly ^ (AttributeMemberLookup is null));
+        IsLoading = ModelDto is null || (ReadOnly ^ (AttributeMemberLookup is null));
     }
 
     private void AddNew_OnClick(MouseEventArgs e)
     {
         // TODO: Do something with MouseEventArgs ?
 
-        ViewModel.AddNewEntry();
+        ModelDto.AddNewEntry();
     }
 
     private void RemoveExisting_OnClick(MouseEventArgs e, SecurityAttributeMemberEntry entry)
     {
         // TODO: Do something with MouseEventArgs ?
 
-        ViewModel.RemoveEntry(entry);
+        ModelDto.RemoveEntry(entry);
     }
 
     private void RefreshState(EventArgs args) => StateHasChanged();
