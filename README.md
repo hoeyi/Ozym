@@ -35,7 +35,7 @@ Or by using the **Docker Desktop** GUI.
 
 **Prerequisites**
 
-You will ned the .NET CLI to build the project from source, typically made available by installing the .NET SDK, which you may download [here](https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net70).
+You will need the .NET CLI to build the project from source, typically made available by installing the .NET SDK, which you may download [here](https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net70).
 
 **Note: This process currently fails due to dependencies on packages not available via the Nuget API.**
 
