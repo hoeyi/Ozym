@@ -27,7 +27,9 @@
                     @{
                         LogUnhandledException(exception);
                     }
-                    <p class="errorUI">@GetUnhandledExcpetionMessage()</p>
+                    <CascadingValue Value="@GetUnhandledExcpetionMessage()">
+                        <ErrorMessageBox />
+                    </CascadingValue>
                 </ErrorContent>
             </ErrorBoundary>
         </article>
