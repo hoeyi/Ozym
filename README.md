@@ -19,12 +19,12 @@ You will need **Docker Desktop** and access to the CLI for the local machine.
 
 For most users, running the pre-built Docker image will be the quickest way to spin-up the application. Run the following command to pull the deployed container image.
 ``` Bash
-docker pull ghcr.io/{organization}/njordinsight:latest
+docker pull ghcr.io/hoeyi/njordinsight:latest
 ```
 
 Once pulled, you may run the application using the command line:
 ``` Bash
-$ docker container run -dp {HostPort}:{ContainerPort} -t 'ghcr.io/{organization}/njordinsight:latest'
+$ docker container run -dp {HostPort}:{ContainerPort} -t 'ghcr.io/hoeyi/njordinsight:latest'
 ```
 
 Or by using the **Docker Desktop** GUI.
@@ -41,7 +41,7 @@ You will need the .NET CLI to build the project from source, typically made avai
 
 **1. Clone the source repository**
 ``` Bash
-$ git clone https://github.com/{organization}/NjordinSight.git
+$ git clone https://github.com/hoeyi/NjordinSight.git
 ```
 **2. Restore package dependencies**
 ``` Bash
