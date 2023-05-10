@@ -84,8 +84,7 @@ The following scripts may be used to update a target database.
 
 ## Commit Message Guidelines ##
 
-Commit message guidelines are meant to mirror the style prescribed in [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Changes to
-the types and scope have been made.
+Commit message guidelines are meant to mirror the style prescribed in [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Changes to the types and scope have been made.
 
 Commit messages should follow the format:
 ```
