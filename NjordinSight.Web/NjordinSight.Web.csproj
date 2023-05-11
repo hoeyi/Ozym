@@ -20,24 +20,23 @@
 	
   <ItemGroup>
 	<PackageReference Include="Ichosys.Blazor.Ionicons" Version="1.2.0.4133" />
-	<PackageReference Include="Ichosys.DataModel" Version="3.0.0.5515" />
-	<PackageReference Include="Ichosys.Extensions.Common" Version="1.4.0.4711" />
-	<PackageReference Include="Ichosys.Extensions.Configuration" Version="2.2.0" />
+	<PackageReference Include="Ichosys.DataModel" Version="3.1.0.3791" />
+	<PackageReference Include="Ichosys.Extensions.Common" Version="1.5.0.5645" />
+	<PackageReference Include="Ichosys.Extensions.Configuration" Version="2.3.1.4879" />
 	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.16" />
 	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
 	<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.16" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.16" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.16" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.16">
-	  <PrivateAssets>all</PrivateAssets>
-	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
 	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
-	<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
 	<PackageReference Include="Serilog" Version="2.12.0" />
-	<PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
+	<PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
 	<PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
 	<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+
+	<!--This line forces a non-vulnerable version of System.Drawaing.Common to be included 
+		in the build. Without it, v4.7.0 is included. -->
+	<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
