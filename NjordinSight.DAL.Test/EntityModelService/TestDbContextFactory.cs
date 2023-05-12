@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NjordinSight.Test.EntityModelService.Configuration;
 using System;
+using Microsoft.IdentityModel.Tokens;
 
 namespace NjordinSight.Test.EntityModelService
 {
@@ -12,6 +13,7 @@ namespace NjordinSight.Test.EntityModelService
     {
         private static readonly object _lock = new();
         private static bool _databaseInitialized;
+        private readonly static string _database_provider = TestUtility.Configuration["DATABASE_PROVIDER"];
 
         /// <summary>
         /// Initializes a new instance of the<see cref="TestDbContextFactory"/> class.
@@ -37,10 +39,10 @@ namespace NjordinSight.Test.EntityModelService
         /// Creates a new <see cref="FinanceDbContext"/> instance for unit-testing.
         /// </summary>
         /// <inheritdoc/>
-        public FinanceDbContext CreateDbContext() => new(options: ContextOptionsBuilder().Options);
+        public FinanceDbContext CreateDbContext() => new(options: GetDbContextOptions());
 
         private static FinanceDbContext InitializeTestDbContext() => new(
-            options: ContextOptionsBuilder().Options,
+            options: GetDbContextOptions(),
             seedData: new ModelServiceTestDataModel());
 
         /// <summary>
@@ -50,7 +52,7 @@ namespace NjordinSight.Test.EntityModelService
         {
             lock(_lock)
             {
-                using var context = new FinanceDbContext(options: ContextOptionsBuilder().Options);
+                using var context = GetFinanceDbContext();
 
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -59,16 +61,28 @@ namespace NjordinSight.Test.EntityModelService
             }
         }
 
-        private static DbContextOptionsBuilder<FinanceDbContext> ContextOptionsBuilder()
+        private static FinanceDbContext GetFinanceDbContext()
         {
-            if(Environment.GetEnvironmentVariable("DATABASE_PROVIDER") == "SQL_SERVER")
-                return new DbContextOptionsBuilder<FinanceDbContext>()
+            return _database_provider switch
+            {
+                "SQL_SERVER" => new FinanceDbContextSql(options: GetDbContextOptions()),
+
+                _ => new FinanceDbContext(options: GetDbContextOptions())
+            };
+        }
+
+        private static DbContextOptions<FinanceDbContext> GetDbContextOptions()
+        {
+            return _database_provider switch
+            {
+                "SQL_SERVER" => (new DbContextOptionsBuilder<FinanceDbContext>()
                     .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordWorks"])
-                    .EnableSensitiveDataLogging();
-            else
-                return new DbContextOptionsBuilder<FinanceDbContext>()
-                    .UseInMemoryDatabase("NjordWorks")
-                    .EnableSensitiveDataLogging();
+                    .EnableSensitiveDataLogging()).Options,
+
+                _ => (new DbContextOptionsBuilder<FinanceDbContext>()
+                        .UseInMemoryDatabase("NjordWorks")
+                        .EnableSensitiveDataLogging()).Options
+            };
         }
     }
 }

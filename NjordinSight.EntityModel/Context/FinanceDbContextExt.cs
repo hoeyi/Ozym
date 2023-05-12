@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using NjordinSight.EntityModel.Context.Configuration;
+using System.Reflection.Emit;
 
 namespace NjordinSight.EntityModel.Context
 {
@@ -29,17 +30,14 @@ namespace NjordinSight.EntityModel.Context
         /// <summary>
         /// Returns true if this context is to be configured for SQL Server, else false.
         /// </summary>
-        private bool ConfigureForSqlServer { get; } = Environment
-                .GetEnvironmentVariable("DATABASE_PROVIDER") == "SQL_SERVER";
+        protected virtual bool UseRelationalDatabase { get; } = false;
 
         /// <summary>
         /// Handles additional configuration steps for the <see cref="FinanceDbContext"/> 
         /// model.
         /// </summary>
         /// <param name="modelBuilder"></param>
-#pragma warning disable CA1822 // Mark members as static
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
-#pragma warning restore CA1822 // Mark members as static
         {
             modelBuilder.SeedDefaultReferenceData();
 

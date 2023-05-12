@@ -131,10 +131,10 @@ namespace NjordinSight.EntityModel.Context
 
                 entity.Property(e => e.ObjectType).IsFixedLength();
 
-                if (ConfigureForSqlServer)
+                if (UseRelationalDatabase)
                     entity.Property(e => e.PrefixedObjectCode)
                         .HasComputedColumnSql(
-                            "(case when [ObjectType]='c' then concat('+',[AccountObjectCode]) else [AccountObjectCode] end)", false);
+                            "(case when [ObjectType]='c' then concat('+',[AccountObjectCode]) else [AccountObjectCode] end)", true);
                 else
                     entity.Property(e => e.PrefixedObjectCode).IsRequired(false);
 
@@ -169,7 +169,7 @@ namespace NjordinSight.EntityModel.Context
 
             modelBuilder.Entity<BankTransaction>(entity =>
             {
-                if (ConfigureForSqlServer)
+                if (UseRelationalDatabase)
                     entity.Property(e => e.TransactionVersion)
                         .IsRowVersion()
                         .IsConcurrencyToken();
@@ -509,7 +509,7 @@ namespace NjordinSight.EntityModel.Context
             {
                 entity.Property(e => e.Cusip).IsFixedLength();
 
-                if (ConfigureForSqlServer)
+                if (UseRelationalDatabase)
                     entity.Property(e => e.SymbolCode)
                         .HasComputedColumnSql(
                             "(case when [SymbolTypeID]=(-10) then [Cusip] when [SymbolTypeID]=(-20) then [CustomSymbol] when [SymbolTypeID]=(-30) then [OptionTicker] when [SymbolTypeID]=(-40) then [Ticker]  end)", 
