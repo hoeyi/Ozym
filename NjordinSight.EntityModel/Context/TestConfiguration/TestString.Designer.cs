@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NjordinSight.UserInterface {
+namespace NjordinSight.EntityModel.Context.TestConfiguration {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace NjordinSight.UserInterface {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Images {
+    internal class TestString {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Images() {
+        internal TestString() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace NjordinSight.UserInterface {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.UserInterface.Images", typeof(Images).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.EntityModel.Context.TestConfiguration.TestString", typeof(TestString).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,12 +61,29 @@ namespace NjordinSight.UserInterface {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static byte[] fractal_circle_icon_dark {
+        internal static string Display_Account {
             get {
-                object obj = ResourceManager.GetObject("fractal_circle_icon_dark", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("Display_Account", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;ReportConfiguration xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;&lt;Settings&gt;&lt;Setting Name=&quot;CurrencyPrecision&quot; Label=&quot;Currency Precision&quot; Value=&quot;c&quot; /&gt;&lt;Setting Name=&quot;IncludeClosed&quot; Label=&quot;Include Closed&quot; Value=&quot;false&quot; /&gt;&lt;Setting Name=&quot;TradableAccountsOnly&quot; Label=&quot;Tradable Accounts Only&quot; Value=&quot;true&quot; /&gt;&lt;Setting Name=&quot;Theme&quot; Label=&quot;Theme&quot; Value=&quot;Default&quot; /&gt;&lt;/Settings&gt;&lt;/ReportConfiguration&gt;.
+        /// </summary>
+        internal static string Report_Parameters {
+            get {
+                return ResourceManager.GetString("Report_Parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;StyleSheet xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;&lt;Fonts&gt;&lt;Font Name=&quot;TableGroupHeader&quot; FontFamily=&quot;Arial&quot; FontWeight=&quot;Bold&quot; TextDecoration=&quot;Default&quot; FontStyle=&quot;Default&quot; FontSize=&quot;8pt&quot; Color=&quot;gray5&quot; BackColor=&quot;blue&quot; /&gt;&lt;Font Name=&quot;TableSubGroupHeader&quot; FontFamily=&quot;Arial&quot; FontWeight=&quot;SemiBold&quot; TextDecoration=&quot;Default&quot; FontStyle=&quot;Default&quot; FontSize=&quot;8pt&quot; Color=&quot;gray1&quot; BackColor=&quot;No Color&quot; /&gt;&lt;Font Name=&quot;TableColumnHeader&quot; FontFamily=&quot;Arial&quot; FontWeight=&quot;S [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Report_StyleSheet {
+            get {
+                return ResourceManager.GetString("Report_StyleSheet", resourceCulture);
             }
         }
     }

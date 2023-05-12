@@ -27,6 +27,7 @@ namespace NjordinSight.Test
         /// </summary>
         internal static IConfiguration Configuration { get; } =
             new ConfigurationBuilder()
+            .AddJsonFile("appsettings.test.json")
             .AddUserSecrets<TestUtility>()
             .Build();
 

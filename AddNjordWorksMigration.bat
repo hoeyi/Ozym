@@ -1,5 +1,5 @@
-REM Change working directory to the project direct where FinanceDbContext resides.
-cd NjordinSight
+REM Change working directory to the project directory where FinanceDbContext resides.
+cd NjordinSight.EntityModel
 
 REM Check for expected positional parameter and redirect as needed.
 if "%1"=="" goto missingparameter
@@ -11,6 +11,6 @@ REM Add the migration. Reference the FinanceDbContext with fully-qualified names
 dotnet ef migrations add %migration% ^
 	--context NjordinSight.EntityModel.Context.FinanceDbContext ^
 	--startup-project ..\NjordinSight.Web\NjordinSight.Web.csproj ^
-	--project NjordinSight.EntityModel.csproj
+	--project ..\NjordinSight.EntityMigration\NjordinSight.EntityMigration.csproj
 
 cd ..\

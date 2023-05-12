@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Linq;
-using NjordinSight.EntityModel.Context.Configuration;
 using NjordinSight.EntityModel;
+using NjordinSight.EntityModel.Context.DefaultConfiguration;
 
-namespace NjordinSight.Test.EntityModelService.Configuration
+namespace NjordinSight.EntityModel.Context.TestConfiguration
 {
     /// <summary>
     /// A collection of models to seed for integration testing.
     /// </summary>
-    internal class ModelServiceTestDataModel : ISeedData
+    internal class IntegrationTestModel : IDbContextInitialRecordCollection
     {
         private readonly Random _random = new();
 
         /// <inheritdoc/>
-        public ModelServiceTestDataModel()
+        public IntegrationTestModel()
         {
             AccountCustodians = new AccountCustodian[]
             {
@@ -265,10 +265,10 @@ namespace NjordinSight.Test.EntityModelService.Configuration
                 new(){ InvestmentStrategyId = -2, DisplayName = "Test update pass" },
                 new(){ InvestmentStrategyId = -3, DisplayName = "Global Equity" },
                 new()
-                { 
-                    InvestmentStrategyId = -4, 
-                    DisplayName = "Retirement", 
-                    Notes = "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." + 
+                {
+                    InvestmentStrategyId = -4,
+                    DisplayName = "Retirement",
+                    Notes = "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
                         "\n- Porttitor rhoncus dolor purus non enim praesent." +
                         "\n- Convallis a cras semper auctor neque vitae tempus."
                 }
@@ -375,14 +375,14 @@ namespace NjordinSight.Test.EntityModelService.Configuration
                     ConfigurationId = -1,
                     ConfigurationCode = "TestDeletePass",
                     ConfigurationDescription = "Test delete pass",
-                    XmlDefinition = NjordinSight.Configuration.DefaultConfiguration.Report_Parameters
+                    XmlDefinition = TestString.Report_Parameters
                 },
                 new()
                 {
                     ConfigurationId = -2,
                     ConfigurationCode = "TestUpdatePass",
                     ConfigurationDescription = "Test update pass",
-                    XmlDefinition = NjordinSight.Configuration.DefaultConfiguration.Report_Parameters
+                    XmlDefinition = TestString.Report_Parameters
                 }
             };
 
@@ -393,14 +393,14 @@ namespace NjordinSight.Test.EntityModelService.Configuration
                     StyleSheetId = -1,
                     StyleSheetCode = "TestDeletePass",
                     StyleSheetDescription = "Test delete pass",
-                    XmlDefinition = NjordinSight.Configuration.DefaultConfiguration.Report_StyleSheet
+                    XmlDefinition = TestString.Report_StyleSheet
                 },
                 new()
                 {
                     StyleSheetId = -2,
                     StyleSheetCode = "TestUpdatePass",
                     StyleSheetDescription = "Test update pass",
-                    XmlDefinition = NjordinSight.Configuration.DefaultConfiguration.Report_StyleSheet
+                    XmlDefinition = TestString.Report_StyleSheet
                 }
             };
 
@@ -410,14 +410,14 @@ namespace NjordinSight.Test.EntityModelService.Configuration
                 {
                     ImageId = -1,
                     ImageDescription = "Test delete pass",
-                    ImageBinary = NjordinSight.UserInterface.Images.fractal_circle_icon_dark,
+                    ImageBinary = Images.fractal_circle_icon_dark,
                     FileExtension = "PNG"
                 },
                 new()
                 {
                     ImageId = -2,
                     ImageDescription = "Test update pass",
-                    ImageBinary = NjordinSight.UserInterface.Images.fractal_circle_icon_dark,
+                    ImageBinary = Images.fractal_circle_icon_dark,
                     FileExtension = "JPG"
                 }
             };
@@ -700,52 +700,52 @@ namespace NjordinSight.Test.EntityModelService.Configuration
                 .Concat(new ModelAttributeMember[]
                 {
                     new()
-                    { 
+                    {
                         AttributeMemberId = -10, AttributeId = -3, DisplayName = "IRA",
                         DisplayOrder = 0
                     },
                     new()
-                    { 
+                    {
                         AttributeMemberId = -11, AttributeId = -3, DisplayName = "ROTH",
                         DisplayOrder = 1
                     },
                     new()
-                    { 
+                    {
                         AttributeMemberId = -12, AttributeId = -3, DisplayName = "401K",
                         DisplayOrder = 2
                     },
                     new()
-                    { 
-                        AttributeMemberId = -13, AttributeId = -4, DisplayName = "Developed", 
-                        DisplayOrder = 0 
+                    {
+                        AttributeMemberId = -13, AttributeId = -4, DisplayName = "Developed",
+                        DisplayOrder = 0
                     },
                     new()
-                    { 
+                    {
                         AttributeMemberId = -14, AttributeId = -4, DisplayName = "Emerging",
                         DisplayOrder = 1
                     },
                     new()
-                    { 
+                    {
                         AttributeMemberId = -15, AttributeId = -5, DisplayName = "Necessary",
                         DisplayOrder = 0
                     },
                     new()
-                    { 
+                    {
                         AttributeMemberId = -16, AttributeId = -5, DisplayName = "Discretionary",
                         DisplayOrder = 1
                     },
                     new()
-                    { 
+                    {
                         AttributeMemberId = -17, AttributeId = -6, DisplayName = "Trading",
                         DisplayOrder = 0
                     },
                     new()
-                    { 
+                    {
                         AttributeMemberId = -18, AttributeId = -6, DisplayName = "Contributions",
                         DisplayOrder = 1
                     },
                     new()
-                    { 
+                    {
                         AttributeMemberId = -19, AttributeId = -6, DisplayName = "Expenses",
                         DisplayOrder = 2
                     },
@@ -893,99 +893,99 @@ namespace NjordinSight.Test.EntityModelService.Configuration
             BrokerTransactions = new BrokerTransaction[]
             {
                 new()
-                { 
-                    TransactionId = -1, AccountId = -5, TransactionCodeId = -12, 
-                    TradeDate = new DateTime(2021, 2, 27), SettleDate = new DateTime(2021, 2, 27), 
-                    SecurityId = -101, Amount = 10000M, DepSecurityId = -100  
+                {
+                    TransactionId = -1, AccountId = -5, TransactionCodeId = -12,
+                    TradeDate = new DateTime(2021, 2, 27), SettleDate = new DateTime(2021, 2, 27),
+                    SecurityId = -101, Amount = 10000M, DepSecurityId = -100
                 },
                 new()
-                { 
-                    TransactionId = -2, AccountId = -5, TransactionCodeId = -11, 
-                    TradeDate = new DateTime(2017, 11, 6), SettleDate = new DateTime(2017, 11, 8), 
-                    SecurityId = -1, Quantity = 100M, Amount = 5000M, Fee = 4.95M, DepSecurityId = -101 
+                {
+                    TransactionId = -2, AccountId = -5, TransactionCodeId = -11,
+                    TradeDate = new DateTime(2017, 11, 6), SettleDate = new DateTime(2017, 11, 8),
+                    SecurityId = -1, Quantity = 100M, Amount = 5000M, Fee = 4.95M, DepSecurityId = -101
                 },
                 new()
-                { 
-                    TransactionId = -3, AccountId = -5, TransactionCodeId = -13, 
-                    TradeDate = new DateTime(2020, 12, 12), SettleDate = new DateTime(2020, 12, 12), 
-                    SecurityId = -1, Amount = 500M, DepSecurityId = -101 
+                {
+                    TransactionId = -3, AccountId = -5, TransactionCodeId = -13,
+                    TradeDate = new DateTime(2020, 12, 12), SettleDate = new DateTime(2020, 12, 12),
+                    SecurityId = -1, Amount = 500M, DepSecurityId = -101
                 },
                 new()
-                { 
-                    TransactionId = -4, AccountId = -5, TransactionCodeId = -16, 
-                    TradeDate = new DateTime(2018, 10, 8), SettleDate = new DateTime(2018, 10, 8), 
-                    SecurityId = -101, Amount = 4.78M, DepSecurityId = -101 
+                {
+                    TransactionId = -4, AccountId = -5, TransactionCodeId = -16,
+                    TradeDate = new DateTime(2018, 10, 8), SettleDate = new DateTime(2018, 10, 8),
+                    SecurityId = -101, Amount = 4.78M, DepSecurityId = -101
                 },
                 new()
-                { 
-                    TransactionId = -5, AccountId = -5, TransactionCodeId = -14, 
-                    TradeDate = new DateTime(2017, 3, 3), SettleDate = new DateTime(2017, 3, 3), 
-                    SecurityId = -102, Amount = 5M, DepSecurityId = -101 
+                {
+                    TransactionId = -5, AccountId = -5, TransactionCodeId = -14,
+                    TradeDate = new DateTime(2017, 3, 3), SettleDate = new DateTime(2017, 3, 3),
+                    SecurityId = -102, Amount = 5M, DepSecurityId = -101
                 },
                 new()
-                { 
-                    TransactionId = -6, AccountId = -5, TransactionCodeId = -11, 
-                    TradeDate = new DateTime(2017, 8, 2), SettleDate = new DateTime(2017, 8, 4), 
-                    SecurityId = -3, Quantity = 5M, Amount = 764M, Fee = 4.95M, DepSecurityId = -101 
+                {
+                    TransactionId = -6, AccountId = -5, TransactionCodeId = -11,
+                    TradeDate = new DateTime(2017, 8, 2), SettleDate = new DateTime(2017, 8, 4),
+                    SecurityId = -3, Quantity = 5M, Amount = 764M, Fee = 4.95M, DepSecurityId = -101
                 },
                 new()
-                { 
-                    TransactionId = -7, AccountId = -5, TransactionCodeId = -11, 
-                    TradeDate = new DateTime(2020, 3, 18), SettleDate = new DateTime(2020, 3, 20), 
-                    SecurityId = -2, Quantity = 2M, Amount = 854M, Fee = 4.95M, DepSecurityId = -101 
+                {
+                    TransactionId = -7, AccountId = -5, TransactionCodeId = -11,
+                    TradeDate = new DateTime(2020, 3, 18), SettleDate = new DateTime(2020, 3, 20),
+                    SecurityId = -2, Quantity = 2M, Amount = 854M, Fee = 4.95M, DepSecurityId = -101
                 },
                 new()
-                { 
-                    TransactionId = -8, AccountId = -5, TransactionCodeId = -20, 
-                    TradeDate = new DateTime(2017, 5, 3), SettleDate = new DateTime(2022, 5, 5), 
-                    SecurityId = -1, Quantity = 30M, Amount = 6579M, Fee = 4.95M, DepSecurityId = -101, TaxLotId = -2 
+                {
+                    TransactionId = -8, AccountId = -5, TransactionCodeId = -20,
+                    TradeDate = new DateTime(2017, 5, 3), SettleDate = new DateTime(2022, 5, 5),
+                    SecurityId = -1, Quantity = 30M, Amount = 6579M, Fee = 4.95M, DepSecurityId = -101, TaxLotId = -2
                 },
                 new()
-                { 
-                    TransactionId = -9, AccountId = -5, TransactionCodeId = -21, 
-                    TradeDate = new DateTime(2022, 3, 4), SettleDate = new DateTime(2015, 3, 5), 
-                    SecurityId = -7, Quantity = 50M, Amount = 4316M, Fee = 4.95M, DepSecurityId = -101 
+                {
+                    TransactionId = -9, AccountId = -5, TransactionCodeId = -21,
+                    TradeDate = new DateTime(2022, 3, 4), SettleDate = new DateTime(2015, 3, 5),
+                    SecurityId = -7, Quantity = 50M, Amount = 4316M, Fee = 4.95M, DepSecurityId = -101
                 },
                 new()
-                { 
-                    TransactionId = -10, AccountId = -5, TransactionCodeId = -22, 
-                    TradeDate = new DateTime(2022, 3, 8), SettleDate = new DateTime(2022, 3, 8), 
-                    SecurityId = -101, Amount = 1000M, DepSecurityId = -100 
+                {
+                    TransactionId = -10, AccountId = -5, TransactionCodeId = -22,
+                    TradeDate = new DateTime(2022, 3, 8), SettleDate = new DateTime(2022, 3, 8),
+                    SecurityId = -101, Amount = 1000M, DepSecurityId = -100
                 },
                 new()
-                { 
-                    TransactionId = -11, AccountId = -5, TransactionCodeId = -14, 
-                    TradeDate = new DateTime(2022, 8, 2), SettleDate = new DateTime(2022, 8, 2), 
-                    SecurityId = -102, Amount = 1.01M, DepSecurityId = -101 
+                {
+                    TransactionId = -11, AccountId = -5, TransactionCodeId = -14,
+                    TradeDate = new DateTime(2022, 8, 2), SettleDate = new DateTime(2022, 8, 2),
+                    SecurityId = -102, Amount = 1.01M, DepSecurityId = -101
                 },
                 new()
-                { 
-                    TransactionId = -12, AccountId = -5, TransactionCodeId = -13, 
-                    TradeDate = new DateTime(2020, 2, 2), SettleDate = new DateTime(2020, 2, 2), 
-                    SecurityId = -3, Amount = 44M, DepSecurityId = -101 
+                {
+                    TransactionId = -12, AccountId = -5, TransactionCodeId = -13,
+                    TradeDate = new DateTime(2020, 2, 2), SettleDate = new DateTime(2020, 2, 2),
+                    SecurityId = -3, Amount = 44M, DepSecurityId = -101
                 },
                 new()
-                { 
-                    TransactionId = -13, AccountId = -5, TransactionCodeId = -10, 
-                    TradeDate = new DateTime(2020, 3, 12), SettleDate = new DateTime(2020, 3, 14), 
-                    SecurityId = -7, Quantity = 40M, Amount = 3580M, Fee = 4.95M,DepSecurityId = -101, TaxLotId = -9 
+                {
+                    TransactionId = -13, AccountId = -5, TransactionCodeId = -10,
+                    TradeDate = new DateTime(2020, 3, 12), SettleDate = new DateTime(2020, 3, 14),
+                    SecurityId = -7, Quantity = 40M, Amount = 3580M, Fee = 4.95M,DepSecurityId = -101, TaxLotId = -9
                 },
                 new()
-                { 
-                    TransactionId = -14, AccountId = -5, TransactionCodeId = -17, 
-                    TradeDate = new DateTime(2017, 11, 3), SettleDate = new DateTime(2017, 11, 3), 
-                    SecurityId = -1, Quantity = 50M, Amount = 3500M, DepSecurityId = -100 
+                {
+                    TransactionId = -14, AccountId = -5, TransactionCodeId = -17,
+                    TradeDate = new DateTime(2017, 11, 3), SettleDate = new DateTime(2017, 11, 3),
+                    SecurityId = -1, Quantity = 50M, Amount = 3500M, DepSecurityId = -100
                 },
                 new()
-                { 
-                    TransactionId = -15, AccountId = -5, TransactionCodeId = -17, 
-                    TradeDate = new DateTime(2019, 8, 1), SettleDate = new DateTime(2019, 8, 1), 
-                    SecurityId = -6, Quantity = 4.56798M, Amount = 1200M, DepSecurityId = -100 
+                {
+                    TransactionId = -15, AccountId = -5, TransactionCodeId = -17,
+                    TradeDate = new DateTime(2019, 8, 1), SettleDate = new DateTime(2019, 8, 1),
+                    SecurityId = -6, Quantity = 4.56798M, Amount = 1200M, DepSecurityId = -100
                 },
-                new(){ 
-                    TransactionId = -16, AccountId = -5, TransactionCodeId = -18, 
-                    TradeDate = new DateTime(2020, 6, 1), SettleDate = new DateTime(2020, 6, 1), 
-                    SecurityId = -6, Quantity = 3M, Amount = 965M, DepSecurityId = -100, TaxLotId = -15 
+                new(){
+                    TransactionId = -16, AccountId = -5, TransactionCodeId = -18,
+                    TradeDate = new DateTime(2020, 6, 1), SettleDate = new DateTime(2020, 6, 1),
+                    SecurityId = -6, Quantity = 3M, Amount = 965M, DepSecurityId = -100, TaxLotId = -15
                 },
             };
 
@@ -1048,248 +1048,248 @@ namespace NjordinSight.Test.EntityModelService.Configuration
             InvestmentPerformanceEntries = new InvestmentPerformanceEntry[]
             {
                 new()
-                { 
-                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 9), 
-                    ToDate = new DateTime(2020, 1, 10), MarketValue = 558.9502M, NetContribution = 0M, 
-                    AverageCapital = 529.3496M, Gain = 29.6006M, Irr = -0.0177M 
+                {
+                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 9),
+                    ToDate = new DateTime(2020, 1, 10), MarketValue = 558.9502M, NetContribution = 0M,
+                    AverageCapital = 529.3496M, Gain = 29.6006M, Irr = -0.0177M
                 },
                 new()
-                { 
-                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 8), 
-                    ToDate = new DateTime(2020, 1, 9), MarketValue = 529.3496M, NetContribution = 0M, 
-                    AverageCapital = 538.8917M, Gain = -9.542M, Irr = -0.0132M 
+                {
+                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 8),
+                    ToDate = new DateTime(2020, 1, 9), MarketValue = 529.3496M, NetContribution = 0M,
+                    AverageCapital = 538.8917M, Gain = -9.542M, Irr = -0.0132M
                 },
                 new()
-                { 
-                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 7), 
-                    ToDate = new DateTime(2020, 1, 8), MarketValue = 538.8917M, NetContribution = 0M, 
-                    AverageCapital = 546.1246M, Gain = -7.2329M, Irr = 0.0328M 
+                {
+                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 7),
+                    ToDate = new DateTime(2020, 1, 8), MarketValue = 538.8917M, NetContribution = 0M,
+                    AverageCapital = 546.1246M, Gain = -7.2329M, Irr = 0.0328M
                 },
                 new()
-                { 
-                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 6), 
-                    ToDate = new DateTime(2020, 1, 7), MarketValue = 546.1246M, NetContribution = 0M, 
-                    AverageCapital = 528.7705M, Gain = 17.3541M, Irr = 0.0684M 
+                {
+                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 6),
+                    ToDate = new DateTime(2020, 1, 7), MarketValue = 546.1246M, NetContribution = 0M,
+                    AverageCapital = 528.7705M, Gain = 17.3541M, Irr = 0.0684M
                 },
                 new()
-                { 
-                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 5), 
-                    ToDate = new DateTime(2020, 1, 6), MarketValue = 528.7705M, NetContribution = 0M, 
-                    AverageCapital = 494.9266M, Gain = 33.8439M, Irr = 0M 
+                {
+                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 5),
+                    ToDate = new DateTime(2020, 1, 6), MarketValue = 528.7705M, NetContribution = 0M,
+                    AverageCapital = 494.9266M, Gain = 33.8439M, Irr = 0M
                 },
                 new()
-                { 
-                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 4), 
-                    ToDate = new DateTime(2020, 1, 5), MarketValue = 494.9266M, NetContribution = 0M, 
-                    AverageCapital = 494.9266M, Gain = 0M, Irr = 0M 
+                {
+                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 4),
+                    ToDate = new DateTime(2020, 1, 5), MarketValue = 494.9266M, NetContribution = 0M,
+                    AverageCapital = 494.9266M, Gain = 0M, Irr = 0M
                 },
                 new()
-                { 
-                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 3), 
-                    ToDate = new DateTime(2020, 1, 4), MarketValue = 494.9266M, NetContribution = 0M, 
-                    AverageCapital = 494.9266M, Gain = 0M, Irr = 0.0579M 
+                {
+                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 3),
+                    ToDate = new DateTime(2020, 1, 4), MarketValue = 494.9266M, NetContribution = 0M,
+                    AverageCapital = 494.9266M, Gain = 0M, Irr = 0.0579M
                 },
                 new()
-                { 
-                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 2), 
-                    ToDate = new DateTime(2020, 1, 3), MarketValue = 494.9266M, NetContribution = 0M, 
-                    AverageCapital = 467.8515M, Gain = 27.0751M, Irr = -0.0326M 
+                {
+                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 2),
+                    ToDate = new DateTime(2020, 1, 3), MarketValue = 494.9266M, NetContribution = 0M,
+                    AverageCapital = 467.8515M, Gain = 27.0751M, Irr = -0.0326M
                 },
                 new()
-                { 
-                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 1), 
-                    ToDate = new DateTime(2020, 1, 2), MarketValue = 467.8515M, NetContribution = 0M, 
-                    AverageCapital = 483.6172M, Gain = -15.7657M, Irr = 0M 
+                {
+                    AccountObjectId = -8, FromDate = new DateTime(2020, 1, 1),
+                    ToDate = new DateTime(2020, 1, 2), MarketValue = 467.8515M, NetContribution = 0M,
+                    AverageCapital = 483.6172M, Gain = -15.7657M, Irr = 0M
                 },
                 new()
-                { 
-                    AccountObjectId = -8, FromDate = new DateTime(2019, 12, 31), 
-                    ToDate = new DateTime(2020, 1, 1), MarketValue = 483.6172M, NetContribution = 0M, 
-                    AverageCapital = 483.6172M, Gain = 0M, Irr = -0.0004M 
+                {
+                    AccountObjectId = -8, FromDate = new DateTime(2019, 12, 31),
+                    ToDate = new DateTime(2020, 1, 1), MarketValue = 483.6172M, NetContribution = 0M,
+                    AverageCapital = 483.6172M, Gain = 0M, Irr = -0.0004M
                 },
                 new()
-                { 
-                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 9), 
-                    ToDate = new DateTime(2020, 1, 10), MarketValue = 18487.2835M, NetContribution = 0M, 
-                    AverageCapital = 18495.5054M, Gain = -8.2219M, Irr = 0.0024M 
+                {
+                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 9),
+                    ToDate = new DateTime(2020, 1, 10), MarketValue = 18487.2835M, NetContribution = 0M,
+                    AverageCapital = 18495.5054M, Gain = -8.2219M, Irr = 0.0024M
                 },
                 new()
-                { 
-                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 8), 
-                    ToDate = new DateTime(2020, 1, 9), MarketValue = 18495.5054M, NetContribution = 0M, 
-                    AverageCapital = 18450.3985M, Gain = 45.1069M, Irr = 0.0014M 
+                {
+                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 8),
+                    ToDate = new DateTime(2020, 1, 9), MarketValue = 18495.5054M, NetContribution = 0M,
+                    AverageCapital = 18450.3985M, Gain = 45.1069M, Irr = 0.0014M
                 },
                 new()
-                { 
-                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 7), 
-                    ToDate = new DateTime(2020, 1, 8), MarketValue = 18450.3985M, NetContribution = 0M, 
-                    AverageCapital = 18424.0153M, Gain = 26.3832M, Irr = -0.0012M 
+                {
+                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 7),
+                    ToDate = new DateTime(2020, 1, 8), MarketValue = 18450.3985M, NetContribution = 0M,
+                    AverageCapital = 18424.0153M, Gain = 26.3832M, Irr = -0.0012M
                 },
                 new()
-                { 
-                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 6), 
-                    ToDate = new DateTime(2020, 1, 7), MarketValue = 18424.0153M, NetContribution = 0M, 
-                    AverageCapital = 18445.5433M, Gain = -21.528M, Irr = -0.0006M 
+                {
+                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 6),
+                    ToDate = new DateTime(2020, 1, 7), MarketValue = 18424.0153M, NetContribution = 0M,
+                    AverageCapital = 18445.5433M, Gain = -21.528M, Irr = -0.0006M
                 },
                 new()
-                { 
-                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 5), 
-                    ToDate = new DateTime(2020, 1, 6), MarketValue = 18445.5433M, NetContribution = 0M, 
-                    AverageCapital = 18457.4199M, Gain = -11.8766M, Irr = 0M 
+                {
+                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 5),
+                    ToDate = new DateTime(2020, 1, 6), MarketValue = 18445.5433M, NetContribution = 0M,
+                    AverageCapital = 18457.4199M, Gain = -11.8766M, Irr = 0M
                 },
                 new()
-                { 
-                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 4), 
-                    ToDate = new DateTime(2020, 1, 5), MarketValue = 18457.4199M, NetContribution = 0M, 
-                    AverageCapital = 18457.4199M, Gain = 0M, Irr = 0M 
+                {
+                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 4),
+                    ToDate = new DateTime(2020, 1, 5), MarketValue = 18457.4199M, NetContribution = 0M,
+                    AverageCapital = 18457.4199M, Gain = 0M, Irr = 0M
                 },
                 new()
-                { 
-                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 3), 
-                    ToDate = new DateTime(2020, 1, 4), MarketValue = 18457.4199M, NetContribution = 0M, 
-                    AverageCapital = 18457.4199M, Gain = 0M, Irr = -0.0018M 
+                {
+                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 3),
+                    ToDate = new DateTime(2020, 1, 4), MarketValue = 18457.4199M, NetContribution = 0M,
+                    AverageCapital = 18457.4199M, Gain = 0M, Irr = -0.0018M
                 },
                 new()
-                { 
-                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 2), 
-                    ToDate = new DateTime(2020, 1, 3), MarketValue = 18457.4199M, NetContribution = 0M, 
-                    AverageCapital = 18491.0371M, Gain = -33.6172M, Irr = 0.0028M 
+                {
+                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 2),
+                    ToDate = new DateTime(2020, 1, 3), MarketValue = 18457.4199M, NetContribution = 0M,
+                    AverageCapital = 18491.0371M, Gain = -33.6172M, Irr = 0.0028M
                 },
                 new()
-                { 
-                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 1), 
-                    ToDate = new DateTime(2020, 1, 2), MarketValue = 18491.0371M, NetContribution = 0M, 
-                    AverageCapital = 18439.8514M, Gain = 51.1856M, Irr = 0M 
+                {
+                    AccountObjectId = -5, FromDate = new DateTime(2020, 1, 1),
+                    ToDate = new DateTime(2020, 1, 2), MarketValue = 18491.0371M, NetContribution = 0M,
+                    AverageCapital = 18439.8514M, Gain = 51.1856M, Irr = 0M
                 },
                 new()
-                { 
-                    AccountObjectId = -5, FromDate = new DateTime(2019, 12, 31), 
-                    ToDate = new DateTime(2020, 1, 1), MarketValue = 18439.8514M, NetContribution = 0M, 
-                    AverageCapital = 18439.8514M, Gain = 0M, Irr = 0M 
+                {
+                    AccountObjectId = -5, FromDate = new DateTime(2019, 12, 31),
+                    ToDate = new DateTime(2020, 1, 1), MarketValue = 18439.8514M, NetContribution = 0M,
+                    AverageCapital = 18439.8514M, Gain = 0M, Irr = 0M
                 }
             };
 
             InvestmentPerformanceAttributeEntries = new InvestmentPerformanceAttributeMemberEntry[]
             {
                 new()
-                { 
-                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 9), 
-                    ToDate = new DateTime(2020, 1, 10), MarketValue = 558.9502M, NetContribution = 0M, 
-                    AverageCapital = 529.3496M, Gain = 29.6006M, Irr = -0.0177M 
+                {
+                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 9),
+                    ToDate = new DateTime(2020, 1, 10), MarketValue = 558.9502M, NetContribution = 0M,
+                    AverageCapital = 529.3496M, Gain = 29.6006M, Irr = -0.0177M
                 },
                 new()
-                { 
-                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 8), 
-                    ToDate = new DateTime(2020, 1, 9), MarketValue = 529.3496M, NetContribution = 0M, 
-                    AverageCapital = 538.8917M, Gain = -9.542M, Irr = -0.0132M 
+                {
+                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 8),
+                    ToDate = new DateTime(2020, 1, 9), MarketValue = 529.3496M, NetContribution = 0M,
+                    AverageCapital = 538.8917M, Gain = -9.542M, Irr = -0.0132M
                 },
                 new()
-                { 
-                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 7), 
-                    ToDate = new DateTime(2020, 1, 8), MarketValue = 538.8917M, NetContribution = 0M, 
-                    AverageCapital = 546.1246M, Gain = -7.2329M, Irr = 0.0328M 
+                {
+                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 7),
+                    ToDate = new DateTime(2020, 1, 8), MarketValue = 538.8917M, NetContribution = 0M,
+                    AverageCapital = 546.1246M, Gain = -7.2329M, Irr = 0.0328M
                 },
                 new()
-                { 
-                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 6), 
-                    ToDate = new DateTime(2020, 1, 7), MarketValue = 546.1246M, NetContribution = 0M, 
-                    AverageCapital = 528.7705M, Gain = 17.3541M, Irr = 0.0684M 
+                {
+                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 6),
+                    ToDate = new DateTime(2020, 1, 7), MarketValue = 546.1246M, NetContribution = 0M,
+                    AverageCapital = 528.7705M, Gain = 17.3541M, Irr = 0.0684M
                 },
                 new()
-                { 
-                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 5), 
-                    ToDate = new DateTime(2020, 1, 6), MarketValue = 528.7705M, NetContribution = 0M, 
-                    AverageCapital = 494.9266M, Gain = 33.8439M, Irr = 0M 
+                {
+                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 5),
+                    ToDate = new DateTime(2020, 1, 6), MarketValue = 528.7705M, NetContribution = 0M,
+                    AverageCapital = 494.9266M, Gain = 33.8439M, Irr = 0M
                 },
                 new()
-                { 
-                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 4), 
-                    ToDate = new DateTime(2020, 1, 5), MarketValue = 494.9266M, NetContribution = 0M, 
-                    AverageCapital = 494.9266M, Gain = 0M, Irr = 0M 
+                {
+                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 4),
+                    ToDate = new DateTime(2020, 1, 5), MarketValue = 494.9266M, NetContribution = 0M,
+                    AverageCapital = 494.9266M, Gain = 0M, Irr = 0M
                 },
                 new()
-                { 
-                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 3), 
-                    ToDate = new DateTime(2020, 1, 4), MarketValue = 494.9266M, NetContribution = 0M, 
-                    AverageCapital = 494.9266M, Gain = 0M, Irr = 0.0579M 
+                {
+                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 3),
+                    ToDate = new DateTime(2020, 1, 4), MarketValue = 494.9266M, NetContribution = 0M,
+                    AverageCapital = 494.9266M, Gain = 0M, Irr = 0.0579M
                 },
                 new()
-                { 
-                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 2), 
-                    ToDate = new DateTime(2020, 1, 3), MarketValue = 494.9266M, NetContribution = 0M, 
-                    AverageCapital = 467.8515M, Gain = 27.0751M, Irr = -0.0326M 
+                {
+                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 2),
+                    ToDate = new DateTime(2020, 1, 3), MarketValue = 494.9266M, NetContribution = 0M,
+                    AverageCapital = 467.8515M, Gain = 27.0751M, Irr = -0.0326M
                 },
                 new()
-                { 
-                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 1), 
-                    ToDate = new DateTime(2020, 1, 2), MarketValue = 467.8515M, NetContribution = 0M, 
-                    AverageCapital = 483.6172M, Gain = -15.7657M, Irr = 0M 
+                {
+                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 1),
+                    ToDate = new DateTime(2020, 1, 2), MarketValue = 467.8515M, NetContribution = 0M,
+                    AverageCapital = 483.6172M, Gain = -15.7657M, Irr = 0M
                 },
                 new()
-                { 
-                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2019, 12, 31), 
-                    ToDate = new DateTime(2020, 1, 1), MarketValue = 483.6172M, NetContribution = 0M, 
-                    AverageCapital = 483.6172M, Gain = 0M, Irr = -0.0004M 
+                {
+                    AttributeMemberId = -100, AccountObjectId = -5, FromDate = new DateTime(2019, 12, 31),
+                    ToDate = new DateTime(2020, 1, 1), MarketValue = 483.6172M, NetContribution = 0M,
+                    AverageCapital = 483.6172M, Gain = 0M, Irr = -0.0004M
                 },
                 new()
-                { 
-                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 9), 
+                {
+                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 9),
                     ToDate = new DateTime(2020, 1, 10), MarketValue = 18487.2835M, NetContribution = 0M,
-                    AverageCapital = 18495.5054M, Gain = -8.2219M, Irr = 0.0024M 
+                    AverageCapital = 18495.5054M, Gain = -8.2219M, Irr = 0.0024M
                 },
                 new()
-                { 
-                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 8), 
-                    ToDate = new DateTime(2020, 1, 9), MarketValue = 18495.5054M, NetContribution = 0M, 
-                    AverageCapital = 18450.3985M, Gain = 45.1069M, Irr = 0.0014M 
+                {
+                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 8),
+                    ToDate = new DateTime(2020, 1, 9), MarketValue = 18495.5054M, NetContribution = 0M,
+                    AverageCapital = 18450.3985M, Gain = 45.1069M, Irr = 0.0014M
                 },
                 new()
-                { 
-                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 7), 
-                    ToDate = new DateTime(2020, 1, 8), MarketValue = 18450.3985M, NetContribution = 0M, 
-                    AverageCapital = 18424.0153M, Gain = 26.3832M, Irr = -0.0012M 
+                {
+                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 7),
+                    ToDate = new DateTime(2020, 1, 8), MarketValue = 18450.3985M, NetContribution = 0M,
+                    AverageCapital = 18424.0153M, Gain = 26.3832M, Irr = -0.0012M
                 },
                 new()
-                { 
-                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 6), 
-                    ToDate = new DateTime(2020, 1, 7), MarketValue = 18424.0153M, NetContribution = 0M, 
+                {
+                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 6),
+                    ToDate = new DateTime(2020, 1, 7), MarketValue = 18424.0153M, NetContribution = 0M,
                     AverageCapital = 18445.5433M, Gain = -21.528M, Irr = -0.0006M }
                 ,
                 new()
-                { 
-                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 5), 
-                    ToDate = new DateTime(2020, 1, 6), MarketValue = 18445.5433M, NetContribution = 0M, 
-                    AverageCapital = 18457.4199M, Gain = -11.8766M, Irr = 0M 
+                {
+                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 5),
+                    ToDate = new DateTime(2020, 1, 6), MarketValue = 18445.5433M, NetContribution = 0M,
+                    AverageCapital = 18457.4199M, Gain = -11.8766M, Irr = 0M
                 },
                 new()
-                { 
-                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 4), 
-                    ToDate = new DateTime(2020, 1, 5), MarketValue = 18457.4199M, NetContribution = 0M, 
-                    AverageCapital = 18457.4199M, Gain = 0M, Irr = 0M 
+                {
+                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 4),
+                    ToDate = new DateTime(2020, 1, 5), MarketValue = 18457.4199M, NetContribution = 0M,
+                    AverageCapital = 18457.4199M, Gain = 0M, Irr = 0M
                 },
                 new()
-                { 
-                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 3), 
-                    ToDate = new DateTime(2020, 1, 4), MarketValue = 18457.4199M, NetContribution = 0M, 
-                    AverageCapital = 18457.4199M, Gain = 0M, Irr = -0.0018M 
+                {
+                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 3),
+                    ToDate = new DateTime(2020, 1, 4), MarketValue = 18457.4199M, NetContribution = 0M,
+                    AverageCapital = 18457.4199M, Gain = 0M, Irr = -0.0018M
                 },
                 new()
-                { 
-                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 2), 
-                    ToDate = new DateTime(2020, 1, 3), MarketValue = 18457.4199M, NetContribution = 0M, 
-                    AverageCapital = 18491.0371M, Gain = -33.6172M, Irr = 0.0028M 
+                {
+                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 2),
+                    ToDate = new DateTime(2020, 1, 3), MarketValue = 18457.4199M, NetContribution = 0M,
+                    AverageCapital = 18491.0371M, Gain = -33.6172M, Irr = 0.0028M
                 },
                 new()
-                { 
-                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 1), 
-                    ToDate = new DateTime(2020, 1, 2), MarketValue = 18491.0371M, NetContribution = 0M, 
-                    AverageCapital = 18439.8514M, Gain = 51.1856M, Irr = 0M 
+                {
+                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2020, 1, 1),
+                    ToDate = new DateTime(2020, 1, 2), MarketValue = 18491.0371M, NetContribution = 0M,
+                    AverageCapital = 18439.8514M, Gain = 51.1856M, Irr = 0M
                 },
                 new()
-                { 
-                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2019, 12, 31), 
-                    ToDate = new DateTime(2020, 1, 1), MarketValue = 18439.8514M, NetContribution = 0M, 
-                    AverageCapital = 18439.8514M, Gain = 0M,  
+                {
+                    AttributeMemberId = -101, AccountObjectId = -5, FromDate = new DateTime(2019, 12, 31),
+                    ToDate = new DateTime(2020, 1, 1), MarketValue = 18439.8514M, NetContribution = 0M,
+                    AverageCapital = 18439.8514M, Gain = 0M,
                 },
             };
         }
