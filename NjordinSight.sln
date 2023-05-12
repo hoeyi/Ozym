@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordinSight.DAL", "Njordin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordinSight.DAL.Test", "NjordinSight.DAL.Test\NjordinSight.DAL.Test.csproj", "{AEB6D616-508A-4AA3-B490-F90AF1D4E169}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordinSight.EntityModel", "NjordinSight.EntityModel\NjordinSight.EntityModel.csproj", "{6EBBB2A2-ED41-44FD-806E-D07C4BABD15F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordinSight.EntityMigration", "NjordinSight.EntityMigration\NjordinSight.EntityMigration.csproj", "{641305BE-4889-406A-A017-EF38A69B8263}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordinSight.Web", "NjordinSight.Web\NjordinSight.Web.csproj", "{C56BA965-51AA-4913-94D7-AF19DC2E1243}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordinSight.Web.Test", "NjordinSight.Web.Test\NjordinSight.Web.Test.csproj", "{2AAD1729-E635-4A53-9F58-914A2A81220A}"
@@ -22,12 +26,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 		.dockerignore = .dockerignore
 		AddNjordWorksModelMigration.bat = AddNjordWorksModelMigration.bat
 		Dockerfile = Dockerfile
-		MigrateNjordIdentityModel.bat = MigrateNjordIdentityModel.bat
 		MigrateNjordWorksModel.bat = MigrateNjordWorksModel.bat
 		ScaffoldNjordWorksDbContext.bat = ScaffoldNjordWorksDbContext.bat
+		RefreshNjordIdentityDatabase.bat = RefreshNjordIdentityDatabase.bat
+		UpdateNjordWorksDatabase.bat = UpdateNjordWorksDatabase.bat
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordinSight.EntityModel", "NjordinSight.EntityModel\NjordinSight.EntityModel.csproj", "{6EBBB2A2-ED41-44FD-806E-D07C4BABD15F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +46,14 @@ Global
 		{AEB6D616-508A-4AA3-B490-F90AF1D4E169}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEB6D616-508A-4AA3-B490-F90AF1D4E169}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEB6D616-508A-4AA3-B490-F90AF1D4E169}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EBBB2A2-ED41-44FD-806E-D07C4BABD15F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EBBB2A2-ED41-44FD-806E-D07C4BABD15F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EBBB2A2-ED41-44FD-806E-D07C4BABD15F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EBBB2A2-ED41-44FD-806E-D07C4BABD15F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{641305BE-4889-406A-A017-EF38A69B8263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{641305BE-4889-406A-A017-EF38A69B8263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{641305BE-4889-406A-A017-EF38A69B8263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{641305BE-4889-406A-A017-EF38A69B8263}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C56BA965-51AA-4913-94D7-AF19DC2E1243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C56BA965-51AA-4913-94D7-AF19DC2E1243}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C56BA965-51AA-4913-94D7-AF19DC2E1243}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,10 +62,6 @@ Global
 		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6EBBB2A2-ED41-44FD-806E-D07C4BABD15F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EBBB2A2-ED41-44FD-806E-D07C4BABD15F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EBBB2A2-ED41-44FD-806E-D07C4BABD15F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EBBB2A2-ED41-44FD-806E-D07C4BABD15F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

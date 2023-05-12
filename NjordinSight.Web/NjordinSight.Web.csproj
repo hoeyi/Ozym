@@ -33,14 +33,22 @@
 	<PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
 	<PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
 	<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-
-	<!--This line forces a non-vulnerable version of System.Drawaing.Common to be included 
-		in the build. Without it, v4.7.0 is included. -->
-	<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
+	<ItemGroup>
+		<!--This line forces a non-vulnerable version of System.Drawaing.Common to be included 
+			in the build. Without it, v4.7.0 is included. -->
+		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.16">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
   <ItemGroup>
 	<ProjectReference Include="..\NjordinSight.DAL\NjordinSight.DAL.csproj" />
+	<ProjectReference Include="..\NjordinSight.EntityMigration\NjordinSight.EntityMigration.csproj" />
 	<ProjectReference Include="..\NjordinSight.EntityModel\NjordinSight.EntityModel.csproj" />
   </ItemGroup>
 

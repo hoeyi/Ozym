@@ -19,14 +19,18 @@ using ILogger = Microsoft.Extensions.Logging.ILogger;
 using Ichosys.Blazor.Ionicons;
 using NjordinSight.Web;
 using NjordinSight.EntityModel.Context;
+using System;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
 #region Configuration, Logger, Helper services
 
-var databaseProvider = System.Environment.GetEnvironmentVariable("DATABASE_PROVIDER");
+var databaseProvider = builder.Configuration["DATABASE_PROVIDER"];
+
 var logger = ConvertFromSerilogILogger(logger: BuildLogger());
 var config = BuildConfiguration(logger, databaseProvider == "SQL_SERVER");
 
@@ -37,20 +41,44 @@ builder.Services.AddSingleton(ISvgHelper.Create());
 
 #endregion
 
-#region Authentication configuration
+#region Add database contexts
+
+// Add database service.
+builder.Services.AddDbContextFactory<FinanceDbContext>(options =>
+{
+
+    if (string.IsNullOrEmpty(databaseProvider) && builder.Environment.IsDevelopment())
+        options.UseInMemoryDatabase(app_db_name);
+
+    else if (databaseProvider == "SQL_SERVER")
+        options.UseSqlServer(
+            connectionString: $"Name=ConnectionStrings:{app_db_name}");
+    //sqlServerOptionsAction: x => x.MigrationsAssembly("NjordinSight.EntityMigration"));
+    else
+        throw new NotSupportedException();
+});
 
 // Add identity management database
 builder.Services.AddDbContext<IdentityDbContext>(options =>
 {
-    if(builder.Environment.IsDevelopment())
-    {
-        if (string.IsNullOrEmpty(databaseProvider))
-            options.UseInMemoryDatabase("NjordIdentity");
+    if (string.IsNullOrEmpty(databaseProvider) && builder.Environment.IsDevelopment())
+        options.UseInMemoryDatabase(identity_db_name);
 
-        else if(databaseProvider == "SQL_SERVER")
-            options.UseSqlServer("Name=ConnectionStrings:NjordIdentity");
-    }
+    else if (databaseProvider == "SQL_SERVER")
+        options.UseSqlServer(
+            connectionString: $"Name=ConnectionStrings:{identity_db_name}");
+    else
+        throw new NotSupportedException();
 });
+
+if(builder.Environment.IsDevelopment() && string.IsNullOrEmpty(databaseProvider))
+{
+    SeedInMemoryDatabase();
+}
+
+#endregion
+
+#region Authentication configuration
 
 builder.Services.AddDefaultIdentity<WebAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<IdentityDbContext>();
@@ -62,6 +90,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 #endregion
 
+
 #region Data-access service configuration
 
 // Add metadata, search, and message services.
@@ -69,23 +98,6 @@ builder.Services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
 builder.Services.AddSingleton<IModelMetadataService, ModelMetadataService>();
 builder.Services.AddSingleton<IMessageService, MessageService>();
 
-// Add database service.
-builder.Services.AddDbContextFactory<FinanceDbContext>(options =>
-    {
-        if (builder.Environment.IsDevelopment())
-        {
-            if (string.IsNullOrEmpty(databaseProvider))
-               options.UseInMemoryDatabase("NjordWorks");
-
-            else if (databaseProvider == "SQL_SERVER")
-                options.UseSqlServer("Name=ConnectionStrings:NjordWorks");
-        }
-    });
-
-if(builder.Environment.IsDevelopment() && string.IsNullOrEmpty(databaseProvider))
-{
-    SeedInMemoryDatabase();
-}
 
 // Register model services and controllers.
 builder.Services.AddModelServices();
@@ -128,6 +140,16 @@ app.Run();
 
 partial class Program
 {
+    /// <summary>
+    /// Database or database store name for the core application entity model.
+    /// </summary>
+    private const string app_db_name = "NjordWorks";
+
+    /// <summary>
+    /// Database or database store for the web identity management entity model.
+    /// </summary>
+    private const string identity_db_name = "NjordIdentity";
+
     /// <summary>
     /// Builds the application <see cref="ILogger"/> instance.
     /// </summary>
@@ -213,7 +235,7 @@ partial class Program
     private static void SeedInMemoryDatabase()
     {
         var optionsBuild = new DbContextOptionsBuilder<FinanceDbContext>();
-        optionsBuild.UseInMemoryDatabase("NjordWorks");
+        optionsBuild.UseInMemoryDatabase(app_db_name);
             
         using var context = new FinanceDbContext(optionsBuild.Options);
 
