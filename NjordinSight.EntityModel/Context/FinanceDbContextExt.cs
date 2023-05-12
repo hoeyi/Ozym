@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-using NjordinSight.EntityModel.Context.Configuration;
-using System.Reflection.Emit;
+using NjordinSight.EntityModel.Context.TestConfiguration;
+using NjordinSight.EntityModel.Context.DefaultConfiguration;
 
 namespace NjordinSight.EntityModel.Context
 {
@@ -39,7 +39,7 @@ namespace NjordinSight.EntityModel.Context
         /// <param name="modelBuilder"></param>
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
         {
-            modelBuilder.SeedDefaultReferenceData();
+            modelBuilder.ConfigureInitialRecords();
 
             if (_seedData is not null)
                 modelBuilder.SeedInitialData(_seedData);

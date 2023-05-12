@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NjordinSight.EntityModel.Context.Configuration;
+using NjordinSight.EntityModel.Context.TestConfiguration;
 
 namespace NjordinSight.EntityModel.Context
 {
@@ -9,31 +9,6 @@ namespace NjordinSight.EntityModel.Context
     /// </summary>
     internal static class ModelBuilderExtension
     {
-        /// <summary>
-        /// Seeds this <see cref="ModelBuilder"/> with the default entries for reference data.
-        /// </summary>
-        /// <param name="modelBuilder"></param>
-        public static ModelBuilder SeedDefaultReferenceData(this ModelBuilder modelBuilder)
-        {
-            DefaultReferenceDataModel defaultReferenceModel = new();
-
-            modelBuilder
-                .SeedEntityData(defaultReferenceModel.BrokerTransactionCodes)
-                .SeedEntityData(defaultReferenceModel.BrokerTransactionCodeAttributes)
-                .SeedEntityData(defaultReferenceModel.Countries)
-                .SeedEntityData(defaultReferenceModel.MarketHolidays)
-                .SeedEntityData(defaultReferenceModel.MarketHolidayObservances)
-                .SeedEntityData(defaultReferenceModel.ModelAttributes)
-                .SeedEntityData(defaultReferenceModel.ModelAttributeScopes)
-                .SeedEntityData(defaultReferenceModel.ModelAttributeMembers)
-                .SeedEntityData(defaultReferenceModel.Securities)
-                .SeedEntityData(defaultReferenceModel.SecurityTypeGroups)
-                .SeedEntityData(defaultReferenceModel.SecurityTypes)
-                .SeedEntityData(defaultReferenceModel.SecuritySymbolTypes);
-
-            return modelBuilder;
-        }
-
         public static ModelBuilder SeedInitialData(
             this ModelBuilder modelBuilder, ISeedData seedData)
         {
@@ -57,6 +32,7 @@ namespace NjordinSight.EntityModel.Context
                 .SeedEntityData(seedData.SecurityTypes)
                 .SeedEntityData(seedData.SecuritySymbolTypes)
                 .SeedEntityData(seedData.MarketIndices)
+
                 // Seed parent objects and other objects that are referenced by foreign keys.
                 .SeedEntityData(seedData.AccountObjects)
                 .SeedEntityData(seedData.Accounts)
@@ -65,6 +41,7 @@ namespace NjordinSight.EntityModel.Context
                 .SeedEntityData(seedData.AccountCompositeMembers)
                 .SeedEntityData(seedData.Securities)
                 .SeedEntityData(seedData.SecuritySymbols)
+                
                 // Seed non-attribute-specific transactional data.
                 .SeedEntityData(seedData.BankTransactions)
                 .SeedEntityData(seedData.BrokerTransactions)
@@ -72,11 +49,13 @@ namespace NjordinSight.EntityModel.Context
                 .SeedEntityData(seedData.MarketIndexPrices)
                 .SeedEntityData(seedData.SecurityPrices)
                 // Seed attributes for applicable objects.
+
                 .SeedEntityData(seedData.AccountAttributes)
                 .SeedEntityData(seedData.BankTransactionCodeAttributes)
                 .SeedEntityData(seedData.BrokerTransactionCodeAttributes)
                 .SeedEntityData(seedData.CountryAttributes)
                 .SeedEntityData(seedData.SecurityAttributes)
+                
                 // Seed attribute-specific transactional data.
                 .SeedEntityData(seedData.InvestmentStrategyTargets)
                 .SeedEntityData(seedData.InvestmentPerformanceAttributeEntries);

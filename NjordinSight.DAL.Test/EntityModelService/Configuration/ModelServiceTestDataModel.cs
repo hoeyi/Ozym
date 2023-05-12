@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using NjordinSight.EntityModel.Context.Configuration;
+using NjordinSight.EntityModel.Context.TestConfiguration;
 using NjordinSight.EntityModel;
 
 namespace NjordinSight.Test.EntityModelService.Configuration

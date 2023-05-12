@@ -1,4 +1,4 @@
-﻿namespace NjordinSight.EntityModel.Context.Configuration
+﻿namespace NjordinSight.EntityModel.Context.TestConfiguration
 {
     /// <summary>
     /// Represents a collection models to add to a data store on initialization.

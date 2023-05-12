@@ -1,5 +1,5 @@
 ﻿using NjordinSight.EntityModel;
-using NjordinSight.EntityModel.Context.Configuration;
+using NjordinSight.EntityModel.Context.TestConfiguration;
 using System.Linq;
 using System.Threading.Tasks;
 

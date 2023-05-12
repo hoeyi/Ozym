@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using NjordinSight.EntityModel.Context.Configuration;
 using NjordinSight.EntityModel;
 
-namespace NjordinSight.EntityModel.Context.Configuration
+namespace NjordinSight.EntityModel.Context.TestConfiguration
 {
     /// <summary>
     /// A collection of models to seed for integration testing.
@@ -375,14 +374,14 @@ namespace NjordinSight.EntityModel.Context.Configuration
                     ConfigurationId = -1,
                     ConfigurationCode = "TestDeletePass",
                     ConfigurationDescription = "Test delete pass",
-                    XmlDefinition = DefaultConfiguration.Report_Parameters
+                    XmlDefinition = TestString.Report_Parameters
                 },
                 new()
                 {
                     ConfigurationId = -2,
                     ConfigurationCode = "TestUpdatePass",
                     ConfigurationDescription = "Test update pass",
-                    XmlDefinition = DefaultConfiguration.Report_Parameters
+                    XmlDefinition = TestString.Report_Parameters
                 }
             };
 
@@ -393,14 +392,14 @@ namespace NjordinSight.EntityModel.Context.Configuration
                     StyleSheetId = -1,
                     StyleSheetCode = "TestDeletePass",
                     StyleSheetDescription = "Test delete pass",
-                    XmlDefinition = DefaultConfiguration.Report_StyleSheet
+                    XmlDefinition = TestString.Report_StyleSheet
                 },
                 new()
                 {
                     StyleSheetId = -2,
                     StyleSheetCode = "TestUpdatePass",
                     StyleSheetDescription = "Test update pass",
-                    XmlDefinition = DefaultConfiguration.Report_StyleSheet
+                    XmlDefinition = TestString.Report_StyleSheet
                 }
             };
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NjordinSight.EntityModel.Context.Configuration {
+namespace NjordinSight.EntityModel.Context.DefaultConfiguration {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace NjordinSight.EntityModel.Context.Configuration {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.EntityModel.Context.Configuration.BuiltInStrings", typeof(BuiltInStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.EntityModel.Context.DefaultConfiguration.BuiltInStrings", typeof(BuiltInStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

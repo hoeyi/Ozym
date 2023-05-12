@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NjordinSight.EntityModel.Context.Configuration {
+namespace NjordinSight.EntityModel.Context.TestConfiguration {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace NjordinSight.EntityModel.Context.Configuration {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class DefaultConfiguration {
+    internal class TestString {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DefaultConfiguration() {
+        internal TestString() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace NjordinSight.EntityModel.Context.Configuration {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.EntityModel.Context.Configuration.DefaultConfiguration", typeof(DefaultConfiguration).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.EntityModel.Context.TestConfiguration.TestString", typeof(TestString).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,21 +61,11 @@ namespace NjordinSight.EntityModel.Context.Configuration {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {
-        ///  &quot;Id&quot;: 0,
-        ///  &quot;ObjectGuid&quot;: &quot;9ced3bce-4e09-4217-b013-88518257e1c4&quot;,
-        ///  &quot;Name&quot;: &quot;Display.Account&quot;,
-        ///  &quot;ApplicableTo&quot;: &quot;NjordinSight.EntityModel.Account, NjordinSight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null&quot;,
-        ///  &quot;DisplayOrder&quot;: {
-        ///    &quot;AccountObject.AccountObjectCode&quot;: 0,
-        ///    &quot;AccountObject.StartDate&quot;: 1,
-        ///    &quot;AccountObject.CloseDate&quot;: 2
-        ///  }
-        ///}.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string Display_Account {
             get {
-                return ResourceManager.GetString("Display.Account", resourceCulture);
+                return ResourceManager.GetString("Display_Account", resourceCulture);
             }
         }
         
@@ -84,7 +74,7 @@ namespace NjordinSight.EntityModel.Context.Configuration {
         /// </summary>
         internal static string Report_Parameters {
             get {
-                return ResourceManager.GetString("Report.Parameters", resourceCulture);
+                return ResourceManager.GetString("Report_Parameters", resourceCulture);
             }
         }
         
@@ -93,7 +83,7 @@ namespace NjordinSight.EntityModel.Context.Configuration {
         /// </summary>
         internal static string Report_StyleSheet {
             get {
-                return ResourceManager.GetString("Report.StyleSheet", resourceCulture);
+                return ResourceManager.GetString("Report_StyleSheet", resourceCulture);
             }
         }
     }
