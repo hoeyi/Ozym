@@ -3,7 +3,7 @@ using System.Linq;
 using NjordinSight.EntityModel.Context.Configuration;
 using NjordinSight.EntityModel;
 
-namespace NjordinSight.Test.EntityModelService.Configuration
+namespace NjordinSight.EntityModel.Context.Configuration
 {
     /// <summary>
     /// A collection of models to seed for integration testing.
@@ -375,14 +375,14 @@ namespace NjordinSight.Test.EntityModelService.Configuration
                     ConfigurationId = -1,
                     ConfigurationCode = "TestDeletePass",
                     ConfigurationDescription = "Test delete pass",
-                    XmlDefinition = NjordinSight.Configuration.DefaultConfiguration.Report_Parameters
+                    XmlDefinition = DefaultConfiguration.Report_Parameters
                 },
                 new()
                 {
                     ConfigurationId = -2,
                     ConfigurationCode = "TestUpdatePass",
                     ConfigurationDescription = "Test update pass",
-                    XmlDefinition = NjordinSight.Configuration.DefaultConfiguration.Report_Parameters
+                    XmlDefinition = DefaultConfiguration.Report_Parameters
                 }
             };
 
@@ -393,14 +393,14 @@ namespace NjordinSight.Test.EntityModelService.Configuration
                     StyleSheetId = -1,
                     StyleSheetCode = "TestDeletePass",
                     StyleSheetDescription = "Test delete pass",
-                    XmlDefinition = NjordinSight.Configuration.DefaultConfiguration.Report_StyleSheet
+                    XmlDefinition = DefaultConfiguration.Report_StyleSheet
                 },
                 new()
                 {
                     StyleSheetId = -2,
                     StyleSheetCode = "TestUpdatePass",
                     StyleSheetDescription = "Test update pass",
-                    XmlDefinition = NjordinSight.Configuration.DefaultConfiguration.Report_StyleSheet
+                    XmlDefinition = DefaultConfiguration.Report_StyleSheet
                 }
             };
 

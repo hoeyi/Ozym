@@ -25,6 +25,16 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="Context\Configuration\DefaultConfiguration.Designer.cs">
+      <DependentUpon>DefaultConfiguration.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Context\Configuration\Images.Designer.cs">
+      <DependentUpon>Images.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Metadata\CheckConstraintDisplay.Designer.cs">
       <DependentUpon>CheckConstraintDisplay.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -50,6 +60,14 @@
   <ItemGroup>
     <EmbeddedResource Update="Context\Configuration\BuiltInStrings.resx">
       <LastGenOutput>BuiltInStrings.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Context\Configuration\DefaultConfiguration.resx">
+      <LastGenOutput>DefaultConfiguration.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Context\Configuration\Images.resx">
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Metadata\CheckConstraintDisplay.resx">
