@@ -2942,248 +2942,143 @@ namespace NjordinSight.EntityMigration.Migrations
                         },
                         new
                         {
-                            AttributeMemberId = -200,
-                            AttributeId = -20,
-                            DisplayName = "Individual Stocks",
+                            AttributeMemberId = -401,
+                            AttributeId = -40,
+                            DisplayName = "Interest Charge",
                             DisplayOrder = (short)0
                         },
                         new
                         {
-                            AttributeMemberId = -201,
-                            AttributeId = -20,
-                            DisplayName = "Equity Funds & ETFs",
-                            DisplayOrder = (short)1
-                        },
-                        new
-                        {
-                            AttributeMemberId = -202,
-                            AttributeId = -20,
-                            DisplayName = "Individual Bonds & CDs",
-                            DisplayOrder = (short)2
-                        },
-                        new
-                        {
-                            AttributeMemberId = -203,
-                            AttributeId = -20,
-                            DisplayName = "Fixed Icome Funds & ETFs",
-                            DisplayOrder = (short)3
-                        },
-                        new
-                        {
-                            AttributeMemberId = -204,
-                            AttributeId = -20,
-                            DisplayName = "Option Contracts",
-                            DisplayOrder = (short)4
-                        },
-                        new
-                        {
-                            AttributeMemberId = -205,
-                            AttributeId = -20,
-                            DisplayName = "Digital Assets",
-                            DisplayOrder = (short)5
-                        },
-                        new
-                        {
-                            AttributeMemberId = -206,
-                            AttributeId = -20,
-                            DisplayName = "Other Funds & ETPs",
-                            DisplayOrder = (short)6
-                        },
-                        new
-                        {
-                            AttributeMemberId = -207,
-                            AttributeId = -20,
-                            DisplayName = "Short-Term Debt",
-                            DisplayOrder = (short)7
-                        },
-                        new
-                        {
-                            AttributeMemberId = -208,
-                            AttributeId = -20,
-                            DisplayName = "Long-Term Debt",
-                            DisplayOrder = (short)8
-                        },
-                        new
-                        {
-                            AttributeMemberId = -209,
-                            AttributeId = -20,
-                            DisplayName = "Cash Funds & Currency",
-                            DisplayOrder = (short)9
-                        },
-                        new
-                        {
-                            AttributeMemberId = -210,
-                            AttributeId = -20,
-                            DisplayName = "Cash Deposit",
-                            DisplayOrder = (short)10
-                        },
-                        new
-                        {
-                            AttributeMemberId = -211,
-                            AttributeId = -20,
-                            DisplayName = "Expense",
-                            DisplayOrder = (short)11
-                        },
-                        new
-                        {
-                            AttributeMemberId = -212,
-                            AttributeId = -20,
-                            DisplayName = "None/External",
-                            DisplayOrder = (short)12
-                        },
-                        new
-                        {
-                            AttributeMemberId = -300,
-                            AttributeId = -30,
-                            DisplayName = "Common Stock",
+                            AttributeMemberId = -402,
+                            AttributeId = -40,
+                            DisplayName = "Purchases",
                             DisplayOrder = (short)0
                         },
                         new
                         {
-                            AttributeMemberId = -301,
-                            AttributeId = -30,
-                            DisplayName = "American Depository Receipt",
+                            AttributeMemberId = -403,
+                            AttributeId = -40,
+                            DisplayName = "Margin Purchases",
                             DisplayOrder = (short)1
                         },
                         new
                         {
-                            AttributeMemberId = -302,
-                            AttributeId = -30,
-                            DisplayName = "Equity ETF",
+                            AttributeMemberId = -404,
+                            AttributeId = -40,
+                            DisplayName = "Gain/Loss",
                             DisplayOrder = (short)2
                         },
                         new
                         {
-                            AttributeMemberId = -303,
-                            AttributeId = -30,
-                            DisplayName = "Equity Mutual Fund",
+                            AttributeMemberId = -405,
+                            AttributeId = -40,
+                            DisplayName = "Starting Balance",
+                            DisplayOrder = (short)0
+                        },
+                        new
+                        {
+                            AttributeMemberId = -406,
+                            AttributeId = -40,
+                            DisplayName = "Contributions",
+                            DisplayOrder = (short)0
+                        },
+                        new
+                        {
+                            AttributeMemberId = -407,
+                            AttributeId = -40,
+                            DisplayName = "Withdrawals",
+                            DisplayOrder = (short)1
+                        },
+                        new
+                        {
+                            AttributeMemberId = -408,
+                            AttributeId = -40,
+                            DisplayName = "Dividends",
+                            DisplayOrder = (short)0
+                        },
+                        new
+                        {
+                            AttributeMemberId = -409,
+                            AttributeId = -40,
+                            DisplayName = "Expenses",
+                            DisplayOrder = (short)2
+                        },
+                        new
+                        {
+                            AttributeMemberId = -410,
+                            AttributeId = -40,
+                            DisplayName = "Writeoffs",
+                            DisplayOrder = (short)0
+                        },
+                        new
+                        {
+                            AttributeMemberId = -411,
+                            AttributeId = -40,
+                            DisplayName = "Interest",
+                            DisplayOrder = (short)1
+                        },
+                        new
+                        {
+                            AttributeMemberId = -412,
+                            AttributeId = -40,
+                            DisplayName = "Principal Pay-Down",
+                            DisplayOrder = (short)1
+                        },
+                        new
+                        {
+                            AttributeMemberId = -413,
+                            AttributeId = -40,
+                            DisplayName = "Sales",
                             DisplayOrder = (short)3
                         },
                         new
                         {
-                            AttributeMemberId = -304,
-                            AttributeId = -30,
-                            DisplayName = "Corporate Bond",
+                            AttributeMemberId = -414,
+                            AttributeId = -40,
+                            DisplayName = "Margin Sales",
+                            DisplayOrder = (short)2
+                        },
+                        new
+                        {
+                            AttributeMemberId = -501,
+                            AttributeId = -50,
+                            DisplayName = "Expense",
                             DisplayOrder = (short)4
                         },
                         new
                         {
-                            AttributeMemberId = -305,
-                            AttributeId = -30,
-                            DisplayName = "Municipal Bond",
+                            AttributeMemberId = -502,
+                            AttributeId = -50,
+                            DisplayName = "Trade",
+                            DisplayOrder = (short)1
+                        },
+                        new
+                        {
+                            AttributeMemberId = -503,
+                            AttributeId = -50,
+                            DisplayName = "Income",
+                            DisplayOrder = (short)2
+                        },
+                        new
+                        {
+                            AttributeMemberId = -504,
+                            AttributeId = -50,
+                            DisplayName = "Balance",
+                            DisplayOrder = (short)0
+                        },
+                        new
+                        {
+                            AttributeMemberId = -505,
+                            AttributeId = -50,
+                            DisplayName = "Transfer",
+                            DisplayOrder = (short)3
+                        },
+                        new
+                        {
+                            AttributeMemberId = -506,
+                            AttributeId = -50,
+                            DisplayName = "Writeoff",
                             DisplayOrder = (short)5
-                        },
-                        new
-                        {
-                            AttributeMemberId = -306,
-                            AttributeId = -30,
-                            DisplayName = "U.S. Goverment Bond/Bill",
-                            DisplayOrder = (short)6
-                        },
-                        new
-                        {
-                            AttributeMemberId = -307,
-                            AttributeId = -30,
-                            DisplayName = "Certificate of Deposit",
-                            DisplayOrder = (short)7
-                        },
-                        new
-                        {
-                            AttributeMemberId = -308,
-                            AttributeId = -30,
-                            DisplayName = "Bond ETF",
-                            DisplayOrder = (short)8
-                        },
-                        new
-                        {
-                            AttributeMemberId = -309,
-                            AttributeId = -30,
-                            DisplayName = "Bond Mutual Fund",
-                            DisplayOrder = (short)9
-                        },
-                        new
-                        {
-                            AttributeMemberId = -310,
-                            AttributeId = -30,
-                            DisplayName = "Call Option",
-                            DisplayOrder = (short)10
-                        },
-                        new
-                        {
-                            AttributeMemberId = -311,
-                            AttributeId = -30,
-                            DisplayName = "Put Option",
-                            DisplayOrder = (short)11
-                        },
-                        new
-                        {
-                            AttributeMemberId = -312,
-                            AttributeId = -30,
-                            DisplayName = "Cryptocurrency",
-                            DisplayOrder = (short)12
-                        },
-                        new
-                        {
-                            AttributeMemberId = -313,
-                            AttributeId = -30,
-                            DisplayName = "Exchange-Traded Note",
-                            DisplayOrder = (short)13
-                        },
-                        new
-                        {
-                            AttributeMemberId = -314,
-                            AttributeId = -30,
-                            DisplayName = "Retirement Plan",
-                            DisplayOrder = (short)14
-                        },
-                        new
-                        {
-                            AttributeMemberId = -315,
-                            AttributeId = -30,
-                            DisplayName = "Revolving Debt",
-                            DisplayOrder = (short)15
-                        },
-                        new
-                        {
-                            AttributeMemberId = -316,
-                            AttributeId = -30,
-                            DisplayName = "Student Debt",
-                            DisplayOrder = (short)16
-                        },
-                        new
-                        {
-                            AttributeMemberId = -317,
-                            AttributeId = -30,
-                            DisplayName = "Money-Market Fund",
-                            DisplayOrder = (short)17
-                        },
-                        new
-                        {
-                            AttributeMemberId = -318,
-                            AttributeId = -30,
-                            DisplayName = "Fiat Currency",
-                            DisplayOrder = (short)18
-                        },
-                        new
-                        {
-                            AttributeMemberId = -319,
-                            AttributeId = -30,
-                            DisplayName = "Cash",
-                            DisplayOrder = (short)19
-                        },
-                        new
-                        {
-                            AttributeMemberId = -320,
-                            AttributeId = -30,
-                            DisplayName = "Expense",
-                            DisplayOrder = (short)20
-                        },
-                        new
-                        {
-                            AttributeMemberId = -321,
-                            AttributeId = -30,
-                            DisplayName = "None/External",
-                            DisplayOrder = (short)21
                         },
                         new
                         {
@@ -4930,143 +4825,248 @@ namespace NjordinSight.EntityMigration.Migrations
                         },
                         new
                         {
-                            AttributeMemberId = -401,
-                            AttributeId = -40,
-                            DisplayName = "Interest Charge",
+                            AttributeMemberId = -200,
+                            AttributeId = -20,
+                            DisplayName = "Individual Stocks",
                             DisplayOrder = (short)0
                         },
                         new
                         {
-                            AttributeMemberId = -402,
-                            AttributeId = -40,
-                            DisplayName = "Purchases",
-                            DisplayOrder = (short)0
-                        },
-                        new
-                        {
-                            AttributeMemberId = -403,
-                            AttributeId = -40,
-                            DisplayName = "Margin Purchases",
+                            AttributeMemberId = -201,
+                            AttributeId = -20,
+                            DisplayName = "Equity Funds & ETFs",
                             DisplayOrder = (short)1
                         },
                         new
                         {
-                            AttributeMemberId = -404,
-                            AttributeId = -40,
-                            DisplayName = "Gain/Loss",
+                            AttributeMemberId = -202,
+                            AttributeId = -20,
+                            DisplayName = "Individual Bonds & CDs",
                             DisplayOrder = (short)2
                         },
                         new
                         {
-                            AttributeMemberId = -405,
-                            AttributeId = -40,
-                            DisplayName = "Starting Balance",
-                            DisplayOrder = (short)0
-                        },
-                        new
-                        {
-                            AttributeMemberId = -406,
-                            AttributeId = -40,
-                            DisplayName = "Contributions",
-                            DisplayOrder = (short)0
-                        },
-                        new
-                        {
-                            AttributeMemberId = -407,
-                            AttributeId = -40,
-                            DisplayName = "Withdrawals",
-                            DisplayOrder = (short)1
-                        },
-                        new
-                        {
-                            AttributeMemberId = -408,
-                            AttributeId = -40,
-                            DisplayName = "Dividends",
-                            DisplayOrder = (short)0
-                        },
-                        new
-                        {
-                            AttributeMemberId = -409,
-                            AttributeId = -40,
-                            DisplayName = "Expenses",
-                            DisplayOrder = (short)2
-                        },
-                        new
-                        {
-                            AttributeMemberId = -410,
-                            AttributeId = -40,
-                            DisplayName = "Writeoffs",
-                            DisplayOrder = (short)0
-                        },
-                        new
-                        {
-                            AttributeMemberId = -411,
-                            AttributeId = -40,
-                            DisplayName = "Interest",
-                            DisplayOrder = (short)1
-                        },
-                        new
-                        {
-                            AttributeMemberId = -412,
-                            AttributeId = -40,
-                            DisplayName = "Principal Pay-Down",
-                            DisplayOrder = (short)1
-                        },
-                        new
-                        {
-                            AttributeMemberId = -413,
-                            AttributeId = -40,
-                            DisplayName = "Sales",
+                            AttributeMemberId = -203,
+                            AttributeId = -20,
+                            DisplayName = "Fixed Icome Funds & ETFs",
                             DisplayOrder = (short)3
                         },
                         new
                         {
-                            AttributeMemberId = -414,
-                            AttributeId = -40,
-                            DisplayName = "Margin Sales",
-                            DisplayOrder = (short)2
-                        },
-                        new
-                        {
-                            AttributeMemberId = -501,
-                            AttributeId = -50,
-                            DisplayName = "Expense",
+                            AttributeMemberId = -204,
+                            AttributeId = -20,
+                            DisplayName = "Option Contracts",
                             DisplayOrder = (short)4
                         },
                         new
                         {
-                            AttributeMemberId = -502,
-                            AttributeId = -50,
-                            DisplayName = "Trade",
-                            DisplayOrder = (short)1
+                            AttributeMemberId = -205,
+                            AttributeId = -20,
+                            DisplayName = "Digital Assets",
+                            DisplayOrder = (short)5
                         },
                         new
                         {
-                            AttributeMemberId = -503,
-                            AttributeId = -50,
-                            DisplayName = "Income",
-                            DisplayOrder = (short)2
+                            AttributeMemberId = -206,
+                            AttributeId = -20,
+                            DisplayName = "Other Funds & ETPs",
+                            DisplayOrder = (short)6
                         },
                         new
                         {
-                            AttributeMemberId = -504,
-                            AttributeId = -50,
-                            DisplayName = "Balance",
+                            AttributeMemberId = -207,
+                            AttributeId = -20,
+                            DisplayName = "Short-Term Debt",
+                            DisplayOrder = (short)7
+                        },
+                        new
+                        {
+                            AttributeMemberId = -208,
+                            AttributeId = -20,
+                            DisplayName = "Long-Term Debt",
+                            DisplayOrder = (short)8
+                        },
+                        new
+                        {
+                            AttributeMemberId = -209,
+                            AttributeId = -20,
+                            DisplayName = "Cash Funds & Currency",
+                            DisplayOrder = (short)9
+                        },
+                        new
+                        {
+                            AttributeMemberId = -210,
+                            AttributeId = -20,
+                            DisplayName = "Cash Deposit",
+                            DisplayOrder = (short)10
+                        },
+                        new
+                        {
+                            AttributeMemberId = -211,
+                            AttributeId = -20,
+                            DisplayName = "Expense",
+                            DisplayOrder = (short)11
+                        },
+                        new
+                        {
+                            AttributeMemberId = -212,
+                            AttributeId = -20,
+                            DisplayName = "None/External",
+                            DisplayOrder = (short)12
+                        },
+                        new
+                        {
+                            AttributeMemberId = -300,
+                            AttributeId = -30,
+                            DisplayName = "Common Stock",
                             DisplayOrder = (short)0
                         },
                         new
                         {
-                            AttributeMemberId = -505,
-                            AttributeId = -50,
-                            DisplayName = "Transfer",
+                            AttributeMemberId = -301,
+                            AttributeId = -30,
+                            DisplayName = "American Depository Receipt",
+                            DisplayOrder = (short)1
+                        },
+                        new
+                        {
+                            AttributeMemberId = -302,
+                            AttributeId = -30,
+                            DisplayName = "Equity ETF",
+                            DisplayOrder = (short)2
+                        },
+                        new
+                        {
+                            AttributeMemberId = -303,
+                            AttributeId = -30,
+                            DisplayName = "Equity Mutual Fund",
                             DisplayOrder = (short)3
                         },
                         new
                         {
-                            AttributeMemberId = -506,
-                            AttributeId = -50,
-                            DisplayName = "Writeoff",
+                            AttributeMemberId = -304,
+                            AttributeId = -30,
+                            DisplayName = "Corporate Bond",
+                            DisplayOrder = (short)4
+                        },
+                        new
+                        {
+                            AttributeMemberId = -305,
+                            AttributeId = -30,
+                            DisplayName = "Municipal Bond",
                             DisplayOrder = (short)5
+                        },
+                        new
+                        {
+                            AttributeMemberId = -306,
+                            AttributeId = -30,
+                            DisplayName = "U.S. Government Bond/Bill",
+                            DisplayOrder = (short)6
+                        },
+                        new
+                        {
+                            AttributeMemberId = -307,
+                            AttributeId = -30,
+                            DisplayName = "Certificate of Deposit",
+                            DisplayOrder = (short)7
+                        },
+                        new
+                        {
+                            AttributeMemberId = -308,
+                            AttributeId = -30,
+                            DisplayName = "Bond ETF",
+                            DisplayOrder = (short)8
+                        },
+                        new
+                        {
+                            AttributeMemberId = -309,
+                            AttributeId = -30,
+                            DisplayName = "Bond Mutual Fund",
+                            DisplayOrder = (short)9
+                        },
+                        new
+                        {
+                            AttributeMemberId = -310,
+                            AttributeId = -30,
+                            DisplayName = "Call Option",
+                            DisplayOrder = (short)10
+                        },
+                        new
+                        {
+                            AttributeMemberId = -311,
+                            AttributeId = -30,
+                            DisplayName = "Put Option",
+                            DisplayOrder = (short)11
+                        },
+                        new
+                        {
+                            AttributeMemberId = -312,
+                            AttributeId = -30,
+                            DisplayName = "Cryptocurrency",
+                            DisplayOrder = (short)12
+                        },
+                        new
+                        {
+                            AttributeMemberId = -313,
+                            AttributeId = -30,
+                            DisplayName = "Exchange-Traded Note",
+                            DisplayOrder = (short)13
+                        },
+                        new
+                        {
+                            AttributeMemberId = -314,
+                            AttributeId = -30,
+                            DisplayName = "Retirement Plan",
+                            DisplayOrder = (short)14
+                        },
+                        new
+                        {
+                            AttributeMemberId = -315,
+                            AttributeId = -30,
+                            DisplayName = "Revolving Debt",
+                            DisplayOrder = (short)15
+                        },
+                        new
+                        {
+                            AttributeMemberId = -316,
+                            AttributeId = -30,
+                            DisplayName = "Student Debt",
+                            DisplayOrder = (short)16
+                        },
+                        new
+                        {
+                            AttributeMemberId = -317,
+                            AttributeId = -30,
+                            DisplayName = "Money-Market Fund",
+                            DisplayOrder = (short)17
+                        },
+                        new
+                        {
+                            AttributeMemberId = -318,
+                            AttributeId = -30,
+                            DisplayName = "Fiat Currency",
+                            DisplayOrder = (short)18
+                        },
+                        new
+                        {
+                            AttributeMemberId = -319,
+                            AttributeId = -30,
+                            DisplayName = "Cash",
+                            DisplayOrder = (short)19
+                        },
+                        new
+                        {
+                            AttributeMemberId = -320,
+                            AttributeId = -30,
+                            DisplayName = "Expense",
+                            DisplayOrder = (short)20
+                        },
+                        new
+                        {
+                            AttributeMemberId = -321,
+                            AttributeId = -30,
+                            DisplayName = "None/External",
+                            DisplayOrder = (short)21
                         });
                 });
 
@@ -5615,7 +5615,7 @@ namespace NjordinSight.EntityMigration.Migrations
                             CanHavePosition = true,
                             HeldInWallet = false,
                             SecurityTypeGroupId = -202,
-                            SecurityTypeName = "U.S. Goverment Bond/Bill",
+                            SecurityTypeName = "U.S. Government Bond/Bill",
                             ValuationFactor = 0.01m
                         },
                         new

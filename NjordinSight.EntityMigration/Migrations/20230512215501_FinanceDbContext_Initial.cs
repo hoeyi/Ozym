@@ -1371,7 +1371,7 @@ namespace NjordinSight.EntityMigration.Migrations
                     { -309, -30, "Bond Mutual Fund", (short)9 },
                     { -308, -30, "Bond ETF", (short)8 },
                     { -307, -30, "Certificate of Deposit", (short)7 },
-                    { -306, -30, "U.S. Goverment Bond/Bill", (short)6 }
+                    { -306, -30, "U.S. Government Bond/Bill", (short)6 }
                 });
 
             migrationBuilder.InsertData(
@@ -1822,7 +1822,7 @@ namespace NjordinSight.EntityMigration.Migrations
                     { -309, false, true, false, -203, "Bond Mutual Fund", 1m },
                     { -308, true, true, false, -203, "Bond ETF", 1m },
                     { -307, false, true, false, -202, "Certificate of Deposit", 1m },
-                    { -306, false, true, false, -202, "U.S. Goverment Bond/Bill", 0.01m },
+                    { -306, false, true, false, -202, "U.S. Government Bond/Bill", 0.01m },
                     { -305, false, true, false, -202, "Municipal Bond", 0.01m },
                     { -304, false, true, false, -202, "Corporate Bond", 0.01m },
                     { -303, false, true, false, -201, "Equity Mutual Fund", 1m },
