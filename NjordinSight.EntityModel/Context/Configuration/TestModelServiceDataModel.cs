@@ -8,12 +8,12 @@ namespace NjordinSight.EntityModel.Context.Configuration
     /// <summary>
     /// A collection of models to seed for integration testing.
     /// </summary>
-    internal class ModelServiceTestDataModel : ISeedData
+    internal class TestModelServiceDataModel : ISeedData
     {
         private readonly Random _random = new();
 
         /// <inheritdoc/>
-        public ModelServiceTestDataModel()
+        public TestModelServiceDataModel()
         {
             AccountCustodians = new AccountCustodian[]
             {

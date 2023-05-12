@@ -11,7 +11,7 @@ namespace NjordinSight.EntityModel.Context
     /// Derived <see cref="FinanceDbContext"/> that represents a relational-database specific 
     /// implementation of the data model.
     /// </summary>
-    internal class FinanceDbContextSql : FinanceDbContext
+    public class FinanceDbContextSql : FinanceDbContext
     {
         public FinanceDbContextSql()
         {

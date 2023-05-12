@@ -20,13 +20,11 @@ using Ichosys.Blazor.Ionicons;
 using NjordinSight.Web;
 using NjordinSight.EntityModel.Context;
 using System;
-
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-// Add services to the container.
-
+// Register services for dependency injection
 #region Configuration, Logger, Helper services
 
 var databaseProvider = builder.Configuration["DATABASE_PROVIDER"];
@@ -58,7 +56,7 @@ builder.Services.AddDbContextFactory<FinanceDbContext>(options =>
         throw new NotSupportedException();
 });
 
-// Add identity management database
+// Add identity management database service
 builder.Services.AddDbContext<IdentityDbContext>(options =>
 {
     if (string.IsNullOrEmpty(databaseProvider) && builder.Environment.IsDevelopment())
@@ -231,6 +229,7 @@ partial class Program
     /// <summary>
     /// Recreates the 'NjordWorks' database, but takes no action on the 'NjordIdentity' database.
     /// Call only once during start-up to seed data for an in-memory data store.
+    /// Only for use in development/demonstration purposes.
     /// </summary>
     private static void SeedInMemoryDatabase()
     {
