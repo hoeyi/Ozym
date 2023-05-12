@@ -461,7 +461,7 @@ namespace NjordinSight.EntityModel.Context.Configuration
                 {
                     SecurityTypeId = -306,
                     SecurityTypeGroupId = -202,
-                    SecurityTypeName = "U.S. Goverment Bond/Bill",
+                    SecurityTypeName = "U.S. Government Bond/Bill",
                     ValuationFactor = 0.01M,
                     CanHaveDerivative = false,
                     CanHavePosition  = true
