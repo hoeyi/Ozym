@@ -1,8 +1,8 @@
 ﻿using NjordinSight.EntityModel.Context;
 using Microsoft.EntityFrameworkCore;
-using NjordinSight.Test.EntityModelService.Configuration;
 using System;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Logging;
+using NjordinSight.EntityModel.Context.TestConfiguration;
 
 namespace NjordinSight.Test.EntityModelService
 {
@@ -26,24 +26,32 @@ namespace NjordinSight.Test.EntityModelService
                 {
                     using (var context = InitializeTestDbContext())
                     {
-                        context.Database.EnsureDeleted();
-                        context.Database.EnsureCreated();
+                        try
+                        {
+                            context.Database.EnsureDeleted();
+                            context.Database.EnsureCreated();
+                        }
+                        catch(Exception e)
+                        {
+                            TestUtility.Logger.LogError(e, "Exception raised when re-creating database.");
+                            throw;
+                        }
                     }
-
                     _databaseInitialized = true;
                 }
             }
         }
 
         /// <summary>
-        /// Creates a new <see cref="FinanceDbContext"/> instance for unit-testing.
+        /// Creates a new <see cref="FinanceDbIntegrationTestContext"/> instance for unit-testing.
         /// </summary>
         /// <inheritdoc/>
-        public FinanceDbContext CreateDbContext() => new(options: GetDbContextOptions());
+        public FinanceDbContext CreateDbContext() => 
+            new FinanceDbIntegrationTestContext(options: GetDbContextOptions());
 
-        private static FinanceDbContext InitializeTestDbContext() => new(
+        private static FinanceDbContext InitializeTestDbContext() => new FinanceDbIntegrationTestContext(
             options: GetDbContextOptions(),
-            seedData: new ModelServiceTestDataModel());
+            seedData: new IntegrationTestModel());
 
         /// <summary>
         /// Resets the test database to its state before seeding test data.
@@ -61,27 +69,20 @@ namespace NjordinSight.Test.EntityModelService
             }
         }
 
-        private static FinanceDbContext GetFinanceDbContext()
-        {
-            return _database_provider switch
-            {
-                "SQL_SERVER" => new FinanceDbContext(options: GetDbContextOptions()),
-
-                _ => new FinanceDbContext(options: GetDbContextOptions())
-            };
-        }
+        private static FinanceDbContext GetFinanceDbContext() =>
+            new FinanceDbIntegrationTestContext(options: GetDbContextOptions());
 
         private static DbContextOptions<FinanceDbContext> GetDbContextOptions()
         {
             return _database_provider switch
             {
                 "SQL_SERVER" => (new DbContextOptionsBuilder<FinanceDbContext>()
-                    .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordWorks"])
+                    .UseSqlServer(TestUtility.Configuration["ConnectionStrings:NjordWorksIntegrationTest"])
                     .EnableSensitiveDataLogging()).Options,
 
                 _ => (new DbContextOptionsBuilder<FinanceDbContext>()
-                        .UseInMemoryDatabase("NjordWorks")
-                        .EnableSensitiveDataLogging()).Options
+                    .UseInMemoryDatabase("NjordWorks")
+                    .EnableSensitiveDataLogging()).Options
             };
         }
     }
