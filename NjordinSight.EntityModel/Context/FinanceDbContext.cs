@@ -55,8 +55,6 @@ namespace NjordinSight.EntityModel.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            UseRelationalDatabase = Database?.ProviderName == "Microsoft.EntityFrameworkCore.SqlServer";
-
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.Property(e => e.AccountId).ValueGeneratedNever();
