@@ -10,6 +10,7 @@ WORKDIR /src
 COPY ["NjordinSight.Web/NjordinSight.Web.csproj", "NjordinSight.Web/"]
 COPY ["NjordinSight.DAL/NjordinSight.DAL.csproj", "NjordinSight.DAL/"]
 COPY ["NjordinSight.EntityModel/NjordinSight.EntityModel.csproj", "NjordinSight.EntityModel/"]
+COPY ["NjordinSight.EntityMigration/NjordinSight.EntityMigration.csproj", "NjordinSight.EntityMigration/"]
 RUN ls
 
 # Copy the local nuget package repository to /src so that packages may be
