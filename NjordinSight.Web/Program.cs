@@ -21,6 +21,7 @@ using NjordinSight.Web;
 using NjordinSight.EntityModel.Context;
 using System;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,11 +51,12 @@ builder.Services.AddDbContextFactory<FinanceDbContext>(options =>
 
     else if (databaseProvider == "SQL_SERVER")
         options.UseSqlServer(
-            connectionString: $"Name=ConnectionStrings:{app_db_name}");
-    //sqlServerOptionsAction: x => x.MigrationsAssembly("NjordinSight.EntityMigration"));
+            connectionString: $"Name=ConnectionStrings:{app_db_name}",
+            sqlServerOptionsAction: x => x.MigrationsAssembly("NjordinSight.EntityMigration"));
     else
         throw new NotSupportedException();
 });
+
 
 // Add identity management database service
 builder.Services.AddDbContext<IdentityDbContext>(options =>

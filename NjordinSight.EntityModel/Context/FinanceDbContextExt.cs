@@ -30,7 +30,7 @@ namespace NjordinSight.EntityModel.Context
         /// <summary>
         /// Returns true if this context is to be configured for SQL Server, else false.
         /// </summary>
-        protected virtual bool UseRelationalDatabase { get; } = false;
+        protected virtual bool UseRelationalDatabase { get; set; } = false;
 
         /// <summary>
         /// Handles additional configuration steps for the <see cref="FinanceDbContext"/> 
@@ -41,7 +41,7 @@ namespace NjordinSight.EntityModel.Context
         {
             modelBuilder.SeedDefaultReferenceData();
 
-            if(_seedData is not null)
+            if (_seedData is not null)
                 modelBuilder.SeedInitialData(_seedData);
         }
 

@@ -54,7 +54,8 @@ namespace NjordinSight.EntityModel
             Description = nameof(ModelDisplay.BankTransaction_Comment_Description),
             ResourceType = typeof(ModelDisplay))]
         public string Comment { get; set; }
-        
+
+        [Timestamp]
         [Required(
             ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]

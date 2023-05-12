@@ -24,10 +24,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScripts", "{4BFBE020-17A3-4116-B9E7-E0A23D93CD74}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
-		AddNjordWorksModelMigration.bat = AddNjordWorksModelMigration.bat
 		Dockerfile = Dockerfile
-		MigrateNjordWorksModel.bat = MigrateNjordWorksModel.bat
+		AddNjordWorksMigration.bat = AddNjordWorksMigration.bat
 		ScaffoldNjordWorksDbContext.bat = ScaffoldNjordWorksDbContext.bat
+		RefreshNjordWorkDatabase.bat = RefreshNjordWorkDatabase.bat
 		RefreshNjordIdentityDatabase.bat = RefreshNjordIdentityDatabase.bat
 		UpdateNjordWorksDatabase.bat = UpdateNjordWorksDatabase.bat
 	EndProjectSection

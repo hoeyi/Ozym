@@ -65,7 +65,7 @@ namespace NjordinSight.Test.EntityModelService
         {
             return _database_provider switch
             {
-                "SQL_SERVER" => new FinanceDbContextSql(options: GetDbContextOptions()),
+                "SQL_SERVER" => new FinanceDbContext(options: GetDbContextOptions()),
 
                 _ => new FinanceDbContext(options: GetDbContextOptions())
             };
