@@ -26,6 +26,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="Context\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Context\TestConfiguration\Images.Designer.cs">
       <DependentUpon>Images.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -62,6 +67,10 @@
     <EmbeddedResource Update="Context\DefaultConfiguration\BuiltInStrings.resx">
       <LastGenOutput>BuiltInStrings.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Context\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Context\TestConfiguration\Images.resx">
       <LastGenOutput>Images.Designer.cs</LastGenOutput>
