@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using NjordinSight.EntityModel.Context.TestConfiguration;
 using NjordinSight.EntityModel.Context.DefaultConfiguration;
+using NjordinSight.EntityModel.Context.Configurations;
+
 using System.Diagnostics;
 
 namespace NjordinSight.EntityModel.Context
@@ -21,7 +23,7 @@ namespace NjordinSight.EntityModel.Context
 
         /// <summary>
         /// Handles additional configuration steps for the <see cref="FinanceDbContext"/> 
-        /// model.
+        /// model. Called at the end of the <see cref="OnModelCreating(ModelBuilder)"/> method.
         /// </summary>
         /// <param name="modelBuilder"></param>
 #pragma warning disable CA1822 // Mark members as static

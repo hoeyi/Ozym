@@ -8,7 +8,7 @@ using NjordinSight.EntityModel;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Net.NetworkInformation;
 
-namespace NjordinSight.EntityMigration.BuilderConfigurations
+namespace NjordinSight.EntityModel.Context.Configurations
 {
     public class SecurityExchangeConfiguration : IEntityTypeConfiguration<SecurityExchange>
     {

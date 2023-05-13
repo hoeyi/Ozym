@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NjordinSight.EntityMigration.Configurations
+namespace NjordinSight.EntityModel.Context.Configurations
 {
     public class AccountCustodianConfiguration : IEntityTypeConfiguration<AccountCustodian>
     {
