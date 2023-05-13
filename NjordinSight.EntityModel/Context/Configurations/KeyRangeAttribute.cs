@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace NjordinSight.EntityModel.Context.Configurations
 {
+    /// <summary>
+    /// Represents key range of reserved keys for the underlying seed data class.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     internal sealed class KeyRangeAttribute : Attribute
     {
