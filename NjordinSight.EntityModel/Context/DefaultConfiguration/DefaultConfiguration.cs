@@ -968,6 +968,7 @@ namespace NjordinSight.EntityModel.Context.DefaultConfiguration
                     }))
                 .ToArray();
         }
+        
         /// <inheritdoc/>
         public BrokerTransactionCodeAttributeMemberEntry[] BrokerTransactionCodeAttributes { get; private init; }
 
