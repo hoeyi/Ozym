@@ -21,7 +21,6 @@ using NjordinSight.Web;
 using NjordinSight.EntityModel.Context;
 using System;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 

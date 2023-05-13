@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-using NjordinSight.EntityModel.Context.TestConfiguration;
 using NjordinSight.EntityModel.Context.DefaultConfiguration;
 using NjordinSight.EntityModel.Context.Configurations;
-
-using System.Diagnostics;
 
 namespace NjordinSight.EntityModel.Context
 {
@@ -95,6 +92,11 @@ namespace NjordinSight.EntityModel.Context
                 .HasInitialRecords(defaultConfig.SecurityTypeGroups)
                 .HasInitialRecords(defaultConfig.SecurityTypes)
                 .HasInitialRecords(defaultConfig.SecuritySymbolTypes);
+        }
+
+        public static void ConfigureSampleRecords(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new SecurityExchangeConfiguration());
         }
 
         /// <summary>

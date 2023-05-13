@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NjordinSight.EntityModel.Context.DefaultConfiguration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NjordinSight.EntityModel.Context
 {

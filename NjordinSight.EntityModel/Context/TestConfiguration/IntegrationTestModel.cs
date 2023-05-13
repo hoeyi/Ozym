@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using NjordinSight.EntityModel;
-using NjordinSight.EntityModel.Context.DefaultConfiguration;
+﻿using NjordinSight.EntityModel.Context.DefaultConfiguration;
 
 namespace NjordinSight.EntityModel.Context.TestConfiguration
 {
