@@ -240,7 +240,6 @@ partial class Program
             
         using var context = new FinanceDbContext(optionsBuild.Options);
 
-        context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
     }
 }
