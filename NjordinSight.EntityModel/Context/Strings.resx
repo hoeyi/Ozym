@@ -134,4 +134,22 @@ Given range: [{2}, {3})</value>
 {2} is the given value for the lower bound
 {3} is the given value for the upper bound</comment>
   </data>
+  <data name="ModelAttribute_AssetClass" xml:space="preserve">
+    <value>Asset Class</value>
+  </data>
+  <data name="ModelAttribute_BrokerTransactionCategory" xml:space="preserve">
+    <value>Transaction Category</value>
+  </data>
+  <data name="ModelAttribute_BrokerTransactionClass" xml:space="preserve">
+    <value>Transaction Class</value>
+  </data>
+  <data name="ModelAttribute_CountryExposure" xml:space="preserve">
+    <value>Country Exposure</value>
+  </data>
+  <data name="ModelAttribute_SecurityType" xml:space="preserve">
+    <value>Security Type</value>
+  </data>
+  <data name="ModelAttribute_SecurityTypeGroup" xml:space="preserve">
+    <value>Security Type Group</value>
+  </data>
 </root>

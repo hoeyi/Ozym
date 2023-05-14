@@ -21,11 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Context\DefaultConfiguration\BuiltInStrings.Designer.cs">
-      <DependentUpon>BuiltInStrings.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Update="Context\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -64,10 +59,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Context\DefaultConfiguration\BuiltInStrings.resx">
-      <LastGenOutput>BuiltInStrings.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Context\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>

@@ -87,5 +87,59 @@ namespace NjordinSight.EntityModel.Context {
                 return ResourceManager.GetString("Context_KeyRangeAttribute_InvalidOperationException", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Asset Class.
+        /// </summary>
+        internal static string ModelAttribute_AssetClass {
+            get {
+                return ResourceManager.GetString("ModelAttribute_AssetClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Category.
+        /// </summary>
+        internal static string ModelAttribute_BrokerTransactionCategory {
+            get {
+                return ResourceManager.GetString("ModelAttribute_BrokerTransactionCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Class.
+        /// </summary>
+        internal static string ModelAttribute_BrokerTransactionClass {
+            get {
+                return ResourceManager.GetString("ModelAttribute_BrokerTransactionClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country Exposure.
+        /// </summary>
+        internal static string ModelAttribute_CountryExposure {
+            get {
+                return ResourceManager.GetString("ModelAttribute_CountryExposure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security Type.
+        /// </summary>
+        internal static string ModelAttribute_SecurityType {
+            get {
+                return ResourceManager.GetString("ModelAttribute_SecurityType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security Type Group.
+        /// </summary>
+        internal static string ModelAttribute_SecurityTypeGroup {
+            get {
+                return ResourceManager.GetString("ModelAttribute_SecurityTypeGroup", resourceCulture);
+            }
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NjordinSight.EntityModel.ConstraintType;
 using NjordinSight.EntityModel.Context.Configurations;
-using NjordinSight.EntityModel.Context.DefaultConfiguration;
 
 namespace NjordinSight.EntityModel.Context.Configurations
 {
@@ -548,32 +547,32 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 new()
                 {
                     AttributeId = (int)ModelAttributeEnum.AssetClass,
-                    DisplayName = BuiltInStrings.ModelAttribute_AssetClass
+                    DisplayName = Strings.ModelAttribute_AssetClass
                 },
                 new()
                 {
                     AttributeId = (int)ModelAttributeEnum.SecurityTypeGroup,
-                    DisplayName = BuiltInStrings.ModelAttribute_SecurityTypeGroup
+                    DisplayName = Strings.ModelAttribute_SecurityTypeGroup
                 },
                 new()
                 {
                     AttributeId = (int)ModelAttributeEnum.SecurityType,
-                    DisplayName = BuiltInStrings.ModelAttribute_SecurityType
+                    DisplayName = Strings.ModelAttribute_SecurityType
                 },
                 new()
                 {
                     AttributeId = (int)ModelAttributeEnum.BrokerTransactionCategory,
-                    DisplayName = BuiltInStrings.ModelAttribute_BrokerTransactionCategory
+                    DisplayName = Strings.ModelAttribute_BrokerTransactionCategory
                 },
                 new()
                 {
                     AttributeId = (int)ModelAttributeEnum.BrokerTransactionClass,
-                    DisplayName = BuiltInStrings.ModelAttribute_BrokerTransactionClass
+                    DisplayName = Strings.ModelAttribute_BrokerTransactionClass
                 },
                 new()
                 {
                     AttributeId = (int)ModelAttributeEnum.CountryExposure,
-                    DisplayName = BuiltInStrings.ModelAttribute_CountryExposure
+                    DisplayName = Strings.ModelAttribute_CountryExposure
                 }
             };
 
