@@ -985,7 +985,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                         new () { ExchangeId = -6, ExchangeCode = "OTCQB", ExchangeDescription = "OTCQB" },
                         new () { ExchangeId = -7, ExchangeCode = "OTC Pink", ExchangeDescription = "OTC Pink" },
                         new () { ExchangeId = -8, ExchangeCode = "NYSE Arca", ExchangeDescription = "NYSE Arca" },
-                        new () { ExchangeId = -9, ExchangeCode = "CBOE Consolidated Listings", ExchangeDescription = "CBOE Consolidated Listings" }
+                        new () { ExchangeId = -9, ExchangeCode = "CBOE", ExchangeDescription = "CBOE Consolidated Listings" }
                     }
                 ));
 
