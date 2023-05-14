@@ -8,7 +8,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
     /// Allows for storing multiple <see cref="IEntityConfiguration{TEntity}"/> instances for 
     /// different entity types to be applied later by the caller.
     /// </summary>
-    internal partial interface IConfigurationCollection : IEnumerable<Action<ModelBuilder>>, IValidatableObject
+    internal partial interface IConfigurationCollection : IEnumerable<Action<ModelBuilder>>
     {
         /// <summary>
         /// Adds a new <see cref="Action"/> accepting <see cref="ModelBuilder"/> input that applies 
@@ -19,6 +19,15 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// <param name="configuration"></param>
         /// <exception cref="ArgumentNullException"><paramref name="configuration"/> was null.</exception>
         void AddConfiguration<T>(IEntityConfiguration<T> configuration) where T : class;
+
+        /// <summary>
+        /// Tests the <see cref="IConfigurationCollection"/> for valid 
+        /// <see cref="IEntityConfiguration{TEntity}"/> registrations. 
+        /// </summary>
+        /// <param name="validationMessages">Output collection descriing validations failures. 
+        /// The first entry is a summary message. If valid the collection is empty.</param>
+        /// <returns>True if there are no conflicting keys found in the registrations, else false.</returns>
+        bool IsValid(out IEnumerable<string> validationMessages);
     }
 
     // Static methods
