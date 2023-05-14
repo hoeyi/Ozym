@@ -29,6 +29,14 @@
         }
 
         /// <inheritdoc/>
+        public override string ToString()
+        {
+            return _keyComponents.Length == 1 ?
+                _keyComponents[0].ToString() :
+                $"({string.Join(", ", _keyComponents)})";
+        }
+
+        /// <inheritdoc/>
         public bool Equals(DatabaseKey other)
         {
             if (other is null)
@@ -46,11 +54,10 @@
         {
             unchecked
             {
-                if (_keyComponents.Length == 1)
-                    return _keyComponents.GetHashCode();
-
                 // Initialize with the first value.
                 int hash = _keyComponents[0].GetHashCode();
+
+                if (_keyComponents.Length == 1) return hash;
 
                 // Iterate over the remaining elements using current hash as input to the next.
                 for (int i = 1; i < _keyComponents.Length; i++)

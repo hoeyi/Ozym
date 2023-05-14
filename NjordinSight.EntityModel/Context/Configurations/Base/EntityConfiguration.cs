@@ -29,8 +29,10 @@ namespace NjordinSight.EntityModel.Context.Configurations
             if (Guid.Empty == sourceGuid)
                 throw new ArgumentOutOfRangeException(paramName: nameof(sourceGuid), sourceGuid, string.Empty);
 
+
             Guid = sourceGuid;
-            Entries = Array.Empty<T>();
+            Entries = new T[entries.Length];
+            Array.Copy(entries, Entries, entries.Length);
         }
 
         /// <summary>
@@ -94,7 +96,10 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     typeof(T).FullName));
 
             // Return a new instance of DatabaseKey with the 1- or n-length array.
-            return new(keyColumns.OrderBy(x => x.Order).ToArray());
+            return new(keyColumns
+                .OrderBy(x => x.Order)
+                .Select(x => x.Property.GetValue(entity))
+                .ToArray());
         }
     }
 }
