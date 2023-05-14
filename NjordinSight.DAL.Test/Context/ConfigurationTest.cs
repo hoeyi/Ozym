@@ -10,10 +10,12 @@ namespace NjordinSight.Test.Context
     [TestClass]
     public class ConfigurationTest
     {
+        private readonly Guid Guid = Guid.Parse("{B5F55FE3-F415-4A9B-9A58-0304CCFC11F7}");
         [TestMethod]
         public void ConfigurationBase_UniqueIntegerPrimaryKeys_ReturnsExpectedReservedKeys()
         {
             var configuration = new EntityConfiguration<Account>(
+                callerGuid: Guid,
                 new Account[]
                 {
                     new Account() { AccountId = 1 },
@@ -32,6 +34,7 @@ namespace NjordinSight.Test.Context
         public void ConfigurationBase_NonUniqueIntegerPrimaryKeys_ReturnsExpectedReservedKeys()
         {
             var configuration = new EntityConfiguration<Account>(
+                callerGuid: Guid,
                 new Account[]
                 {
                     new Account() { AccountId = 1 },
