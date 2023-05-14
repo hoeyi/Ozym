@@ -11,6 +11,7 @@ REM Add the migration. Reference the FinanceDbContext with fully-qualified names
 dotnet ef migrations add %migration% ^
 	--context NjordinSight.EntityModel.Context.FinanceDbContext ^
 	--startup-project ..\NjordinSight.Web\NjordinSight.Web.csproj ^
-	--project ..\NjordinSight.EntityMigration\NjordinSight.EntityMigration.csproj
+	--project ..\NjordinSight.EntityMigration\NjordinSight.EntityMigration.csproj ^
+	--no-build
 
 cd ..\

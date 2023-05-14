@@ -11,6 +11,7 @@ REM Add the migration. Reference the IdentityDbContext with fully-qualified name
 dotnet ef migrations add %migration% ^
 	--startup-project NjordinSight.Web.csproj ^
 	--context NjordinSight.Web.Data.IdentityDbContext ^
-	--project NjordinSight.Web.csproj
+	--project NjordinSight.Web.csproj ^
+	--no-build
 
 cd ..\
