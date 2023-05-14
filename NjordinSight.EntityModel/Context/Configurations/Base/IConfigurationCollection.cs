@@ -910,8 +910,8 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     new ModelAttributeMember[]
                     {
                         // ASSET CLASS
-                        new (){ AttributeMemberId = -100, AttributeId = -10, DisplayName = "Equities", DisplayOrder = 0 },
-                        new (){ AttributeMemberId = -101, AttributeId = -10, DisplayName = "Fixed Income", DisplayOrder = 1 },
+                        new() { AttributeMemberId = -100, AttributeId = -10, DisplayName = "Equities", DisplayOrder = 0 },
+                        new() { AttributeMemberId = -101, AttributeId = -10, DisplayName = "Fixed Income", DisplayOrder = 1 },
                         new() { AttributeMemberId = -102, AttributeId = -10, DisplayName = "Derivatives", DisplayOrder = 2 },
                         new() { AttributeMemberId = -103, AttributeId = -10, DisplayName = "Other", DisplayOrder = 3 },
                         new() { AttributeMemberId = -104, AttributeId = -10, DisplayName = "Cash & Equivalents", DisplayOrder = 4 },
@@ -970,6 +970,23 @@ namespace NjordinSight.EntityModel.Context.Configurations
                         DisplayOrder = (short)Array.IndexOf(SecurityTypes, s)
                     }))
                     .ToArray()
+                ));
+
+            _configurationCollection.AddConfiguration(
+                new EntityConfiguration<SecurityExchange>(
+                    sourceGuid: guid,
+                    new SecurityExchange[]
+                    {
+                        new () { ExchangeId = -1, ExchangeCode = "TSX", ExchangeDescription = "TSX" },
+                        new () { ExchangeId = -2, ExchangeCode = "NYSE", ExchangeDescription = "NYSE" },
+                        new () { ExchangeId = -3, ExchangeCode = "OTCQX", ExchangeDescription = "OTCQX" },
+                        new () { ExchangeId = -4, ExchangeCode = "NYSE American", ExchangeDescription = "NYSE American" },
+                        new () { ExchangeId = -5, ExchangeCode = "NASDAQ", ExchangeDescription = "NASDAQ" },
+                        new () { ExchangeId = -6, ExchangeCode = "OTCQB", ExchangeDescription = "OTCQB" },
+                        new () { ExchangeId = -7, ExchangeCode = "OTC Pink", ExchangeDescription = "OTC Pink" },
+                        new () { ExchangeId = -8, ExchangeCode = "NYSE Arca", ExchangeDescription = "NYSE Arca" },
+                        new () { ExchangeId = -9, ExchangeCode = "CBOE Consolidated Listings", ExchangeDescription = "CBOE Consolidated Listings" }
+                    }
                 ));
 
             return _configurationCollection;
