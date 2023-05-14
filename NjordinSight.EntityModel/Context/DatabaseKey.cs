@@ -8,7 +8,7 @@
     /// consumers may check layered configuration steps for conflicts and report repeated keys before 
     /// trying to deploy the model.
     /// </remarks>
-    sealed record DatabaseKey : IEquatable<DatabaseKey>
+    public sealed record DatabaseKey : IEquatable<DatabaseKey>
     {
         /// <summary>
         /// An object array storing the values representing a single-column or composite key.

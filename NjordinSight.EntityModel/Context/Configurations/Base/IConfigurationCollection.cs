@@ -7,7 +7,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
     /// Allows for storing multiple <see cref="IEntityConfiguration{TEntity}"/> instances for 
     /// different entity types to be applied later by the caller.
     /// </summary>
-    internal partial interface IConfigurationCollection : IEnumerable<Action<ModelBuilder>>
+    public partial interface IConfigurationCollection : IEnumerable<Action<ModelBuilder>>
     {
         /// <summary>
         /// Adds a new <see cref="Action"/> accepting <see cref="ModelBuilder"/> input that applies 
@@ -30,7 +30,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
     }
 
     // Static methods
-    internal partial interface IConfigurationCollection
+    public partial interface IConfigurationCollection
     {
         /// <summary>
         /// Generates an instance of type <see cref="IConfigurationCollection"/> representing the 

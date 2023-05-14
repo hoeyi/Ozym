@@ -6,7 +6,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
     /// Allows configuration builders to cross-reference entity type key values for a particular 
     /// <see cref="Type"/>.
     /// </summary>
-    internal interface IEntityConfiguration
+    public interface IEntityConfiguration
     {
         /// <summary>
         /// Gets the reference type of the t
@@ -23,13 +23,14 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// </summary>
         Guid Guid { get; }
     }
+
     /// <summary>
     /// Allows configuration builders to cross-reference entity type key values used across a 
     /// collection of <see cref="IEntityTypeConfiguration{TEntity}"/> implementations.
     /// Implements: <see cref="IEntityTypeConfiguration{TEntity}"/>.
     /// </summary>
     /// <typeparam name="TEntity">The model type to which the configuration applies.</typeparam>
-    internal interface IEntityConfiguration<TEntity> 
+    public interface IEntityConfiguration<TEntity> 
         : IEntityConfiguration, IEntityTypeConfiguration<TEntity>
         where TEntity : class
     {
