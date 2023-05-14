@@ -15,7 +15,7 @@ namespace NjordinSight.Test.Context
         public void ConfigurationBase_UniqueIntegerPrimaryKeys_ReturnsExpectedReservedKeys()
         {
             var configuration = new EntityConfiguration<Account>(
-                callerGuid: Guid,
+                sourceGuid: Guid,
                 new Account[]
                 {
                     new Account() { AccountId = 1 },
@@ -34,7 +34,7 @@ namespace NjordinSight.Test.Context
         public void ConfigurationBase_NonUniqueIntegerPrimaryKeys_ReturnsExpectedReservedKeys()
         {
             var configuration = new EntityConfiguration<Account>(
-                callerGuid: Guid,
+                sourceGuid: Guid,
                 new Account[]
                 {
                     new Account() { AccountId = 1 },

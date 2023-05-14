@@ -54,7 +54,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<BrokerTransactionCode>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     new BrokerTransactionCode[]
                     {
                         new()
@@ -215,7 +215,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<BrokerTransactionCodeAttributeMemberEntry>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     new BrokerTransactionCodeAttributeMemberEntry[]
                     {
                         // Transaction category attribute assignment
@@ -513,13 +513,13 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<Country>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     Countries
                 ));
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<MarketHoliday>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     new MarketHoliday[]
                     {
                         new (){ MarketHolidayId = -10, MarketHolidayName = "Christmas Day" },
@@ -536,7 +536,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<MarketHolidayObservance>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     new MarketHolidayObservance[]
                     {
                         new(){ MarketHolidayId = -10, ObservanceDate = new(2022, 12, 16) },
@@ -812,19 +812,19 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<SecurityTypeGroup>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     SecurityTypeGroups
                 ));
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<SecurityType>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     SecurityTypes
                 ));
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<SecuritySymbolType>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     new SecuritySymbolType[]
                     {
                         new () { SymbolTypeId = -10, SymbolTypeName = "CUSIP" },
@@ -836,7 +836,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<Security>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     new Security[]
                     {
                         new()
@@ -868,13 +868,13 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttribute>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     ModelAttributes
                 ));
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttributeScope>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     ModelAttributes
                         .Where(a =>
                             a.AttributeId is <= (int)ModelAttributeEnum.AssetClass and
@@ -904,7 +904,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttributeMember>(
-                    callerGuid: guid,
+                    sourceGuid: guid,
                     new ModelAttributeMember[]
                     {
                         // ASSET CLASS

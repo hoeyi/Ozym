@@ -17,19 +17,19 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// Initializes a new instance of <see cref="EntityConfiguration{T}"/> with the given 
         /// <paramref name="entries"/> as seed data.
         /// </summary>
-        /// <param name="callerGuid">Unique identifier supplied by caller. Callers should define a 
+        /// <param name="sourceGuid">Unique identifier supplied by caller. Callers should define a 
         /// constant value to make tracing validation errors to their source easier.
         /// <param name="entries"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public EntityConfiguration(Guid callerGuid, params T[] entries)
+        public EntityConfiguration(Guid sourceGuid, params T[] entries)
         {
             if (!entries?.Any(x => x is not null) ?? false)
                 throw new ArgumentNullException(paramName: nameof(entries));
 
-            if (Guid.Empty == callerGuid)
-                throw new ArgumentOutOfRangeException(paramName: nameof(callerGuid), callerGuid, string.Empty);
+            if (Guid.Empty == sourceGuid)
+                throw new ArgumentOutOfRangeException(paramName: nameof(sourceGuid), sourceGuid, string.Empty);
 
-            Guid = callerGuid;
+            Guid = sourceGuid;
         }
 
         /// <summary>
