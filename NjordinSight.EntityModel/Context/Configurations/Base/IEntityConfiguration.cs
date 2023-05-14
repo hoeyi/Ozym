@@ -17,6 +17,11 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// Gets the set of reserved <see cref="DatabaseKey"/> records in this configuration.
         /// </summary>
         HashSet<DatabaseKey> ReservedKeys { get; }
+
+        /// <summary>
+        /// Gets the unique identifier for this entity configuration instance.
+        /// </summary>
+        Guid Guid { get; }
     }
     /// <summary>
     /// Allows configuration builders to cross-reference entity type key values used across a 

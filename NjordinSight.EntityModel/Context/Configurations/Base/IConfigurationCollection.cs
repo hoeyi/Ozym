@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NjordinSight.EntityModel.ConstraintType;
+using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.EntityModel.Context.Configurations
 {
@@ -7,7 +8,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
     /// Allows for storing multiple <see cref="IEntityConfiguration{TEntity}"/> instances for 
     /// different entity types to be applied later by the caller.
     /// </summary>
-    internal interface IConfigurationCollection : IEnumerable<Action<ModelBuilder>>
+    internal partial interface IConfigurationCollection : IEnumerable<Action<ModelBuilder>>, IValidatableObject
     {
         /// <summary>
         /// Adds a new <see cref="Action"/> accepting <see cref="ModelBuilder"/> input that applies 
@@ -18,7 +19,11 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// <param name="configuration"></param>
         /// <exception cref="ArgumentNullException"><paramref name="configuration"/> was null.</exception>
         void AddConfiguration<T>(IEntityConfiguration<T> configuration) where T : class;
+    }
 
+    // Static methods
+    internal partial interface IConfigurationCollection
+    {
         /// <summary>
         /// Generates an instance of type <see cref="IConfigurationCollection"/> representing the 
         /// core entities that are to be added to the database, generally as part of a fresh-install 
@@ -43,10 +48,13 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// </remarks>
         static IConfigurationCollection GetBuiltInEntities()
         {
+            Guid guid = Guid.Parse("{3BB2DFAB-16C8-416B-B448-987AF5644FA0}");
+
             var builtInConfigurationCollection = new ConfigurationCollection();
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<BrokerTransactionCode>(
+                    callerGuid: guid,
                     new BrokerTransactionCode[]
                     {
                         new()
@@ -207,46 +215,47 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<BrokerTransactionCodeAttributeMemberEntry>(
+                    callerGuid: guid,
                     new BrokerTransactionCodeAttributeMemberEntry[]
-                {
-                    // Transaction category attribute assignment
-                    new(){ AttributeMemberId = -401, TransactionCodeId = -25, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -402, TransactionCodeId = -11, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -403, TransactionCodeId = -10, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -404, TransactionCodeId = -26, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -405, TransactionCodeId = -23, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -406, TransactionCodeId = -17, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -407, TransactionCodeId = -18, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -406, TransactionCodeId = -12, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -408, TransactionCodeId = -13, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -409, TransactionCodeId = -14, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -410, TransactionCodeId = -15, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -411, TransactionCodeId = -16, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -412, TransactionCodeId = -19, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -406, TransactionCodeId = -24, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -414, TransactionCodeId = -20, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -407, TransactionCodeId = -21, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -407, TransactionCodeId = -22, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                    {
+                        // Transaction category attribute assignment
+                        new(){ AttributeMemberId = -401, TransactionCodeId = -25, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -402, TransactionCodeId = -11, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -403, TransactionCodeId = -10, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -404, TransactionCodeId = -26, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -405, TransactionCodeId = -23, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -406, TransactionCodeId = -17, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -407, TransactionCodeId = -18, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -406, TransactionCodeId = -12, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -408, TransactionCodeId = -13, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -409, TransactionCodeId = -14, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -410, TransactionCodeId = -15, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -411, TransactionCodeId = -16, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -412, TransactionCodeId = -19, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -406, TransactionCodeId = -24, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -414, TransactionCodeId = -20, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -407, TransactionCodeId = -21, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -407, TransactionCodeId = -22, EffectiveDate = DateTime.MinValue, Weight = 1M },
 
-                    // Transaction class attribute assignment
-                    new(){ AttributeMemberId = -501, TransactionCodeId = -25, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -502, TransactionCodeId = -11, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -502, TransactionCodeId = -10, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -503, TransactionCodeId = -26, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -504, TransactionCodeId = -23, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -505, TransactionCodeId = -17, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -505, TransactionCodeId = -18, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -505, TransactionCodeId = -12, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -503, TransactionCodeId = -13, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -501, TransactionCodeId = -14, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -506, TransactionCodeId = -15, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -503, TransactionCodeId = -16, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -503, TransactionCodeId = -19, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -505, TransactionCodeId = -24, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -502, TransactionCodeId = -20, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -502, TransactionCodeId = -21, EffectiveDate = DateTime.MinValue, Weight = 1M },
-                    new(){ AttributeMemberId = -505, TransactionCodeId = -22, EffectiveDate = DateTime.MinValue, Weight = 1M }
-                }
+                        // Transaction class attribute assignment
+                        new(){ AttributeMemberId = -501, TransactionCodeId = -25, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -502, TransactionCodeId = -11, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -502, TransactionCodeId = -10, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -503, TransactionCodeId = -26, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -504, TransactionCodeId = -23, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -505, TransactionCodeId = -17, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -505, TransactionCodeId = -18, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -505, TransactionCodeId = -12, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -503, TransactionCodeId = -13, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -501, TransactionCodeId = -14, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -506, TransactionCodeId = -15, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -503, TransactionCodeId = -16, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -503, TransactionCodeId = -19, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -505, TransactionCodeId = -24, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -502, TransactionCodeId = -20, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -502, TransactionCodeId = -21, EffectiveDate = DateTime.MinValue, Weight = 1M },
+                        new(){ AttributeMemberId = -505, TransactionCodeId = -22, EffectiveDate = DateTime.MinValue, Weight = 1M }
+                    }
                 ));
 
             var Countries = new Country[]
@@ -504,11 +513,13 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<Country>(
+                    callerGuid: guid,
                     Countries
                 ));
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<MarketHoliday>(
+                    callerGuid: guid,
                     new MarketHoliday[]
                     {
                         new (){ MarketHolidayId = -10, MarketHolidayName = "Christmas Day" },
@@ -525,6 +536,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<MarketHolidayObservance>(
+                    callerGuid: guid,
                     new MarketHolidayObservance[]
                     {
                         new(){ MarketHolidayId = -10, ObservanceDate = new(2022, 12, 16) },
@@ -800,16 +812,19 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<SecurityTypeGroup>(
+                    callerGuid: guid,
                     SecurityTypeGroups
                 ));
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<SecurityType>(
+                    callerGuid: guid,
                     SecurityTypes
                 ));
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<SecuritySymbolType>(
+                    callerGuid: guid,
                     new SecuritySymbolType[]
                     {
                         new () { SymbolTypeId = -10, SymbolTypeName = "CUSIP" },
@@ -821,6 +836,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<Security>(
+                    callerGuid: guid,
                     new Security[]
                     {
                         new()
@@ -852,11 +868,13 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttribute>(
+                    callerGuid: guid,
                     ModelAttributes
                 ));
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttributeScope>(
+                    callerGuid: guid,
                     ModelAttributes
                         .Where(a =>
                             a.AttributeId is <= (int)ModelAttributeEnum.AssetClass and
@@ -886,6 +904,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             builtInConfigurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttributeMember>(
+                    callerGuid: guid,
                     new ModelAttributeMember[]
                     {
                         // ASSET CLASS
