@@ -1,9 +1,9 @@
-﻿namespace NjordinSight.EntityModel.Context.DefaultConfiguration
+﻿namespace NjordinSight.EntityModel.Context.Configurations
 {
     /// <summary>
     /// Represents a collection models to add to a data store on initialization.
     /// </summary>
-    public interface IDbContextInitialRecordCollection
+    interface IDbContextInitialRecordCollection
     {
         /// <summary>
         /// Gets the <see cref="AccountAttributeMemberEntry"/> models to seed.

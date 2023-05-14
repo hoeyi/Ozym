@@ -1,4 +1,4 @@
-﻿using NjordinSight.EntityModel.Context.DefaultConfiguration;
+﻿using NjordinSight.EntityModel.Context.Configurations;
 
 namespace NjordinSight.EntityModel.Context.TestConfiguration
 {

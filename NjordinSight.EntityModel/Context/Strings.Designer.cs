@@ -61,6 +61,24 @@ namespace NjordinSight.EntityModel.Context {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The order for composite key on type {0} could not be determined..
+        /// </summary>
+        internal static string ConfigurationBase_Exception_CompositeKeyNotOrdered {
+            get {
+                return ResourceManager.GetString("ConfigurationBase_Exception_CompositeKeyNotOrdered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No public properties for type {0} with key indicator &apos;{1}&apos; applied were found..
+        /// </summary>
+        internal static string ConfigurationBase_Exception_NoKeyForType {
+            get {
+                return ResourceManager.GetString("ConfigurationBase_Exception_NoKeyForType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The value of &apos;{0}&apos; cannot be greater than or equal to &apos;{1}&apos;.
         ///Given range: [{2}, {3}).
         /// </summary>

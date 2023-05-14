@@ -27,9 +27,15 @@ namespace NjordinSight.EntityModel.Context
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
 #pragma warning restore CA1822 // Mark members as static
         {
-            modelBuilder.ConfigureInitialRecords();
+            IConfigurationCollection defaultConfig = IConfigurationCollection.GetBuiltInEntities();
+
+            foreach (var action in defaultConfig)
+            {
+                action.Invoke(modelBuilder);
+            }
         }
 
+        /// <inheritdoc/>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -37,7 +43,6 @@ namespace NjordinSight.EntityModel.Context
                 optionsBuilder.UseInMemoryDatabase("NjordWorks");
             }
         }
-
     }
 
     public static class FinanceDbContextExtension
@@ -57,46 +62,6 @@ namespace NjordinSight.EntityModel.Context
                 return await database.BeginTransactionAsync();
             else
                 return null;
-        }
-
-        /// <summary>
-        /// Configures the initial records of the database, populating the following types of 
-        /// reference data:
-        /// <list type="bullet">
-        /// <item><see cref="BrokerTransactionCode"/></item>
-        /// <item><see cref="BrokerTransactionCodeAttributeMemberEntry"/></item>
-        /// <item><see cref="Country"/></item>
-        /// <item><see cref="MarketHoliday"/></item>
-        /// <item><see cref="MarketHolidayObservance"/></item>
-        /// <item><see cref="ModelAttribute"/></item>
-        /// <item><see cref="ModelAttributeMember"/></item>
-        /// <item><see cref="ModelAttributeScope"/></item>
-        /// <item><see cref="SecurityTypeGroup"/></item>
-        /// <item><see cref="SecurityType"/></item>
-        /// </list>
-        /// </summary>
-        /// <param name="modelBuilder"></param>
-        internal static void ConfigureInitialRecords(this ModelBuilder modelBuilder)
-        {
-            IDefaultConfiguration defaultConfig = new DefaultConfiguration.DefaultConfiguration();
-            modelBuilder
-                .HasInitialRecords(defaultConfig.BrokerTransactionCodes)
-                .HasInitialRecords(defaultConfig.BrokerTransactionCodeAttributes)
-                .HasInitialRecords(defaultConfig.Countries)
-                .HasInitialRecords(defaultConfig.MarketHolidays)
-                .HasInitialRecords(defaultConfig.MarketHolidayObservances)
-                .HasInitialRecords(defaultConfig.ModelAttributes)
-                .HasInitialRecords(defaultConfig.ModelAttributeScopes)
-                .HasInitialRecords(defaultConfig.ModelAttributeMembers)
-                .HasInitialRecords(defaultConfig.Securities)
-                .HasInitialRecords(defaultConfig.SecurityTypeGroups)
-                .HasInitialRecords(defaultConfig.SecurityTypes)
-                .HasInitialRecords(defaultConfig.SecuritySymbolTypes);
-        }
-
-        public static void ConfigureSampleRecords(this ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new SecurityExchangeConfiguration());
         }
 
         /// <summary>
