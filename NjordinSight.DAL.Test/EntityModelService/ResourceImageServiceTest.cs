@@ -1,5 +1,5 @@
 ﻿using NjordinSight.EntityModel;
-using NjordinSight.EntityModel.Context.TestConfiguration;
+using NjordinSight.EntityModel.Context.IntegrationTest;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -56,7 +56,7 @@ namespace NjordinSight.Test.EntityModelService
         protected override ResourceImage CreateModelSuccessSample => new()
         {
             ImageDescription = "TestCreatePass",
-            ImageBinary = Images.fractal_circle_icon_dark,
+            ImageBinary = TestResource.img_fractal_circle_icon_dark,
             FileExtension = "JPG"
         };
 
@@ -69,7 +69,7 @@ namespace NjordinSight.Test.EntityModelService
         {
             ImageId = -1000,
             ImageDescription = "Test delete fail",
-            ImageBinary = Images.fractal_circle_icon_dark,
+            ImageBinary = TestResource.img_fractal_circle_icon_dark,
             FileExtension = "PNG"
         };
 

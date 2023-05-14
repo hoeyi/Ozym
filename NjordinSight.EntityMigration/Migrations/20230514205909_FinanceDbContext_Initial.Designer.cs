@@ -12,7 +12,7 @@ using NjordinSight.EntityModel.Context;
 namespace NjordinSight.EntityMigration.Migrations
 {
     [DbContext(typeof(FinanceDbContext))]
-    [Migration("20230512215501_FinanceDbContext_Initial")]
+    [Migration("20230514205909_FinanceDbContext_Initial")]
     partial class FinanceDbContext_Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -5339,6 +5339,62 @@ namespace NjordinSight.EntityMigration.Migrations
                         .HasFilter("([ExchangeCode] IS NOT NULL)");
 
                     b.ToTable("SecurityExchange", "FinanceApp");
+
+                    b.HasData(
+                        new
+                        {
+                            ExchangeId = -1,
+                            ExchangeCode = "TSX",
+                            ExchangeDescription = "TSX"
+                        },
+                        new
+                        {
+                            ExchangeId = -2,
+                            ExchangeCode = "NYSE",
+                            ExchangeDescription = "NYSE"
+                        },
+                        new
+                        {
+                            ExchangeId = -3,
+                            ExchangeCode = "OTCQX",
+                            ExchangeDescription = "OTCQX"
+                        },
+                        new
+                        {
+                            ExchangeId = -4,
+                            ExchangeCode = "NYSE American",
+                            ExchangeDescription = "NYSE American"
+                        },
+                        new
+                        {
+                            ExchangeId = -5,
+                            ExchangeCode = "NASDAQ",
+                            ExchangeDescription = "NASDAQ"
+                        },
+                        new
+                        {
+                            ExchangeId = -6,
+                            ExchangeCode = "OTCQB",
+                            ExchangeDescription = "OTCQB"
+                        },
+                        new
+                        {
+                            ExchangeId = -7,
+                            ExchangeCode = "OTC Pink",
+                            ExchangeDescription = "OTC Pink"
+                        },
+                        new
+                        {
+                            ExchangeId = -8,
+                            ExchangeCode = "NYSE Arca",
+                            ExchangeDescription = "NYSE Arca"
+                        },
+                        new
+                        {
+                            ExchangeId = -9,
+                            ExchangeCode = "CBOE",
+                            ExchangeDescription = "CBOE Consolidated Listings"
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.SecurityPrice", b =>

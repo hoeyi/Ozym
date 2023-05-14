@@ -590,6 +590,7 @@ namespace NjordinSight.EntityModel.Context
 
             modelBuilder.HasSequence("seqAuditEventID", "FinanceApp").HasMin(1);
 
+            // TODO: Remove this. Sequences are no longer used. Audit event sequence may be OK.
             modelBuilder.HasSequence<int>("seqModelAttributeMember", "FinanceApp");
 
             OnModelCreatingPartial(modelBuilder);

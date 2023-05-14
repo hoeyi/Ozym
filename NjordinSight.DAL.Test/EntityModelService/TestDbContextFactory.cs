@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.Extensions.Logging;
-using NjordinSight.EntityModel.Context.TestConfiguration;
+using NjordinSight.EntityModel.Context.IntegrationTest;
 
 namespace NjordinSight.Test.EntityModelService
 {
@@ -49,9 +49,8 @@ namespace NjordinSight.Test.EntityModelService
         public FinanceDbContext CreateDbContext() => 
             new FinanceDbIntegrationTestContext(options: GetDbContextOptions());
 
-        private static FinanceDbContext InitializeTestDbContext() => new FinanceDbIntegrationTestContext(
-            options: GetDbContextOptions(),
-            seedData: new IntegrationTestModel());
+        private static FinanceDbContext InitializeTestDbContext() =>
+            new FinanceDbIntegrationTestContext(options: GetDbContextOptions());
 
         /// <summary>
         /// Resets the test database to its state before seeding test data.

@@ -1006,15 +1006,44 @@ namespace NjordinSight.EntityMigration.Migrations
 
             migrationBuilder.InsertData(
                 schema: "FinanceApp",
-                table: "SecuritySymbolType",
-                columns: new[] { "SymbolTypeID", "SymbolTypeName" },
+                table: "SecurityExchange",
+                columns: new[] { "ExchangeID", "ExchangeCode", "ExchangeDescription" },
                 values: new object[,]
                 {
-                    { -40, "Ticker" },
-                    { -30, "Option Ticker" },
-                    { -20, "Custom Identifier" },
-                    { -10, "CUSIP" }
+                    { -9, "CBOE", "CBOE Consolidated Listings" },
+                    { -8, "NYSE Arca", "NYSE Arca" },
+                    { -7, "OTC Pink", "OTC Pink" },
+                    { -6, "OTCQB", "OTCQB" },
+                    { -5, "NASDAQ", "NASDAQ" },
+                    { -4, "NYSE American", "NYSE American" },
+                    { -3, "OTCQX", "OTCQX" },
+                    { -2, "NYSE", "NYSE" },
+                    { -1, "TSX", "TSX" }
                 });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecuritySymbolType",
+                columns: new[] { "SymbolTypeID", "SymbolTypeName" },
+                values: new object[] { -40, "Ticker" });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecuritySymbolType",
+                columns: new[] { "SymbolTypeID", "SymbolTypeName" },
+                values: new object[] { -30, "Option Ticker" });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecuritySymbolType",
+                columns: new[] { "SymbolTypeID", "SymbolTypeName" },
+                values: new object[] { -20, "Custom Identifier" });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecuritySymbolType",
+                columns: new[] { "SymbolTypeID", "SymbolTypeName" },
+                values: new object[] { -10, "CUSIP" });
 
             migrationBuilder.InsertData(
                 schema: "FinanceApp",

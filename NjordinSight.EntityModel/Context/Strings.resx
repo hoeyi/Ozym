@@ -117,16 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Display_Account" xml:space="preserve">
-    <value />
-    <comment>Provides the default field display order when viewing Account objects.</comment>
+  <data name="ConfigurationCollection_Validation_KeyDuplication" xml:space="preserve">
+    <value>Duplicate key values for the same entity type were found in the configuration collection. Review applied entity configurations for the following types/sources.</value>
   </data>
-  <data name="Report_Parameters" xml:space="preserve">
-    <value>&lt;ReportConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Settings&gt;&lt;Setting Name="CurrencyPrecision" Label="Currency Precision" Value="c" /&gt;&lt;Setting Name="IncludeClosed" Label="Include Closed" Value="false" /&gt;&lt;Setting Name="TradableAccountsOnly" Label="Tradable Accounts Only" Value="true" /&gt;&lt;Setting Name="Theme" Label="Theme" Value="Default" /&gt;&lt;/Settings&gt;&lt;/ReportConfiguration&gt;</value>
-    <comment>Provides the default set of report parameters.</comment>
+  <data name="EntityConfiguration_Exception_CompositeKeyNotOrdered" xml:space="preserve">
+    <value>The order for composite key on type {0} could not be determined.</value>
+    <comment>{0} is the type being inspected</comment>
   </data>
-  <data name="Report_StyleSheet" xml:space="preserve">
-    <value>&lt;StyleSheet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Fonts&gt;&lt;Font Name="TableGroupHeader" FontFamily="Arial" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray5" BackColor="blue" /&gt;&lt;Font Name="TableSubGroupHeader" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="TableColumnHeader" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="TableCell" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="ChartAxisLabel" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="7pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="ChartTitle" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="12pt" Color="blue" BackColor="No Color" /&gt;&lt;Font Name="ReportParameter" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Italic" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="ReportTitle" FontFamily="Cambria" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="14pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="ChartLegend" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="TableCellSubTotal" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="TableCellTotal" FontFamily="Arial" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="ReportPageNumber" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="7pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="TableDefault" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="ReportDefault" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;&lt;Font Name="TableTotalRow" FontFamily="Arial" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray5" BackColor="blue" /&gt;&lt;Font Name="ChartSeriesLabel" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="7pt" Color="gray1" BackColor="No Color" /&gt;&lt;/Fonts&gt;&lt;Colors&gt;&lt;Color Name="gray0" HexCode="#191919" /&gt;&lt;Color Name="gray1" HexCode="#212121" /&gt;&lt;Color Name="gray2" HexCode="#303030" /&gt;&lt;Color Name="gray3" HexCode="#424242" /&gt;&lt;Color Name="gray4" HexCode="#D2D2D2" /&gt;&lt;Color Name="gray5" HexCode="#E6E6E6" /&gt;&lt;Color Name="blue" HexCode="#0E2C39" /&gt;&lt;Color Name="yellow" HexCode="#5B4713" /&gt;&lt;Color Name="green" HexCode="#0E391B" /&gt;&lt;Color Name="red" HexCode="#5B2113" /&gt;&lt;/Colors&gt;&lt;DefaultFont BackColor="No Color" Color="#000000" Name="default" Decoration="Default" Size="8pt" Weight="Default" Style="Default" Family="Arial" /&gt;&lt;AlphaBlendHexCode&gt;#ffffff&lt;/AlphaBlendHexCode&gt;&lt;/StyleSheet&gt;</value>
-    <comment>Provides the default style sheet for reports.</comment>
+  <data name="EntityConfiguration_Exception_NoKeyForType" xml:space="preserve">
+    <value>No public properties for type {0} with key indicator '{1}' applied were found.</value>
+    <comment>{0} is the type being inspected
+{1} is the attribute use to signal a key or key element</comment>
+  </data>
+  <data name="ModelAttribute_AssetClass" xml:space="preserve">
+    <value>Asset Class</value>
+  </data>
+  <data name="ModelAttribute_BrokerTransactionCategory" xml:space="preserve">
+    <value>Transaction Category</value>
+  </data>
+  <data name="ModelAttribute_BrokerTransactionClass" xml:space="preserve">
+    <value>Transaction Class</value>
+  </data>
+  <data name="ModelAttribute_CountryExposure" xml:space="preserve">
+    <value>Country Exposure</value>
+  </data>
+  <data name="ModelAttribute_SecurityType" xml:space="preserve">
+    <value>Security Type</value>
+  </data>
+  <data name="ModelAttribute_SecurityTypeGroup" xml:space="preserve">
+    <value>Security Type Group</value>
   </data>
 </root>

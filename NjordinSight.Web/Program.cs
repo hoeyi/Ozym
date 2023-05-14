@@ -21,7 +21,6 @@ using NjordinSight.Web;
 using NjordinSight.EntityModel.Context;
 using System;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -240,7 +239,6 @@ partial class Program
             
         using var context = new FinanceDbContext(optionsBuild.Options);
 
-        context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
     }
 }

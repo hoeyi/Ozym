@@ -21,20 +21,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Context\DefaultConfiguration\BuiltInStrings.Designer.cs">
-      <DependentUpon>BuiltInStrings.resx</DependentUpon>
+    <Compile Update="Context\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Context\TestConfiguration\Images.Designer.cs">
-      <DependentUpon>Images.resx</DependentUpon>
+    <Compile Update="Context\IntegrationTest\TestResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="Context\TestConfiguration\TestString.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>TestString.resx</DependentUpon>
+      <DependentUpon>TestResource.resx</DependentUpon>
     </Compile>
     <Compile Update="Metadata\CheckConstraintDisplay.Designer.cs">
       <DependentUpon>CheckConstraintDisplay.resx</DependentUpon>
@@ -59,17 +54,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Context\DefaultConfiguration\BuiltInStrings.resx">
-      <LastGenOutput>BuiltInStrings.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="Context\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Context\TestConfiguration\Images.resx">
-      <LastGenOutput>Images.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="Context\IntegrationTest\TestResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Context\TestConfiguration\TestString.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>TestString.Designer.cs</LastGenOutput>
+      <LastGenOutput>TestResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Metadata\CheckConstraintDisplay.resx">
       <LastGenOutput>CheckConstraintDisplay.Designer.cs</LastGenOutput>

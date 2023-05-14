@@ -1,22 +1,33 @@
-﻿using System;
-using System.Linq;
-using NjordinSight.EntityModel;
-using NjordinSight.EntityModel.Context.DefaultConfiguration;
+﻿using Microsoft.EntityFrameworkCore;
+using NjordinSight.EntityModel.Context.Configurations;
 
-namespace NjordinSight.EntityModel.Context.TestConfiguration
+namespace NjordinSight.EntityModel.Context.IntegrationTest
 {
     /// <summary>
-    /// A collection of models to seed for integration testing.
+    /// Derived from <see cref="FinanceDbContext"/> and initializes in the same way, but includes
+    /// additional seed data for running integration tests.
     /// </summary>
-    internal class IntegrationTestModel : IDbContextInitialRecordCollection
+    public partial class FinanceDbIntegrationTestContext : FinanceDbContext
     {
-        private readonly Random _random = new();
-
-        /// <inheritdoc/>
-        public IntegrationTestModel()
+        public FinanceDbIntegrationTestContext()
         {
-            AccountCustodians = new AccountCustodian[]
-            {
+        }
+
+        public FinanceDbIntegrationTestContext(DbContextOptions<FinanceDbContext> options)
+            : base(options)
+        {
+        }
+
+        protected override void ApplyConfigurationModifications(IConfigurationCollection targetCollection)
+        {
+            // Helper method for generating random date-time values.
+            Random _random = new();
+            DateTime GetRandomDateTime() => DateTime.Now.AddDays(_random.Next(0, 7200) * -1);
+
+            // Define the entities that will be added to the configuration collection.
+            #region DATA DEFINITION
+            var accountCustodians = new AccountCustodian[]
+                            {
                 new()
                 {
                     AccountCustodianId = -1,
@@ -47,9 +58,9 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                     CustodianCode = "TESTUPDATE",
                     DisplayName = "Test update pass"
                 }
-            };
+                            };
 
-            AccountObjects = new AccountObject[]
+            var accountObjects = new AccountObject[]
             {
                 new()
                 {
@@ -125,7 +136,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            Accounts = new Account[]
+            var accounts = new Account[]
             {
                 new Account()
                 {
@@ -160,7 +171,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            AccountWallets = new AccountWallet[]
+            var accountWallets = new AccountWallet[]
             {
                 new(){
                     AccountWalletId = -1, AccountId = -7, DenominationSecurityId = -5,
@@ -169,14 +180,14 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                     AddressCode= "2E34D0C0-6DC7-4DC6-86C4-F0B3A4A1BEBE"}
             };
 
-            AccountComposites = new AccountComposite[]
+            var accountComposites = new AccountComposite[]
             {
                 new(){ AccountCompositeId = -3 },
                 new(){ AccountCompositeId = -4 },
                 new() { AccountCompositeId = -8 }
             };
 
-            AccountCompositeMembers = new AccountCompositeMember[]
+            var AccountCompositeMembers = new AccountCompositeMember[]
             {
                 new()
                 {
@@ -194,7 +205,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            BankTransactionCodes = new BankTransactionCode[]
+            var bankTransactionCodes = new BankTransactionCode[]
             {
                 new() { TransactionCodeId = -2, TransactionCode = "UPDPASS", DisplayName = "Test update pass" },
                 new() { TransactionCodeId = -1, TransactionCode = "DELPASS", DisplayName = "Test delete pass"},
@@ -207,7 +218,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 new() { TransactionCodeId = -9, TransactionCode = "auto", DisplayName = "Automotive" }
             };
 
-            BankTransactions = new BankTransaction[]
+            var bankTransactions = new BankTransaction[]
             {
                 new(){ TransactionId = -2, AccountId = -6, TransactionDate = new DateTime(2002, 9, 21), TransactionCodeId = -7, Amount = 100M, Comment = "Test add"},
                 new(){ TransactionId = -1, AccountId = -6, TransactionDate = new DateTime(2003, 1, 15), TransactionCodeId = -8, Amount = 100M, Comment = "Test remove"},
@@ -237,7 +248,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 new(){ TransactionId = -26, AccountId = -6, TransactionDate = new DateTime(2003, 1, 3), TransactionCodeId = -9, Amount = -7.71M, Comment = "Example: Automotive"},
             };
 
-            BrokerTransactionCodes = new BrokerTransactionCode[]
+            var brokerTransactionCodes = new BrokerTransactionCode[]
             {
                 new()
                 {
@@ -259,7 +270,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            InvestmentStrategies = new InvestmentStrategy[]
+            var investmentStrategies = new InvestmentStrategy[]
             {
                 new(){ InvestmentStrategyId = -1, DisplayName = "Test delete pass" },
                 new(){ InvestmentStrategyId = -2, DisplayName = "Test update pass" },
@@ -274,13 +285,13 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            MarketHolidays = new MarketHoliday[]
+            var marketHolidays = new MarketHoliday[]
             {
                 new(){ MarketHolidayId = -1, MarketHolidayName = "Test delete pass" },
                 new() { MarketHolidayId = -2, MarketHolidayName = "Test update pass"}
             };
 
-            MarketIndices = new MarketIndex[]
+            var marketIndices = new MarketIndex[]
             {
                 new(){ IndexId = -1, IndexCode = "DELETEPASS", IndexDescription = "Test delete pass" },
                 new(){ IndexId = -2, IndexCode = "UPDATEPASS", IndexDescription = "Test update pass" },
@@ -288,7 +299,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 new(){ IndexId = -4, IndexCode = "DAX", IndexDescription = "Deutscher Aktienindex" }
             };
 
-            MarketIndexPrices = new MarketIndexPrice[]
+            var marketIndexPrices = new MarketIndexPrice[]
             {
                 new()
                 {
@@ -348,7 +359,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            ModelAttributes = new ModelAttribute[]
+            var modelAttributes = new ModelAttribute[]
             {
                 new(){ AttributeId = -1, DisplayName = "Test delete pass" },
                 new(){ AttributeId = -2, DisplayName = "Test update pass" },
@@ -358,7 +369,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 new(){ AttributeId = -6, DisplayName = "Category" }
             };
 
-            ModelAttributeScopes = new ModelAttributeScope[]
+            var modelAttributeScopes = new ModelAttributeScope[]
             {
                 new(){ AttributeId = -1, ScopeCode = ModelAttributeScopeCode.Account.ConvertToStringCode() },
                 new(){ AttributeId = -2, ScopeCode = ModelAttributeScopeCode.Exchange.ConvertToStringCode() },
@@ -368,61 +379,62 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 new(){ AttributeId = -6, ScopeCode = ModelAttributeScopeCode.BrokerTransactionCode.ConvertToStringCode() },
             };
 
-            ReportConfigurations = new ReportConfiguration[]
+            var reportConfigurations = new ReportConfiguration[]
             {
                 new()
                 {
                     ConfigurationId = -1,
                     ConfigurationCode = "TestDeletePass",
                     ConfigurationDescription = "Test delete pass",
-                    XmlDefinition = TestString.Report_Parameters
+                    XmlDefinition = TestResource.ReportConfiguration_XmlDefinition_Sample
                 },
                 new()
                 {
                     ConfigurationId = -2,
                     ConfigurationCode = "TestUpdatePass",
                     ConfigurationDescription = "Test update pass",
-                    XmlDefinition = TestString.Report_Parameters
+                    XmlDefinition = TestResource.ReportConfiguration_XmlDefinition_Sample
                 }
             };
 
-            ReportStyleSheets = new ReportStyleSheet[]
+            var reportStyleSheets = new ReportStyleSheet[]
             {
                 new()
                 {
                     StyleSheetId = -1,
                     StyleSheetCode = "TestDeletePass",
                     StyleSheetDescription = "Test delete pass",
-                    XmlDefinition = TestString.Report_StyleSheet
+                    XmlDefinition = TestResource.ReportStylesheet_XmlDefinition_Sample
+
                 },
                 new()
                 {
                     StyleSheetId = -2,
                     StyleSheetCode = "TestUpdatePass",
                     StyleSheetDescription = "Test update pass",
-                    XmlDefinition = TestString.Report_StyleSheet
+                    XmlDefinition = TestResource.ReportStylesheet_XmlDefinition_Sample
                 }
             };
 
-            ResourceImages = new ResourceImage[]
+            var resourceImages = new ResourceImage[]
             {
                 new()
                 {
                     ImageId = -1,
                     ImageDescription = "Test delete pass",
-                    ImageBinary = Images.fractal_circle_icon_dark,
+                    ImageBinary = TestResource.img_fractal_circle_icon_dark,
                     FileExtension = "PNG"
                 },
                 new()
                 {
                     ImageId = -2,
                     ImageDescription = "Test update pass",
-                    ImageBinary = Images.fractal_circle_icon_dark,
+                    ImageBinary = TestResource.img_fractal_circle_icon_dark,
                     FileExtension = "JPG"
                 }
             };
 
-            Securities = new Security[]
+            var securities = new Security[]
             {
                 new()
                 {
@@ -505,13 +517,13 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            SecuritySymbolTypes = new SecuritySymbolType[]
+            var securitySymbolTypes = new SecuritySymbolType[]
             {
                 new(){ SymbolTypeId = -1, SymbolTypeName = "TestDeletePass" },
                 new(){ SymbolTypeId = -2, SymbolTypeName = "TestUpdatePass" }
             };
 
-            SecuritySymbols = new SecuritySymbol[]
+            var securitySymbols = new SecuritySymbol[]
             {
                 new()
                 {
@@ -586,7 +598,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            SecurityExchanges = new SecurityExchange[]
+            var securityExchanges = new SecurityExchange[]
             {
                 new SecurityExchange()
                 {
@@ -614,7 +626,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            SecurityPrices = new SecurityPrice[]
+            var securityPrices = new SecurityPrice[]
             {
                 new()
                 {
@@ -652,7 +664,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            SecurityTypeGroups = new SecurityTypeGroup[]
+            var securityTypeGroups = new SecurityTypeGroup[]
             {
                 new()
                 {
@@ -666,7 +678,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            SecurityTypes = new SecurityType[]
+            var securityTypes = new SecurityType[]
             {
                 new()
                 {
@@ -682,20 +694,20 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            ModelAttributeMembers = SecurityTypeGroups
+            var modelAttributeMembers = securityTypeGroups
                 .Select(s => new ModelAttributeMember
                 {
                     AttributeId = -20,
                     AttributeMemberId = s.SecurityTypeGroupId,
                     DisplayName = s.SecurityTypeGroupName,
-                    DisplayOrder = (short)Array.IndexOf(SecurityTypeGroups, s)
+                    DisplayOrder = (short)Array.IndexOf(securityTypeGroups, s)
                 })
-                .Concat(SecurityTypes.Select(s => new ModelAttributeMember()
+                .Concat(securityTypes.Select(s => new ModelAttributeMember()
                 {
                     AttributeId = -30,
                     AttributeMemberId = s.SecurityTypeId,
                     DisplayName = s.SecurityTypeName,
-                    DisplayOrder = (short)Array.IndexOf(SecurityTypes, s)
+                    DisplayOrder = (short)Array.IndexOf(securityTypes, s)
                 }))
                 .Concat(new ModelAttributeMember[]
                 {
@@ -762,8 +774,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 })
                 .ToArray();
 
-            #region Attribute member entry
-            AccountAttributes = new AccountAttributeMemberEntry[]
+            var accountAttributes = new AccountAttributeMemberEntry[]
             {
                 new()
                 {
@@ -781,7 +792,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            BankTransactionCodeAttributes = new BankTransactionCodeAttributeMemberEntry[]
+            var bankTransactionCodeAttributes = new BankTransactionCodeAttributeMemberEntry[]
             {
                 new()
                 {
@@ -806,7 +817,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            BrokerTransactionCodeAttributes = new BrokerTransactionCodeAttributeMemberEntry[]
+            var brokerTransactionCodeAttributes = new BrokerTransactionCodeAttributeMemberEntry[]
             {
                 new()
                 {
@@ -838,7 +849,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            CountryAttributes = new CountryAttributeMemberEntry[]
+            var countryAttributes = new CountryAttributeMemberEntry[]
             {
                 new()
                 {
@@ -863,7 +874,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            SecurityAttributes = new SecurityAttributeMemberEntry[]
+            var securityAttributes = new SecurityAttributeMemberEntry[]
             {
                 new()
                 {
@@ -888,9 +899,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            #endregion
-
-            BrokerTransactions = new BrokerTransaction[]
+            var brokerTransactions = new BrokerTransaction[]
             {
                 new()
                 {
@@ -992,7 +1001,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
             var targetEffDate = GetRandomDateTime();
             var tagetEffDate2 = GetRandomDateTime();
 
-            InvestmentStrategyTargets = new InvestmentStrategyTarget[]
+            var investmentStrategyTargets = new InvestmentStrategyTarget[]
             {
                 new()
                 {
@@ -1045,7 +1054,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 },
             };
 
-            InvestmentPerformanceEntries = new InvestmentPerformanceEntry[]
+            var investmentPerformanceEntries = new InvestmentPerformanceEntry[]
             {
                 new()
                 {
@@ -1169,7 +1178,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                 }
             };
 
-            InvestmentPerformanceAttributeEntries = new InvestmentPerformanceAttributeMemberEntry[]
+            var investmentPerformanceAttributeEntries = new InvestmentPerformanceAttributeMemberEntry[]
             {
                 new()
                 {
@@ -1292,120 +1301,67 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration
                     AverageCapital = 18439.8514M, Gain = 0M,
                 },
             };
+
+            #endregion
+
+            // Local function simplifies creating EntityConfiguration<T> instances.
+            var sourceGuid = Guid.Parse("{81FEF80A-7C02-4483-80F5-A358A3598690}");
+            IEntityConfiguration<T> newConfiguration<T>(params T[] entries)
+                where T : class
+                => new EntityConfiguration<T>(sourceGuid, entries);
+
+            targetCollection
+                .WithConfiguration(newConfiguration(accountCustodians))
+                .WithConfiguration(newConfiguration(bankTransactionCodes))
+                .WithConfiguration(newConfiguration(brokerTransactionCodes))
+
+                // TODO: Add integration test data for Country objects
+                //.WithConfiguration(newConfiguration(countries))
+
+                .WithConfiguration(newConfiguration(investmentStrategies))
+                .WithConfiguration(newConfiguration(marketHolidays))
+
+                // TODO: Add integration test data for MarketHolidayObservance objects
+                //.WithConfiguration(newConfiguration(marketHolidayObservances))
+
+                .WithConfiguration(newConfiguration(modelAttributes))
+                .WithConfiguration(newConfiguration(modelAttributeScopes))
+                .WithConfiguration(newConfiguration(modelAttributeMembers))
+                .WithConfiguration(newConfiguration(reportConfigurations))
+                .WithConfiguration(newConfiguration(reportStyleSheets))
+                .WithConfiguration(newConfiguration(resourceImages))
+                .WithConfiguration(newConfiguration(securityExchanges))
+                .WithConfiguration(newConfiguration(securityTypeGroups))
+                .WithConfiguration(newConfiguration(securityTypes))
+                .WithConfiguration(newConfiguration(securitySymbolTypes))
+                .WithConfiguration(newConfiguration(marketIndices))
+
+                // Seed parent objects and other objects that are referenced by foreign keys.
+                .WithConfiguration(newConfiguration(accountObjects))
+                .WithConfiguration(newConfiguration(accounts))
+                .WithConfiguration(newConfiguration(accountWallets))
+                .WithConfiguration(newConfiguration(accountComposites))
+                .WithConfiguration(newConfiguration(AccountCompositeMembers))
+                .WithConfiguration(newConfiguration(securities))
+                .WithConfiguration(newConfiguration(securitySymbols))
+
+                // Seed non-attribute-specific transactional data.
+                .WithConfiguration(newConfiguration(bankTransactions))
+                .WithConfiguration(newConfiguration(brokerTransactions))
+                .WithConfiguration(newConfiguration(investmentPerformanceEntries))
+                .WithConfiguration(newConfiguration(marketIndexPrices))
+                .WithConfiguration(newConfiguration(securityPrices))
+
+                // Seed attributes for applicable objects.
+                .WithConfiguration(newConfiguration(accountAttributes))
+                .WithConfiguration(newConfiguration(bankTransactionCodeAttributes))
+                .WithConfiguration(newConfiguration(brokerTransactionCodeAttributes))
+                .WithConfiguration(newConfiguration(countryAttributes))
+                .WithConfiguration(newConfiguration(securityAttributes))
+
+                // Seed attribute-specific transactional data.
+                .WithConfiguration(newConfiguration(investmentStrategyTargets))
+                .WithConfiguration(newConfiguration(investmentPerformanceAttributeEntries));
         }
-
-        /// <inheritdoc/>
-        public AccountAttributeMemberEntry[] AccountAttributes { get; }
-
-        /// <inheritdoc/>
-        public AccountCompositeMember[] AccountCompositeMembers { get; }
-
-        /// <inheritdoc/>
-        public AccountComposite[] AccountComposites { get; }
-
-        /// <inheritdoc/>
-        public AccountCustodian[] AccountCustodians { get; }
-
-        /// <inheritdoc/>
-        public AccountObject[] AccountObjects { get; }
-
-        /// <inheritdoc/>
-        public Account[] Accounts { get; }
-
-        /// <inheritdoc/>
-        public AccountWallet[] AccountWallets { get; }
-
-        /// <inheritdoc/>
-        public BankTransactionCodeAttributeMemberEntry[] BankTransactionCodeAttributes { get; }
-
-        /// <inheritdoc/>
-        public BankTransactionCode[] BankTransactionCodes { get; }
-
-        /// <inheritdoc/>
-        public BankTransaction[] BankTransactions { get; }
-
-        /// <inheritdoc/>
-        public BrokerTransactionCodeAttributeMemberEntry[] BrokerTransactionCodeAttributes { get; }
-
-        /// <inheritdoc/>
-        public BrokerTransactionCode[] BrokerTransactionCodes { get; }
-
-        /// <inheritdoc/>
-        public BrokerTransaction[] BrokerTransactions { get; }
-
-        /// <inheritdoc/>
-        public Country[] Countries { get; }
-
-        /// <inheritdoc/>
-        public CountryAttributeMemberEntry[] CountryAttributes { get; }
-
-        /// <inheritdoc/>
-        public InvestmentPerformanceAttributeMemberEntry[] InvestmentPerformanceAttributeEntries { get; }
-
-        /// <inheritdoc/>
-        public InvestmentPerformanceEntry[] InvestmentPerformanceEntries { get; }
-
-        /// <inheritdoc/>
-        public InvestmentStrategy[] InvestmentStrategies { get; }
-
-        /// <inheritdoc/>
-        public InvestmentStrategyTarget[] InvestmentStrategyTargets { get; }
-
-        /// <inheritdoc/>
-        public MarketHoliday[] MarketHolidays { get; }
-
-        /// <inheritdoc/>
-        public MarketHolidayObservance[] MarketHolidayObservances { get; }
-
-        /// <inheritdoc/>
-        public MarketIndexPrice[] MarketIndexPrices { get; }
-
-        /// <inheritdoc/>
-        public MarketIndex[] MarketIndices { get; }
-
-        /// <inheritdoc/>
-        public ModelAttributeMember[] ModelAttributeMembers { get; }
-
-        /// <inheritdoc/>
-        public ModelAttribute[] ModelAttributes { get; }
-
-        /// <inheritdoc/>
-        public ModelAttributeScope[] ModelAttributeScopes { get; }
-
-        /// <inheritdoc/>
-        public ReportConfiguration[] ReportConfigurations { get; }
-
-        /// <inheritdoc/>
-        public ReportStyleSheet[] ReportStyleSheets { get; }
-
-        /// <inheritdoc/>
-        public ResourceImage[] ResourceImages { get; }
-
-        /// <inheritdoc/>
-        public Security[] Securities { get; }
-
-        /// <inheritdoc/>
-        public SecurityAttributeMemberEntry[] SecurityAttributes { get; }
-
-        /// <inheritdoc/>
-        public SecurityExchange[] SecurityExchanges { get; }
-
-        /// <inheritdoc/>
-        public SecurityPrice[] SecurityPrices { get; }
-
-        /// <inheritdoc/>
-        public SecuritySymbol[] SecuritySymbols { get; }
-
-        /// <inheritdoc/>
-        public SecuritySymbolType[] SecuritySymbolTypes { get; }
-
-        /// <inheritdoc/>
-        public SecurityTypeGroup[] SecurityTypeGroups { get; }
-
-        /// <inheritdoc/>
-        public SecurityType[] SecurityTypes { get; }
-
-        private DateTime GetRandomDateTime()
-            => DateTime.Now.AddDays(_random.Next(0, 7200) * -1);
     }
 }
