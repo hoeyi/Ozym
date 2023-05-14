@@ -35,7 +35,4 @@ namespace NjordinSight.EntityModel.Context.Configurations
         where TEntity : class
     {
     }
-
-    
-    
 }
