@@ -4,7 +4,6 @@ using System.Linq;
 using NjordinSight.EntityModel.Context.Configurations;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.EntityModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NjordinSight.Test.Context
 {

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NjordinSight.EntityModel.ConstraintType;
-using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.EntityModel.Context.Configurations
 {
