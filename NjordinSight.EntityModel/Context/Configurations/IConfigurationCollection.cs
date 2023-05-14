@@ -47,6 +47,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// <item><see cref="Security"/></item>
         /// <item><see cref="SecurityType"/></item>
         /// <item><see cref="SecurityTypeGroup"/></item>
+        /// <item><see cref="SecuritySymbolType"/></item>
         /// </list>
         /// </remarks>
         public static IConfigurationCollection GetBuiltInDataConfiguration()
