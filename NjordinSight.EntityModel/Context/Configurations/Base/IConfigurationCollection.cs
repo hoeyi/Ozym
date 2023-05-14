@@ -27,17 +27,12 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// The first entry is a summary message. If valid the collection is empty.</param>
         /// <returns>True if there are no conflicting keys found in the registrations, else false.</returns>
         bool IsValid(out IEnumerable<string> validationMessages);
-    }
 
-    // Static methods
-    public partial interface IConfigurationCollection
-    {
         /// <summary>
-        /// Generates an instance of type <see cref="IConfigurationCollection"/> representing the 
-        /// core entities that are to be added to the database, generally as part of a fresh-install 
-        /// to create a useful demonstration.
+        /// Creates a new instance of <see cref="IConfigurationCollection"/> with built-in 
+        /// entities configured for seeding the data store.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="IConfigurationCollection"/>.</returns>
         /// <remarks>
         /// The entities configuration by the <see cref="IConfigurationCollection"/> returned are:
         /// <list type="bullet">
@@ -54,13 +49,12 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// <item><see cref="SecurityTypeGroup"/></item>
         /// </list>
         /// </remarks>
-        static IConfigurationCollection GetBuiltInEntities()
+        public static IConfigurationCollection GetBuiltInDataConfiguration()
         {
             Guid guid = Guid.Parse("{3BB2DFAB-16C8-416B-B448-987AF5644FA0}");
+            var _configurationCollection = new ConfigurationCollection();
 
-            var builtInConfigurationCollection = new ConfigurationCollection();
-
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<BrokerTransactionCode>(
                     sourceGuid: guid,
                     new BrokerTransactionCode[]
@@ -221,7 +215,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     }
                 ));
 
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<BrokerTransactionCodeAttributeMemberEntry>(
                     sourceGuid: guid,
                     new BrokerTransactionCodeAttributeMemberEntry[]
@@ -519,13 +513,13 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 new(){ CountryId = -848, DisplayName = "Åland Islands", IsoCode3 = "ALA" }
             };
 
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<Country>(
                     sourceGuid: guid,
                     Countries
                 ));
 
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<MarketHoliday>(
                     sourceGuid: guid,
                     new MarketHoliday[]
@@ -542,7 +536,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     }
                 ));
 
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<MarketHolidayObservance>(
                     sourceGuid: guid,
                     new MarketHolidayObservance[]
@@ -818,19 +812,19 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 }
             };
 
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<SecurityTypeGroup>(
                     sourceGuid: guid,
                     SecurityTypeGroups
                 ));
 
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<SecurityType>(
                     sourceGuid: guid,
                     SecurityTypes
                 ));
 
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<SecuritySymbolType>(
                     sourceGuid: guid,
                     new SecuritySymbolType[]
@@ -842,7 +836,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     }
                 ));
 
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<Security>(
                     sourceGuid: guid,
                     new Security[]
@@ -874,13 +868,13 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     }
                 ));
 
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttribute>(
                     sourceGuid: guid,
                     ModelAttributes
                 ));
 
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttributeScope>(
                     sourceGuid: guid,
                     ModelAttributes
@@ -910,7 +904,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                         .ToArray()
                 ));
 
-            builtInConfigurationCollection.AddConfiguration(
+            _configurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttributeMember>(
                     sourceGuid: guid,
                     new ModelAttributeMember[]
@@ -978,7 +972,35 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     .ToArray()
                 ));
 
-            return builtInConfigurationCollection;
+            return _configurationCollection;
+        }
+    }
+
+    /// <summary>
+    ///  Extension method container for the <see cref="IConfigurationCollection"/> interface.
+    /// </summary>
+    public static class IConfigurationCollectionFluentExtension
+    {
+        /// <summary>
+        /// Adds a new <see cref="Action"/> accepting <see cref="ModelBuilder"/> input that applies 
+        /// the given <see cref="IEntityConfiguration{TEntity}"/>. The action is invoked by the caller, 
+        /// typically be iterating over the <see cref="IConfigurationCollection"/> instance.
+        /// </summary>
+        /// <<returns>The <see cref="IConfigurationCollection"/> instance for chaining method calls.</returns>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="configuration"></param>
+        /// <exception cref="ArgumentNullException"><paramref name="configuration"/> was null.</exception>
+        public static IConfigurationCollection WithConfiguration<T>(
+            this IConfigurationCollection collection,
+            IEntityConfiguration<T> configuration)
+            where T : class
+        {
+            if (collection is null)
+                throw new ArgumentNullException(paramName: nameof(collection));
+
+            collection.AddConfiguration(configuration);
+
+            return collection;
         }
     }
 }

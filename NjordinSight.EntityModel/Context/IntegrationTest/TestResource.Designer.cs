@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NjordinSight.EntityModel.Context.TestConfiguration {
+namespace NjordinSight.EntityModel.Context.IntegrationTest {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TestString {
+    internal class TestResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TestString() {
+        internal TestResource() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.EntityModel.Context.TestConfiguration.TestString", typeof(TestString).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.EntityModel.Context.IntegrationTest.TestResource", typeof(TestResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,30 @@ namespace NjordinSight.EntityModel.Context.TestConfiguration {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static string Display_Account {
+        internal static byte[] img_fractal_circle_icon_dark {
             get {
-                return ResourceManager.GetString("Display_Account", resourceCulture);
+                object obj = ResourceManager.GetObject("img_fractal-circle-icon-dark", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;ReportConfiguration xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;&lt;Settings&gt;&lt;Setting Name=&quot;CurrencyPrecision&quot; Label=&quot;Currency Precision&quot; Value=&quot;c&quot; /&gt;&lt;Setting Name=&quot;IncludeClosed&quot; Label=&quot;Include Closed&quot; Value=&quot;false&quot; /&gt;&lt;Setting Name=&quot;TradableAccountsOnly&quot; Label=&quot;Tradable Accounts Only&quot; Value=&quot;true&quot; /&gt;&lt;Setting Name=&quot;Theme&quot; Label=&quot;Theme&quot; Value=&quot;Default&quot; /&gt;&lt;/Settings&gt;&lt;/ReportConfiguration&gt;.
         /// </summary>
-        internal static string Report_Parameters {
+        internal static string ReportConfiguration_XmlDefinition_Sample {
             get {
-                return ResourceManager.GetString("Report_Parameters", resourceCulture);
+                return ResourceManager.GetString("ReportConfiguration_XmlDefinition_Sample", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;StyleSheet xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;&lt;Fonts&gt;&lt;Font Name=&quot;TableGroupHeader&quot; FontFamily=&quot;Arial&quot; FontWeight=&quot;Bold&quot; TextDecoration=&quot;Default&quot; FontStyle=&quot;Default&quot; FontSize=&quot;8pt&quot; Color=&quot;gray5&quot; BackColor=&quot;blue&quot; /&gt;&lt;Font Name=&quot;TableSubGroupHeader&quot; FontFamily=&quot;Arial&quot; FontWeight=&quot;SemiBold&quot; TextDecoration=&quot;Default&quot; FontStyle=&quot;Default&quot; FontSize=&quot;8pt&quot; Color=&quot;gray1&quot; BackColor=&quot;No Color&quot; /&gt;&lt;Font Name=&quot;TableColumnHeader&quot; FontFamily=&quot;Arial&quot; FontWeight=&quot;S [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Report_StyleSheet {
+        internal static string ReportStylesheet_XmlDefinition_Sample {
             get {
-                return ResourceManager.GetString("Report_StyleSheet", resourceCulture);
+                return ResourceManager.GetString("ReportStylesheet_XmlDefinition_Sample", resourceCulture);
             }
         }
     }
