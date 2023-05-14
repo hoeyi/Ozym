@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NjordinSight.EntityModel.Context
+﻿namespace NjordinSight.EntityModel.Context
 {
     /// <summary>
     /// Represents a database key that may be a single column or a composite key.

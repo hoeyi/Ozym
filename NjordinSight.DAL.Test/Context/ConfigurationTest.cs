@@ -1,9 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NjordinSight.EntityModel.Context.Configurations;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.EntityModel;

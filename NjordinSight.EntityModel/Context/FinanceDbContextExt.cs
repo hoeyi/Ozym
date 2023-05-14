@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-using NjordinSight.EntityModel.Context.DefaultConfiguration;
 using NjordinSight.EntityModel.Context.Configurations;
 
 namespace NjordinSight.EntityModel.Context
