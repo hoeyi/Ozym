@@ -117,22 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfigurationBase_Exception_CompositeKeyNotOrdered" xml:space="preserve">
+  <data name="ConfigurationCollection_Validation_KeyDuplication" xml:space="preserve">
+    <value>Duplicate key values for the same entity type were found in the configuration collection. Review applied entity configurations for the following types/sources.</value>
+  </data>
+  <data name="EntityConfiguration_Exception_CompositeKeyNotOrdered" xml:space="preserve">
     <value>The order for composite key on type {0} could not be determined.</value>
     <comment>{0} is the type being inspected</comment>
   </data>
-  <data name="ConfigurationBase_Exception_NoKeyForType" xml:space="preserve">
+  <data name="EntityConfiguration_Exception_NoKeyForType" xml:space="preserve">
     <value>No public properties for type {0} with key indicator '{1}' applied were found.</value>
     <comment>{0} is the type being inspected
 {1} is the attribute use to signal a key or key element</comment>
-  </data>
-  <data name="Context_KeyRangeAttribute_InvalidOperationException" xml:space="preserve">
-    <value>The value of '{0}' cannot be greater than or equal to '{1}'.
-Given range: [{2}, {3})</value>
-    <comment>{0} is the inclusive lower bound parameter name
-{1} is the exclusive upper bound parameter name
-{2} is the given value for the lower bound
-{3} is the given value for the upper bound</comment>
   </data>
   <data name="ModelAttribute_AssetClass" xml:space="preserve">
     <value>Asset Class</value>

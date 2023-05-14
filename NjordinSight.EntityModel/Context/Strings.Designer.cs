@@ -61,30 +61,29 @@ namespace NjordinSight.EntityModel.Context {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duplicate key values for the same entity type were found in the configuration collection. Review applied entity configurations for the following types/sources..
+        /// </summary>
+        internal static string ConfigurationCollection_Validation_KeyDuplication {
+            get {
+                return ResourceManager.GetString("ConfigurationCollection_Validation_KeyDuplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The order for composite key on type {0} could not be determined..
         /// </summary>
-        internal static string ConfigurationBase_Exception_CompositeKeyNotOrdered {
+        internal static string EntityConfiguration_Exception_CompositeKeyNotOrdered {
             get {
-                return ResourceManager.GetString("ConfigurationBase_Exception_CompositeKeyNotOrdered", resourceCulture);
+                return ResourceManager.GetString("EntityConfiguration_Exception_CompositeKeyNotOrdered", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to No public properties for type {0} with key indicator &apos;{1}&apos; applied were found..
         /// </summary>
-        internal static string ConfigurationBase_Exception_NoKeyForType {
+        internal static string EntityConfiguration_Exception_NoKeyForType {
             get {
-                return ResourceManager.GetString("ConfigurationBase_Exception_NoKeyForType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The value of &apos;{0}&apos; cannot be greater than or equal to &apos;{1}&apos;.
-        ///Given range: [{2}, {3}).
-        /// </summary>
-        internal static string Context_KeyRangeAttribute_InvalidOperationException {
-            get {
-                return ResourceManager.GetString("Context_KeyRangeAttribute_InvalidOperationException", resourceCulture);
+                return ResourceManager.GetString("EntityConfiguration_Exception_NoKeyForType", resourceCulture);
             }
         }
         

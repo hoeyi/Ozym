@@ -30,6 +30,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 throw new ArgumentOutOfRangeException(paramName: nameof(sourceGuid), sourceGuid, string.Empty);
 
             Guid = sourceGuid;
+            Entries = Array.Empty<T>();
         }
 
         /// <summary>
@@ -82,14 +83,14 @@ namespace NjordinSight.EntityModel.Context.Configurations
             // Throw an exception if no key columns are defined.
             if (!keyColumns?.Any() ?? false)
                 throw new InvalidOperationException(string.Format(
-                    Strings.ConfigurationBase_Exception_NoKeyForType,
+                    Strings.EntityConfiguration_Exception_NoKeyForType,
                     typeof(T).FullName,
                     nameof(KeyAttribute)));
 
             // Throw an exception if a composite key and any of the value orders are null.
             if (keyColumns.Count() > 1 && keyColumns.Any(x => x.Order is null))
                 throw new InvalidOperationException(string.Format(
-                    Strings.ConfigurationBase_Exception_CompositeKeyNotOrdered,
+                    Strings.EntityConfiguration_Exception_CompositeKeyNotOrdered,
                     typeof(T).FullName));
 
             // Return a new instance of DatabaseKey with the 1- or n-length array.
