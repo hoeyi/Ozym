@@ -15,6 +15,20 @@ namespace NjordinSight.Test
     [TestClass]
     public class TestUtility
     {
+        static TestUtility()
+        {
+            Logger = LoggerFactory
+                .Create(builder => builder.AddConsole().AddDebug())
+                .CreateLogger<TestUtility>();
+
+            Configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.test.json")
+                .AddUserSecrets<TestUtility>()
+                .Build();
+
+            DbContextFactory = new();
+        }
+
         /// <summary>
         /// Resets the test database to its initial state.
         /// </summary>
@@ -25,23 +39,17 @@ namespace NjordinSight.Test
         /// <summary>
         /// Getst the configuration used by unit tests.
         /// </summary>
-        internal static IConfiguration Configuration { get; } =
-            new ConfigurationBuilder()
-            .AddJsonFile("appsettings.test.json")
-            .AddUserSecrets<TestUtility>()
-            .Build();
+        internal static IConfiguration Configuration { get; }
+            
+        /// <summary>
+        /// The <see cref="ILogger"/> instance for this project.
+        /// </summary>
+        internal static ILogger Logger { get; } 
 
         /// <summary>
         /// Gets the <see cref="IDbContextFactory{TContext}"/> for creating test contexts.
         /// </summary>
-        internal static TestDbContextFactory DbContextFactory { get; private set; } = new();
-
-        /// <summary>
-        /// The <see cref="ILogger"/> instance for this project.
-        /// </summary>
-        internal static readonly ILogger Logger = LoggerFactory
-            .Create(builder => builder.AddConsole().AddDebug())
-            .CreateLogger<TestUtility>();
+        internal static TestDbContextFactory DbContextFactory { get; }
 
         /// <summary>
         /// Checks public instance property values are equal two <typeparamref name="T"/> instances.
