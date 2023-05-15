@@ -187,7 +187,7 @@ namespace NjordinSight.EntityModel.Context.IntegrationTest
                 new() { AccountCompositeId = -8 }
             };
 
-            var AccountCompositeMembers = new AccountCompositeMember[]
+            var accountCompositeMembers = new AccountCompositeMember[]
             {
                 new()
                 {
@@ -602,25 +602,25 @@ namespace NjordinSight.EntityModel.Context.IntegrationTest
             {
                 new SecurityExchange()
                 {
-                    ExchangeId = -1,
-                    ExchangeCode = "NYSE",
-                    ExchangeDescription = "New York Stock Exchange"
+                    ExchangeId = -101,
+                    ExchangeCode = "MYSE",
+                    ExchangeDescription = "Mew York Stock Exchange"
                 },
                 new SecurityExchange()
                 {
-                    ExchangeId = -2,
-                    ExchangeCode = "NASDAQ",
+                    ExchangeId = -102,
+                    ExchangeCode = "NASQUACK",
                     ExchangeDescription = "Nasdaq Stock Market"
                 },
                 new()
                 {
-                    ExchangeId = -3,
+                    ExchangeId = -103,
                     ExchangeCode = "TestDeletePass",
                     ExchangeDescription = "Test delete pass"
                 },
                 new()
                 {
-                    ExchangeId = -4,
+                    ExchangeId = -104,
                     ExchangeCode = "TestUpdatePass",
                     ExchangeDescription = "Test update pass"
                 }
@@ -1308,7 +1308,12 @@ namespace NjordinSight.EntityModel.Context.IntegrationTest
             var sourceGuid = Guid.Parse("{81FEF80A-7C02-4483-80F5-A358A3598690}");
             IEntityConfiguration<T> newConfiguration<T>(params T[] entries)
                 where T : class
-                => new EntityConfiguration<T>(sourceGuid, entries);
+            {
+                if ((entries?.Length ?? 0) == 0)
+                    throw new ArgumentNullException(paramName: nameof(entries));
+                else
+                    return new EntityConfiguration<T>(sourceGuid, entries);
+            }
 
             targetCollection
                 .WithConfiguration(newConfiguration(accountCustodians))
@@ -1341,7 +1346,7 @@ namespace NjordinSight.EntityModel.Context.IntegrationTest
                 .WithConfiguration(newConfiguration(accounts))
                 .WithConfiguration(newConfiguration(accountWallets))
                 .WithConfiguration(newConfiguration(accountComposites))
-                .WithConfiguration(newConfiguration(AccountCompositeMembers))
+                .WithConfiguration(newConfiguration(accountCompositeMembers))
                 .WithConfiguration(newConfiguration(securities))
                 .WithConfiguration(newConfiguration(securitySymbols))
 
