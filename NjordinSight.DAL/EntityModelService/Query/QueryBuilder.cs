@@ -17,7 +17,7 @@ namespace NjordinSight.EntityModelService.Query
     /// <remarks>
     /// Reltionship inclusions must be expressed in terms of <typeparamref name="TSource"/>.
     /// </remarks>
-    internal sealed partial class QueryBuilder<TSource> : IQueryBuilder<TSource>
+    internal partial class QueryBuilder<TSource> : IQueryBuilder<TSource>
         where TSource : class, new()
     {
         private readonly FinanceDbContext _context;
@@ -35,6 +35,8 @@ namespace NjordinSight.EntityModelService.Query
 
         ~QueryBuilder() => Dispose();
 
+        // TODO: Review this. Disposal for types resolved via dependency injection 
+        // is discourage. Adopt the same pattern as ModelSerivce classes?
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -80,7 +82,7 @@ namespace NjordinSight.EntityModelService.Query
         private void QueryBuilder_QueryCompleted(object sender, EventArgs e) => _ = e;
     }
 
-    internal sealed partial class QueryBuilder<TSource> : IQueryDataStore<TSource>
+    internal partial class QueryBuilder<TSource> : IQueryDataStore<TSource>
     {
         /// <inheritdoc/>
         public IQueryDataStore<TSource> Build() => this;
