@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService.Abstractions
     /// Variant <see cref="ModelServiceBase{T}"/> class that services write requests.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal sealed partial class ModelWriterService<T> : ModelServiceBase<T>, IModelWriterService<T>
+    internal partial class ModelWriterService<T> : ModelServiceBase<T>, IModelWriterService<T>
         where T : class, new()
     {
         /// <summary>

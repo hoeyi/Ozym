@@ -9,7 +9,7 @@ namespace NjordinSight.Test.EntityModelService
     /// <summary>
     /// Implements <see cref="IDbContextFactory{TContext}"/> for testing model services.
     /// </summary>
-    internal sealed class TestDbContextFactory : IDbContextFactory<FinanceDbContext>
+    internal class TestDbContextFactory : IDbContextFactory<FinanceDbContext>
     {
         private static readonly object _lock = new();
         private static bool _databaseInitialized;

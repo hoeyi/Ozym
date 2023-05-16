@@ -6,7 +6,7 @@ namespace NjordinSight.Web.Test.Identity
     /// <summary>
     /// Implements <see cref="IDbContextFactory{TContext}"/> for testing model services.
     /// </summary>
-    internal sealed class TestDbContextFactory : IDbContextFactory<IdentityDbContext>
+    internal class TestDbContextFactory : IDbContextFactory<IdentityDbContext>
     {
         private static readonly object _lock = new();
         private static bool _databaseInitialized;

@@ -16,7 +16,7 @@ namespace NjordinSight.EntityModelService.Abstractions
     /// Variant <see cref="ModelServiceBase{T}"/> class that services read and search requests.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal sealed partial class ModelReaderService<T> : ModelServiceBase<T>, IModelReaderService<T>
+    internal partial class ModelReaderService<T> : ModelServiceBase<T>, IModelReaderService<T>
         where T: class, new()
     {
         /// <summary>
