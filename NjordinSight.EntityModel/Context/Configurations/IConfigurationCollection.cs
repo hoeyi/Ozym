@@ -598,7 +598,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 new (){ SecurityTypeGroupId = -200, SecurityTypeGroupName = "Individual Stocks" },
                 new (){ SecurityTypeGroupId = -201, SecurityTypeGroupName = "Equity Funds & ETFs" },
                 new() { SecurityTypeGroupId = -202, SecurityTypeGroupName = "Individual Bonds & CDs" },
-                new() { SecurityTypeGroupId = -203, SecurityTypeGroupName = "Fixed Icome Funds & ETFs" },
+                new() { SecurityTypeGroupId = -203, SecurityTypeGroupName = "Fixed Income Funds & ETFs" },
                 new() { SecurityTypeGroupId = -204, SecurityTypeGroupName = "Option Contracts" },
                 new() { SecurityTypeGroupId = -205, SecurityTypeGroupName = "Digital Assets" },
                 new() { SecurityTypeGroupId = -206, SecurityTypeGroupName = "Other Funds & ETPs" },
