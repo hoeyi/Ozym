@@ -875,6 +875,26 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     ModelAttributes
                 ));
 
+            var countryAttributeId = (int)ModelAttributeEnum.CountryExposure;
+            var countryExposuresScopes = new ModelAttributeScope[]
+            {
+                new ModelAttributeScope()
+                    {
+                        AttributeId = countryAttributeId,
+                        ScopeCode = ModelAttributeScopeCode.Custodian.ConvertToStringCode()
+                    },
+                new ModelAttributeScope()
+                    {
+                        AttributeId = countryAttributeId,
+                        ScopeCode = ModelAttributeScopeCode.Exchange.ConvertToStringCode()
+                    },
+                new ModelAttributeScope()
+                    {
+                        AttributeId = countryAttributeId,
+                        ScopeCode = ModelAttributeScopeCode.Security.ConvertToStringCode()
+                    }
+            };
+
             _configurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttributeScope>(
                     sourceGuid: guid,
@@ -896,12 +916,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                                 AttributeId = a.AttributeId,
                                 ScopeCode = ModelAttributeScopeCode.BrokerTransactionCode.ConvertToStringCode()
                             }))
-                        .Concat(ModelAttributes.Where(a => a.AttributeId == (int)ModelAttributeEnum.CountryExposure)
-                            .Select(a => new ModelAttributeScope()
-                            {
-                                AttributeId = a.AttributeId,
-                                ScopeCode = ModelAttributeScopeCode.Security.ConvertToStringCode()
-                            }))
+                        .Concat(countryExposuresScopes)
                         .ToArray()
                 ));
 
