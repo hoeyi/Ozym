@@ -16,6 +16,9 @@ namespace NjordinSight.EntityModelService.Abstractions
     internal abstract class ModelServiceBase<T> : IModelBaseService<T>
         where T: class, new()
     {
+        // TODO: Re-implement IDisposable pattern. Contexts generated this way are not resolved 
+        //       via dependency injection, so the application is responsible for clean-up.
+
         /// <summary>
         /// The shared context for this instance.
         /// </summary>
