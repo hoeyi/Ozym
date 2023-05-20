@@ -9,11 +9,11 @@ using NjordinSight.EntityModel.Context;
 
 #nullable disable
 
-namespace NjordinSight.EntityMigration.Migrations
+namespace NjordinSight.EntityMigration.FinanceApp
 {
     [DbContext(typeof(FinanceDbContext))]
-    [Migration("20230520172608_FinanceApp_Base")]
-    partial class FinanceApp_Base
+    [Migration("20230520185542_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,8 +26,6 @@ namespace NjordinSight.EntityMigration.Migrations
 
             modelBuilder.HasSequence("seqAuditEventID", "FinanceApp")
                 .HasMin(1L);
-
-            modelBuilder.HasSequence<int>("seqModelAttributeMember", "FinanceApp");
 
             modelBuilder.Entity("NjordinSight.EntityModel.Account", b =>
                 {

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace NjordinSight.EntityMigration.Migrations
+namespace NjordinSight.EntityMigration.FinanceApp
 {
-    public partial class FinanceApp_Base : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,10 +16,6 @@ namespace NjordinSight.EntityMigration.Migrations
                 name: "seqAuditEventID",
                 schema: "FinanceApp",
                 minValue: 1L);
-
-            migrationBuilder.CreateSequence<int>(
-                name: "seqModelAttributeMember",
-                schema: "FinanceApp");
 
             migrationBuilder.CreateTable(
                 name: "AccountCustodian",
@@ -2441,10 +2437,6 @@ namespace NjordinSight.EntityMigration.Migrations
 
             migrationBuilder.DropSequence(
                 name: "seqAuditEventID",
-                schema: "FinanceApp");
-
-            migrationBuilder.DropSequence(
-                name: "seqModelAttributeMember",
                 schema: "FinanceApp");
         }
     }

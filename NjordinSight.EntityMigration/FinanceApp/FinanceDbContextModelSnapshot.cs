@@ -8,7 +8,7 @@ using NjordinSight.EntityModel.Context;
 
 #nullable disable
 
-namespace NjordinSight.EntityMigration.Migrations
+namespace NjordinSight.EntityMigration.FinanceApp
 {
     [DbContext(typeof(FinanceDbContext))]
     partial class FinanceDbContextModelSnapshot : ModelSnapshot
@@ -24,8 +24,6 @@ namespace NjordinSight.EntityMigration.Migrations
 
             modelBuilder.HasSequence("seqAuditEventID", "FinanceApp")
                 .HasMin(1L);
-
-            modelBuilder.HasSequence<int>("seqModelAttributeMember", "FinanceApp");
 
             modelBuilder.Entity("NjordinSight.EntityModel.Account", b =>
                 {
