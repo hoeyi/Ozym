@@ -129,8 +129,17 @@
     <comment>{0} is the type being inspected
 {1} is the attribute use to signal a key or key element</comment>
   </data>
+  <data name="ModelAttribute_AccountType" xml:space="preserve">
+    <value>Account Type</value>
+  </data>
   <data name="ModelAttribute_AssetClass" xml:space="preserve">
     <value>Asset Class</value>
+  </data>
+  <data name="ModelAttribute_BankTransactionGroup" xml:space="preserve">
+    <value>Transaction Group</value>
+  </data>
+  <data name="ModelAttribute_BankTransactionType" xml:space="preserve">
+    <value>Transaction Type</value>
   </data>
   <data name="ModelAttribute_BrokerTransactionCategory" xml:space="preserve">
     <value>Transaction Category</value>

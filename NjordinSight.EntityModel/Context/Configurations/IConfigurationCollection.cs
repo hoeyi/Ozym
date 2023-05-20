@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NjordinSight.EntityModel.ConstraintType;
+using System.Runtime.CompilerServices;
 
 namespace NjordinSight.EntityModel.Context.Configurations
 {
@@ -221,7 +222,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     sourceGuid: guid,
                     new BrokerTransactionCodeAttributeMemberEntry[]
                     {
-                        // Transaction category attribute assignment
+                        // BROKER TRANSACTION CATEGORY
                         new(){ AttributeMemberId = -401, TransactionCodeId = -25, EffectiveDate = DateTime.MinValue, Weight = 1M },
                         new(){ AttributeMemberId = -402, TransactionCodeId = -11, EffectiveDate = DateTime.MinValue, Weight = 1M },
                         new(){ AttributeMemberId = -403, TransactionCodeId = -10, EffectiveDate = DateTime.MinValue, Weight = 1M },
@@ -240,7 +241,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                         new(){ AttributeMemberId = -407, TransactionCodeId = -21, EffectiveDate = DateTime.MinValue, Weight = 1M },
                         new(){ AttributeMemberId = -407, TransactionCodeId = -22, EffectiveDate = DateTime.MinValue, Weight = 1M },
 
-                        // Transaction class attribute assignment
+                        // BROKER TRANSACTION CLASS
                         new(){ AttributeMemberId = -501, TransactionCodeId = -25, EffectiveDate = DateTime.MinValue, Weight = 1M },
                         new(){ AttributeMemberId = -502, TransactionCodeId = -11, EffectiveDate = DateTime.MinValue, Weight = 1M },
                         new(){ AttributeMemberId = -502, TransactionCodeId = -10, EffectiveDate = DateTime.MinValue, Weight = 1M },
@@ -261,7 +262,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     }
                 ));
 
-            var Countries = new Country[]
+            var countries = new Country[]
             {
                 new(){ CountryId = -600, DisplayName = "Afghanistan", IsoCode3 = "AFG" },
                 new(){ CountryId = -601, DisplayName = "Albania", IsoCode3 = "ALB" },
@@ -517,7 +518,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
             _configurationCollection.AddConfiguration(
                 new EntityConfiguration<Country>(
                     sourceGuid: guid,
-                    Countries
+                    countries
                 ));
 
             _configurationCollection.AddConfiguration(
@@ -556,7 +557,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             // NOTE: Define ModelAttribute before ModelAttributeScope. ModelAttributeScope has a 
             //       1-or-n:1 relationship with ModelAttribute.
-            var ModelAttributes = new ModelAttribute[]
+            var modelAttributes = new ModelAttribute[]
             {
                 new()
                 {
@@ -593,7 +594,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
             // NOTE: Define SecurityTypes, SecurityTypeGroups before ModelAttributeMember.
             //       ModelAttributeMember initial records have a 1:0-1 relationship with both 
             //       SecurityType and SecurityTypeGroup.
-            var SecurityTypeGroups = new SecurityTypeGroup[]
+            var securityTypeGroups = new SecurityTypeGroup[]
             {
                 new (){ SecurityTypeGroupId = -200, SecurityTypeGroupName = "Individual Stocks" },
                 new (){ SecurityTypeGroupId = -201, SecurityTypeGroupName = "Equity Funds & ETFs" },
@@ -610,7 +611,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 new() { SecurityTypeGroupId = -212, SecurityTypeGroupName = "None/External", DepositSource = true, Transactable = false }
             };
 
-            var SecurityTypes = new SecurityType[]
+            var securityTypes = new SecurityType[]
             {
                 new()
                 {
@@ -816,13 +817,13 @@ namespace NjordinSight.EntityModel.Context.Configurations
             _configurationCollection.AddConfiguration(
                 new EntityConfiguration<SecurityTypeGroup>(
                     sourceGuid: guid,
-                    SecurityTypeGroups
+                    securityTypeGroups
                 ));
 
             _configurationCollection.AddConfiguration(
                 new EntityConfiguration<SecurityType>(
                     sourceGuid: guid,
-                    SecurityTypes
+                    securityTypes
                 ));
 
             _configurationCollection.AddConfiguration(
@@ -872,7 +873,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
             _configurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttribute>(
                     sourceGuid: guid,
-                    ModelAttributes
+                    modelAttributes
                 ));
 
             var countryAttributeId = (int)ModelAttributeEnum.CountryExposure;
@@ -898,7 +899,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
             _configurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttributeScope>(
                     sourceGuid: guid,
-                    ModelAttributes
+                    modelAttributes
                         .Where(a =>
                             a.AttributeId is <= (int)ModelAttributeEnum.AssetClass and
                             >= (int)ModelAttributeEnum.SecurityType)
@@ -907,7 +908,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                             AttributeId = a.AttributeId,
                             ScopeCode = ModelAttributeScopeCode.Security.ConvertToStringCode()
                         })
-                        .Concat(ModelAttributes
+                        .Concat(modelAttributes
                             .Where(a =>
                                 a.AttributeId is <= (int)ModelAttributeEnum.BrokerTransactionCategory and
                                 >= (int)ModelAttributeEnum.BrokerTransactionClass)
@@ -960,30 +961,30 @@ namespace NjordinSight.EntityModel.Context.Configurations
                         new() { AttributeMemberId = -506, AttributeId = -50, DisplayName = "Writeoff", DisplayOrder = 5 },
                     }
                     // COUNTRIES
-                    .Concat(Countries.Select(c => new ModelAttributeMember()
+                    .Concat(countries.Select(c => new ModelAttributeMember()
                     {
-                        AttributeId = -60,
+                        AttributeId = (int)ModelAttributeEnum.CountryExposure,
                         AttributeMemberId = c.CountryId,
                         DisplayName = c.IsoCode3,
-                        DisplayOrder = (short)Array.IndexOf(Countries, c)
+                        DisplayOrder = (short)Array.IndexOf(countries, c)
                     }))
 
                     // SECURITY TYPE GROUPS
-                    .Concat(SecurityTypeGroups.Select(x => new ModelAttributeMember()
+                    .Concat(securityTypeGroups.Select(x => new ModelAttributeMember()
                     {
-                        AttributeId = -20,
+                        AttributeId = (int)ModelAttributeEnum.SecurityTypeGroup,
                         AttributeMemberId = x.SecurityTypeGroupId,
                         DisplayName = x.SecurityTypeGroupName,
-                        DisplayOrder = (short)Array.IndexOf(SecurityTypeGroups, x)
+                        DisplayOrder = (short)Array.IndexOf(securityTypeGroups, x)
                     }))
 
                     // SECURITY TYPES
-                    .Concat(SecurityTypes.Select(s => new ModelAttributeMember()
+                    .Concat(securityTypes.Select(s => new ModelAttributeMember()
                     {
-                        AttributeId = -30,
+                        AttributeId = (int)ModelAttributeEnum.SecurityType,
                         AttributeMemberId = s.SecurityTypeId,
                         DisplayName = s.SecurityTypeName,
-                        DisplayOrder = (short)Array.IndexOf(SecurityTypes, s)
+                        DisplayOrder = (short)Array.IndexOf(securityTypes, s)
                     }))
                     .ToArray()
                 ));
@@ -1007,6 +1008,9 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             return _configurationCollection;
         }
+
+
+        
     }
 
     /// <summary>
@@ -1034,6 +1038,121 @@ namespace NjordinSight.EntityModel.Context.Configurations
             collection.AddConfiguration(configuration);
 
             return collection;
+        }
+
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sampel data for 
+        /// <see cref="ModelAttribute"/>, <see cref="ModelAttributeScope"/>, and <see cref="ModelAttributeMember"/> 
+        /// entities.
+        /// </summary>
+        /// <param name="configurationcollection"></param>
+        /// <returns>The </returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IConfigurationCollection WithSampleData_ModelAttribute_ModelAttributeMember(
+            this IConfigurationCollection configurationcollection)
+        {
+            // Local function simplifies creating EntityConfiguration<T> instances.
+            var sourceGuid = Guid.Parse("{B86AD8A7-9A34-40C6-A96C-1A2A577D95D8}");
+            IEntityConfiguration<T> newConfiguration<T>(params T[] entries)
+                where T : class
+            {
+                if ((entries?.Length ?? 0) == 0)
+                    throw new ArgumentNullException(paramName: nameof(entries));
+                else
+                    return new EntityConfiguration<T>(sourceGuid, entries);
+            }
+
+            var modelAttributes = new ModelAttribute[]
+            {
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.AccountType,
+                    DisplayName = Strings.ModelAttribute_AccountType
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionGroup,
+                    DisplayName = Strings.ModelAttribute_BankTransactionGroup
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionType,
+                    DisplayName = Strings.ModelAttribute_BankTransactionType
+                }
+            };
+
+            var modelAttributescopes = new ModelAttributeScope[]
+            {
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.AccountType,
+                    ScopeCode = ModelAttributeScopeCode.Account.ConvertToStringCode()
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionGroup,
+                    ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode()
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionType,
+                    ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode()
+                }
+            };
+
+            var bankTransactionCodes = new BankTransactionCode[]
+            {
+                new() { TransactionCodeId = -5, TransactionCode = "electricity", DisplayName = "Electricity Service" },
+                new() { TransactionCodeId = -7, TransactionCode = "media", DisplayName = "Entertainment" },
+                new() { TransactionCodeId = -9, TransactionCode = "gas", DisplayName = "Gasoline/Fuel" },
+                new() { TransactionCodeId = -12, TransactionCode = "medical", DisplayName = "Healthcare/Medical" },
+                new() { TransactionCodeId = -15, TransactionCode = "insurance", DisplayName = "Insurance" },
+                new() { TransactionCodeId = -16, TransactionCode = "internet", DisplayName = "Internet Service" },
+                new() { TransactionCodeId = -21, TransactionCode = "mortgage/rent", DisplayName = "Mortgage/Rent" },
+                new() { TransactionCodeId = -23, TransactionCode = "dineout", DisplayName = "Restaurants/Dining" },
+                new() { TransactionCodeId = -42, TransactionCode = "salary", DisplayName = "Salary/Wages" }
+            };
+
+            int accountTypeAttributeId = (int)ModelAttributeEnum.AccountType;
+            int bankTransactionTypeAttributeId = (int)ModelAttributeEnum.BankTransactionType;
+            int bankTransctionGroupAttributeId = (int)ModelAttributeEnum.BankTransactionGroup;
+
+            var modelAttributeMembers = new ModelAttributeMember[]
+            {
+                // ACCOUNT TYPE
+                new() { AttributeMemberId = -901, AttributeId = accountTypeAttributeId, DisplayName = "Student Loan", DisplayOrder = 0 },
+                new() { AttributeMemberId = -902, AttributeId = accountTypeAttributeId, DisplayName = "401(k)", DisplayOrder = 1 },
+                new() { AttributeMemberId = -903, AttributeId = accountTypeAttributeId, DisplayName = "Rollover IRA", DisplayOrder = 2 },
+                new() { AttributeMemberId = -904, AttributeId = accountTypeAttributeId, DisplayName = "Contributory IRA", DisplayOrder = 3 },
+                new() { AttributeMemberId = -905, AttributeId = accountTypeAttributeId, DisplayName = "Brokerage", DisplayOrder = 4 },
+                new() { AttributeMemberId = -906, AttributeId = accountTypeAttributeId, DisplayName = "Stock Purchase Plan", DisplayOrder = 5 },
+                new() { AttributeMemberId = -907, AttributeId = accountTypeAttributeId, DisplayName = "Checking", DisplayOrder = 6 },
+                new() { AttributeMemberId = -908, AttributeId = accountTypeAttributeId, DisplayName = "Savings", DisplayOrder = 7 },
+                new() { AttributeMemberId = -909, AttributeId = accountTypeAttributeId, DisplayName = "Credit", DisplayOrder = 8 },
+                new() { AttributeMemberId = -910, AttributeId = accountTypeAttributeId, DisplayName = "Health-Savings", DisplayOrder = 9 },
+                new() { AttributeMemberId = -911, AttributeId = accountTypeAttributeId, DisplayName = "Roth Contributory IRA", DisplayOrder = 10 },
+
+                // BANK TRANSACTION TYPE
+                new() { AttributeMemberId = -920, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Transportation", DisplayOrder = 0 },
+                new() { AttributeMemberId = -921, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Utilities", DisplayOrder = 1 },
+                new() { AttributeMemberId = -922, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Entertainment", DisplayOrder = 2 },
+                new() { AttributeMemberId = -923, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Medical", DisplayOrder = 3 },
+                new() { AttributeMemberId = -924, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Housing", DisplayOrder = 4 },
+                new() { AttributeMemberId = -925, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Restaurants/Dining", DisplayOrder = 5 },
+                new() { AttributeMemberId = -926, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Employment", DisplayOrder = 6 },
+
+                // BANK TRANSACTION GROUP
+                new() { AttributeMemberId = -931, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Necessary expense", DisplayOrder = 0 },
+                new() { AttributeMemberId = -931, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Discretionary expense", DisplayOrder = 1 },
+                new() { AttributeMemberId = -932, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Income", DisplayOrder = 2 }
+            };
+
+            configurationcollection
+                .WithConfiguration(newConfiguration(modelAttributes))
+                .WithConfiguration(newConfiguration(modelAttributescopes))
+                .WithConfiguration(newConfiguration(modelAttributeMembers));
+
+            return configurationcollection;
         }
     }
 }
