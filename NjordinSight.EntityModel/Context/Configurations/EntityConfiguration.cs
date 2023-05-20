@@ -23,8 +23,12 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// <exception cref="ArgumentNullException"></exception>
         public EntityConfiguration(Guid sourceGuid, params T[] entries)
         {
-            if (!entries?.Any(x => x is not null) ?? false)
-                throw new ArgumentNullException(paramName: nameof(entries));
+            if (entries?.Any(x => x is null) ?? true)
+                throw new ArgumentNullException(
+                    paramName: nameof(entries),
+                    message: string.Format(
+                        Strings.EntityConfiguration_Exception_NullEntryNotPermitted,
+                        nameof(entries)));
 
             if (Guid.Empty == sourceGuid)
                 throw new ArgumentOutOfRangeException(paramName: nameof(sourceGuid), sourceGuid, string.Empty);
@@ -49,6 +53,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// <inheritdoc/>
         public Guid Guid { get; private init; }
 
+        /// <inheritdoc/>
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
             if (Entries?.Any(x => x is not null) ?? false)

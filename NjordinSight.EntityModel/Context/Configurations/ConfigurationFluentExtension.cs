@@ -1,4 +1,6 @@
-﻿using NjordinSight.EntityModel.ConstraintType;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using NjordinSight.EntityModel.ConstraintType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +43,17 @@ namespace NjordinSight.EntityModel.Context.Configurations
     public static partial class ConfigurationFluentExtension
     {
         /// <summary>
+        /// Helper method for creating new <see cref="IEntityConfiguration{TEntity}"/> instances.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sourceGuid"></param>
+        /// <param name="entries"></param>
+        /// <returns><see cref="IEntityConfiguration{TEntity}"/>.</returns>
+        private static IEntityConfiguration<T> NewConfiguration<T>(
+            string sourceGuid, params T[] entries) where T : class
+            => new EntityConfiguration<T>(Guid.Parse(sourceGuid), entries);
+        
+        /// <summary>
         /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
         /// <list type="bullet">
         /// <item><see cref="ModelAttribute"/></item>
@@ -52,16 +65,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
         public static IConfigurationCollection WithSample_ModelAttributeGraph(
             this IConfigurationCollection configurationcollection)
         {
-            // Local function simplifies creating EntityConfiguration<T> instances.
-            var sourceGuid = Guid.Parse("{B86AD8A7-9A34-40C6-A96C-1A2A577D95D8}");
-            IEntityConfiguration<T> newConfiguration<T>(params T[] entries)
-                where T : class
-            {
-                if ((entries?.Length ?? 0) == 0)
-                    throw new ArgumentNullException(paramName: nameof(entries));
-                else
-                    return new EntityConfiguration<T>(sourceGuid, entries);
-            }
+            const string sourceGuid = "{B86AD8A7-9A34-40C6-A96C-1A2A577D95D8}";
 
             var modelAttributes = new ModelAttribute[]
             {
@@ -101,8 +105,6 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 }
             };
 
-            
-
             int accountTypeAttributeId = (int)ModelAttributeEnum.AccountType;
             int bankTransactionTypeAttributeId = (int)ModelAttributeEnum.BankTransactionType;
             int bankTransctionGroupAttributeId = (int)ModelAttributeEnum.BankTransactionGroup;
@@ -138,9 +140,9 @@ namespace NjordinSight.EntityModel.Context.Configurations
             };
 
             configurationcollection
-                .WithConfiguration(newConfiguration(modelAttributes))
-                .WithConfiguration(newConfiguration(modelAttributescopes))
-                .WithConfiguration(newConfiguration(modelAttributeMembers));
+                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributes))
+                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributescopes))
+                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributeMembers));
 
             return configurationcollection;
         }
@@ -148,6 +150,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
         public static IConfigurationCollection WithSample_AccountGraph(
             this IConfigurationCollection configurationCollection)
         {
+
             var bankTransactionCodes = new BankTransactionCode[]
             {
                 new() { TransactionCodeId = -5, TransactionCode = "electricity", DisplayName = "Electricity Service" },

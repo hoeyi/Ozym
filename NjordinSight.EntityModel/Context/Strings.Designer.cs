@@ -88,6 +88,15 @@ namespace NjordinSight.EntityModel.Context {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Null references in this parameter are not permitted. (Paramter: {0}).
+        /// </summary>
+        internal static string EntityConfiguration_Exception_NullEntryNotPermitted {
+            get {
+                return ResourceManager.GetString("EntityConfiguration_Exception_NullEntryNotPermitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Type.
         /// </summary>
         internal static string ModelAttribute_AccountType {
