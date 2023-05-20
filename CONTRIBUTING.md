@@ -15,7 +15,7 @@ Must be one of the following:
 * **build**: Changes that affect the build system or external dependencies
 * **design**: Changes to CSS rules or code changes to support UI behavior
 * **docs**: Documentation only changes
-* **feat**: A new feature
+* **feat**: A new feature / ehancement
 * **fix**: A bug fix
 * **perf**: A code change that improves performance
 * **refactor**: A code change that neither fixes a bug nor adds a feature
@@ -29,6 +29,7 @@ The scope is the domain affected. Choose one of the following:
 * **Blazor**: Blazor pages or components.
 * **DAL**: Model repository services and data-transfer objects.
 * **EntityModel**: Entity classes and/or ORM.
+* **EntityMigration**: Entity data migrations
 * **Logic**: Business logic.
 * **API-{Name}**: API support where {Name} is the API project (e.g., NjordinSight, or a vendor).
 
