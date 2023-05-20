@@ -49,8 +49,8 @@ namespace NjordinSight.EntityModel.Context
         /// additional configuration steps are applied.</param>
         protected virtual void ApplyConfigurationModifications(IConfigurationCollection targetCollection)
         {
-            targetCollection
-                .WithSampleData_ModelAttribute_ModelAttributeMember();
+            //targetCollection
+            //    .WithSample_ModelAttributeGraph();
         }
 
         /// <inheritdoc/>
