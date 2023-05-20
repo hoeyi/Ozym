@@ -11,7 +11,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
 {
     /// <summary>
     ///  Extension method container for method-chaining a <see cref="IConfigurationCollection"/> 
-    ///  to seed data and/or configuration migrations.
+    ///  to seed data.
     /// </summary>
     public static partial class ConfigurationFluentExtension
     {
