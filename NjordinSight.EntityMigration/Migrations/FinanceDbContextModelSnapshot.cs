@@ -4848,7 +4848,7 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             AttributeMemberId = -203,
                             AttributeId = -20,
-                            DisplayName = "Fixed Icome Funds & ETFs",
+                            DisplayName = "Fixed Income Funds & ETFs",
                             DisplayOrder = (short)3
                         },
                         new
@@ -5115,6 +5115,16 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             AttributeId = -50,
                             ScopeCode = "brk"
+                        },
+                        new
+                        {
+                            AttributeId = -60,
+                            ScopeCode = "cus"
+                        },
+                        new
+                        {
+                            AttributeId = -60,
+                            ScopeCode = "exc"
                         },
                         new
                         {
@@ -5877,7 +5887,7 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             SecurityTypeGroupId = -203,
                             DepositSource = false,
-                            SecurityTypeGroupName = "Fixed Icome Funds & ETFs",
+                            SecurityTypeGroupName = "Fixed Income Funds & ETFs",
                             Transactable = true
                         },
                         new

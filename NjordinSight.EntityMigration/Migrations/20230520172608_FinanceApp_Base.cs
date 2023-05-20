@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NjordinSight.EntityMigration.Migrations
 {
-    public partial class FinanceDbContext_Initial : Migration
+    public partial class FinanceApp_Base : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -1424,7 +1424,7 @@ namespace NjordinSight.EntityMigration.Migrations
                     { -206, -20, "Other Funds & ETPs", (short)6 },
                     { -205, -20, "Digital Assets", (short)5 },
                     { -204, -20, "Option Contracts", (short)4 },
-                    { -203, -20, "Fixed Icome Funds & ETFs", (short)3 },
+                    { -203, -20, "Fixed Income Funds & ETFs", (short)3 },
                     { -202, -20, "Individual Bonds & CDs", (short)2 },
                     { -201, -20, "Equity Funds & ETFs", (short)1 },
                     { -200, -20, "Individual Stocks", (short)0 },
@@ -1444,6 +1444,8 @@ namespace NjordinSight.EntityMigration.Migrations
                 columns: new[] { "AttributeID", "ScopeCode" },
                 values: new object[,]
                 {
+                    { -60, "cus" },
+                    { -60, "exc" },
                     { -60, "sec" },
                     { -50, "brk" },
                     { -40, "brk" },
@@ -1814,7 +1816,7 @@ namespace NjordinSight.EntityMigration.Migrations
                     { -206, false, "Other Funds & ETPs", true },
                     { -205, false, "Digital Assets", true },
                     { -204, false, "Option Contracts", true },
-                    { -203, false, "Fixed Icome Funds & ETFs", true },
+                    { -203, false, "Fixed Income Funds & ETFs", true },
                     { -202, false, "Individual Bonds & CDs", true }
                 });
 

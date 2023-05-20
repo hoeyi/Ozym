@@ -12,8 +12,8 @@ using NjordinSight.EntityModel.Context;
 namespace NjordinSight.EntityMigration.Migrations
 {
     [DbContext(typeof(FinanceDbContext))]
-    [Migration("20230514205909_FinanceDbContext_Initial")]
-    partial class FinanceDbContext_Initial
+    [Migration("20230520172608_FinanceApp_Base")]
+    partial class FinanceApp_Base
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -4850,7 +4850,7 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             AttributeMemberId = -203,
                             AttributeId = -20,
-                            DisplayName = "Fixed Icome Funds & ETFs",
+                            DisplayName = "Fixed Income Funds & ETFs",
                             DisplayOrder = (short)3
                         },
                         new
@@ -5117,6 +5117,16 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             AttributeId = -50,
                             ScopeCode = "brk"
+                        },
+                        new
+                        {
+                            AttributeId = -60,
+                            ScopeCode = "cus"
+                        },
+                        new
+                        {
+                            AttributeId = -60,
+                            ScopeCode = "exc"
                         },
                         new
                         {
@@ -5879,7 +5889,7 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             SecurityTypeGroupId = -203,
                             DepositSource = false,
-                            SecurityTypeGroupName = "Fixed Icome Funds & ETFs",
+                            SecurityTypeGroupName = "Fixed Income Funds & ETFs",
                             Transactable = true
                         },
                         new
