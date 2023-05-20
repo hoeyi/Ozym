@@ -160,6 +160,15 @@ namespace NjordinSight.EntityModel.Context {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Economy.
+        /// </summary>
+        internal static string ModelAttribute_Economy {
+            get {
+                return ResourceManager.GetString("ModelAttribute_Economy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Security Type.
         /// </summary>
         internal static string ModelAttribute_SecurityType {

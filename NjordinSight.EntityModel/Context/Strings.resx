@@ -154,6 +154,9 @@
   <data name="ModelAttribute_CountryExposure" xml:space="preserve">
     <value>Country Exposure</value>
   </data>
+  <data name="ModelAttribute_Economy" xml:space="preserve">
+    <value>Economy</value>
+  </data>
   <data name="ModelAttribute_SecurityType" xml:space="preserve">
     <value>Security Type</value>
   </data>

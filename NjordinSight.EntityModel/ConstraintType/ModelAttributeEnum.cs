@@ -21,6 +21,8 @@
 
         BankTransactionType = -920,
 
-        BankTransactionGroup = -930
+        BankTransactionGroup = -930,
+
+        Economy = -950
     }
 }
