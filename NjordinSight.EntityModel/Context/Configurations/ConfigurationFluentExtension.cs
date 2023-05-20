@@ -152,6 +152,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 new() { AttributeMemberId = -932, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Discretionary expense", DisplayOrder = 1 },
                 new() { AttributeMemberId = -933, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Income", DisplayOrder = 2 },
 
+                // ECONOMY
                 new() { AttributeMemberId = -951, AttributeId = economyAttributeId, DisplayName = "Developed", DisplayOrder = 0 },
                 new() { AttributeMemberId = -952, AttributeId = economyAttributeId, DisplayName = "Emerging", DisplayOrder = 1 },
                 new() { AttributeMemberId = -953, AttributeId = economyAttributeId, DisplayName = "Frontier", DisplayOrder = 2 }
@@ -170,6 +171,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// <list type="bullet">
         /// <item><see cref="CountryAttributeMemberEntry"/></item>
         /// </list>
+        /// Depends on <see cref="WithSample_ModelAttributeGraph(IConfigurationCollection)"/>.
         /// </summary>
         /// <param name="configurationCollection"></param>
         /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
@@ -181,6 +183,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
             var minDate = DateTime.MinValue.Date;
             var countryAttributeMemberEntries = new CountryAttributeMemberEntry[]
             {
+                // ECONOMY
                 new() { AttributeMemberId = -952, CountryId = -832, EffectiveDate = minDate, Weight = 1M },
                 new() { AttributeMemberId = -952, CountryId = -609, EffectiveDate = minDate, Weight = 1M },
                 new() { AttributeMemberId = -951, CountryId = -612, EffectiveDate = minDate, Weight = 1M },
@@ -507,6 +510,49 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             return configurationCollection;
         }
+
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
+        /// <item><see cref="InvestmentStrategy"/></item>
+        /// <item><see cref="InvestmentStrategyTarget"/></item>
+        /// </list>
+        /// Depends on <see cref="WithSample_CountryAttributeEntries(IConfigurationCollection)"/>.
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
+        public static IConfigurationCollection WithSample_InvestmentStrategyGraph(
+            this IConfigurationCollection configurationCollection)
+        {
+            const string sourceGuid = "{BDC0F7E6-1C83-4B72-B08C-8EE0536E6634}";
+
+            var investmentModels = new InvestmentStrategy[]
+            {
+                new() { InvestmentStrategyId = -1, DisplayName = "Retirement", Notes = "Retirement Strategy" },
+                new() { InvestmentStrategyId = -2, DisplayName = "YOLOS", Notes = "Risky Bets Strategy"}
+            };
+
+            var modelTargets = new InvestmentStrategyTarget[]
+            {
+                new() { InvestmentStrategyId = -1, AttributeMemberId = -100, EffectiveDate = new DateTime(2021, 12, 31), Weight = 0.8M },
+                new() { InvestmentStrategyId = -1, AttributeMemberId = -101, EffectiveDate = new DateTime(2021, 12, 31), Weight = 0.2M },
+                new() { InvestmentStrategyId = -1, AttributeMemberId = -951, EffectiveDate = new DateTime(2015, 6, 30), Weight = 0.85M },
+                new() { InvestmentStrategyId = -1, AttributeMemberId = -952, EffectiveDate = new DateTime(2015, 6, 30), Weight = 0.15M },
+
+                new() { InvestmentStrategyId = -2, AttributeMemberId = -102, EffectiveDate = new DateTime(2019, 9, 30), Weight = 0.6M },
+                new() { InvestmentStrategyId = -2, AttributeMemberId = -103, EffectiveDate = new DateTime(2019, 9, 30), Weight = 0.4M },
+
+                new() { InvestmentStrategyId = -2, AttributeMemberId = -952, EffectiveDate = new DateTime(2015, 6, 30), Weight = 0.35M },
+                new() { InvestmentStrategyId = -2, AttributeMemberId = -953, EffectiveDate = new DateTime(2015, 6, 30), Weight = 0.65M },
+            };
+
+            configurationCollection
+                .WithConfiguration(NewConfiguration(sourceGuid, investmentModels))
+                .WithConfiguration(NewConfiguration(sourceGuid, modelTargets));
+
+            return configurationCollection;
+        }
     }
+
     #endregion
 }
