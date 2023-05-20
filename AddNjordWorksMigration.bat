@@ -5,7 +5,7 @@ REM Check for expected positional parameter and redirect as needed.
 if "%1"=="" goto missingparameter
 
 REM Define context migration event.
-set migration=FinanceDbContext_%1
+set migration=FinanceApp_%1
 
 REM Add the migration. Reference the FinanceDbContext with fully-qualified namespace.
 dotnet ef migrations add %migration% ^
