@@ -15,6 +15,12 @@
 
         BrokerTransactionClass = -50,
 
-        CountryExposure = -60
+        CountryExposure = -60,
+
+        AccountType = -90,
+
+        BankTransactionType = -920,
+
+        BankTransactionGroup = -930
     }
 }

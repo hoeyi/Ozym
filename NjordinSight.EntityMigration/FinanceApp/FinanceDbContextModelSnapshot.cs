@@ -8,7 +8,7 @@ using NjordinSight.EntityModel.Context;
 
 #nullable disable
 
-namespace NjordinSight.EntityMigration.Migrations
+namespace NjordinSight.EntityMigration.FinanceApp
 {
     [DbContext(typeof(FinanceDbContext))]
     partial class FinanceDbContextModelSnapshot : ModelSnapshot
@@ -24,8 +24,6 @@ namespace NjordinSight.EntityMigration.Migrations
 
             modelBuilder.HasSequence("seqAuditEventID", "FinanceApp")
                 .HasMin(1L);
-
-            modelBuilder.HasSequence<int>("seqModelAttributeMember", "FinanceApp");
 
             modelBuilder.Entity("NjordinSight.EntityModel.Account", b =>
                 {
@@ -2849,6 +2847,21 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             AttributeId = -60,
                             DisplayName = "Country Exposure"
+                        },
+                        new
+                        {
+                            AttributeId = -90,
+                            DisplayName = "Account Type"
+                        },
+                        new
+                        {
+                            AttributeId = -930,
+                            DisplayName = "Transaction Group"
+                        },
+                        new
+                        {
+                            AttributeId = -920,
+                            DisplayName = "Transaction Type"
                         });
                 });
 
@@ -4848,7 +4861,7 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             AttributeMemberId = -203,
                             AttributeId = -20,
-                            DisplayName = "Fixed Icome Funds & ETFs",
+                            DisplayName = "Fixed Income Funds & ETFs",
                             DisplayOrder = (short)3
                         },
                         new
@@ -5067,6 +5080,153 @@ namespace NjordinSight.EntityMigration.Migrations
                             AttributeId = -30,
                             DisplayName = "None/External",
                             DisplayOrder = (short)21
+                        },
+                        new
+                        {
+                            AttributeMemberId = -901,
+                            AttributeId = -90,
+                            DisplayName = "Student Loan",
+                            DisplayOrder = (short)0
+                        },
+                        new
+                        {
+                            AttributeMemberId = -902,
+                            AttributeId = -90,
+                            DisplayName = "401(k)",
+                            DisplayOrder = (short)1
+                        },
+                        new
+                        {
+                            AttributeMemberId = -903,
+                            AttributeId = -90,
+                            DisplayName = "Rollover IRA",
+                            DisplayOrder = (short)2
+                        },
+                        new
+                        {
+                            AttributeMemberId = -904,
+                            AttributeId = -90,
+                            DisplayName = "Contributory IRA",
+                            DisplayOrder = (short)3
+                        },
+                        new
+                        {
+                            AttributeMemberId = -905,
+                            AttributeId = -90,
+                            DisplayName = "Brokerage",
+                            DisplayOrder = (short)4
+                        },
+                        new
+                        {
+                            AttributeMemberId = -906,
+                            AttributeId = -90,
+                            DisplayName = "Stock Purchase Plan",
+                            DisplayOrder = (short)5
+                        },
+                        new
+                        {
+                            AttributeMemberId = -907,
+                            AttributeId = -90,
+                            DisplayName = "Checking",
+                            DisplayOrder = (short)6
+                        },
+                        new
+                        {
+                            AttributeMemberId = -908,
+                            AttributeId = -90,
+                            DisplayName = "Savings",
+                            DisplayOrder = (short)7
+                        },
+                        new
+                        {
+                            AttributeMemberId = -909,
+                            AttributeId = -90,
+                            DisplayName = "Credit",
+                            DisplayOrder = (short)8
+                        },
+                        new
+                        {
+                            AttributeMemberId = -910,
+                            AttributeId = -90,
+                            DisplayName = "Health-Savings",
+                            DisplayOrder = (short)9
+                        },
+                        new
+                        {
+                            AttributeMemberId = -911,
+                            AttributeId = -90,
+                            DisplayName = "Roth Contributory IRA",
+                            DisplayOrder = (short)10
+                        },
+                        new
+                        {
+                            AttributeMemberId = -920,
+                            AttributeId = -920,
+                            DisplayName = "Transportation",
+                            DisplayOrder = (short)0
+                        },
+                        new
+                        {
+                            AttributeMemberId = -921,
+                            AttributeId = -920,
+                            DisplayName = "Utilities",
+                            DisplayOrder = (short)1
+                        },
+                        new
+                        {
+                            AttributeMemberId = -922,
+                            AttributeId = -920,
+                            DisplayName = "Entertainment",
+                            DisplayOrder = (short)2
+                        },
+                        new
+                        {
+                            AttributeMemberId = -923,
+                            AttributeId = -920,
+                            DisplayName = "Medical",
+                            DisplayOrder = (short)3
+                        },
+                        new
+                        {
+                            AttributeMemberId = -924,
+                            AttributeId = -920,
+                            DisplayName = "Housing",
+                            DisplayOrder = (short)4
+                        },
+                        new
+                        {
+                            AttributeMemberId = -925,
+                            AttributeId = -920,
+                            DisplayName = "Restaurants/Dining",
+                            DisplayOrder = (short)5
+                        },
+                        new
+                        {
+                            AttributeMemberId = -926,
+                            AttributeId = -920,
+                            DisplayName = "Employment",
+                            DisplayOrder = (short)6
+                        },
+                        new
+                        {
+                            AttributeMemberId = -931,
+                            AttributeId = -930,
+                            DisplayName = "Necessary expense",
+                            DisplayOrder = (short)0
+                        },
+                        new
+                        {
+                            AttributeMemberId = -932,
+                            AttributeId = -930,
+                            DisplayName = "Discretionary expense",
+                            DisplayOrder = (short)1
+                        },
+                        new
+                        {
+                            AttributeMemberId = -933,
+                            AttributeId = -930,
+                            DisplayName = "Income",
+                            DisplayOrder = (short)2
                         });
                 });
 
@@ -5119,7 +5279,32 @@ namespace NjordinSight.EntityMigration.Migrations
                         new
                         {
                             AttributeId = -60,
+                            ScopeCode = "cus"
+                        },
+                        new
+                        {
+                            AttributeId = -60,
+                            ScopeCode = "exc"
+                        },
+                        new
+                        {
+                            AttributeId = -60,
                             ScopeCode = "sec"
+                        },
+                        new
+                        {
+                            AttributeId = -90,
+                            ScopeCode = "acc"
+                        },
+                        new
+                        {
+                            AttributeId = -930,
+                            ScopeCode = "bnk"
+                        },
+                        new
+                        {
+                            AttributeId = -920,
+                            ScopeCode = "bnk"
                         });
                 });
 
@@ -5877,7 +6062,7 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             SecurityTypeGroupId = -203,
                             DepositSource = false,
-                            SecurityTypeGroupName = "Fixed Icome Funds & ETFs",
+                            SecurityTypeGroupName = "Fixed Income Funds & ETFs",
                             Transactable = true
                         },
                         new

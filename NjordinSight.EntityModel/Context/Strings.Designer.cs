@@ -88,11 +88,47 @@ namespace NjordinSight.EntityModel.Context {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Null references in this parameter are not permitted. (Paramter: {0}).
+        /// </summary>
+        internal static string EntityConfiguration_Exception_NullEntryNotPermitted {
+            get {
+                return ResourceManager.GetString("EntityConfiguration_Exception_NullEntryNotPermitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Type.
+        /// </summary>
+        internal static string ModelAttribute_AccountType {
+            get {
+                return ResourceManager.GetString("ModelAttribute_AccountType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Asset Class.
         /// </summary>
         internal static string ModelAttribute_AssetClass {
             get {
                 return ResourceManager.GetString("ModelAttribute_AssetClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Group.
+        /// </summary>
+        internal static string ModelAttribute_BankTransactionGroup {
+            get {
+                return ResourceManager.GetString("ModelAttribute_BankTransactionGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Type.
+        /// </summary>
+        internal static string ModelAttribute_BankTransactionType {
+            get {
+                return ResourceManager.GetString("ModelAttribute_BankTransactionType", resourceCulture);
             }
         }
         

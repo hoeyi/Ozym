@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NjordinSight.EntityModel.ConstraintType;
+using System.Runtime.CompilerServices;
 
 namespace NjordinSight.EntityModel.Context.Configurations
 {
@@ -221,7 +222,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     sourceGuid: guid,
                     new BrokerTransactionCodeAttributeMemberEntry[]
                     {
-                        // Transaction category attribute assignment
+                        // BROKER TRANSACTION CATEGORY
                         new(){ AttributeMemberId = -401, TransactionCodeId = -25, EffectiveDate = DateTime.MinValue, Weight = 1M },
                         new(){ AttributeMemberId = -402, TransactionCodeId = -11, EffectiveDate = DateTime.MinValue, Weight = 1M },
                         new(){ AttributeMemberId = -403, TransactionCodeId = -10, EffectiveDate = DateTime.MinValue, Weight = 1M },
@@ -240,7 +241,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                         new(){ AttributeMemberId = -407, TransactionCodeId = -21, EffectiveDate = DateTime.MinValue, Weight = 1M },
                         new(){ AttributeMemberId = -407, TransactionCodeId = -22, EffectiveDate = DateTime.MinValue, Weight = 1M },
 
-                        // Transaction class attribute assignment
+                        // BROKER TRANSACTION CLASS
                         new(){ AttributeMemberId = -501, TransactionCodeId = -25, EffectiveDate = DateTime.MinValue, Weight = 1M },
                         new(){ AttributeMemberId = -502, TransactionCodeId = -11, EffectiveDate = DateTime.MinValue, Weight = 1M },
                         new(){ AttributeMemberId = -502, TransactionCodeId = -10, EffectiveDate = DateTime.MinValue, Weight = 1M },
@@ -261,7 +262,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                     }
                 ));
 
-            var Countries = new Country[]
+            var countries = new Country[]
             {
                 new(){ CountryId = -600, DisplayName = "Afghanistan", IsoCode3 = "AFG" },
                 new(){ CountryId = -601, DisplayName = "Albania", IsoCode3 = "ALB" },
@@ -517,7 +518,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
             _configurationCollection.AddConfiguration(
                 new EntityConfiguration<Country>(
                     sourceGuid: guid,
-                    Countries
+                    countries
                 ));
 
             _configurationCollection.AddConfiguration(
@@ -556,7 +557,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             // NOTE: Define ModelAttribute before ModelAttributeScope. ModelAttributeScope has a 
             //       1-or-n:1 relationship with ModelAttribute.
-            var ModelAttributes = new ModelAttribute[]
+            var modelAttributes = new ModelAttribute[]
             {
                 new()
                 {
@@ -593,12 +594,12 @@ namespace NjordinSight.EntityModel.Context.Configurations
             // NOTE: Define SecurityTypes, SecurityTypeGroups before ModelAttributeMember.
             //       ModelAttributeMember initial records have a 1:0-1 relationship with both 
             //       SecurityType and SecurityTypeGroup.
-            var SecurityTypeGroups = new SecurityTypeGroup[]
+            var securityTypeGroups = new SecurityTypeGroup[]
             {
                 new (){ SecurityTypeGroupId = -200, SecurityTypeGroupName = "Individual Stocks" },
                 new (){ SecurityTypeGroupId = -201, SecurityTypeGroupName = "Equity Funds & ETFs" },
                 new() { SecurityTypeGroupId = -202, SecurityTypeGroupName = "Individual Bonds & CDs" },
-                new() { SecurityTypeGroupId = -203, SecurityTypeGroupName = "Fixed Icome Funds & ETFs" },
+                new() { SecurityTypeGroupId = -203, SecurityTypeGroupName = "Fixed Income Funds & ETFs" },
                 new() { SecurityTypeGroupId = -204, SecurityTypeGroupName = "Option Contracts" },
                 new() { SecurityTypeGroupId = -205, SecurityTypeGroupName = "Digital Assets" },
                 new() { SecurityTypeGroupId = -206, SecurityTypeGroupName = "Other Funds & ETPs" },
@@ -610,7 +611,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 new() { SecurityTypeGroupId = -212, SecurityTypeGroupName = "None/External", DepositSource = true, Transactable = false }
             };
 
-            var SecurityTypes = new SecurityType[]
+            var securityTypes = new SecurityType[]
             {
                 new()
                 {
@@ -816,13 +817,13 @@ namespace NjordinSight.EntityModel.Context.Configurations
             _configurationCollection.AddConfiguration(
                 new EntityConfiguration<SecurityTypeGroup>(
                     sourceGuid: guid,
-                    SecurityTypeGroups
+                    securityTypeGroups
                 ));
 
             _configurationCollection.AddConfiguration(
                 new EntityConfiguration<SecurityType>(
                     sourceGuid: guid,
-                    SecurityTypes
+                    securityTypes
                 ));
 
             _configurationCollection.AddConfiguration(
@@ -872,13 +873,33 @@ namespace NjordinSight.EntityModel.Context.Configurations
             _configurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttribute>(
                     sourceGuid: guid,
-                    ModelAttributes
+                    modelAttributes
                 ));
+
+            var countryAttributeId = (int)ModelAttributeEnum.CountryExposure;
+            var countryExposuresScopes = new ModelAttributeScope[]
+            {
+                new ModelAttributeScope()
+                    {
+                        AttributeId = countryAttributeId,
+                        ScopeCode = ModelAttributeScopeCode.Custodian.ConvertToStringCode()
+                    },
+                new ModelAttributeScope()
+                    {
+                        AttributeId = countryAttributeId,
+                        ScopeCode = ModelAttributeScopeCode.Exchange.ConvertToStringCode()
+                    },
+                new ModelAttributeScope()
+                    {
+                        AttributeId = countryAttributeId,
+                        ScopeCode = ModelAttributeScopeCode.Security.ConvertToStringCode()
+                    }
+            };
 
             _configurationCollection.AddConfiguration(
                 new EntityConfiguration<ModelAttributeScope>(
                     sourceGuid: guid,
-                    ModelAttributes
+                    modelAttributes
                         .Where(a =>
                             a.AttributeId is <= (int)ModelAttributeEnum.AssetClass and
                             >= (int)ModelAttributeEnum.SecurityType)
@@ -887,7 +908,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                             AttributeId = a.AttributeId,
                             ScopeCode = ModelAttributeScopeCode.Security.ConvertToStringCode()
                         })
-                        .Concat(ModelAttributes
+                        .Concat(modelAttributes
                             .Where(a =>
                                 a.AttributeId is <= (int)ModelAttributeEnum.BrokerTransactionCategory and
                                 >= (int)ModelAttributeEnum.BrokerTransactionClass)
@@ -896,12 +917,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
                                 AttributeId = a.AttributeId,
                                 ScopeCode = ModelAttributeScopeCode.BrokerTransactionCode.ConvertToStringCode()
                             }))
-                        .Concat(ModelAttributes.Where(a => a.AttributeId == (int)ModelAttributeEnum.CountryExposure)
-                            .Select(a => new ModelAttributeScope()
-                            {
-                                AttributeId = a.AttributeId,
-                                ScopeCode = ModelAttributeScopeCode.Security.ConvertToStringCode()
-                            }))
+                        .Concat(countryExposuresScopes)
                         .ToArray()
                 ));
 
@@ -945,30 +961,30 @@ namespace NjordinSight.EntityModel.Context.Configurations
                         new() { AttributeMemberId = -506, AttributeId = -50, DisplayName = "Writeoff", DisplayOrder = 5 },
                     }
                     // COUNTRIES
-                    .Concat(Countries.Select(c => new ModelAttributeMember()
+                    .Concat(countries.Select(c => new ModelAttributeMember()
                     {
-                        AttributeId = -60,
+                        AttributeId = (int)ModelAttributeEnum.CountryExposure,
                         AttributeMemberId = c.CountryId,
                         DisplayName = c.IsoCode3,
-                        DisplayOrder = (short)Array.IndexOf(Countries, c)
+                        DisplayOrder = (short)Array.IndexOf(countries, c)
                     }))
 
                     // SECURITY TYPE GROUPS
-                    .Concat(SecurityTypeGroups.Select(x => new ModelAttributeMember()
+                    .Concat(securityTypeGroups.Select(x => new ModelAttributeMember()
                     {
-                        AttributeId = -20,
+                        AttributeId = (int)ModelAttributeEnum.SecurityTypeGroup,
                         AttributeMemberId = x.SecurityTypeGroupId,
                         DisplayName = x.SecurityTypeGroupName,
-                        DisplayOrder = (short)Array.IndexOf(SecurityTypeGroups, x)
+                        DisplayOrder = (short)Array.IndexOf(securityTypeGroups, x)
                     }))
 
                     // SECURITY TYPES
-                    .Concat(SecurityTypes.Select(s => new ModelAttributeMember()
+                    .Concat(securityTypes.Select(s => new ModelAttributeMember()
                     {
-                        AttributeId = -30,
+                        AttributeId = (int)ModelAttributeEnum.SecurityType,
                         AttributeMemberId = s.SecurityTypeId,
                         DisplayName = s.SecurityTypeName,
-                        DisplayOrder = (short)Array.IndexOf(SecurityTypes, s)
+                        DisplayOrder = (short)Array.IndexOf(securityTypes, s)
                     }))
                     .ToArray()
                 ));
@@ -992,33 +1008,8 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             return _configurationCollection;
         }
-    }
 
-    /// <summary>
-    ///  Extension method container for the <see cref="IConfigurationCollection"/> interface.
-    /// </summary>
-    public static class IConfigurationCollectionFluentExtension
-    {
-        /// <summary>
-        /// Adds a new <see cref="Action"/> accepting <see cref="ModelBuilder"/> input that applies 
-        /// the given <see cref="IEntityConfiguration{TEntity}"/>. The action is invoked by the caller, 
-        /// typically be iterating over the <see cref="IConfigurationCollection"/> instance.
-        /// </summary>
-        /// <<returns>The <see cref="IConfigurationCollection"/> instance for chaining method calls.</returns>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="configuration"></param>
-        /// <exception cref="ArgumentNullException"><paramref name="configuration"/> was null.</exception>
-        public static IConfigurationCollection WithConfiguration<T>(
-            this IConfigurationCollection collection,
-            IEntityConfiguration<T> configuration)
-            where T : class
-        {
-            if (collection is null)
-                throw new ArgumentNullException(paramName: nameof(collection));
 
-            collection.AddConfiguration(configuration);
-
-            return collection;
-        }
+        
     }
 }
