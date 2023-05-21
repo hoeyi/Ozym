@@ -554,6 +554,22 @@ namespace NjordinSight.EntityModel.Context.Configurations
             return configurationCollection;
         }
 
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
+        /// <item><see cref="Security"/></item>
+        /// <item><see cref="SecuritySymbol"/></item>
+        /// <item><see cref="SecurityAttributeMemberEntry"/></item>
+        /// <item><see cref="SecurityPrice"/></item>
+        /// </list>
+        /// Depends on:
+        /// <list type="bullet">
+        /// <item><see cref="WithSample_CountryAttributeEntries(IConfigurationCollection)"/>.</item>
+        /// <item><see cref="WithSample_ModelAttributeGraph(IConfigurationCollection)"/></item>
+        /// </list>
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
         public static IConfigurationCollection WithSample_SecurityGraph(
             this IConfigurationCollection configurationCollection)
         {

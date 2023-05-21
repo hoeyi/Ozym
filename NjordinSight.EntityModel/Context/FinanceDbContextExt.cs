@@ -53,7 +53,8 @@ namespace NjordinSight.EntityModel.Context
                 .WithSample_ModelAttributeGraph()
                 .WithSample_CountryAttributeEntries()
                 .WithSample_MarketIndexGraph()
-                .WithSample_InvestmentStrategyGraph();
+                .WithSample_InvestmentStrategyGraph()
+                .WithSample_SecurityGraph();
         }
 
         /// <inheritdoc/>
