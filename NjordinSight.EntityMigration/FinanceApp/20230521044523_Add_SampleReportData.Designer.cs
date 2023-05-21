@@ -12,8 +12,8 @@ using NjordinSight.EntityModel.Context;
 namespace NjordinSight.EntityMigration.FinanceApp
 {
     [DbContext(typeof(FinanceDbContext))]
-    [Migration("20230521044523_Add_SammpleReportData")]
-    partial class Add_SammpleReportData
+    [Migration("20230521044523_Add_SampleReportData")]
+    partial class Add_SampleReportData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
