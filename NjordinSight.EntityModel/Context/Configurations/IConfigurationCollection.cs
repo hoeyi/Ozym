@@ -512,7 +512,8 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 new(){ CountryId = -845, DisplayName = "Yemen", IsoCode3 = "YEM" },
                 new(){ CountryId = -846, DisplayName = "Zambia", IsoCode3 = "ZMB" },
                 new(){ CountryId = -847, DisplayName = "Zimbabwe", IsoCode3 = "ZWE" },
-                new(){ CountryId = -848, DisplayName = "Åland Islands", IsoCode3 = "ALA" }
+                new(){ CountryId = -848, DisplayName = "Åland Islands", IsoCode3 = "ALA" },
+                new(){ CountryId = -849, DisplayName = "Miscellaneous", IsoCode3 = "MSC"}
             };
 
             _configurationCollection.AddConfiguration(
