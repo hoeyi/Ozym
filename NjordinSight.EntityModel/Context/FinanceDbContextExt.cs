@@ -57,7 +57,10 @@ namespace NjordinSight.EntityModel.Context
                 .WithSample_SecurityGraph()
                 .WithSample_ReportConfiguration()
                 .WithSample_ReportStyleSheet()
-                .WithSample_BankTransactionCodeGraph();
+                .WithSample_BankTransactionCodeGraph()
+                .WithSample_AccountGraph()
+                .WithSample_BankTransactionEntries()
+                .WithSample_BrokerTransactionEntries();
         }
 
         /// <inheritdoc/>
