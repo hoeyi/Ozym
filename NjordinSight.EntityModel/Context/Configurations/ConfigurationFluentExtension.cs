@@ -2528,6 +2528,61 @@ namespace NjordinSight.EntityModel.Context.Configurations
         }
 
         /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
+        /// <item><see cref="ReportStyleSheet"/></item>
+        /// </list>
+        /// Depends on <see cref="WithSample_CountryAttributeEntries(IConfigurationCollection)"/>.
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
+        public static IConfigurationCollection WithSample_ReportStyleSheet(
+            this IConfigurationCollection configurationCollection)
+        {
+            const string sourceGuid = "{9EAB0AE3-F926-4DE4-B170-46E5107F0EF2}";
+
+            var sampleStyleSheet = new ReportStyleSheet()
+            {
+                StyleSheetId = -1,
+                StyleSheetCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
+                StyleSheetDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
+                XmlDefinition = Strings.ReportStyleSheet_Sample_XmlDefinition
+            };
+
+            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
+
+            return configurationCollection;
+        }
+
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
+        /// <item><see cref="ReportConfiguration"/></item>
+        /// </list>
+        /// Depends on <see cref="WithSample_CountryAttributeEntries(IConfigurationCollection)"/>.
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
+        public static IConfigurationCollection WithSample_ReportConfiguration(
+            this IConfigurationCollection configurationCollection)
+        {
+            const string sourceGuid = "{B9C48036-8873-4A36-895B-5D936703FABF}";
+
+            var sampleStyleSheet = new ReportConfiguration()
+            {
+                ConfigurationId = -1,
+                ConfigurationCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
+                ConfigurationDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
+                XmlDefinition = Strings.ReportConfiguration_Sample_XmlDefinition
+            };
+
+            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
+
+            return configurationCollection;
+        }
+
+
+        /// <summary>
         /// Iterates over a 2D array by lower dimension to higher, returning an <see cref="IEnumerable{T}"/> 
         /// of <see cref="object"/> <see cref="Array"/> isntances representing rows of data describing one 
         /// entity in each row.
