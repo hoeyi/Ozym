@@ -57,116 +57,67 @@ namespace NjordinSight.EntityModel.Context.Configurations
         private static IEntityConfiguration<T> NewConfiguration<T>(
             string sourceGuid, params T[] entries) where T : class
             => new EntityConfiguration<T>(Guid.Parse(sourceGuid), entries);
-        
+
         /// <summary>
         /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
         /// <list type="bullet">
-        /// <item><see cref="ModelAttribute"/></item>
-        /// <item><see cref="ModelAttributeScope"/></item>
-        /// <item><see cref="ModelAttributeMember"/></item>
+        /// <item><see cref="BankTransactionCode"/></item>
+        /// <item><see cref="BankTransactionCodeAttributeMemberEntry"/></item>
         /// </list>
+        /// Depends on <see cref="WithSample_ModelAttributeGraph(IConfigurationCollection)"/>.
         /// </summary>
-        /// <param name="configurationcollection"></param>
+        /// <param name="configurationCollection"></param>
         /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
-        public static IConfigurationCollection WithSample_ModelAttributeGraph(
-            this IConfigurationCollection configurationcollection)
+        public static IConfigurationCollection WithSample_BankTransactionCodeGraph(
+            this IConfigurationCollection configurationCollection)
         {
-            const string sourceGuid = "{B86AD8A7-9A34-40C6-A96C-1A2A577D95D8}";
+            const string sourceGuid = "{4625CD57-8943-4BB3-96E8-A8AC680E7064}";
 
-            var modelAttributes = new ModelAttribute[]
+            var bankTransactionCodes = new BankTransactionCode[]
             {
-                new()
-                {
-                    AttributeId = (int)ModelAttributeEnum.AccountType,
-                    DisplayName = Strings.ModelAttribute_AccountType
-                },
-                new()
-                {
-                    AttributeId = (int)ModelAttributeEnum.BankTransactionGroup,
-                    DisplayName = Strings.ModelAttribute_BankTransactionGroup
-                },
-                new()
-                {
-                    AttributeId = (int)ModelAttributeEnum.BankTransactionType,
-                    DisplayName = Strings.ModelAttribute_BankTransactionType
-                },
-                new()
-                {
-                    AttributeId = (int)ModelAttributeEnum.Economy,
-                    DisplayName = Strings.ModelAttribute_Economy
-                }
+                new() { TransactionCodeId = -5, TransactionCode = "electricity", DisplayName = "Electricity Service" },
+                new() { TransactionCodeId = -7, TransactionCode = "media", DisplayName = "Entertainment" },
+                new() { TransactionCodeId = -9, TransactionCode = "gas", DisplayName = "Gasoline/Fuel" },
+                new() { TransactionCodeId = -12, TransactionCode = "medical", DisplayName = "Healthcare/Medical" },
+                new() { TransactionCodeId = -15, TransactionCode = "insurance", DisplayName = "Insurance" },
+                new() { TransactionCodeId = -16, TransactionCode = "internet", DisplayName = "Internet Service" },
+                new() { TransactionCodeId = -21, TransactionCode = "mortgage", DisplayName = "Mortgage/Rent" },
+                new() { TransactionCodeId = -23, TransactionCode = "dineout", DisplayName = "Restaurants/Dining" },
+                new() { TransactionCodeId = -42, TransactionCode = "salary", DisplayName = "Salary/Wages" }
             };
 
-            var modelAttributescopes = new ModelAttributeScope[]
+            var minDate = DateTime.MinValue.Date;
+
+            var bankTransactionCodeAttributes = new BankTransactionCodeAttributeMemberEntry[]
             {
-                new()
-                {
-                    AttributeId = (int)ModelAttributeEnum.AccountType,
-                    ScopeCode = ModelAttributeScopeCode.Account.ConvertToStringCode()
-                },
-                new()
-                {
-                    AttributeId = (int)ModelAttributeEnum.BankTransactionGroup,
-                    ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode()
-                },
-                new()
-                {
-                    AttributeId = (int)ModelAttributeEnum.BankTransactionType,
-                    ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode()
-                },
-                new()
-                {
-                    AttributeId = (int)ModelAttributeEnum.Economy,
-                    ScopeCode = ModelAttributeScopeCode.Country.ConvertToStringCode()
-                }
-            };
-
-            int accountTypeAttributeId = (int)ModelAttributeEnum.AccountType;
-            int bankTransactionTypeAttributeId = (int)ModelAttributeEnum.BankTransactionType;
-            int bankTransctionGroupAttributeId = (int)ModelAttributeEnum.BankTransactionGroup;
-            int economyAttributeId = (int)ModelAttributeEnum.Economy;
-
-            var modelAttributeMembers = new ModelAttributeMember[]
-            {
-                // ACCOUNT TYPE
-                new() { AttributeMemberId = -901, AttributeId = accountTypeAttributeId, DisplayName = "Student Loan", DisplayOrder = 0 },
-                new() { AttributeMemberId = -902, AttributeId = accountTypeAttributeId, DisplayName = "401(k)", DisplayOrder = 1 },
-                new() { AttributeMemberId = -903, AttributeId = accountTypeAttributeId, DisplayName = "Rollover IRA", DisplayOrder = 2 },
-                new() { AttributeMemberId = -904, AttributeId = accountTypeAttributeId, DisplayName = "Contributory IRA", DisplayOrder = 3 },
-                new() { AttributeMemberId = -905, AttributeId = accountTypeAttributeId, DisplayName = "Brokerage", DisplayOrder = 4 },
-                new() { AttributeMemberId = -906, AttributeId = accountTypeAttributeId, DisplayName = "Stock Purchase Plan", DisplayOrder = 5 },
-                new() { AttributeMemberId = -907, AttributeId = accountTypeAttributeId, DisplayName = "Checking", DisplayOrder = 6 },
-                new() { AttributeMemberId = -908, AttributeId = accountTypeAttributeId, DisplayName = "Savings", DisplayOrder = 7 },
-                new() { AttributeMemberId = -909, AttributeId = accountTypeAttributeId, DisplayName = "Credit", DisplayOrder = 8 },
-                new() { AttributeMemberId = -910, AttributeId = accountTypeAttributeId, DisplayName = "Health-Savings", DisplayOrder = 9 },
-                new() { AttributeMemberId = -911, AttributeId = accountTypeAttributeId, DisplayName = "Roth Contributory IRA", DisplayOrder = 10 },
-
                 // BANK TRANSACTION TYPE
-                new() { AttributeMemberId = -920, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Transportation", DisplayOrder = 0 },
-                new() { AttributeMemberId = -921, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Utilities", DisplayOrder = 1 },
-                new() { AttributeMemberId = -922, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Entertainment", DisplayOrder = 2 },
-                new() { AttributeMemberId = -923, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Medical", DisplayOrder = 3 },
-                new() { AttributeMemberId = -924, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Housing", DisplayOrder = 4 },
-                new() { AttributeMemberId = -925, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Restaurants/Dining", DisplayOrder = 5 },
-                new() { AttributeMemberId = -926, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Employment", DisplayOrder = 6 },
+                new() { AttributeMemberId = -921, TransactionCodeId = -5, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -922, TransactionCodeId = -7, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -920, TransactionCodeId = -9, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -923, TransactionCodeId = -12, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -924, TransactionCodeId = -15, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -921, TransactionCodeId = -16, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -924, TransactionCodeId = -21, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -925, TransactionCodeId = -23, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -926, TransactionCodeId = -42, EffectiveDate = minDate, Weight = 1M },
 
                 // BANK TRANSACTION GROUP
-                new() { AttributeMemberId = -931, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Necessary expense", DisplayOrder = 0 },
-                new() { AttributeMemberId = -932, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Discretionary expense", DisplayOrder = 1 },
-                new() { AttributeMemberId = -933, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Income", DisplayOrder = 2 },
-
-                // ECONOMY
-                new() { AttributeMemberId = -951, AttributeId = economyAttributeId, DisplayName = "Developed", DisplayOrder = 0 },
-                new() { AttributeMemberId = -952, AttributeId = economyAttributeId, DisplayName = "Emerging", DisplayOrder = 1 },
-                new() { AttributeMemberId = -953, AttributeId = economyAttributeId, DisplayName = "Frontier", DisplayOrder = 2 }
+                new() { AttributeMemberId = -931, TransactionCodeId = -5, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -932, TransactionCodeId = -7, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -9, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -12, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -15, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -16, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -21, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -932, TransactionCodeId = -23, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -933, TransactionCodeId = -42, EffectiveDate = minDate, Weight = 1M }
             };
 
-            configurationcollection
-                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributes))
-                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributescopes))
-                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributeMembers));
+            configurationCollection
+                .WithConfiguration(NewConfiguration(sourceGuid, bankTransactionCodes))
+                .WithConfiguration(NewConfiguration(sourceGuid, bankTransactionCodeAttributes));
 
-            return configurationcollection;
+            return configurationCollection;
         }
 
         /// <summary>
@@ -487,63 +438,112 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// <summary>
         /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
         /// <list type="bullet">
-        /// <item><see cref="BankTransactionCode"/></item>
-        /// <item><see cref="BankTransactionCodeAttributeMemberEntry"/></item>
+        /// <item><see cref="ModelAttribute"/></item>
+        /// <item><see cref="ModelAttributeScope"/></item>
+        /// <item><see cref="ModelAttributeMember"/></item>
         /// </list>
-        /// Depends on <see cref="WithSample_ModelAttributeGraph(IConfigurationCollection)"/>.
         /// </summary>
-        /// <param name="configurationCollection"></param>
+        /// <param name="configurationcollection"></param>
         /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
-        public static IConfigurationCollection WithSample_BankTransactionCodeGraph(
-            this IConfigurationCollection configurationCollection)
+        public static IConfigurationCollection WithSample_ModelAttributeGraph(
+            this IConfigurationCollection configurationcollection)
         {
-            const string sourceGuid = "{4625CD57-8943-4BB3-96E8-A8AC680E7064}";
+            const string sourceGuid = "{B86AD8A7-9A34-40C6-A96C-1A2A577D95D8}";
 
-            var bankTransactionCodes = new BankTransactionCode[]
+            var modelAttributes = new ModelAttribute[]
             {
-                new() { TransactionCodeId = -5, TransactionCode = "electricity", DisplayName = "Electricity Service" },
-                new() { TransactionCodeId = -7, TransactionCode = "media", DisplayName = "Entertainment" },
-                new() { TransactionCodeId = -9, TransactionCode = "gas", DisplayName = "Gasoline/Fuel" },
-                new() { TransactionCodeId = -12, TransactionCode = "medical", DisplayName = "Healthcare/Medical" },
-                new() { TransactionCodeId = -15, TransactionCode = "insurance", DisplayName = "Insurance" },
-                new() { TransactionCodeId = -16, TransactionCode = "internet", DisplayName = "Internet Service" },
-                new() { TransactionCodeId = -21, TransactionCode = "mortgage", DisplayName = "Mortgage/Rent" },
-                new() { TransactionCodeId = -23, TransactionCode = "dineout", DisplayName = "Restaurants/Dining" },
-                new() { TransactionCodeId = -42, TransactionCode = "salary", DisplayName = "Salary/Wages" }
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.AccountType,
+                    DisplayName = Strings.ModelAttribute_AccountType
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionGroup,
+                    DisplayName = Strings.ModelAttribute_BankTransactionGroup
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionType,
+                    DisplayName = Strings.ModelAttribute_BankTransactionType
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.Economy,
+                    DisplayName = Strings.ModelAttribute_Economy
+                }
             };
 
-            var minDate = DateTime.MinValue.Date;
-
-            var bankTransactionCodeAttributes = new BankTransactionCodeAttributeMemberEntry[]
+            var modelAttributescopes = new ModelAttributeScope[]
             {
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.AccountType,
+                    ScopeCode = ModelAttributeScopeCode.Account.ConvertToStringCode()
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionGroup,
+                    ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode()
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionType,
+                    ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode()
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.Economy,
+                    ScopeCode = ModelAttributeScopeCode.Country.ConvertToStringCode()
+                }
+            };
+
+            int accountTypeAttributeId = (int)ModelAttributeEnum.AccountType;
+            int bankTransactionTypeAttributeId = (int)ModelAttributeEnum.BankTransactionType;
+            int bankTransctionGroupAttributeId = (int)ModelAttributeEnum.BankTransactionGroup;
+            int economyAttributeId = (int)ModelAttributeEnum.Economy;
+
+            var modelAttributeMembers = new ModelAttributeMember[]
+            {
+                // ACCOUNT TYPE
+                new() { AttributeMemberId = -901, AttributeId = accountTypeAttributeId, DisplayName = "Student Loan", DisplayOrder = 0 },
+                new() { AttributeMemberId = -902, AttributeId = accountTypeAttributeId, DisplayName = "401(k)", DisplayOrder = 1 },
+                new() { AttributeMemberId = -903, AttributeId = accountTypeAttributeId, DisplayName = "Rollover IRA", DisplayOrder = 2 },
+                new() { AttributeMemberId = -904, AttributeId = accountTypeAttributeId, DisplayName = "Contributory IRA", DisplayOrder = 3 },
+                new() { AttributeMemberId = -905, AttributeId = accountTypeAttributeId, DisplayName = "Brokerage", DisplayOrder = 4 },
+                new() { AttributeMemberId = -906, AttributeId = accountTypeAttributeId, DisplayName = "Stock Purchase Plan", DisplayOrder = 5 },
+                new() { AttributeMemberId = -907, AttributeId = accountTypeAttributeId, DisplayName = "Checking", DisplayOrder = 6 },
+                new() { AttributeMemberId = -908, AttributeId = accountTypeAttributeId, DisplayName = "Savings", DisplayOrder = 7 },
+                new() { AttributeMemberId = -909, AttributeId = accountTypeAttributeId, DisplayName = "Credit", DisplayOrder = 8 },
+                new() { AttributeMemberId = -910, AttributeId = accountTypeAttributeId, DisplayName = "Health-Savings", DisplayOrder = 9 },
+                new() { AttributeMemberId = -911, AttributeId = accountTypeAttributeId, DisplayName = "Roth Contributory IRA", DisplayOrder = 10 },
+
                 // BANK TRANSACTION TYPE
-                new() { AttributeMemberId = -921, TransactionCodeId = -5, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -922, TransactionCodeId = -7, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -920, TransactionCodeId = -9, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -923, TransactionCodeId = -12, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -924, TransactionCodeId = -15, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -921, TransactionCodeId = -16, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -924, TransactionCodeId = -21, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -925, TransactionCodeId = -23, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -926, TransactionCodeId = -42, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -920, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Transportation", DisplayOrder = 0 },
+                new() { AttributeMemberId = -921, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Utilities", DisplayOrder = 1 },
+                new() { AttributeMemberId = -922, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Entertainment", DisplayOrder = 2 },
+                new() { AttributeMemberId = -923, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Medical", DisplayOrder = 3 },
+                new() { AttributeMemberId = -924, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Housing", DisplayOrder = 4 },
+                new() { AttributeMemberId = -925, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Restaurants/Dining", DisplayOrder = 5 },
+                new() { AttributeMemberId = -926, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Employment", DisplayOrder = 6 },
 
                 // BANK TRANSACTION GROUP
-                new() { AttributeMemberId = -931, TransactionCodeId = -5, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -932, TransactionCodeId = -7, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -931, TransactionCodeId = -9, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -931, TransactionCodeId = -12, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -931, TransactionCodeId = -15, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -931, TransactionCodeId = -16, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -931, TransactionCodeId = -21, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -932, TransactionCodeId = -23, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -933, TransactionCodeId = -42, EffectiveDate = minDate, Weight = 1M }
+                new() { AttributeMemberId = -931, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Necessary expense", DisplayOrder = 0 },
+                new() { AttributeMemberId = -932, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Discretionary expense", DisplayOrder = 1 },
+                new() { AttributeMemberId = -933, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Income", DisplayOrder = 2 },
+
+                // ECONOMY
+                new() { AttributeMemberId = -951, AttributeId = economyAttributeId, DisplayName = "Developed", DisplayOrder = 0 },
+                new() { AttributeMemberId = -952, AttributeId = economyAttributeId, DisplayName = "Emerging", DisplayOrder = 1 },
+                new() { AttributeMemberId = -953, AttributeId = economyAttributeId, DisplayName = "Frontier", DisplayOrder = 2 }
             };
 
-            configurationCollection
-                .WithConfiguration(NewConfiguration(sourceGuid, bankTransactionCodes))
-                .WithConfiguration(NewConfiguration(sourceGuid, bankTransactionCodeAttributes));
+            configurationcollection
+                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributes))
+                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributescopes))
+                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributeMembers));
 
-            return configurationCollection;
+            return configurationcollection;
         }
 
         /// <summary>
@@ -584,6 +584,59 @@ namespace NjordinSight.EntityModel.Context.Configurations
             configurationCollection
                 .WithConfiguration(NewConfiguration(sourceGuid, investmentModels))
                 .WithConfiguration(NewConfiguration(sourceGuid, modelTargets));
+
+            return configurationCollection;
+        }
+
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
+        /// <item><see cref="ReportConfiguration"/></item>
+        /// </list>
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
+        public static IConfigurationCollection WithSample_ReportConfiguration(
+            this IConfigurationCollection configurationCollection)
+        {
+            const string sourceGuid = "{B9C48036-8873-4A36-895B-5D936703FABF}";
+
+            var sampleStyleSheet = new ReportConfiguration()
+            {
+                ConfigurationId = -1,
+                ConfigurationCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
+                ConfigurationDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
+                XmlDefinition = Strings.ReportConfiguration_Sample_XmlDefinition
+            };
+
+            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
+
+            return configurationCollection;
+        }
+
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
+        /// <item><see cref="ReportStyleSheet"/></item>
+        /// </list>
+        /// Depends on <see cref="WithSample_CountryAttributeEntries(IConfigurationCollection)"/>.
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
+        public static IConfigurationCollection WithSample_ReportStyleSheet(
+            this IConfigurationCollection configurationCollection)
+        {
+            const string sourceGuid = "{9EAB0AE3-F926-4DE4-B170-46E5107F0EF2}";
+
+            var sampleStyleSheet = new ReportStyleSheet()
+            {
+                StyleSheetId = -1,
+                StyleSheetCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
+                StyleSheetDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
+                XmlDefinition = Strings.ReportStyleSheet_Sample_XmlDefinition
+            };
+
+            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
 
             return configurationCollection;
         }
@@ -2555,59 +2608,6 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 .WithConfiguration(NewConfiguration(sourceGuid, symbols))
                 .WithConfiguration(NewConfiguration(sourceGuid, securityAttributes))
                 .WithConfiguration(NewConfiguration(sourceGuid, securityPrices));
-
-            return configurationCollection;
-        }
-
-        /// <summary>
-        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
-        /// <list type="bullet">
-        /// <item><see cref="ReportConfiguration"/></item>
-        /// </list>
-        /// </summary>
-        /// <param name="configurationCollection"></param>
-        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
-        public static IConfigurationCollection WithSample_ReportConfiguration(
-            this IConfigurationCollection configurationCollection)
-        {
-            const string sourceGuid = "{B9C48036-8873-4A36-895B-5D936703FABF}";
-
-            var sampleStyleSheet = new ReportConfiguration()
-            {
-                ConfigurationId = -1,
-                ConfigurationCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
-                ConfigurationDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
-                XmlDefinition = Strings.ReportConfiguration_Sample_XmlDefinition
-            };
-
-            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
-
-            return configurationCollection;
-        }
-
-        /// <summary>
-        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
-        /// <list type="bullet">
-        /// <item><see cref="ReportStyleSheet"/></item>
-        /// </list>
-        /// Depends on <see cref="WithSample_CountryAttributeEntries(IConfigurationCollection)"/>.
-        /// </summary>
-        /// <param name="configurationCollection"></param>
-        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
-        public static IConfigurationCollection WithSample_ReportStyleSheet(
-            this IConfigurationCollection configurationCollection)
-        {
-            const string sourceGuid = "{9EAB0AE3-F926-4DE4-B170-46E5107F0EF2}";
-
-            var sampleStyleSheet = new ReportStyleSheet()
-            {
-                StyleSheetId = -1,
-                StyleSheetCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
-                StyleSheetDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
-                XmlDefinition = Strings.ReportStyleSheet_Sample_XmlDefinition
-            };
-
-            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
 
             return configurationCollection;
         }
