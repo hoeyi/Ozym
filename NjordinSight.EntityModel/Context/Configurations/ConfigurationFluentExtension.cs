@@ -484,19 +484,20 @@ namespace NjordinSight.EntityModel.Context.Configurations
             return configurationCollection;
         }
 
-
         /// <summary>
         /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
         /// <list type="bullet">
         /// <item><see cref="BankTransactionCode"/></item>
         /// <item><see cref="BankTransactionCodeAttributeMemberEntry"/></item>
         /// </list>
+        /// Depends on <see cref="WithSample_ModelAttributeGraph(IConfigurationCollection)"/>.
         /// </summary>
         /// <param name="configurationCollection"></param>
         /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
         public static IConfigurationCollection WithSample_BankTransactionCodeGraph(
             this IConfigurationCollection configurationCollection)
         {
+            const string sourceGuid = "{4625CD57-8943-4BB3-96E8-A8AC680E7064}";
 
             var bankTransactionCodes = new BankTransactionCode[]
             {
@@ -506,10 +507,41 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 new() { TransactionCodeId = -12, TransactionCode = "medical", DisplayName = "Healthcare/Medical" },
                 new() { TransactionCodeId = -15, TransactionCode = "insurance", DisplayName = "Insurance" },
                 new() { TransactionCodeId = -16, TransactionCode = "internet", DisplayName = "Internet Service" },
-                new() { TransactionCodeId = -21, TransactionCode = "mortgage/rent", DisplayName = "Mortgage/Rent" },
+                new() { TransactionCodeId = -21, TransactionCode = "mortgage", DisplayName = "Mortgage/Rent" },
                 new() { TransactionCodeId = -23, TransactionCode = "dineout", DisplayName = "Restaurants/Dining" },
                 new() { TransactionCodeId = -42, TransactionCode = "salary", DisplayName = "Salary/Wages" }
             };
+
+            var minDate = DateTime.MinValue.Date;
+
+            var bankTransactionCodeAttributes = new BankTransactionCodeAttributeMemberEntry[]
+            {
+                // BANK TRANSACTION TYPE
+                new() { AttributeMemberId = -921, TransactionCodeId = -5, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -922, TransactionCodeId = -7, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -920, TransactionCodeId = -9, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -923, TransactionCodeId = -12, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -924, TransactionCodeId = -15, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -921, TransactionCodeId = -16, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -924, TransactionCodeId = -21, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -925, TransactionCodeId = -23, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -926, TransactionCodeId = -42, EffectiveDate = minDate, Weight = 1M },
+
+                // BANK TRANSACTION GROUP
+                new() { AttributeMemberId = -931, TransactionCodeId = -5, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -932, TransactionCodeId = -7, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -9, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -12, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -15, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -16, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -21, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -932, TransactionCodeId = -23, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -933, TransactionCodeId = -42, EffectiveDate = minDate, Weight = 1M }
+            };
+
+            configurationCollection
+                .WithConfiguration(NewConfiguration(sourceGuid, bankTransactionCodes))
+                .WithConfiguration(NewConfiguration(sourceGuid, bankTransactionCodeAttributes));
 
             return configurationCollection;
         }
@@ -2530,6 +2562,32 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// <summary>
         /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
         /// <list type="bullet">
+        /// <item><see cref="ReportConfiguration"/></item>
+        /// </list>
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
+        public static IConfigurationCollection WithSample_ReportConfiguration(
+            this IConfigurationCollection configurationCollection)
+        {
+            const string sourceGuid = "{B9C48036-8873-4A36-895B-5D936703FABF}";
+
+            var sampleStyleSheet = new ReportConfiguration()
+            {
+                ConfigurationId = -1,
+                ConfigurationCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
+                ConfigurationDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
+                XmlDefinition = Strings.ReportConfiguration_Sample_XmlDefinition
+            };
+
+            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
+
+            return configurationCollection;
+        }
+
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
         /// <item><see cref="ReportStyleSheet"/></item>
         /// </list>
         /// Depends on <see cref="WithSample_CountryAttributeEntries(IConfigurationCollection)"/>.
@@ -2553,34 +2611,6 @@ namespace NjordinSight.EntityModel.Context.Configurations
 
             return configurationCollection;
         }
-
-        /// <summary>
-        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
-        /// <list type="bullet">
-        /// <item><see cref="ReportConfiguration"/></item>
-        /// </list>
-        /// Depends on <see cref="WithSample_CountryAttributeEntries(IConfigurationCollection)"/>.
-        /// </summary>
-        /// <param name="configurationCollection"></param>
-        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
-        public static IConfigurationCollection WithSample_ReportConfiguration(
-            this IConfigurationCollection configurationCollection)
-        {
-            const string sourceGuid = "{B9C48036-8873-4A36-895B-5D936703FABF}";
-
-            var sampleStyleSheet = new ReportConfiguration()
-            {
-                ConfigurationId = -1,
-                ConfigurationCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
-                ConfigurationDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
-                XmlDefinition = Strings.ReportConfiguration_Sample_XmlDefinition
-            };
-
-            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
-
-            return configurationCollection;
-        }
-
 
         /// <summary>
         /// Iterates over a 2D array by lower dimension to higher, returning an <see cref="IEnumerable{T}"/> 
