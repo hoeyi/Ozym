@@ -88,11 +88,47 @@ namespace NjordinSight.EntityModel.Context {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Null references in this parameter are not permitted. (Paramter: {0}).
+        /// </summary>
+        internal static string EntityConfiguration_Exception_NullEntryNotPermitted {
+            get {
+                return ResourceManager.GetString("EntityConfiguration_Exception_NullEntryNotPermitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Type.
+        /// </summary>
+        internal static string ModelAttribute_AccountType {
+            get {
+                return ResourceManager.GetString("ModelAttribute_AccountType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Asset Class.
         /// </summary>
         internal static string ModelAttribute_AssetClass {
             get {
                 return ResourceManager.GetString("ModelAttribute_AssetClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Group.
+        /// </summary>
+        internal static string ModelAttribute_BankTransactionGroup {
+            get {
+                return ResourceManager.GetString("ModelAttribute_BankTransactionGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Type.
+        /// </summary>
+        internal static string ModelAttribute_BankTransactionType {
+            get {
+                return ResourceManager.GetString("ModelAttribute_BankTransactionType", resourceCulture);
             }
         }
         
@@ -124,6 +160,15 @@ namespace NjordinSight.EntityModel.Context {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Economy.
+        /// </summary>
+        internal static string ModelAttribute_Economy {
+            get {
+                return ResourceManager.GetString("ModelAttribute_Economy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Security Type.
         /// </summary>
         internal static string ModelAttribute_SecurityType {
@@ -138,6 +183,64 @@ namespace NjordinSight.EntityModel.Context {
         internal static string ModelAttribute_SecurityTypeGroup {
             get {
                 return ResourceManager.GetString("ModelAttribute_SecurityTypeGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string ReportConfiguration_Sample_ConfigurationCode {
+            get {
+                return ResourceManager.GetString("ReportConfiguration_Sample_ConfigurationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard report paramters..
+        /// </summary>
+        internal static string ReportConfiguration_Sample_ConfigurationDescription {
+            get {
+                return ResourceManager.GetString("ReportConfiguration_Sample_ConfigurationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;ReportConfiguration xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;&lt;Settings&gt;&lt;Setting Name=&quot;CurrencyPrecision&quot; Label=&quot;Currency Precision&quot; Value=&quot;c&quot; /&gt;&lt;Setting Name=&quot;IncludeClosed&quot; Label=&quot;Include Closed&quot; Value=&quot;false&quot; /&gt;&lt;Setting Name=&quot;TradableAccountsOnly&quot; Label=&quot;Tradable Accounts Only&quot; Value=&quot;true&quot; /&gt;&lt;Setting Name=&quot;Theme&quot; Label=&quot;Theme&quot; Value=&quot;Default&quot; /&gt;&lt;/Settings&gt;&lt;/ReportConfiguration&gt;.
+        /// </summary>
+        internal static string ReportConfiguration_Sample_XmlDefinition {
+            get {
+                return ResourceManager.GetString("ReportConfiguration_Sample_XmlDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string ReportStyleSheet_Sample_StyleSheetCode {
+            get {
+                return ResourceManager.GetString("ReportStyleSheet_Sample_StyleSheetCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard style sheet for report content..
+        /// </summary>
+        internal static string ReportStyleSheet_Sample_StyleSheetDescription {
+            get {
+                return ResourceManager.GetString("ReportStyleSheet_Sample_StyleSheetDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;StyleSheet xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+        ///  &lt;Fonts&gt;
+        ///    &lt;Font Name=&quot;TableGroupHeader&quot; FontFamily=&quot;Arial&quot; FontWeight=&quot;Bold&quot; TextDecoration=&quot;Default&quot; FontStyle=&quot;Default&quot; FontSize=&quot;8pt&quot; Color=&quot;gray5&quot; BackColor=&quot;blue&quot; /&gt;
+        ///    &lt;Font Name=&quot;TableSubGroupHeader&quot; FontFamily=&quot;Arial&quot; FontWeight=&quot;SemiBold&quot; TextDecoration=&quot;Default&quot; FontStyle=&quot;Default&quot; FontSize=&quot;8pt&quot; Color=&quot;gray1&quot; BackColor=&quot;No Color&quot; /&gt;
+        ///    &lt;Font Name=&quot;TableColumnHeader&quot; FontFamily [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ReportStyleSheet_Sample_XmlDefinition {
+            get {
+                return ResourceManager.GetString("ReportStyleSheet_Sample_XmlDefinition", resourceCulture);
             }
         }
     }

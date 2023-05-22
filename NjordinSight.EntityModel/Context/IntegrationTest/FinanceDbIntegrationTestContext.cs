@@ -363,7 +363,7 @@ namespace NjordinSight.EntityModel.Context.IntegrationTest
             {
                 new(){ AttributeId = -1, DisplayName = "Test delete pass" },
                 new(){ AttributeId = -2, DisplayName = "Test update pass" },
-                new(){ AttributeId = -3, DisplayName = "Account Type" },
+                new(){ AttributeId = -3, DisplayName = "Account Type_" },
                 new(){ AttributeId = -4, DisplayName = "Economic Development" },
                 new(){ AttributeId = -5, DisplayName = "Class" },
                 new(){ AttributeId = -6, DisplayName = "Category" }
@@ -713,17 +713,17 @@ namespace NjordinSight.EntityModel.Context.IntegrationTest
                 {
                     new()
                     {
-                        AttributeMemberId = -10, AttributeId = -3, DisplayName = "IRA",
+                        AttributeMemberId = -10, AttributeId = -3, DisplayName = "IRA_",
                         DisplayOrder = 0
                     },
                     new()
                     {
-                        AttributeMemberId = -11, AttributeId = -3, DisplayName = "ROTH",
+                        AttributeMemberId = -11, AttributeId = -3, DisplayName = "ROTH_",
                         DisplayOrder = 1
                     },
                     new()
                     {
-                        AttributeMemberId = -12, AttributeId = -3, DisplayName = "401K",
+                        AttributeMemberId = -12, AttributeId = -3, DisplayName = "401K_",
                         DisplayOrder = 2
                     },
                     new()

@@ -7,11 +7,9 @@ if "%1"=="" goto missingparameter
 REM Define context migration event.
 set migration=%1
 
-REM Add the migration. Reference the FinanceDbContext with fully-qualified namespace.
-dotnet ef migrations add %migration% ^
+dotnet ef database update %migration% ^
 	--context NjordinSight.EntityModel.Context.FinanceDbContext ^
 	--startup-project ..\NjordinSight.Web\NjordinSight.Web.csproj ^
-	--project ..\NjordinSight.EntityMigration\NjordinSight.EntityMigration.csproj ^
-	--output-dir FinanceApp
+	--project ..\NjordinSight.EntityMigration\NjordinSight.EntityMigration.csproj
 
 cd ..\

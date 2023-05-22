@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NjordinSight.EntityModel.Context;
 
 #nullable disable
 
-namespace NjordinSight.EntityMigration.Migrations
+namespace NjordinSight.EntityMigration.FinanceApp
 {
     [DbContext(typeof(FinanceDbContext))]
-    partial class FinanceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230522233552_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,8 +26,6 @@ namespace NjordinSight.EntityMigration.Migrations
 
             modelBuilder.HasSequence("seqAuditEventID", "FinanceApp")
                 .HasMin(1L);
-
-            modelBuilder.HasSequence<int>("seqModelAttributeMember", "FinanceApp");
 
             modelBuilder.Entity("NjordinSight.EntityModel.Account", b =>
                 {
@@ -2436,6 +2436,12 @@ namespace NjordinSight.EntityMigration.Migrations
                             CountryId = -848,
                             DisplayName = "Åland Islands",
                             IsoCode3 = "ALA"
+                        },
+                        new
+                        {
+                            CountryId = -849,
+                            DisplayName = "Miscellaneous",
+                            IsoCode3 = "MSC"
                         });
                 });
 
@@ -4825,6 +4831,13 @@ namespace NjordinSight.EntityMigration.Migrations
                         },
                         new
                         {
+                            AttributeMemberId = -849,
+                            AttributeId = -60,
+                            DisplayName = "MSC",
+                            DisplayOrder = (short)249
+                        },
+                        new
+                        {
                             AttributeMemberId = -200,
                             AttributeId = -20,
                             DisplayName = "Individual Stocks",
@@ -4848,7 +4861,7 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             AttributeMemberId = -203,
                             AttributeId = -20,
-                            DisplayName = "Fixed Icome Funds & ETFs",
+                            DisplayName = "Fixed Income Funds & ETFs",
                             DisplayOrder = (short)3
                         },
                         new
@@ -5115,6 +5128,16 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             AttributeId = -50,
                             ScopeCode = "brk"
+                        },
+                        new
+                        {
+                            AttributeId = -60,
+                            ScopeCode = "cus"
+                        },
+                        new
+                        {
+                            AttributeId = -60,
+                            ScopeCode = "exc"
                         },
                         new
                         {
@@ -5877,7 +5900,7 @@ namespace NjordinSight.EntityMigration.Migrations
                         {
                             SecurityTypeGroupId = -203,
                             DepositSource = false,
-                            SecurityTypeGroupName = "Fixed Icome Funds & ETFs",
+                            SecurityTypeGroupName = "Fixed Income Funds & ETFs",
                             Transactable = true
                         },
                         new

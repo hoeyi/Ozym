@@ -129,8 +129,21 @@
     <comment>{0} is the type being inspected
 {1} is the attribute use to signal a key or key element</comment>
   </data>
+  <data name="EntityConfiguration_Exception_NullEntryNotPermitted" xml:space="preserve">
+    <value>Null references in this parameter are not permitted. (Paramter: {0})</value>
+    <comment>{0} is the name of the parameter</comment>
+  </data>
+  <data name="ModelAttribute_AccountType" xml:space="preserve">
+    <value>Account Type</value>
+  </data>
   <data name="ModelAttribute_AssetClass" xml:space="preserve">
     <value>Asset Class</value>
+  </data>
+  <data name="ModelAttribute_BankTransactionGroup" xml:space="preserve">
+    <value>Transaction Group</value>
+  </data>
+  <data name="ModelAttribute_BankTransactionType" xml:space="preserve">
+    <value>Transaction Type</value>
   </data>
   <data name="ModelAttribute_BrokerTransactionCategory" xml:space="preserve">
     <value>Transaction Category</value>
@@ -141,10 +154,64 @@
   <data name="ModelAttribute_CountryExposure" xml:space="preserve">
     <value>Country Exposure</value>
   </data>
+  <data name="ModelAttribute_Economy" xml:space="preserve">
+    <value>Economy</value>
+  </data>
   <data name="ModelAttribute_SecurityType" xml:space="preserve">
     <value>Security Type</value>
   </data>
   <data name="ModelAttribute_SecurityTypeGroup" xml:space="preserve">
     <value>Security Type Group</value>
+  </data>
+  <data name="ReportConfiguration_Sample_ConfigurationCode" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="ReportConfiguration_Sample_ConfigurationDescription" xml:space="preserve">
+    <value>Standard report paramters.</value>
+  </data>
+  <data name="ReportConfiguration_Sample_XmlDefinition" xml:space="preserve">
+    <value>&lt;ReportConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;&lt;Settings&gt;&lt;Setting Name="CurrencyPrecision" Label="Currency Precision" Value="c" /&gt;&lt;Setting Name="IncludeClosed" Label="Include Closed" Value="false" /&gt;&lt;Setting Name="TradableAccountsOnly" Label="Tradable Accounts Only" Value="true" /&gt;&lt;Setting Name="Theme" Label="Theme" Value="Default" /&gt;&lt;/Settings&gt;&lt;/ReportConfiguration&gt;</value>
+  </data>
+  <data name="ReportStyleSheet_Sample_StyleSheetCode" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="ReportStyleSheet_Sample_StyleSheetDescription" xml:space="preserve">
+    <value>Standard style sheet for report content.</value>
+  </data>
+  <data name="ReportStyleSheet_Sample_XmlDefinition" xml:space="preserve">
+    <value>&lt;StyleSheet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;Fonts&gt;
+    &lt;Font Name="TableGroupHeader" FontFamily="Arial" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray5" BackColor="blue" /&gt;
+    &lt;Font Name="TableSubGroupHeader" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="TableColumnHeader" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="TableCell" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="ChartAxisLabel" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="7pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="ChartTitle" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="12pt" Color="blue" BackColor="No Color" /&gt;
+    &lt;Font Name="ReportParameter" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Italic" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="ReportTitle" FontFamily="Cambria" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="14pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="ChartLegend" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="TableCellSubTotal" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="TableCellTotal" FontFamily="Arial" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="ReportPageNumber" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="7pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="TableDefault" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="ReportDefault" FontFamily="Arial" FontWeight="Default" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray1" BackColor="No Color" /&gt;
+    &lt;Font Name="TableTotalRow" FontFamily="Arial" FontWeight="Bold" TextDecoration="Default" FontStyle="Default" FontSize="8pt" Color="gray5" BackColor="blue" /&gt;
+    &lt;Font Name="ChartSeriesLabel" FontFamily="Arial" FontWeight="SemiBold" TextDecoration="Default" FontStyle="Default" FontSize="7pt" Color="gray1" BackColor="No Color" /&gt;
+  &lt;/Fonts&gt;
+  &lt;Colors&gt;
+    &lt;Color Name="gray0" HexCode="#191919" /&gt;
+    &lt;Color Name="gray1" HexCode="#212121" /&gt;
+    &lt;Color Name="gray2" HexCode="#303030" /&gt;
+    &lt;Color Name="gray3" HexCode="#424242" /&gt;
+    &lt;Color Name="gray4" HexCode="#D2D2D2" /&gt;
+    &lt;Color Name="gray5" HexCode="#E6E6E6" /&gt;
+    &lt;Color Name="blue" HexCode="#0E2C39" /&gt;
+    &lt;Color Name="yellow" HexCode="#5B4713" /&gt;
+    &lt;Color Name="green" HexCode="#0E391B" /&gt;
+    &lt;Color Name="red" HexCode="#5B2113" /&gt;
+  &lt;/Colors&gt;
+  &lt;DefaultFont BackColor="No Color" Color="#000000" Name="default" Decoration="Default" Size="8pt" Weight="Default" Style="Default" Family="Arial" /&gt;
+  &lt;AlphaBlendHexCode&gt;#ffffff&lt;/AlphaBlendHexCode&gt;
+&lt;/StyleSheet&gt;</value>
   </data>
 </root>

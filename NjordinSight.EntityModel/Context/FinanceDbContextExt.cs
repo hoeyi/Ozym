@@ -49,6 +49,19 @@ namespace NjordinSight.EntityModel.Context
         /// additional configuration steps are applied.</param>
         protected virtual void ApplyConfigurationModifications(IConfigurationCollection targetCollection)
         {
+            targetCollection
+                .WithSample_ModelAttributeGraph()
+                .WithSample_CountryAttributeEntries()
+                .WithSample_MarketIndexGraph()
+                .WithSample_InvestmentStrategyGraph()
+                .WithSample_SecurityGraph()
+                .WithSample_ReportConfiguration()
+                .WithSample_ReportStyleSheet()
+                .WithSample_BankTransactionCodeGraph()
+                .WithSample_AccountGraph()
+                .WithSample_BankTransactionEntries()
+                .WithSample_BrokerTransactionEntries()
+                .WithSample_InvestmentPerformanceEntries();
         }
 
         /// <inheritdoc/>
