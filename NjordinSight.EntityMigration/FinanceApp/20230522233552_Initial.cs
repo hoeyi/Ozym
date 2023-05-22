@@ -1064,6 +1064,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "AttributeMemberID", "AttributeID", "DisplayName", "DisplayOrder" },
                 values: new object[,]
                 {
+                    { -849, -60, "MSC", (short)249 },
                     { -848, -60, "ALA", (short)248 },
                     { -847, -60, "ZWE", (short)247 },
                     { -846, -60, "ZMB", (short)246 },
@@ -1095,8 +1096,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -820, -60, "TLS", (short)220 },
                     { -819, -60, "THA", (short)219 },
                     { -818, -60, "TZA", (short)218 },
-                    { -817, -60, "TJK", (short)217 },
-                    { -816, -60, "TWN", (short)216 }
+                    { -817, -60, "TJK", (short)217 }
                 });
 
             migrationBuilder.InsertData(
@@ -1105,6 +1105,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "AttributeMemberID", "AttributeID", "DisplayName", "DisplayOrder" },
                 values: new object[,]
                 {
+                    { -816, -60, "TWN", (short)216 },
                     { -815, -60, "SYR", (short)215 },
                     { -814, -60, "CHE", (short)214 },
                     { -813, -60, "SWE", (short)213 },
@@ -1145,8 +1146,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -778, -60, "PRI", (short)178 },
                     { -777, -60, "PRT", (short)177 },
                     { -776, -60, "POL", (short)176 },
-                    { -775, -60, "PCN", (short)175 },
-                    { -774, -60, "PHL", (short)174 }
+                    { -775, -60, "PCN", (short)175 }
                 });
 
             migrationBuilder.InsertData(
@@ -1155,6 +1155,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "AttributeMemberID", "AttributeID", "DisplayName", "DisplayOrder" },
                 values: new object[,]
                 {
+                    { -774, -60, "PHL", (short)174 },
                     { -773, -60, "PER", (short)173 },
                     { -772, -60, "PRY", (short)172 },
                     { -771, -60, "PNG", (short)171 },
@@ -1195,8 +1196,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -736, -60, "MLI", (short)136 },
                     { -735, -60, "MDV", (short)135 },
                     { -734, -60, "MYS", (short)134 },
-                    { -733, -60, "MWI", (short)133 },
-                    { -732, -60, "MDG", (short)132 }
+                    { -733, -60, "MWI", (short)133 }
                 });
 
             migrationBuilder.InsertData(
@@ -1205,6 +1205,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "AttributeMemberID", "AttributeID", "DisplayName", "DisplayOrder" },
                 values: new object[,]
                 {
+                    { -732, -60, "MDG", (short)132 },
                     { -731, -60, "MKD", (short)131 },
                     { -730, -60, "MAC", (short)130 },
                     { -729, -60, "LUX", (short)129 },
@@ -1245,8 +1246,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -694, -60, "GUY", (short)94 },
                     { -693, -60, "GNB", (short)93 },
                     { -692, -60, "GIN", (short)92 },
-                    { -691, -60, "GGY", (short)91 },
-                    { -690, -60, "GTM", (short)90 }
+                    { -691, -60, "GGY", (short)91 }
                 });
 
             migrationBuilder.InsertData(
@@ -1255,6 +1255,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "AttributeMemberID", "AttributeID", "DisplayName", "DisplayOrder" },
                 values: new object[,]
                 {
+                    { -690, -60, "GTM", (short)90 },
                     { -689, -60, "GUM", (short)89 },
                     { -688, -60, "GLP", (short)88 },
                     { -687, -60, "GRD", (short)87 },
@@ -1295,8 +1296,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -652, -60, "CRI", (short)52 },
                     { -651, -60, "COK", (short)51 },
                     { -650, -60, "COG", (short)50 },
-                    { -649, -60, "COD", (short)49 },
-                    { -648, -60, "COM", (short)48 }
+                    { -649, -60, "COD", (short)49 }
                 });
 
             migrationBuilder.InsertData(
@@ -1305,6 +1305,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "AttributeMemberID", "AttributeID", "DisplayName", "DisplayOrder" },
                 values: new object[,]
                 {
+                    { -648, -60, "COM", (short)48 },
                     { -647, -60, "COL", (short)47 },
                     { -646, -60, "CCK", (short)46 },
                     { -645, -60, "CXR", (short)45 },
@@ -1345,8 +1346,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -610, -60, "ARM", (short)10 },
                     { -609, -60, "ARG", (short)9 },
                     { -608, -60, "ATG", (short)8 },
-                    { -607, -60, "ATA", (short)7 },
-                    { -606, -60, "AIA", (short)6 }
+                    { -607, -60, "ATA", (short)7 }
                 });
 
             migrationBuilder.InsertData(
@@ -1355,6 +1355,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "AttributeMemberID", "AttributeID", "DisplayName", "DisplayOrder" },
                 values: new object[,]
                 {
+                    { -606, -60, "AIA", (short)6 },
                     { -605, -60, "AGO", (short)5 },
                     { -604, -60, "AND", (short)4 },
                     { -603, -60, "ASM", (short)3 },
@@ -1395,8 +1396,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -310, -30, "Call Option", (short)10 },
                     { -309, -30, "Bond Mutual Fund", (short)9 },
                     { -308, -30, "Bond ETF", (short)8 },
-                    { -307, -30, "Certificate of Deposit", (short)7 },
-                    { -306, -30, "U.S. Government Bond/Bill", (short)6 }
+                    { -307, -30, "Certificate of Deposit", (short)7 }
                 });
 
             migrationBuilder.InsertData(
@@ -1405,6 +1405,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "AttributeMemberID", "AttributeID", "DisplayName", "DisplayOrder" },
                 values: new object[,]
                 {
+                    { -306, -30, "U.S. Government Bond/Bill", (short)6 },
                     { -305, -30, "Municipal Bond", (short)5 },
                     { -304, -30, "Corporate Bond", (short)4 },
                     { -303, -30, "Equity Mutual Fund", (short)3 },
@@ -1498,14 +1499,14 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "CountryID", "DisplayName", "IsoCode3" },
                 values: new object[,]
                 {
+                    { -849, "Miscellaneous", "MSC" },
                     { -848, "Åland Islands", "ALA" },
                     { -847, "Zimbabwe", "ZWE" },
                     { -846, "Zambia", "ZMB" },
                     { -845, "Yemen", "YEM" },
                     { -844, "Western Sahara", "ESH" },
                     { -843, "Wallis and Futuna", "WLF" },
-                    { -842, "Virgin Islands (U.S.)", "VIR" },
-                    { -841, "Virgin Islands (British)", "VGB" }
+                    { -842, "Virgin Islands (U.S.)", "VIR" }
                 });
 
             migrationBuilder.InsertData(
@@ -1514,6 +1515,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "CountryID", "DisplayName", "IsoCode3" },
                 values: new object[,]
                 {
+                    { -841, "Virgin Islands (British)", "VGB" },
                     { -840, "Viet Nam", "VNM" },
                     { -839, "Venezuela (Bolivarian Republic of)", "VEN" },
                     { -838, "Vanuatu", "VUT" },
@@ -1554,8 +1556,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -803, "Solomon Islands", "SLB" },
                     { -802, "Slovenia", "SVN" },
                     { -801, "Slovakia", "SVK" },
-                    { -800, "Sint Maarten (Dutch part)", "SXM" },
-                    { -799, "Singapore", "SGP" }
+                    { -800, "Sint Maarten (Dutch part)", "SXM" }
                 });
 
             migrationBuilder.InsertData(
@@ -1564,6 +1565,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "CountryID", "DisplayName", "IsoCode3" },
                 values: new object[,]
                 {
+                    { -799, "Singapore", "SGP" },
                     { -798, "Sierra Leone", "SLE" },
                     { -797, "Seychelles", "SYC" },
                     { -796, "Serbia", "SRB" },
@@ -1604,8 +1606,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -761, "Nigeria", "NGA" },
                     { -760, "Niger (the)", "NER" },
                     { -759, "Nicaragua", "NIC" },
-                    { -758, "New Zealand", "NZL" },
-                    { -757, "New Caledonia", "NCL" }
+                    { -758, "New Zealand", "NZL" }
                 });
 
             migrationBuilder.InsertData(
@@ -1614,6 +1615,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "CountryID", "DisplayName", "IsoCode3" },
                 values: new object[,]
                 {
+                    { -757, "New Caledonia", "NCL" },
                     { -756, "Netherlands (the)", "NLD" },
                     { -755, "Nepal", "NPL" },
                     { -754, "Nauru", "NRU" },
@@ -1654,8 +1656,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -719, "Kuwait", "KWT" },
                     { -718, "Korea (the Republic of)", "KOR" },
                     { -717, "Korea (the Democratic People's Republic of)", "PRK" },
-                    { -716, "Kiribati", "KIR" },
-                    { -715, "Kenya", "KEN" }
+                    { -716, "Kiribati", "KIR" }
                 });
 
             migrationBuilder.InsertData(
@@ -1664,6 +1665,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "CountryID", "DisplayName", "IsoCode3" },
                 values: new object[,]
                 {
+                    { -715, "Kenya", "KEN" },
                     { -714, "Kazakhstan", "KAZ" },
                     { -713, "Jordan", "JOR" },
                     { -712, "Jersey", "JEY" },
@@ -1704,8 +1706,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -677, "French Polynesia", "PYF" },
                     { -676, "French Guiana", "GUF" },
                     { -675, "France", "FRA" },
-                    { -674, "Finland", "FIN" },
-                    { -673, "Fiji", "FJI" }
+                    { -674, "Finland", "FIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -1714,6 +1715,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "CountryID", "DisplayName", "IsoCode3" },
                 values: new object[,]
                 {
+                    { -673, "Fiji", "FJI" },
                     { -672, "Faroe Islands (the)", "FRO" },
                     { -671, "Falkland Islands (the) [Malvinas]", "FLK" },
                     { -670, "Ethiopia", "ETH" },
@@ -1754,8 +1756,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -635, "Burundi", "BDI" },
                     { -634, "Burkina Faso", "BFA" },
                     { -633, "Bulgaria", "BGR" },
-                    { -632, "Brunei Darussalam", "BRN" },
-                    { -631, "British Indian Ocean Territory (the)", "IOT" }
+                    { -632, "Brunei Darussalam", "BRN" }
                 });
 
             migrationBuilder.InsertData(
@@ -1764,6 +1765,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 columns: new[] { "CountryID", "DisplayName", "IsoCode3" },
                 values: new object[,]
                 {
+                    { -631, "British Indian Ocean Territory (the)", "IOT" },
                     { -630, "Brazil", "BRA" },
                     { -629, "Bouvet Island", "BVT" },
                     { -628, "Botswana", "BWA" },
@@ -1812,9 +1814,14 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -206, false, "Other Funds & ETPs", true },
                     { -205, false, "Digital Assets", true },
                     { -204, false, "Option Contracts", true },
-                    { -203, false, "Fixed Income Funds & ETFs", true },
-                    { -202, false, "Individual Bonds & CDs", true }
+                    { -203, false, "Fixed Income Funds & ETFs", true }
                 });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityTypeGroup",
+                columns: new[] { "SecurityTypeGroupID", "DepositSource", "SecurityTypeGroupName", "Transactable" },
+                values: new object[] { -202, false, "Individual Bonds & CDs", true });
 
             migrationBuilder.InsertData(
                 schema: "FinanceApp",

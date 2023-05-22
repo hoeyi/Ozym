@@ -12,8 +12,8 @@ using NjordinSight.EntityModel.Context;
 namespace NjordinSight.EntityMigration.FinanceApp
 {
     [DbContext(typeof(FinanceDbContext))]
-    [Migration("20230521182936_Add_SampleBankReferenceData")]
-    partial class Add_SampleBankReferenceData
+    [Migration("20230522233722_Add_SampleData")]
+    partial class Add_SampleData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -62,6 +62,37 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     b.HasIndex(new[] { "AccountCustodianId" }, "IX_Account_AccountCustodianID");
 
                     b.ToTable("Account", "FinanceApp");
+
+                    b.HasData(
+                        new
+                        {
+                            AccountId = -10,
+                            AccountCustodianId = -1,
+                            AccountNumber = "8675309",
+                            HasBankTransaction = true,
+                            HasBrokerTransaction = false,
+                            HasWallet = false,
+                            IsComplianceTradable = false
+                        },
+                        new
+                        {
+                            AccountId = -11,
+                            AccountCustodianId = -2,
+                            AccountNumber = "4-8-15-16-23-42",
+                            HasBankTransaction = false,
+                            HasBrokerTransaction = true,
+                            HasWallet = false,
+                            IsComplianceTradable = false
+                        },
+                        new
+                        {
+                            AccountId = -12,
+                            AccountNumber = "553BF08",
+                            HasBankTransaction = false,
+                            HasBrokerTransaction = true,
+                            HasWallet = true,
+                            IsComplianceTradable = false
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.AccountAttributeMemberEntry", b =>
@@ -90,6 +121,29 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     b.HasIndex(new[] { "AttributeMemberId" }, "IX_AccountAttributeMemberEntry_AttributeMemberID");
 
                     b.ToTable("AccountAttributeMemberEntry", "FinanceApp");
+
+                    b.HasData(
+                        new
+                        {
+                            AttributeMemberId = -907,
+                            AccountObjectId = -10,
+                            EffectiveDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Weight = 1m
+                        },
+                        new
+                        {
+                            AttributeMemberId = -905,
+                            AccountObjectId = -12,
+                            EffectiveDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Weight = 1m
+                        },
+                        new
+                        {
+                            AttributeMemberId = -905,
+                            AccountObjectId = -13,
+                            EffectiveDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Weight = 1m
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.AccountComposite", b =>
@@ -101,6 +155,16 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     b.HasKey("AccountCompositeId");
 
                     b.ToTable("AccountComposite", "FinanceApp");
+
+                    b.HasData(
+                        new
+                        {
+                            AccountCompositeId = -13
+                        },
+                        new
+                        {
+                            AccountCompositeId = -14
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.AccountCompositeMember", b =>
@@ -136,6 +200,48 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     b.HasIndex(new[] { "AccountId" }, "IX_AccountCompositeMember_AccountID");
 
                     b.ToTable("AccountCompositeMember", "FinanceApp");
+
+                    b.HasData(
+                        new
+                        {
+                            AccountCompositeId = -13,
+                            AccountId = -11,
+                            EntryDate = new DateTime(2019, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Comment = "Add retirement account",
+                            DisplayOrder = 0
+                        },
+                        new
+                        {
+                            AccountCompositeId = -13,
+                            AccountId = -12,
+                            EntryDate = new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Comment = "Add crypto wallets",
+                            DisplayOrder = 0
+                        },
+                        new
+                        {
+                            AccountCompositeId = -14,
+                            AccountId = -10,
+                            EntryDate = new DateTime(2015, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Comment = "Add checking account",
+                            DisplayOrder = 0
+                        },
+                        new
+                        {
+                            AccountCompositeId = -14,
+                            AccountId = -11,
+                            EntryDate = new DateTime(2019, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Comment = "Add retirement account",
+                            DisplayOrder = 0
+                        },
+                        new
+                        {
+                            AccountCompositeId = -14,
+                            AccountId = -12,
+                            EntryDate = new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Comment = "Add crypto wallets",
+                            DisplayOrder = 0
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.AccountCustodian", b =>
@@ -168,6 +274,20 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         .HasFilter("([DisplayName] IS NOT NULL)");
 
                     b.ToTable("AccountCustodian", "FinanceApp");
+
+                    b.HasData(
+                        new
+                        {
+                            AccountCustodianId = -1,
+                            CustodianCode = "NSCU",
+                            DisplayName = "Northern Savings Credit Union"
+                        },
+                        new
+                        {
+                            AccountCustodianId = -2,
+                            CustodianCode = "TCB",
+                            DisplayName = "Tres Comas Brokerage"
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.AccountObject", b =>
@@ -221,6 +341,51 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     b.ToTable("AccountObject", "FinanceApp");
 
                     b.HasCheckConstraint("CK_AccountObject_ObjectType", "[ObjectType] IN ('c','a')");
+
+                    b.HasData(
+                        new
+                        {
+                            AccountObjectId = -10,
+                            AccountObjectCode = "DEBIT1",
+                            ObjectDescription = "Handles bill-paying and deposits.",
+                            ObjectDisplayName = "Checking Account",
+                            ObjectType = "a",
+                            StartDate = new DateTime(2015, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AccountObjectCode = "INVEST",
+                            ObjectDisplayName = "Investing account",
+                            ObjectType = "a",
+                            StartDate = new DateTime(2019, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -12,
+                            AccountObjectCode = "CRYPTO",
+                            ObjectDisplayName = "Cryptocurrency Wallets",
+                            ObjectType = "a",
+                            StartDate = new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -13,
+                            AccountObjectCode = "BROKERAGE",
+                            ObjectDescription = "Aggregates all brokerage accounts.",
+                            ObjectDisplayName = "Brokerage accounts",
+                            ObjectType = "c",
+                            StartDate = new DateTime(2019, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -14,
+                            AccountObjectCode = "ALL",
+                            ObjectDescription = "Aggregates all accounts.",
+                            ObjectDisplayName = "All accounts",
+                            ObjectType = "c",
+                            StartDate = new DateTime(2015, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.AccountWallet", b =>
@@ -259,6 +424,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         .IsUnique();
 
                     b.ToTable("AccountWallet", "FinanceApp");
+
+                    b.HasData(
+                        new
+                        {
+                            AccountWalletId = -1,
+                            AccountId = -12,
+                            AddressCode = "169 3799 590B DBDB",
+                            DenominationSecurityId = -758
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.AuditEvent", b =>
@@ -320,6 +494,1376 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     b.HasIndex(new[] { "TransactionCodeId" }, "IX_BankTransaction_TransactionCodeID");
 
                     b.ToTable("BankTransaction", "FinanceApp");
+
+                    b.HasData(
+                        new
+                        {
+                            TransactionId = -7457,
+                            AccountId = -10,
+                            Amount = -281.36m,
+                            TransactionCodeId = -12,
+                            TransactionDate = new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7458,
+                            AccountId = -10,
+                            Amount = -113.14m,
+                            TransactionCodeId = -12,
+                            TransactionDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7470,
+                            AccountId = -10,
+                            Amount = -547.58m,
+                            TransactionCodeId = -21,
+                            TransactionDate = new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7471,
+                            AccountId = -10,
+                            Amount = -967.62m,
+                            TransactionCodeId = -21,
+                            TransactionDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7472,
+                            AccountId = -10,
+                            Amount = -1468.25m,
+                            TransactionCodeId = -21,
+                            TransactionDate = new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7476,
+                            AccountId = -10,
+                            Amount = -184.59m,
+                            TransactionCodeId = -5,
+                            TransactionDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7477,
+                            AccountId = -10,
+                            Amount = -77.56m,
+                            TransactionCodeId = -5,
+                            TransactionDate = new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7482,
+                            AccountId = -10,
+                            Amount = -134.23m,
+                            TransactionCodeId = -5,
+                            TransactionDate = new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7503,
+                            AccountId = -10,
+                            Amount = 283.54m,
+                            TransactionCodeId = -42,
+                            TransactionDate = new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7509,
+                            AccountId = -10,
+                            Amount = 1138.74m,
+                            TransactionCodeId = -42,
+                            TransactionDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7510,
+                            AccountId = -10,
+                            Amount = 242.02m,
+                            TransactionCodeId = -42,
+                            TransactionDate = new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7511,
+                            AccountId = -10,
+                            Amount = 24.9m,
+                            TransactionCodeId = -42,
+                            TransactionDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7512,
+                            AccountId = -10,
+                            Amount = 433.66m,
+                            TransactionCodeId = -42,
+                            TransactionDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7513,
+                            AccountId = -10,
+                            Amount = 1992.22m,
+                            TransactionCodeId = -42,
+                            TransactionDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7514,
+                            AccountId = -10,
+                            Amount = 65.97m,
+                            TransactionCodeId = -42,
+                            TransactionDate = new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7516,
+                            AccountId = -10,
+                            Amount = 1884.41m,
+                            TransactionCodeId = -42,
+                            TransactionDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7517,
+                            AccountId = -10,
+                            Amount = -5.95m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7518,
+                            AccountId = -10,
+                            Amount = -0.31m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7519,
+                            AccountId = -10,
+                            Amount = -5.58m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7520,
+                            AccountId = -10,
+                            Amount = -3.9m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7521,
+                            AccountId = -10,
+                            Amount = -24.43m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7522,
+                            AccountId = -10,
+                            Amount = -12.95m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7523,
+                            AccountId = -10,
+                            Amount = -2.81m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7524,
+                            AccountId = -10,
+                            Amount = -1.79m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7525,
+                            AccountId = -10,
+                            Amount = -9.83m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7526,
+                            AccountId = -10,
+                            Amount = -26.73m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7527,
+                            AccountId = -10,
+                            Amount = -23.34m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7528,
+                            AccountId = -10,
+                            Amount = -4.44m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7529,
+                            AccountId = -10,
+                            Amount = -4.88m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7530,
+                            AccountId = -10,
+                            Amount = -23.64m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7531,
+                            AccountId = -10,
+                            Amount = -9.42m,
+                            TransactionCodeId = -7,
+                            TransactionDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7532,
+                            AccountId = -10,
+                            Amount = -14.07m,
+                            TransactionCodeId = -9,
+                            TransactionDate = new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7533,
+                            AccountId = -10,
+                            Amount = -20.9m,
+                            TransactionCodeId = -9,
+                            TransactionDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7534,
+                            AccountId = -10,
+                            Amount = -68m,
+                            TransactionCodeId = -9,
+                            TransactionDate = new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7567,
+                            AccountId = -10,
+                            Amount = -41.53m,
+                            TransactionCodeId = -16,
+                            TransactionDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7568,
+                            AccountId = -10,
+                            Amount = -86.65m,
+                            TransactionCodeId = -16,
+                            TransactionDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7569,
+                            AccountId = -10,
+                            Amount = -59.73m,
+                            TransactionCodeId = -16,
+                            TransactionDate = new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7570,
+                            AccountId = -10,
+                            Amount = -16.22m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7571,
+                            AccountId = -10,
+                            Amount = -1.5m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7572,
+                            AccountId = -10,
+                            Amount = -5.47m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7573,
+                            AccountId = -10,
+                            Amount = -2.36m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7574,
+                            AccountId = -10,
+                            Amount = -4.69m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7575,
+                            AccountId = -10,
+                            Amount = -1.67m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7576,
+                            AccountId = -10,
+                            Amount = -1.94m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7577,
+                            AccountId = -10,
+                            Amount = -1.81m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7578,
+                            AccountId = -10,
+                            Amount = -4.87m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7579,
+                            AccountId = -10,
+                            Amount = -7.99m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7580,
+                            AccountId = -10,
+                            Amount = -12.97m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7581,
+                            AccountId = -10,
+                            Amount = -1.86m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7582,
+                            AccountId = -10,
+                            Amount = -3.98m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7583,
+                            AccountId = -10,
+                            Amount = -0.55m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7584,
+                            AccountId = -10,
+                            Amount = -8.53m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7585,
+                            AccountId = -10,
+                            Amount = -6.53m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7586,
+                            AccountId = -10,
+                            Amount = -21.99m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7587,
+                            AccountId = -10,
+                            Amount = -16.57m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7588,
+                            AccountId = -10,
+                            Amount = -1.69m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7589,
+                            AccountId = -10,
+                            Amount = -6.54m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7590,
+                            AccountId = -10,
+                            Amount = -0.39m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7591,
+                            AccountId = -10,
+                            Amount = -3.2m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7592,
+                            AccountId = -10,
+                            Amount = -3.09m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7593,
+                            AccountId = -10,
+                            Amount = -9.57m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7594,
+                            AccountId = -10,
+                            Amount = -12.71m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7595,
+                            AccountId = -10,
+                            Amount = -4.76m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7596,
+                            AccountId = -10,
+                            Amount = -9.13m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7597,
+                            AccountId = -10,
+                            Amount = -1.82m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7598,
+                            AccountId = -10,
+                            Amount = -4.44m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7599,
+                            AccountId = -10,
+                            Amount = -1.29m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7600,
+                            AccountId = -10,
+                            Amount = -1.09m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7601,
+                            AccountId = -10,
+                            Amount = -26.98m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7602,
+                            AccountId = -10,
+                            Amount = -4.02m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7603,
+                            AccountId = -10,
+                            Amount = -5.94m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7604,
+                            AccountId = -10,
+                            Amount = -2.79m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7605,
+                            AccountId = -10,
+                            Amount = -0.82m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7606,
+                            AccountId = -10,
+                            Amount = -12.78m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7607,
+                            AccountId = -10,
+                            Amount = -1.34m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7608,
+                            AccountId = -10,
+                            Amount = -1.79m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7609,
+                            AccountId = -10,
+                            Amount = -29.52m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7610,
+                            AccountId = -10,
+                            Amount = -2.09m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7611,
+                            AccountId = -10,
+                            Amount = -1.11m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7612,
+                            AccountId = -10,
+                            Amount = -3.19m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7613,
+                            AccountId = -10,
+                            Amount = -22.95m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7614,
+                            AccountId = -10,
+                            Amount = -1.4m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7615,
+                            AccountId = -10,
+                            Amount = -12.24m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7616,
+                            AccountId = -10,
+                            Amount = -24.41m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7617,
+                            AccountId = -10,
+                            Amount = -3.55m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7618,
+                            AccountId = -10,
+                            Amount = -8.14m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7619,
+                            AccountId = -10,
+                            Amount = -9.07m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7620,
+                            AccountId = -10,
+                            Amount = -7.48m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7621,
+                            AccountId = -10,
+                            Amount = -1.63m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7622,
+                            AccountId = -10,
+                            Amount = -8.91m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7623,
+                            AccountId = -10,
+                            Amount = -34.76m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7624,
+                            AccountId = -10,
+                            Amount = -3.38m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7625,
+                            AccountId = -10,
+                            Amount = -4.1m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7626,
+                            AccountId = -10,
+                            Amount = -9.91m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7627,
+                            AccountId = -10,
+                            Amount = -7.48m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7628,
+                            AccountId = -10,
+                            Amount = -5.89m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7629,
+                            AccountId = -10,
+                            Amount = -2.76m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7630,
+                            AccountId = -10,
+                            Amount = -23.44m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7631,
+                            AccountId = -10,
+                            Amount = -2.17m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7632,
+                            AccountId = -10,
+                            Amount = -10.52m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7633,
+                            AccountId = -10,
+                            Amount = -0.73m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7634,
+                            AccountId = -10,
+                            Amount = -12.31m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7635,
+                            AccountId = -10,
+                            Amount = -12.89m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7636,
+                            AccountId = -10,
+                            Amount = -1.94m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7637,
+                            AccountId = -10,
+                            Amount = -4.58m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7638,
+                            AccountId = -10,
+                            Amount = -1.72m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7639,
+                            AccountId = -10,
+                            Amount = -15.59m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7640,
+                            AccountId = -10,
+                            Amount = -6.96m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7641,
+                            AccountId = -10,
+                            Amount = -0.23m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7642,
+                            AccountId = -10,
+                            Amount = -0.65m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7643,
+                            AccountId = -10,
+                            Amount = -9.65m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7644,
+                            AccountId = -10,
+                            Amount = -4.46m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7645,
+                            AccountId = -10,
+                            Amount = -3.48m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7646,
+                            AccountId = -10,
+                            Amount = -33.54m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7647,
+                            AccountId = -10,
+                            Amount = -3.84m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7648,
+                            AccountId = -10,
+                            Amount = -5.1m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7649,
+                            AccountId = -10,
+                            Amount = -13.32m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7650,
+                            AccountId = -10,
+                            Amount = -0.51m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7651,
+                            AccountId = -10,
+                            Amount = -63.51m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7652,
+                            AccountId = -10,
+                            Amount = -4.54m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7653,
+                            AccountId = -10,
+                            Amount = -2.73m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7654,
+                            AccountId = -10,
+                            Amount = -3.43m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7655,
+                            AccountId = -10,
+                            Amount = -2.27m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7656,
+                            AccountId = -10,
+                            Amount = -4.54m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7657,
+                            AccountId = -10,
+                            Amount = -0.49m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7658,
+                            AccountId = -10,
+                            Amount = -11.04m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7659,
+                            AccountId = -10,
+                            Amount = -3.38m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7660,
+                            AccountId = -10,
+                            Amount = -2.69m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7661,
+                            AccountId = -10,
+                            Amount = -4.38m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7662,
+                            AccountId = -10,
+                            Amount = -65.46m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7663,
+                            AccountId = -10,
+                            Amount = -4.29m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7664,
+                            AccountId = -10,
+                            Amount = -6.87m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7665,
+                            AccountId = -10,
+                            Amount = -4.05m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7666,
+                            AccountId = -10,
+                            Amount = -16.76m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7667,
+                            AccountId = -10,
+                            Amount = -22.47m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7668,
+                            AccountId = -10,
+                            Amount = -6.5m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7669,
+                            AccountId = -10,
+                            Amount = -2.01m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7670,
+                            AccountId = -10,
+                            Amount = -2.01m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7671,
+                            AccountId = -10,
+                            Amount = -5.52m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7672,
+                            AccountId = -10,
+                            Amount = -1.18m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7673,
+                            AccountId = -10,
+                            Amount = -0.74m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7674,
+                            AccountId = -10,
+                            Amount = -2.55m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7675,
+                            AccountId = -10,
+                            Amount = -10.02m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7676,
+                            AccountId = -10,
+                            Amount = -12.68m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7677,
+                            AccountId = -10,
+                            Amount = -4.32m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7678,
+                            AccountId = -10,
+                            Amount = -1.05m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7679,
+                            AccountId = -10,
+                            Amount = -9.92m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7680,
+                            AccountId = -10,
+                            Amount = -6.17m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7681,
+                            AccountId = -10,
+                            Amount = -2.44m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7682,
+                            AccountId = -10,
+                            Amount = -2.25m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7683,
+                            AccountId = -10,
+                            Amount = -9.26m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7684,
+                            AccountId = -10,
+                            Amount = -17.56m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7685,
+                            AccountId = -10,
+                            Amount = -2.27m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7686,
+                            AccountId = -10,
+                            Amount = -2.12m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7687,
+                            AccountId = -10,
+                            Amount = -10.3m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7688,
+                            AccountId = -10,
+                            Amount = -41.41m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7689,
+                            AccountId = -10,
+                            Amount = -1.68m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7690,
+                            AccountId = -10,
+                            Amount = -2.63m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7691,
+                            AccountId = -10,
+                            Amount = -25.01m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7692,
+                            AccountId = -10,
+                            Amount = -2.42m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7693,
+                            AccountId = -10,
+                            Amount = -5.62m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7694,
+                            AccountId = -10,
+                            Amount = -2.22m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7695,
+                            AccountId = -10,
+                            Amount = -19.59m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7696,
+                            AccountId = -10,
+                            Amount = -57.76m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7697,
+                            AccountId = -10,
+                            Amount = -0.75m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7698,
+                            AccountId = -10,
+                            Amount = -0.88m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7699,
+                            AccountId = -10,
+                            Amount = -3.2m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7700,
+                            AccountId = -10,
+                            Amount = -12.63m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7701,
+                            AccountId = -10,
+                            Amount = -11.61m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7702,
+                            AccountId = -10,
+                            Amount = -2.08m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            TransactionId = -7703,
+                            AccountId = -10,
+                            Amount = -6.16m,
+                            TransactionCodeId = -23,
+                            TransactionDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.BankTransactionCode", b =>
@@ -630,6 +2174,1320 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     b.HasIndex(new[] { "TransactionCodeId" }, "IX_BrokerTransaction_TransactionCodeID");
 
                     b.ToTable("BrokerTransaction", "FinanceApp");
+
+                    b.HasData(
+                        new
+                        {
+                            TransactionId = -5690,
+                            AccountId = -11,
+                            Amount = 25000m,
+                            DepSecurityId = -101,
+                            SecurityId = -101,
+                            TradeDate = new DateTime(2023, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -12
+                        },
+                        new
+                        {
+                            TransactionId = -5691,
+                            AccountId = -11,
+                            Amount = 808.17m,
+                            DepSecurityId = -101,
+                            Quantity = 10m,
+                            SecurityId = -315,
+                            TradeDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5692,
+                            AccountId = -11,
+                            Amount = 27.24m,
+                            DepSecurityId = -101,
+                            SecurityId = -325,
+                            TradeDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5693,
+                            AccountId = -11,
+                            Amount = 357.9m,
+                            DepSecurityId = -416,
+                            SecurityId = -392,
+                            TradeDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5694,
+                            AccountId = -11,
+                            Amount = 151.8m,
+                            DepSecurityId = -416,
+                            Quantity = 0.7224m,
+                            SecurityId = -392,
+                            TradeDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5695,
+                            AccountId = -11,
+                            Amount = 7.32m,
+                            DepSecurityId = -416,
+                            SecurityId = -400,
+                            TradeDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5696,
+                            AccountId = -11,
+                            Amount = 99.21m,
+                            DepSecurityId = -416,
+                            Quantity = 0.3219m,
+                            SecurityId = -400,
+                            TradeDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5697,
+                            AccountId = -11,
+                            Amount = 71.49m,
+                            DepSecurityId = -416,
+                            SecurityId = -403,
+                            TradeDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5698,
+                            AccountId = -11,
+                            Amount = 92.19m,
+                            DepSecurityId = -416,
+                            SecurityId = -403,
+                            TradeDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5699,
+                            AccountId = -11,
+                            Amount = 16.77m,
+                            DepSecurityId = -416,
+                            Quantity = 0.2532m,
+                            SecurityId = -403,
+                            TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5700,
+                            AccountId = -11,
+                            Amount = 75.54m,
+                            DepSecurityId = -416,
+                            Quantity = 0.2588m,
+                            SecurityId = -403,
+                            TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5701,
+                            AccountId = -11,
+                            Amount = 3496.05m,
+                            DepSecurityId = -101,
+                            Quantity = 18m,
+                            SecurityId = -406,
+                            TradeDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5702,
+                            AccountId = -11,
+                            Amount = 566.43m,
+                            DepSecurityId = -101,
+                            Quantity = 10m,
+                            SecurityId = -406,
+                            TradeDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5703,
+                            AccountId = -11,
+                            Amount = 209.22m,
+                            DepSecurityId = -416,
+                            SecurityId = -406,
+                            TradeDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5704,
+                            AccountId = -11,
+                            Amount = 30.66m,
+                            DepSecurityId = -416,
+                            SecurityId = -406,
+                            TradeDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5705,
+                            AccountId = -11,
+                            Amount = 145.08m,
+                            DepSecurityId = -416,
+                            Quantity = 0.6354m,
+                            SecurityId = -406,
+                            TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5706,
+                            AccountId = -11,
+                            Amount = 1.11m,
+                            DepSecurityId = -416,
+                            Quantity = 0.3331m,
+                            SecurityId = -406,
+                            TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5707,
+                            AccountId = -11,
+                            Amount = 0.57m,
+                            DepSecurityId = -416,
+                            SecurityId = -411,
+                            TradeDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5708,
+                            AccountId = -11,
+                            Amount = 52.83m,
+                            DepSecurityId = -416,
+                            Quantity = 0.0887m,
+                            SecurityId = -411,
+                            TradeDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5709,
+                            AccountId = -11,
+                            Amount = 0.3m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -16
+                        },
+                        new
+                        {
+                            TransactionId = -5710,
+                            AccountId = -11,
+                            Amount = 2982.24m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -12
+                        },
+                        new
+                        {
+                            TransactionId = -5711,
+                            AccountId = -11,
+                            Amount = 14575.71m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -12
+                        },
+                        new
+                        {
+                            TransactionId = -5712,
+                            AccountId = -11,
+                            Amount = 4700.76m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -12
+                        },
+                        new
+                        {
+                            TransactionId = -5713,
+                            AccountId = -11,
+                            Amount = 7318.41m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -12
+                        },
+                        new
+                        {
+                            TransactionId = -5714,
+                            AccountId = -11,
+                            Amount = 0.36m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -16
+                        },
+                        new
+                        {
+                            TransactionId = -5715,
+                            AccountId = -11,
+                            Amount = 0.18m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -16
+                        },
+                        new
+                        {
+                            TransactionId = -5716,
+                            AccountId = -11,
+                            Amount = 1430.67m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -12
+                        },
+                        new
+                        {
+                            TransactionId = -5717,
+                            AccountId = -11,
+                            Amount = 1.86m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -16
+                        },
+                        new
+                        {
+                            TransactionId = -5718,
+                            AccountId = -11,
+                            Amount = 0.9m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -16
+                        },
+                        new
+                        {
+                            TransactionId = -5719,
+                            AccountId = -11,
+                            Amount = 0.6m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -16
+                        },
+                        new
+                        {
+                            TransactionId = -5720,
+                            AccountId = -11,
+                            Amount = 3839.25m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -12
+                        },
+                        new
+                        {
+                            TransactionId = -5721,
+                            AccountId = -11,
+                            Amount = 7737.42m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -12
+                        },
+                        new
+                        {
+                            TransactionId = -5722,
+                            AccountId = -11,
+                            Amount = 4.38m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -16
+                        },
+                        new
+                        {
+                            TransactionId = -5723,
+                            AccountId = -11,
+                            Amount = 1.65m,
+                            DepSecurityId = -101,
+                            SecurityId = -416,
+                            TradeDate = new DateTime(2023, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -16
+                        },
+                        new
+                        {
+                            TransactionId = -5724,
+                            AccountId = -11,
+                            Amount = 35.28m,
+                            DepSecurityId = -416,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5725,
+                            AccountId = -11,
+                            Amount = 20.88m,
+                            DepSecurityId = -416,
+                            Quantity = 9.17m,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5726,
+                            AccountId = -11,
+                            Amount = 2.88m,
+                            DepSecurityId = -416,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5727,
+                            AccountId = -11,
+                            Amount = 6233.49m,
+                            DepSecurityId = -101,
+                            Quantity = 1607.83m,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -20
+                        },
+                        new
+                        {
+                            TransactionId = -5728,
+                            AccountId = -11,
+                            Amount = 18.96m,
+                            DepSecurityId = -416,
+                            Quantity = 2.83m,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5729,
+                            AccountId = -11,
+                            Amount = 1.8m,
+                            DepSecurityId = -101,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5730,
+                            AccountId = -11,
+                            Amount = 13.53m,
+                            DepSecurityId = -416,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5731,
+                            AccountId = -11,
+                            Amount = 67.2m,
+                            DepSecurityId = -416,
+                            Quantity = 18.17m,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5732,
+                            AccountId = -11,
+                            Amount = 22.77m,
+                            DepSecurityId = -416,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5733,
+                            AccountId = -11,
+                            Amount = 1.53m,
+                            DepSecurityId = -416,
+                            Quantity = 18.14m,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5734,
+                            AccountId = -11,
+                            Amount = 7.05m,
+                            DepSecurityId = -416,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5735,
+                            AccountId = -11,
+                            Amount = 12.03m,
+                            DepSecurityId = -416,
+                            Quantity = 22.2m,
+                            SecurityId = -432,
+                            TradeDate = new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5736,
+                            AccountId = -11,
+                            Amount = 23.85m,
+                            DepSecurityId = -101,
+                            Quantity = 2.046m,
+                            SecurityId = -442,
+                            TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5737,
+                            AccountId = -11,
+                            Amount = 28.83m,
+                            DepSecurityId = -101,
+                            Quantity = 1.952m,
+                            SecurityId = -442,
+                            TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5738,
+                            AccountId = -11,
+                            Amount = 296.04m,
+                            DepSecurityId = -101,
+                            Quantity = 2.021m,
+                            SecurityId = -442,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5739,
+                            AccountId = -11,
+                            Amount = 1.5m,
+                            DepSecurityId = -101,
+                            Quantity = 0.022m,
+                            SecurityId = -442,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -20
+                        },
+                        new
+                        {
+                            TransactionId = -5740,
+                            AccountId = -11,
+                            Amount = 13.47m,
+                            DepSecurityId = -101,
+                            Quantity = 2.033m,
+                            SecurityId = -442,
+                            TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5741,
+                            AccountId = -11,
+                            Amount = 171.69m,
+                            DepSecurityId = -101,
+                            Quantity = 2.054m,
+                            SecurityId = -442,
+                            TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5742,
+                            AccountId = -11,
+                            Amount = 158.07m,
+                            DepSecurityId = -101,
+                            Quantity = 2.147m,
+                            SecurityId = -442,
+                            TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5743,
+                            AccountId = -11,
+                            Amount = 14.55m,
+                            DepSecurityId = -416,
+                            Quantity = 0.137m,
+                            SecurityId = -442,
+                            TradeDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5744,
+                            AccountId = -11,
+                            Amount = 0.3m,
+                            DepSecurityId = -416,
+                            SecurityId = -442,
+                            TradeDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5745,
+                            AccountId = -11,
+                            Amount = 160.86m,
+                            DepSecurityId = -101,
+                            Quantity = 2.063m,
+                            SecurityId = -442,
+                            TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5746,
+                            AccountId = -11,
+                            Amount = 21.63m,
+                            DepSecurityId = -101,
+                            SecurityId = -482,
+                            TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5747,
+                            AccountId = -11,
+                            Amount = 770.67m,
+                            DepSecurityId = -101,
+                            Quantity = 15m,
+                            SecurityId = -493,
+                            TradeDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5748,
+                            AccountId = -11,
+                            Amount = 54.72m,
+                            DepSecurityId = -101,
+                            SecurityId = -493,
+                            TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13,
+                            Withholding = 7.37m
+                        },
+                        new
+                        {
+                            TransactionId = -5749,
+                            AccountId = -11,
+                            Amount = 737.58m,
+                            DepSecurityId = -101,
+                            Quantity = 5m,
+                            SecurityId = -514,
+                            TradeDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5750,
+                            AccountId = -11,
+                            Amount = 61.89m,
+                            DepSecurityId = -416,
+                            SecurityId = -514,
+                            TradeDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5751,
+                            AccountId = -11,
+                            Amount = 11.49m,
+                            DepSecurityId = -416,
+                            SecurityId = -514,
+                            TradeDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5752,
+                            AccountId = -11,
+                            Amount = 6.81m,
+                            DepSecurityId = -416,
+                            Quantity = 0.0871m,
+                            SecurityId = -514,
+                            TradeDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5753,
+                            AccountId = -11,
+                            Amount = 0.09m,
+                            DepSecurityId = -416,
+                            Quantity = 0.0861m,
+                            SecurityId = -514,
+                            TradeDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5754,
+                            AccountId = -11,
+                            Amount = 1.62m,
+                            DepSecurityId = -101,
+                            SecurityId = -523,
+                            TradeDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5755,
+                            AccountId = -11,
+                            Amount = 752.37m,
+                            DepSecurityId = -101,
+                            Quantity = 1.669m,
+                            SecurityId = -574,
+                            TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5756,
+                            AccountId = -11,
+                            Amount = 504.69m,
+                            DepSecurityId = -101,
+                            Quantity = 1.544m,
+                            SecurityId = -574,
+                            TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5757,
+                            AccountId = -11,
+                            Amount = 1052.76m,
+                            DepSecurityId = -101,
+                            Quantity = 1.488m,
+                            SecurityId = -574,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5758,
+                            AccountId = -11,
+                            Amount = 1.02m,
+                            DepSecurityId = -101,
+                            Quantity = 0.016m,
+                            SecurityId = -574,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -20
+                        },
+                        new
+                        {
+                            TransactionId = -5759,
+                            AccountId = -11,
+                            Amount = 708.96m,
+                            DepSecurityId = -101,
+                            Quantity = 1.498m,
+                            SecurityId = -574,
+                            TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5760,
+                            AccountId = -11,
+                            Amount = 258.66m,
+                            DepSecurityId = -101,
+                            Quantity = 1.515m,
+                            SecurityId = -574,
+                            TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5761,
+                            AccountId = -11,
+                            Amount = 153.12m,
+                            DepSecurityId = -101,
+                            Quantity = 1.493m,
+                            SecurityId = -574,
+                            TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5762,
+                            AccountId = -11,
+                            Amount = 395.07m,
+                            DepSecurityId = -101,
+                            Quantity = 1.43m,
+                            SecurityId = -574,
+                            TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5763,
+                            AccountId = -11,
+                            Amount = 288.27m,
+                            DepSecurityId = -101,
+                            Quantity = 0.193m,
+                            SecurityId = -575,
+                            TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5764,
+                            AccountId = -11,
+                            Amount = 150.18m,
+                            DepSecurityId = -101,
+                            Quantity = 0.187m,
+                            SecurityId = -575,
+                            TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5765,
+                            AccountId = -11,
+                            Amount = 251.34m,
+                            DepSecurityId = -101,
+                            Quantity = 0.182m,
+                            SecurityId = -575,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5766,
+                            AccountId = -11,
+                            Amount = 1.11m,
+                            DepSecurityId = -101,
+                            Quantity = 0.002m,
+                            SecurityId = -575,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -20
+                        },
+                        new
+                        {
+                            TransactionId = -5767,
+                            AccountId = -11,
+                            Amount = 196.83m,
+                            DepSecurityId = -101,
+                            Quantity = 0.183m,
+                            SecurityId = -575,
+                            TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5768,
+                            AccountId = -11,
+                            Amount = 64.32m,
+                            DepSecurityId = -101,
+                            Quantity = 0.185m,
+                            SecurityId = -575,
+                            TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5769,
+                            AccountId = -11,
+                            Amount = 30.81m,
+                            DepSecurityId = -101,
+                            Quantity = 0.189m,
+                            SecurityId = -575,
+                            TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5770,
+                            AccountId = -11,
+                            Amount = 223.71m,
+                            DepSecurityId = -416,
+                            SecurityId = -575,
+                            TradeDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5771,
+                            AccountId = -11,
+                            Amount = 288.81m,
+                            DepSecurityId = -416,
+                            Quantity = 0.105m,
+                            SecurityId = -575,
+                            TradeDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5772,
+                            AccountId = -11,
+                            Amount = 90.09m,
+                            DepSecurityId = -101,
+                            Quantity = 0.183m,
+                            SecurityId = -575,
+                            TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5773,
+                            AccountId = -11,
+                            Amount = 30.27m,
+                            DepSecurityId = -101,
+                            Quantity = 2.847m,
+                            SecurityId = -576,
+                            TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5774,
+                            AccountId = -11,
+                            Amount = 224.25m,
+                            DepSecurityId = -101,
+                            Quantity = 2.695m,
+                            SecurityId = -576,
+                            TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5775,
+                            AccountId = -11,
+                            Amount = 654.87m,
+                            DepSecurityId = -101,
+                            Quantity = 2.642m,
+                            SecurityId = -576,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5776,
+                            AccountId = -11,
+                            Amount = 4.29m,
+                            DepSecurityId = -101,
+                            Quantity = 0.03m,
+                            SecurityId = -576,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -20
+                        },
+                        new
+                        {
+                            TransactionId = -5777,
+                            AccountId = -11,
+                            Amount = 39.54m,
+                            DepSecurityId = -101,
+                            Quantity = 2.604m,
+                            SecurityId = -576,
+                            TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5778,
+                            AccountId = -11,
+                            Amount = 286.32m,
+                            DepSecurityId = -101,
+                            Quantity = 2.655m,
+                            SecurityId = -576,
+                            TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5779,
+                            AccountId = -11,
+                            Amount = 309.36m,
+                            DepSecurityId = -101,
+                            Quantity = 2.789m,
+                            SecurityId = -576,
+                            TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5780,
+                            AccountId = -11,
+                            Amount = 1082.25m,
+                            DepSecurityId = -101,
+                            Quantity = 2.689m,
+                            SecurityId = -576,
+                            TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5781,
+                            AccountId = -11,
+                            Amount = 17.25m,
+                            DepSecurityId = -101,
+                            Quantity = 2.75m,
+                            SecurityId = -577,
+                            TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5782,
+                            AccountId = -11,
+                            Amount = 220.14m,
+                            DepSecurityId = -101,
+                            Quantity = 2.559m,
+                            SecurityId = -577,
+                            TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5783,
+                            AccountId = -11,
+                            Amount = 225.51m,
+                            DepSecurityId = -101,
+                            Quantity = 2.466m,
+                            SecurityId = -577,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5784,
+                            AccountId = -11,
+                            Amount = 452.16m,
+                            DepSecurityId = -101,
+                            Quantity = 10.025m,
+                            SecurityId = -578,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5785,
+                            AccountId = -11,
+                            Amount = 116.07m,
+                            DepSecurityId = -101,
+                            Quantity = 2.47m,
+                            SecurityId = -577,
+                            TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5786,
+                            AccountId = -11,
+                            Amount = 292.35m,
+                            DepSecurityId = -101,
+                            Quantity = 2.536m,
+                            SecurityId = -577,
+                            TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5787,
+                            AccountId = -11,
+                            Amount = 273m,
+                            DepSecurityId = -101,
+                            Quantity = 2.698m,
+                            SecurityId = -577,
+                            TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5788,
+                            AccountId = -11,
+                            Amount = 191.64m,
+                            DepSecurityId = -101,
+                            Quantity = 2.61m,
+                            SecurityId = -577,
+                            TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5789,
+                            AccountId = -11,
+                            Amount = 281.58m,
+                            DepSecurityId = -101,
+                            Quantity = 1.329m,
+                            SecurityId = -578,
+                            TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5790,
+                            AccountId = -11,
+                            Amount = 519.3m,
+                            DepSecurityId = -101,
+                            Quantity = 1.262m,
+                            SecurityId = -578,
+                            TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5791,
+                            AccountId = -11,
+                            Amount = 96.15m,
+                            DepSecurityId = -101,
+                            Quantity = 1.261m,
+                            SecurityId = -578,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5792,
+                            AccountId = -11,
+                            Amount = 13.27m,
+                            DepSecurityId = -101,
+                            Quantity = 0.015m,
+                            SecurityId = -578,
+                            TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5793,
+                            AccountId = -11,
+                            Amount = 5.94m,
+                            DepSecurityId = -416,
+                            Quantity = 0.07m,
+                            SecurityId = -578,
+                            TradeDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5794,
+                            AccountId = -11,
+                            Amount = 31.92m,
+                            DepSecurityId = -416,
+                            SecurityId = -578,
+                            TradeDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5795,
+                            AccountId = -11,
+                            Amount = 92.94m,
+                            DepSecurityId = -101,
+                            Quantity = 1.26m,
+                            SecurityId = -578,
+                            TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5796,
+                            AccountId = -11,
+                            Amount = 76.05m,
+                            DepSecurityId = -101,
+                            Quantity = 1.269m,
+                            SecurityId = -578,
+                            TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5797,
+                            AccountId = -11,
+                            Amount = 81.24m,
+                            DepSecurityId = -101,
+                            Quantity = 1.317m,
+                            SecurityId = -578,
+                            TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5798,
+                            AccountId = -11,
+                            Amount = 237.6m,
+                            DepSecurityId = -101,
+                            Quantity = 1.246m,
+                            SecurityId = -578,
+                            TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5799,
+                            AccountId = -11,
+                            Amount = 1661.76m,
+                            DepSecurityId = -101,
+                            Quantity = 10m,
+                            SecurityId = -745,
+                            TradeDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5800,
+                            AccountId = -11,
+                            Amount = 28.92m,
+                            DepSecurityId = -416,
+                            SecurityId = -745,
+                            TradeDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5801,
+                            AccountId = -11,
+                            Amount = 6.81m,
+                            DepSecurityId = -416,
+                            SecurityId = -745,
+                            TradeDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5802,
+                            AccountId = -11,
+                            Amount = 24.27m,
+                            DepSecurityId = -416,
+                            Quantity = 0.0794m,
+                            SecurityId = -745,
+                            TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5803,
+                            AccountId = -11,
+                            Amount = 0.9m,
+                            DepSecurityId = -416,
+                            Quantity = 0.0389m,
+                            SecurityId = -745,
+                            TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5804,
+                            AccountId = -11,
+                            Amount = 7045.02m,
+                            DepSecurityId = -101,
+                            Quantity = 10m,
+                            SecurityId = -745,
+                            TradeDate = new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5805,
+                            AccountId = -11,
+                            Amount = 1136.28m,
+                            DepSecurityId = -101,
+                            Quantity = 4m,
+                            SecurityId = -745,
+                            TradeDate = new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5806,
+                            AccountId = -11,
+                            Amount = 4.59m,
+                            DepSecurityId = -101,
+                            SecurityId = -747,
+                            TradeDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5807,
+                            AccountId = -11,
+                            Amount = 4657.71m,
+                            DepSecurityId = -101,
+                            Quantity = 20m,
+                            SecurityId = -759,
+                            TradeDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5808,
+                            AccountId = -11,
+                            Amount = 1113.66m,
+                            DepSecurityId = -101,
+                            Quantity = 10m,
+                            SecurityId = -759,
+                            TradeDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5809,
+                            AccountId = -11,
+                            Amount = 35.55m,
+                            DepSecurityId = -101,
+                            SecurityId = -759,
+                            TradeDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -13
+                        },
+                        new
+                        {
+                            TransactionId = -5810,
+                            AccountId = -11,
+                            Amount = 1816.89m,
+                            DepSecurityId = -101,
+                            Quantity = 20m,
+                            SecurityId = -760,
+                            TradeDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5811,
+                            AccountId = -11,
+                            Amount = 1658.07m,
+                            DepSecurityId = -101,
+                            Quantity = 25m,
+                            SecurityId = -761,
+                            TradeDate = new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        },
+                        new
+                        {
+                            TransactionId = -5812,
+                            AccountId = -11,
+                            Amount = 1925.16m,
+                            DepSecurityId = -101,
+                            Quantity = 25m,
+                            SecurityId = -761,
+                            TradeDate = new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TransactionCodeId = -11
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.BrokerTransactionCode", b =>
@@ -3182,6 +6040,2168 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     b.HasIndex(new[] { "AttributeMemberId" }, "IX_InvestmentPerformanceAttributeMemberEntry_AttributeMemberID");
 
                     b.ToTable("InvestmentPerformanceAttributeMemberEntry", "FinanceApp");
+
+                    b.HasData(
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2022, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15000m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 15000m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15000m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 15000m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15020.87m,
+                            Gain = 20.87m,
+                            Irr = -0.0028m,
+                            MarketValue = 15020.87m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15479.11m,
+                            Gain = 458.24m,
+                            Irr = 0.0099m,
+                            MarketValue = 15479.11m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15052.17m,
+                            Gain = -426.94m,
+                            Irr = -0.0092m,
+                            MarketValue = 15052.17m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15522.55m,
+                            Gain = 470.38m,
+                            Irr = 0.0221m,
+                            MarketValue = 15522.55m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15522.55m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 15522.55m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15522.55m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 15522.55m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15520.56m,
+                            Gain = -1.99m,
+                            Irr = 0.0006m,
+                            MarketValue = 15520.56m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15474.2m,
+                            Gain = -46.36m,
+                            Irr = 0.0051m,
+                            MarketValue = 15474.2m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15878.86m,
+                            Gain = 404.66m,
+                            Irr = 0.0098m,
+                            MarketValue = 15878.86m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16005.38m,
+                            Gain = 126.52m,
+                            Irr = 0.0063m,
+                            MarketValue = 17505.38m,
+                            NetContribution = 1500m,
+                            ToDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17648m,
+                            Gain = 142.62m,
+                            Irr = 0.0028m,
+                            MarketValue = 17648m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17648m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17648m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17648m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17648m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17648m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17648m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17633.62m,
+                            Gain = -14.38m,
+                            Irr = -0.0005m,
+                            MarketValue = 17633.62m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16907.58m,
+                            Gain = -726.04m,
+                            Irr = -0.0101m,
+                            MarketValue = 16907.58m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16684.63m,
+                            Gain = -222.95m,
+                            Irr = -0.0053m,
+                            MarketValue = 16684.63m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16419.3m,
+                            Gain = -265.33m,
+                            Irr = 0.0138m,
+                            MarketValue = 16419.3m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16419.3m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 16419.3m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16419.3m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 16419.3m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16548.71m,
+                            Gain = 129.41m,
+                            Irr = 0.0095m,
+                            MarketValue = 17298.71m,
+                            NetContribution = 750m,
+                            ToDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17290.42m,
+                            Gain = -8.29m,
+                            Irr = -0.0006m,
+                            MarketValue = 17290.42m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17373.46m,
+                            Gain = 83.04m,
+                            Irr = 0.0014m,
+                            MarketValue = 17373.46m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17888.24m,
+                            Gain = 514.78m,
+                            Irr = 0.0072m,
+                            MarketValue = 17888.24m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17923.9m,
+                            Gain = 35.66m,
+                            Irr = 0.0015m,
+                            MarketValue = 17923.9m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17923.9m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17923.9m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17923.9m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17923.9m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17537.42m,
+                            Gain = -386.48m,
+                            Irr = -0.01m,
+                            MarketValue = 17537.42m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 18212.59m,
+                            Gain = 675.17m,
+                            Irr = 0.0118m,
+                            MarketValue = 18212.59m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 18102.49m,
+                            Gain = -110.1m,
+                            Irr = 0.0108m,
+                            MarketValue = 18102.49m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17921.96m,
+                            Gain = -180.53m,
+                            Irr = 0.0085m,
+                            MarketValue = 17921.96m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17915.85m,
+                            Gain = -6.11m,
+                            Irr = -0.0076m,
+                            MarketValue = 17915.85m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17915.85m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17915.85m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17915.85m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17915.85m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17776.34m,
+                            Gain = -139.51m,
+                            Irr = -0.0077m,
+                            MarketValue = 17776.34m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 18032.23m,
+                            Gain = 255.89m,
+                            Irr = 0.0102m,
+                            MarketValue = 18032.23m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17853.51m,
+                            Gain = -178.72m,
+                            Irr = -0.0083m,
+                            MarketValue = 17853.51m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17617.31m,
+                            Gain = -236.2m,
+                            Irr = -0.0058m,
+                            MarketValue = 17617.31m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17640.05m,
+                            Gain = 22.74m,
+                            Irr = 0.0022m,
+                            MarketValue = 17640.05m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17640.05m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17640.05m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17640.05m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17640.05m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 18005.09m,
+                            Gain = 365.04m,
+                            Irr = 0.0104m,
+                            MarketValue = 18005.09m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 18015.59m,
+                            Gain = 10.5m,
+                            Irr = 0.0003m,
+                            MarketValue = 18015.59m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 18129.7m,
+                            Gain = 114.11m,
+                            Irr = 0.002m,
+                            MarketValue = 18129.7m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17997.86m,
+                            Gain = -131.84m,
+                            Irr = -0.0089m,
+                            MarketValue = 17997.86m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17971.35m,
+                            Gain = -26.51m,
+                            Irr = -0.0025m,
+                            MarketValue = 17971.35m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17971.35m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17971.35m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17971.35m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17971.35m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17971.35m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17971.35m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16689.13m,
+                            Gain = -1282.22m,
+                            Irr = -0.0188m,
+                            MarketValue = 16689.13m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16674.27m,
+                            Gain = -14.86m,
+                            Irr = -0.0021m,
+                            MarketValue = 16674.27m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16854.98m,
+                            Gain = 180.71m,
+                            Irr = 0.0062m,
+                            MarketValue = 16854.98m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17061.19m,
+                            Gain = 206.21m,
+                            Irr = -0.0103m,
+                            MarketValue = 17061.19m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17061.19m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17061.19m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17061.19m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17061.19m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17451.62m,
+                            Gain = 390.43m,
+                            Irr = 0.0044m,
+                            MarketValue = 17451.62m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17172.27m,
+                            Gain = -279.35m,
+                            Irr = -0.0042m,
+                            MarketValue = 17172.27m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17183.06m,
+                            Gain = 10.79m,
+                            Irr = 0.0003m,
+                            MarketValue = 17183.06m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17500.51m,
+                            Gain = 317.45m,
+                            Irr = 0.0055m,
+                            MarketValue = 17500.51m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17909.9m,
+                            Gain = 409.39m,
+                            Irr = 0.0136m,
+                            MarketValue = 17909.9m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17909.9m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17909.9m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17909.9m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17909.9m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17851.21m,
+                            Gain = -58.69m,
+                            Irr = -0.0029m,
+                            MarketValue = 17851.21m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16895.36m,
+                            Gain = -955.85m,
+                            Irr = -0.0137m,
+                            MarketValue = 17645.36m,
+                            NetContribution = 750m,
+                            ToDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17640.3m,
+                            Gain = -5.06m,
+                            Irr = 0.0027m,
+                            MarketValue = 17640.3m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16218.8m,
+                            Gain = -1421.5m,
+                            Irr = -0.0161m,
+                            MarketValue = 16218.8m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15777.18m,
+                            Gain = -441.62m,
+                            Irr = -0.0166m,
+                            MarketValue = 15777.18m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15777.18m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 15777.18m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15777.18m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 15777.18m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15600.82m,
+                            Gain = -176.36m,
+                            Irr = -0.0067m,
+                            MarketValue = 15600.82m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16520.9m,
+                            Gain = 920.08m,
+                            Irr = 0.0139m,
+                            MarketValue = 16520.9m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16896.72m,
+                            Gain = 375.82m,
+                            Irr = -0.0142m,
+                            MarketValue = 16896.72m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16454.08m,
+                            Gain = -442.64m,
+                            Irr = 0.0148m,
+                            MarketValue = 16454.08m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16405.2m,
+                            Gain = -48.88m,
+                            Irr = -0.0153m,
+                            MarketValue = 16405.2m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16405.2m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 16405.2m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16405.2m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 16405.2m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16596.53m,
+                            Gain = 191.33m,
+                            Irr = 0.0122m,
+                            MarketValue = 16596.53m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16664.32m,
+                            Gain = 67.79m,
+                            Irr = 0.0114m,
+                            MarketValue = 16664.32m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16163.56m,
+                            Gain = -500.76m,
+                            Irr = -0.016m,
+                            MarketValue = 16163.56m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16232.98m,
+                            Gain = 69.42m,
+                            Irr = 0.0035m,
+                            MarketValue = 16232.98m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16309.54m,
+                            Gain = 76.56m,
+                            Irr = 0.0046m,
+                            MarketValue = 16309.54m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16309.54m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 16309.54m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16309.54m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 16309.54m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16538.46m,
+                            Gain = 228.92m,
+                            Irr = 0.0054m,
+                            MarketValue = 16538.46m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16538.44m,
+                            Gain = -0.02m,
+                            Irr = 0.0003m,
+                            MarketValue = 16538.44m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17199.29m,
+                            Gain = 660.85m,
+                            Irr = 0.0127m,
+                            MarketValue = 17949.29m,
+                            NetContribution = 750m,
+                            ToDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 18238.34m,
+                            Gain = 289.05m,
+                            Irr = 0.0061m,
+                            MarketValue = 18238.34m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -100,
+                            FromDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 19030.34m,
+                            Gain = 792m,
+                            Irr = 0.0116m,
+                            MarketValue = 19030.34m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2022, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 7500m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 7500m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 7500m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 7500m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 7404.64m,
+                            Gain = -95.36m,
+                            Irr = -0.0031m,
+                            MarketValue = 7404.64m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 7717.21m,
+                            Gain = 312.57m,
+                            Irr = 0.0112m,
+                            MarketValue = 7717.21m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 3316.52m,
+                            Gain = -4400.69m,
+                            Irr = -0.0152m,
+                            MarketValue = 3316.52m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 5447.82m,
+                            Gain = 2131.29m,
+                            Irr = 0.0206m,
+                            MarketValue = 5793.97m,
+                            NetContribution = 346.155m,
+                            ToDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 5793.97m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 5793.97m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 5793.97m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 5793.97m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 6856.49m,
+                            Gain = 1062.52m,
+                            Irr = 0.007m,
+                            MarketValue = 6856.49m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 6357.21m,
+                            Gain = -499.28m,
+                            Irr = 0.0095m,
+                            MarketValue = 6357.21m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 8175.92m,
+                            Gain = 1818.71m,
+                            Irr = 0.0142m,
+                            MarketValue = 8175.92m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 8775.65m,
+                            Gain = 599.73m,
+                            Irr = 0.0059m,
+                            MarketValue = 8775.65m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 9127.43m,
+                            Gain = 351.78m,
+                            Irr = 0.0062m,
+                            MarketValue = 9127.43m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 9127.43m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 9127.43m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 9127.43m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 9127.43m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 9127.43m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 9127.43m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 9338.96m,
+                            Gain = 211.53m,
+                            Irr = 0.0019m,
+                            MarketValue = 9338.96m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 7772.02m,
+                            Gain = -1566.94m,
+                            Irr = -0.0104m,
+                            MarketValue = 7772.02m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 8164.33m,
+                            Gain = 392.31m,
+                            Irr = -0.0096m,
+                            MarketValue = 8164.33m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 11060.74m,
+                            Gain = 2896.41m,
+                            Irr = 0.0197m,
+                            MarketValue = 11060.74m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 11060.74m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 11060.74m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 11060.74m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 11060.74m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 13010.61m,
+                            Gain = 1949.86m,
+                            Irr = 0.0146m,
+                            MarketValue = 13356.76m,
+                            NetContribution = 346.155m,
+                            ToDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 12694.96m,
+                            Gain = -661.8m,
+                            Irr = -0.0038m,
+                            MarketValue = 12694.96m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 12710.36m,
+                            Gain = 15.4m,
+                            Irr = 0.0003m,
+                            MarketValue = 12710.36m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 12813.05m,
+                            Gain = 102.69m,
+                            Irr = 0.0111m,
+                            MarketValue = 12813.05m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 12864.12m,
+                            Gain = 51.07m,
+                            Irr = 0.0039m,
+                            MarketValue = 12864.12m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 12864.12m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 12864.12m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 12864.12m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 12864.12m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 10273.67m,
+                            Gain = -2590.45m,
+                            Irr = -0.0152m,
+                            MarketValue = 10273.67m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 13468.18m,
+                            Gain = 3194.51m,
+                            Irr = 0.0162m,
+                            MarketValue = 13468.18m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 14598.85m,
+                            Gain = 1130.67m,
+                            Irr = 0.0178m,
+                            MarketValue = 14598.85m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 14923.56m,
+                            Gain = 324.71m,
+                            Irr = 0.0164m,
+                            MarketValue = 14923.56m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17116.89m,
+                            Gain = 2193.33m,
+                            Irr = -0.0156m,
+                            MarketValue = 17116.89m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17116.89m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17116.89m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17116.89m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 17116.89m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16992.76m,
+                            Gain = -124.13m,
+                            Irr = -0.0111m,
+                            MarketValue = 17335.04m,
+                            NetContribution = 342.28m,
+                            ToDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17907.83m,
+                            Gain = 572.79m,
+                            Irr = 0.0131m,
+                            MarketValue = 17907.83m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17525.53m,
+                            Gain = -382.3m,
+                            Irr = -0.0105m,
+                            MarketValue = 17525.53m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16992.81m,
+                            Gain = -532.72m,
+                            Irr = -0.0066m,
+                            MarketValue = 16992.81m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16736.05m,
+                            Gain = -256.76m,
+                            Irr = -0.0044m,
+                            MarketValue = 16736.05m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16736.05m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 16736.05m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 16736.05m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 16736.05m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 19290.46m,
+                            Gain = 2554.41m,
+                            Irr = 0.0123m,
+                            MarketValue = 19290.46m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 19597.62m,
+                            Gain = 307.16m,
+                            Irr = 0.0046m,
+                            MarketValue = 19597.62m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 20319.55m,
+                            Gain = 721.93m,
+                            Irr = 0.0068m,
+                            MarketValue = 20319.55m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 17362.24m,
+                            Gain = -2957.32m,
+                            Irr = -0.0131m,
+                            MarketValue = 17708.39m,
+                            NetContribution = 346.155m,
+                            ToDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15754.89m,
+                            Gain = -1953.5m,
+                            Irr = -0.0076m,
+                            MarketValue = 15754.89m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15754.89m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 15754.89m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15754.89m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 15754.89m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15754.89m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 15754.89m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 14800.3m,
+                            Gain = -954.59m,
+                            Irr = -0.0217m,
+                            MarketValue = 14800.3m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 14796.67m,
+                            Gain = -3.63m,
+                            Irr = -0.0001m,
+                            MarketValue = 14796.67m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15175.59m,
+                            Gain = 378.92m,
+                            Irr = 0.0067m,
+                            MarketValue = 15175.59m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 13997.11m,
+                            Gain = -1178.48m,
+                            Irr = -0.0137m,
+                            MarketValue = 13997.11m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 13997.11m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 13997.11m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 13997.11m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 13997.11m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 13399.56m,
+                            Gain = -597.55m,
+                            Irr = 0.0052m,
+                            MarketValue = 13399.56m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 13187.52m,
+                            Gain = -212.04m,
+                            Irr = -0.0022m,
+                            MarketValue = 13187.52m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 13071.24m,
+                            Gain = -116.28m,
+                            Irr = -0.0019m,
+                            MarketValue = 13071.24m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 14079.14m,
+                            Gain = 1007.9m,
+                            Irr = 0.0079m,
+                            MarketValue = 14079.14m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 19367.17m,
+                            Gain = 5288.03m,
+                            Irr = 0.0162m,
+                            MarketValue = 19367.17m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 19367.17m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 19367.17m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 19367.17m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 19367.17m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 19233.54m,
+                            Gain = -133.64m,
+                            Irr = -0.0034m,
+                            MarketValue = 19579.69m,
+                            NetContribution = 346.155m,
+                            ToDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 18035.21m,
+                            Gain = -1544.48m,
+                            Irr = -0.0133m,
+                            MarketValue = 18035.21m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 18083.61m,
+                            Gain = 48.4m,
+                            Irr = 0.0026m,
+                            MarketValue = 18083.61m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 15441.95m,
+                            Gain = -2641.66m,
+                            Irr = -0.0199m,
+                            MarketValue = 15441.95m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 13122.04m,
+                            Gain = -2319.91m,
+                            Irr = -0.0211m,
+                            MarketValue = 13122.04m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 13122.04m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 13122.04m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 13122.04m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 13122.04m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 12653.85m,
+                            Gain = -468.19m,
+                            Irr = -0.0022m,
+                            MarketValue = 12653.85m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 12473.39m,
+                            Gain = -180.46m,
+                            Irr = 0.0172m,
+                            MarketValue = 12473.39m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 10858.25m,
+                            Gain = -1615.14m,
+                            Irr = -0.0118m,
+                            MarketValue = 10858.25m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 11170.87m,
+                            Gain = 312.61m,
+                            Irr = 0.0183m,
+                            MarketValue = 11517.02m,
+                            NetContribution = 346.155m,
+                            ToDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 9681.17m,
+                            Gain = -1835.85m,
+                            Irr = -0.0111m,
+                            MarketValue = 9681.17m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 9681.17m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 9681.17m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 9681.17m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 9681.17m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 9667.53m,
+                            Gain = -13.64m,
+                            Irr = 0.0077m,
+                            MarketValue = 9667.53m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 10021.4m,
+                            Gain = 353.87m,
+                            Irr = 0.0168m,
+                            MarketValue = 10021.4m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 8182.71m,
+                            Gain = -1838.69m,
+                            Irr = -0.0145m,
+                            MarketValue = 8182.71m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 8559.08m,
+                            Gain = 376.37m,
+                            Irr = 0.005m,
+                            MarketValue = 8559.08m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 8408.95m,
+                            Gain = -150.13m,
+                            Irr = -0.001m,
+                            MarketValue = 8408.95m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 8408.95m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 8408.95m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 8408.95m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 8408.95m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 8715.89m,
+                            Gain = 306.94m,
+                            Irr = 0.0023m,
+                            MarketValue = 8715.89m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 8617.64m,
+                            Gain = -98.25m,
+                            Irr = -0.0008m,
+                            MarketValue = 8617.64m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 11056.33m,
+                            Gain = 2438.69m,
+                            Irr = 0.0142m,
+                            MarketValue = 11056.33m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 12126.18m,
+                            Gain = 1069.85m,
+                            Irr = 0.0074m,
+                            MarketValue = 12126.18m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            AttributeMemberId = -105,
+                            FromDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 12435.68m,
+                            Gain = 309.49m,
+                            Irr = 0.0148m,
+                            MarketValue = 12781.83m,
+                            NetContribution = 346.155m,
+                            ToDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.InvestmentPerformanceEntry", b =>
@@ -3219,6 +8239,998 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     b.HasIndex(new[] { "AccountObjectId" }, "IX_InvestmentPerformanceEntry_AccountObjectID");
 
                     b.ToTable("InvestmentPerformanceEntry", "FinanceApp");
+
+                    b.HasData(
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2022, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 22500m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 22500m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 22500m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 22500m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 22500m,
+                            Gain = -74.49m,
+                            Irr = -0.0033m,
+                            MarketValue = 22425.51m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 22425.51m,
+                            Gain = 770.81m,
+                            Irr = 0.0344m,
+                            MarketValue = 23196.32m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 23196.32m,
+                            Gain = -4827.63m,
+                            Irr = -0.2081m,
+                            MarketValue = 18368.69m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 18714.845m,
+                            Gain = 2601.67m,
+                            Irr = 0.139m,
+                            MarketValue = 21316.52m,
+                            NetContribution = 346.155m,
+                            ToDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 21316.52m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 21316.52m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 21316.52m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 21316.52m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 21316.52m,
+                            Gain = 1060.53m,
+                            Irr = 0.0498m,
+                            MarketValue = 22377.05m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 22377.05m,
+                            Gain = -545.64m,
+                            Irr = -0.0244m,
+                            MarketValue = 21831.41m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 21831.41m,
+                            Gain = 2223.37m,
+                            Irr = 0.1018m,
+                            MarketValue = 24054.78m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 25554.78m,
+                            Gain = 726.25m,
+                            Irr = 0.0284m,
+                            MarketValue = 26281.03m,
+                            NetContribution = 1500m,
+                            ToDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 26281.03m,
+                            Gain = 494.4m,
+                            Irr = 0.0188m,
+                            MarketValue = 26775.43m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 26775.43m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 26775.43m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 26775.43m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 26775.43m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 26775.43m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 26775.43m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 26775.43m,
+                            Gain = 197.15m,
+                            Irr = 0.0074m,
+                            MarketValue = 26972.58m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 26972.58m,
+                            Gain = -2292.98m,
+                            Irr = -0.085m,
+                            MarketValue = 24679.6m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 24679.6m,
+                            Gain = 169.36m,
+                            Irr = 0.0069m,
+                            MarketValue = 24848.96m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 24848.96m,
+                            Gain = 2631.08m,
+                            Irr = 0.1059m,
+                            MarketValue = 27480.04m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 27480.04m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 27480.04m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 27480.04m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 27480.04m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 28576.195m,
+                            Gain = 2079.27m,
+                            Irr = 0.0728m,
+                            MarketValue = 30655.47m,
+                            NetContribution = 1096.155m,
+                            ToDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 30655.47m,
+                            Gain = -670.09m,
+                            Irr = -0.0219m,
+                            MarketValue = 29985.38m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 29985.38m,
+                            Gain = 98.44m,
+                            Irr = 0.0033m,
+                            MarketValue = 30083.82m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 30083.82m,
+                            Gain = 617.47m,
+                            Irr = 0.0205m,
+                            MarketValue = 30701.29m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 30701.29m,
+                            Gain = 86.73m,
+                            Irr = 0.0028m,
+                            MarketValue = 30788.02m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 30788.02m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 30788.02m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 30788.02m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 30788.02m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 30788.02m,
+                            Gain = -2976.93m,
+                            Irr = -0.0967m,
+                            MarketValue = 27811.09m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 27811.09m,
+                            Gain = 3869.68m,
+                            Irr = 0.1391m,
+                            MarketValue = 31680.77m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 31680.77m,
+                            Gain = 1020.57m,
+                            Irr = 0.0322m,
+                            MarketValue = 32701.34m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 32701.34m,
+                            Gain = 144.18m,
+                            Irr = 0.0044m,
+                            MarketValue = 32845.52m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 32845.52m,
+                            Gain = 2187.22m,
+                            Irr = 0.0666m,
+                            MarketValue = 35032.74m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 35032.74m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 35032.74m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 35032.74m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 35032.74m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 35375.02m,
+                            Gain = -263.64m,
+                            Irr = -0.0075m,
+                            MarketValue = 35111.38m,
+                            NetContribution = 342.28m,
+                            ToDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 35111.38m,
+                            Gain = 828.68m,
+                            Irr = 0.0236m,
+                            MarketValue = 35940.06m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 35940.06m,
+                            Gain = -561.02m,
+                            Irr = -0.0156m,
+                            MarketValue = 35379.04m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 35379.04m,
+                            Gain = -768.92m,
+                            Irr = -0.0217m,
+                            MarketValue = 34610.12m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 34610.12m,
+                            Gain = -234.02m,
+                            Irr = -0.0068m,
+                            MarketValue = 34376.1m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 34376.1m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 34376.1m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 34376.1m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 34376.1m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 34376.1m,
+                            Gain = 2919.45m,
+                            Irr = 0.0849m,
+                            MarketValue = 37295.55m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 37295.55m,
+                            Gain = 317.66m,
+                            Irr = 0.0085m,
+                            MarketValue = 37613.21m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 37613.21m,
+                            Gain = 836.04m,
+                            Irr = 0.0222m,
+                            MarketValue = 38449.25m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 38795.405m,
+                            Gain = -3089.16m,
+                            Irr = -0.0796m,
+                            MarketValue = 35706.25m,
+                            NetContribution = 346.155m,
+                            ToDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 35706.25m,
+                            Gain = -1980.01m,
+                            Irr = -0.0555m,
+                            MarketValue = 33726.24m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 33726.24m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 33726.24m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 33726.24m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 33726.24m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 33726.24m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 33726.24m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 33726.24m,
+                            Gain = -2236.81m,
+                            Irr = -0.0663m,
+                            MarketValue = 31489.43m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 31489.43m,
+                            Gain = -18.49m,
+                            Irr = -0.0006m,
+                            MarketValue = 31470.94m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 31470.94m,
+                            Gain = 559.63m,
+                            Irr = 0.0178m,
+                            MarketValue = 32030.57m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 32030.57m,
+                            Gain = -972.27m,
+                            Irr = -0.0304m,
+                            MarketValue = 31058.3m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 31058.3m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 31058.3m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 31058.3m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 31058.3m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 31058.3m,
+                            Gain = -207.12m,
+                            Irr = -0.0067m,
+                            MarketValue = 30851.18m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 30851.18m,
+                            Gain = -491.39m,
+                            Irr = -0.0159m,
+                            MarketValue = 30359.79m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 30359.79m,
+                            Gain = -105.49m,
+                            Irr = -0.0035m,
+                            MarketValue = 30254.3m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 30254.3m,
+                            Gain = 1325.35m,
+                            Irr = 0.0438m,
+                            MarketValue = 31579.65m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 31579.65m,
+                            Gain = 5697.42m,
+                            Irr = 0.1804m,
+                            MarketValue = 37277.07m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 37277.07m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 37277.07m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 37277.07m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 37277.07m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 37623.225m,
+                            Gain = -192.33m,
+                            Irr = -0.0051m,
+                            MarketValue = 37430.9m,
+                            NetContribution = 346.155m,
+                            ToDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 38180.9m,
+                            Gain = -2500.33m,
+                            Irr = -0.0655m,
+                            MarketValue = 35680.57m,
+                            NetContribution = 750m,
+                            ToDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 35680.57m,
+                            Gain = 43.34m,
+                            Irr = 0.0012m,
+                            MarketValue = 35723.91m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 35723.91m,
+                            Gain = -4063.16m,
+                            Irr = -0.1137m,
+                            MarketValue = 31660.75m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 31660.75m,
+                            Gain = -2761.53m,
+                            Irr = -0.0872m,
+                            MarketValue = 28899.22m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 28899.22m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 28899.22m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 28899.22m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 28899.22m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 28899.22m,
+                            Gain = -644.55m,
+                            Irr = -0.0223m,
+                            MarketValue = 28254.67m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 28254.67m,
+                            Gain = 739.62m,
+                            Irr = 0.0262m,
+                            MarketValue = 28994.29m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 28994.29m,
+                            Gain = -1239.32m,
+                            Irr = -0.0427m,
+                            MarketValue = 27754.97m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 28101.125m,
+                            Gain = -130.03m,
+                            Irr = -0.0046m,
+                            MarketValue = 27971.1m,
+                            NetContribution = 346.155m,
+                            ToDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 27971.1m,
+                            Gain = -1884.73m,
+                            Irr = -0.0674m,
+                            MarketValue = 26086.37m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 26086.37m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 26086.37m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 26086.37m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 26086.37m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 26086.37m,
+                            Gain = 177.69m,
+                            Irr = 0.0068m,
+                            MarketValue = 26264.06m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 26264.06m,
+                            Gain = 421.66m,
+                            Irr = 0.0161m,
+                            MarketValue = 26685.72m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 26685.72m,
+                            Gain = -2339.45m,
+                            Irr = -0.0877m,
+                            MarketValue = 24346.27m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 24346.27m,
+                            Gain = 445.79m,
+                            Irr = 0.0183m,
+                            MarketValue = 24792.06m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 24792.06m,
+                            Gain = -73.57m,
+                            Irr = -0.003m,
+                            MarketValue = 24718.49m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 24718.49m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 24718.49m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 24718.49m,
+                            Gain = 0m,
+                            Irr = 0m,
+                            MarketValue = 24718.49m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 24718.49m,
+                            Gain = 535.86m,
+                            Irr = 0.0217m,
+                            MarketValue = 25254.35m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 25254.35m,
+                            Gain = -98.27m,
+                            Irr = -0.0039m,
+                            MarketValue = 25156.08m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 25906.08m,
+                            Gain = 3099.54m,
+                            Irr = 0.1196m,
+                            MarketValue = 29005.62m,
+                            NetContribution = 750m,
+                            ToDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 29005.62m,
+                            Gain = 1358.9m,
+                            Irr = 0.0468m,
+                            MarketValue = 30364.52m,
+                            NetContribution = 0m,
+                            ToDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            AccountObjectId = -11,
+                            FromDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AverageCapital = 30710.675m,
+                            Gain = 1101.49m,
+                            Irr = 0.0359m,
+                            MarketValue = 31812.17m,
+                            NetContribution = 346.155m,
+                            ToDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("NjordinSight.EntityModel.InvestmentStrategy", b =>

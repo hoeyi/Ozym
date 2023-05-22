@@ -5,10 +5,95 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NjordinSight.EntityMigration.FinanceApp
 {
-    public partial class Add_SampleSecurityGraph : Migration
+    public partial class Add_SampleData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "AccountCustodian",
+                columns: new[] { "AccountCustodianID", "CustodianCode", "DisplayName" },
+                values: new object[,]
+                {
+                    { -2, "TCB", "Tres Comas Brokerage" },
+                    { -1, "NSCU", "Northern Savings Credit Union" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "AccountObject",
+                columns: new[] { "AccountObjectID", "AccountObjectCode", "CloseDate", "ObjectDescription", "ObjectDisplayName", "ObjectType", "StartDate" },
+                values: new object[,]
+                {
+                    { -14, "ALL", null, "Aggregates all accounts.", "All accounts", "c", new DateTime(2015, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -13, "BROKERAGE", null, "Aggregates all brokerage accounts.", "Brokerage accounts", "c", new DateTime(2019, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -12, "CRYPTO", null, null, "Cryptocurrency Wallets", "a", new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, "INVEST", null, null, "Investing account", "a", new DateTime(2019, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -10, "DEBIT1", null, "Handles bill-paying and deposits.", "Checking Account", "a", new DateTime(2015, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "BankTransactionCode",
+                columns: new[] { "TransactionCodeID", "DisplayName", "TransactionCode" },
+                values: new object[,]
+                {
+                    { -42, "Salary/Wages", "salary" },
+                    { -23, "Restaurants/Dining", "dineout" },
+                    { -21, "Mortgage/Rent", "mortgage" },
+                    { -16, "Internet Service", "internet" },
+                    { -15, "Insurance", "insurance" },
+                    { -12, "Healthcare/Medical", "medical" },
+                    { -9, "Gasoline/Fuel", "gas" },
+                    { -7, "Entertainment", "media" },
+                    { -5, "Electricity Service", "electricity" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategy",
+                columns: new[] { "InvestmentStrategyID", "DisplayName", "Notes" },
+                values: new object[,]
+                {
+                    { -2, "YOLOS", "Risky Bets Strategy" },
+                    { -1, "Retirement", "Retirement Strategy" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "MarketIndex",
+                columns: new[] { "IndexID", "IndexCode", "IndexDescription" },
+                values: new object[,]
+                {
+                    { -4, "NASDAQ", "NASDAQ Composite" },
+                    { -3, "DJIA", "Dow Jones Industrial Average" },
+                    { -2, "SPX", "S&P 500" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "ModelAttribute",
+                columns: new[] { "AttributeID", "DisplayName" },
+                values: new object[,]
+                {
+                    { -950, "Economy" },
+                    { -930, "Transaction Group" },
+                    { -920, "Transaction Type" },
+                    { -90, "Account Type" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "ReportConfiguration",
+                columns: new[] { "ConfigurationID", "ConfigurationCode", "ConfigurationDescription", "XmlDefinition" },
+                values: new object[] { -1, "Default", "Standard style sheet for report content.", "<ReportConfiguration xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><Settings><Setting Name=\"CurrencyPrecision\" Label=\"Currency Precision\" Value=\"c\" /><Setting Name=\"IncludeClosed\" Label=\"Include Closed\" Value=\"false\" /><Setting Name=\"TradableAccountsOnly\" Label=\"Tradable Accounts Only\" Value=\"true\" /><Setting Name=\"Theme\" Label=\"Theme\" Value=\"Default\" /></Settings></ReportConfiguration>" });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "ReportStyleSheet",
+                columns: new[] { "StyleSheetID", "StyleSheetCode", "StyleSheetDescription", "XmlDefinition" },
+                values: new object[] { -1, "Default", "Standard style sheet for report content.", "<StyleSheet xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Fonts>\r\n    <Font Name=\"TableGroupHeader\" FontFamily=\"Arial\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray5\" BackColor=\"blue\" />\r\n    <Font Name=\"TableSubGroupHeader\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableColumnHeader\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableCell\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ChartAxisLabel\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"7pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ChartTitle\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"12pt\" Color=\"blue\" BackColor=\"No Color\" />\r\n    <Font Name=\"ReportParameter\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Italic\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ReportTitle\" FontFamily=\"Cambria\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"14pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ChartLegend\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableCellSubTotal\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableCellTotal\" FontFamily=\"Arial\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ReportPageNumber\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"7pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableDefault\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ReportDefault\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableTotalRow\" FontFamily=\"Arial\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray5\" BackColor=\"blue\" />\r\n    <Font Name=\"ChartSeriesLabel\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"7pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n  </Fonts>\r\n  <Colors>\r\n    <Color Name=\"gray0\" HexCode=\"#191919\" />\r\n    <Color Name=\"gray1\" HexCode=\"#212121\" />\r\n    <Color Name=\"gray2\" HexCode=\"#303030\" />\r\n    <Color Name=\"gray3\" HexCode=\"#424242\" />\r\n    <Color Name=\"gray4\" HexCode=\"#D2D2D2\" />\r\n    <Color Name=\"gray5\" HexCode=\"#E6E6E6\" />\r\n    <Color Name=\"blue\" HexCode=\"#0E2C39\" />\r\n    <Color Name=\"yellow\" HexCode=\"#5B4713\" />\r\n    <Color Name=\"green\" HexCode=\"#0E391B\" />\r\n    <Color Name=\"red\" HexCode=\"#5B2113\" />\r\n  </Colors>\r\n  <DefaultFont BackColor=\"No Color\" Color=\"#000000\" Name=\"default\" Decoration=\"Default\" Size=\"8pt\" Weight=\"Default\" Style=\"Default\" Family=\"Arial\" />\r\n  <AlphaBlendHexCode>#ffffff</AlphaBlendHexCode>\r\n</StyleSheet>" });
+
             migrationBuilder.InsertData(
                 schema: "FinanceApp",
                 table: "Security",
@@ -29,7 +114,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -576, false, false, "Stellar Wealth Management", "FutureEnergy Clean Energy Stock", null, -303 },
                     { -575, false, false, "Stellar Wealth Management", "Forestbrook Renewable Energy Fund", null, -303 },
                     { -574, false, false, "Alexander Sachs Group", "Sachs Industrial Fund", null, -303 },
-                    { -523, false, false, "Pinnacle Ventures", "Pinnacle Ventures", -2, -300 },
+                    { -523, false, false, "Pinnacle Ventures", "Pinnacle Ventures", -2, -300 }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "Security",
+                columns: new[] { "SecurityID", "HasPerpetualMarket", "HasPerpetualPrice", "Issuer", "SecurityDescription", "SecurityExchangeID", "SecurityTypeID" },
+                values: new object[,]
+                {
                     { -514, false, false, "Oceanic Finance Solutions", "Oceanic Finance Bond Fund", -8, -302 },
                     { -493, false, false, "Stellar Wealth Management", "Stellar Wealth Management", -2, -300 },
                     { -482, false, false, "MindShares", "MindShares", -5, -300 },
@@ -48,6 +141,651 @@ namespace NjordinSight.EntityMigration.FinanceApp
 
             migrationBuilder.InsertData(
                 schema: "FinanceApp",
+                table: "Account",
+                columns: new[] { "AccountID", "AccountCustodianID", "AccountNumber", "BooksClosedDate", "HasBankTransaction", "HasBrokerTransaction", "HasWallet", "IsComplianceTradable" },
+                values: new object[,]
+                {
+                    { -12, null, "553BF08", null, false, true, true, false },
+                    { -11, -2, "4-8-15-16-23-42", null, false, true, false, false },
+                    { -10, -1, "8675309", null, true, false, false, false }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "AccountComposite",
+                column: "AccountCompositeID",
+                values: new object[]
+                {
+                    -14,
+                    -13
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                columns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate", "AverageCapital", "Gain", "IRR", "MarketValue", "NetContribution", "ToDate" },
+                values: new object[,]
+                {
+                    { -11, -105, new DateTime(2022, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 7500m, 0m, 0m, 7500m, 0m, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 7500m, 0m, 0m, 7500m, 0m, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 7404.64m, -95.36m, -0.0031m, 7404.64m, 0m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 7717.21m, 312.57m, 0.0112m, 7717.21m, 0m, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 3316.52m, -4400.69m, -0.0152m, 3316.52m, 0m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 5447.82m, 2131.29m, 0.0206m, 5793.97m, 346.155m, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 5793.97m, 0m, 0m, 5793.97m, 0m, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 5793.97m, 0m, 0m, 5793.97m, 0m, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 6856.49m, 1062.52m, 0.007m, 6856.49m, 0m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 6357.21m, -499.28m, 0.0095m, 6357.21m, 0m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 8175.92m, 1818.71m, 0.0142m, 8175.92m, 0m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 8775.65m, 599.73m, 0.0059m, 8775.65m, 0m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 9127.43m, 351.78m, 0.0062m, 9127.43m, 0m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 9127.43m, 0m, 0m, 9127.43m, 0m, new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 9127.43m, 0m, 0m, 9127.43m, 0m, new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 9127.43m, 0m, 0m, 9127.43m, 0m, new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 9338.96m, 211.53m, 0.0019m, 9338.96m, 0m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 7772.02m, -1566.94m, -0.0104m, 7772.02m, 0m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 8164.33m, 392.31m, -0.0096m, 8164.33m, 0m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 11060.74m, 2896.41m, 0.0197m, 11060.74m, 0m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 11060.74m, 0m, 0m, 11060.74m, 0m, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 11060.74m, 0m, 0m, 11060.74m, 0m, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 13010.61m, 1949.86m, 0.0146m, 13356.76m, 346.155m, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 12694.96m, -661.8m, -0.0038m, 12694.96m, 0m, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 12710.36m, 15.4m, 0.0003m, 12710.36m, 0m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 12813.05m, 102.69m, 0.0111m, 12813.05m, 0m, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 12864.12m, 51.07m, 0.0039m, 12864.12m, 0m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 12864.12m, 0m, 0m, 12864.12m, 0m, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 12864.12m, 0m, 0m, 12864.12m, 0m, new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 10273.67m, -2590.45m, -0.0152m, 10273.67m, 0m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 13468.18m, 3194.51m, 0.0162m, 13468.18m, 0m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 14598.85m, 1130.67m, 0.0178m, 14598.85m, 0m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 14923.56m, 324.71m, 0.0164m, 14923.56m, 0m, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 17116.89m, 2193.33m, -0.0156m, 17116.89m, 0m, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 17116.89m, 0m, 0m, 17116.89m, 0m, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 17116.89m, 0m, 0m, 17116.89m, 0m, new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 16992.76m, -124.13m, -0.0111m, 17335.04m, 342.28m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                columns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate", "AverageCapital", "Gain", "IRR", "MarketValue", "NetContribution", "ToDate" },
+                values: new object[,]
+                {
+                    { -11, -105, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 17907.83m, 572.79m, 0.0131m, 17907.83m, 0m, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 17525.53m, -382.3m, -0.0105m, 17525.53m, 0m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 16992.81m, -532.72m, -0.0066m, 16992.81m, 0m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 16736.05m, -256.76m, -0.0044m, 16736.05m, 0m, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 16736.05m, 0m, 0m, 16736.05m, 0m, new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 16736.05m, 0m, 0m, 16736.05m, 0m, new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 19290.46m, 2554.41m, 0.0123m, 19290.46m, 0m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 19597.62m, 307.16m, 0.0046m, 19597.62m, 0m, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 20319.55m, 721.93m, 0.0068m, 20319.55m, 0m, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 17362.24m, -2957.32m, -0.0131m, 17708.39m, 346.155m, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 15754.89m, -1953.5m, -0.0076m, 15754.89m, 0m, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 15754.89m, 0m, 0m, 15754.89m, 0m, new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 15754.89m, 0m, 0m, 15754.89m, 0m, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 15754.89m, 0m, 0m, 15754.89m, 0m, new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 14800.3m, -954.59m, -0.0217m, 14800.3m, 0m, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 14796.67m, -3.63m, -0.0001m, 14796.67m, 0m, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 15175.59m, 378.92m, 0.0067m, 15175.59m, 0m, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 13997.11m, -1178.48m, -0.0137m, 13997.11m, 0m, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 13997.11m, 0m, 0m, 13997.11m, 0m, new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 13997.11m, 0m, 0m, 13997.11m, 0m, new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 13399.56m, -597.55m, 0.0052m, 13399.56m, 0m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 13187.52m, -212.04m, -0.0022m, 13187.52m, 0m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 13071.24m, -116.28m, -0.0019m, 13071.24m, 0m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 14079.14m, 1007.9m, 0.0079m, 14079.14m, 0m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 19367.17m, 5288.03m, 0.0162m, 19367.17m, 0m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 19367.17m, 0m, 0m, 19367.17m, 0m, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 19367.17m, 0m, 0m, 19367.17m, 0m, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 19233.54m, -133.64m, -0.0034m, 19579.69m, 346.155m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 18035.21m, -1544.48m, -0.0133m, 18035.21m, 0m, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 18083.61m, 48.4m, 0.0026m, 18083.61m, 0m, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 15441.95m, -2641.66m, -0.0199m, 15441.95m, 0m, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 13122.04m, -2319.91m, -0.0211m, 13122.04m, 0m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 13122.04m, 0m, 0m, 13122.04m, 0m, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 13122.04m, 0m, 0m, 13122.04m, 0m, new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 12653.85m, -468.19m, -0.0022m, 12653.85m, 0m, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 12473.39m, -180.46m, 0.0172m, 12473.39m, 0m, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 10858.25m, -1615.14m, -0.0118m, 10858.25m, 0m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 11170.87m, 312.61m, 0.0183m, 11517.02m, 346.155m, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 9681.17m, -1835.85m, -0.0111m, 9681.17m, 0m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 9681.17m, 0m, 0m, 9681.17m, 0m, new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 9681.17m, 0m, 0m, 9681.17m, 0m, new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 9667.53m, -13.64m, 0.0077m, 9667.53m, 0m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                columns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate", "AverageCapital", "Gain", "IRR", "MarketValue", "NetContribution", "ToDate" },
+                values: new object[,]
+                {
+                    { -11, -105, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 10021.4m, 353.87m, 0.0168m, 10021.4m, 0m, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 8182.71m, -1838.69m, -0.0145m, 8182.71m, 0m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 8559.08m, 376.37m, 0.005m, 8559.08m, 0m, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 8408.95m, -150.13m, -0.001m, 8408.95m, 0m, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 8408.95m, 0m, 0m, 8408.95m, 0m, new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 8408.95m, 0m, 0m, 8408.95m, 0m, new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 8715.89m, 306.94m, 0.0023m, 8715.89m, 0m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 8617.64m, -98.25m, -0.0008m, 8617.64m, 0m, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 11056.33m, 2438.69m, 0.0142m, 11056.33m, 0m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 12126.18m, 1069.85m, 0.0074m, 12126.18m, 0m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -105, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 12435.68m, 309.49m, 0.0148m, 12781.83m, 346.155m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2022, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 15000m, 0m, 0m, 15000m, 0m, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 15000m, 0m, 0m, 15000m, 0m, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 15020.87m, 20.87m, -0.0028m, 15020.87m, 0m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 15479.11m, 458.24m, 0.0099m, 15479.11m, 0m, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 15052.17m, -426.94m, -0.0092m, 15052.17m, 0m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 15522.55m, 470.38m, 0.0221m, 15522.55m, 0m, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 15522.55m, 0m, 0m, 15522.55m, 0m, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 15522.55m, 0m, 0m, 15522.55m, 0m, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 15520.56m, -1.99m, 0.0006m, 15520.56m, 0m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 15474.2m, -46.36m, 0.0051m, 15474.2m, 0m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 15878.86m, 404.66m, 0.0098m, 15878.86m, 0m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 16005.38m, 126.52m, 0.0063m, 17505.38m, 1500m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 17648m, 142.62m, 0.0028m, 17648m, 0m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 17648m, 0m, 0m, 17648m, 0m, new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 17648m, 0m, 0m, 17648m, 0m, new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 17648m, 0m, 0m, 17648m, 0m, new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 17633.62m, -14.38m, -0.0005m, 17633.62m, 0m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 16907.58m, -726.04m, -0.0101m, 16907.58m, 0m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 16684.63m, -222.95m, -0.0053m, 16684.63m, 0m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 16419.3m, -265.33m, 0.0138m, 16419.3m, 0m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 16419.3m, 0m, 0m, 16419.3m, 0m, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 16419.3m, 0m, 0m, 16419.3m, 0m, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 16548.71m, 129.41m, 0.0095m, 17298.71m, 750m, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 17290.42m, -8.29m, -0.0006m, 17290.42m, 0m, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 17373.46m, 83.04m, 0.0014m, 17373.46m, 0m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 17888.24m, 514.78m, 0.0072m, 17888.24m, 0m, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 17923.9m, 35.66m, 0.0015m, 17923.9m, 0m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 17923.9m, 0m, 0m, 17923.9m, 0m, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 17923.9m, 0m, 0m, 17923.9m, 0m, new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 17537.42m, -386.48m, -0.01m, 17537.42m, 0m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 18212.59m, 675.17m, 0.0118m, 18212.59m, 0m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                columns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate", "AverageCapital", "Gain", "IRR", "MarketValue", "NetContribution", "ToDate" },
+                values: new object[,]
+                {
+                    { -11, -100, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 18102.49m, -110.1m, 0.0108m, 18102.49m, 0m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 17921.96m, -180.53m, 0.0085m, 17921.96m, 0m, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 17915.85m, -6.11m, -0.0076m, 17915.85m, 0m, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 17915.85m, 0m, 0m, 17915.85m, 0m, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 17915.85m, 0m, 0m, 17915.85m, 0m, new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 17776.34m, -139.51m, -0.0077m, 17776.34m, 0m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 18032.23m, 255.89m, 0.0102m, 18032.23m, 0m, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 17853.51m, -178.72m, -0.0083m, 17853.51m, 0m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 17617.31m, -236.2m, -0.0058m, 17617.31m, 0m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 17640.05m, 22.74m, 0.0022m, 17640.05m, 0m, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 17640.05m, 0m, 0m, 17640.05m, 0m, new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 17640.05m, 0m, 0m, 17640.05m, 0m, new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 18005.09m, 365.04m, 0.0104m, 18005.09m, 0m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 18015.59m, 10.5m, 0.0003m, 18015.59m, 0m, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 18129.7m, 114.11m, 0.002m, 18129.7m, 0m, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 17997.86m, -131.84m, -0.0089m, 17997.86m, 0m, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 17971.35m, -26.51m, -0.0025m, 17971.35m, 0m, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 17971.35m, 0m, 0m, 17971.35m, 0m, new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 17971.35m, 0m, 0m, 17971.35m, 0m, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 17971.35m, 0m, 0m, 17971.35m, 0m, new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 16689.13m, -1282.22m, -0.0188m, 16689.13m, 0m, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 16674.27m, -14.86m, -0.0021m, 16674.27m, 0m, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 16854.98m, 180.71m, 0.0062m, 16854.98m, 0m, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 17061.19m, 206.21m, -0.0103m, 17061.19m, 0m, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 17061.19m, 0m, 0m, 17061.19m, 0m, new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 17061.19m, 0m, 0m, 17061.19m, 0m, new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 17451.62m, 390.43m, 0.0044m, 17451.62m, 0m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 17172.27m, -279.35m, -0.0042m, 17172.27m, 0m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 17183.06m, 10.79m, 0.0003m, 17183.06m, 0m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 17500.51m, 317.45m, 0.0055m, 17500.51m, 0m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 17909.9m, 409.39m, 0.0136m, 17909.9m, 0m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 17909.9m, 0m, 0m, 17909.9m, 0m, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 17909.9m, 0m, 0m, 17909.9m, 0m, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 17851.21m, -58.69m, -0.0029m, 17851.21m, 0m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 16895.36m, -955.85m, -0.0137m, 17645.36m, 750m, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 17640.3m, -5.06m, 0.0027m, 17640.3m, 0m, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 16218.8m, -1421.5m, -0.0161m, 16218.8m, 0m, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 15777.18m, -441.62m, -0.0166m, 15777.18m, 0m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 15777.18m, 0m, 0m, 15777.18m, 0m, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 15777.18m, 0m, 0m, 15777.18m, 0m, new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 15600.82m, -176.36m, -0.0067m, 15600.82m, 0m, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 16520.9m, 920.08m, 0.0139m, 16520.9m, 0m, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                columns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate", "AverageCapital", "Gain", "IRR", "MarketValue", "NetContribution", "ToDate" },
+                values: new object[,]
+                {
+                    { -11, -100, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 16896.72m, 375.82m, -0.0142m, 16896.72m, 0m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 16454.08m, -442.64m, 0.0148m, 16454.08m, 0m, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 16405.2m, -48.88m, -0.0153m, 16405.2m, 0m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 16405.2m, 0m, 0m, 16405.2m, 0m, new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 16405.2m, 0m, 0m, 16405.2m, 0m, new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 16596.53m, 191.33m, 0.0122m, 16596.53m, 0m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 16664.32m, 67.79m, 0.0114m, 16664.32m, 0m, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 16163.56m, -500.76m, -0.016m, 16163.56m, 0m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 16232.98m, 69.42m, 0.0035m, 16232.98m, 0m, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 16309.54m, 76.56m, 0.0046m, 16309.54m, 0m, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 16309.54m, 0m, 0m, 16309.54m, 0m, new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 16309.54m, 0m, 0m, 16309.54m, 0m, new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 16538.46m, 228.92m, 0.0054m, 16538.46m, 0m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 16538.44m, -0.02m, 0.0003m, 16538.44m, 0m, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 17199.29m, 660.85m, 0.0127m, 17949.29m, 750m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 18238.34m, 289.05m, 0.0061m, 18238.34m, 0m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -100, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 19030.34m, 792m, 0.0116m, 19030.34m, 0m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                columns: new[] { "AccountObjectID", "FromDate", "AverageCapital", "Gain", "IRR", "MarketValue", "NetContribution", "ToDate" },
+                values: new object[,]
+                {
+                    { -11, new DateTime(2022, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 22500m, 0m, 0m, 22500m, 0m, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 22500m, 0m, 0m, 22500m, 0m, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 22500m, -74.49m, -0.0033m, 22425.51m, 0m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 22425.51m, 770.81m, 0.0344m, 23196.32m, 0m, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 23196.32m, -4827.63m, -0.2081m, 18368.69m, 0m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 18714.845m, 2601.67m, 0.139m, 21316.52m, 346.155m, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 21316.52m, 0m, 0m, 21316.52m, 0m, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 21316.52m, 0m, 0m, 21316.52m, 0m, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 21316.52m, 1060.53m, 0.0498m, 22377.05m, 0m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 22377.05m, -545.64m, -0.0244m, 21831.41m, 0m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 21831.41m, 2223.37m, 0.1018m, 24054.78m, 0m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 25554.78m, 726.25m, 0.0284m, 26281.03m, 1500m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 26281.03m, 494.4m, 0.0188m, 26775.43m, 0m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 26775.43m, 0m, 0m, 26775.43m, 0m, new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 26775.43m, 0m, 0m, 26775.43m, 0m, new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 26775.43m, 0m, 0m, 26775.43m, 0m, new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 26775.43m, 197.15m, 0.0074m, 26972.58m, 0m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 26972.58m, -2292.98m, -0.085m, 24679.6m, 0m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 24679.6m, 169.36m, 0.0069m, 24848.96m, 0m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 24848.96m, 2631.08m, 0.1059m, 27480.04m, 0m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 27480.04m, 0m, 0m, 27480.04m, 0m, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 27480.04m, 0m, 0m, 27480.04m, 0m, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 28576.195m, 2079.27m, 0.0728m, 30655.47m, 1096.155m, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 30655.47m, -670.09m, -0.0219m, 29985.38m, 0m, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 29985.38m, 98.44m, 0.0033m, 30083.82m, 0m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                columns: new[] { "AccountObjectID", "FromDate", "AverageCapital", "Gain", "IRR", "MarketValue", "NetContribution", "ToDate" },
+                values: new object[,]
+                {
+                    { -11, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 30083.82m, 617.47m, 0.0205m, 30701.29m, 0m, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 30701.29m, 86.73m, 0.0028m, 30788.02m, 0m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 30788.02m, 0m, 0m, 30788.02m, 0m, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 30788.02m, 0m, 0m, 30788.02m, 0m, new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 30788.02m, -2976.93m, -0.0967m, 27811.09m, 0m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 27811.09m, 3869.68m, 0.1391m, 31680.77m, 0m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 31680.77m, 1020.57m, 0.0322m, 32701.34m, 0m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 32701.34m, 144.18m, 0.0044m, 32845.52m, 0m, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 32845.52m, 2187.22m, 0.0666m, 35032.74m, 0m, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 35032.74m, 0m, 0m, 35032.74m, 0m, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 35032.74m, 0m, 0m, 35032.74m, 0m, new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 35375.02m, -263.64m, -0.0075m, 35111.38m, 342.28m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 35111.38m, 828.68m, 0.0236m, 35940.06m, 0m, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 35940.06m, -561.02m, -0.0156m, 35379.04m, 0m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 35379.04m, -768.92m, -0.0217m, 34610.12m, 0m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 34610.12m, -234.02m, -0.0068m, 34376.1m, 0m, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 34376.1m, 0m, 0m, 34376.1m, 0m, new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 34376.1m, 0m, 0m, 34376.1m, 0m, new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 34376.1m, 2919.45m, 0.0849m, 37295.55m, 0m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 37295.55m, 317.66m, 0.0085m, 37613.21m, 0m, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 37613.21m, 836.04m, 0.0222m, 38449.25m, 0m, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 38795.405m, -3089.16m, -0.0796m, 35706.25m, 346.155m, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 35706.25m, -1980.01m, -0.0555m, 33726.24m, 0m, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 33726.24m, 0m, 0m, 33726.24m, 0m, new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 33726.24m, 0m, 0m, 33726.24m, 0m, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 33726.24m, 0m, 0m, 33726.24m, 0m, new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 33726.24m, -2236.81m, -0.0663m, 31489.43m, 0m, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 31489.43m, -18.49m, -0.0006m, 31470.94m, 0m, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 31470.94m, 559.63m, 0.0178m, 32030.57m, 0m, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 32030.57m, -972.27m, -0.0304m, 31058.3m, 0m, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 31058.3m, 0m, 0m, 31058.3m, 0m, new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 31058.3m, 0m, 0m, 31058.3m, 0m, new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 31058.3m, -207.12m, -0.0067m, 30851.18m, 0m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 30851.18m, -491.39m, -0.0159m, 30359.79m, 0m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 30359.79m, -105.49m, -0.0035m, 30254.3m, 0m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 30254.3m, 1325.35m, 0.0438m, 31579.65m, 0m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 31579.65m, 5697.42m, 0.1804m, 37277.07m, 0m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 37277.07m, 0m, 0m, 37277.07m, 0m, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 37277.07m, 0m, 0m, 37277.07m, 0m, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 37623.225m, -192.33m, -0.0051m, 37430.9m, 346.155m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 38180.9m, -2500.33m, -0.0655m, 35680.57m, 750m, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 35680.57m, 43.34m, 0.0012m, 35723.91m, 0m, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                columns: new[] { "AccountObjectID", "FromDate", "AverageCapital", "Gain", "IRR", "MarketValue", "NetContribution", "ToDate" },
+                values: new object[,]
+                {
+                    { -11, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 35723.91m, -4063.16m, -0.1137m, 31660.75m, 0m, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 31660.75m, -2761.53m, -0.0872m, 28899.22m, 0m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 28899.22m, 0m, 0m, 28899.22m, 0m, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 28899.22m, 0m, 0m, 28899.22m, 0m, new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 28899.22m, -644.55m, -0.0223m, 28254.67m, 0m, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 28254.67m, 739.62m, 0.0262m, 28994.29m, 0m, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 28994.29m, -1239.32m, -0.0427m, 27754.97m, 0m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 28101.125m, -130.03m, -0.0046m, 27971.1m, 346.155m, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 27971.1m, -1884.73m, -0.0674m, 26086.37m, 0m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 26086.37m, 0m, 0m, 26086.37m, 0m, new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 26086.37m, 0m, 0m, 26086.37m, 0m, new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 26086.37m, 177.69m, 0.0068m, 26264.06m, 0m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 26264.06m, 421.66m, 0.0161m, 26685.72m, 0m, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 26685.72m, -2339.45m, -0.0877m, 24346.27m, 0m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 24346.27m, 445.79m, 0.0183m, 24792.06m, 0m, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 24792.06m, -73.57m, -0.003m, 24718.49m, 0m, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 24718.49m, 0m, 0m, 24718.49m, 0m, new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 24718.49m, 0m, 0m, 24718.49m, 0m, new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 24718.49m, 535.86m, 0.0217m, 25254.35m, 0m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 25254.35m, -98.27m, -0.0039m, 25156.08m, 0m, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 25906.08m, 3099.54m, 0.1196m, 29005.62m, 750m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 29005.62m, 1358.9m, 0.0468m, 30364.52m, 0m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 30710.675m, 1101.49m, 0.0359m, 31812.17m, 346.155m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategyTarget",
+                columns: new[] { "AttributeMemberID", "EffectiveDate", "InvestmentStrategyID", "Weight" },
+                values: new object[,]
+                {
+                    { -103, new DateTime(2019, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -2, 0.4m },
+                    { -102, new DateTime(2019, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -2, 0.6m },
+                    { -101, new DateTime(2021, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -1, 0.2m },
+                    { -100, new DateTime(2021, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -1, 0.8m }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                columns: new[] { "IndexPriceID", "MarketIndexID", "Price", "PriceCode", "PriceDate" },
+                values: new object[,]
+                {
+                    { -186, -2, 0m, "p", new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -185, -4, 0m, "p", new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -184, -3, 0m, "p", new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -183, -2, 0m, "p", new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -182, -4, 0m, "p", new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -181, -3, 0m, "p", new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -180, -2, 0m, "p", new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -179, -4, 0m, "p", new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -178, -3, 0m, "p", new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -177, -2, 0m, "p", new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -176, -4, 0m, "p", new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -175, -3, 0m, "p", new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -174, -2, 0m, "p", new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -173, -4, 0m, "p", new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -172, -3, 0m, "p", new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                columns: new[] { "IndexPriceID", "MarketIndexID", "Price", "PriceCode", "PriceDate" },
+                values: new object[,]
+                {
+                    { -171, -2, 0m, "p", new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -170, -4, 0m, "p", new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -169, -3, 0m, "p", new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -168, -2, 0m, "p", new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -167, -4, 0m, "p", new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -166, -3, 0m, "p", new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -165, -2, 0m, "p", new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -164, -4, 0m, "p", new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -163, -3, 0m, "p", new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -162, -2, 0m, "p", new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -161, -4, 0m, "p", new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -160, -3, 0m, "p", new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -159, -2, 0m, "p", new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -158, -4, 0m, "p", new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -157, -3, 0m, "p", new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -156, -2, 0m, "p", new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -155, -4, 0m, "p", new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -154, -3, 0m, "p", new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -153, -2, 0m, "p", new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -152, -4, 0m, "p", new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -151, -3, 0m, "p", new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -150, -2, 0m, "p", new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -149, -4, 0m, "p", new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -148, -3, 0m, "p", new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -147, -2, 0m, "p", new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -146, -4, 0m, "p", new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -145, -3, 0m, "p", new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -144, -2, 0m, "p", new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -143, -4, 0m, "p", new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -142, -3, 0m, "p", new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -141, -2, 0m, "p", new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -140, -4, 0m, "p", new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -139, -3, 0m, "p", new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -138, -2, 0m, "p", new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -137, -4, 0m, "p", new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -136, -3, 0m, "p", new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -135, -2, 0m, "p", new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -134, -4, 0m, "p", new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -133, -3, 0m, "p", new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -132, -2, 0m, "p", new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -131, -4, 0m, "p", new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -130, -3, 0m, "p", new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                columns: new[] { "IndexPriceID", "MarketIndexID", "Price", "PriceCode", "PriceDate" },
+                values: new object[,]
+                {
+                    { -129, -2, 0m, "p", new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -128, -4, 0m, "p", new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -127, -3, 0m, "p", new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -126, -2, 0m, "p", new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -125, -4, 0m, "p", new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -124, -3, 0m, "p", new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -123, -2, 0m, "p", new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -122, -4, 0m, "p", new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -121, -3, 0m, "p", new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -120, -2, 0m, "p", new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -119, -4, 0m, "p", new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -118, -3, 0m, "p", new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -117, -2, 0m, "p", new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -116, -4, 0m, "p", new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -115, -3, 0m, "p", new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -114, -2, 0m, "p", new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -113, -4, 0m, "p", new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -112, -3, 0m, "p", new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -111, -2, 0m, "p", new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -110, -4, 0m, "p", new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -109, -3, 0m, "p", new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -108, -2, 0m, "p", new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -107, -4, 0m, "p", new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -106, -3, 0m, "p", new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -105, -2, 0m, "p", new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -104, -4, 0m, "p", new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -103, -3, 0m, "p", new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -102, -2, 0m, "p", new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -101, -4, 0m, "p", new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -100, -3, 0m, "p", new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -99, -2, 0m, "p", new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -98, -4, 0m, "p", new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -97, -3, 0m, "p", new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -96, -2, 0m, "p", new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -95, -4, 0m, "p", new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -94, -3, 0m, "p", new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -93, -2, 0m, "p", new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -92, -4, 0m, "p", new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -91, -3, 0m, "p", new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -90, -2, 0m, "p", new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -89, -4, 0m, "p", new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -88, -3, 0m, "p", new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                columns: new[] { "IndexPriceID", "MarketIndexID", "Price", "PriceCode", "PriceDate" },
+                values: new object[,]
+                {
+                    { -87, -2, 0m, "p", new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -86, -4, 0m, "p", new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -85, -3, 0m, "p", new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -84, -2, 0m, "p", new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -83, -4, 0m, "p", new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -82, -3, 0m, "p", new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -81, -2, 0m, "p", new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -80, -4, 0m, "p", new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -79, -3, 0m, "p", new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -78, -2, 0m, "p", new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -77, -4, 0m, "p", new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -76, -3, 0m, "p", new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -75, -2, 0m, "p", new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -74, -4, 0m, "p", new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -73, -3, 0m, "p", new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -72, -2, 0m, "p", new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -71, -4, 0m, "p", new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -70, -3, 0m, "p", new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -69, -2, 0m, "p", new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -68, -4, 0m, "p", new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -67, -3, 0m, "p", new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -66, -2, 0m, "p", new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -65, -4, 0m, "p", new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -64, -3, 0m, "p", new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -63, -2, 0m, "p", new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -62, -4, 0m, "p", new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -61, -3, 0m, "p", new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -60, -2, 0m, "p", new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -59, -4, 0m, "p", new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -58, -3, 0m, "p", new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -57, -2, 0m, "p", new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -56, -4, 0m, "p", new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -55, -3, 0m, "p", new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -54, -2, 0m, "p", new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -53, -4, 0m, "p", new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -52, -3, 0m, "p", new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -51, -2, 0m, "p", new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -50, -4, 0m, "p", new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -49, -3, 0m, "p", new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -48, -2, 0m, "p", new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -47, -4, 0m, "p", new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -46, -3, 0m, "p", new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                columns: new[] { "IndexPriceID", "MarketIndexID", "Price", "PriceCode", "PriceDate" },
+                values: new object[,]
+                {
+                    { -45, -2, 0m, "p", new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -44, -4, 0m, "p", new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -43, -3, 0m, "p", new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -42, -2, 0m, "p", new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -41, -4, 0m, "p", new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -40, -3, 0m, "p", new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -39, -2, 0m, "p", new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -38, -4, 0m, "p", new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -37, -3, 0m, "p", new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -36, -2, 0m, "p", new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -35, -4, 0m, "p", new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -34, -3, 0m, "p", new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -33, -2, 0m, "p", new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -32, -4, 0m, "p", new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -31, -3, 0m, "p", new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -30, -2, 0m, "p", new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -29, -4, 0m, "p", new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -28, -3, 0m, "p", new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -27, -2, 0m, "p", new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -26, -4, 0m, "p", new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -25, -3, 0m, "p", new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -24, -2, 0m, "p", new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -23, -4, 0m, "p", new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -22, -3, 0m, "p", new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -21, -2, 0m, "p", new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -20, -4, 0m, "p", new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -19, -3, 0m, "p", new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -18, -2, 0m, "p", new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -17, -4, 0m, "p", new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -16, -3, 0m, "p", new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -15, -2, 0m, "p", new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -14, -4, 0m, "p", new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -13, -3, 0m, "p", new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -12, -2, 0m, "p", new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -11, -4, 0m, "p", new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -10, -3, 0m, "p", new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -9, -2, 0m, "p", new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -8, -4, 0m, "p", new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7, -3, 0m, "p", new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -6, -2, 0m, "p", new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -5, -4, 0m, "p", new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -4, -3, 0m, "p", new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                columns: new[] { "IndexPriceID", "MarketIndexID", "Price", "PriceCode", "PriceDate" },
+                values: new object[,]
+                {
+                    { -3, -2, 0m, "p", new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -2, -4, 0m, "p", new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -1, -3, 0m, "p", new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                columns: new[] { "AttributeMemberID", "AttributeID", "DisplayName", "DisplayOrder" },
+                values: new object[,]
+                {
+                    { -953, -950, "Frontier", (short)2 },
+                    { -952, -950, "Emerging", (short)1 },
+                    { -951, -950, "Developed", (short)0 },
+                    { -933, -930, "Income", (short)2 },
+                    { -932, -930, "Discretionary expense", (short)1 },
+                    { -931, -930, "Necessary expense", (short)0 },
+                    { -926, -920, "Employment", (short)6 },
+                    { -925, -920, "Restaurants/Dining", (short)5 },
+                    { -924, -920, "Housing", (short)4 },
+                    { -923, -920, "Medical", (short)3 },
+                    { -922, -920, "Entertainment", (short)2 },
+                    { -921, -920, "Utilities", (short)1 },
+                    { -920, -920, "Transportation", (short)0 },
+                    { -911, -90, "Roth Contributory IRA", (short)10 },
+                    { -910, -90, "Health-Savings", (short)9 },
+                    { -909, -90, "Credit", (short)8 },
+                    { -908, -90, "Savings", (short)7 },
+                    { -907, -90, "Checking", (short)6 },
+                    { -906, -90, "Stock Purchase Plan", (short)5 },
+                    { -905, -90, "Brokerage", (short)4 },
+                    { -904, -90, "Contributory IRA", (short)3 },
+                    { -903, -90, "Rollover IRA", (short)2 },
+                    { -902, -90, "401(k)", (short)1 },
+                    { -901, -90, "Student Loan", (short)0 }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "ModelAttributeScope",
+                columns: new[] { "AttributeID", "ScopeCode" },
+                values: new object[,]
+                {
+                    { -950, "cou" },
+                    { -930, "bnk" },
+                    { -920, "bnk" },
+                    { -90, "acc" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
                 table: "SecurityAttributeMemberEntry",
                 columns: new[] { "AttributeMemberID", "EffectiveDate", "SecurityID", "Weight" },
                 values: new object[,]
@@ -62,7 +800,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -835, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -748, 1m },
                     { -835, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -747, 0.9685m },
                     { -835, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -745, 1m },
-                    { -835, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -728, 1m },
+                    { -835, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -728, 1m }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityAttributeMemberEntry",
+                columns: new[] { "AttributeMemberID", "EffectiveDate", "SecurityID", "Weight" },
+                values: new object[,]
+                {
                     { -835, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -727, 1m },
                     { -835, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -578, 0.0927m },
                     { -835, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -577, 0.9664m },
@@ -93,15 +839,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -814, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -747, 0.0244m },
                     { -814, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -578, 0.1375m },
                     { -814, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -575, 0.0038m },
-                    { -814, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -574, 0.0042m }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityAttributeMemberEntry",
-                columns: new[] { "AttributeMemberID", "EffectiveDate", "SecurityID", "Weight" },
-                values: new object[,]
-                {
+                    { -814, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -574, 0.0042m },
                     { -814, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -411, 0.0091m },
                     { -814, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -406, 0.0896m },
                     { -814, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -403, 0.0031m },
@@ -112,7 +850,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -813, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -577, 0.0077m },
                     { -813, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -400, 0.0017m },
                     { -813, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -397, 0.0581m },
-                    { -808, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -397, 0.0385m },
+                    { -808, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -397, 0.0385m }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityAttributeMemberEntry",
+                columns: new[] { "AttributeMemberID", "EffectiveDate", "SecurityID", "Weight" },
+                values: new object[,]
+                {
                     { -805, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -442, 0.0396m },
                     { -799, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -575, 0.0003m },
                     { -799, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -574, 0.0068m },
@@ -143,15 +889,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -682, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -397, 0.1204m },
                     { -675, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -578, 0.1915m },
                     { -675, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -406, 0.0266m },
-                    { -675, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -397, 0.1603m }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityAttributeMemberEntry",
-                columns: new[] { "AttributeMemberID", "EffectiveDate", "SecurityID", "Weight" },
-                values: new object[,]
-                {
+                    { -675, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -397, 0.1603m },
                     { -674, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -397, 0.0178m },
                     { -659, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -578, 0.0215m },
                     { -659, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -397, 0.046m },
@@ -162,7 +900,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -639, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -574, 0.0032m },
                     { -639, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -406, 0.1982m },
                     { -630, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -442, 0.0605m },
-                    { -104, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -432, 1m },
+                    { -104, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -432, 1m }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityAttributeMemberEntry",
+                columns: new[] { "AttributeMemberID", "EffectiveDate", "SecurityID", "Weight" },
+                values: new object[,]
+                {
                     { -104, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -416, 1m },
                     { -103, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -758, 1m },
                     { -102, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -748, 1m },
@@ -201,15 +947,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 {
                     { -1711, 63.56m, new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 52.8m, 56.75m, 58.79m, -761, null },
                     { -1710, 49.92m, new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 53.44m, 49.59m, 48.2m, -760, null },
-                    { -1709, 64.08m, new DateTime(2023, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 56.27m, 53.4m, 59.32m, -760, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1709, 64.08m, new DateTime(2023, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 56.27m, 53.4m, 59.32m, -760, null },
                     { -1708, 63.41m, new DateTime(2023, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 50.86m, 53.92m, 56.32m, -760, null },
                     { -1707, 47.09m, new DateTime(2023, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 48.79m, 52.5m, 47.96m, -760, null },
                     { -1706, 55.58m, new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 52.31m, 51.8m, 45.39m, -760, null },
@@ -220,7 +958,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1701, 49.97m, new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 50.47m, 48.76m, 48.42m, -760, null },
                     { -1700, 49.7m, new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 51.22m, 53.74m, 56.3m, -760, null },
                     { -1699, 49.9m, new DateTime(2023, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 46.36m, 42.46m, 53.78m, -760, null },
-                    { -1698, 52.92m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 51.37m, 50.57m, 55.09m, -760, null },
+                    { -1698, 52.92m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 51.37m, 50.57m, 55.09m, -760, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1697, 48.19m, new DateTime(2023, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 53.37m, 49.47m, 51.54m, -760, null },
                     { -1696, 53.34m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.35m, 54.87m, 52.73m, -760, null },
                     { -1695, 54.98m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.67m, 54.97m, 49.37m, -760, null },
@@ -251,15 +997,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1670, 57.36m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 63.21m, 55.81m, 60.13m, -759, null },
                     { -1669, 60.18m, new DateTime(2023, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 62.29m, 55.52m, 58.36m, -759, null },
                     { -1668, 72.14m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 62.97m, 60.22m, 66.44m, -759, null },
-                    { -1667, 63.55m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 65.21m, 60.4m, 56.49m, -759, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1667, 63.55m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 65.21m, 60.4m, 56.49m, -759, null },
                     { -1666, 69.04m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.44m, 57.7m, 59.39m, -759, null },
                     { -1665, 61.26m, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.26m, 56.17m, 65.16m, -759, null },
                     { -1664, 57.08m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 63.11m, 62.5m, 61.09m, -759, null },
@@ -270,7 +1008,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1659, 64.38m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 58.7m, 55.96m, 53.44m, -759, null },
                     { -1658, 61.7m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.5m, 59.83m, 58.36m, -759, null },
                     { -1657, 63.17m, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 55.01m, 58.52m, 55.91m, -759, null },
-                    { -1656, 51.83m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 63.99m, 53.6m, 51.78m, -759, null },
+                    { -1656, 51.83m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 63.99m, 53.6m, 51.78m, -759, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1655, 62.39m, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 61.86m, 63.02m, 54.76m, -759, null },
                     { -1654, 55.3m, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 59.08m, 62.95m, 61.23m, -759, null },
                     { -1653, 63.39m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 65.2m, 53.55m, 62.89m, -759, null },
@@ -301,15 +1047,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1628, 62.2m, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 73.25m, 81.02m, 70.01m, -759, null },
                     { -1627, 64.25m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 73.15m, 69.84m, 64.72m, -759, null },
                     { -1626, 67.87m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 63.66m, 60.96m, 53.76m, -759, null },
-                    { -1625, 69.99m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 61.38m, 70.11m, 74.1m, -759, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1625, 69.99m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 61.38m, 70.11m, 74.1m, -759, null },
                     { -1624, 63.5m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.98m, 57.82m, 61.06m, -759, null },
                     { -1623, 70.92m, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 71.77m, 55.51m, 69.57m, -759, null },
                     { -1622, 72.55m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 64.32m, 71.01m, 69.3m, -759, null },
@@ -320,7 +1058,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1617, 0.1m, new DateTime(2023, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.09m, 0.09m, 0.09m, -748, null },
                     { -1616, 0.13m, new DateTime(2023, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.11m, 0.12m, 0.12m, -748, null },
                     { -1615, 0.13m, new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.11m, 0.13m, 0.13m, -748, null },
-                    { -1614, 0.08m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, -748, null },
+                    { -1614, 0.08m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, -748, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1613, 0.05m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.05m, 0.04m, 0.05m, -748, null },
                     { -1612, 0.2m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.21m, 0.1m, 0.09m, -748, null },
                     { -1611, 0.11m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.12m, 0.09m, 0.1m, -748, null },
@@ -351,15 +1097,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1586, 0.57m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.47m, 0.35m, 0.31m, -748, null },
                     { -1585, 0.41m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.43m, 0.31m, 0.36m, -748, null },
                     { -1584, 0.26m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.32m, 0.23m, 0.31m, -748, null },
-                    { -1583, 0.26m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.28m, 0.21m, 0.22m, -748, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1583, 0.26m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.28m, 0.21m, 0.22m, -748, null },
                     { -1582, 0.32m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.26m, 0.29m, 0.29m, -748, null },
                     { -1581, 0.26m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.28m, 0.24m, 0.27m, -748, null },
                     { -1580, 0.29m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 0.29m, 0.13m, 0.14m, -748, null },
@@ -370,7 +1108,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1575, 32.29m, new DateTime(2023, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.44m, 29.38m, 35.84m, -747, null },
                     { -1574, 33.31m, new DateTime(2023, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 32.78m, 30.16m, 36.91m, -747, null },
                     { -1573, 32.68m, new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 33.25m, 32.52m, 28.01m, -747, null },
-                    { -1572, 30.54m, new DateTime(2023, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 36.04m, 33.29m, 30.37m, -747, null },
+                    { -1572, 30.54m, new DateTime(2023, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 36.04m, 33.29m, 30.37m, -747, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1571, 31.28m, new DateTime(2023, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 29.64m, 31.56m, 30.04m, -747, null },
                     { -1570, 29.4m, new DateTime(2023, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 34.14m, 35.44m, 31.94m, -747, null },
                     { -1569, 36.53m, new DateTime(2023, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 29.59m, 33.89m, 34.24m, -747, null },
@@ -401,15 +1147,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1544, 34.37m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.64m, 37.88m, 34.65m, -747, null },
                     { -1543, 38.25m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 33.66m, 30.73m, 35.82m, -747, null },
                     { -1542, 33.83m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 35.81m, 33.48m, 38.59m, -747, null },
-                    { -1541, 40.78m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 33.34m, 34.79m, 37.9m, -747, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1541, 40.78m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 33.34m, 34.79m, 37.9m, -747, null },
                     { -1540, 38.98m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 32.13m, 34.63m, 35.83m, -747, null },
                     { -1539, 41.52m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 36.38m, 35.29m, 33.68m, -747, null },
                     { -1538, 36.33m, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 31.55m, 29.98m, 36.33m, -747, null },
@@ -420,7 +1158,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1533, 40.75m, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 36.68m, 34.97m, 34.43m, -747, null },
                     { -1532, 36.51m, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.89m, 37.19m, 38.74m, -747, null },
                     { -1531, 36.06m, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 35.79m, 35.28m, 35.48m, -747, null },
-                    { -1530, 33.88m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 31.36m, 37m, 37.1m, -747, null },
+                    { -1530, 33.88m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 31.36m, 37m, 37.1m, -747, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1529, 41.97m, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 35m, 35.06m, 38.72m, -747, null },
                     { -1528, 31.03m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 37.38m, 36.17m, 37.38m, -747, null },
                     { -1527, 36.92m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 36.9m, 39.46m, 39.47m, -747, null },
@@ -451,15 +1197,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1502, 40.45m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 33.54m, 33.19m, 30.58m, -747, null },
                     { -1501, 143.57m, new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 129.35m, 128.48m, 128.41m, -745, null },
                     { -1500, 118.14m, new DateTime(2023, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 132.37m, 127.82m, 134.31m, -745, null },
-                    { -1499, 119.77m, new DateTime(2023, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 139.96m, 123.35m, 128.04m, -745, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1499, 119.77m, new DateTime(2023, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 139.96m, 123.35m, 128.04m, -745, null },
                     { -1498, 144.18m, new DateTime(2023, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 124.62m, 124.87m, 131.21m, -745, null },
                     { -1497, 123.38m, new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 134.06m, 134.18m, 148.02m, -745, null },
                     { -1496, 126.85m, new DateTime(2023, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 147.53m, 138.55m, 147.04m, -745, null },
@@ -470,7 +1208,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1491, 126.8m, new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 145.67m, 146.89m, 128.88m, -745, null },
                     { -1490, 131.63m, new DateTime(2023, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 126.19m, 117.12m, 122.89m, -745, null },
                     { -1489, 135.16m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 124.75m, 148.81m, 134.73m, -745, null },
-                    { -1488, 121.21m, new DateTime(2023, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 134.4m, 113.81m, 131.1m, -745, null },
+                    { -1488, 121.21m, new DateTime(2023, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 134.4m, 113.81m, 131.1m, -745, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1487, 133.67m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 137.83m, 149.37m, 131.86m, -745, null },
                     { -1486, 142.17m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 125.81m, 130.53m, 120.65m, -745, null },
                     { -1485, 124.67m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 134.13m, 125.02m, 125.94m, -745, null },
@@ -501,15 +1247,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1460, 119.69m, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 124.3m, 135.62m, 130.65m, -745, null },
                     { -1459, 127.03m, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 124.55m, 120.53m, 134.43m, -745, null },
                     { -1458, 143.95m, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 118.88m, 134.66m, 124.44m, -745, null },
-                    { -1457, 126.15m, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 124.37m, 121.86m, 136.79m, -745, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1457, 126.15m, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 124.37m, 121.86m, 136.79m, -745, null },
                     { -1456, 132.56m, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 136.92m, 109.76m, 143.61m, -745, null },
                     { -1455, 121.91m, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 140.25m, 151.59m, 104.09m, -745, null },
                     { -1454, 144.79m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 124.67m, 139.78m, 116.8m, -745, null },
@@ -520,7 +1258,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1449, 141.41m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 146.13m, 128m, 129.7m, -745, null },
                     { -1448, 128.85m, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 131.26m, 121.23m, 139.63m, -745, null },
                     { -1447, 142.07m, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 134.38m, 127.54m, 131.16m, -745, null },
-                    { -1446, 147.21m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 139.12m, 135.04m, 124.13m, -745, null },
+                    { -1446, 147.21m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 139.12m, 135.04m, 124.13m, -745, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1445, 124.26m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 140.11m, 140.03m, 123.17m, -745, null },
                     { -1444, 140.29m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 141.36m, 124.13m, 130.24m, -745, null },
                     { -1443, 113.14m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 128.6m, 137.35m, 139.69m, -745, null },
@@ -551,15 +1297,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1418, 5m, new DateTime(2023, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.3m, 4.01m, 4.22m, -728, null },
                     { -1417, 4.51m, new DateTime(2023, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.39m, 4.83m, 4.74m, -728, null },
                     { -1416, 4.46m, new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.13m, 4.57m, 3.9m, -728, null },
-                    { -1415, 4.17m, new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 3.76m, 3.79m, 4.27m, -728, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1415, 4.17m, new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 3.76m, 3.79m, 4.27m, -728, null },
                     { -1414, 4.58m, new DateTime(2023, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.51m, 4.49m, 5.37m, -728, null },
                     { -1413, 4.48m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.48m, 3.83m, 4.6m, -728, null },
                     { -1412, 4.54m, new DateTime(2023, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.38m, 4.66m, 5m, -728, null },
@@ -570,7 +1308,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1407, 5.73m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.62m, 6.21m, 5.55m, -728, null },
                     { -1406, 6.25m, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.48m, 6.1m, 5.76m, -728, null },
                     { -1405, 6.3m, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.34m, 6.41m, 5.48m, -728, null },
-                    { -1404, 5.79m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.55m, 5.55m, 6.38m, -728, null },
+                    { -1404, 5.79m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.55m, 5.55m, 6.38m, -728, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1403, 5.52m, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.25m, 6.62m, 6.32m, -728, null },
                     { -1402, 6.25m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.27m, 5.27m, 5.77m, -728, null },
                     { -1401, 6.55m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.27m, 6.06m, 6.5m, -728, null },
@@ -601,15 +1347,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1376, 5.27m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.94m, 5.59m, 5.45m, -728, null },
                     { -1375, 6.06m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.11m, 5.41m, 6.21m, -728, null },
                     { -1374, 5.65m, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.19m, 6.49m, 6.52m, -728, null },
-                    { -1373, 5.95m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.76m, 5.33m, 6.88m, -728, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1373, 5.95m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.76m, 5.33m, 6.88m, -728, null },
                     { -1372, 5.71m, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.97m, 5.32m, 6.12m, -728, null },
                     { -1371, 6.26m, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.34m, 5.99m, 5.44m, -728, null },
                     { -1370, 5.98m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.01m, 5.08m, 5.68m, -728, null },
@@ -620,7 +1358,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1365, 5.43m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.03m, 4.6m, 4.91m, -728, null },
                     { -1364, 5.05m, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.99m, 5.1m, 5.07m, -728, null },
                     { -1363, 4.55m, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.48m, 5.45m, 5.63m, -728, null },
-                    { -1362, 5.32m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.65m, 4.04m, 4.72m, -728, null },
+                    { -1362, 5.32m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.65m, 4.04m, 4.72m, -728, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1361, 4.66m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.12m, 4.44m, 4.8m, -728, null },
                     { -1360, 4.61m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.75m, 4.59m, 5.5m, -728, null },
                     { -1359, 5.5m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 6.07m, 4.81m, 5.77m, -728, null },
@@ -651,15 +1397,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1334, 3.7m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.02m, 3.82m, 3.95m, -727, null },
                     { -1333, 3.98m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.35m, 3.68m, 3.98m, -727, null },
                     { -1332, 4.28m, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 3.78m, 3.63m, 3.96m, -727, null },
-                    { -1331, 3.3m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.46m, 3.81m, 3.83m, -727, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1331, 3.3m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.46m, 3.81m, 3.83m, -727, null },
                     { -1330, 4.06m, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.21m, 3.62m, 3.9m, -727, null },
                     { -1329, 3.44m, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 3.85m, 3.59m, 3.8m, -727, null },
                     { -1328, 3.9m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 3.96m, 4.15m, 4.01m, -727, null },
@@ -670,7 +1408,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1323, 3.68m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 3.45m, 3.72m, 3.94m, -727, null },
                     { -1322, 3.93m, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 3.8m, 3.86m, 4.47m, -727, null },
                     { -1321, 4.29m, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.43m, 3.34m, 3.64m, -727, null },
-                    { -1320, 3.99m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.34m, 4.01m, 4.02m, -727, null },
+                    { -1320, 3.99m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.34m, 4.01m, 4.02m, -727, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1319, 4.35m, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.18m, 3.83m, 4.04m, -727, null },
                     { -1318, 4.52m, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.06m, 4.37m, 3.83m, -727, null },
                     { -1317, 4.4m, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.85m, 4.21m, 4.32m, -727, null },
@@ -701,15 +1447,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1292, 4.8m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.44m, 4.32m, 5.15m, -727, null },
                     { -1291, 5.1m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.37m, 5.28m, 4.88m, -727, null },
                     { -1290, 4.66m, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 5.82m, 4.29m, 5.05m, -727, null },
-                    { -1289, 4.76m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.68m, 4.3m, 5.32m, -727, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1289, 4.76m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.68m, 4.3m, 5.32m, -727, null },
                     { -1288, 4.8m, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.84m, 4.5m, 5.11m, -727, null },
                     { -1287, 4.67m, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.59m, 4.46m, 5.1m, -727, null },
                     { -1286, 4.72m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.84m, 4.91m, 5.38m, -727, null },
@@ -720,7 +1458,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1281, 5.06m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.85m, 4.64m, 4.75m, -727, null },
                     { -1280, 3.86m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 3.84m, 4.42m, 4.47m, -727, null },
                     { -1279, 4.69m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.45m, 4.22m, 4.26m, -727, null },
-                    { -1278, 4.32m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.51m, 3.9m, 4.45m, -727, null },
+                    { -1278, 4.32m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.51m, 3.9m, 4.45m, -727, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1277, 3.67m, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.35m, 3.88m, 4m, -727, null },
                     { -1276, 4.35m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 4.36m, 4.09m, 4.17m, -727, null },
                     { -1275, 4.04m, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 3.71m, 3.75m, 4.13m, -727, null },
@@ -751,15 +1497,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1250, 60.75m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 56.48m, 53.99m, 59.02m, -578, null },
                     { -1249, 55.25m, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 57.26m, 50.37m, 53.2m, -578, null },
                     { -1248, 61.14m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 50.55m, 56.96m, 56.22m, -578, null },
-                    { -1247, 52.23m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 59.47m, 51.12m, 55.31m, -578, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1247, 52.23m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 59.47m, 51.12m, 55.31m, -578, null },
                     { -1246, 48.44m, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.91m, 49.6m, 51.41m, -578, null },
                     { -1245, 50.08m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 52.29m, 57.04m, 52.94m, -578, null },
                     { -1244, 49.06m, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 63.23m, 58.64m, 53.24m, -578, null },
@@ -770,7 +1508,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1239, 49.53m, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 49.48m, 52.04m, 54.36m, -578, null },
                     { -1238, 51.81m, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 56.86m, 57.89m, 56.75m, -578, null },
                     { -1237, 56.04m, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 58m, 52.78m, 50.84m, -578, null },
-                    { -1236, 63.95m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 49.19m, 53.51m, 50.47m, -578, null },
+                    { -1236, 63.95m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 49.19m, 53.51m, 50.47m, -578, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1235, 51.98m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 56.24m, 46.08m, 51.4m, -578, null },
                     { -1234, 48.69m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.4m, 56.05m, 58.19m, -578, null },
                     { -1233, 52.87m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 53.01m, 64.78m, 61.21m, -578, null },
@@ -801,15 +1547,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1208, 37.83m, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 39.26m, 37.93m, 36.43m, -577, null },
                     { -1207, 38.11m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 37.69m, 39.25m, 37.53m, -577, null },
                     { -1206, 36.66m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 42.09m, 41.14m, 35.5m, -577, null },
-                    { -1205, 42.12m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.61m, 39.93m, 39.58m, -577, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1205, 42.12m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.61m, 39.93m, 39.58m, -577, null },
                     { -1204, 38.46m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 37.93m, 42.44m, 36.83m, -577, null },
                     { -1203, 39.78m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.43m, 31.82m, 39.8m, -577, null },
                     { -1202, 38.78m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 39.83m, 40.52m, 40.68m, -577, null },
@@ -820,7 +1558,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1197, 44.04m, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.41m, 42.12m, 47.09m, -577, null },
                     { -1196, 43.7m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 37.78m, 39.9m, 44.51m, -577, null },
                     { -1195, 40.68m, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 44.2m, 38.95m, 38.32m, -577, null },
-                    { -1194, 47.33m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 43.89m, 43.55m, 42.56m, -577, null },
+                    { -1194, 47.33m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 43.89m, 43.55m, 42.56m, -577, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1193, 35.04m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.74m, 41.86m, 34.82m, -577, null },
                     { -1192, 40.82m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 39.9m, 44.76m, 38.97m, -577, null },
                     { -1191, 41.27m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 43.84m, 40.8m, 39.91m, -577, null },
@@ -851,15 +1597,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1166, 40.14m, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.03m, 39.25m, 38.49m, -577, null },
                     { -1165, 43.94m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 41.27m, 36.51m, 39.71m, -577, null },
                     { -1164, 41.95m, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 36.39m, 35.44m, 37.6m, -577, null },
-                    { -1163, 41.22m, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 37.99m, 38.75m, 35.45m, -577, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1163, 41.22m, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 37.99m, 38.75m, 35.45m, -577, null },
                     { -1162, 42.38m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 39.26m, 34.27m, 40.62m, -577, null },
                     { -1161, 36.91m, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 40.71m, 38.68m, 33.62m, -577, null },
                     { -1160, 36.9m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.73m, 41.54m, 36.8m, -577, null },
@@ -870,7 +1608,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1155, 37.85m, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 36.18m, 36.9m, 36.76m, -577, null },
                     { -1154, 41.53m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.72m, 38.34m, 37.94m, -577, null },
                     { -1153, 33.32m, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.82m, 38.36m, 36.87m, -577, null },
-                    { -1152, 32.3m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 35.35m, 38.33m, 37.95m, -577, null },
+                    { -1152, 32.3m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 35.35m, 38.33m, 37.95m, -577, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1151, 39.2m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 45.22m, 40.09m, 44.88m, -577, null },
                     { -1150, 42.93m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 41.54m, 41.17m, 38.72m, -577, null },
                     { -1149, 73.48m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 76.34m, 61.3m, 67.25m, -576, null },
@@ -901,15 +1647,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1124, 76.46m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 88.6m, 79.05m, 82.66m, -576, null },
                     { -1123, 78.7m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 84.02m, 82.17m, 90.04m, -576, null },
                     { -1122, 70.16m, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 93.82m, 77.35m, 69.15m, -576, null },
-                    { -1121, 80.03m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 77.27m, 74.41m, 86.84m, -576, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1121, 80.03m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 77.27m, 74.41m, 86.84m, -576, null },
                     { -1120, 81.79m, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 81.72m, 81.76m, 86.67m, -576, null },
                     { -1119, 83.79m, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 85.03m, 77.92m, 74.24m, -576, null },
                     { -1118, 72.95m, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 78.96m, 73.63m, 82.58m, -576, null },
@@ -920,7 +1658,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1113, 76.36m, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 79.08m, 82.4m, 82.83m, -576, null },
                     { -1112, 83.98m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 78.29m, 71.07m, 67.53m, -576, null },
                     { -1111, 77.71m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 83.85m, 75.43m, 80.39m, -576, null },
-                    { -1110, 68.56m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 78.27m, 77.83m, 73.88m, -576, null },
+                    { -1110, 68.56m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 78.27m, 77.83m, 73.88m, -576, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1109, 79.49m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 77.76m, 77.2m, 74.52m, -576, null },
                     { -1108, 78.81m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 76.16m, 87.4m, 82.89m, -576, null },
                     { -1107, 71.01m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 79.69m, 75.67m, 74.45m, -576, null },
@@ -951,15 +1697,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1082, 369.64m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 360.03m, 375.36m, 349.64m, -575, null },
                     { -1081, 369.62m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 391.35m, 336.36m, 368.03m, -575, null },
                     { -1080, 354.95m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 375.93m, 358.94m, 355.55m, -575, null },
-                    { -1079, 363.8m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 342.06m, 411.76m, 385.02m, -575, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1079, 363.8m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 342.06m, 411.76m, 385.02m, -575, null },
                     { -1078, 381.25m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 374.9m, 362.52m, 375.49m, -575, null },
                     { -1077, 378.45m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 358.34m, 325.88m, 339.54m, -575, null },
                     { -1076, 362.03m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 331.83m, 307.38m, 363.47m, -575, null },
@@ -970,7 +1708,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1071, 375.16m, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 319.46m, 390.79m, 343m, -575, null },
                     { -1070, 340.8m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 429.73m, 405.07m, 389.51m, -575, null },
                     { -1069, 313.1m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 334.98m, 305.69m, 335.59m, -575, null },
-                    { -1068, 404.49m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 381.42m, 360.09m, 380.11m, -575, null },
+                    { -1068, 404.49m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 381.42m, 360.09m, 380.11m, -575, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1067, 415.14m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 394.15m, 408.17m, 437.74m, -575, null },
                     { -1066, 411.79m, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 359.72m, 280.26m, 370.69m, -575, null },
                     { -1065, 395.74m, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 364.6m, 361.32m, 352.38m, -575, null },
@@ -1001,15 +1747,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1040, 331.92m, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 339.96m, 390.5m, 356.95m, -575, null },
                     { -1039, 380.6m, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 382.04m, 342.34m, 337.26m, -575, null },
                     { -1038, 410.15m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 392.34m, 422.64m, 334.1m, -575, null },
-                    { -1037, 357.57m, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 324.35m, 412.97m, 403.07m, -575, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -1037, 357.57m, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 324.35m, 412.97m, 403.07m, -575, null },
                     { -1036, 383.93m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 377.13m, 365.74m, 417.56m, -575, null },
                     { -1035, 317.38m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 416.86m, 382.83m, 366.3m, -575, null },
                     { -1034, 358.84m, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 395.94m, 370.04m, 384.13m, -575, null },
@@ -1020,7 +1758,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -1029, 342.45m, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 405.76m, 394.29m, 373.47m, -575, null },
                     { -1028, 413.48m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 375.39m, 377.69m, 402.52m, -575, null },
                     { -1027, 408m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 383.33m, 413.33m, 370.21m, -575, null },
-                    { -1026, 406.52m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 381.3m, 375.82m, 374.68m, -575, null },
+                    { -1026, 406.52m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 381.3m, 375.82m, 374.68m, -575, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -1025, 95.02m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 95.92m, 91.32m, 103.93m, -574, null },
                     { -1024, 107.19m, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 90.39m, 99.03m, 112.88m, -574, null },
                     { -1023, 101.29m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 100.82m, 94.69m, 92.54m, -574, null },
@@ -1051,15 +1797,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -998, 120.2m, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 122.79m, 122.02m, 114.54m, -574, null },
                     { -997, 129.32m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 103.18m, 123.58m, 113.23m, -574, null },
                     { -996, 105.73m, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 131.13m, 103.3m, 115.4m, -574, null },
-                    { -995, 131.01m, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 112.17m, 118.86m, 116.45m, -574, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -995, 131.01m, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 112.17m, 118.86m, 116.45m, -574, null },
                     { -994, 120.92m, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 102.48m, 108.47m, 112.54m, -574, null },
                     { -993, 102.53m, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 108.77m, 118.19m, 114.05m, -574, null },
                     { -992, 116.13m, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 102.63m, 109.72m, 113.52m, -574, null },
@@ -1070,7 +1808,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -987, 102.43m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 111.8m, 102.39m, 113.85m, -574, null },
                     { -986, 112.87m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 103.63m, 111.18m, 121.12m, -574, null },
                     { -985, 105.11m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 101.88m, 119.35m, 118.61m, -574, null },
-                    { -984, 118.76m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 110.98m, 106.91m, 120.85m, -574, null },
+                    { -984, 118.76m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 110.98m, 106.91m, 120.85m, -574, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -983, 103.14m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 117.36m, 120.36m, 107.78m, -574, null },
                     { -982, 107.52m, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 118.96m, 92.67m, 100.51m, -574, null },
                     { -981, 104.94m, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 111.19m, 123.9m, 110.99m, -574, null },
@@ -1101,15 +1847,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -956, 83.24m, new DateTime(2023, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 76.72m, 84.04m, 78.65m, -523, null },
                     { -955, 76.31m, new DateTime(2023, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 74.88m, 75.36m, 73.96m, -523, null },
                     { -954, 73.28m, new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 86.57m, 78.99m, 73.11m, -523, null },
-                    { -953, 78.8m, new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 74.43m, 80.22m, 71.02m, -523, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -953, 78.8m, new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 74.43m, 80.22m, 71.02m, -523, null },
                     { -952, 76.96m, new DateTime(2023, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 74.77m, 91.65m, 80.86m, -523, null },
                     { -951, 84.18m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.22m, 76.32m, 79.57m, -523, null },
                     { -950, 74.37m, new DateTime(2023, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 76.8m, 77.57m, 81.68m, -523, null },
@@ -1120,7 +1858,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -945, 70.86m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 84.84m, 70.4m, 67.96m, -523, null },
                     { -944, 70.23m, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 74.6m, 63.52m, 71.05m, -523, null },
                     { -943, 70.77m, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 63.35m, 74.46m, 65.42m, -523, null },
-                    { -942, 75.44m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 86.64m, 75.74m, 79.14m, -523, null },
+                    { -942, 75.44m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 86.64m, 75.74m, 79.14m, -523, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -941, 76.08m, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 77.78m, 77.9m, 95.78m, -523, null },
                     { -940, 63.59m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 85.9m, 78.27m, 63.43m, -523, null },
                     { -939, 72.79m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 71.99m, 69.41m, 77.35m, -523, null },
@@ -1151,15 +1897,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -914, 71.05m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 80.55m, 70.96m, 77.18m, -523, null },
                     { -913, 83.02m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 84.19m, 73.52m, 81.3m, -523, null },
                     { -912, 79.94m, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 70.65m, 91.4m, 75.45m, -523, null },
-                    { -911, 68.32m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.27m, 76.45m, 73.08m, -523, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -911, 68.32m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.27m, 76.45m, 73.08m, -523, null },
                     { -910, 70.65m, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.64m, 74.43m, 69.7m, -523, null },
                     { -909, 77.1m, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 77.69m, 75.29m, 79.2m, -523, null },
                     { -908, 67.9m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.71m, 69.11m, 72.41m, -523, null },
@@ -1170,7 +1908,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -903, 81.66m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 80.88m, 86.52m, 78.63m, -523, null },
                     { -902, 86.61m, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 90.21m, 79.16m, 89.02m, -523, null },
                     { -901, 87.78m, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 90.78m, 88.31m, 83.91m, -523, null },
-                    { -900, 92.13m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 94.44m, 79.33m, 76.19m, -523, null },
+                    { -900, 92.13m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 94.44m, 79.33m, 76.19m, -523, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -899, 85.24m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 91.21m, 78.38m, 80.94m, -523, null },
                     { -898, 74.11m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 90.05m, 90.84m, 94.18m, -523, null },
                     { -897, 89.18m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 84.88m, 73.28m, 83.64m, -523, null },
@@ -1201,15 +1947,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -872, 234.42m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 254.23m, 269.43m, 256.05m, -514, null },
                     { -871, 262.34m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 225.62m, 253.12m, 250.23m, -514, null },
                     { -870, 263.33m, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 239.11m, 248.3m, 259.19m, -514, null },
-                    { -869, 225.96m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 254.7m, 226.2m, 222.21m, -514, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -869, 225.96m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 254.7m, 226.2m, 222.21m, -514, null },
                     { -868, 233.86m, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 241.04m, 215.82m, 221.79m, -514, null },
                     { -867, 241.28m, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 239.36m, 236.28m, 220.47m, -514, null },
                     { -866, 233.99m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 242.83m, 220.58m, 256.93m, -514, null },
@@ -1220,7 +1958,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -861, 255.65m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 235.94m, 234.09m, 227.96m, -514, null },
                     { -860, 233.69m, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 261.08m, 198.99m, 277.35m, -514, null },
                     { -859, 238.65m, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 247.46m, 233.18m, 229.81m, -514, null },
-                    { -858, 250.64m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 300.68m, 254.09m, 236.54m, -514, null },
+                    { -858, 250.64m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 300.68m, 254.09m, 236.54m, -514, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -857, 207.75m, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 259.39m, 273.3m, 236.81m, -514, null },
                     { -856, 227.85m, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 253.76m, 237.02m, 298.3m, -514, null },
                     { -855, 275.32m, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 268.97m, 249.91m, 288.11m, -514, null },
@@ -1251,15 +1997,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -830, 250.59m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 228.01m, 271.5m, 268.25m, -514, null },
                     { -829, 245.42m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 282.17m, 250.14m, 286.17m, -514, null },
                     { -828, 260.52m, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 260.34m, 251.22m, 269.33m, -514, null },
-                    { -827, 257.58m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 261.62m, 282.53m, 262.05m, -514, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -827, 257.58m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 261.62m, 282.53m, 262.05m, -514, null },
                     { -826, 239.95m, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 251.44m, 255.22m, 279.78m, -514, null },
                     { -825, 337.96m, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 234.64m, 254.36m, 254.1m, -514, null },
                     { -824, 261.33m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 279.72m, 273.82m, 250.19m, -514, null },
@@ -1270,7 +2008,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -819, 251.56m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 226.09m, 257.32m, 235.86m, -514, null },
                     { -818, 267.8m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 247.03m, 235.88m, 264.47m, -514, null },
                     { -817, 241.05m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 237.91m, 254.86m, 253.26m, -514, null },
-                    { -816, 237.82m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 241.03m, 278.25m, 256.16m, -514, null },
+                    { -816, 237.82m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 241.03m, 278.25m, 256.16m, -514, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -815, 225.3m, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 267.36m, 254.26m, 239.9m, -514, null },
                     { -814, 259.43m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 225.48m, 204.43m, 247.75m, -514, null },
                     { -813, 236.46m, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 265.8m, 264.18m, 249.69m, -514, null },
@@ -1301,15 +2047,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -788, 25.61m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 31.46m, 23.15m, 28.09m, -493, null },
                     { -787, 31.1m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 30.73m, 28.41m, 27.98m, -493, null },
                     { -786, 29.8m, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 27.53m, 27.31m, 23.88m, -493, null },
-                    { -785, 31.8m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 29.02m, 27.64m, 32.47m, -493, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -785, 31.8m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 29.02m, 27.64m, 32.47m, -493, null },
                     { -784, 29.01m, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 29.7m, 26.6m, 29.87m, -493, null },
                     { -783, 30.32m, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 23.22m, 28.91m, 27.76m, -493, null },
                     { -782, 27.83m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 31.29m, 28.59m, 27.63m, -493, null },
@@ -1320,7 +2058,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -777, 27.6m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 23.87m, 26.5m, 25.25m, -493, null },
                     { -776, 27.37m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 28.94m, 25.23m, 25.53m, -493, null },
                     { -775, 25.91m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 25.73m, 23.85m, 23.99m, -493, null },
-                    { -774, 21.39m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 28.27m, 23.88m, 28.11m, -493, null },
+                    { -774, 21.39m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 28.27m, 23.88m, 28.11m, -493, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -773, 27.69m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 24.72m, 23.71m, 26.35m, -493, null },
                     { -772, 23.38m, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 25.98m, 27.2m, 22.1m, -493, null },
                     { -771, 28.87m, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 27.52m, 29.48m, 28.94m, -493, null },
@@ -1351,15 +2097,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -746, 30.05m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 29.19m, 25.71m, 26.14m, -493, null },
                     { -745, 30.51m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 32.52m, 27.18m, 32.61m, -493, null },
                     { -744, 30.81m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 25.9m, 27.29m, 30.19m, -493, null },
-                    { -743, 28.09m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 29.31m, 28.36m, 23.55m, -493, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -743, 28.09m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 29.31m, 28.36m, 23.55m, -493, null },
                     { -742, 22.25m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 27.55m, 26.62m, 25.75m, -493, null },
                     { -741, 26.82m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 26.58m, 24.43m, 28.61m, -493, null },
                     { -740, 25.35m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 29.32m, 26.51m, 23.99m, -493, null },
@@ -1370,7 +2108,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -735, 113.2m, new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 113.8m, 110.6m, 112.89m, -482, null },
                     { -734, 130.39m, new DateTime(2023, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 117.57m, 102.99m, 98.51m, -482, null },
                     { -733, 105.06m, new DateTime(2023, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 98.91m, 118.74m, 102.26m, -482, null },
-                    { -732, 110.6m, new DateTime(2023, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 112.06m, 111.25m, 116.9m, -482, null },
+                    { -732, 110.6m, new DateTime(2023, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 112.06m, 111.25m, 116.9m, -482, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -731, 122.2m, new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 112.65m, 104.56m, 103.18m, -482, null },
                     { -730, 125.08m, new DateTime(2023, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 110.55m, 116.32m, 97.04m, -482, null },
                     { -729, 107.83m, new DateTime(2023, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 111.73m, 127.8m, 102.74m, -482, null },
@@ -1401,15 +2147,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -704, 118.5m, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 129.46m, 103.21m, 111.63m, -482, null },
                     { -703, 101.52m, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 113.14m, 120.36m, 94.97m, -482, null },
                     { -702, 103.14m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 123.14m, 134.72m, 114.18m, -482, null },
-                    { -701, 129.24m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 121.78m, 98.55m, 98.91m, -482, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -701, 129.24m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 121.78m, 98.55m, 98.91m, -482, null },
                     { -700, 115.38m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 113.5m, 116.05m, 119.75m, -482, null },
                     { -699, 121.69m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 119.61m, 138.09m, 122.59m, -482, null },
                     { -698, 120.7m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 122.43m, 114.71m, 128.02m, -482, null },
@@ -1420,7 +2158,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -693, 107.96m, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 119.92m, 105.89m, 114.83m, -482, null },
                     { -692, 115.25m, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 126.67m, 111.4m, 129.37m, -482, null },
                     { -691, 122.41m, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 112.41m, 127.85m, 135.78m, -482, null },
-                    { -690, 120.02m, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 120.07m, 115.28m, 125.19m, -482, null },
+                    { -690, 120.02m, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 120.07m, 115.28m, 125.19m, -482, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -689, 126.31m, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 119.88m, 117.93m, 117.32m, -482, null },
                     { -688, 125.7m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 120.35m, 109.89m, 118.17m, -482, null },
                     { -687, 123.89m, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 107.78m, 118.09m, 114.23m, -482, null },
@@ -1451,15 +2197,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -662, 83.89m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 108.7m, 102.11m, 94.1m, -482, null },
                     { -661, 103.86m, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 107.14m, 87.33m, 98.26m, -482, null },
                     { -660, 100.94m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 103.42m, 88.72m, 93.98m, -482, null },
-                    { -659, 38.58m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 32.16m, 30.78m, 33.5m, -442, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -659, 38.58m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 32.16m, 30.78m, 33.5m, -442, null },
                     { -658, 27.89m, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 28.55m, 29.88m, 35.87m, -442, null },
                     { -657, 32.58m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 28.5m, 36.32m, 34.44m, -442, null },
                     { -656, 35.66m, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 30.54m, 32.53m, 30.87m, -442, null },
@@ -1470,7 +2208,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -651, 28.41m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 33.13m, 35.29m, 36.75m, -442, null },
                     { -650, 36.11m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 36.31m, 33.76m, 36.82m, -442, null },
                     { -649, 33.68m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 37.43m, 32.59m, 33.17m, -442, null },
-                    { -648, 35.54m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.77m, 34.7m, 36.48m, -442, null },
+                    { -648, 35.54m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 38.77m, 34.7m, 36.48m, -442, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -647, 33.98m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 40.52m, 35.9m, 36.94m, -442, null },
                     { -646, 40.09m, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 33.89m, 38.35m, 35.79m, -442, null },
                     { -645, 34.53m, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 33.67m, 33m, 36.38m, -442, null },
@@ -1501,15 +2247,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -620, 35.98m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 29.05m, 33.02m, 33.53m, -442, null },
                     { -619, 30.03m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 33.2m, 34.9m, 33.54m, -442, null },
                     { -618, 33.8m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 31.42m, 36.01m, 35.04m, -442, null },
-                    { -617, 31.55m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 32.13m, 30.43m, 32.59m, -442, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -617, 31.55m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 32.13m, 30.43m, 32.59m, -442, null },
                     { -616, 36.11m, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 32.41m, 35.64m, 34.15m, -442, null },
                     { -615, 33.87m, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 34.25m, 36.13m, 31.03m, -442, null },
                     { -614, 27.64m, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 36.34m, 32.45m, 34.1m, -442, null },
@@ -1520,7 +2258,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -609, 34.42m, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 31.9m, 29.25m, 32.5m, -442, null },
                     { -608, 31.61m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 31.08m, 33.98m, 33.12m, -442, null },
                     { -607, 34.44m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 30.35m, 34.2m, 34.55m, -442, null },
-                    { -606, 35.16m, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 34.39m, 30.73m, 35.54m, -442, null },
+                    { -606, 35.16m, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 34.39m, 30.73m, 35.54m, -442, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -605, 33.28m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 32.45m, 30.96m, 32.21m, -442, null },
                     { -604, 31.6m, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 34.92m, 33.44m, 33.08m, -442, null },
                     { -603, 38.38m, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 33.97m, 31.47m, 34.43m, -442, null },
@@ -1551,15 +2297,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -578, 134.71m, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 125.49m, 126.84m, 136.99m, -411, null },
                     { -577, 127.82m, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 122.29m, 150.92m, 114.6m, -411, null },
                     { -576, 147.11m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 146.98m, 150.49m, 141.12m, -411, null },
-                    { -575, 153.55m, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 136.67m, 134.08m, 128.04m, -411, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -575, 153.55m, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 136.67m, 134.08m, 128.04m, -411, null },
                     { -574, 153.14m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 125.62m, 144.95m, 129.27m, -411, null },
                     { -573, 125.3m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 144.87m, 132.39m, 142.01m, -411, null },
                     { -572, 151.45m, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 118.16m, 140.32m, 119.99m, -411, null },
@@ -1570,7 +2308,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -567, 133.84m, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 125.86m, 147.14m, 145.88m, -411, null },
                     { -566, 130.96m, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 130.2m, 133.7m, 153.65m, -411, null },
                     { -565, 135m, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 149.63m, 126.32m, 127.13m, -411, null },
-                    { -564, 146.66m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 139.63m, 149.22m, 140.84m, -411, null },
+                    { -564, 146.66m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 139.63m, 149.22m, 140.84m, -411, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -563, 143.06m, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 122.54m, 134.43m, 147.85m, -411, null },
                     { -562, 130.84m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 144.59m, 139.29m, 148.31m, -411, null },
                     { -561, 129.94m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 158.1m, 136.48m, 140.89m, -411, null },
@@ -1601,15 +2347,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -536, 147.4m, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 119.48m, 134.61m, 144.83m, -411, null },
                     { -535, 150.4m, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 129.96m, 161.89m, 127.92m, -411, null },
                     { -534, 132.25m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 136.19m, 149.29m, 130.85m, -411, null },
-                    { -533, 147.16m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 134.82m, 161.07m, 124.47m, -411, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -533, 147.16m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 134.82m, 161.07m, 124.47m, -411, null },
                     { -532, 136.65m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 163.14m, 133.41m, 136.12m, -411, null },
                     { -531, 161.69m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 135.37m, 146.76m, 149.8m, -411, null },
                     { -530, 130.53m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 145.99m, 139.21m, 131.73m, -411, null },
@@ -1620,7 +2358,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -525, 149.84m, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 164.5m, 125.83m, 136.06m, -411, null },
                     { -524, 150.16m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 142.11m, 140.58m, 148.46m, -411, null },
                     { -523, 130.47m, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 140.36m, 141.25m, 153.34m, -411, null },
-                    { -522, 122.8m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 152.92m, 140.84m, 139.34m, -411, null },
+                    { -522, 122.8m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 152.92m, 140.84m, 139.34m, -411, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -521, 60.1m, new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 58.23m, 60.56m, 64.55m, -406, null },
                     { -520, 55.52m, new DateTime(2023, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 58.72m, 61.84m, 66.54m, -406, null },
                     { -519, 63.78m, new DateTime(2023, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 59.29m, 63.63m, 61.05m, -406, null },
@@ -1651,15 +2397,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -494, 64.96m, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 61.92m, 58.05m, 62.58m, -406, null },
                     { -493, 59.24m, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 60.02m, 59.69m, 55.1m, -406, null },
                     { -492, 49.99m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 59.08m, 59.83m, 58.57m, -406, null },
-                    { -491, 67.66m, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 50.89m, 53.03m, 64.17m, -406, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -491, 67.66m, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 50.89m, 53.03m, 64.17m, -406, null },
                     { -490, 63.67m, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 61.03m, 56.7m, 55.73m, -406, null },
                     { -489, 61.18m, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 63.38m, 62.18m, 57.27m, -406, null },
                     { -488, 56.72m, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 63.46m, 60.94m, 50.69m, -406, null },
@@ -1670,7 +2408,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -483, 53.59m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 73.22m, 70.58m, 57.64m, -406, null },
                     { -482, 61.88m, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 57.13m, 63.41m, 59.59m, -406, null },
                     { -481, 61.51m, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 59.9m, 60.92m, 56.93m, -406, null },
-                    { -480, 55.92m, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 67.72m, 60.37m, 65.61m, -406, null },
+                    { -480, 55.92m, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 67.72m, 60.37m, 65.61m, -406, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -479, 52.54m, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 66.6m, 57.99m, 62.66m, -406, null },
                     { -478, 56.58m, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 59.49m, 57.16m, 53.2m, -406, null },
                     { -477, 64.87m, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 68.12m, 52.42m, 64.97m, -406, null },
@@ -1701,15 +2447,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -452, 62.77m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 70.85m, 68.27m, 49.66m, -406, null },
                     { -451, 69.59m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.62m, 62.42m, 56.1m, -406, null },
                     { -450, 62.81m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 73.45m, 57.02m, 60.53m, -406, null },
-                    { -449, 58.96m, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 55.08m, 58.08m, 60.31m, -406, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -449, 58.96m, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 55.08m, 58.08m, 60.31m, -406, null },
                     { -448, 61.13m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 59.72m, 65.07m, 57.25m, -406, null },
                     { -447, 58.1m, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 62.02m, 64.21m, 58.99m, -406, null },
                     { -446, 57.23m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 59.19m, 59.88m, 56.09m, -406, null },
@@ -1720,7 +2458,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -441, 62.44m, new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 50.66m, 64.83m, 50.8m, -403, null },
                     { -440, 62.93m, new DateTime(2023, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 57.84m, 50.13m, 56.95m, -403, null },
                     { -439, 56.18m, new DateTime(2023, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 61.88m, 48.32m, 54.57m, -403, null },
-                    { -438, 60.36m, new DateTime(2023, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 65.54m, 50.49m, 54.59m, -403, null },
+                    { -438, 60.36m, new DateTime(2023, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 65.54m, 50.49m, 54.59m, -403, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -437, 51.91m, new DateTime(2023, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 55.41m, 53.76m, 47.42m, -403, null },
                     { -436, 47.92m, new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 60m, 60.68m, 52.97m, -403, null },
                     { -435, 47.72m, new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 53.87m, 55.96m, 50.74m, -403, null },
@@ -1751,15 +2497,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -410, 51.78m, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 49.65m, 51.44m, 49.73m, -403, null },
                     { -409, 52.01m, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.65m, 58.93m, 63.73m, -403, null },
                     { -408, 54.32m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 57.78m, 52.35m, 64.86m, -403, null },
-                    { -407, 53.82m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 50.73m, 52.66m, 55.87m, -403, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -407, 53.82m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 50.73m, 52.66m, 55.87m, -403, null },
                     { -406, 49.9m, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.95m, 51.73m, 58.1m, -403, null },
                     { -405, 45.61m, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.23m, 58.29m, 53.33m, -403, null },
                     { -404, 55.22m, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 48.57m, 56.45m, 53.84m, -403, null },
@@ -1770,7 +2508,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -399, 59.49m, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 56.71m, 50.65m, 49.32m, -403, null },
                     { -398, 57.57m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 45.03m, 55.79m, 56.13m, -403, null },
                     { -397, 57.44m, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 53.79m, 48.03m, 53.9m, -403, null },
-                    { -396, 60.32m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 53.99m, 61.22m, 53.61m, -403, null },
+                    { -396, 60.32m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 53.99m, 61.22m, 53.61m, -403, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -395, 55.95m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 43.42m, 63.14m, 52.86m, -403, null },
                     { -394, 50.91m, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.44m, 49.14m, 53.04m, -403, null },
                     { -393, 52.11m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 60.11m, 50.55m, 54.38m, -403, null },
@@ -1801,15 +2547,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -368, 70.85m, new DateTime(2023, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 65.79m, 71.7m, 74.2m, -400, null },
                     { -367, 68.13m, new DateTime(2023, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 62.3m, 63.18m, 66.92m, -400, null },
                     { -366, 72.08m, new DateTime(2023, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 58.15m, 64.46m, 59.03m, -400, null },
-                    { -365, 66.76m, new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 77.14m, 63.15m, 77.83m, -400, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -365, 66.76m, new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 77.14m, 63.15m, 77.83m, -400, null },
                     { -364, 66.8m, new DateTime(2023, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 61.3m, 62.01m, 76.26m, -400, null },
                     { -363, 63.67m, new DateTime(2023, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 64.1m, 76.03m, 63.06m, -400, null },
                     { -362, 64.41m, new DateTime(2023, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 68.44m, 67.37m, 77.45m, -400, null },
@@ -1820,7 +2558,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -357, 66.59m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 70.36m, 61.23m, 65.58m, -400, null },
                     { -356, 58.53m, new DateTime(2023, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 72.36m, 65.39m, 64.6m, -400, null },
                     { -355, 76.79m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 77.43m, 66.84m, 68.6m, -400, null },
-                    { -354, 58.54m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.08m, 71.67m, 74.01m, -400, null },
+                    { -354, 58.54m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.08m, 71.67m, 74.01m, -400, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -353, 57.01m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 71.56m, 61.65m, 67.02m, -400, null },
                     { -352, 73.12m, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 64.9m, 74.98m, 72.66m, -400, null },
                     { -351, 69.41m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 77.76m, 69.69m, 69.97m, -400, null },
@@ -1851,15 +2597,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -326, 81.42m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 66.69m, 65m, 77.18m, -400, null },
                     { -325, 76.51m, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 74.98m, 71.24m, 75.16m, -400, null },
                     { -324, 71.5m, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.06m, 75.36m, 71.91m, -400, null },
-                    { -323, 75.25m, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 72.42m, 65.32m, 77.62m, -400, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -323, 75.25m, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 72.42m, 65.32m, 77.62m, -400, null },
                     { -322, 70.26m, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 70.22m, 72.13m, 63.47m, -400, null },
                     { -321, 68.46m, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.04m, 71.63m, 71.01m, -400, null },
                     { -320, 76.62m, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 73.93m, 78.49m, 68.68m, -400, null },
@@ -1870,7 +2608,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -315, 78.25m, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 82.53m, 74.55m, 70.82m, -400, null },
                     { -314, 71.24m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 80.35m, 75.38m, 76.48m, -400, null },
                     { -313, 79.28m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 76.5m, 75.3m, 76.11m, -400, null },
-                    { -312, 68.58m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 73.2m, 73.01m, 76.94m, -400, null },
+                    { -312, 68.58m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 73.2m, 73.01m, 76.94m, -400, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -311, 66.58m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 78.75m, 76.43m, 65.24m, -400, null },
                     { -310, 66.27m, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 67.71m, 71.48m, 73.57m, -400, null },
                     { -309, 82.26m, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 73.13m, 72.48m, 74.54m, -400, null },
@@ -1901,15 +2647,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -284, 55.37m, new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 52.56m, 55.13m, 54.31m, -397, null },
                     { -283, 54.04m, new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 55.17m, 54.99m, 47.47m, -397, null },
                     { -282, 52.25m, new DateTime(2023, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 61.3m, 56.39m, 58.8m, -397, null },
-                    { -281, 55.24m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 53.44m, 50.53m, 52.17m, -397, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -281, 55.24m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 53.44m, 50.53m, 52.17m, -397, null },
                     { -280, 53.27m, new DateTime(2023, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 51.86m, 61.76m, 47.3m, -397, null },
                     { -279, 48.4m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 54.79m, 51.89m, 55.44m, -397, null },
                     { -278, 55.94m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 56.18m, 52.86m, 47.76m, -397, null },
@@ -1920,7 +2658,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -273, 50.66m, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 48.32m, 47.56m, 52.62m, -397, null },
                     { -272, 46.44m, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 47.13m, 51.05m, 45.38m, -397, null },
                     { -271, 57.1m, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 52.13m, 52.92m, 47.1m, -397, null },
-                    { -270, 49.8m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 46.94m, 52.92m, 44.05m, -397, null },
+                    { -270, 49.8m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 46.94m, 52.92m, 44.05m, -397, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -269, 51.33m, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 45.03m, 49.14m, 47.18m, -397, null },
                     { -268, 45.12m, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 56.68m, 50.37m, 49.59m, -397, null },
                     { -267, 53.47m, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 47.22m, 47.07m, 49.87m, -397, null },
@@ -1951,15 +2697,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -242, 54.67m, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 51.52m, 54.14m, 52.88m, -397, null },
                     { -241, 46.48m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 55.22m, 52.22m, 51.29m, -397, null },
                     { -240, 52.89m, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 56.89m, 57.8m, 62.67m, -397, null },
-                    { -239, 53.82m, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 43.79m, 48.16m, 54.21m, -397, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -239, 53.82m, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 43.79m, 48.16m, 54.21m, -397, null },
                     { -238, 55.76m, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 57.16m, 52.73m, 50.99m, -397, null },
                     { -237, 53.03m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 52.68m, 49.62m, 48.82m, -397, null },
                     { -236, 48.14m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 57.51m, 54.13m, 50.58m, -397, null },
@@ -1970,7 +2708,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -231, 48.83m, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 51.05m, 55.39m, 53.99m, -397, null },
                     { -230, 48.56m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 51.68m, 53.87m, 50.64m, -397, null },
                     { -229, 46.83m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 56.52m, 47.87m, 52.38m, -397, null },
-                    { -228, 53.94m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 48.04m, 51.61m, 51.31m, -397, null },
+                    { -228, 53.94m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 48.04m, 51.61m, 51.31m, -397, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -227, 52.1m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 47.46m, 54.14m, 44.52m, -397, null },
                     { -226, 49.59m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 46.65m, 52.81m, 53.27m, -397, null },
                     { -225, 43.26m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 47.36m, 52.32m, 53.21m, -397, null },
@@ -2001,15 +2747,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -200, 80.09m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 81.45m, 83.67m, 72.7m, -392, null },
                     { -199, 62.63m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 87.09m, 76.6m, 71.64m, -392, null },
                     { -198, 87.88m, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 75.86m, 86.35m, 77.78m, -392, null },
-                    { -197, 71.4m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 80.54m, 81.95m, 71.93m, -392, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -197, 71.4m, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 80.54m, 81.95m, 71.93m, -392, null },
                     { -196, 70.93m, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 86.26m, 67.51m, 73.5m, -392, null },
                     { -195, 67.23m, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 88.54m, 75.96m, 77.42m, -392, null },
                     { -194, 80.35m, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 68.42m, 66.83m, 74.39m, -392, null },
@@ -2020,7 +2758,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -189, 65.68m, new DateTime(2023, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 73.09m, 85.94m, 72.1m, -392, null },
                     { -188, 73.64m, new DateTime(2023, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 77.71m, 76.61m, 54.9m, -392, null },
                     { -187, 76.01m, new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 74.92m, 79.94m, 77.17m, -392, null },
-                    { -186, 66.44m, new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.12m, 78.02m, 79.06m, -392, null },
+                    { -186, 66.44m, new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.12m, 78.02m, 79.06m, -392, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -185, 65.06m, new DateTime(2023, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 72.28m, 80.48m, 69.01m, -392, null },
                     { -184, 81.99m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 70.08m, 83.83m, 77.28m, -392, null },
                     { -183, 73.01m, new DateTime(2023, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 78.83m, 81.44m, 72.32m, -392, null },
@@ -2051,15 +2797,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -158, 82.14m, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 80.2m, 75.24m, 71.06m, -392, null },
                     { -157, 79.26m, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 72.92m, 75m, 83.27m, -392, null },
                     { -156, 73.41m, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 78.11m, 72.13m, 72.92m, -392, null },
-                    { -155, 80.98m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.27m, 75.57m, 74.3m, -392, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -155, 80.98m, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.27m, 75.57m, 74.3m, -392, null },
                     { -154, 80.4m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 77.99m, 84.01m, 77.78m, -392, null },
                     { -153, 62.88m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 79.52m, 77.93m, 80.14m, -392, null },
                     { -152, 75.3m, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 76.79m, 68.16m, 84.74m, -392, null },
@@ -2070,7 +2808,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -147, 86.68m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 75.9m, 77.14m, 80.91m, -392, null },
                     { -146, 74.9m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 71.45m, 81.66m, 71.84m, -392, null },
                     { -145, 71.63m, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 79.03m, 68.75m, 76.58m, -392, null },
-                    { -144, 72.47m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.41m, 76.65m, 86.52m, -392, null },
+                    { -144, 72.47m, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.41m, 76.65m, 86.52m, -392, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -143, 81.3m, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 81.13m, 76m, 76.51m, -392, null },
                     { -142, 80.79m, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 78.47m, 78.44m, 73.39m, -392, null },
                     { -141, 318.36m, new DateTime(2023, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 275.24m, 323.71m, 283.81m, -325, null },
@@ -2101,15 +2847,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -116, 282.37m, new DateTime(2023, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 302.51m, 272.15m, 276.18m, -325, null },
                     { -115, 319.35m, new DateTime(2023, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 328.47m, 298.91m, 284.94m, -325, null },
                     { -114, 262.93m, new DateTime(2023, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 285.35m, 265.58m, 301.53m, -325, null },
-                    { -113, 224.67m, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 262.63m, 242.23m, 223.08m, -325, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -113, 224.67m, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 262.63m, 242.23m, 223.08m, -325, null },
                     { -112, 256.72m, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 265.55m, 232.61m, 279.27m, -325, null },
                     { -111, 241.41m, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 236.61m, 232.96m, 225.38m, -325, null },
                     { -110, 234.56m, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 231.06m, 233.73m, 223.53m, -325, null },
@@ -2120,7 +2858,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -105, 254.33m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 270.93m, 259.77m, 284.13m, -325, null },
                     { -104, 240.88m, new DateTime(2023, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 250.03m, 256.24m, 295.22m, -325, null },
                     { -103, 303.12m, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 284.84m, 280m, 295.43m, -325, null },
-                    { -102, 289.45m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 278.71m, 287.13m, 276.98m, -325, null },
+                    { -102, 289.45m, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 278.71m, 287.13m, 276.98m, -325, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -101, 300.91m, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 277.75m, 282.13m, 330.45m, -325, null },
                     { -100, 290.71m, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 282.7m, 258.19m, 257.09m, -325, null },
                     { -99, 268.83m, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 285.88m, 267.17m, 251.75m, -325, null },
@@ -2151,15 +2897,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -74, 255.97m, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 235.2m, 258.24m, 226.58m, -325, null },
                     { -73, 240.6m, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 255.32m, 231.7m, 229.36m, -325, null },
                     { -72, 260.03m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 283.07m, 261.41m, 285.19m, -325, null },
-                    { -71, 246.04m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 246.94m, 267.72m, 302.03m, -325, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -71, 246.04m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 246.94m, 267.72m, 302.03m, -325, null },
                     { -70, 255.36m, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 263.83m, 247.39m, 243.89m, -325, null },
                     { -69, 268.37m, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 278.19m, 266.94m, 247.07m, -325, null },
                     { -68, 226.15m, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 281.55m, 220.32m, 272.61m, -325, null },
@@ -2170,7 +2908,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -63, 89.77m, new DateTime(2023, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 96.25m, 98.07m, 88.56m, -315, null },
                     { -62, 87.15m, new DateTime(2023, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 92.57m, 91.47m, 102.34m, -315, null },
                     { -61, 100.92m, new DateTime(2023, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 87.43m, 97.73m, 91.75m, -315, null },
-                    { -60, 102.42m, new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 92.66m, 99.03m, 98.55m, -315, null },
+                    { -60, 102.42m, new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 92.66m, 99.03m, 98.55m, -315, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -59, 94.67m, new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 84.17m, 81.25m, 83.24m, -315, null },
                     { -58, 100.92m, new DateTime(2023, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 87.93m, 84.41m, 89.26m, -315, null },
                     { -57, 96.57m, new DateTime(2023, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 96.98m, 108.89m, 100.21m, -315, null },
@@ -2201,15 +2947,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -32, 84.27m, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 85.83m, 86.06m, 78.04m, -315, null },
                     { -31, 78.2m, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 80.02m, 74.99m, 79.47m, -315, null },
                     { -30, 71.05m, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 79.22m, 80.04m, 77m, -315, null },
-                    { -29, 82.74m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 88.39m, 68.93m, 87.4m, -315, null }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecurityPrice",
-                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
-                values: new object[,]
-                {
+                    { -29, 82.74m, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 88.39m, 68.93m, 87.4m, -315, null },
                     { -28, 78.83m, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 96.7m, 80.13m, 85.66m, -315, null },
                     { -27, 84.23m, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 87.58m, 83.55m, 85.44m, -315, null },
                     { -26, 82.42m, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 81.58m, 79.64m, 71.28m, -315, null },
@@ -2220,7 +2958,15 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -21, 73.14m, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 90.47m, 74.69m, 75.38m, -315, null },
                     { -20, 81.32m, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 82.67m, 81.91m, 77.39m, -315, null },
                     { -19, 77.68m, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 75.84m, 82.13m, 75.86m, -315, null },
-                    { -18, 77.93m, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.49m, 74.59m, 89.96m, -315, null },
+                    { -18, 77.93m, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 69.49m, 74.59m, 89.96m, -315, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecurityPrice",
+                columns: new[] { "PriceID", "PriceClose", "PriceDate", "PriceHigh", "PriceLow", "PriceOpen", "SecurityID", "Volume" },
+                values: new object[,]
+                {
                     { -17, 80.46m, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 80.6m, 60.56m, 69.31m, -315, null },
                     { -16, 88.95m, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 90.57m, 80.75m, 87.33m, -315, null },
                     { -15, 83.56m, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 89.11m, 83.63m, 86.16m, -315, null },
@@ -2259,15 +3005,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -19, null, null, new DateTime(2021, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -576, -40, "FECES" },
                     { -18, null, null, new DateTime(2021, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -575, -40, "FREF" },
                     { -17, null, null, new DateTime(2021, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -574, -40, "SIF" },
-                    { -16, null, null, new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -523, -40, "PV" }
-                });
-
-            migrationBuilder.InsertData(
-                schema: "FinanceApp",
-                table: "SecuritySymbol",
-                columns: new[] { "SymbolID", "Cusip", "CustomSymbol", "EffectiveDate", "OptionTicker", "SecurityID", "SymbolTypeID", "Ticker" },
-                values: new object[,]
-                {
+                    { -16, null, null, new DateTime(2020, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -523, -40, "PV" },
                     { -15, null, null, new DateTime(2020, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -514, -40, "OFB" },
                     { -14, null, null, new DateTime(2020, 6, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -493, -40, "SWM" },
                     { -13, null, null, new DateTime(2020, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -482, -40, "MIND" },
@@ -2278,15 +3016,5771 @@ namespace NjordinSight.EntityMigration.FinanceApp
                     { -8, null, null, new DateTime(2019, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -406, -40, "VISG" },
                     { -7, null, null, new DateTime(2018, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -403, -40, "LUMIN" },
                     { -6, null, null, new DateTime(2018, 7, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -400, -40, "NEBU" },
-                    { -5, null, null, new DateTime(2019, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -397, -40, "SLCX" },
-                    { -4, null, null, new DateTime(2019, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -392, -40, "MCGF" },
-                    { -3, null, null, new DateTime(2016, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -325, -40, "QSOFT" },
-                    { -2, null, null, new DateTime(2018, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -315, -40, "ATECH" }
+                    { -5, null, null, new DateTime(2019, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -397, -40, "SLCX" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecuritySymbol",
+                columns: new[] { "SymbolID", "Cusip", "CustomSymbol", "EffectiveDate", "OptionTicker", "SecurityID", "SymbolTypeID", "Ticker" },
+                values: new object[] { -4, null, null, new DateTime(2019, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -392, -40, "MCGF" });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecuritySymbol",
+                columns: new[] { "SymbolID", "Cusip", "CustomSymbol", "EffectiveDate", "OptionTicker", "SecurityID", "SymbolTypeID", "Ticker" },
+                values: new object[] { -3, null, null, new DateTime(2016, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -325, -40, "QSOFT" });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "SecuritySymbol",
+                columns: new[] { "SymbolID", "Cusip", "CustomSymbol", "EffectiveDate", "OptionTicker", "SecurityID", "SymbolTypeID", "Ticker" },
+                values: new object[] { -2, null, null, new DateTime(2018, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), null, -315, -40, "ATECH" });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "AccountAttributeMemberEntry",
+                columns: new[] { "AccountObjectID", "AttributeMemberID", "EffectiveDate", "Weight" },
+                values: new object[,]
+                {
+                    { -10, -907, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -13, -905, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -12, -905, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "AccountCompositeMember",
+                columns: new[] { "AccountCompositeID", "AccountID", "EntryDate", "Comment", "DisplayOrder", "ExitDate" },
+                values: new object[,]
+                {
+                    { -14, -12, new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Add crypto wallets", 0, null },
+                    { -14, -11, new DateTime(2019, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Add retirement account", 0, null },
+                    { -14, -10, new DateTime(2015, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Add checking account", 0, null },
+                    { -13, -12, new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Add crypto wallets", 0, null },
+                    { -13, -11, new DateTime(2019, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Add retirement account", 0, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "AccountWallet",
+                columns: new[] { "AccountWalletID", "AccountID", "AddressCode", "AddressTag", "DenominationSecurityID" },
+                values: new object[] { -1, -12, "169 3799 590B DBDB", null, -758 });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                columns: new[] { "TransactionID", "AccountID", "Amount", "Comment", "TransactionCodeID", "TransactionDate" },
+                values: new object[,]
+                {
+                    { -7703, -10, -6.16m, null, -23, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7702, -10, -2.08m, null, -23, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7701, -10, -11.61m, null, -23, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7700, -10, -12.63m, null, -23, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7699, -10, -3.2m, null, -23, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7698, -10, -0.88m, null, -23, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7697, -10, -0.75m, null, -23, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7696, -10, -57.76m, null, -23, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7695, -10, -19.59m, null, -23, new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7694, -10, -2.22m, null, -23, new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7693, -10, -5.62m, null, -23, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7692, -10, -2.42m, null, -23, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7691, -10, -25.01m, null, -23, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7690, -10, -2.63m, null, -23, new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7689, -10, -1.68m, null, -23, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7688, -10, -41.41m, null, -23, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7687, -10, -10.3m, null, -23, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7686, -10, -2.12m, null, -23, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7685, -10, -2.27m, null, -23, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7684, -10, -17.56m, null, -23, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7683, -10, -9.26m, null, -23, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7682, -10, -2.25m, null, -23, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7681, -10, -2.44m, null, -23, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7680, -10, -6.17m, null, -23, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7679, -10, -9.92m, null, -23, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7678, -10, -1.05m, null, -23, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7677, -10, -4.32m, null, -23, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7676, -10, -12.68m, null, -23, new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7675, -10, -10.02m, null, -23, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7674, -10, -2.55m, null, -23, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7673, -10, -0.74m, null, -23, new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7672, -10, -1.18m, null, -23, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7671, -10, -5.52m, null, -23, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                columns: new[] { "TransactionID", "AccountID", "Amount", "Comment", "TransactionCodeID", "TransactionDate" },
+                values: new object[,]
+                {
+                    { -7670, -10, -2.01m, null, -23, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7669, -10, -2.01m, null, -23, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7668, -10, -6.5m, null, -23, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7667, -10, -22.47m, null, -23, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7666, -10, -16.76m, null, -23, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7665, -10, -4.05m, null, -23, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7664, -10, -6.87m, null, -23, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7663, -10, -4.29m, null, -23, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7662, -10, -65.46m, null, -23, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7661, -10, -4.38m, null, -23, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7660, -10, -2.69m, null, -23, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7659, -10, -3.38m, null, -23, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7658, -10, -11.04m, null, -23, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7657, -10, -0.49m, null, -23, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7656, -10, -4.54m, null, -23, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7655, -10, -2.27m, null, -23, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7654, -10, -3.43m, null, -23, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7653, -10, -2.73m, null, -23, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7652, -10, -4.54m, null, -23, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7651, -10, -63.51m, null, -23, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7650, -10, -0.51m, null, -23, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7649, -10, -13.32m, null, -23, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7648, -10, -5.1m, null, -23, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7647, -10, -3.84m, null, -23, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7646, -10, -33.54m, null, -23, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7645, -10, -3.48m, null, -23, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7644, -10, -4.46m, null, -23, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7643, -10, -9.65m, null, -23, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7642, -10, -0.65m, null, -23, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7641, -10, -0.23m, null, -23, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7640, -10, -6.96m, null, -23, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7639, -10, -15.59m, null, -23, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7638, -10, -1.72m, null, -23, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7637, -10, -4.58m, null, -23, new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7636, -10, -1.94m, null, -23, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7635, -10, -12.89m, null, -23, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7634, -10, -12.31m, null, -23, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7633, -10, -0.73m, null, -23, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7632, -10, -10.52m, null, -23, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7631, -10, -2.17m, null, -23, new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7630, -10, -23.44m, null, -23, new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7629, -10, -2.76m, null, -23, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                columns: new[] { "TransactionID", "AccountID", "Amount", "Comment", "TransactionCodeID", "TransactionDate" },
+                values: new object[,]
+                {
+                    { -7628, -10, -5.89m, null, -23, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7627, -10, -7.48m, null, -23, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7626, -10, -9.91m, null, -23, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7625, -10, -4.1m, null, -23, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7624, -10, -3.38m, null, -23, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7623, -10, -34.76m, null, -23, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7622, -10, -8.91m, null, -23, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7621, -10, -1.63m, null, -23, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7620, -10, -7.48m, null, -23, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7619, -10, -9.07m, null, -23, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7618, -10, -8.14m, null, -23, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7617, -10, -3.55m, null, -23, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7616, -10, -24.41m, null, -23, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7615, -10, -12.24m, null, -23, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7614, -10, -1.4m, null, -23, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7613, -10, -22.95m, null, -23, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7612, -10, -3.19m, null, -23, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7611, -10, -1.11m, null, -23, new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7610, -10, -2.09m, null, -23, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7609, -10, -29.52m, null, -23, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7608, -10, -1.79m, null, -23, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7607, -10, -1.34m, null, -23, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7606, -10, -12.78m, null, -23, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7605, -10, -0.82m, null, -23, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7604, -10, -2.79m, null, -23, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7603, -10, -5.94m, null, -23, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7602, -10, -4.02m, null, -23, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7601, -10, -26.98m, null, -23, new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7600, -10, -1.09m, null, -23, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7599, -10, -1.29m, null, -23, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7598, -10, -4.44m, null, -23, new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7597, -10, -1.82m, null, -23, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7596, -10, -9.13m, null, -23, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7595, -10, -4.76m, null, -23, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7594, -10, -12.71m, null, -23, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7593, -10, -9.57m, null, -23, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7592, -10, -3.09m, null, -23, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7591, -10, -3.2m, null, -23, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7590, -10, -0.39m, null, -23, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7589, -10, -6.54m, null, -23, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7588, -10, -1.69m, null, -23, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7587, -10, -16.57m, null, -23, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                columns: new[] { "TransactionID", "AccountID", "Amount", "Comment", "TransactionCodeID", "TransactionDate" },
+                values: new object[,]
+                {
+                    { -7586, -10, -21.99m, null, -23, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7585, -10, -6.53m, null, -23, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7584, -10, -8.53m, null, -23, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7583, -10, -0.55m, null, -23, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7582, -10, -3.98m, null, -23, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7581, -10, -1.86m, null, -23, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7580, -10, -12.97m, null, -23, new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7579, -10, -7.99m, null, -23, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7578, -10, -4.87m, null, -23, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7577, -10, -1.81m, null, -23, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7576, -10, -1.94m, null, -23, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7575, -10, -1.67m, null, -23, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7574, -10, -4.69m, null, -23, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7573, -10, -2.36m, null, -23, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7572, -10, -5.47m, null, -23, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7571, -10, -1.5m, null, -23, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7570, -10, -16.22m, null, -23, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7569, -10, -59.73m, null, -16, new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7568, -10, -86.65m, null, -16, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7567, -10, -41.53m, null, -16, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7534, -10, -68m, null, -9, new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7533, -10, -20.9m, null, -9, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7532, -10, -14.07m, null, -9, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7531, -10, -9.42m, null, -7, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7530, -10, -23.64m, null, -7, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7529, -10, -4.88m, null, -7, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7528, -10, -4.44m, null, -7, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7527, -10, -23.34m, null, -7, new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7526, -10, -26.73m, null, -7, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7525, -10, -9.83m, null, -7, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7524, -10, -1.79m, null, -7, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7523, -10, -2.81m, null, -7, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7522, -10, -12.95m, null, -7, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7521, -10, -24.43m, null, -7, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7520, -10, -3.9m, null, -7, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7519, -10, -5.58m, null, -7, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7518, -10, -0.31m, null, -7, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7517, -10, -5.95m, null, -7, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7516, -10, 1884.41m, null, -42, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7514, -10, 65.97m, null, -42, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7513, -10, 1992.22m, null, -42, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7512, -10, 433.66m, null, -42, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                columns: new[] { "TransactionID", "AccountID", "Amount", "Comment", "TransactionCodeID", "TransactionDate" },
+                values: new object[,]
+                {
+                    { -7511, -10, 24.9m, null, -42, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7510, -10, 242.02m, null, -42, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7509, -10, 1138.74m, null, -42, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7503, -10, 283.54m, null, -42, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7482, -10, -134.23m, null, -5, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7477, -10, -77.56m, null, -5, new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7476, -10, -184.59m, null, -5, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7472, -10, -1468.25m, null, -21, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7471, -10, -967.62m, null, -21, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7470, -10, -547.58m, null, -21, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7458, -10, -113.14m, null, -12, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { -7457, -10, -281.36m, null, -12, new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                columns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID", "Weight" },
+                values: new object[,]
+                {
+                    { -933, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -42, 1m },
+                    { -932, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -23, 1m },
+                    { -932, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -7, 1m },
+                    { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -21, 1m },
+                    { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -16, 1m },
+                    { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -15, 1m },
+                    { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -12, 1m },
+                    { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -9, 1m },
+                    { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -5, 1m },
+                    { -926, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -42, 1m },
+                    { -925, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -23, 1m },
+                    { -924, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -21, 1m },
+                    { -924, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -15, 1m },
+                    { -923, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -12, 1m },
+                    { -922, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -7, 1m },
+                    { -921, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -16, 1m },
+                    { -921, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -5, 1m },
+                    { -920, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -9, 1m }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                columns: new[] { "TransactionID", "AccountID", "AcquisitionDate", "Amount", "DepSecurityID", "Fee", "Quantity", "SecurityID", "SettleDate", "TaxLotID", "TradeDate", "TransactionCodeID", "Withholding" },
+                values: new object[,]
+                {
+                    { -5812, -11, null, 1925.16m, -101, null, 25m, -761, null, null, new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5811, -11, null, 1658.07m, -101, null, 25m, -761, null, null, new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5810, -11, null, 1816.89m, -101, null, 20m, -760, null, null, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5809, -11, null, 35.55m, -101, null, null, -759, null, null, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5808, -11, null, 1113.66m, -101, null, 10m, -759, null, null, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5807, -11, null, 4657.71m, -101, null, 20m, -759, null, null, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5806, -11, null, 4.59m, -101, null, null, -747, null, null, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5805, -11, null, 1136.28m, -101, null, 4m, -745, null, null, new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5804, -11, null, 7045.02m, -101, null, 10m, -745, null, null, new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5803, -11, null, 0.9m, -416, null, 0.0389m, -745, null, null, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5802, -11, null, 24.27m, -416, null, 0.0794m, -745, null, null, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5801, -11, null, 6.81m, -416, null, null, -745, null, null, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                columns: new[] { "TransactionID", "AccountID", "AcquisitionDate", "Amount", "DepSecurityID", "Fee", "Quantity", "SecurityID", "SettleDate", "TaxLotID", "TradeDate", "TransactionCodeID", "Withholding" },
+                values: new object[,]
+                {
+                    { -5800, -11, null, 28.92m, -416, null, null, -745, null, null, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5799, -11, null, 1661.76m, -101, null, 10m, -745, null, null, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5798, -11, null, 237.6m, -101, null, 1.246m, -578, null, null, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5797, -11, null, 81.24m, -101, null, 1.317m, -578, null, null, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5796, -11, null, 76.05m, -101, null, 1.269m, -578, null, null, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5795, -11, null, 92.94m, -101, null, 1.26m, -578, null, null, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5794, -11, null, 31.92m, -416, null, null, -578, null, null, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5793, -11, null, 5.94m, -416, null, 0.07m, -578, null, null, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5792, -11, null, 13.27m, -101, null, 0.015m, -578, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5791, -11, null, 96.15m, -101, null, 1.261m, -578, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5790, -11, null, 519.3m, -101, null, 1.262m, -578, null, null, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5789, -11, null, 281.58m, -101, null, 1.329m, -578, null, null, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5788, -11, null, 191.64m, -101, null, 2.61m, -577, null, null, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5787, -11, null, 273m, -101, null, 2.698m, -577, null, null, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5786, -11, null, 292.35m, -101, null, 2.536m, -577, null, null, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5785, -11, null, 116.07m, -101, null, 2.47m, -577, null, null, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5784, -11, null, 452.16m, -101, null, 10.025m, -578, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5783, -11, null, 225.51m, -101, null, 2.466m, -577, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5782, -11, null, 220.14m, -101, null, 2.559m, -577, null, null, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5781, -11, null, 17.25m, -101, null, 2.75m, -577, null, null, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5780, -11, null, 1082.25m, -101, null, 2.689m, -576, null, null, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5779, -11, null, 309.36m, -101, null, 2.789m, -576, null, null, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5778, -11, null, 286.32m, -101, null, 2.655m, -576, null, null, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5777, -11, null, 39.54m, -101, null, 2.604m, -576, null, null, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5776, -11, null, 4.29m, -101, null, 0.03m, -576, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -20, null },
+                    { -5775, -11, null, 654.87m, -101, null, 2.642m, -576, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5774, -11, null, 224.25m, -101, null, 2.695m, -576, null, null, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5773, -11, null, 30.27m, -101, null, 2.847m, -576, null, null, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5772, -11, null, 90.09m, -101, null, 0.183m, -575, null, null, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5771, -11, null, 288.81m, -416, null, 0.105m, -575, null, null, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5770, -11, null, 223.71m, -416, null, null, -575, null, null, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5769, -11, null, 30.81m, -101, null, 0.189m, -575, null, null, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5768, -11, null, 64.32m, -101, null, 0.185m, -575, null, null, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5767, -11, null, 196.83m, -101, null, 0.183m, -575, null, null, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5766, -11, null, 1.11m, -101, null, 0.002m, -575, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -20, null },
+                    { -5765, -11, null, 251.34m, -101, null, 0.182m, -575, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5764, -11, null, 150.18m, -101, null, 0.187m, -575, null, null, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5763, -11, null, 288.27m, -101, null, 0.193m, -575, null, null, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5762, -11, null, 395.07m, -101, null, 1.43m, -574, null, null, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5761, -11, null, 153.12m, -101, null, 1.493m, -574, null, null, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5760, -11, null, 258.66m, -101, null, 1.515m, -574, null, null, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5759, -11, null, 708.96m, -101, null, 1.498m, -574, null, null, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                columns: new[] { "TransactionID", "AccountID", "AcquisitionDate", "Amount", "DepSecurityID", "Fee", "Quantity", "SecurityID", "SettleDate", "TaxLotID", "TradeDate", "TransactionCodeID", "Withholding" },
+                values: new object[,]
+                {
+                    { -5758, -11, null, 1.02m, -101, null, 0.016m, -574, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -20, null },
+                    { -5757, -11, null, 1052.76m, -101, null, 1.488m, -574, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5756, -11, null, 504.69m, -101, null, 1.544m, -574, null, null, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5755, -11, null, 752.37m, -101, null, 1.669m, -574, null, null, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5754, -11, null, 1.62m, -101, null, null, -523, null, null, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5753, -11, null, 0.09m, -416, null, 0.0861m, -514, null, null, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5752, -11, null, 6.81m, -416, null, 0.0871m, -514, null, null, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5751, -11, null, 11.49m, -416, null, null, -514, null, null, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5750, -11, null, 61.89m, -416, null, null, -514, null, null, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5749, -11, null, 737.58m, -101, null, 5m, -514, null, null, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5748, -11, null, 54.72m, -101, null, null, -493, null, null, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, 7.37m },
+                    { -5747, -11, null, 770.67m, -101, null, 15m, -493, null, null, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5746, -11, null, 21.63m, -101, null, null, -482, null, null, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5745, -11, null, 160.86m, -101, null, 2.063m, -442, null, null, new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5744, -11, null, 0.3m, -416, null, null, -442, null, null, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5743, -11, null, 14.55m, -416, null, 0.137m, -442, null, null, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5742, -11, null, 158.07m, -101, null, 2.147m, -442, null, null, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5741, -11, null, 171.69m, -101, null, 2.054m, -442, null, null, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5740, -11, null, 13.47m, -101, null, 2.033m, -442, null, null, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5739, -11, null, 1.5m, -101, null, 0.022m, -442, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -20, null },
+                    { -5738, -11, null, 296.04m, -101, null, 2.021m, -442, null, null, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5737, -11, null, 28.83m, -101, null, 1.952m, -442, null, null, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5736, -11, null, 23.85m, -101, null, 2.046m, -442, null, null, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5735, -11, null, 12.03m, -416, null, 22.2m, -432, null, null, new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5734, -11, null, 7.05m, -416, null, null, -432, null, null, new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5733, -11, null, 1.53m, -416, null, 18.14m, -432, null, null, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5732, -11, null, 22.77m, -416, null, null, -432, null, null, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5731, -11, null, 67.2m, -416, null, 18.17m, -432, null, null, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5730, -11, null, 13.53m, -416, null, null, -432, null, null, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5729, -11, null, 1.8m, -101, null, null, -432, null, null, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5728, -11, null, 18.96m, -416, null, 2.83m, -432, null, null, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5727, -11, null, 6233.49m, -101, null, 1607.83m, -432, null, null, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), -20, null },
+                    { -5726, -11, null, 2.88m, -416, null, null, -432, null, null, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5725, -11, null, 20.88m, -416, null, 9.17m, -432, null, null, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5724, -11, null, 35.28m, -416, null, null, -432, null, null, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5723, -11, null, 1.65m, -101, null, null, -416, null, null, new DateTime(2023, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -16, null },
+                    { -5722, -11, null, 4.38m, -101, null, null, -416, null, null, new DateTime(2023, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -16, null },
+                    { -5721, -11, null, 7737.42m, -101, null, null, -416, null, null, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), -12, null },
+                    { -5720, -11, null, 3839.25m, -101, null, null, -416, null, null, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), -12, null },
+                    { -5719, -11, null, 0.6m, -101, null, null, -416, null, null, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -16, null },
+                    { -5718, -11, null, 0.9m, -101, null, null, -416, null, null, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -16, null },
+                    { -5717, -11, null, 1.86m, -101, null, null, -416, null, null, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), -16, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                columns: new[] { "TransactionID", "AccountID", "AcquisitionDate", "Amount", "DepSecurityID", "Fee", "Quantity", "SecurityID", "SettleDate", "TaxLotID", "TradeDate", "TransactionCodeID", "Withholding" },
+                values: new object[,]
+                {
+                    { -5716, -11, null, 1430.67m, -101, null, null, -416, null, null, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), -12, null },
+                    { -5715, -11, null, 0.18m, -101, null, null, -416, null, null, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -16, null },
+                    { -5714, -11, null, 0.36m, -101, null, null, -416, null, null, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), -16, null },
+                    { -5713, -11, null, 7318.41m, -101, null, null, -416, null, null, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -12, null },
+                    { -5712, -11, null, 4700.76m, -101, null, null, -416, null, null, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -12, null },
+                    { -5711, -11, null, 14575.71m, -101, null, null, -416, null, null, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), -12, null },
+                    { -5710, -11, null, 2982.24m, -101, null, null, -416, null, null, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), -12, null },
+                    { -5709, -11, null, 0.3m, -101, null, null, -416, null, null, new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), -16, null },
+                    { -5708, -11, null, 52.83m, -416, null, 0.0887m, -411, null, null, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5707, -11, null, 0.57m, -416, null, null, -411, null, null, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5706, -11, null, 1.11m, -416, null, 0.3331m, -406, null, null, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5705, -11, null, 145.08m, -416, null, 0.6354m, -406, null, null, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5704, -11, null, 30.66m, -416, null, null, -406, null, null, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5703, -11, null, 209.22m, -416, null, null, -406, null, null, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5702, -11, null, 566.43m, -101, null, 10m, -406, null, null, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5701, -11, null, 3496.05m, -101, null, 18m, -406, null, null, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5700, -11, null, 75.54m, -416, null, 0.2588m, -403, null, null, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5699, -11, null, 16.77m, -416, null, 0.2532m, -403, null, null, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5698, -11, null, 92.19m, -416, null, null, -403, null, null, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5697, -11, null, 71.49m, -416, null, null, -403, null, null, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5696, -11, null, 99.21m, -416, null, 0.3219m, -400, null, null, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5695, -11, null, 7.32m, -416, null, null, -400, null, null, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5694, -11, null, 151.8m, -416, null, 0.7224m, -392, null, null, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5693, -11, null, 357.9m, -416, null, null, -392, null, null, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5692, -11, null, 27.24m, -101, null, null, -325, null, null, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), -13, null },
+                    { -5691, -11, null, 808.17m, -101, null, 10m, -315, null, null, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), -11, null },
+                    { -5690, -11, null, 25000m, -101, null, null, -101, null, null, new DateTime(2023, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -12, null }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                columns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate", "Weight" },
+                values: new object[,]
+                {
+                    { -953, -840, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -825, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -809, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -802, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -796, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -780, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -766, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -761, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -750, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -741, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -728, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -723, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -719, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -715, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -714, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                columns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate", "Weight" },
+                values: new object[,]
+                {
+                    { -953, -713, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -668, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -653, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -617, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -953, -616, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -832, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -826, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -819, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -816, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -805, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -794, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -781, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -779, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -776, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -774, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -773, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -767, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -743, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -734, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -718, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -703, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -702, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -700, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -685, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -664, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -657, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -647, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -644, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -643, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -630, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -952, -609, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -835, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -833, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -814, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -813, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -808, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -799, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -777, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -765, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -758, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -756, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -711, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                columns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate", "Weight" },
+                values: new object[,]
+                {
+                    { -951, -709, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -708, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -706, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -699, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -682, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -675, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -674, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -659, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -639, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -620, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -613, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m },
+                    { -951, -612, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1m }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategyTarget",
+                columns: new[] { "AttributeMemberID", "EffectiveDate", "InvestmentStrategyID", "Weight" },
+                values: new object[,]
+                {
+                    { -953, new DateTime(2015, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -2, 0.65m },
+                    { -952, new DateTime(2015, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -2, 0.35m },
+                    { -952, new DateTime(2015, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -1, 0.15m },
+                    { -951, new DateTime(2015, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -1, 0.85m }
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "EffectiveDate" },
+                keyValues: new object[] { -10, -907, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "EffectiveDate" },
+                keyValues: new object[] { -13, -905, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "EffectiveDate" },
+                keyValues: new object[] { -12, -905, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountCompositeMember",
+                keyColumns: new[] { "AccountCompositeID", "AccountID", "EntryDate" },
+                keyValues: new object[] { -14, -12, new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountCompositeMember",
+                keyColumns: new[] { "AccountCompositeID", "AccountID", "EntryDate" },
+                keyValues: new object[] { -14, -11, new DateTime(2019, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountCompositeMember",
+                keyColumns: new[] { "AccountCompositeID", "AccountID", "EntryDate" },
+                keyValues: new object[] { -14, -10, new DateTime(2015, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountCompositeMember",
+                keyColumns: new[] { "AccountCompositeID", "AccountID", "EntryDate" },
+                keyValues: new object[] { -13, -12, new DateTime(2020, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountCompositeMember",
+                keyColumns: new[] { "AccountCompositeID", "AccountID", "EntryDate" },
+                keyValues: new object[] { -13, -11, new DateTime(2019, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountWallet",
+                keyColumn: "AccountWalletID",
+                keyValue: -1);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7703);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7702);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7701);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7700);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7699);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7698);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7697);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7696);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7695);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7694);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7693);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7692);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7691);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7690);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7689);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7688);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7687);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7686);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7685);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7684);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7683);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7682);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7681);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7680);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7679);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7678);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7677);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7676);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7675);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7674);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7673);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7672);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7671);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7670);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7669);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7668);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7667);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7666);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7665);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7664);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7663);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7662);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7661);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7660);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7659);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7658);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7657);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7656);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7655);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7654);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7653);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7652);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7651);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7650);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7649);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7648);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7647);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7646);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7645);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7644);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7643);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7642);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7641);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7640);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7639);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7638);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7637);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7636);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7635);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7634);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7633);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7632);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7631);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7630);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7629);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7628);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7627);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7626);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7625);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7624);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7623);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7622);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7621);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7620);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7619);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7618);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7617);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7616);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7615);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7614);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7613);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7612);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7611);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7610);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7609);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7608);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7607);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7606);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7605);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7604);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7603);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7602);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7601);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7600);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7599);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7598);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7597);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7596);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7595);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7594);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7593);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7592);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7591);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7590);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7589);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7588);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7587);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7586);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7585);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7584);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7583);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7582);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7581);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7580);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7579);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7578);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7577);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7576);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7575);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7574);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7573);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7572);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7571);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7570);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7569);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7568);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7567);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7534);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7533);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7532);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7531);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7530);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7529);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7528);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7527);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7526);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7525);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7524);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7523);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7522);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7521);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7520);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7519);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7518);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7517);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7516);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7514);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7513);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7512);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7511);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7510);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7509);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7503);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7482);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7477);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7476);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7472);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7471);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7470);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7458);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -7457);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -933, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -42 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -932, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -23 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -932, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -7 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -21 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -16 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -15 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -12 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -9 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -931, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -5 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -926, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -42 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -925, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -23 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -924, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -21 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -924, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -15 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -923, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -12 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -922, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -7 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -921, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -16 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -921, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -5 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCodeAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "TransactionCodeID" },
+                keyValues: new object[] { -920, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), -9 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5812);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5811);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5810);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5809);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5808);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5807);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5806);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5805);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5804);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5803);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5802);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5801);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5800);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5799);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5798);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5797);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5796);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5795);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5794);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5793);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5792);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5791);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5790);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5789);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5788);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5787);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5786);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5785);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5784);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5783);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5782);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5781);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5780);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5779);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5778);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5777);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5776);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5775);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5774);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5773);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5772);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5771);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5770);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5769);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5768);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5767);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5766);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5765);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5764);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5763);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5762);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5761);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5760);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5759);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5758);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5757);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5756);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5755);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5754);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5753);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5752);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5751);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5750);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5749);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5748);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5747);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5746);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5745);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5744);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5743);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5742);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5741);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5740);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5739);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5738);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5737);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5736);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5735);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5734);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5733);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5732);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5731);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5730);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5729);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5728);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5727);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5726);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5725);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5724);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5723);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5722);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5721);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5720);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5719);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5718);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5717);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5716);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5715);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5714);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5713);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5712);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5711);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5710);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5709);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5708);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5707);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5706);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5705);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5704);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5703);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5702);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5701);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5700);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5699);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5698);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5697);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5696);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5695);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5694);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5693);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5692);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5691);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BrokerTransaction",
+                keyColumn: "TransactionID",
+                keyValue: -5690);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -840, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -825, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -809, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -802, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -796, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -780, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -766, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -761, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -750, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -741, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -728, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -723, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -719, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -715, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -714, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -713, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -668, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -653, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -617, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -953, -616, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -832, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -826, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -819, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -816, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -805, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -794, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -781, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -779, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -776, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -774, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -773, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -767, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -743, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -734, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -718, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -703, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -702, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -700, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -685, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -664, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -657, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -647, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -644, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -643, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -630, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -952, -609, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -835, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -833, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -814, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -813, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -808, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -799, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -777, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -765, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -758, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -756, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -711, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -709, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -708, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -706, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -699, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -682, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -675, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -674, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -659, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -639, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -620, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -613, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "CountryAttributeMemberEntry",
+                keyColumns: new[] { "AttributeMemberID", "CountryID", "EffectiveDate" },
+                keyValues: new object[] { -951, -612, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2022, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -105, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2022, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceAttributeMemberEntry",
+                keyColumns: new[] { "AccountObjectID", "AttributeMemberID", "FromDate" },
+                keyValues: new object[] { -11, -100, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2022, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentPerformanceEntry",
+                keyColumns: new[] { "AccountObjectID", "FromDate" },
+                keyValues: new object[] { -11, new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategyTarget",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "InvestmentStrategyID" },
+                keyValues: new object[] { -953, new DateTime(2015, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -2 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategyTarget",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "InvestmentStrategyID" },
+                keyValues: new object[] { -952, new DateTime(2015, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -2 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategyTarget",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "InvestmentStrategyID" },
+                keyValues: new object[] { -103, new DateTime(2019, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -2 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategyTarget",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "InvestmentStrategyID" },
+                keyValues: new object[] { -102, new DateTime(2019, 9, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -2 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategyTarget",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "InvestmentStrategyID" },
+                keyValues: new object[] { -952, new DateTime(2015, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -1 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategyTarget",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "InvestmentStrategyID" },
+                keyValues: new object[] { -951, new DateTime(2015, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), -1 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategyTarget",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "InvestmentStrategyID" },
+                keyValues: new object[] { -101, new DateTime(2021, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -1 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategyTarget",
+                keyColumns: new[] { "AttributeMemberID", "EffectiveDate", "InvestmentStrategyID" },
+                keyValues: new object[] { -100, new DateTime(2021, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), -1 });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -186);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -185);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -184);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -183);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -182);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -181);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -180);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -179);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -178);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -177);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -176);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -175);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -174);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -173);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -172);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -171);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -170);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -169);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -168);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -167);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -166);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -165);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -164);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -163);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -162);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -161);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -160);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -159);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -158);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -157);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -156);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -155);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -154);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -153);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -152);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -151);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -150);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -149);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -148);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -147);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -146);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -145);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -144);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -143);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -142);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -141);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -140);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -139);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -138);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -137);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -136);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -135);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -134);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -133);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -132);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -131);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -130);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -129);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -128);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -127);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -126);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -125);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -124);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -123);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -122);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -121);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -120);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -119);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -118);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -117);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -116);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -115);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -114);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -113);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -112);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -111);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -110);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -109);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -108);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -107);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -106);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -105);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -104);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -103);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -102);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -101);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -100);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -99);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -98);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -97);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -96);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -95);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -94);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -93);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -92);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -91);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -90);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -89);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -88);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -87);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -86);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -85);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -84);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -83);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -82);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -81);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -80);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -79);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -78);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -77);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -76);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -75);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -74);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -73);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -72);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -71);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -70);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -69);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -68);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -67);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -66);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -65);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -64);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -63);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -62);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -61);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -60);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -59);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -58);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -57);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -56);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -55);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -54);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -53);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -52);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -51);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -50);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -49);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -48);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -47);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -46);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -45);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -44);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -43);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -42);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -41);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -40);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -39);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -38);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -37);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -36);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -35);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -34);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -33);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -32);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -31);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -30);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -29);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -28);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -27);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -26);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -25);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -24);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -23);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -22);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -21);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -20);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -19);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -18);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -17);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -16);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -15);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -14);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -13);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -12);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -11);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -10);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -9);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -8);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -7);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -6);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -5);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -4);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -3);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -2);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndexPrice",
+                keyColumn: "IndexPriceID",
+                keyValue: -1);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -911);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -910);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -909);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -908);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -906);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -904);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -903);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -902);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -901);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeScope",
+                keyColumns: new[] { "AttributeID", "ScopeCode" },
+                keyValues: new object[] { -950, "cou" });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeScope",
+                keyColumns: new[] { "AttributeID", "ScopeCode" },
+                keyValues: new object[] { -930, "bnk" });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeScope",
+                keyColumns: new[] { "AttributeID", "ScopeCode" },
+                keyValues: new object[] { -920, "bnk" });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeScope",
+                keyColumns: new[] { "AttributeID", "ScopeCode" },
+                keyValues: new object[] { -90, "acc" });
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ReportConfiguration",
+                keyColumn: "ConfigurationID",
+                keyValue: -1);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ReportStyleSheet",
+                keyColumn: "StyleSheetID",
+                keyValue: -1);
+
             migrationBuilder.DeleteData(
                 schema: "FinanceApp",
                 table: "SecurityAttributeMemberEntry",
@@ -13461,6 +19955,210 @@ namespace NjordinSight.EntityMigration.FinanceApp
 
             migrationBuilder.DeleteData(
                 schema: "FinanceApp",
+                table: "Account",
+                keyColumn: "AccountID",
+                keyValue: -12);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "Account",
+                keyColumn: "AccountID",
+                keyValue: -11);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "Account",
+                keyColumn: "AccountID",
+                keyValue: -10);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountComposite",
+                keyColumn: "AccountCompositeID",
+                keyValue: -14);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountComposite",
+                keyColumn: "AccountCompositeID",
+                keyValue: -13);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCode",
+                keyColumn: "TransactionCodeID",
+                keyValue: -42);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCode",
+                keyColumn: "TransactionCodeID",
+                keyValue: -23);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCode",
+                keyColumn: "TransactionCodeID",
+                keyValue: -21);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCode",
+                keyColumn: "TransactionCodeID",
+                keyValue: -16);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCode",
+                keyColumn: "TransactionCodeID",
+                keyValue: -15);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCode",
+                keyColumn: "TransactionCodeID",
+                keyValue: -12);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCode",
+                keyColumn: "TransactionCodeID",
+                keyValue: -9);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCode",
+                keyColumn: "TransactionCodeID",
+                keyValue: -7);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "BankTransactionCode",
+                keyColumn: "TransactionCodeID",
+                keyValue: -5);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategy",
+                keyColumn: "InvestmentStrategyID",
+                keyValue: -2);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "InvestmentStrategy",
+                keyColumn: "InvestmentStrategyID",
+                keyValue: -1);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndex",
+                keyColumn: "IndexID",
+                keyValue: -4);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndex",
+                keyColumn: "IndexID",
+                keyValue: -3);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "MarketIndex",
+                keyColumn: "IndexID",
+                keyValue: -2);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -953);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -952);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -951);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -933);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -932);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -931);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -926);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -925);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -924);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -923);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -922);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -921);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -920);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -907);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttributeMember",
+                keyColumn: "AttributeMemberID",
+                keyValue: -905);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
                 table: "Security",
                 keyColumn: "SecurityID",
                 keyValue: -761);
@@ -13632,6 +20330,72 @@ namespace NjordinSight.EntityMigration.FinanceApp
                 table: "Security",
                 keyColumn: "SecurityID",
                 keyValue: -315);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountCustodian",
+                keyColumn: "AccountCustodianID",
+                keyValue: -2);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountCustodian",
+                keyColumn: "AccountCustodianID",
+                keyValue: -1);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountObject",
+                keyColumn: "AccountObjectID",
+                keyValue: -14);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountObject",
+                keyColumn: "AccountObjectID",
+                keyValue: -13);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountObject",
+                keyColumn: "AccountObjectID",
+                keyValue: -12);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountObject",
+                keyColumn: "AccountObjectID",
+                keyValue: -11);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "AccountObject",
+                keyColumn: "AccountObjectID",
+                keyValue: -10);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttribute",
+                keyColumn: "AttributeID",
+                keyValue: -950);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttribute",
+                keyColumn: "AttributeID",
+                keyValue: -930);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttribute",
+                keyColumn: "AttributeID",
+                keyValue: -920);
+
+            migrationBuilder.DeleteData(
+                schema: "FinanceApp",
+                table: "ModelAttribute",
+                keyColumn: "AttributeID",
+                keyValue: -90);
         }
     }
 }
