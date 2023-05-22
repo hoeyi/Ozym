@@ -4,7 +4,7 @@
 
 namespace NjordinSight.EntityMigration.FinanceApp
 {
-    public partial class Add_SammpleReportData : Migration
+    public partial class Add_SampleReportData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

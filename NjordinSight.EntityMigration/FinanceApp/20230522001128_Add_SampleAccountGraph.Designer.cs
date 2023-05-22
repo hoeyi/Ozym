@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NjordinSight.EntityModel.Context;
 
@@ -11,9 +12,10 @@ using NjordinSight.EntityModel.Context;
 namespace NjordinSight.EntityMigration.FinanceApp
 {
     [DbContext(typeof(FinanceDbContext))]
-    partial class FinanceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230522001128_Add_SampleAccountGraph")]
+    partial class Add_SampleAccountGraph
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2190,7 +2192,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 808.17m,
                             DepSecurityId = -101,
-                            Quantity = 10m,
                             SecurityId = -315,
                             TradeDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2221,7 +2222,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 151.8m,
                             DepSecurityId = -416,
-                            Quantity = 0.7224m,
                             SecurityId = -392,
                             TradeDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2242,7 +2242,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 99.21m,
                             DepSecurityId = -416,
-                            Quantity = 0.3219m,
                             SecurityId = -400,
                             TradeDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2273,7 +2272,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 16.77m,
                             DepSecurityId = -416,
-                            Quantity = 0.2532m,
                             SecurityId = -403,
                             TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2284,7 +2282,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 75.54m,
                             DepSecurityId = -416,
-                            Quantity = 0.2588m,
                             SecurityId = -403,
                             TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2295,7 +2292,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 3496.05m,
                             DepSecurityId = -101,
-                            Quantity = 18m,
                             SecurityId = -406,
                             TradeDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2306,7 +2302,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 566.43m,
                             DepSecurityId = -101,
-                            Quantity = 10m,
                             SecurityId = -406,
                             TradeDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2337,7 +2332,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 145.08m,
                             DepSecurityId = -416,
-                            Quantity = 0.6354m,
                             SecurityId = -406,
                             TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2348,7 +2342,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1.11m,
                             DepSecurityId = -416,
-                            Quantity = 0.3331m,
                             SecurityId = -406,
                             TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2369,7 +2362,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 52.83m,
                             DepSecurityId = -416,
-                            Quantity = 0.0887m,
                             SecurityId = -411,
                             TradeDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2540,7 +2532,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 20.88m,
                             DepSecurityId = -416,
-                            Quantity = 9.17m,
                             SecurityId = -432,
                             TradeDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2561,7 +2552,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 6233.49m,
                             DepSecurityId = -101,
-                            Quantity = 1607.83m,
                             SecurityId = -432,
                             TradeDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -20
@@ -2572,7 +2562,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 18.96m,
                             DepSecurityId = -416,
-                            Quantity = 2.83m,
                             SecurityId = -432,
                             TradeDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2603,7 +2592,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 67.2m,
                             DepSecurityId = -416,
-                            Quantity = 18.17m,
                             SecurityId = -432,
                             TradeDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2624,7 +2612,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1.53m,
                             DepSecurityId = -416,
-                            Quantity = 18.14m,
                             SecurityId = -432,
                             TradeDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2645,7 +2632,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 12.03m,
                             DepSecurityId = -416,
-                            Quantity = 22.2m,
                             SecurityId = -432,
                             TradeDate = new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2656,7 +2642,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 23.85m,
                             DepSecurityId = -101,
-                            Quantity = 2.046m,
                             SecurityId = -442,
                             TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2667,7 +2652,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 28.83m,
                             DepSecurityId = -101,
-                            Quantity = 1.952m,
                             SecurityId = -442,
                             TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2678,7 +2662,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 296.04m,
                             DepSecurityId = -101,
-                            Quantity = 2.021m,
                             SecurityId = -442,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2689,7 +2672,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1.5m,
                             DepSecurityId = -101,
-                            Quantity = 0.022m,
                             SecurityId = -442,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -20
@@ -2700,7 +2682,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 13.47m,
                             DepSecurityId = -101,
-                            Quantity = 2.033m,
                             SecurityId = -442,
                             TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2711,7 +2692,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 171.69m,
                             DepSecurityId = -101,
-                            Quantity = 2.054m,
                             SecurityId = -442,
                             TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2722,7 +2702,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 158.07m,
                             DepSecurityId = -101,
-                            Quantity = 2.147m,
                             SecurityId = -442,
                             TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2733,7 +2712,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 14.55m,
                             DepSecurityId = -416,
-                            Quantity = 0.137m,
                             SecurityId = -442,
                             TradeDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2754,7 +2732,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 160.86m,
                             DepSecurityId = -101,
-                            Quantity = 2.063m,
                             SecurityId = -442,
                             TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2775,7 +2752,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 770.67m,
                             DepSecurityId = -101,
-                            Quantity = 15m,
                             SecurityId = -493,
                             TradeDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2797,7 +2773,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 737.58m,
                             DepSecurityId = -101,
-                            Quantity = 5m,
                             SecurityId = -514,
                             TradeDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2828,7 +2803,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 6.81m,
                             DepSecurityId = -416,
-                            Quantity = 0.0871m,
                             SecurityId = -514,
                             TradeDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2839,7 +2813,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 0.09m,
                             DepSecurityId = -416,
-                            Quantity = 0.0861m,
                             SecurityId = -514,
                             TradeDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2860,7 +2833,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 752.37m,
                             DepSecurityId = -101,
-                            Quantity = 1.669m,
                             SecurityId = -574,
                             TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2871,7 +2843,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 504.69m,
                             DepSecurityId = -101,
-                            Quantity = 1.544m,
                             SecurityId = -574,
                             TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2882,7 +2853,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1052.76m,
                             DepSecurityId = -101,
-                            Quantity = 1.488m,
                             SecurityId = -574,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2893,7 +2863,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1.02m,
                             DepSecurityId = -101,
-                            Quantity = 0.016m,
                             SecurityId = -574,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -20
@@ -2904,7 +2873,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 708.96m,
                             DepSecurityId = -101,
-                            Quantity = 1.498m,
                             SecurityId = -574,
                             TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2915,7 +2883,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 258.66m,
                             DepSecurityId = -101,
-                            Quantity = 1.515m,
                             SecurityId = -574,
                             TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2926,7 +2893,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 153.12m,
                             DepSecurityId = -101,
-                            Quantity = 1.493m,
                             SecurityId = -574,
                             TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2937,7 +2903,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 395.07m,
                             DepSecurityId = -101,
-                            Quantity = 1.43m,
                             SecurityId = -574,
                             TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2948,7 +2913,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 288.27m,
                             DepSecurityId = -101,
-                            Quantity = 0.193m,
                             SecurityId = -575,
                             TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2959,7 +2923,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 150.18m,
                             DepSecurityId = -101,
-                            Quantity = 0.187m,
                             SecurityId = -575,
                             TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2970,7 +2933,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 251.34m,
                             DepSecurityId = -101,
-                            Quantity = 0.182m,
                             SecurityId = -575,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -2981,7 +2943,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1.11m,
                             DepSecurityId = -101,
-                            Quantity = 0.002m,
                             SecurityId = -575,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -20
@@ -2992,7 +2953,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 196.83m,
                             DepSecurityId = -101,
-                            Quantity = 0.183m,
                             SecurityId = -575,
                             TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3003,7 +2963,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 64.32m,
                             DepSecurityId = -101,
-                            Quantity = 0.185m,
                             SecurityId = -575,
                             TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3014,7 +2973,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 30.81m,
                             DepSecurityId = -101,
-                            Quantity = 0.189m,
                             SecurityId = -575,
                             TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3035,7 +2993,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 288.81m,
                             DepSecurityId = -416,
-                            Quantity = 0.105m,
                             SecurityId = -575,
                             TradeDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3046,7 +3003,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 90.09m,
                             DepSecurityId = -101,
-                            Quantity = 0.183m,
                             SecurityId = -575,
                             TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3057,7 +3013,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 30.27m,
                             DepSecurityId = -101,
-                            Quantity = 2.847m,
                             SecurityId = -576,
                             TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3068,7 +3023,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 224.25m,
                             DepSecurityId = -101,
-                            Quantity = 2.695m,
                             SecurityId = -576,
                             TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3079,7 +3033,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 654.87m,
                             DepSecurityId = -101,
-                            Quantity = 2.642m,
                             SecurityId = -576,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3090,7 +3043,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 4.29m,
                             DepSecurityId = -101,
-                            Quantity = 0.03m,
                             SecurityId = -576,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -20
@@ -3101,7 +3053,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 39.54m,
                             DepSecurityId = -101,
-                            Quantity = 2.604m,
                             SecurityId = -576,
                             TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3112,7 +3063,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 286.32m,
                             DepSecurityId = -101,
-                            Quantity = 2.655m,
                             SecurityId = -576,
                             TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3123,7 +3073,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 309.36m,
                             DepSecurityId = -101,
-                            Quantity = 2.789m,
                             SecurityId = -576,
                             TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3134,7 +3083,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1082.25m,
                             DepSecurityId = -101,
-                            Quantity = 2.689m,
                             SecurityId = -576,
                             TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3145,7 +3093,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 17.25m,
                             DepSecurityId = -101,
-                            Quantity = 2.75m,
                             SecurityId = -577,
                             TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3156,7 +3103,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 220.14m,
                             DepSecurityId = -101,
-                            Quantity = 2.559m,
                             SecurityId = -577,
                             TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3167,7 +3113,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 225.51m,
                             DepSecurityId = -101,
-                            Quantity = 2.466m,
                             SecurityId = -577,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3178,7 +3123,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 452.16m,
                             DepSecurityId = -101,
-                            Quantity = 10.025m,
                             SecurityId = -578,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3189,7 +3133,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 116.07m,
                             DepSecurityId = -101,
-                            Quantity = 2.47m,
                             SecurityId = -577,
                             TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3200,7 +3143,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 292.35m,
                             DepSecurityId = -101,
-                            Quantity = 2.536m,
                             SecurityId = -577,
                             TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3211,7 +3153,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 273m,
                             DepSecurityId = -101,
-                            Quantity = 2.698m,
                             SecurityId = -577,
                             TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3222,7 +3163,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 191.64m,
                             DepSecurityId = -101,
-                            Quantity = 2.61m,
                             SecurityId = -577,
                             TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3233,7 +3173,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 281.58m,
                             DepSecurityId = -101,
-                            Quantity = 1.329m,
                             SecurityId = -578,
                             TradeDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3244,7 +3183,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 519.3m,
                             DepSecurityId = -101,
-                            Quantity = 1.262m,
                             SecurityId = -578,
                             TradeDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3255,7 +3193,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 96.15m,
                             DepSecurityId = -101,
-                            Quantity = 1.261m,
                             SecurityId = -578,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3266,7 +3203,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 13.27m,
                             DepSecurityId = -101,
-                            Quantity = 0.015m,
                             SecurityId = -578,
                             TradeDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3277,7 +3213,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 5.94m,
                             DepSecurityId = -416,
-                            Quantity = 0.07m,
                             SecurityId = -578,
                             TradeDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3298,7 +3233,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 92.94m,
                             DepSecurityId = -101,
-                            Quantity = 1.26m,
                             SecurityId = -578,
                             TradeDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3309,7 +3243,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 76.05m,
                             DepSecurityId = -101,
-                            Quantity = 1.269m,
                             SecurityId = -578,
                             TradeDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3320,7 +3253,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 81.24m,
                             DepSecurityId = -101,
-                            Quantity = 1.317m,
                             SecurityId = -578,
                             TradeDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3331,7 +3263,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 237.6m,
                             DepSecurityId = -101,
-                            Quantity = 1.246m,
                             SecurityId = -578,
                             TradeDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3342,7 +3273,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1661.76m,
                             DepSecurityId = -101,
-                            Quantity = 10m,
                             SecurityId = -745,
                             TradeDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3373,7 +3303,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 24.27m,
                             DepSecurityId = -416,
-                            Quantity = 0.0794m,
                             SecurityId = -745,
                             TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3384,7 +3313,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 0.9m,
                             DepSecurityId = -416,
-                            Quantity = 0.0389m,
                             SecurityId = -745,
                             TradeDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3395,7 +3323,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 7045.02m,
                             DepSecurityId = -101,
-                            Quantity = 10m,
                             SecurityId = -745,
                             TradeDate = new DateTime(2023, 4, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3406,7 +3333,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1136.28m,
                             DepSecurityId = -101,
-                            Quantity = 4m,
                             SecurityId = -745,
                             TradeDate = new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3427,7 +3353,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 4657.71m,
                             DepSecurityId = -101,
-                            Quantity = 20m,
                             SecurityId = -759,
                             TradeDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3438,7 +3363,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1113.66m,
                             DepSecurityId = -101,
-                            Quantity = 10m,
                             SecurityId = -759,
                             TradeDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3459,7 +3383,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1816.89m,
                             DepSecurityId = -101,
-                            Quantity = 20m,
                             SecurityId = -760,
                             TradeDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3470,7 +3393,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1658.07m,
                             DepSecurityId = -101,
-                            Quantity = 25m,
                             SecurityId = -761,
                             TradeDate = new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11
@@ -3481,7 +3403,6 @@ namespace NjordinSight.EntityMigration.FinanceApp
                             AccountId = -11,
                             Amount = 1925.16m,
                             DepSecurityId = -101,
-                            Quantity = 25m,
                             SecurityId = -761,
                             TradeDate = new DateTime(2023, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TransactionCodeId = -11

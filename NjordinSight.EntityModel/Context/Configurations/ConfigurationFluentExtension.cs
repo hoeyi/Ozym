@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,116 +58,592 @@ namespace NjordinSight.EntityModel.Context.Configurations
         private static IEntityConfiguration<T> NewConfiguration<T>(
             string sourceGuid, params T[] entries) where T : class
             => new EntityConfiguration<T>(Guid.Parse(sourceGuid), entries);
-        
+
         /// <summary>
         /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
         /// <list type="bullet">
-        /// <item><see cref="ModelAttribute"/></item>
-        /// <item><see cref="ModelAttributeScope"/></item>
-        /// <item><see cref="ModelAttributeMember"/></item>
+        /// <item><see cref="Account"/></item>
+        /// <item><see cref="AccountComposite"/></item>
+        /// <item><see cref="AccountCompositeMember"/></item>
+        /// <item><see cref="AccountAttributeMemberEntry"/></item>
+        /// <item><see cref="AccountWallet"/></item>
+        /// <item><see cref="BankTransaction"/></item>
+        /// <item><see cref="BrokerTransaction"/></item>
+        /// <item><see cref="InvestmentPerformanceAttributeMemberEntry"/></item>
+        /// <item><see cref="InvestmentPerformanceEntry"/></item>
+        /// </list>
+        /// Depends on: 
+        /// <list type="bullet">
+        /// <item><see cref="WithSample_ModelAttributeGraph(IConfigurationCollection)"/></item>
+        /// <item><see cref="WithSample_SecurityGraph(IConfigurationCollection)"/></item>
         /// </list>
         /// </summary>
-        /// <param name="configurationcollection"></param>
+        /// <param name="configurationCollection"></param>
         /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
-        public static IConfigurationCollection WithSample_ModelAttributeGraph(
-            this IConfigurationCollection configurationcollection)
+        public static IConfigurationCollection WithSample_AccountGraph(
+            this IConfigurationCollection configurationCollection)
         {
-            const string sourceGuid = "{B86AD8A7-9A34-40C6-A96C-1A2A577D95D8}";
+            const string sourceGuid = "{89E3A259-1791-4A37-BF36-4539822C9067}";
 
-            var modelAttributes = new ModelAttribute[]
+            var accountCustodians = new AccountCustodian[]
+            {
+                new() { AccountCustodianId = -1, CustodianCode = "NSCU", DisplayName = "Northern Savings Credit Union" },
+                new() { AccountCustodianId = -2, CustodianCode = "TCB", DisplayName = "Tres Comas Brokerage" }
+            };
+
+            var accountObjects = new AccountObject[]
             {
                 new()
                 {
-                    AttributeId = (int)ModelAttributeEnum.AccountType,
-                    DisplayName = Strings.ModelAttribute_AccountType
+                    AccountObjectId = -10,
+                    AccountObjectCode = "DEBIT1",
+                    ObjectDisplayName = "Checking Account",
+                    ObjectDescription = "Handles bill-paying and deposits.",
+                    ObjectType = AccountObjectType.Account.ConvertToStringCode(),
+                    StartDate = new DateTime(2015, 3, 15),
+                    CloseDate = null
                 },
                 new()
                 {
-                    AttributeId = (int)ModelAttributeEnum.BankTransactionGroup,
-                    DisplayName = Strings.ModelAttribute_BankTransactionGroup
+                    AccountObjectId = -11,
+                    AccountObjectCode = "INVEST",
+                    ObjectDisplayName = "Investing account",
+                    ObjectType = AccountObjectType.Account.ConvertToStringCode(),
+                    StartDate = new DateTime(2019, 12, 31),
+                    CloseDate = null
                 },
                 new()
                 {
-                    AttributeId = (int)ModelAttributeEnum.BankTransactionType,
-                    DisplayName = Strings.ModelAttribute_BankTransactionType
+                    AccountObjectId = -12,
+                    AccountObjectCode = "CRYPTO",
+                    ObjectDisplayName = "Cryptocurrency Wallets",
+                    ObjectType = AccountObjectType.Account.ConvertToStringCode(),
+                    StartDate = new DateTime(2020, 09, 30),
+                    CloseDate = null
                 },
                 new()
                 {
-                    AttributeId = (int)ModelAttributeEnum.Economy,
-                    DisplayName = Strings.ModelAttribute_Economy
+                    AccountObjectId = -13,
+                    AccountObjectCode = "BROKERAGE",
+                    ObjectDisplayName = "Brokerage accounts",
+                    ObjectDescription = "Aggregates all brokerage accounts.",
+                    ObjectType = AccountObjectType.Composite.ConvertToStringCode(),
+                    StartDate = new DateTime(2019, 12, 31)
+                },
+                new()
+                {
+                    AccountObjectId = -14,
+                    AccountObjectCode = "ALL",
+                    ObjectDisplayName = "All accounts",
+                    ObjectDescription = "Aggregates all accounts.",
+                    ObjectType = AccountObjectType.Composite.ConvertToStringCode(),
+                    StartDate = new DateTime(2015, 3, 15)
                 }
             };
 
-            var modelAttributescopes = new ModelAttributeScope[]
+            var accounts = new Account[]
             {
                 new()
-                {
-                    AttributeId = (int)ModelAttributeEnum.AccountType,
-                    ScopeCode = ModelAttributeScopeCode.Account.ConvertToStringCode()
+                { 
+                    AccountId = -10, 
+                    AccountNumber = "8675309", 
+                    HasBankTransaction = true,
+                    HasBrokerTransaction = false,
+                    HasWallet = false,
+                    AccountCustodianId = -1
                 },
                 new()
                 {
-                    AttributeId = (int)ModelAttributeEnum.BankTransactionGroup,
-                    ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode()
+                    AccountId = -11,
+                    AccountNumber = "4-8-15-16-23-42",
+                    HasBankTransaction = false,
+                    HasBrokerTransaction = true,
+                    HasWallet = false,
+                    AccountCustodianId = -2
                 },
                 new()
                 {
-                    AttributeId = (int)ModelAttributeEnum.BankTransactionType,
-                    ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode()
+                    AccountId = -12,
+                    AccountNumber = "553BF08",
+                    HasBankTransaction = false,
+                    HasBrokerTransaction = true,
+                    HasWallet = true
                 },
-                new()
-                {
-                    AttributeId = (int)ModelAttributeEnum.Economy,
-                    ScopeCode = ModelAttributeScopeCode.Country.ConvertToStringCode()
-                }
             };
 
-            int accountTypeAttributeId = (int)ModelAttributeEnum.AccountType;
-            int bankTransactionTypeAttributeId = (int)ModelAttributeEnum.BankTransactionType;
-            int bankTransctionGroupAttributeId = (int)ModelAttributeEnum.BankTransactionGroup;
-            int economyAttributeId = (int)ModelAttributeEnum.Economy;
-
-            var modelAttributeMembers = new ModelAttributeMember[]
+            var accountWallets = new AccountWallet[]
             {
-                // ACCOUNT TYPE
-                new() { AttributeMemberId = -901, AttributeId = accountTypeAttributeId, DisplayName = "Student Loan", DisplayOrder = 0 },
-                new() { AttributeMemberId = -902, AttributeId = accountTypeAttributeId, DisplayName = "401(k)", DisplayOrder = 1 },
-                new() { AttributeMemberId = -903, AttributeId = accountTypeAttributeId, DisplayName = "Rollover IRA", DisplayOrder = 2 },
-                new() { AttributeMemberId = -904, AttributeId = accountTypeAttributeId, DisplayName = "Contributory IRA", DisplayOrder = 3 },
-                new() { AttributeMemberId = -905, AttributeId = accountTypeAttributeId, DisplayName = "Brokerage", DisplayOrder = 4 },
-                new() { AttributeMemberId = -906, AttributeId = accountTypeAttributeId, DisplayName = "Stock Purchase Plan", DisplayOrder = 5 },
-                new() { AttributeMemberId = -907, AttributeId = accountTypeAttributeId, DisplayName = "Checking", DisplayOrder = 6 },
-                new() { AttributeMemberId = -908, AttributeId = accountTypeAttributeId, DisplayName = "Savings", DisplayOrder = 7 },
-                new() { AttributeMemberId = -909, AttributeId = accountTypeAttributeId, DisplayName = "Credit", DisplayOrder = 8 },
-                new() { AttributeMemberId = -910, AttributeId = accountTypeAttributeId, DisplayName = "Health-Savings", DisplayOrder = 9 },
-                new() { AttributeMemberId = -911, AttributeId = accountTypeAttributeId, DisplayName = "Roth Contributory IRA", DisplayOrder = 10 },
+                new(){ AccountWalletId = -1, AccountId = -12, DenominationSecurityId = -758, AddressCode = "169 3799 590B DBDB" }
+            };
 
+            var accountComposites = new AccountComposite[]
+            {
+                new() { AccountCompositeId = -13 },
+                new() { AccountCompositeId = -14 }
+            };
+
+            var accountCompositeMembers = new AccountCompositeMember[]
+            {
+                new(){ AccountCompositeId = -13, AccountId = -11, EntryDate = new DateTime(2019, 12, 31), Comment = "Add retirement account" },
+                new(){ AccountCompositeId = -13, AccountId = -12, EntryDate = new DateTime(2020, 9, 30), Comment = "Add crypto wallets" },
+                new(){ AccountCompositeId = -14, AccountId = -10, EntryDate = new DateTime(2015, 3, 15), Comment = "Add checking account" },
+                new(){ AccountCompositeId = -14, AccountId = -11, EntryDate = new DateTime(2019, 12, 31), Comment = "Add retirement account" },
+                new(){ AccountCompositeId = -14, AccountId = -12, EntryDate = new DateTime(2020, 9, 30), Comment = "Add crypto wallets" }
+            };
+
+            var minDate = DateTime.MinValue.Date;
+
+            var accountAttributeEntries = new AccountAttributeMemberEntry[]
+            {
+                new() { AccountObjectId = -10, AttributeMemberId = -907, EffectiveDate = minDate, Weight = 1M },
+                new() { AccountObjectId = -12, AttributeMemberId = -905, EffectiveDate = minDate, Weight = 1M },
+                new() { AccountObjectId = -13, AttributeMemberId = -905, EffectiveDate = minDate, Weight = 1M },
+            };
+
+            configurationCollection
+                .WithConfiguration(NewConfiguration(sourceGuid, accountCustodians))
+                .WithConfiguration(NewConfiguration(sourceGuid, accountObjects))
+                .WithConfiguration(NewConfiguration(sourceGuid, accounts))
+                .WithConfiguration(NewConfiguration(sourceGuid, accountComposites))
+                .WithConfiguration(NewConfiguration(sourceGuid, accountCompositeMembers))
+                .WithConfiguration(NewConfiguration(sourceGuid, accountAttributeEntries))
+                .WithConfiguration(NewConfiguration(sourceGuid, accountWallets));
+
+            return configurationCollection;
+        }
+
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
+        /// <item><see cref="BankTransaction"/></item>
+        /// </list>
+        /// Depends on: 
+        /// <list type="bullet">
+        /// <item><see cref="WithSample_AccountGraph(IConfigurationCollection)"/></item>
+        /// </list>
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
+        public static IConfigurationCollection WithSample_BankTransactionEntries(
+            this IConfigurationCollection configurationCollection)
+        {
+            const string sourceGuid = "{9403B4FB-29E2-4C5E-9AB2-6520CD3CD150}";
+
+            var bankTransactions = new BankTransaction[]
+            {
+                new() { TransactionId = -7457, AccountId = -10, TransactionCodeId = -12, Amount = -281.36M, TransactionDate = new DateTime(2023, 3, 25) },
+                new() { TransactionId = -7458, AccountId = -10, TransactionCodeId = -12, Amount = -113.14M, TransactionDate = new DateTime(2023, 3, 14) },
+                new() { TransactionId = -7470, AccountId = -10, TransactionCodeId = -21, Amount = -547.58M, TransactionDate = new DateTime(2023, 1, 25) },
+                new() { TransactionId = -7471, AccountId = -10, TransactionCodeId = -21, Amount = -967.62M, TransactionDate = new DateTime(2023, 2, 17) },
+                new() { TransactionId = -7472, AccountId = -10, TransactionCodeId = -21, Amount = -1468.25M, TransactionDate = new DateTime(2023, 3, 8) },
+                new() { TransactionId = -7476, AccountId = -10, TransactionCodeId = -5, Amount = -184.59M, TransactionDate = new DateTime(2023, 3, 20) },
+                new() { TransactionId = -7477, AccountId = -10, TransactionCodeId = -5, Amount = -77.56M, TransactionDate = new DateTime(2023, 2, 5) },
+                new() { TransactionId = -7482, AccountId = -10, TransactionCodeId = -5, Amount = -134.23M, TransactionDate = new DateTime(2023, 1, 7) },
+                new() { TransactionId = -7503, AccountId = -10, TransactionCodeId = -42, Amount = 283.54M, TransactionDate = new DateTime(2023, 1, 8) },
+                new() { TransactionId = -7509, AccountId = -10, TransactionCodeId = -42, Amount = 1138.74M, TransactionDate = new DateTime(2023, 2, 28) },
+                new() { TransactionId = -7510, AccountId = -10, TransactionCodeId = -42, Amount = 242.02M, TransactionDate = new DateTime(2023, 2, 7) },
+                new() { TransactionId = -7511, AccountId = -10, TransactionCodeId = -42, Amount = 24.9M, TransactionDate = new DateTime(2023, 2, 15) },
+                new() { TransactionId = -7512, AccountId = -10, TransactionCodeId = -42, Amount = 433.66M, TransactionDate = new DateTime(2023, 1, 24) },
+                new() { TransactionId = -7513, AccountId = -10, TransactionCodeId = -42, Amount = 1992.22M, TransactionDate = new DateTime(2023, 3, 21) },
+                new() { TransactionId = -7514, AccountId = -10, TransactionCodeId = -42, Amount = 65.97M, TransactionDate = new DateTime(2023, 1, 28) },
+                new() { TransactionId = -7516, AccountId = -10, TransactionCodeId = -42, Amount = 1884.41M, TransactionDate = new DateTime(2023, 3, 15) },
+                new() { TransactionId = -7517, AccountId = -10, TransactionCodeId = -7, Amount = -5.95M, TransactionDate = new DateTime(2023, 1, 8) },
+                new() { TransactionId = -7518, AccountId = -10, TransactionCodeId = -7, Amount = -0.31M, TransactionDate = new DateTime(2023, 1, 22) },
+                new() { TransactionId = -7519, AccountId = -10, TransactionCodeId = -7, Amount = -5.58M, TransactionDate = new DateTime(2023, 1, 5) },
+                new() { TransactionId = -7520, AccountId = -10, TransactionCodeId = -7, Amount = -3.9M, TransactionDate = new DateTime(2023, 1, 7) },
+                new() { TransactionId = -7521, AccountId = -10, TransactionCodeId = -7, Amount = -24.43M, TransactionDate = new DateTime(2023, 1, 22) },
+                new() { TransactionId = -7522, AccountId = -10, TransactionCodeId = -7, Amount = -12.95M, TransactionDate = new DateTime(2023, 1, 4) },
+                new() { TransactionId = -7523, AccountId = -10, TransactionCodeId = -7, Amount = -2.81M, TransactionDate = new DateTime(2023, 1, 2) },
+                new() { TransactionId = -7524, AccountId = -10, TransactionCodeId = -7, Amount = -1.79M, TransactionDate = new DateTime(2023, 2, 19) },
+                new() { TransactionId = -7525, AccountId = -10, TransactionCodeId = -7, Amount = -9.83M, TransactionDate = new DateTime(2023, 2, 7) },
+                new() { TransactionId = -7526, AccountId = -10, TransactionCodeId = -7, Amount = -26.73M, TransactionDate = new DateTime(2023, 2, 4) },
+                new() { TransactionId = -7527, AccountId = -10, TransactionCodeId = -7, Amount = -23.34M, TransactionDate = new DateTime(2023, 2, 12) },
+                new() { TransactionId = -7528, AccountId = -10, TransactionCodeId = -7, Amount = -4.44M, TransactionDate = new DateTime(2023, 3, 28) },
+                new() { TransactionId = -7529, AccountId = -10, TransactionCodeId = -7, Amount = -4.88M, TransactionDate = new DateTime(2023, 3, 15) },
+                new() { TransactionId = -7530, AccountId = -10, TransactionCodeId = -7, Amount = -23.64M, TransactionDate = new DateTime(2023, 3, 5) },
+                new() { TransactionId = -7531, AccountId = -10, TransactionCodeId = -7, Amount = -9.42M, TransactionDate = new DateTime(2023, 3, 5) },
+                new() { TransactionId = -7532, AccountId = -10, TransactionCodeId = -9, Amount = -14.07M, TransactionDate = new DateTime(2023, 1, 21) },
+                new() { TransactionId = -7533, AccountId = -10, TransactionCodeId = -9, Amount = -20.9M, TransactionDate = new DateTime(2023, 1, 12) },
+                new() { TransactionId = -7534, AccountId = -10, TransactionCodeId = -9, Amount = -68M, TransactionDate = new DateTime(2023, 2, 26) },
+                new() { TransactionId = -7567, AccountId = -10, TransactionCodeId = -16, Amount = -41.53M, TransactionDate = new DateTime(2023, 1, 12) },
+                new() { TransactionId = -7568, AccountId = -10, TransactionCodeId = -16, Amount = -86.65M, TransactionDate = new DateTime(2023, 2, 2) },
+                new() { TransactionId = -7569, AccountId = -10, TransactionCodeId = -16, Amount = -59.73M, TransactionDate = new DateTime(2023, 3, 12) },
+                new() { TransactionId = -7570, AccountId = -10, TransactionCodeId = -23, Amount = -16.22M, TransactionDate = new DateTime(2023, 1, 4) },
+                new() { TransactionId = -7571, AccountId = -10, TransactionCodeId = -23, Amount = -1.5M, TransactionDate = new DateTime(2023, 1, 23) },
+                new() { TransactionId = -7572, AccountId = -10, TransactionCodeId = -23, Amount = -5.47M, TransactionDate = new DateTime(2023, 1, 24) },
+                new() { TransactionId = -7573, AccountId = -10, TransactionCodeId = -23, Amount = -2.36M, TransactionDate = new DateTime(2023, 1, 18) },
+                new() { TransactionId = -7574, AccountId = -10, TransactionCodeId = -23, Amount = -4.69M, TransactionDate = new DateTime(2023, 1, 10) },
+                new() { TransactionId = -7575, AccountId = -10, TransactionCodeId = -23, Amount = -1.67M, TransactionDate = new DateTime(2023, 1, 26) },
+                new() { TransactionId = -7576, AccountId = -10, TransactionCodeId = -23, Amount = -1.94M, TransactionDate = new DateTime(2023, 1, 10) },
+                new() { TransactionId = -7577, AccountId = -10, TransactionCodeId = -23, Amount = -1.81M, TransactionDate = new DateTime(2023, 1, 26) },
+                new() { TransactionId = -7578, AccountId = -10, TransactionCodeId = -23, Amount = -4.87M, TransactionDate = new DateTime(2023, 1, 6) },
+                new() { TransactionId = -7579, AccountId = -10, TransactionCodeId = -23, Amount = -7.99M, TransactionDate = new DateTime(2023, 1, 18) },
+                new() { TransactionId = -7580, AccountId = -10, TransactionCodeId = -23, Amount = -12.97M, TransactionDate = new DateTime(2023, 1, 14) },
+                new() { TransactionId = -7581, AccountId = -10, TransactionCodeId = -23, Amount = -1.86M, TransactionDate = new DateTime(2023, 1, 10) },
+                new() { TransactionId = -7582, AccountId = -10, TransactionCodeId = -23, Amount = -3.98M, TransactionDate = new DateTime(2023, 1, 26) },
+                new() { TransactionId = -7583, AccountId = -10, TransactionCodeId = -23, Amount = -0.55M, TransactionDate = new DateTime(2023, 1, 9) },
+                new() { TransactionId = -7584, AccountId = -10, TransactionCodeId = -23, Amount = -8.53M, TransactionDate = new DateTime(2023, 1, 27) },
+                new() { TransactionId = -7585, AccountId = -10, TransactionCodeId = -23, Amount = -6.53M, TransactionDate = new DateTime(2023, 1, 7) },
+                new() { TransactionId = -7586, AccountId = -10, TransactionCodeId = -23, Amount = -21.99M, TransactionDate = new DateTime(2023, 1, 21) },
+                new() { TransactionId = -7587, AccountId = -10, TransactionCodeId = -23, Amount = -16.57M, TransactionDate = new DateTime(2023, 1, 22) },
+                new() { TransactionId = -7588, AccountId = -10, TransactionCodeId = -23, Amount = -1.69M, TransactionDate = new DateTime(2023, 1, 27) },
+                new() { TransactionId = -7589, AccountId = -10, TransactionCodeId = -23, Amount = -6.54M, TransactionDate = new DateTime(2023, 1, 24) },
+                new() { TransactionId = -7590, AccountId = -10, TransactionCodeId = -23, Amount = -0.39M, TransactionDate = new DateTime(2023, 1, 3) },
+                new() { TransactionId = -7591, AccountId = -10, TransactionCodeId = -23, Amount = -3.2M, TransactionDate = new DateTime(2023, 1, 2) },
+                new() { TransactionId = -7592, AccountId = -10, TransactionCodeId = -23, Amount = -3.09M, TransactionDate = new DateTime(2023, 1, 11) },
+                new() { TransactionId = -7593, AccountId = -10, TransactionCodeId = -23, Amount = -9.57M, TransactionDate = new DateTime(2023, 1, 13) },
+                new() { TransactionId = -7594, AccountId = -10, TransactionCodeId = -23, Amount = -12.71M, TransactionDate = new DateTime(2023, 1, 8) },
+                new() { TransactionId = -7595, AccountId = -10, TransactionCodeId = -23, Amount = -4.76M, TransactionDate = new DateTime(2023, 1, 17) },
+                new() { TransactionId = -7596, AccountId = -10, TransactionCodeId = -23, Amount = -9.13M, TransactionDate = new DateTime(2023, 1, 11) },
+                new() { TransactionId = -7597, AccountId = -10, TransactionCodeId = -23, Amount = -1.82M, TransactionDate = new DateTime(2023, 1, 23) },
+                new() { TransactionId = -7598, AccountId = -10, TransactionCodeId = -23, Amount = -4.44M, TransactionDate = new DateTime(2023, 1, 14) },
+                new() { TransactionId = -7599, AccountId = -10, TransactionCodeId = -23, Amount = -1.29M, TransactionDate = new DateTime(2023, 1, 12) },
+                new() { TransactionId = -7600, AccountId = -10, TransactionCodeId = -23, Amount = -1.09M, TransactionDate = new DateTime(2023, 1, 26) },
+                new() { TransactionId = -7601, AccountId = -10, TransactionCodeId = -23, Amount = -26.98M, TransactionDate = new DateTime(2023, 1, 16) },
+                new() { TransactionId = -7602, AccountId = -10, TransactionCodeId = -23, Amount = -4.02M, TransactionDate = new DateTime(2023, 1, 20) },
+                new() { TransactionId = -7603, AccountId = -10, TransactionCodeId = -23, Amount = -5.94M, TransactionDate = new DateTime(2023, 1, 5) },
+                new() { TransactionId = -7604, AccountId = -10, TransactionCodeId = -23, Amount = -2.79M, TransactionDate = new DateTime(2023, 1, 22) },
+                new() { TransactionId = -7605, AccountId = -10, TransactionCodeId = -23, Amount = -0.82M, TransactionDate = new DateTime(2023, 1, 24) },
+                new() { TransactionId = -7606, AccountId = -10, TransactionCodeId = -23, Amount = -12.78M, TransactionDate = new DateTime(2023, 1, 10) },
+                new() { TransactionId = -7607, AccountId = -10, TransactionCodeId = -23, Amount = -1.34M, TransactionDate = new DateTime(2023, 1, 9) },
+                new() { TransactionId = -7608, AccountId = -10, TransactionCodeId = -23, Amount = -1.79M, TransactionDate = new DateTime(2023, 1, 2) },
+                new() { TransactionId = -7609, AccountId = -10, TransactionCodeId = -23, Amount = -29.52M, TransactionDate = new DateTime(2023, 1, 21) },
+                new() { TransactionId = -7610, AccountId = -10, TransactionCodeId = -23, Amount = -2.09M, TransactionDate = new DateTime(2023, 1, 3) },
+                new() { TransactionId = -7611, AccountId = -10, TransactionCodeId = -23, Amount = -1.11M, TransactionDate = new DateTime(2023, 2, 26) },
+                new() { TransactionId = -7612, AccountId = -10, TransactionCodeId = -23, Amount = -3.19M, TransactionDate = new DateTime(2023, 2, 19) },
+                new() { TransactionId = -7613, AccountId = -10, TransactionCodeId = -23, Amount = -22.95M, TransactionDate = new DateTime(2023, 2, 23) },
+                new() { TransactionId = -7614, AccountId = -10, TransactionCodeId = -23, Amount = -1.4M, TransactionDate = new DateTime(2023, 2, 14) },
+                new() { TransactionId = -7615, AccountId = -10, TransactionCodeId = -23, Amount = -12.24M, TransactionDate = new DateTime(2023, 2, 4) },
+                new() { TransactionId = -7616, AccountId = -10, TransactionCodeId = -23, Amount = -24.41M, TransactionDate = new DateTime(2023, 2, 1) },
+                new() { TransactionId = -7617, AccountId = -10, TransactionCodeId = -23, Amount = -3.55M, TransactionDate = new DateTime(2023, 2, 21) },
+                new() { TransactionId = -7618, AccountId = -10, TransactionCodeId = -23, Amount = -8.14M, TransactionDate = new DateTime(2023, 2, 17) },
+                new() { TransactionId = -7619, AccountId = -10, TransactionCodeId = -23, Amount = -9.07M, TransactionDate = new DateTime(2023, 2, 21) },
+                new() { TransactionId = -7620, AccountId = -10, TransactionCodeId = -23, Amount = -7.48M, TransactionDate = new DateTime(2023, 2, 4) },
+                new() { TransactionId = -7621, AccountId = -10, TransactionCodeId = -23, Amount = -1.63M, TransactionDate = new DateTime(2023, 2, 19) },
+                new() { TransactionId = -7622, AccountId = -10, TransactionCodeId = -23, Amount = -8.91M, TransactionDate = new DateTime(2023, 2, 6) },
+                new() { TransactionId = -7623, AccountId = -10, TransactionCodeId = -23, Amount = -34.76M, TransactionDate = new DateTime(2023, 2, 27) },
+                new() { TransactionId = -7624, AccountId = -10, TransactionCodeId = -23, Amount = -3.38M, TransactionDate = new DateTime(2023, 2, 21) },
+                new() { TransactionId = -7625, AccountId = -10, TransactionCodeId = -23, Amount = -4.1M, TransactionDate = new DateTime(2023, 2, 21) },
+                new() { TransactionId = -7626, AccountId = -10, TransactionCodeId = -23, Amount = -9.91M, TransactionDate = new DateTime(2023, 2, 24) },
+                new() { TransactionId = -7627, AccountId = -10, TransactionCodeId = -23, Amount = -7.48M, TransactionDate = new DateTime(2023, 2, 6) },
+                new() { TransactionId = -7628, AccountId = -10, TransactionCodeId = -23, Amount = -5.89M, TransactionDate = new DateTime(2023, 2, 3) },
+                new() { TransactionId = -7629, AccountId = -10, TransactionCodeId = -23, Amount = -2.76M, TransactionDate = new DateTime(2023, 2, 21) },
+                new() { TransactionId = -7630, AccountId = -10, TransactionCodeId = -23, Amount = -23.44M, TransactionDate = new DateTime(2023, 2, 11) },
+                new() { TransactionId = -7631, AccountId = -10, TransactionCodeId = -23, Amount = -2.17M, TransactionDate = new DateTime(2023, 2, 25) },
+                new() { TransactionId = -7632, AccountId = -10, TransactionCodeId = -23, Amount = -10.52M, TransactionDate = new DateTime(2023, 2, 6) },
+                new() { TransactionId = -7633, AccountId = -10, TransactionCodeId = -23, Amount = -0.73M, TransactionDate = new DateTime(2023, 2, 15) },
+                new() { TransactionId = -7634, AccountId = -10, TransactionCodeId = -23, Amount = -12.31M, TransactionDate = new DateTime(2023, 2, 19) },
+                new() { TransactionId = -7635, AccountId = -10, TransactionCodeId = -23, Amount = -12.89M, TransactionDate = new DateTime(2023, 2, 19) },
+                new() { TransactionId = -7636, AccountId = -10, TransactionCodeId = -23, Amount = -1.94M, TransactionDate = new DateTime(2023, 2, 10) },
+                new() { TransactionId = -7637, AccountId = -10, TransactionCodeId = -23, Amount = -4.58M, TransactionDate = new DateTime(2023, 2, 18) },
+                new() { TransactionId = -7638, AccountId = -10, TransactionCodeId = -23, Amount = -1.72M, TransactionDate = new DateTime(2023, 2, 22) },
+                new() { TransactionId = -7639, AccountId = -10, TransactionCodeId = -23, Amount = -15.59M, TransactionDate = new DateTime(2023, 2, 19) },
+                new() { TransactionId = -7640, AccountId = -10, TransactionCodeId = -23, Amount = -6.96M, TransactionDate = new DateTime(2023, 2, 13) },
+                new() { TransactionId = -7641, AccountId = -10, TransactionCodeId = -23, Amount = -0.23M, TransactionDate = new DateTime(2023, 2, 1) },
+                new() { TransactionId = -7642, AccountId = -10, TransactionCodeId = -23, Amount = -0.65M, TransactionDate = new DateTime(2023, 2, 17) },
+                new() { TransactionId = -7643, AccountId = -10, TransactionCodeId = -23, Amount = -9.65M, TransactionDate = new DateTime(2023, 2, 8) },
+                new() { TransactionId = -7644, AccountId = -10, TransactionCodeId = -23, Amount = -4.46M, TransactionDate = new DateTime(2023, 3, 14) },
+                new() { TransactionId = -7645, AccountId = -10, TransactionCodeId = -23, Amount = -3.48M, TransactionDate = new DateTime(2023, 3, 15) },
+                new() { TransactionId = -7646, AccountId = -10, TransactionCodeId = -23, Amount = -33.54M, TransactionDate = new DateTime(2023, 3, 4) },
+                new() { TransactionId = -7647, AccountId = -10, TransactionCodeId = -23, Amount = -3.84M, TransactionDate = new DateTime(2023, 3, 17) },
+                new() { TransactionId = -7648, AccountId = -10, TransactionCodeId = -23, Amount = -5.1M, TransactionDate = new DateTime(2023, 3, 27) },
+                new() { TransactionId = -7649, AccountId = -10, TransactionCodeId = -23, Amount = -13.32M, TransactionDate = new DateTime(2023, 3, 6) },
+                new() { TransactionId = -7650, AccountId = -10, TransactionCodeId = -23, Amount = -0.51M, TransactionDate = new DateTime(2023, 3, 1) },
+                new() { TransactionId = -7651, AccountId = -10, TransactionCodeId = -23, Amount = -63.51M, TransactionDate = new DateTime(2023, 3, 3) },
+                new() { TransactionId = -7652, AccountId = -10, TransactionCodeId = -23, Amount = -4.54M, TransactionDate = new DateTime(2023, 3, 5) },
+                new() { TransactionId = -7653, AccountId = -10, TransactionCodeId = -23, Amount = -2.73M, TransactionDate = new DateTime(2023, 3, 22) },
+                new() { TransactionId = -7654, AccountId = -10, TransactionCodeId = -23, Amount = -3.43M, TransactionDate = new DateTime(2023, 3, 4) },
+                new() { TransactionId = -7655, AccountId = -10, TransactionCodeId = -23, Amount = -2.27M, TransactionDate = new DateTime(2023, 3, 16) },
+                new() { TransactionId = -7656, AccountId = -10, TransactionCodeId = -23, Amount = -4.54M, TransactionDate = new DateTime(2023, 3, 6) },
+                new() { TransactionId = -7657, AccountId = -10, TransactionCodeId = -23, Amount = -0.49M, TransactionDate = new DateTime(2023, 3, 2) },
+                new() { TransactionId = -7658, AccountId = -10, TransactionCodeId = -23, Amount = -11.04M, TransactionDate = new DateTime(2023, 3, 9) },
+                new() { TransactionId = -7659, AccountId = -10, TransactionCodeId = -23, Amount = -3.38M, TransactionDate = new DateTime(2023, 3, 11) },
+                new() { TransactionId = -7660, AccountId = -10, TransactionCodeId = -23, Amount = -2.69M, TransactionDate = new DateTime(2023, 3, 10) },
+                new() { TransactionId = -7661, AccountId = -10, TransactionCodeId = -23, Amount = -4.38M, TransactionDate = new DateTime(2023, 3, 15) },
+                new() { TransactionId = -7662, AccountId = -10, TransactionCodeId = -23, Amount = -65.46M, TransactionDate = new DateTime(2023, 3, 27) },
+                new() { TransactionId = -7663, AccountId = -10, TransactionCodeId = -23, Amount = -4.29M, TransactionDate = new DateTime(2023, 3, 20) },
+                new() { TransactionId = -7664, AccountId = -10, TransactionCodeId = -23, Amount = -6.87M, TransactionDate = new DateTime(2023, 3, 27) },
+                new() { TransactionId = -7665, AccountId = -10, TransactionCodeId = -23, Amount = -4.05M, TransactionDate = new DateTime(2023, 3, 5) },
+                new() { TransactionId = -7666, AccountId = -10, TransactionCodeId = -23, Amount = -16.76M, TransactionDate = new DateTime(2023, 3, 17) },
+                new() { TransactionId = -7667, AccountId = -10, TransactionCodeId = -23, Amount = -22.47M, TransactionDate = new DateTime(2023, 3, 10) },
+                new() { TransactionId = -7668, AccountId = -10, TransactionCodeId = -23, Amount = -6.5M, TransactionDate = new DateTime(2023, 3, 7) },
+                new() { TransactionId = -7669, AccountId = -10, TransactionCodeId = -23, Amount = -2.01M, TransactionDate = new DateTime(2023, 3, 5) },
+                new() { TransactionId = -7670, AccountId = -10, TransactionCodeId = -23, Amount = -2.01M, TransactionDate = new DateTime(2023, 3, 7) },
+                new() { TransactionId = -7671, AccountId = -10, TransactionCodeId = -23, Amount = -5.52M, TransactionDate = new DateTime(2023, 3, 11) },
+                new() { TransactionId = -7672, AccountId = -10, TransactionCodeId = -23, Amount = -1.18M, TransactionDate = new DateTime(2023, 3, 10) },
+                new() { TransactionId = -7673, AccountId = -10, TransactionCodeId = -23, Amount = -0.74M, TransactionDate = new DateTime(2023, 3, 26) },
+                new() { TransactionId = -7674, AccountId = -10, TransactionCodeId = -23, Amount = -2.55M, TransactionDate = new DateTime(2023, 3, 7) },
+                new() { TransactionId = -7675, AccountId = -10, TransactionCodeId = -23, Amount = -10.02M, TransactionDate = new DateTime(2023, 3, 9) },
+                new() { TransactionId = -7676, AccountId = -10, TransactionCodeId = -23, Amount = -12.68M, TransactionDate = new DateTime(2023, 3, 25) },
+                new() { TransactionId = -7677, AccountId = -10, TransactionCodeId = -23, Amount = -4.32M, TransactionDate = new DateTime(2023, 3, 13) },
+                new() { TransactionId = -7678, AccountId = -10, TransactionCodeId = -23, Amount = -1.05M, TransactionDate = new DateTime(2023, 3, 11) },
+                new() { TransactionId = -7679, AccountId = -10, TransactionCodeId = -23, Amount = -9.92M, TransactionDate = new DateTime(2023, 3, 4) },
+                new() { TransactionId = -7680, AccountId = -10, TransactionCodeId = -23, Amount = -6.17M, TransactionDate = new DateTime(2023, 3, 11) },
+                new() { TransactionId = -7681, AccountId = -10, TransactionCodeId = -23, Amount = -2.44M, TransactionDate = new DateTime(2023, 3, 1) },
+                new() { TransactionId = -7682, AccountId = -10, TransactionCodeId = -23, Amount = -2.25M, TransactionDate = new DateTime(2023, 3, 23) },
+                new() { TransactionId = -7683, AccountId = -10, TransactionCodeId = -23, Amount = -9.26M, TransactionDate = new DateTime(2023, 3, 2) },
+                new() { TransactionId = -7684, AccountId = -10, TransactionCodeId = -23, Amount = -17.56M, TransactionDate = new DateTime(2023, 3, 6) },
+                new() { TransactionId = -7685, AccountId = -10, TransactionCodeId = -23, Amount = -2.27M, TransactionDate = new DateTime(2023, 3, 13) },
+                new() { TransactionId = -7686, AccountId = -10, TransactionCodeId = -23, Amount = -2.12M, TransactionDate = new DateTime(2023, 3, 7) },
+                new() { TransactionId = -7687, AccountId = -10, TransactionCodeId = -23, Amount = -10.3M, TransactionDate = new DateTime(2023, 3, 11) },
+                new() { TransactionId = -7688, AccountId = -10, TransactionCodeId = -23, Amount = -41.41M, TransactionDate = new DateTime(2023, 3, 5) },
+                new() { TransactionId = -7689, AccountId = -10, TransactionCodeId = -23, Amount = -1.68M, TransactionDate = new DateTime(2023, 3, 13) },
+                new() { TransactionId = -7690, AccountId = -10, TransactionCodeId = -23, Amount = -2.63M, TransactionDate = new DateTime(2023, 3, 18) },
+                new() { TransactionId = -7691, AccountId = -10, TransactionCodeId = -23, Amount = -25.01M, TransactionDate = new DateTime(2023, 3, 4) },
+                new() { TransactionId = -7692, AccountId = -10, TransactionCodeId = -23, Amount = -2.42M, TransactionDate = new DateTime(2023, 3, 11) },
+                new() { TransactionId = -7693, AccountId = -10, TransactionCodeId = -23, Amount = -5.62M, TransactionDate = new DateTime(2023, 3, 5) },
+                new() { TransactionId = -7694, AccountId = -10, TransactionCodeId = -23, Amount = -2.22M, TransactionDate = new DateTime(2023, 3, 12) },
+                new() { TransactionId = -7695, AccountId = -10, TransactionCodeId = -23, Amount = -19.59M, TransactionDate = new DateTime(2023, 3, 18) },
+                new() { TransactionId = -7696, AccountId = -10, TransactionCodeId = -23, Amount = -57.76M, TransactionDate = new DateTime(2023, 3, 1) },
+                new() { TransactionId = -7697, AccountId = -10, TransactionCodeId = -23, Amount = -0.75M, TransactionDate = new DateTime(2023, 3, 8) },
+                new() { TransactionId = -7698, AccountId = -10, TransactionCodeId = -23, Amount = -0.88M, TransactionDate = new DateTime(2023, 3, 4) },
+                new() { TransactionId = -7699, AccountId = -10, TransactionCodeId = -23, Amount = -3.2M, TransactionDate = new DateTime(2023, 3, 13) },
+                new() { TransactionId = -7700, AccountId = -10, TransactionCodeId = -23, Amount = -12.63M, TransactionDate = new DateTime(2023, 3, 7) },
+                new() { TransactionId = -7701, AccountId = -10, TransactionCodeId = -23, Amount = -11.61M, TransactionDate = new DateTime(2023, 3, 13) },
+                new() { TransactionId = -7702, AccountId = -10, TransactionCodeId = -23, Amount = -2.08M, TransactionDate = new DateTime(2023, 3, 14) },
+                new() { TransactionId = -7703, AccountId = -10, TransactionCodeId = -23, Amount = -6.16M, TransactionDate = new DateTime(2023, 3, 27) }
+            };
+
+            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, bankTransactions));
+
+            return configurationCollection;
+        }
+
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
+        /// <item><see cref="BrokerTransaction"/></item>
+        /// </list>
+        /// Depends on: 
+        /// <list type="bullet">
+        /// <item><see cref="WithSample_AccountGraph(IConfigurationCollection)"/></item>
+        /// <item><see cref="WithSample_SecurityGraph(IConfigurationCollection)"/></item>
+        /// </list>
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
+        public static IConfigurationCollection WithSample_BrokerTransactionEntries(
+            this IConfigurationCollection configurationCollection)
+        {
+            const string sourceGuid = "{FB9DD914-129C-4308-AFDC-DD7DD27C9ABB}";
+
+            var brokerTransactions = new object[,]
+                {
+                    { -11, -5690, new DateTime(2023, 12, 31), -12, -101, null, 25000M, null, -101 },
+                    { -11, -5691, new DateTime(2023, 1, 20), -11, -315, 10, 808.17M, null, -101 },
+                    { -11, -5692, new DateTime(2023, 3, 9), -13, -325, null, 27.24M, null, -101 },
+                    { -11, -5693, new DateTime(2023, 3, 27), -13, -392, null, 357.9M, null, -416 },
+                    { -11, -5694, new DateTime(2023, 3, 28), -11, -392, 0.7224, 151.8M, null, -416 },
+                    { -11, -5695, new DateTime(2023, 3, 27), -13, -400, null, 7.32M, null, -416 },
+                    { -11, -5696, new DateTime(2023, 3, 28), -11, -400, 0.3219, 99.21M, null, -416 },
+                    { -11, -5697, new DateTime(2023, 3, 23), -13, -403, null, 71.49M, null, -416 },
+                    { -11, -5698, new DateTime(2023, 3, 23), -13, -403, null, 92.19M, null, -416 },
+                    { -11, -5699, new DateTime(2023, 3, 24), -11, -403, 0.2532, 16.77M, null, -416 },
+                    { -11, -5700, new DateTime(2023, 3, 24), -11, -403, 0.2588, 75.54M, null, -416 },
+                    { -11, -5701, new DateTime(2023, 1, 20), -11, -406, 18, 3496.05M, null, -101 },
+                    { -11, -5702, new DateTime(2023, 2, 10), -11, -406, 10, 566.43M, null, -101 },
+                    { -11, -5703, new DateTime(2023, 3, 23), -13, -406, null, 209.22M, null, -416 },
+                    { -11, -5704, new DateTime(2023, 3, 23), -13, -406, null, 30.66M, null, -416 },
+                    { -11, -5705, new DateTime(2023, 3, 24), -11, -406, 0.6354, 145.08M, null, -416 },
+                    { -11, -5706, new DateTime(2023, 3, 24), -11, -406, 0.3331, 1.11M, null, -416 },
+                    { -11, -5707, new DateTime(2023, 3, 29), -13, -411, null, 0.57M, null, -416 },
+                    { -11, -5708, new DateTime(2023, 3, 30), -11, -411, 0.0887, 52.83M, null, -416 },
+                    { -11, -5709, new DateTime(2023, 1, 15), -16, -416, null, 0.3M, null, -101 },
+                    { -11, -5710, new DateTime(2023, 1, 11), -12, -416, null, 2982.24M, null, -101 },
+                    { -11, -5711, new DateTime(2023, 1, 12), -12, -416, null, 14575.71M, null, -101 },
+                    { -11, -5712, new DateTime(2023, 1, 23), -12, -416, null, 4700.76M, null, -101 },
+                    { -11, -5713, new DateTime(2023, 1, 23), -12, -416, null, 7318.41M, null, -101 },
+                    { -11, -5714, new DateTime(2023, 1, 17), -16, -416, null, 0.36M, null, -101 },
+                    { -11, -5715, new DateTime(2023, 2, 15), -16, -416, null, 0.18M, null, -101 },
+                    { -11, -5716, new DateTime(2023, 3, 7), -12, -416, null, 1430.67M, null, -101 },
+                    { -11, -5717, new DateTime(2023, 2, 16), -16, -416, null, 1.86M, null, -101 },
+                    { -11, -5718, new DateTime(2023, 3, 16), -16, -416, null, 0.9M, null, -101 },
+                    { -11, -5719, new DateTime(2023, 3, 16), -16, -416, null, 0.6M, null, -101 },
+                    { -11, -5720, new DateTime(2023, 3, 29), -12, -416, null, 3839.25M, null, -101 },
+                    { -11, -5721, new DateTime(2023, 3, 29), -12, -416, null, 7737.42M, null, -101 },
+                    { -11, -5722, new DateTime(2023, 4, 15), -16, -416, null, 4.38M, null, -101 },
+                    { -11, -5723, new DateTime(2023, 4, 15), -16, -416, null, 1.65M, null, -101 },
+                    { -11, -5724, new DateTime(2023, 1, 17), -13, -432, null, 35.28M, null, -416 },
+                    { -11, -5725, new DateTime(2023, 1, 17), -11, -432, 9.17, 20.88M, null, -416 },
+                    { -11, -5726, new DateTime(2023, 1, 17), -13, -432, null, 2.88M, null, -416 },
+                    { -11, -5727, new DateTime(2023, 1, 20), -20, -432, 1607.83, 6233.49M, null, -101 },
+                    { -11, -5728, new DateTime(2023, 1, 17), -11, -432, 2.83, 18.96M, null, -416 },
+                    { -11, -5729, new DateTime(2023, 2, 15), -13, -432, null, 1.8M, null, -101 },
+                    { -11, -5730, new DateTime(2023, 2, 15), -13, -432, null, 13.53M, null, -416 },
+                    { -11, -5731, new DateTime(2023, 2, 15), -11, -432, 18.17, 67.2M, null, -416 },
+                    { -11, -5732, new DateTime(2023, 3, 15), -13, -432, null, 22.77M, null, -416 },
+                    { -11, -5733, new DateTime(2023, 3, 15), -11, -432, 18.14, 1.53M, null, -416 },
+                    { -11, -5734, new DateTime(2023, 4, 17), -13, -432, null, 7.05M, null, -416 },
+                    { -11, -5735, new DateTime(2023, 4, 17), -11, -432, 22.2, 12.03M, null, -416 },
+                    { -11, -5736, new DateTime(2023, 1, 6), -11, -442, 2.046, 23.85M, null, -101 },
+                    { -11, -5737, new DateTime(2023, 1, 23), -11, -442, 1.952, 28.83M, null, -101 },
+                    { -11, -5738, new DateTime(2023, 2, 6), -11, -442, 2.021, 296.04M, null, -101 },
+                    { -11, -5739, new DateTime(2023, 2, 6), -20, -442, 0.022, 1.5M, null, -101 },
+                    { -11, -5740, new DateTime(2023, 2, 16), -11, -442, 2.033, 13.47M, null, -101 },
+                    { -11, -5741, new DateTime(2023, 3, 6), -11, -442, 2.054, 171.69M, null, -101 },
+                    { -11, -5742, new DateTime(2023, 3, 16), -11, -442, 2.147, 158.07M, null, -101 },
+                    { -11, -5743, new DateTime(2023, 3, 17), -11, -442, 0.137, 14.55M, null, -416 },
+                    { -11, -5744, new DateTime(2023, 3, 17), -13, -442, null, 0.3M, null, -416 },
+                    { -11, -5745, new DateTime(2023, 3, 31), -11, -442, 2.063, 160.86M, null, -101 },
+                    { -11, -5746, new DateTime(2023, 3, 16), -13, -482, null, 21.63M, null, -101 },
+                    { -11, -5747, new DateTime(2023, 2, 2), -11, -493, 15, 770.67M, null, -101 },
+                    { -11, -5748, new DateTime(2023, 3, 31), -13, -493, null, 54.72M, 7.37M, -101 },
+                    { -11, -5749, new DateTime(2023, 2, 10), -11, -514, 5, 737.58M, null, -101 },
+                    { -11, -5750, new DateTime(2023, 3, 29), -13, -514, null, 61.89M, null, -416 },
+                    { -11, -5751, new DateTime(2023, 3, 29), -13, -514, null, 11.49M, null, -416 },
+                    { -11, -5752, new DateTime(2023, 3, 30), -11, -514, 0.0871, 6.81M, null, -416 },
+                    { -11, -5753, new DateTime(2023, 3, 30), -11, -514, 0.0861, 0.09M, null, -416 },
+                    { -11, -5754, new DateTime(2023, 3, 15), -13, -523, null, 1.62M, null, -101 },
+                    { -11, -5755, new DateTime(2023, 1, 6), -11, -574, 1.669, 752.37M, null, -101 },
+                    { -11, -5756, new DateTime(2023, 1, 23), -11, -574, 1.544, 504.69M, null, -101 },
+                    { -11, -5757, new DateTime(2023, 2, 6), -11, -574, 1.488, 1052.76M, null, -101 },
+                    { -11, -5758, new DateTime(2023, 2, 6), -20, -574, 0.016, 1.02M, null, -101 },
+                    { -11, -5759, new DateTime(2023, 2, 16), -11, -574, 1.498, 708.96M, null, -101 },
+                    { -11, -5760, new DateTime(2023, 3, 6), -11, -574, 1.515, 258.66M, null, -101 },
+                    { -11, -5761, new DateTime(2023, 3, 16), -11, -574, 1.493, 153.12M, null, -101 },
+                    { -11, -5762, new DateTime(2023, 3, 31), -11, -574, 1.43, 395.07M, null, -101 },
+                    { -11, -5763, new DateTime(2023, 1, 6), -11, -575, 0.193, 288.27M, null, -101 },
+                    { -11, -5764, new DateTime(2023, 1, 23), -11, -575, 0.187, 150.18M, null, -101 },
+                    { -11, -5765, new DateTime(2023, 2, 6), -11, -575, 0.182, 251.34M, null, -101 },
+                    { -11, -5766, new DateTime(2023, 2, 6), -20, -575, 0.002, 1.11M, null, -101 },
+                    { -11, -5767, new DateTime(2023, 2, 16), -11, -575, 0.183, 196.83M, null, -101 },
+                    { -11, -5768, new DateTime(2023, 3, 6), -11, -575, 0.185, 64.32M, null, -101 },
+                    { -11, -5769, new DateTime(2023, 3, 16), -11, -575, 0.189, 30.81M, null, -101 },
+                    { -11, -5770, new DateTime(2023, 3, 17), -13, -575, null, 223.71M, null, -416 },
+                    { -11, -5771, new DateTime(2023, 3, 23), -11, -575, 0.105, 288.81M, null, -416 },
+                    { -11, -5772, new DateTime(2023, 3, 31), -11, -575, 0.183, 90.09M, null, -101 },
+                    { -11, -5773, new DateTime(2023, 1, 6), -11, -576, 2.847, 30.27M, null, -101 },
+                    { -11, -5774, new DateTime(2023, 1, 23), -11, -576, 2.695, 224.25M, null, -101 },
+                    { -11, -5775, new DateTime(2023, 2, 6), -11, -576, 2.642, 654.87M, null, -101 },
+                    { -11, -5776, new DateTime(2023, 2, 6), -20, -576, 0.03, 4.29M, null, -101 },
+                    { -11, -5777, new DateTime(2023, 2, 16), -11, -576, 2.604, 39.54M, null, -101 },
+                    { -11, -5778, new DateTime(2023, 3, 6), -11, -576, 2.655, 286.32M, null, -101 },
+                    { -11, -5779, new DateTime(2023, 3, 16), -11, -576, 2.789, 309.36M, null, -101 },
+                    { -11, -5780, new DateTime(2023, 3, 31), -11, -576, 2.689, 1082.25M, null, -101 },
+                    { -11, -5781, new DateTime(2023, 1, 6), -11, -577, 2.75, 17.25M, null, -101 },
+                    { -11, -5782, new DateTime(2023, 1, 23), -11, -577, 2.559, 220.14M, null, -101 },
+                    { -11, -5783, new DateTime(2023, 2, 6), -11, -577, 2.466, 225.51M, null, -101 },
+                    { -11, -5784, new DateTime(2023, 2, 6), -11, -578, 10.025, 452.16M, null, -101 },
+                    { -11, -5785, new DateTime(2023, 2, 16), -11, -577, 2.47, 116.07M, null, -101 },
+                    { -11, -5786, new DateTime(2023, 3, 6), -11, -577, 2.536, 292.35M, null, -101 },
+                    { -11, -5787, new DateTime(2023, 3, 16), -11, -577, 2.698, 273M, null, -101 },
+                    { -11, -5788, new DateTime(2023, 3, 31), -11, -577, 2.61, 191.64M, null, -101 },
+                    { -11, -5789, new DateTime(2023, 1, 6), -11, -578, 1.329, 281.58M, null, -101 },
+                    { -11, -5790, new DateTime(2023, 1, 23), -11, -578, 1.262, 519.3M, null, -101 },
+                    { -11, -5791, new DateTime(2023, 2, 6), -11, -578, 1.261, 96.15M, null, -101 },
+                    { -11, -5792, new DateTime(2023, 2, 6), -11, -578, 0.015, 13.27M, null, -101 },
+                    { -11, -5793, new DateTime(2023, 2, 14), -11, -578, 0.07, 5.94M, null, -416 },
+                    { -11, -5794, new DateTime(2023, 2, 14), -13, -578, null, 31.92M, null, -416 },
+                    { -11, -5795, new DateTime(2023, 2, 16), -11, -578, 1.26, 92.94M, null, -101 },
+                    { -11, -5796, new DateTime(2023, 3, 6), -11, -578, 1.269, 76.05M, null, -101 },
+                    { -11, -5797, new DateTime(2023, 3, 16), -11, -578, 1.317, 81.24M, null, -101 },
+                    { -11, -5798, new DateTime(2023, 3, 31), -11, -578, 1.246, 237.6M, null, -101 },
+                    { -11, -5799, new DateTime(2023, 3, 14), -11, -745, 10, 1661.76M, null, -101 },
+                    { -11, -5800, new DateTime(2023, 3, 23), -13, -745, null, 28.92M, null, -416 },
+                    { -11, -5801, new DateTime(2023, 3, 23), -13, -745, null, 6.81M, null, -416 },
+                    { -11, -5802, new DateTime(2023, 3, 24), -11, -745, 0.0794, 24.27M, null, -416 },
+                    { -11, -5803, new DateTime(2023, 3, 24), -11, -745, 0.0389, 0.9M, null, -416 },
+                    { -11, -5804, new DateTime(2023, 4, 17), -11, -745, 10, 7045.02M, null, -101 },
+                    { -11, -5805, new DateTime(2023, 4, 21), -11, -745, 4, 1136.28M, null, -101 },
+                    { -11, -5806, new DateTime(2023, 3, 23), -13, -747, null, 4.59M, null, -101 },
+                    { -11, -5807, new DateTime(2023, 1, 20), -11, -759, 20, 4657.71M, null, -101 },
+                    { -11, -5808, new DateTime(2023, 2, 2), -11, -759, 10, 1113.66M, null, -101 },
+                    { -11, -5809, new DateTime(2023, 2, 28), -13, -759, null, 35.55M, null, -101 },
+                    { -11, -5810, new DateTime(2023, 3, 14), -11, -760, 20, 1816.89M, null, -101 },
+                    { -11, -5811, new DateTime(2023, 4, 21), -11, -761, 25, 1658.07M, null, -101 },
+                    { -11, -5812, new DateTime(2023, 4, 21), -11, -761, 25, 1925.16M, null, -101 }
+                }
+                .ToEnumerable()
+                .Select(row => new BrokerTransaction()
+                {
+                    AccountId = Convert.ToInt32(row[0]),
+                    TransactionId = Convert.ToInt32(row[1]),
+                    TradeDate = Convert.ToDateTime(row[2]),
+                    TransactionCodeId = Convert.ToInt32(row[3]),
+                    SecurityId = Convert.ToInt32(row[4]),
+                    Quantity = ConvertToDecimal(row[5]),
+                    Amount = Convert.ToDecimal(row[6]),
+                    Withholding = row[7] as decimal?,
+                    DepSecurityId = Convert.ToInt32(row[8])
+                })
+                .ToArray();
+                
+            static decimal? ConvertToDecimal(object obj)
+            {
+                if (obj is null) 
+                    return null;
+
+                if (decimal.TryParse(obj.ToString(), out decimal result))
+                    return result;
+                else
+                    return null;
+            }
+
+            configurationCollection
+                .WithConfiguration(NewConfiguration(sourceGuid, brokerTransactions));
+
+            return configurationCollection;
+        }
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
+        /// <item><see cref="BankTransactionCode"/></item>
+        /// <item><see cref="BankTransactionCodeAttributeMemberEntry"/></item>
+        /// </list>
+        /// Depends on <see cref="WithSample_ModelAttributeGraph(IConfigurationCollection)"/>.
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
+        public static IConfigurationCollection WithSample_BankTransactionCodeGraph(
+            this IConfigurationCollection configurationCollection)
+        {
+            const string sourceGuid = "{4625CD57-8943-4BB3-96E8-A8AC680E7064}";
+
+            var bankTransactionCodes = new BankTransactionCode[]
+            {
+                new() { TransactionCodeId = -5, TransactionCode = "electricity", DisplayName = "Electricity Service" },
+                new() { TransactionCodeId = -7, TransactionCode = "media", DisplayName = "Entertainment" },
+                new() { TransactionCodeId = -9, TransactionCode = "gas", DisplayName = "Gasoline/Fuel" },
+                new() { TransactionCodeId = -12, TransactionCode = "medical", DisplayName = "Healthcare/Medical" },
+                new() { TransactionCodeId = -15, TransactionCode = "insurance", DisplayName = "Insurance" },
+                new() { TransactionCodeId = -16, TransactionCode = "internet", DisplayName = "Internet Service" },
+                new() { TransactionCodeId = -21, TransactionCode = "mortgage", DisplayName = "Mortgage/Rent" },
+                new() { TransactionCodeId = -23, TransactionCode = "dineout", DisplayName = "Restaurants/Dining" },
+                new() { TransactionCodeId = -42, TransactionCode = "salary", DisplayName = "Salary/Wages" }
+            };
+
+            var minDate = DateTime.MinValue.Date;
+
+            var bankTransactionCodeAttributes = new BankTransactionCodeAttributeMemberEntry[]
+            {
                 // BANK TRANSACTION TYPE
-                new() { AttributeMemberId = -920, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Transportation", DisplayOrder = 0 },
-                new() { AttributeMemberId = -921, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Utilities", DisplayOrder = 1 },
-                new() { AttributeMemberId = -922, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Entertainment", DisplayOrder = 2 },
-                new() { AttributeMemberId = -923, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Medical", DisplayOrder = 3 },
-                new() { AttributeMemberId = -924, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Housing", DisplayOrder = 4 },
-                new() { AttributeMemberId = -925, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Restaurants/Dining", DisplayOrder = 5 },
-                new() { AttributeMemberId = -926, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Employment", DisplayOrder = 6 },
+                new() { AttributeMemberId = -921, TransactionCodeId = -5, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -922, TransactionCodeId = -7, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -920, TransactionCodeId = -9, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -923, TransactionCodeId = -12, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -924, TransactionCodeId = -15, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -921, TransactionCodeId = -16, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -924, TransactionCodeId = -21, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -925, TransactionCodeId = -23, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -926, TransactionCodeId = -42, EffectiveDate = minDate, Weight = 1M },
 
                 // BANK TRANSACTION GROUP
-                new() { AttributeMemberId = -931, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Necessary expense", DisplayOrder = 0 },
-                new() { AttributeMemberId = -932, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Discretionary expense", DisplayOrder = 1 },
-                new() { AttributeMemberId = -933, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Income", DisplayOrder = 2 },
-
-                // ECONOMY
-                new() { AttributeMemberId = -951, AttributeId = economyAttributeId, DisplayName = "Developed", DisplayOrder = 0 },
-                new() { AttributeMemberId = -952, AttributeId = economyAttributeId, DisplayName = "Emerging", DisplayOrder = 1 },
-                new() { AttributeMemberId = -953, AttributeId = economyAttributeId, DisplayName = "Frontier", DisplayOrder = 2 }
+                new() { AttributeMemberId = -931, TransactionCodeId = -5, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -932, TransactionCodeId = -7, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -9, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -12, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -15, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -16, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -931, TransactionCodeId = -21, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -932, TransactionCodeId = -23, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -933, TransactionCodeId = -42, EffectiveDate = minDate, Weight = 1M }
             };
 
-            configurationcollection
-                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributes))
-                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributescopes))
-                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributeMembers));
+            configurationCollection
+                .WithConfiguration(NewConfiguration(sourceGuid, bankTransactionCodes))
+                .WithConfiguration(NewConfiguration(sourceGuid, bankTransactionCodeAttributes));
 
-            return configurationcollection;
+            return configurationCollection;
         }
 
         /// <summary>
@@ -487,63 +964,112 @@ namespace NjordinSight.EntityModel.Context.Configurations
         /// <summary>
         /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
         /// <list type="bullet">
-        /// <item><see cref="BankTransactionCode"/></item>
-        /// <item><see cref="BankTransactionCodeAttributeMemberEntry"/></item>
+        /// <item><see cref="ModelAttribute"/></item>
+        /// <item><see cref="ModelAttributeScope"/></item>
+        /// <item><see cref="ModelAttributeMember"/></item>
         /// </list>
-        /// Depends on <see cref="WithSample_ModelAttributeGraph(IConfigurationCollection)"/>.
         /// </summary>
-        /// <param name="configurationCollection"></param>
+        /// <param name="configurationcollection"></param>
         /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
-        public static IConfigurationCollection WithSample_BankTransactionCodeGraph(
-            this IConfigurationCollection configurationCollection)
+        public static IConfigurationCollection WithSample_ModelAttributeGraph(
+            this IConfigurationCollection configurationcollection)
         {
-            const string sourceGuid = "{4625CD57-8943-4BB3-96E8-A8AC680E7064}";
+            const string sourceGuid = "{B86AD8A7-9A34-40C6-A96C-1A2A577D95D8}";
 
-            var bankTransactionCodes = new BankTransactionCode[]
+            var modelAttributes = new ModelAttribute[]
             {
-                new() { TransactionCodeId = -5, TransactionCode = "electricity", DisplayName = "Electricity Service" },
-                new() { TransactionCodeId = -7, TransactionCode = "media", DisplayName = "Entertainment" },
-                new() { TransactionCodeId = -9, TransactionCode = "gas", DisplayName = "Gasoline/Fuel" },
-                new() { TransactionCodeId = -12, TransactionCode = "medical", DisplayName = "Healthcare/Medical" },
-                new() { TransactionCodeId = -15, TransactionCode = "insurance", DisplayName = "Insurance" },
-                new() { TransactionCodeId = -16, TransactionCode = "internet", DisplayName = "Internet Service" },
-                new() { TransactionCodeId = -21, TransactionCode = "mortgage", DisplayName = "Mortgage/Rent" },
-                new() { TransactionCodeId = -23, TransactionCode = "dineout", DisplayName = "Restaurants/Dining" },
-                new() { TransactionCodeId = -42, TransactionCode = "salary", DisplayName = "Salary/Wages" }
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.AccountType,
+                    DisplayName = Strings.ModelAttribute_AccountType
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionGroup,
+                    DisplayName = Strings.ModelAttribute_BankTransactionGroup
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionType,
+                    DisplayName = Strings.ModelAttribute_BankTransactionType
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.Economy,
+                    DisplayName = Strings.ModelAttribute_Economy
+                }
             };
 
-            var minDate = DateTime.MinValue.Date;
-
-            var bankTransactionCodeAttributes = new BankTransactionCodeAttributeMemberEntry[]
+            var modelAttributescopes = new ModelAttributeScope[]
             {
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.AccountType,
+                    ScopeCode = ModelAttributeScopeCode.Account.ConvertToStringCode()
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionGroup,
+                    ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode()
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.BankTransactionType,
+                    ScopeCode = ModelAttributeScopeCode.BankTransactionCode.ConvertToStringCode()
+                },
+                new()
+                {
+                    AttributeId = (int)ModelAttributeEnum.Economy,
+                    ScopeCode = ModelAttributeScopeCode.Country.ConvertToStringCode()
+                }
+            };
+
+            int accountTypeAttributeId = (int)ModelAttributeEnum.AccountType;
+            int bankTransactionTypeAttributeId = (int)ModelAttributeEnum.BankTransactionType;
+            int bankTransctionGroupAttributeId = (int)ModelAttributeEnum.BankTransactionGroup;
+            int economyAttributeId = (int)ModelAttributeEnum.Economy;
+
+            var modelAttributeMembers = new ModelAttributeMember[]
+            {
+                // ACCOUNT TYPE
+                new() { AttributeMemberId = -901, AttributeId = accountTypeAttributeId, DisplayName = "Student Loan", DisplayOrder = 0 },
+                new() { AttributeMemberId = -902, AttributeId = accountTypeAttributeId, DisplayName = "401(k)", DisplayOrder = 1 },
+                new() { AttributeMemberId = -903, AttributeId = accountTypeAttributeId, DisplayName = "Rollover IRA", DisplayOrder = 2 },
+                new() { AttributeMemberId = -904, AttributeId = accountTypeAttributeId, DisplayName = "Contributory IRA", DisplayOrder = 3 },
+                new() { AttributeMemberId = -905, AttributeId = accountTypeAttributeId, DisplayName = "Brokerage", DisplayOrder = 4 },
+                new() { AttributeMemberId = -906, AttributeId = accountTypeAttributeId, DisplayName = "Stock Purchase Plan", DisplayOrder = 5 },
+                new() { AttributeMemberId = -907, AttributeId = accountTypeAttributeId, DisplayName = "Checking", DisplayOrder = 6 },
+                new() { AttributeMemberId = -908, AttributeId = accountTypeAttributeId, DisplayName = "Savings", DisplayOrder = 7 },
+                new() { AttributeMemberId = -909, AttributeId = accountTypeAttributeId, DisplayName = "Credit", DisplayOrder = 8 },
+                new() { AttributeMemberId = -910, AttributeId = accountTypeAttributeId, DisplayName = "Health-Savings", DisplayOrder = 9 },
+                new() { AttributeMemberId = -911, AttributeId = accountTypeAttributeId, DisplayName = "Roth Contributory IRA", DisplayOrder = 10 },
+
                 // BANK TRANSACTION TYPE
-                new() { AttributeMemberId = -921, TransactionCodeId = -5, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -922, TransactionCodeId = -7, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -920, TransactionCodeId = -9, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -923, TransactionCodeId = -12, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -924, TransactionCodeId = -15, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -921, TransactionCodeId = -16, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -924, TransactionCodeId = -21, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -925, TransactionCodeId = -23, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -926, TransactionCodeId = -42, EffectiveDate = minDate, Weight = 1M },
+                new() { AttributeMemberId = -920, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Transportation", DisplayOrder = 0 },
+                new() { AttributeMemberId = -921, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Utilities", DisplayOrder = 1 },
+                new() { AttributeMemberId = -922, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Entertainment", DisplayOrder = 2 },
+                new() { AttributeMemberId = -923, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Medical", DisplayOrder = 3 },
+                new() { AttributeMemberId = -924, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Housing", DisplayOrder = 4 },
+                new() { AttributeMemberId = -925, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Restaurants/Dining", DisplayOrder = 5 },
+                new() { AttributeMemberId = -926, AttributeId = bankTransactionTypeAttributeId, DisplayName = "Employment", DisplayOrder = 6 },
 
                 // BANK TRANSACTION GROUP
-                new() { AttributeMemberId = -931, TransactionCodeId = -5, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -932, TransactionCodeId = -7, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -931, TransactionCodeId = -9, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -931, TransactionCodeId = -12, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -931, TransactionCodeId = -15, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -931, TransactionCodeId = -16, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -931, TransactionCodeId = -21, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -932, TransactionCodeId = -23, EffectiveDate = minDate, Weight = 1M },
-                new() { AttributeMemberId = -933, TransactionCodeId = -42, EffectiveDate = minDate, Weight = 1M }
+                new() { AttributeMemberId = -931, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Necessary expense", DisplayOrder = 0 },
+                new() { AttributeMemberId = -932, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Discretionary expense", DisplayOrder = 1 },
+                new() { AttributeMemberId = -933, AttributeId = bankTransctionGroupAttributeId, DisplayName = "Income", DisplayOrder = 2 },
+
+                // ECONOMY
+                new() { AttributeMemberId = -951, AttributeId = economyAttributeId, DisplayName = "Developed", DisplayOrder = 0 },
+                new() { AttributeMemberId = -952, AttributeId = economyAttributeId, DisplayName = "Emerging", DisplayOrder = 1 },
+                new() { AttributeMemberId = -953, AttributeId = economyAttributeId, DisplayName = "Frontier", DisplayOrder = 2 }
             };
 
-            configurationCollection
-                .WithConfiguration(NewConfiguration(sourceGuid, bankTransactionCodes))
-                .WithConfiguration(NewConfiguration(sourceGuid, bankTransactionCodeAttributes));
+            configurationcollection
+                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributes))
+                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributescopes))
+                .WithConfiguration(NewConfiguration(sourceGuid, modelAttributeMembers));
 
-            return configurationCollection;
+            return configurationcollection;
         }
 
         /// <summary>
@@ -584,6 +1110,59 @@ namespace NjordinSight.EntityModel.Context.Configurations
             configurationCollection
                 .WithConfiguration(NewConfiguration(sourceGuid, investmentModels))
                 .WithConfiguration(NewConfiguration(sourceGuid, modelTargets));
+
+            return configurationCollection;
+        }
+
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
+        /// <item><see cref="ReportConfiguration"/></item>
+        /// </list>
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
+        public static IConfigurationCollection WithSample_ReportConfiguration(
+            this IConfigurationCollection configurationCollection)
+        {
+            const string sourceGuid = "{B9C48036-8873-4A36-895B-5D936703FABF}";
+
+            var sampleStyleSheet = new ReportConfiguration()
+            {
+                ConfigurationId = -1,
+                ConfigurationCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
+                ConfigurationDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
+                XmlDefinition = Strings.ReportConfiguration_Sample_XmlDefinition
+            };
+
+            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
+
+            return configurationCollection;
+        }
+
+        /// <summary>
+        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
+        /// <list type="bullet">
+        /// <item><see cref="ReportStyleSheet"/></item>
+        /// </list>
+        /// Depends on <see cref="WithSample_CountryAttributeEntries(IConfigurationCollection)"/>.
+        /// </summary>
+        /// <param name="configurationCollection"></param>
+        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
+        public static IConfigurationCollection WithSample_ReportStyleSheet(
+            this IConfigurationCollection configurationCollection)
+        {
+            const string sourceGuid = "{9EAB0AE3-F926-4DE4-B170-46E5107F0EF2}";
+
+            var sampleStyleSheet = new ReportStyleSheet()
+            {
+                StyleSheetId = -1,
+                StyleSheetCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
+                StyleSheetDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
+                XmlDefinition = Strings.ReportStyleSheet_Sample_XmlDefinition
+            };
+
+            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
 
             return configurationCollection;
         }
@@ -2555,59 +3134,6 @@ namespace NjordinSight.EntityModel.Context.Configurations
                 .WithConfiguration(NewConfiguration(sourceGuid, symbols))
                 .WithConfiguration(NewConfiguration(sourceGuid, securityAttributes))
                 .WithConfiguration(NewConfiguration(sourceGuid, securityPrices));
-
-            return configurationCollection;
-        }
-
-        /// <summary>
-        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
-        /// <list type="bullet">
-        /// <item><see cref="ReportConfiguration"/></item>
-        /// </list>
-        /// </summary>
-        /// <param name="configurationCollection"></param>
-        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
-        public static IConfigurationCollection WithSample_ReportConfiguration(
-            this IConfigurationCollection configurationCollection)
-        {
-            const string sourceGuid = "{B9C48036-8873-4A36-895B-5D936703FABF}";
-
-            var sampleStyleSheet = new ReportConfiguration()
-            {
-                ConfigurationId = -1,
-                ConfigurationCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
-                ConfigurationDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
-                XmlDefinition = Strings.ReportConfiguration_Sample_XmlDefinition
-            };
-
-            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
-
-            return configurationCollection;
-        }
-
-        /// <summary>
-        /// Seeds this <see cref="IConfigurationCollection"/> with sample data for:
-        /// <list type="bullet">
-        /// <item><see cref="ReportStyleSheet"/></item>
-        /// </list>
-        /// Depends on <see cref="WithSample_CountryAttributeEntries(IConfigurationCollection)"/>.
-        /// </summary>
-        /// <param name="configurationCollection"></param>
-        /// <returns>This <see cref="IConfigurationCollection"/> for method chaining.</returns>
-        public static IConfigurationCollection WithSample_ReportStyleSheet(
-            this IConfigurationCollection configurationCollection)
-        {
-            const string sourceGuid = "{9EAB0AE3-F926-4DE4-B170-46E5107F0EF2}";
-
-            var sampleStyleSheet = new ReportStyleSheet()
-            {
-                StyleSheetId = -1,
-                StyleSheetCode = Strings.ReportStyleSheet_Sample_StyleSheetCode,
-                StyleSheetDescription = Strings.ReportStyleSheet_Sample_StyleSheetDescription,
-                XmlDefinition = Strings.ReportStyleSheet_Sample_XmlDefinition
-            };
-
-            configurationCollection.WithConfiguration(NewConfiguration(sourceGuid, sampleStyleSheet));
 
             return configurationCollection;
         }
