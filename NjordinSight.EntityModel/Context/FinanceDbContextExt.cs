@@ -60,7 +60,8 @@ namespace NjordinSight.EntityModel.Context
                 .WithSample_BankTransactionCodeGraph()
                 .WithSample_AccountGraph()
                 .WithSample_BankTransactionEntries()
-                .WithSample_BrokerTransactionEntries();
+                .WithSample_BrokerTransactionEntries()
+                .WithSample_InvestmentPerformanceEntries();
         }
 
         /// <inheritdoc/>
