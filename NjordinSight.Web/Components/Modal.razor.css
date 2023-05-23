@@ -2,21 +2,27 @@
     display: none;
     position: fixed;
     justify-content: center;
-    width: 100%;
     min-height: 20vh;
+    min-width: 30vw;
     max-height: 70vh;
-    max-width: 70vh;
+    max-width: 50vw;
     box-shadow: 0.25rem 0.25rem rgb(0 0 0 / 0.3);
     border-color: black;
     border-radius: 1rem;
     /*z-index: 1;*/
     overflow: auto;
+    resize: both;
     color: var(--theme-text-color-0, black);
     background-color: var(--theme-elevation-backcolor-0, white);
     float: left;
     left: 50%;
     top: 25%;
     transform: translate(-50%, -25%);
+}
+
+::deep .custom-modal * {
+    resize: none;
+    overflow: hidden;
 }
 
 ::deep .custom-modal p {
