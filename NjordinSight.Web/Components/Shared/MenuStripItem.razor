@@ -1,5 +1,5 @@
 ﻿<li class="@GetItemClass()">
-    @if (string.IsNullOrEmpty(MenuItem.UriStem) && OnHyperlinkClickOverride is null)
+    @if (string.IsNullOrEmpty(MenuItem.UriStem) || HyperlinkDelegate is null)
     {
         <div class="grid-container @GetGridContainerClassModifier()">
             @if(DisplayIconLeft)
@@ -24,7 +24,7 @@
     }
     else
     {
-        @if(OnHyperlinkClickOverride is null)
+        @if (HyperlinkDelegate is null)
         {
             <a class="grid-container custom-nav-link @GetGridContainerClassModifier()" href="@MenuItem.UriStem">
                 @if(DisplayIconLeft)
@@ -50,7 +50,8 @@
         else
         {
             <div class="grid-container custom-nav-link @GetGridContainerClassModifier()" style="cursor: pointer;"
-                @onclick="(async (args) => await OnHyperlinkClickOverride.Value.InvokeAsync(args))">
+                @onclick="(async (args) => await HyperlinkDelegate.Value
+                    .InvokeAsync(new(){ UriPath = MenuItem.UriStem } ))">
                 @if (DisplayIconLeft)
                 {
                     <div class="icon left">
@@ -77,13 +78,17 @@
         <ul class="@GetChildMenuClass()">
             @foreach (var child in MenuItem.Children)
             {
-                <MenuStripItem MenuItem="@child.Value" />
+                <MenuStripItem MenuItem="@child.Value" HyperlinkDelegate="@HyperlinkDelegate"/>
             }
         </ul>
     }
 </li>
 
 @code {
+    protected override void OnInitialized()
+    {
+        return;
+    }
     /// <summary>
     /// Gets or sets the object defining the content of this menu item.
     /// </summary>
@@ -94,7 +99,7 @@
     /// Gets or sets the delegate overriding the link behavior for this menu item.
     /// </summary>
     [Parameter]
-    public EventCallback<MouseEventArgs>? OnHyperlinkClickOverride { get; set; }
+    public EventCallback<LinkClickEventArgs>? HyperlinkDelegate { get; set; }
 
     private const string MenuLevelRoot = "level-0";
     private const string MenuLevelChild = "level-n";
@@ -104,12 +109,6 @@
     private bool DisplayCaption => !MenuItem.IsRoot || !string.IsNullOrEmpty(MenuItem.Caption);
     private bool DisplayIconRight => !MenuItem.IsRoot && MenuItem.HasChildren;
 
-    //protected override void OnInitialized()
-    //{
-    //    if (!(DisplayCaption && DisplayIconLeft))
-    //        throw new ArgumentNullException(
-    //            paramName: $"{nameof(MenuItem.IconKey)} | {nameof(MenuItem.Caption)}");
-    //}
     private string GetChildMenuClass() =>
     $"sub-menu {(MenuItem.IsRoot ? MenuLevelRoot : MenuLevelChild)}";
 

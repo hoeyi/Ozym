@@ -5,7 +5,7 @@ a {
     font-family: inherit !important;
     font-size: inherit !important;
     margin: inherit !important;
-    padding: inherit !important;
+    /*padding: inherit !important;*/
     text-decoration: inherit !important;
 }
 
@@ -17,6 +17,7 @@ a {
     grid-template-areas: "a b c";
     grid-template-columns: minmax(32px, 2fr) minmax(64px, 8fr) minmax(16px, auto);
     justify-content: space-between;
+    line-height: normal;
 }
 
 .root-node > .grid-container {
@@ -81,7 +82,6 @@ a {
 
 .caption {
     grid-area: b;
-    /*min-width: 64px;*/
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

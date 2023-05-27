@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Text.Json;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace NjordinSight.Web.Components.Shared
 {
+#nullable enable
     /// <summary>
     /// Represents the base element for items in a traditional tiered navigation menu.
     /// </summary>
@@ -10,8 +13,17 @@ namespace NjordinSight.Web.Components.Shared
         /// <summary>
         /// Create an <see cref="MenuItem"/>.
         /// </summary>
-        public MenuItem()
+        public MenuItem() : this(isRoot: false)
         {
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="MenuItem"/> as a root item or not.
+        /// </summary>
+        /// <param name="isRoot"></param>
+        protected MenuItem(bool isRoot)
+        {
+            IsRoot = isRoot;
         }
 
         /// <summary>
@@ -37,6 +49,7 @@ namespace NjordinSight.Web.Components.Shared
         /// <summary>
         /// Gets whether this item has children.
         /// </summary>
+        [JsonIgnore]
         public bool HasChildren
         {
             get { return Children.Count > 0; }
@@ -45,7 +58,7 @@ namespace NjordinSight.Web.Components.Shared
         /// <summary>
         /// Gets whether this menu item is part of the first level of menu items.
         /// </summary>
-        public bool IsRoot { get; init; } = false;
+        public bool IsRoot { get; private set; }
 
         /// <inheritdoc />
         public override bool Equals(object? obj)
@@ -72,4 +85,5 @@ namespace NjordinSight.Web.Components.Shared
             return !(left == right);
         }
     }
+#nullable disable
 }

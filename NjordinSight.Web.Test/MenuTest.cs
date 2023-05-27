@@ -43,7 +43,7 @@ namespace EulerFinancial.UnitTest.Web
         [TestMethod]
         public void Menu_WithChildren_JsonSerialization_YieldsString()
         {
-            var menu = new Menu()
+            var menu = new MenuRoot()
             {
                 Children = new()
                 {
@@ -53,7 +53,7 @@ namespace EulerFinancial.UnitTest.Web
                 }
             };
 
-            string json = JsonSerializer.Serialize(menu, typeof(Menu), options: new()
+            string json = JsonSerializer.Serialize(menu, typeof(MenuRoot), options: new()
             {
                 WriteIndented = true
             });

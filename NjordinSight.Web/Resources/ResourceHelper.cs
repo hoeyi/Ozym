@@ -12,21 +12,32 @@ namespace NjordinSight.Web.Resources
     /// </summary>
     static class ResourceHelper
     {
-        private const string DefaultMenuJsonQualifiedName 
-            = "NjordinSight.Web.Resources.DefaultMenu.json";
-        public static async Task<Menu?> GetDefaultMenu()
+        static ResourceHelper()
         {
-            using var stream = Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream(DefaultMenuJsonQualifiedName);
+            ResourceNamespace = typeof(ResourceHelper).Namespace;
+            DefaultMenuJsonQualifiedName = $"{ResourceNamespace}.DefaultMenu.json";
+        }
 
-            if (stream is null)
-                throw new InvalidOperationException();
+        private static string DefaultMenuJsonQualifiedName { get; }
+
+        private static string ResourceNamespace { get; }
+
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+        public static async Task<T?> GetDefaultMenu<T>(string? shortName = null)
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+        {
+            string resourceName = string.IsNullOrEmpty(shortName) ?
+                DefaultMenuJsonQualifiedName :
+                $"{ResourceNamespace}.{shortName}";
+
+            using var stream = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream(resourceName) ?? throw new InvalidOperationException();
 
             using var reader = new StreamReader(stream);
 
             string menuJson = await reader.ReadToEndAsync();
 
-            return JsonSerializer.Deserialize<Menu>(menuJson);
+            return JsonSerializer.Deserialize<T>(menuJson);
         }
     }
 }

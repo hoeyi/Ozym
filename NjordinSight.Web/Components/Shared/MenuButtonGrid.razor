@@ -2,7 +2,6 @@
     <div class="navmenu-anchor" @onclick="@(args => ToggleMenu(args))">
         <IonIcon Name="apps" />
     </div>
-    @*<div class="navmenu-title @VisibleClass">Main Menu</div>*@
     <div class="navmenu-grid @VisibleClass">
         @foreach (var menuItem in MenuItems!.Where(n => !(
             string.IsNullOrEmpty(n.IconKey) ||

@@ -58,9 +58,9 @@ namespace NjordinSight.Web.Components.Generic
             = Array.Empty<ComparisonOperator>();
 
         /// <summary>
-        /// Gets or sets the default <see cref="Menu"/> instance for this class.
+        /// Gets or sets the default <see cref="MenuRoot"/> instance for this class.
         /// </summary>
-        private Menu DefaultMenu { get; set; }
+        private MenuRoot DefaultMenu { get; set; }
 
         /// <inheritdoc/>   
         protected override async Task OnInitializedAsync()
@@ -117,13 +117,13 @@ namespace NjordinSight.Web.Components.Generic
         }
 
         /// <summary>
-        /// Gets an instance of <see cref="Menu"/> with pre-defined <see cref="MenuItem"/> entries.
+        /// Gets an instance of <see cref="MenuRoot"/> with pre-defined <see cref="MenuItem"/> entries.
         /// </summary>
-        /// <returns>The default instance of <see cref="Menu"/> for <see cref="ModelIndex{TModel}"/> 
+        /// <returns>The default instance of <see cref="MenuRoot"/> for <see cref="ModelIndex{TModel}"/> 
         /// types.</returns>
-        /// <remarks>A new instance of <see cref="Menu"/> is not created for each call to this 
+        /// <remarks>A new instance of <see cref="MenuRoot"/> is not created for each call to this 
         /// method.</remarks>
-        protected Menu GetDefaultIndexMenu() 
+        protected MenuRoot GetDefaultIndexMenu() 
         {
             DefaultMenu ??= new()
             {

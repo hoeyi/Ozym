@@ -17,9 +17,9 @@ namespace NjordinSight.Web.Components.Generic
         private NounAttribute? _modelNoun;
         private string? _indexUriRelativePath;
         /// <summary>
-        /// Gets or sets the <see cref="Menu"/> containing available actions for this component.
+        /// Gets or sets the <see cref="MenuRoot"/> containing available actions for this component.
         /// </summary>
-        protected Menu? ActionMenu { get; set; }
+        protected MenuRoot? ActionMenu { get; set; }
 
         /// <summary>
         /// Gets the <see cref="NounAttribute"/> associated with <typeparamref name="TModel"/>.
