@@ -13,7 +13,7 @@
     {
         <PageTitle>@(PageTitle.ReadMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader Header="@(PageTitle.ReadMany(ParentAccount.AccountCode))" ActionMenu="@ActionMenu" />
+        <ModelPageMenuHeader Header="@(PageTitle.ReadMany(ParentAccount.AccountCode))" ActionMenu="@SectionNavigationMenu" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
@@ -66,35 +66,30 @@
 
     private Account ParentAccount { get; set; }
 
+    protected override MenuRoot CreateSectionNavigationMenu() => new()
+    {
+        Children = new()
+        {
+            new MenuItem()
+            {
+                IconKey = "caret-back-circle",
+                Caption = string.Format(
+                        Strings.Caption_NavigateBackTo,
+                        ModelMetadata.GetAttribute<Account, NounAttribute>()?.GetSingular()),
+                UriRelativePath = $"{IndexUriRelativePath}/{ModelId}/detail"
+            },
+            new MenuItem()
+            {
+                IconKey = "pencil",
+                Caption = string.Format(
+                                            Strings.Caption_EditMany, ModelNoun?.GetPlural()),
+                UriRelativePath = $"{IndexUriRelativePath}/{ModelId}/edit/bank-transactions"
+            }
+        }
+    };
+
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-
-        ActionMenu = new()
-            {
-                IconKey = "reorder-four",
-                Children = new()
-                {
-                    { 0, new MenuItem()
-                        {
-                            IconKey = "caret-back-circle",
-                            Caption = string.Format(
-                                Strings.Caption_NavigateBackTo,
-                                ModelMetadata.GetAttribute<Account, NounAttribute>()?.GetSingular()),
-                            UriStem = $"{IndexUriRelativePath}/{ModelId}/detail"
-                        }
-                    },
-                    { 1, new MenuItem()
-                        {
-                            IconKey = "pencil",
-                            Caption = string.Format(
-                                Strings.Caption_EditMany, ModelNoun?.GetPlural()),
-                            UriStem = $"{IndexUriRelativePath}/{ModelId}/edit/bank-transactions"
-                        }
-                    }
-                }
-            };
-
         try
         {
             var transactionCodeDTOsTask = Controller.ReferenceQueries.GetBankTransactionCodeDTOsAsync();

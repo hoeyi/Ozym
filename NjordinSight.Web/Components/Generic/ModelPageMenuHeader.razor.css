@@ -8,5 +8,14 @@
 }
 
     h3 > span {
-        padding-left: 0.5rem;
+        padding-right: 0.5rem;
     }
+
+a {
+    color: inherit !important;
+    display: block;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    margin: inherit !important;
+    text-decoration: inherit !important;
+}

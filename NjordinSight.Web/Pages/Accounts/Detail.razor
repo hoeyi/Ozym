@@ -11,7 +11,7 @@
     {
         <PageTitle>@(PageTitle.ReadSingle(Model.AccountCode).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadSingle(Model.AccountCode))" />
+        <ModelPageMenuHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadSingle(Model.AccountCode))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
@@ -72,66 +72,37 @@
             var accountQuery = await Controller.ReadAsync(ModelId);
             Model = accountQuery.Value;
 
-            ActionMenu = new()
-                {
-                    IconKey = "reorder-four",
-                    Children = new()
-                    {
-                        // Add return to index button.
-                        { 0, new MenuItem()
-                            {
-                                IconKey = "caret-back-circle",
-                                Caption = string.Format(
-                                    Strings.Caption_NavigateBackTo,
-                                    ModelMetadata
-                                        .GetAttribute<Account, NounAttribute>()
-                                        ?.GetPlural()),
-                                UriStem = $"{IndexUriRelativePath}"
-                            }
-                        },
-                        // Add edit button.
-                        { 1, new MenuItem()
-                            {
-                                IconKey = "pencil",
-                                Caption = string.Format(
-                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
-                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
-                            }
-                        }
-                    }
-                };
-
             // Add view bank transactions menu item.
             if (Model.HasBankTransaction)
-                ActionMenu.Children.Add(ActionMenu.Children.Max(kv => kv.Key) + 1, new MenuItem()
+                SectionNavigationMenu.Children.Add(new MenuItem()
                     {
                         IconKey = "journal",
                         Caption = string.Format(
                                 Strings.Caption_ViewMany,
                                 ModelMetadata.GetAttribute<BankTransaction, NounAttribute>()?.GetPlural()),
-                        UriStem = $"{FormatDetailUri(ModelId)}/bank-transactions"
+                        UriRelativePath = $"{FormatDetailUri(ModelId)}/bank-transactions"
                     });
 
             // Add view broker transactions menu item.
             if(Model.HasBrokerTransaction)
-                ActionMenu.Children.Add(ActionMenu.Children.Max(kv => kv.Key) + 1, new MenuItem()
+                SectionNavigationMenu.Children.Add(new MenuItem()
                     {
                         IconKey = "journal",
                         Caption = string.Format(
                             Strings.Caption_ViewMany,
                             ModelMetadata.GetAttribute<BrokerTransaction, NounAttribute>()?.GetPlural()),
-                        UriStem = $"{FormatDetailUri(Model.AccountId)}/broker-transactions"
+                        UriRelativePath = $"{FormatDetailUri(Model.AccountId)}/broker-transactions"
                     });
 
             // Add view wallets menu item.
             if (Model.HasWallet)
-                ActionMenu.Children.Add(ActionMenu.Children.Max(kv => kv.Key) + 1, new MenuItem()
+                SectionNavigationMenu.Children.Add(new MenuItem()
                     {
                         IconKey = "wallet",
                         Caption = string.Format(
                             Strings.Caption_EditMany, 
                                 ModelMetadata.GetAttribute<AccountWallet, NounAttribute>()?.GetPlural()),
-                        UriStem = $"{FormatEditUri(Model.AccountId)}/wallets"
+                        UriRelativePath = $"{FormatEditUri(Model.AccountId)}/wallets"
                     });
 
             Custodians = (await Controller.ReferenceQueries.GetAccountCustodianDTOsAsync()).Value;

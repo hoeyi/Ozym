@@ -1,9 +1,16 @@
 ﻿<h3>
+    <span>@Header</span>
     @if(ActionMenu is not null)
     {
-        <MenuBar Menu="@ActionMenu" />
+        foreach(var menuItem in ActionMenu.Children)
+        {
+            <button class="form-control button"
+                @onclick="((args) => 
+                HyperlinkClickHandler(new(){ UriPath = menuItem.UriRelativePath } ))">
+                @menuItem.Caption
+            </button>
+        }
     }
-    <span>@Header</span>
 </h3>
 
 @code {
@@ -18,4 +25,16 @@
     /// </summary>
     [Parameter]
     public string Header { get; set; } = string.Empty;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; init; }
+
+    private void HyperlinkClickHandler(LinkClickEventArgs args)
+    {
+        if (string.IsNullOrEmpty(args.UriPath) || args.UriPath == NavigationManager.Uri)
+            return;
+        else
+            // TODO: Add special handling for special keypress/mouseclick scenarios.
+            NavigationManager.NavigateTo(uri: args.UriPath, replace: true);
+    }
 }

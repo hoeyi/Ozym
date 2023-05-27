@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using System.Linq;
 
 namespace NjordinSight.Web.Components.Shared
 {
@@ -29,22 +30,26 @@ namespace NjordinSight.Web.Components.Shared
         /// <summary>
         /// Gets or sets the key for the navigation menu item.
         /// </summary>
+        [JsonPropertyName("IconKey")]
         public string? IconKey { get; init; }
 
         /// <summary>
         /// Gets or sets the caption for the navigation menu item.
         /// </summary>
+        [JsonPropertyName("Caption")]
         public string? Caption { get; init; }
 
         /// <summary>
         /// Gets or sets the uri stem for the navigation menu item.
         /// </summary>
-        public string? UriStem { get; init; }
+        [JsonPropertyName("UriRelativePath")]
+        public string? UriRelativePath { get; init; }
 
         /// <summary>
         /// Gets or sets the children <see cref="MenuItem"/> of this item.
         /// </summary>
-        public SortedList<int, MenuItem> Children { get; init; } = new();
+        [JsonPropertyName("Children")]
+        public List<MenuItem>? Children { get; init; }
 
         /// <summary>
         /// Gets whether this item has children.
@@ -52,7 +57,7 @@ namespace NjordinSight.Web.Components.Shared
         [JsonIgnore]
         public bool HasChildren
         {
-            get { return Children.Count > 0; }
+            get { return Children?.Any() ?? false; }
         }
 
         /// <summary>
@@ -72,7 +77,7 @@ namespace NjordinSight.Web.Components.Shared
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return System.HashCode.Combine(IconKey, Caption, UriStem);
+            return System.HashCode.Combine(IconKey, Caption, UriRelativePath);
         }
 
         public static bool operator ==(MenuItem left, MenuItem right)

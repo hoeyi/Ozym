@@ -12,7 +12,7 @@
         <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
         <ModelPageMenuHeader 
-            ActionMenu="@ActionMenu"
+            ActionMenu="@SectionNavigationMenu"
             Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
         <CascadingValue Value="@ErrorMessage">
@@ -65,42 +65,12 @@
     {
         IsLoading = true;
 
-
         try
         {
             var modelQuery = Controller.ReadAsync(ModelId);
 
             if ((await modelQuery).Value is BankTransactionCode model)
                 Model = model;
-
-            ActionMenu = new()
-                {
-                    IconKey = "reorder-four",
-                    Children = new()
-                    {
-                        // Add return to index button.
-                        { 0, new MenuItem()
-                            {
-                                IconKey = "caret-back-circle",
-                                Caption = string.Format(
-                                    Strings.Caption_NavigateBackTo,
-                                    ModelMetadata
-                                        .GetAttribute<BankTransactionCode, NounAttribute>()
-                                        ?.GetPlural()),
-                                UriStem = $"{IndexUriRelativePath}"
-                            }
-                        },
-                        // Add edit button.
-                        { 1, new MenuItem()
-                            {
-                                IconKey = "pencil",
-                                Caption = string.Format(
-                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
-                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
-                            }
-                        }
-                    }
-                };
 
             ModelDto = new(Model);
         }

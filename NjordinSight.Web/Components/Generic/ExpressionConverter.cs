@@ -125,8 +125,10 @@ namespace NjordinSight.Web.Components.Generic
             if (recursionCount < 0)
                 throw new InvalidOperationException($"Recursion count cannot be less than zero.");
 
-            if (recursionCount == 5)
-                throw new ArgumentException($"Recursion limit of {5} reached.");
+            int maxRecursionCount = 5;
+
+            if (recursionCount == maxRecursionCount)
+                throw new ArgumentException($"Recursion limit of {maxRecursionCount} reached.");
 
             memberList.Add(memberExpression.Member);
 

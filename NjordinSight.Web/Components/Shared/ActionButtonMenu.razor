@@ -3,6 +3,9 @@
 </div>
 
 @code {
-    [Parameter]
+    /// <summary>
+    /// Gets or sets the <see cref="RenderFragment" /> to rendered within this container.
+    /// </summary>
+    [Parameter, EditorRequired]
     public RenderFragment ChildContent { get; set; }
 }

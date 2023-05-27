@@ -6,7 +6,7 @@
         @foreach (var menuItem in MenuItems!.Where(n => !(
             string.IsNullOrEmpty(n.IconKey) ||
             string.IsNullOrEmpty(n.Caption) ||
-            string.IsNullOrEmpty(n.UriStem)
+            string.IsNullOrEmpty(n.UriRelativePath)
         )))
         {
             <div class="navmenu-tile">
@@ -68,10 +68,10 @@
         {
             if (NavigationHelper is null ||
                 string.IsNullOrEmpty(NavigationHelper.BaseUri) ||
-                string.IsNullOrEmpty(menuItem.UriStem))
+                string.IsNullOrEmpty(menuItem.UriRelativePath))
                 return;
 
-            Uri uri = NavigationHelper.ToAbsoluteUri(menuItem.UriStem);
+            Uri uri = NavigationHelper.ToAbsoluteUri(menuItem.UriRelativePath);
             NavigationHelper.NavigateTo(uri.AbsoluteUri);
         }
     }

@@ -5,7 +5,7 @@
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
 <ThemedComponent>
-    <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+    <ModelPageMenuHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
     @if(SearchFields is null)
     {

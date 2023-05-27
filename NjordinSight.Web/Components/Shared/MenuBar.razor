@@ -1,5 +1,5 @@
 ﻿<ul class="menu-bar">
-    <MenuStripItem MenuItem="Menu" HyperlinkDelegate="HyperlinkDelegate"/>
+    <MenuStripItem MenuItem="Menu" HyperlinkClickCallBack="HyperlinkClickCallBack"/>
 </ul>
 
 @code {
@@ -13,5 +13,10 @@
     /// Gets or sets the delegate overriding the link behavior for this menu item.
     /// </summary>
     [Parameter]
-    public EventCallback<LinkClickEventArgs> HyperlinkDelegate { get; set; }
+    public EventCallback<LinkClickEventArgs> HyperlinkClickCallBack { get; set; }
+
+    protected override void OnInitialized()
+    {
+        return;
+    }
 }

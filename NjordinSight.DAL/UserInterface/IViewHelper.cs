@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ichosys.DataModel;
+using System;
 using System.Linq.Expressions;
 
 namespace NjordinSight.UserInterface
@@ -8,6 +9,7 @@ namespace NjordinSight.UserInterface
     /// </summary>
     /// <typeparam name="T">The model type in which metadata is defined.</typeparam>
     public interface IViewHelper<T>
+        where T : class
     {
         /// <summary>
         /// Gets the first <typeparamref name="TAttribute"/> associated with the 

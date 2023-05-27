@@ -10,10 +10,9 @@
             <div class="left">
                 @if (Menus is not null)
                 {
-                    @*<MenuBar Menu="MainMenu" OnHyperlinkClickOverride="OnHomeLinkClick" />*@
                     @foreach(var menu in Menus)
                     {
-                        <MenuBar Menu="menu" HyperlinkDelegate="OnHyperlinkClickOverride" />
+                        <MenuBar Menu="menu" HyperlinkClickCallBack="OnHyperlinkClickHandler" />
                     }
                 }
             </div>
@@ -24,9 +23,9 @@
 
         <article class="content px-4">
             <ErrorBoundary @ref="errorBoundary">
-                <ChildContent>
-                    @Body
-                </ChildContent>
+                    <ChildContent>
+                        @Body
+                    </ChildContent>
                 <ErrorContent Context="exception">
                     @{
                         LogUnhandledException(exception);
@@ -64,11 +63,9 @@
             shortName: "DefaultBannerMenu.json");
     }
 
-    private void OnHyperlinkClickOverride(LinkClickEventArgs args)
+    private void OnHyperlinkClickHandler(LinkClickEventArgs args)
     {
-        if (string.IsNullOrEmpty(args.UriPath) || args.UriPath == NavigationManager.Uri)
-            return;
-        else
+        if (!(string.IsNullOrEmpty(args.UriPath) || args.UriPath == NavigationManager.Uri))
             // TODO: Add special handling for special keypress/mouseclick scenarios.
             NavigationManager.NavigateTo(uri: args.UriPath, replace: true);
     }
@@ -76,10 +73,10 @@
 
     private readonly IReadOnlySet<MenuItem> menuItems = new HashSet<MenuItem>()
     {
-        new(){ IconKey = "calendar", Caption = "Calendar" , UriStem = "/PageUnderConstruction" },
-        new(){ IconKey = "newspaper", Caption = "News" , UriStem = "/PageUnderConstruction" },
-        new(){ IconKey = "stats-chart", Caption = "Reports" , UriStem = "/PageUnderConstruction" },
-        new(){ IconKey = "planet", Caption = "Geography" , UriStem = "/PageUnderConstruction" }
+        new(){ IconKey = "calendar", Caption = "Calendar" , UriRelativePath = "/PageUnderConstruction" },
+        new(){ IconKey = "newspaper", Caption = "News" , UriRelativePath = "/PageUnderConstruction" },
+        new(){ IconKey = "stats-chart", Caption = "Reports" , UriRelativePath = "/PageUnderConstruction" },
+        new(){ IconKey = "planet", Caption = "Geography" , UriRelativePath = "/PageUnderConstruction" }
     };
 
     private string GetUnhandledExcpetionMessage() =>

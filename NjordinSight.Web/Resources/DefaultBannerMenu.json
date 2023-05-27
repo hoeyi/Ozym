@@ -1,147 +1,132 @@
 [
   {
-    "MenuGuid": "3e818369-9889-4b49-b565-244d3bc93217",
+    "MenuGuid": "6963AA44-5CE9-4F84-9250-AD4A134D714B",
     "IconKey": "home",
-    "UriStem": "/",
-    "Children": {}
+    "UriRelativePath": "/"
   },
   {
     "IconKey": null,
     "Caption": "Accounts",
-    "UriStem": null,
-    "Children": {
-      "1": {
+    "UriRelativePath": null,
+    "Children": [
+      {
         "IconKey": "cash",
         "Caption": "Accounts",
-        "UriStem": "/accounts",
-        "Children": {}
+        "UriRelativePath": "/accounts"
       },
-      "2": {
+      {
         "IconKey": null,
         "Caption": "Composites",
-        "UriStem": "/composites",
-        "Children": {}
+        "UriRelativePath": "/composites"
       },
-      "3": {
+      {
         "IconKey": "options",
         "Caption": "Models",
-        "UriStem": "/investment-models",
-        "Children": {}
+        "UriRelativePath": "/investment-models"
       }
-    }
+    ]
   },
   {
     "IconKey": null,
     "Caption": "Market Data",
-    "UriStem": "/under-construction",
-    "Children": {
-      "1": {
+    "UriRelativePath": "/under-construction",
+    "Children": [
+      {
         "IconKey": null,
         "Caption": "Securities",
-        "UriStem": "/securities",
-        "Children": {
-          "1": {
+        "UriRelativePath": "/securities",
+        "Children": [
+          {
             "IconKey": null,
             "Caption": "Prices",
-            "UriStem": "/securities/prices",
-            "Children": {}
+            "UriRelativePath": "/securities/prices"
           }
-        }
+        ]
       },
-      "2": {
+      {
         "IconKey": null,
         "Caption": "Indices",
-        "UriStem": "/market-indices",
-        "Children": {
-          "1": {
+        "UriRelativePath": "/market-indices",
+        "Children": [
+          {
             "IconKey": null,
             "Caption": "Index Rates",
-            "UriStem": "/market-indices/rates",
-            "Children": {}
+            "UriRelativePath": "/market-indices/rates"
           }
-        }
+        ]
       }
-    }
+    ]
   },
   {
     "IconKey": null,
     "Caption": "Reference Data",
-    "UriStem": null,
-    "Children": {
-      "1": {
+    "UriRelativePath": null,
+    "Children": [
+      {
         "IconKey": null,
         "Caption": "Attributes",
-        "UriStem": "/attributes",
-        "Children": {}
+        "UriRelativePath": "/attributes"
       },
-      "2": {
+      {
         "IconKey": "earth",
         "Caption": "Countries",
-        "UriStem": "/countries",
-        "Children": {}
+        "UriRelativePath": "/countries"
       },
-      "3": {
+      {
         "IconKey": null,
         "Caption": "Custodians",
-        "UriStem": "/custodians",
-        "Children": {}
+        "UriRelativePath": "/custodians"
       },
-      "4": {
+      {
         "IconKey": null,
         "Caption": "Security Exchanges",
-        "UriStem": "/security-exchanges",
-        "Children": {}
+        "UriRelativePath": "/security-exchanges"
       },
-      "5": {
+      {
         "IconKey": null,
         "Caption": "Security Types",
-        "UriStem": "/security-types",
-        "Children": {}
+        "UriRelativePath": "/security-types"
       },
-      "6": {
+      {
         "IconKey": null,
         "Caption": "Security Type Groups",
-        "UriStem": "/security-type-groups",
-        "Children": {}
+        "UriRelativePath": "/security-type-groups"
       },
-      "7": {
+      {
         "IconKey": "card",
         "Caption": "Transactions",
-        "UriStem": null,
-        "Children": {
-          "1": {
+        "UriRelativePath": null,
+        "Children": [
+          {
             "IconKey": null,
             "Caption": "Bank",
-            "UriStem": "/bank-transaction-codes",
-            "Children": {}
+            "UriRelativePath": "/bank-transaction-codes"
           },
-          "2": {
+          {
             "IconKey": null,
             "Caption": "Broker",
-            "UriStem": "/broker-transaction-codes",
-            "Children": {}
+            "UriRelativePath": "/broker-transaction-codes"
           }
-        }
+        ]
       }
-    }
+    ]
   },
   {
     "IconKey": null,
     "Caption": "Configuration",
-    "UriStem": null,
-    "Children": {
-      "0": {
+    "UriRelativePath": null,
+    "Children": [
+      {
+
         "IconKey": null,
         "Caption": "Reports",
-        "UriStem": "/report-configurations",
-        "Children": {}
+        "UriRelativePath": "/report-configurations"
       }
-    }
+    ]
   },
   {
     "IconKey": null,
     "Caption": "About",
-    "UriStem": "/about",
-    "Children": {}
+    "UriRelativePath": "/about"
   }
 ]

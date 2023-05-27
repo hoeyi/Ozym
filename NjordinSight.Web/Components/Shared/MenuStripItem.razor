@@ -1,5 +1,5 @@
 ﻿<li class="@GetItemClass()">
-    @if (string.IsNullOrEmpty(MenuItem.UriStem) || HyperlinkDelegate is null)
+    @if (string.IsNullOrEmpty(MenuItem.UriRelativePath))
     {
         <div class="grid-container @GetGridContainerClassModifier()">
             @if(DisplayIconLeft)
@@ -24,61 +24,57 @@
     }
     else
     {
-        @if (HyperlinkDelegate is null)
-        {
-            <a class="grid-container custom-nav-link @GetGridContainerClassModifier()" href="@MenuItem.UriStem">
-                @if(DisplayIconLeft)
-                {
-                    <div class="icon left">
-                        <IonIcon Name="@MenuItem.IconKey" />
-                    </div>
-                }
-                @if(DisplayCaption)
-                {
-                    <div class="caption left">
-                        @MenuItem.Caption
-                    </div>
-                }
-                @if(DisplayIconRight)
-                {
-                    <div class="icon right">
-                        <IonIcon Name="caret-forward" class="caret-forward" />
-                    </div>
-                }
-            </a>
-        }
-        else
-        {
-            <div class="grid-container custom-nav-link @GetGridContainerClassModifier()" style="cursor: pointer;"
-                @onclick="(async (args) => await HyperlinkDelegate.Value
-                    .InvokeAsync(new(){ UriPath = MenuItem.UriStem } ))">
-                @if (DisplayIconLeft)
-                {
-                    <div class="icon left">
-                        <IonIcon Name="@MenuItem.IconKey" />
-                    </div>
-                }
-                @if (DisplayCaption)
-                {
-                    <div class="caption left">
-                        @MenuItem.Caption
-                    </div>
-                }
-                @if (DisplayIconRight)
-                {
-                    <div class="icon right">
-                        <IonIcon Name="caret-forward" class="caret-forward" />
-                    </div>
-                }
-            </div>
-        }
+        <a class="grid-container custom-nav-link @GetGridContainerClassModifier()" 
+            style="cursor: pointer;"
+            href="@MenuItem.UriRelativePath"
+            @onclick="(async (args) => await HyperlinkClickCallBack.InvokeAsync(
+                new(){ UriPath = MenuItem.UriRelativePath } ))">
+            @if (DisplayIconLeft)
+            {
+                <div class="icon left">
+                    <IonIcon Name="@MenuItem.IconKey" />
+                </div>
+            }
+            @if (DisplayCaption)
+            {
+                <div class="caption left">
+                    @MenuItem.Caption
+                </div>
+            }
+            @if (DisplayIconRight)
+            {
+                <div class="icon right">
+                    <IonIcon Name="caret-forward" class="caret-forward" />
+                </div>
+            }
+        </a>
+@*        <a class="grid-container custom-nav-link @GetGridContainerClassModifier()" href="@MenuItem.UriRelativePath">
+            @if(DisplayIconLeft)
+            {
+                <div class="icon left">
+                    <IonIcon Name="@MenuItem.IconKey" />
+                </div>
+            }
+            @if(DisplayCaption)
+            {
+                <div class="caption left">
+                    @MenuItem.Caption
+                </div>
+            }
+            @if(DisplayIconRight)
+            {
+                <div class="icon right">
+                    <IonIcon Name="caret-forward" class="caret-forward" />
+                </div>
+            }
+        </a>*@
     }
     @if (MenuItem.HasChildren)
     {
         <ul class="@GetChildMenuClass()">
             @foreach (var child in MenuItem.Children)
             {
-                <MenuStripItem MenuItem="@child.Value" HyperlinkDelegate="@HyperlinkDelegate"/>
+                <MenuStripItem MenuItem="@child" HyperlinkClickCallBack="HyperlinkClickCallBack" />
             }
         </ul>
     }
@@ -96,10 +92,10 @@
     public MenuItem MenuItem { get; set; }
 
     /// <summary>
-    /// Gets or sets the delegate overriding the link behavior for this menu item.
+    /// Gets or sets the delegate handler for the hyperlink click event.
     /// </summary>
-    [Parameter]
-    public EventCallback<LinkClickEventArgs>? HyperlinkDelegate { get; set; }
+    [Parameter, EditorRequired]
+    public EventCallback<LinkClickEventArgs> HyperlinkClickCallBack { get; set; }
 
     private const string MenuLevelRoot = "level-0";
     private const string MenuLevelChild = "level-n";

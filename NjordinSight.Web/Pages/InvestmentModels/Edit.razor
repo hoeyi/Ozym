@@ -12,7 +12,7 @@
         <PageTitle>@(PageTitle.UpdateSingle(ModelDto.DisplayName).AsPageTitle())</PageTitle>
 
         <ModelPageMenuHeader 
-            ActionMenu="@ActionMenu"
+            ActionMenu="@SectionNavigationMenu"
             Header="@(PageTitle.UpdateSingle(ModelDto.DisplayName))" />
 
         <CascadingValue Value="@ErrorMessage">
@@ -58,23 +58,6 @@
             {
                 Model = model;
             }
-
-            ActionMenu = new()
-                {
-                    IconKey = "reorder-four",
-                    Children = new()
-                    {
-                        // Add index button.
-                        { 0, new MenuItem()
-                            {
-                                IconKey = "list",
-                                Caption = string.Format(
-                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
-                                UriStem = $"{IndexUriRelativePath}"
-                            }
-                        }
-                    }
-                };
 
             ModelDto = new(Model);
         }

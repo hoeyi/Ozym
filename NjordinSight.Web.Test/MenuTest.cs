@@ -2,7 +2,7 @@
 using NjordinSight.Web.Components.Shared;
 using System.Text.Json;
 
-namespace EulerFinancial.UnitTest.Web
+namespace NjordinSight.Web.Test
 {
     [TestClass]
     public class MenuTest
@@ -12,8 +12,8 @@ namespace EulerFinancial.UnitTest.Web
             Caption = "Menu",
             Children = new()
             {
-                { 0, new() { Caption = "1.0" } },
-                { 1, new() { Caption = "1.1" } }
+                new() { Caption = "1.0" },
+                new() { Caption = "1.1" }
             }
         };
 
@@ -22,9 +22,9 @@ namespace EulerFinancial.UnitTest.Web
             Caption = "MenuTwoLevel",
             Children = new()
             {
-                { 0, new() { Caption = "2.0" } },
-                { 1, new() { Caption = "2.1" } },
-                { 2, new() { Caption = "2.2", Children = _menuItemsOneLevel.Children } }
+                new() { Caption = "2.0" },
+                new() { Caption = "2.1" },
+                new() { Caption = "2.2", Children = _menuItemsOneLevel.Children }
             }
         };
 
@@ -33,23 +33,24 @@ namespace EulerFinancial.UnitTest.Web
             Caption = "MenuThreeLevel",
             Children = new()
             {
-                { 0, new() { Caption = "3.0" } },
-                { 1, new() { Caption = "3.1" } },
-                { 2, new() { Caption = "3.2", Children = _menuItemsOneLevel.Children } },
-                { 3, new() { Caption = "3.3", Children = _menuItemsTwoLevel.Children } }
+                new() { Caption = "3.0" },
+                new() { Caption = "3.1" },
+                new() { Caption = "3.2", Children = _menuItemsOneLevel.Children },
+                new() { Caption = "3.3", Children = _menuItemsTwoLevel.Children }
             }
         };
 
         [TestMethod]
+        [TestCategory("Unit")]
         public void Menu_WithChildren_JsonSerialization_YieldsString()
         {
             var menu = new MenuRoot()
             {
                 Children = new()
                 {
-                    { 0, _menuItemsOneLevel },
-                    { 1, _menuItemsTwoLevel },
-                    { 2, _menuItemsThreeLevel }
+                    _menuItemsOneLevel,
+                    _menuItemsTwoLevel,
+                    _menuItemsThreeLevel
                 }
             };
 
