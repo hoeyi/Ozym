@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System.Linq;
 
-namespace NjordinSight.Web.Components.Shared
+namespace NjordinSight.Web.Components.Common
 {
 #nullable enable
     /// <summary>

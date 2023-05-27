@@ -57,6 +57,7 @@ namespace NjordinSight.Web.Components.Generic
             {
                 List<MemberInfo> memberList = new();
 
+                // TODO: Clarify this method. What is the call to GetNextExpressionPath for?
                 var expressionPath = GetNestedExpressionPath(memberExpression, memberList);
 
                 ParameterExpression parameterExpression = Expression.Parameter(typeof(T), "x");
@@ -100,7 +101,7 @@ namespace NjordinSight.Web.Components.Generic
 
         /// <summary>
         /// Recursively collects the <see cref="MemberInfo"/> instances traversed in a complex 
-        /// <see cref="MemberExpression"/>, then returns reverses the order of the list.
+        /// <see cref="MemberExpression"/>, then returns the reverse of the list.
         /// </summary>
         /// <param name="memberExpression">The member expression to traverse.</param>
         /// <param name="memberList">The list instance of <see cref="MemberInfo"/> to which 

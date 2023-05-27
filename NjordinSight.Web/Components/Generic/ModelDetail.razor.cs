@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using NjordinSight.EntityModel;
 using NjordinSight.UserInterface;
-using NjordinSight.Web.Components.Shared;
+using NjordinSight.Web.Components.Common;
 using NjordinSight.Web.Controllers;
 using System;
 using System.Threading.Tasks;

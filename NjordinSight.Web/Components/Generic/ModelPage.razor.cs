@@ -1,6 +1,6 @@
 ﻿using Ichosys.DataModel.Annotations;
 using NjordinSight.UserInterface;
-using NjordinSight.Web.Components.Shared;
+using NjordinSight.Web.Components.Common;
 using System;
 using System.Linq;
 using System.Reflection;

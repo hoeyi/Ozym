@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordinSight.Web.Components.Shared;
+using NjordinSight.Web.Components.Common;
 using System.Text.Json;
 
 namespace NjordinSight.Web.Test
