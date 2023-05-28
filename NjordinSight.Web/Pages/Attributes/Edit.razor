@@ -18,34 +18,34 @@
         </CascadingValue>
 
         <CascadingValue Value="@ModelDto">
-            <EditForm class="model-editor" 
-                Model="@ModelDto" 
-                OnValidSubmit="HandleValidSubmit">
-                <DataAnnotationsValidator />
-                <ContentTile>
-                    <Body>
-                        <ActionButtonMenu>
-                            <button type="submit" class="form-control button">
-                                @Strings.Caption_Button_Save
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="(async (args) => await Delete_OnClick())"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Delete
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="Cancel_OnClick"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Cancel
-                            </button>
-                        </ActionButtonMenu>
-                        <ModelAttributeCRUD Disabled="false" ReadOnly="false" />
-                    </Body>
-                </ContentTile>
-            </EditForm>
-            <EditForm Model="@ModelDto">
-                <ContentTile>
-                    <Body>
+            <ContentTile>
+                <Body>
+                    <EditForm class="model-editor" 
+                        Model="@ModelDto" 
+                        OnValidSubmit="HandleValidSubmit">
+                            <DataAnnotationsValidator />
+                            <ActionButtonMenu>
+                                <button type="submit" class="form-control button">
+                                    @Strings.Caption_Button_Save
+                                </button>
+                                <button type="button" class="form-control button"
+                                    @onclick="(async (args) => await Delete_OnClick())"
+                                    @onclick:preventDefault>
+                                    @Strings.Caption_Button_Delete
+                                </button>
+                                <button type="button" class="form-control button"
+                                    @onclick="Cancel_OnClick"
+                                    @onclick:preventDefault>
+                                    @Strings.Caption_Button_Cancel
+                                </button>
+                            </ActionButtonMenu>
+                            <ModelAttributeCRUD Disabled="false" ReadOnly="false" />
+                    </EditForm>
+                </Body>
+            </ContentTile>
+            <ContentTile>
+                <Body>
+                    <EditForm Model="@ModelDto">
                         <ActionButtonMenu>
                             <button class="form-control button"
                                 @onclick="args => ModelDto.AddNewAttributeScope()">
@@ -78,12 +78,12 @@
                                 </CellEditTemplate>
                             </DataGridColumn>
                         </DataGrid>
-                    </Body>
-                </ContentTile>
-            </EditForm>
-            <EditForm Model="@ModelDto">
-                <ContentTile>
-                    <Body>
+                    </EditForm>
+                </Body>
+            </ContentTile>
+            <ContentTile>
+                <Body>
+                    <EditForm Model="@ModelDto">
                         <ActionButtonMenu>
                             <button class="form-control button"
                                 @onclick="args => ModelDto.AddAttributeMember()">
@@ -118,9 +118,9 @@
                                 </CellEditTemplate>
                             </DataGridColumn>
                         </DataGrid>
-                    </Body>
-                </ContentTile>
-            </EditForm>
+                    </EditForm>
+                </Body>
+            </ContentTile>
         </CascadingValue>
     }
 </ThemedComponent>

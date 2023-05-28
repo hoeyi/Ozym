@@ -18,12 +18,12 @@
         </CascadingValue>
 
         <CascadingValue Value="@ModelDto">
-            <EditForm class="model-editor" 
-                Model="@ModelDto" 
-                OnValidSubmit="HandleValidSubmit">
-                <DataAnnotationsValidator />
-                <ContentTile>
-                    <Body>
+            <ContentTile>
+                <Body>
+                    <EditForm class="model-editor" 
+                        Model="@ModelDto" 
+                        OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
                         <ActionButtonMenu>
                             <button type="submit" class="form-control button">
                                 @Strings.Caption_Button_Save
@@ -40,17 +40,17 @@
                             </button>
                         </ActionButtonMenu>
                         <AccountCompositeCRUD Disabled="false" ReadOnly="false" />
-                    </Body>
-                </ContentTile>
-            </EditForm>
-            <EditForm Model="@ModelDto">
-                <ContentTile>
-                    <Body>
+                    </EditForm>
+                </Body>
+            </ContentTile>
+            <ContentTile>
+                <Body>
+                    <EditForm Model="@ModelDto">
                         <AccountCompositeMembersCRUD 
                             Accounts="@Accounts" Disabled="false" ReadOnly="false" />
-                    </Body>
-                </ContentTile>
-            </EditForm>
+                    </EditForm>
+                </Body>
+            </ContentTile>
         </CascadingValue>
     }
 </ThemedComponent>

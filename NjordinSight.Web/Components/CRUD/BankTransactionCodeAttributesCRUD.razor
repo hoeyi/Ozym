@@ -23,7 +23,7 @@ else
 
         </TitleAlignRight>
         <Body>
-            <EditForm Model="@ModelDto">
+            <EditForm class="model-editor" Model="@ModelDto">
                 <DataGrid Data="@ModelDto.Entries">
                     @if (ReadOnly)
                     {

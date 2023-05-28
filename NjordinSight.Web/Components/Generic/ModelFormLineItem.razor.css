@@ -1,4 +1,35 @@
 ﻿td.col-sm-2 {
-    width: 1%;
+    width: 7.5vw !important;
     white-space: nowrap;
+}
+
+td.col-sm-10 {
+    width: 100% !important;
+}
+.grid-container td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.grid-container td:last-child {
+    padding-right: 0.5rem;
+}
+
+.grid-container {
+    display: inline-grid;
+    grid-template-columns: 7.5vw auto;
+    width: 100%;
+    align-items: baseline;
+}
+
+::deep td:first-child {
+    padding-left: 0.5rem;
+}
+
+::deep td:not(:first-child) {
+    padding-left: 1rem;
+}
+
+::deep div.form-control:empty {
+    padding: 1rem;
 }

@@ -36,17 +36,13 @@
         @foreach(var group in ModelDto.AttributeViewModel.CurrentEntryCollectionGroups.OrderBy(g => 
             g.ParentAttribute.DisplayName))
         {
-            <ContentTile>
-                <Body>
-                    <CascadingValue Value="@group">
-                        <EditForm class="model-editor" Model="@group">
-                            <SecurityAttributesCRUD 
-                                Disabled="false"
-                                ReadOnly="true" />
-                        </EditForm>
-                    </CascadingValue>
-                </Body>
-            </ContentTile>
+            <CascadingValue Value="@group">
+                <EditForm class="model-editor" Model="@group">
+                    <SecurityAttributesCRUD 
+                        Disabled="false"
+                        ReadOnly="true" />
+                </EditForm>
+            </CascadingValue>
         }
         <ContentTile>
             <TitleAlignLeft>

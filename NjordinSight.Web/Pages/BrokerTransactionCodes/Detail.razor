@@ -32,7 +32,7 @@
         {
             <ContentTile>
                 <Body>
-                    <EditForm Model="entry">
+                    <EditForm class="model-editor" Model="entry">
                         <ModelForm TModelDto="BrokerTransactionCodeAttributeMemberEntry">
                             <ModelFormLineItem LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
                                        ForMember="@(() => entry.AttributeMember.DisplayName)">
