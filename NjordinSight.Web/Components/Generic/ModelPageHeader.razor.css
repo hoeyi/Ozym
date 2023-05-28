@@ -31,6 +31,9 @@
     font-weight: bold;
     display: flex;
     padding: 0rem 1rem 0rem 0.5rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .page-banner .header span {

@@ -11,9 +11,7 @@
     }
     else
     {
-        <PageTitle>@(
-             PageTitle.UpdateMany(ParentAccount.AccountCode).AsPageTitle()
-             )</PageTitle>
+        <PageTitle>@PageTitle.UpdateMany(ParentAccount.AccountCode).AsPageTitle()</PageTitle>
 
         <ModelPageHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
 

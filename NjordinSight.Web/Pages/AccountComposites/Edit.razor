@@ -11,8 +11,7 @@
     {
         <PageTitle>@(PageTitle.UpdateSingle(Model.AccountCompositeCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader 
-            ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.UpdateSingle(Model.AccountCompositeCode))" />
+        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.AccountCompositeCode))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic"/>

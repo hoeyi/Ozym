@@ -9,9 +9,9 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+        <PageTitle>@PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle()</PageTitle>
 
-        <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
+        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />

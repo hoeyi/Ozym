@@ -2,10 +2,9 @@
 
 @inherits ModelListPage<SecurityExchange>
 
-<PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
 
 <ThemedComponent>
-    <ModelPageHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
+    <PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
 
     @if (IsLoading)
     {
@@ -13,6 +12,8 @@
     }
     else
     {
+        <ModelPageHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
+
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
