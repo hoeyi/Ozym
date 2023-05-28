@@ -43,6 +43,15 @@ namespace NjordinSight.UserInterface
         /// <param name="id">The display text for the parent of the collection.</param>
         /// <returns>A <see cref="string"/> for use as a page or section title.</returns>
         string UpdateMany(string parentHeading);
+
+        /// <summary>
+        /// Creates an <see cref="IPageTitle" /> for representing the type 
+        /// <typeparamref name="TModelDto"/>.
+        /// </summary>
+        /// <typeparam name="TModelDto"></typeparam>
+        /// <returns>The <see cref="IPageTitle"/> that is applicable to 
+        /// <typeparamref name="TModelDto"/>.</returns>
+        static IPageTitle GetTitleFor<TModelDto>() => new PageTitle<TModelDto>();
     }
 
     class PageTitle<TModel> : IPageTitle

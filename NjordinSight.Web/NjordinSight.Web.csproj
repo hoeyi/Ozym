@@ -10,11 +10,13 @@
 
 
   <ItemGroup>
+	<Content Remove="Resources\DefaultBannerMenu.json" />
 	<Content Remove="Resources\DefaultMenu.json" />
   </ItemGroup>
 
   <ItemGroup>
 	<EmbeddedResource Include="Resources\DefaultMenu.json" />
+	<EmbeddedResource Include="Resources\DefaultBannerMenu.json" />
   </ItemGroup>
 
 	
@@ -53,6 +55,11 @@
   </ItemGroup>
 
   <ItemGroup>
+	<Compile Update="Components\Generic\ModelDetail.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>ModelDetail.resx</DependentUpon>
+	</Compile>
 	<Compile Update="Components\Strings.Designer.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
@@ -66,6 +73,10 @@
   </ItemGroup>
 
   <ItemGroup>
+	<EmbeddedResource Update="Components\Generic\ModelDetail.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>ModelDetail.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
 	<EmbeddedResource Update="Components\Strings.resx">
 	  <Generator>PublicResXFileCodeGenerator</Generator>
 	  <LastGenOutput>Strings.Designer.cs</LastGenOutput>

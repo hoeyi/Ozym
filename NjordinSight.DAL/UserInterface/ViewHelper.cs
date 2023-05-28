@@ -10,6 +10,7 @@ namespace NjordinSight.UserInterface
     /// </summary>
     /// <typeparam name="T">The type for which metadata is retrieved.</typeparam>
     public class ViewHelper<T> : IViewHelper<T>
+        where T : class
     {
         private readonly IModelMetadataService _metadataService;
 

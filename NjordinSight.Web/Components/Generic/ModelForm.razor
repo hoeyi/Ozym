@@ -1,6 +1,6 @@
 ﻿@inherits ModelComponent<TModelDto>
 
-@typeparam TModelDto
+@typeparam TModelDto where TModelDto : class
 @attribute [CascadingTypeParameter(nameof(TModelDto))]
 
 <CascadingValue Value="@this">

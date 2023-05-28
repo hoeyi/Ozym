@@ -1,0 +1,132 @@
+[
+  {
+    "MenuGuid": "6963AA44-5CE9-4F84-9250-AD4A134D714B",
+    "IconKey": "home",
+    "UriRelativePath": "/"
+  },
+  {
+    "IconKey": null,
+    "Caption": "Accounts",
+    "UriRelativePath": null,
+    "Children": [
+      {
+        "IconKey": "cash",
+        "Caption": "Accounts",
+        "UriRelativePath": "/accounts"
+      },
+      {
+        "IconKey": null,
+        "Caption": "Composites",
+        "UriRelativePath": "/composites"
+      },
+      {
+        "IconKey": "options",
+        "Caption": "Models",
+        "UriRelativePath": "/investment-models"
+      }
+    ]
+  },
+  {
+    "IconKey": null,
+    "Caption": "Market Data",
+    "UriRelativePath": "/under-construction",
+    "Children": [
+      {
+        "IconKey": null,
+        "Caption": "Securities",
+        "UriRelativePath": "/securities",
+        "Children": [
+          {
+            "IconKey": null,
+            "Caption": "Prices",
+            "UriRelativePath": "/securities/prices"
+          }
+        ]
+      },
+      {
+        "IconKey": null,
+        "Caption": "Indices",
+        "UriRelativePath": "/market-indices",
+        "Children": [
+          {
+            "IconKey": null,
+            "Caption": "Index Rates",
+            "UriRelativePath": "/market-indices/rates"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "IconKey": null,
+    "Caption": "Reference Data",
+    "UriRelativePath": null,
+    "Children": [
+      {
+        "IconKey": null,
+        "Caption": "Attributes",
+        "UriRelativePath": "/attributes"
+      },
+      {
+        "IconKey": "earth",
+        "Caption": "Countries",
+        "UriRelativePath": "/countries"
+      },
+      {
+        "IconKey": null,
+        "Caption": "Custodians",
+        "UriRelativePath": "/custodians"
+      },
+      {
+        "IconKey": null,
+        "Caption": "Security Exchanges",
+        "UriRelativePath": "/security-exchanges"
+      },
+      {
+        "IconKey": null,
+        "Caption": "Security Types",
+        "UriRelativePath": "/security-types"
+      },
+      {
+        "IconKey": null,
+        "Caption": "Security Type Groups",
+        "UriRelativePath": "/security-type-groups"
+      },
+      {
+        "IconKey": "card",
+        "Caption": "Transactions",
+        "UriRelativePath": null,
+        "Children": [
+          {
+            "IconKey": null,
+            "Caption": "Bank",
+            "UriRelativePath": "/bank-transaction-codes"
+          },
+          {
+            "IconKey": null,
+            "Caption": "Broker",
+            "UriRelativePath": "/broker-transaction-codes"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "IconKey": null,
+    "Caption": "Configuration",
+    "UriRelativePath": null,
+    "Children": [
+      {
+
+        "IconKey": null,
+        "Caption": "Reports",
+        "UriRelativePath": "/report-configurations"
+      }
+    ]
+  },
+  {
+    "IconKey": null,
+    "Caption": "About",
+    "UriRelativePath": "/about"
+  }
+]

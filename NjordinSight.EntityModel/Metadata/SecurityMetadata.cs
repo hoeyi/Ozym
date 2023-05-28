@@ -72,7 +72,7 @@ namespace NjordinSight.EntityModel
         /// </summary>
         [NotMapped]
         public string SecuritySymbol => 
-            $"({CurrentSecuritySymbol?.SymbolCode?.ToUpper() ?? ModelDisplay.Security_CurrentSecuritySymbol_Empty})";
+            $"{CurrentSecuritySymbol?.SymbolCode?.ToUpper() ?? ModelDisplay.Security_CurrentSecuritySymbol_Empty}";
 
         /// <summary>
         /// Gets the current symbol based on the current UTC system time.

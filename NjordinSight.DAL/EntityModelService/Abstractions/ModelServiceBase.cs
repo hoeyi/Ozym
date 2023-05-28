@@ -7,18 +7,16 @@ using System.Linq;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
+using System.Diagnostics;
 
 namespace NjordinSight.EntityModelService.Abstractions
 {
     /// <summary>
     /// Base class from which model service classes are derived.
     /// </summary>
-    internal abstract class ModelServiceBase<T> : IModelBaseService<T>
+    internal abstract class ModelServiceBase<T> : IModelBaseService<T>, IDisposable
         where T: class, new()
     {
-        // TODO: Re-implement IDisposable pattern. Contexts generated this way are not resolved 
-        //       via dependency injection, so the application is responsible for clean-up.
-
         /// <summary>
         /// The shared context for this instance.
         /// </summary>
@@ -80,6 +78,12 @@ namespace NjordinSight.EntityModelService.Abstractions
             _sharedContext = sharedContext;
             _modelMetadata = metadataService;
             _logger = logger;
+        }
+
+        public void Dispose()
+        {
+            SharedContext?.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         public bool HasSharedContext

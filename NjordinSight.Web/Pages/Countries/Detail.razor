@@ -11,7 +11,7 @@
     {
         <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+        <ModelPageHeader ActionMenu="@SectionNavigationMenu"
                          Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
 
@@ -62,33 +62,6 @@
 
             if ((await modelQuery).Value is Country model)
                 Model = model;
-
-            ActionMenu = new()
-                {
-                    IconKey = "reorder-four",
-                    Children = new()
-                    {
-                        // Add return to index button.
-                        { 0, new MenuItem()
-                            {
-                                IconKey = "caret-back-circle",
-                                Caption = string.Format(
-                                    Strings.Caption_NavigateBackTo,
-                                    ModelNoun.GetPlural()),
-                                UriStem = $"{IndexUriRelativePath}"
-                            }
-                        },
-                        { 1, new MenuItem()
-                            {
-                                IconKey = "pencil",
-                                Caption = string.Format(
-                                                Strings.Caption_EditSingle,
-                                                ModelNoun.GetSingular()),
-                                UriStem = $"{FormatEditUri(Model.CountryId)}"
-                            }
-                        }
-                    }
-                };
 
             ModelDto = new(Model);
         }

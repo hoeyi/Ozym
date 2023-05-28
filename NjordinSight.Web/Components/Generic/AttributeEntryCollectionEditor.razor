@@ -57,15 +57,15 @@ else
     {
         <ContentTile>
             <TitleAlignLeft>
-                @group.Key.DisplayName
-            </TitleAlignLeft>
-            <TitleAlignRight>
+                <div style="padding-right: 1rem;">
+                    @group.Key.DisplayName
+                </div>
                 <button class="form-control button icon"
                     type="button"
                     @onclick="(() => AddEntryForGrouping(group.Key))">
                     <IonIcon Name="add" />
                 </button>
-            </TitleAlignRight>
+            </TitleAlignLeft>
             <Body>
                 <DataGrid Data="group">
                     <DataGridColumn Type="DataGridCellType.Link"

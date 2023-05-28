@@ -5,7 +5,7 @@
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
     <ThemedComponent>
-        <ModelPageMenuHeader ActionMenu="@ActionMenu" Header="@(PageTitle.ReadMany())" />
+        <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
     @if(SearchFields is null)
     {
@@ -104,7 +104,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ActionMenu = GetDefaultIndexMenu();
         MaxRecordCount = -1;
 
         await base.OnInitializedAsync();
