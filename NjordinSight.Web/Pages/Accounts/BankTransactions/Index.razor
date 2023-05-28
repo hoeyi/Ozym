@@ -13,7 +13,7 @@
     {
         <PageTitle>@(PageTitle.ReadMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader Header="@(PageTitle.ReadMany(ParentAccount.AccountCode))" ActionMenu="@SectionNavigationMenu" />
+        <ModelPageHeader Header="@(PageTitle.ReadMany(ParentAccount.AccountCode))" ActionMenu="@SectionNavigationMenu" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />

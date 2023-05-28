@@ -48,26 +48,6 @@
                 </div>
             }
         </a>
-@*        <a class="grid-container custom-nav-link @GetGridContainerClassModifier()" href="@MenuItem.UriRelativePath">
-            @if(DisplayIconLeft)
-            {
-                <div class="icon left">
-                    <IonIcon Name="@MenuItem.IconKey" />
-                </div>
-            }
-            @if(DisplayCaption)
-            {
-                <div class="caption left">
-                    @MenuItem.Caption
-                </div>
-            }
-            @if(DisplayIconRight)
-            {
-                <div class="icon right">
-                    <IonIcon Name="caret-forward" class="caret-forward" />
-                </div>
-            }
-        </a>*@
     }
     @if (MenuItem.HasChildren)
     {
@@ -97,6 +77,12 @@
     [Parameter, EditorRequired]
     public EventCallback<LinkClickEventArgs> HyperlinkClickCallBack { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the styling 
+    /// </summary>
+    [Parameter]
+    public bool AsRoot { get; init; }
+
     private const string MenuLevelRoot = "level-0";
     private const string MenuLevelChild = "level-n";
     private const string MenuItemClass = "menu-item";
@@ -106,7 +92,7 @@
     private bool DisplayIconRight => !MenuItem.IsRoot && MenuItem.HasChildren;
 
     private string GetChildMenuClass() =>
-    $"sub-menu {(MenuItem.IsRoot ? MenuLevelRoot : MenuLevelChild)}";
+        $"sub-menu {(MenuItem.IsRoot ? MenuLevelRoot : MenuLevelChild)}";
 
     private string GetItemClass()
     {

@@ -13,7 +13,7 @@
             @(PageTitle.UpdateSingle($"{Model.SecuritySymbol} {Model.SecurityDescription}").AsPageTitle())
         </PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@SectionNavigationMenu"
+        <ModelPageHeader ActionMenu="@SectionNavigationMenu"
                          Header="@(PageTitle.UpdateSingle(Model.SecurityDescription))" />
 
         <CascadingValue Value="@ErrorMessage">

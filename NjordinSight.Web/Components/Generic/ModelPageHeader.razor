@@ -1,0 +1,56 @@
+﻿<div class="page-banner">
+    <div class="header">
+        <span>@Header</span>
+    </div>
+    @if(ActionMenu is not null)
+    {
+        <ul class="menu-bar">
+            @foreach(var menuItem in ActionMenu.Children)
+            {
+                <li class="level-0">
+                    <a class="grid-container custom-nav-link with-icon-left col-a with-caption col-b"
+                       style="cursor: pointer;"
+                       href="@menuItem.UriRelativePath"
+                        @onclick="((args) => HyperlinkClickHandler(new (){ 
+                            UriPath = menuItem.UriRelativePath }))">
+                        @if(!string.IsNullOrEmpty(menuItem.UriRelativePath))
+                        {
+                            <div class="icon left">
+                                <IonIcon Name="@menuItem.IconKey" />
+                            </div>
+                            <div class="caption left">
+                                @menuItem.Caption
+                            </div>
+                        }
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the <see="Menu" /> for the component.
+    /// </summary>
+    [Parameter]
+    public MenuRoot ActionMenu { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text header for the component.
+    /// </summary>
+    [Parameter]
+    public string Header { get; set; } = string.Empty;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; init; }
+
+    private void HyperlinkClickHandler(LinkClickEventArgs args)
+    {
+        if (string.IsNullOrEmpty(args.UriPath) || args.UriPath == NavigationManager.Uri)
+            return;
+        else
+            // TODO: Add special handling for special keypress/mouseclick scenarios.
+            NavigationManager.NavigateTo(uri: args.UriPath, replace: true);
+    }
+}

@@ -12,7 +12,7 @@
         <PageTitle>@(PageTitle.ReadSingle($"{Model.SecuritySymbol} {Model.SecurityDescription}").AsPageTitle())
         </PageTitle>
 
-        <ModelPageMenuHeader 
+        <ModelPageHeader 
             ActionMenu="@SectionNavigationMenu" 
             Header="@(PageTitle.ReadSingle(Model.SecurityDescription))" />
 

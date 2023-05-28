@@ -11,7 +11,7 @@
     {
         <PageTitle>@(PageTitle.ReadSingle(Model.AccountCode).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadSingle(Model.AccountCode))" />
+        <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadSingle(Model.AccountCode))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />

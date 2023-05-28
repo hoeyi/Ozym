@@ -15,7 +15,7 @@
              PageTitle.UpdateMany(ParentAccount.AccountCode).AsPageTitle()
              )</PageTitle>
 
-        <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
+        <ModelPageHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />

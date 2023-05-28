@@ -11,7 +11,7 @@
     {
         <PageTitle>@(PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
+        <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />

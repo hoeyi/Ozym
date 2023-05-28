@@ -11,7 +11,7 @@
     {
         <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@SectionNavigationMenu"
+        <ModelPageHeader ActionMenu="@SectionNavigationMenu"
                          Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
         <CascadingValue Value="@ErrorMessage">

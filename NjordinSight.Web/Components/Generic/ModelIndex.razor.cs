@@ -62,14 +62,14 @@ namespace NjordinSight.Web.Components.Generic
         protected override MenuRoot CreateSectionNavigationMenu() => new()
         {
             Children = new()
+            {
+                new MenuItem()
                 {
-                    new MenuItem()
-                    {
-                        IconKey = "create",
-                        Caption = Strings.Caption_CreateNew.Format(ModelNoun.GetSingular()),
-                        UriRelativePath = FormatCreateUri(Guid.NewGuid())
-                    }
+                    IconKey = "create",
+                    Caption = Strings.Caption_CreateNew.Format(ModelNoun.GetSingular()),
+                    UriRelativePath = FormatCreateUri(Guid.NewGuid())
                 }
+            }
         };
         
         /// <inheritdoc/>   
