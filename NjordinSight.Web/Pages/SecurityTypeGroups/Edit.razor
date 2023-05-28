@@ -11,8 +11,7 @@
     {
         <PageTitle>@(PageTitle.UpdateSingle(Model.SecurityTypeGroupName).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@ActionMenu"
-                         Header="@(PageTitle.UpdateSingle(Model.SecurityTypeGroupName))" />
+        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.SecurityTypeGroupName))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />

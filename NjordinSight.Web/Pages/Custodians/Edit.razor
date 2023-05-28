@@ -2,17 +2,17 @@
 
 @inherits ModelListPage<AccountCustodian>
 
-<PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
-
 <ThemedComponent>
-    <ModelPageMenuHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
-
+    <PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
+    
     @if (IsLoading)
     {
         <LoadingSvg />
     }
     else
     {   
+        <ModelPageHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
+
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>

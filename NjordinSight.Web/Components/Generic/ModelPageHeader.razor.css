@@ -1,0 +1,113 @@
+﻿.page-banner {
+    --default-link-onhover-back-color: var(--theme-hexcolor-primary-0, gray);
+    --fore-color: var(--theme-text-color-0, black);
+    --background-color: var(--theme-elevation-backcolor-0);
+    --border-color: var(--theme-elevation-backcolor-9, black);
+    --border-hover-color: var(--theme-text-color-0, black);
+    --border-size: 1px;
+    --hover-color: var(--theme-elevation-backcolor-2);
+    --hover-color-detail: var(--theme-hexcolor-primary-2, --theme-elevation-backcolor-5);
+    --default-height: 48px;
+    --icon-max-width: 24px;
+    --menu-fontfamily-default: Arial, Helvetica, sans-serif;
+}
+
+.page-banner {
+    display: flex;
+    padding: 0rem 0.5rem 0rem 0.5rem;
+    height: 2.5rem;
+}
+
+.menu-bar {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+}
+
+.page-banner .header {
+    font-size: 1.75rem;
+    font-family: var(--menu-fontfamily-default);
+    font-weight: bold;
+    display: flex;
+    padding: 0rem 1rem 0rem 0.5rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.page-banner .header span {
+    align-self: flex-end;
+}
+
+.grid-container {
+    width: 100%;
+    height: 100%;
+    line-height: 100%;
+    display: inline-grid;
+    grid-template-areas: "a b c";
+    grid-template-columns: minmax(32px, 2fr) auto 1fr;
+    justify-content: flex-start;
+    line-height: normal;
+}
+
+.grid-container > .icon {
+    max-width: var(--icon-max-width);
+    aspect-ratio: 1/1;
+}
+
+.grid-container > * {
+    align-self: center;
+}
+
+.custom-nav-link {
+    padding-left: 0.5rem;
+}
+
+.custom-nav-link:hover {
+    background-color: var(--hover-color-detail);
+    outline: var(--border-size) solid var(--border-hover-color);
+    outline-offset: -0.25rem;
+}
+
+a {
+    color: inherit !important;
+    font-family: inherit !important;
+    font-size: 0.85rem !important;
+    margin: inherit !important;
+    text-decoration: inherit !important;
+}
+
+.icon.left {
+    grid-area: a;
+    margin: auto;
+    min-height: 55%;
+}
+
+.caption {
+    grid-area: b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 0.1rem;
+}
+
+
+/*#region Ion-Icon svg formatting */
+/*Change the fill color to light shade if not 'none' or 'transparent'.*/
+::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
+    fill: var(--fore-color, black);
+}
+
+/*Change the stroke color to light shade if not 'none' or 'transparent'.*/
+::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
+    stroke: var(--fore-color, black);
+}
+
+/*Set the default background color for IonIcons.*/
+::deep .ion-icon svg {
+    background: none;
+}
+
+/*#endregion*/
+

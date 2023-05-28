@@ -11,7 +11,7 @@
     {
         <PageTitle>@(PageTitle.ReadSingle(Model.ConfigurationCode).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@ActionMenu"
+        <ModelPageHeader ActionMenu="@SectionNavigationMenu"
                          Header="@(PageTitle.ReadSingle(Model.ConfigurationCode))" />
 
         <CascadingValue Value="@ErrorMessage">
@@ -45,35 +45,6 @@
 
             if ((await modelQuery).Value is ReportConfiguration model)
                 Model = model;
-
-            ActionMenu = new()
-                {
-                    IconKey = "reorder-four",
-                    Children = new()
-                    {
-                        // Add return to index button.
-                        { 0, new MenuItem()
-                            {
-                                IconKey = "caret-back-circle",
-                                Caption = string.Format(
-                                    Strings.Caption_NavigateBackTo,
-                                    ModelMetadata
-                                        .GetAttribute<ReportConfiguration, NounAttribute>()
-                                        ?.GetPlural()),
-                                UriStem = $"{IndexUriRelativePath}"
-                            }
-                        },
-                        // Add edit button.
-                        { 1, new MenuItem()
-                            {
-                                IconKey = "pencil",
-                                Caption = string.Format(
-                                    Strings.Caption_EditSingle, ModelNoun?.GetSingular()),
-                                UriStem = FormatEditUri(GetKeyValueOrDefault<int>(Model))
-                            }
-                        }
-                    }
-                };
         }
         finally
         {

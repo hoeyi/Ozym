@@ -5,9 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using NjordinSight.Web.Components.Shared;
+using NjordinSight.Web.Components.Common;
 using NjordinSight.UserInterface;
 using NjordinSight.Web.Controllers;
+using Ichosys.DataModel;
 
 namespace NjordinSight.Web.Components.Generic
 {
@@ -35,11 +36,6 @@ namespace NjordinSight.Web.Components.Generic
         protected Expression<Func<TModel, bool>> InitialSearchExpression { get; set; } = x => true;
 
         /// <summary>
-        /// Gets or sets the default maximum record 
-        /// </summary>
-        protected int MaxRecordCount { get; set; } = 0;
-
-        /// <summary>
         /// Gets the model collection that matches the search expression for this component.
         /// </summary>
         protected IEnumerable<TModel> Models { get; private set; } = default!;
@@ -58,16 +54,30 @@ namespace NjordinSight.Web.Components.Generic
             = Array.Empty<ComparisonOperator>();
 
         /// <summary>
-        /// Gets or sets the default <see cref="Menu"/> instance for this class.
+        /// Gets or sets the default maximum record count.
         /// </summary>
-        private Menu DefaultMenu { get; set; }
+        protected int MaxRecordCount { get; set; } = 0;
 
+        /// <inheritdoc/>
+        protected override MenuRoot CreateSectionNavigationMenu() => new()
+        {
+            Children = new()
+            {
+                new MenuItem()
+                {
+                    IconKey = "create",
+                    Caption = Strings.Caption_CreateNew.Format(ModelNoun.GetSingular()),
+                    UriRelativePath = FormatCreateUri(Guid.NewGuid())
+                }
+            }
+        };
+        
         /// <inheritdoc/>   
         protected override async Task OnInitializedAsync()
         {
+            IsLoading = true;
             try
             {
-                IsLoading = true;
                 if (ExpressionBuilder is null)
                     throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
 
@@ -114,33 +124,6 @@ namespace NjordinSight.Web.Components.Generic
             {
                 IsLoading = false;
             }
-        }
-
-        /// <summary>
-        /// Gets an instance of <see cref="Menu"/> with pre-defined <see cref="MenuItem"/> entries.
-        /// </summary>
-        /// <returns>The default instance of <see cref="Menu"/> for <see cref="ModelIndex{TModel}"/> 
-        /// types.</returns>
-        /// <remarks>A new instance of <see cref="Menu"/> is not created for each call to this 
-        /// method.</remarks>
-        protected Menu GetDefaultIndexMenu() 
-        {
-            DefaultMenu ??= new()
-            {
-                IconKey = "reorder-four",
-                Children = new()
-                {
-                    { 0, new MenuItem()
-                        {
-                            IconKey = "create",
-                            Caption = Strings.Caption_CreateNew.Format(ModelNoun.GetSingular()),
-                            UriStem = FormatCreateUri(Guid.NewGuid())
-                        }
-                    }
-                }
-            };
-
-            return DefaultMenu;
         }
     }
 }

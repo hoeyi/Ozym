@@ -11,8 +11,7 @@
     {
         <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader ActionMenu="@ActionMenu"
-                         Header="@(PageTitle.CreateSingle())" />
+        <ModelPageHeader Header="@(PageTitle.CreateSingle())" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />

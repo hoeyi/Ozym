@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Ichosys.DataModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NjordinSight.UserInterface
 {
-    /// <summary>
-    /// Extension methods for retrieving and formating user-interface display text.
-    /// </summary>
-    public static class DisplayHelper
+    public static class ViewHelperExtension
     {
         /// <summary>
         /// The application name. Used as page title component.
@@ -38,12 +40,5 @@ namespace NjordinSight.UserInterface
 
             return string.Format(s, args);
         }
-
-        /// <summary>
-        /// Gets the <see cref="IPageTitle"/> for <typeparamref name="TModel"/>.
-        /// </summary>
-        /// <typeparam name="TModel"></typeparam>
-        /// <returns></returns>
-        public static IPageTitle GetPagetTitle<TModel>() => new PageTitle<TModel>();
     }
 }

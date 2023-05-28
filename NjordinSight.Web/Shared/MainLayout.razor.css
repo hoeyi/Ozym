@@ -24,6 +24,15 @@ main {
     z-index: 99;
 }
 
+::deep .menu-item.root-node {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+::deep sub-menu.level-0 .menu-item {
+    display: flex;
+    float: left;
+}
     .top-row .left {
         margin-right: auto;
         display: flex;
@@ -47,7 +56,6 @@ main {
     padding: 0.5em;
     margin: 0rem;
     color: var(--default-text-color);
-    font-family: 'Cambria Math' !important;
     font-size: 1.25rem;
     font-style: italic;
     text-decoration: none;

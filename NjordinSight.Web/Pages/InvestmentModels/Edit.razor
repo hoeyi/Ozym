@@ -11,9 +11,7 @@
     {
         <PageTitle>@(PageTitle.UpdateSingle(ModelDto.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageMenuHeader 
-            ActionMenu="@ActionMenu"
-            Header="@(PageTitle.UpdateSingle(ModelDto.DisplayName))" />
+        <ModelPageHeader Header="@(PageTitle.UpdateSingle(ModelDto.DisplayName))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
@@ -58,23 +56,6 @@
             {
                 Model = model;
             }
-
-            ActionMenu = new()
-                {
-                    IconKey = "reorder-four",
-                    Children = new()
-                    {
-                        // Add index button.
-                        { 0, new MenuItem()
-                            {
-                                IconKey = "list",
-                                Caption = string.Format(
-                                    Strings.Caption_ViewMany, ModelNoun?.GetPlural()),
-                                UriStem = $"{IndexUriRelativePath}"
-                            }
-                        }
-                    }
-                };
 
             ModelDto = new(Model);
         }

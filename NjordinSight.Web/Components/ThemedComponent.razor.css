@@ -189,6 +189,10 @@
         padding: 0.125rem;
     }
 
+    ::deep .form-control.button.cion {
+        vertical-align: revert;
+    }
+
         ::deep .form-control.button:hover {
             background-color: var(--theme-hexcolor-primary-2, inherit) !important;
             border-color: var(--theme-form-control-border-color, inherit) !important;
@@ -253,6 +257,15 @@ input::-webkit-inner-spin-button {
 ::deep .content-tile-title .left {
     margin-right: auto;
     float: left;
+    display: flex;
+}
+
+::deep .content-tile-title .left h4 {
+    display: flex;
+}
+
+::deep h4 > div {
+    padding-right: 1rem;
 }
 
 ::deep .content-tile-title .left > * {
@@ -336,4 +349,7 @@ input::-webkit-inner-spin-button {
     background: none;
 }
 
+::deep svg {
+    vertical-align: revert !important;
+}
 /*#endregion*/
