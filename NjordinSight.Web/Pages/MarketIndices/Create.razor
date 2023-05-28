@@ -18,8 +18,8 @@
         </CascadingValue>
 
         <CascadingValue Value="@Model">
-            <EditForm class="model-editor" Model="@Model"
-                    OnValidSubmit="HandleValidSubmit">
+            <EditForm class="model-editor" Model="@Model" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
                 <ActionButtonMenu>
                     <button type="submit" class="form-control button">
                         @Strings.Caption_Button_Save
@@ -32,7 +32,6 @@
                 </ActionButtonMenu>
                 <ContentTile>
                     <Body>
-                        <DataAnnotationsValidator />
                         <MarketIndexCRUD Disabled="false" ReadOnly="false" />
                     </Body>
                 </ContentTile>

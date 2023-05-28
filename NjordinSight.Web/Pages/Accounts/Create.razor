@@ -17,27 +17,26 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <ActionButtonMenu>
-            <button type="submit" class="form-control button">
-                @Strings.Caption_Button_Save
-            </button>
-            <button class="form-control button" @onclick="Cancel_OnClick"
-                @onclick:preventDefault >
-                @Strings.Caption_Button_Cancel
-            </button>
-        </ActionButtonMenu>
-        <ContentTile>
-            <Body>
-                <CascadingValue Value="@ModelDto">
-                    <EditForm class="model-editor" Model="@ModelDto" 
-                        OnValidSubmit="HandleValidSubmit" >
-                        <DataAnnotationsValidator />
+        <CascadingValue Value="@ModelDto">
+            <EditForm class="model-editor" Model="@ModelDto" OnValidSubmit="HandleValidSubmit" >
+                <DataAnnotationsValidator />
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button">
+                        @Strings.Caption_Button_Save
+                    </button>
+                    <button class="form-control button" @onclick="Cancel_OnClick"
+                        @onclick:preventDefault >
+                        @Strings.Caption_Button_Cancel
+                    </button>
+                </ActionButtonMenu>
+                <ContentTile>
+                    <Body>
                         <AccountCRUD AccountCustodians="@Custodians" 
                             Disabled="false" ReadOnly="false" />
-                    </EditForm>
-                </CascadingValue>
-            </Body>
-        </ContentTile>
+                    </Body>
+                </ContentTile>
+            </EditForm>
+        </CascadingValue>
     }
 </ThemedComponent>
 
