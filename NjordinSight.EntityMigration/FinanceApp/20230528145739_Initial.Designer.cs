@@ -12,7 +12,7 @@ using NjordinSight.EntityModel.Context;
 namespace NjordinSight.EntityMigration.FinanceApp
 {
     [DbContext(typeof(FinanceDbContext))]
-    [Migration("20230522233552_Initial")]
+    [Migration("20230528145739_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
