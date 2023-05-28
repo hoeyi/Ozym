@@ -18,34 +18,33 @@
         </CascadingValue>
 
         <CascadingValue Value="@ModelDto">
-            <ContentTile>
-                <Body>
-                    <EditForm class="model-editor" 
-                        Model="@ModelDto" 
-                        OnValidSubmit="HandleValidSubmit">
-                            <DataAnnotationsValidator />
-                            <ActionButtonMenu>
-                                <button type="submit" class="form-control button">
-                                    @Strings.Caption_Button_Save
-                                </button>
-                                <button type="button" class="form-control button"
-                                    @onclick="(async (args) => await Delete_OnClick())"
-                                    @onclick:preventDefault>
-                                    @Strings.Caption_Button_Delete
-                                </button>
-                                <button type="button" class="form-control button"
-                                    @onclick="Cancel_OnClick"
-                                    @onclick:preventDefault>
-                                    @Strings.Caption_Button_Cancel
-                                </button>
-                            </ActionButtonMenu>
-                            <ModelAttributeCRUD Disabled="false" ReadOnly="false" />
-                    </EditForm>
-                </Body>
-            </ContentTile>
-            <ContentTile>
-                <Body>
-                    <EditForm Model="@ModelDto">
+            <EditForm class="model-editor" Model="@ModelDto" OnValidSubmit="HandleValidSubmit" On>
+                <DataAnnotationsValidator />
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button">
+                        @Strings.Caption_Button_Save
+                    </button>
+                    <button type="button" class="form-control button"
+                        @onclick="(async (args) => await Delete_OnClick())"
+                        @onclick:preventDefault>
+                        @Strings.Caption_Button_Delete
+                    </button>
+                    <button type="button" class="form-control button"
+                        @onclick="Cancel_OnClick"
+                        @onclick:preventDefault>
+                        @Strings.Caption_Button_Cancel
+                    </button>
+                </ActionButtonMenu>
+                <ContentTile>
+                    <Body>
+                        <ModelAttributeCRUD Disabled="false" ReadOnly="false" />
+                    </Body>
+                </ContentTile>
+            </EditForm>
+            <EditForm class="model-editor" EditContext="_attributeScopeContext" >
+                <DataAnnotationsValidator />
+                <ContentTile>
+                    <Body>
                         <ActionButtonMenu>
                             <button class="form-control button"
                                 @onclick="args => ModelDto.AddNewAttributeScope()">
@@ -53,6 +52,7 @@
                                     .GetAttribute<ModelAttributeScope, NounAttribute>()?.GetSingular())
                             </button>
                         </ActionButtonMenu>
+                        <ValidationSummary />
                         <DataGrid Data="@ModelDto.AttributeScopes">
                             <DataGridColumn Type="DataGridCellType.Control"
                                         Property="@nameof(ModelAttributeScope.ScopeCode)"
@@ -78,12 +78,12 @@
                                 </CellEditTemplate>
                             </DataGridColumn>
                         </DataGrid>
-                    </EditForm>
-                </Body>
-            </ContentTile>
-            <ContentTile>
-                <Body>
-                    <EditForm Model="@ModelDto">
+                    </Body>
+                </ContentTile>
+            </EditForm>
+            <EditForm class="model-editor" EditContext="_attributeMemberContext">
+                <ContentTile>
+                    <Body>
                         <ActionButtonMenu>
                             <button class="form-control button"
                                 @onclick="args => ModelDto.AddAttributeMember()">
@@ -91,6 +91,7 @@
                                     .GetAttribute<ModelAttributeMember, NounAttribute>()?.GetSingular())
                             </button>
                         </ActionButtonMenu>
+                        <ValidationSummary />
                         <DataGrid Data="@ModelDto.AttributeMembers">
                             <DataGridColumn Type="DataGridCellType.Control"
                                         Property="@nameof(ModelAttributeMember.DisplayName)"
@@ -118,9 +119,9 @@
                                 </CellEditTemplate>
                             </DataGridColumn>
                         </DataGrid>
-                    </EditForm>
-                </Body>
-            </ContentTile>
+                    </Body>
+                </ContentTile>
+            </EditForm>
         </CascadingValue>
     }
 </ThemedComponent>
@@ -132,6 +133,9 @@
     private ModelAttributeDto ModelDto { get; set; }
 
     private IEnumerable<LookupModel<string, string>> AttributeScopeDtos { get; set; }
+
+    private EditContext _attributeScopeContext;
+    private EditContext _attributeMemberContext;
 
     protected override async Task OnInitializedAsync()
     {
@@ -158,6 +162,8 @@
                 Model = (await modelQuery).Value;
                 ModelDto = new(Model);
                 AttributeScopeDtos = (await scopesQuery).Value;
+                _attributeScopeContext = new(ModelDto.AttributeScopes);
+                _attributeMemberContext = new(ModelDto.AttributeMembers);
             }
         }
         finally

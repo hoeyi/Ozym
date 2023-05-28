@@ -1,6 +1,7 @@
 ﻿using NjordinSight.EntityModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace NjordinSight.DataTransfer
@@ -21,6 +22,7 @@ namespace NjordinSight.DataTransfer
             _entity = entity;
         }
 
+        [Required]
         public string DisplayName
         {
             get { return _entity.DisplayName; }
