@@ -45,13 +45,6 @@
 </ThemedComponent>
 
 @code {
-    protected override async Task OnInitializedAsync()
-    {
-        MaxRecordCount = -1;
-
-        await base.OnInitializedAsync();
-    }
-
     private void Detail_OnClick(ModelAttribute model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.AttributeId));

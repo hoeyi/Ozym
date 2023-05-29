@@ -179,7 +179,7 @@
             ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
             var queryActionResultTask = Controller!
-                .SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+                .SelectWhereAsync(InitialSearchExpression, MaxRecordCount);
 
             var indexDtosTask = Controller.ReferenceQueries.GetMarketIndexDTOsAsync();
 
@@ -200,7 +200,7 @@
 
             if(dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                Entries = (await queryActionResultTask).Value;
+                Entries = (await queryActionResultTask).Value?.ToList();
                 MarketIndexLookup = (await indexDtosTask).Value;
                 PriceCodeLookup = (await priceCodeDtoTask).Value;
                 _context = new(Entries);
@@ -236,10 +236,10 @@
             IsLoading = true;
             if (args is not null)
             {
-                var actionResult = await Controller!.SelectWhereAysnc(
+                var actionResult = await Controller!.SelectWhereAsync(
                         predicate: args.SearchExpression, maxCount: MaxRecordCount);
 
-                Entries = actionResult.Value ?? new List<MarketIndexPrice>();
+                Entries = actionResult.Value?.ToList() ?? new List<MarketIndexPrice>();
             }
         }
         finally

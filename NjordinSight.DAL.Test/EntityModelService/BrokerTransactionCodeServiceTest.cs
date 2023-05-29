@@ -12,10 +12,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            BrokerTransactionCode deleted = (await service.SelectWhereAysnc(
+            BrokerTransactionCode deleted = (await service.SelectAsync(
                 predicate: x => x.TransactionCode == DeleteModelSuccessSample.TransactionCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -31,10 +31,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            BrokerTransactionCode original = (await service.SelectWhereAysnc(
+            BrokerTransactionCode original = (await service.SelectAsync(
                 predicate: x => x.TransactionCode == UpdateModelSuccessSample.TransactionCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.DisplayName = $"{original.DisplayName} - updated";
 

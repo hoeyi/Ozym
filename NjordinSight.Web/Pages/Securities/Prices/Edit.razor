@@ -190,7 +190,7 @@
             SearchFields = ExpressionBuilder!.GetSearchableMembers<SecurityPrice>();
             ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
-            var pricesTask = Controller.SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+            var pricesTask = Controller.SelectWhereAsync(InitialSearchExpression, MaxRecordCount);
             var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
                 key: x => x.SecurityId,
                 display: x => x.SecurityDescription,
@@ -206,7 +206,7 @@
                 var securityDtoResult = await securityDtosTask;
 
                 SecurityLookup = securityDtoResult.Value;
-                Entries = pricesResult.Value;
+                Entries = pricesResult.Value?.ToList();
             }
         }
         finally
@@ -229,10 +229,10 @@
             IsLoading = true;
             if (args is not null)
             {
-                var actionResult = await Controller!.SelectWhereAysnc(
+                var actionResult = await Controller!.SelectWhereAsync(
                         predicate: args.SearchExpression, maxCount: MaxRecordCount);
 
-                Entries = actionResult.Value ?? new List<SecurityPrice>();
+                Entries = actionResult.Value?.ToList() ?? new List<SecurityPrice>();
             }
         }
         finally

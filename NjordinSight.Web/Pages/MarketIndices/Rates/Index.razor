@@ -72,7 +72,7 @@
     [Inject]
     protected IBatchController<MarketIndexPrice> Controller { get; set; }
 
-    private IList<MarketIndexPrice> IndexPrices { get; set; }
+    private IEnumerable<MarketIndexPrice> IndexPrices { get; set; }
 
     private int MaxRecordCount { get; set; } = 100;
 
@@ -149,7 +149,7 @@
             ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
             var queryActionResultTask = Controller!
-                .SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+                .SelectWhereAsync(InitialSearchExpression, MaxRecordCount);
 
             IndexPrices = (await queryActionResultTask).Value;
 
@@ -176,7 +176,7 @@
             IsLoading = true;
             if (args is not null)
             {
-                var actionResult = await Controller!.SelectWhereAysnc(
+                var actionResult = await Controller!.SelectWhereAsync(
                         predicate: args.SearchExpression, maxCount: MaxRecordCount);
 
                 IndexPrices = actionResult.Value ?? new List<MarketIndexPrice>();

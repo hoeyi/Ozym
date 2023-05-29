@@ -12,10 +12,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            MarketHoliday deleted = (await service.SelectWhereAysnc(
+            MarketHoliday deleted = (await service.SelectAsync(
                 predicate: x => x.MarketHolidayName == DeleteModelSuccessSample.MarketHolidayName,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 

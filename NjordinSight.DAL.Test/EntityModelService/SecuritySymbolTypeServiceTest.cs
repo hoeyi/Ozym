@@ -12,10 +12,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            SecuritySymbolType deleted = (await service.SelectWhereAysnc(
+            SecuritySymbolType deleted = (await service.SelectAsync(
                 predicate: x => x.SymbolTypeName == DeleteModelSuccessSample.SymbolTypeName,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -30,10 +30,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            SecuritySymbolType original = (await service.SelectWhereAysnc(
+            SecuritySymbolType original = (await service.SelectAsync(
                 predicate: x => x.SymbolTypeName == UpdateModelSuccessSample.SymbolTypeName,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.SymbolTypeName = $"{original.SymbolTypeName} - u";
 

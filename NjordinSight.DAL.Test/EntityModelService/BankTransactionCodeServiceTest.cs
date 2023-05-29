@@ -12,9 +12,9 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            BankTransactionCode deleted = (await service.SelectWhereAysnc(x =>
+            BankTransactionCode deleted = (await service.SelectAsync(x =>
                 x.TransactionCode == DeleteModelSuccessSample.TransactionCode, 1))
-                .First();
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -29,10 +29,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            BankTransactionCode original = (await service.SelectWhereAysnc(
+            BankTransactionCode original = (await service.SelectAsync(
                 predicate: a => a.TransactionCode == UpdateModelSuccessSample.TransactionCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.DisplayName = "Test update pass EDIT";
 

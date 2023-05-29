@@ -114,14 +114,14 @@
 
             var denominationDtosTask = Controller.ReferenceQueries
                 .GetCryptocurrencyDTOsAsync();
-            var walletsTask = Controller.SelectAllAsync();
+            var walletsTask = Controller.SelectWhereAsync(predicate: x => true, maxCount: 50);
 
             var dataTasks = Task.WhenAll(denominationDtosTask, walletsTask);
             await dataTasks;
 
             if (dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                Wallets = (await walletsTask).Value;
+                Wallets = (await walletsTask).Value?.ToList();
                 DenominationSecurities = (await denominationDtosTask).Value;
 
                 if (!Wallets.Any())

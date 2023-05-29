@@ -15,11 +15,11 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            Account deleted = (await service.SelectWhereAysnc(
+            Account deleted = (await service.SelectAsync(
                 predicate: a => 
                     a.AccountNavigation.AccountObjectCode == DeleteModelSuccessSample.AccountCode, 
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -35,11 +35,11 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            Account original = (await service.SelectWhereAysnc(
+            Account original = (await service.SelectAsync(
                 predicate: x =>
                     x.AccountNavigation.AccountObjectCode == UpdateModelSuccessSample.AccountCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
             
             // Change a few attributes of the model.
             original.AccountNavigation.ObjectDisplayName = "TEST ACCOUNT #002 - UPDATED";
@@ -69,9 +69,6 @@ namespace NjordinSight.Test.EntityModelService
 
     public partial class AccountServiceTest : ModelServiceTest<Account>
     {
-        private readonly Random _random = new();
-
-
         protected override Account CreateModelSuccessSample => new()
         {
             AccountNavigation = new()

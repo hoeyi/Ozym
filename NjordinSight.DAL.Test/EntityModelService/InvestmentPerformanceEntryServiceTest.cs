@@ -33,7 +33,7 @@ namespace NjordinSight.Test.EntityModelService
             Expression<Func<InvestmentPerformanceEntry, bool>> expression = x =>
                 x.AccountObjectId == model.AccountObjectId && x.FromDate == model.FromDate;
 
-            var models = await service.SelectWhereAysnc(predicate: expression, maxCount: 1);
+            var models = (await service.SelectAsync(predicate: expression, pageSize: 1)).Item1;;
 
             Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
         }
@@ -43,7 +43,7 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            var model = service.SelectAllAsync().Result.FirstOrDefault();
+            var model = service.SelectAsync().Result.FirstOrDefault();
 
             model.AverageCapital *= 1.37M;
 

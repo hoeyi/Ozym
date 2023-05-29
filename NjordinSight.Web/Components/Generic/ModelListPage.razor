@@ -9,7 +9,7 @@
     /// <summary>
     /// Gets or sets the collection of entries worked via this page.
     /// </summary>
-    protected IList<TModelDto> Entries { get; set; }
+    protected ICollection<TModelDto> Entries { get; set; }
 
     protected EditContext _context { get; set; }
 
@@ -74,7 +74,9 @@
 
         try
         {
-            Entries = (await Controller.SelectAllAsync()).Value;
+            var actionResult = await Controller.SelectWhereAsync(predicate: x => true, maxCount: 50);
+
+            Entries = actionResult.Value?.ToList() ?? new List<TModelDto>();
 
             if (!Entries.Any())
             {

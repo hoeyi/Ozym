@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace NjordinSight.Web.Controllers.Abstractions
 {
@@ -127,14 +128,21 @@ namespace NjordinSight.Web.Controllers.Abstractions
         }
 
         /// <inheritdoc/>
-        public async Task<ActionResult<IList<T>>> SelectAllAsync()
-            => await SelectWhereAysnc(predicate: x => true, maxCount: -1);
+        public async Task<ActionResult<IEnumerable<T>>> SelectAllAsync()
+        {
+            var results = await _modelService.SelectAsync();
+
+            return results.ToList();
+        }
+
 
         /// <inheritdoc/>
-        public async Task<ActionResult<IList<T>>> SelectWhereAysnc(
+        public async Task<ActionResult<IEnumerable<T>>> SelectWhereAsync(
             Expression<Func<T, bool>> predicate, int maxCount = 0)
         {
-            return await _modelService.SelectWhereAysnc(predicate, maxCount);
+            var results = await _modelService.SelectAsync(predicate, pageSize: maxCount);
+
+            return results.Item1.ToList();
         }
 
         /// <inheritdoc/>

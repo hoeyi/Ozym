@@ -34,7 +34,7 @@ namespace NjordinSight.Test.EntityModelService
                 x.TransactionCodeId == model.TransactionCodeId && x.AttributeMemberId == model.AttributeMemberId
                 && x.EffectiveDate == model.EffectiveDate;
 
-            var models = await service.SelectWhereAysnc(predicate: expression, maxCount: 1);
+            var models = (await service.SelectAsync(predicate: expression, pageSize: 1)).Item1;;
 
             Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
         }
@@ -44,7 +44,7 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            var model = service.SelectAllAsync().Result.FirstOrDefault();
+            var model = service.SelectAsync().Result.FirstOrDefault();
 
             model.Weight *= 0.5M;
 

@@ -9,6 +9,7 @@ using NjordinSight.Web.Components.Common;
 using NjordinSight.UserInterface;
 using NjordinSight.Web.Controllers;
 using Ichosys.DataModel;
+using Microsoft.AspNetCore.Http;
 
 namespace NjordinSight.Web.Components.Generic
 {
@@ -56,7 +57,7 @@ namespace NjordinSight.Web.Components.Generic
         /// <summary>
         /// Gets or sets the default maximum record count.
         /// </summary>
-        protected int MaxRecordCount { get; set; } = 0;
+        protected int MaxRecordCount { get; set; } = 20;
 
         /// <inheritdoc/>
         protected override MenuRoot CreateSectionNavigationMenu() => new()
@@ -87,10 +88,10 @@ namespace NjordinSight.Web.Components.Generic
                 SearchFields = ExpressionBuilder!.GetSearchableMembers<TModel>();
                 ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
-                ActionResult<IList<TModel>> actionResult =
-                    await Controller!.SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+                var results = await Controller
+                    .SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
 
-                Models = actionResult.Value ?? Array.Empty<TModel>();
+                Models = results.Value ?? Array.Empty<TModel>();
             }
             finally
             {
@@ -114,10 +115,10 @@ namespace NjordinSight.Web.Components.Generic
                 IsLoading = true;
                 if (args is not null)
                 {
-                    var actionResult = await Controller!.SelectWhereAysnc(
-                            predicate: args.SearchExpression, maxCount: MaxRecordCount);
+                    var results = await Controller
+                        .SelectWhereAysnc(predicate: args.SearchExpression, maxCount: MaxRecordCount);
 
-                    Models = actionResult.Value ?? Array.Empty<TModel>();
+                    Models = results.Value ?? Array.Empty<TModel>();
                 }
             }
             finally

@@ -17,12 +17,12 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            AccountComposite deleted = (await service.SelectWhereAysnc(
+            AccountComposite deleted = (await service.SelectAsync(
                 predicate: a =>
                     a.AccountCompositeNavigation.AccountObjectCode ==
                         DeleteModelSuccessSample.AccountCompositeNavigation.AccountObjectCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -39,12 +39,12 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            AccountComposite original = (await service.SelectWhereAysnc(
+            AccountComposite original = (await service.SelectAsync(
                 predicate: x =>
                     x.AccountCompositeNavigation.AccountObjectCode ==
                         UpdateModelSuccessSample.AccountCompositeNavigation.AccountObjectCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.AccountCompositeNavigation.ObjectDisplayName =
                 $"{original.AccountCompositeNavigation.ObjectDisplayName} - updated";

@@ -60,7 +60,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IList<BankTransaction> BankTransactions { get; set; }
+    private IEnumerable<BankTransaction> BankTransactions { get; set; }
 
     private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
 
@@ -106,7 +106,7 @@
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
 
-            var transactionsQueryTask = Controller.SelectAllAsync();
+            var transactionsQueryTask = Controller.SelectWhereAsync(predicate: x => true, maxCount: 50);
 
             var dataTasks = Task.WhenAll(transactionsQueryTask, transactionCodeDTOsTask);
             await dataTasks;
