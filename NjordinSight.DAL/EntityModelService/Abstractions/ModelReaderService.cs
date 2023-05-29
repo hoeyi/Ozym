@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.Logging;
 using System;
@@ -102,9 +103,7 @@ namespace NjordinSight.EntityModelService.Abstractions
 
             try
             {
-                var result = (await SelectWhereAysnc(
-                                        predicate: keySearch,
-                                        maxCount: 1))
+                var result = (await SelectAsync(predicate: keySearch, pageSize: 1)).Item1
                             .FirstOrDefault();
 
                 if (result is not null)
@@ -132,37 +131,51 @@ namespace NjordinSight.EntityModelService.Abstractions
         }
 
         /// <inheritdoc/>
-        public async Task<List<T>> SelectAllAsync()
+        public async Task<IEnumerable<T>> SelectAsync()
         {
             Expression<Func<T, bool>> predicate = x => true;
 
             if (ParentExpression is not null)
                 predicate = ParentExpression.AndAlso(predicate);
 
-            return await SelectWhereAysnc(
-                predicate: predicate,
-                maxCount: -1);
+            if (HasSharedContext)
+                return (await ReadAsync(SharedContext, predicate, pageSize: int.MaxValue)).Item1;
+
+            using var context = await _contextFactory.CreateDbContextAsync();
+
+            return (await ReadAsync(context, predicate, pageSize: int.MaxValue)).Item1;
         }
 
         /// <inheritdoc/>
-        public async Task<List<T>> SelectWhereAysnc(
-            Expression<Func<T, bool>> predicate, int maxCount = 0)
+        public async Task<(IEnumerable<T>, PaginationData)> SelectAsync(
+            Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 20)
         {
-            maxCount = maxCount < 0 ? int.MaxValue : maxCount;
+            int limitPageSize = Clamp(pageSize, 0, 100);
 
             if (ParentExpression is not null)
                 predicate = ParentExpression.AndAlso(predicate);
 
             if (HasSharedContext)
-                return await ReadAsync(SharedContext, predicate, maxCount);
+                return await ReadAsync(SharedContext, predicate, pageNumber, pageSize: limitPageSize);
 
             using var context = await _contextFactory.CreateDbContextAsync();
 
-            return await ReadAsync(context, predicate, maxCount);
+            return await ReadAsync(context, predicate, pageNumber, pageSize: limitPageSize);
         }
 
-        private async Task<List<T>> ReadAsync(
-            FinanceDbContext context, Expression<Func<T, bool>> predicate, int maxCount = 0)
+        static int Clamp(int value, int min, int max)
+        {
+            // if value is less than min, return min
+            // if value is greater than min and less greater than max return max
+            // else return value
+            return (value < min) ? min : (value > max) ? max : value;
+        }
+
+        private async Task<(IEnumerable<T>, PaginationData)> ReadAsync(
+            FinanceDbContext context, 
+            Expression<Func<T, bool>> predicate,
+            int pageNumber = 1, 
+            int pageSize = 20)
         {
             var searchGuid = Guid.NewGuid();
 
@@ -170,23 +183,36 @@ namespace NjordinSight.EntityModelService.Abstractions
                 requestGuid: searchGuid,
                 type: typeof(T),
                 predicate: predicate.Body,
-                recordLimit: maxCount);
+                recordLimit: pageSize);
 
-            IQueryable<T> queryable = IncludeDelegate(context.Set<T>());
+            IQueryable<T> queryable = IncludeDelegate(context.Set<T>()).Where(predicate);
+
+            PaginationData pageData = new()
+            {
+                ItemCount = await queryable.CountAsync(),
+                PageIndex = pageNumber,
+                PageSize = pageSize
+            };
 
             var result = await queryable
-                            .Where(predicate)
-                            .Take(maxCount)
-                            .ToListAsync();
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
 
             _logger.ModelServiceSearchResultReturned(
                 requestGuid: searchGuid,
                 type: typeof(T),
                 resultCount: result?.Count ?? default);
 
-            return result;
+            return (result, pageData);
         }
+    }
 
-        
+    public record PaginationData
+    {
+        public int PageIndex { get; init; }
+        public int PageSize { get; init; }
+        public int ItemCount { get; init; }
+        public int PageCount => (int)Math.Ceiling(ItemCount / (double)PageSize);
     }
 }

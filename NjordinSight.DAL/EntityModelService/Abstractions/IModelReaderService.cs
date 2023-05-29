@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NjordinSight.UserInterface;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -38,15 +39,20 @@ namespace NjordinSight.EntityModelService.Abstractions
         /// Select all records.
         /// </summary>
         /// <returns>A <see cref="IList{T}"/> representing all records in the data store.</returns>
-        Task<List<T>> SelectAllAsync();
+        Task<IEnumerable<T>> SelectAsync();
 
         /// <summary>
         /// Selects records matching the given <paramref name="predicate"/>, 
         /// with the count limited to the value of <paramref name="maxCount"/>.
         /// </summary>
         /// <param name="predicate">The <see cref="Expression{Func{T}}"/> used to determine results.</param>
-        /// <param name="maxCount">The maximum count of results to return. Default is zero.</param>
-        /// <returns>A <see cref="IList{T}"/> representing the records matching the predicate, limited to a maximum count.</returns>
-        Task<List<T>> SelectWhereAysnc(Expression<Func<T, bool>> predicate, int maxCount = 0);
+        /// <param name="pageNumber">Specifies the index of the page to return.</param>
+        /// <param name="pageSize">Specifies the maximum number of records per page.</param>
+        /// <returns>A <see cref="IEnumerable{T}"/> representing the records matching the predicate, 
+        /// limited to a maximum count.</returns>
+        Task<(IEnumerable<T>, PaginationData)> SelectAsync(
+            Expression<Func<T, bool>> predicate,
+            int pageNumber = 1,
+            int pageSize = 20);
     }
 }
