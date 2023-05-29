@@ -27,6 +27,7 @@ Must be one of the following:
 ### Scope ###
 The scope is the domain affected. Choose one of the following:
 * **Blazor**: Blazor pages or components.
+* **Controller**: Web controllers.
 * **DAL**: Model repository services and data-transfer objects.
 * **EntityModel**: Entity classes and/or ORM.
 * **EntityMigration**: Entity data migrations
