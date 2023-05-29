@@ -54,8 +54,8 @@
 
 
     ::deep .datagrid th {
-        border-left-width: 0.5px;
-        border-right-width: 0.5px;
+        /*border-left-width: 0.5px;
+        border-right-width: 0.5px;*/
         border-color: var(--theme-tableheader-border-color, black);
     }
 
@@ -221,6 +221,7 @@ input::-webkit-inner-spin-button {
 /* Handle the width of date input controls. */
 ::deep input[type=date] {
     width: auto;
+    min-width: 155px;
 }
 
 ::deep .validation-message {
@@ -257,23 +258,21 @@ input::-webkit-inner-spin-button {
 ::deep .custom-modal {
     border: 0.1rem solid var(--theme-form-control-border-color, black);
 }
-::deep .custom-modal .model-editor {
-    width: 100%;
-}
 
-::deep .custom-modal .content-tile {
-    background-color: transparent;
-    border: none;
-}
+    ::deep .custom-modal .content-tile {
+        background-color: var(--theme-elevation-backcolor-0);
+        border: none;
+    }
 
-::deep .custom-modal .content-tile {
-    padding: 0.25rem;
-}
+    ::deep .custom-modal .action-button-menu {
+        padding: 0rem 0.75rem 0rem 0.75rem;
+        width: 100%;
+    }
 
-::deep .custom-modal .action-button-menu {
-    padding: 0.25rem;
-}
-
+    ::deep .custom-modal[tag="attribute-target"] {
+        min-width: 525px;
+        min-height: 240px;
+    }
 
 /*#endregion */
 

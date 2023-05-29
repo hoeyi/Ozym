@@ -51,17 +51,13 @@ else
     {
         @foreach (var group in ModelDto.EntryCollection)
         {
-            <ContentTile>
-                <Body>
-                    <CascadingValue Value="@group">
-                        <CascadingValue 
-                            Value="@GetAttributeMembers(group.ParentAttribute)" 
-                            Name="AttributeMemberLookup">
-                            @ViewModelChildCRUD
-                        </CascadingValue>
-                    </CascadingValue>
-                </Body>
-            </ContentTile>
+            <CascadingValue Value="@group">
+                <CascadingValue 
+                    Value="@GetAttributeMembers(group.ParentAttribute)" 
+                    Name="AttributeMemberLookup">
+                    @ViewModelChildCRUD
+                </CascadingValue>
+            </CascadingValue>
         }
     }
 

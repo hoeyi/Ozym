@@ -28,14 +28,18 @@
 ::deep .custom-modal p {
     margin-bottom: 0 !important;
 }
-/*:not(.custom-modal:focus-within) {
-    display: none;
-}*/
+
+::deep .custom-modal .content-tile {
+    background-color: transparent;
+    border: none;
+}
+
+::deep .custom-modal .action-button-menu {
+    padding: 0.75rem;
+}
 
 .custom-modal.visible {
     display: inline-block;
-    flex-direction: column;
-    flex-wrap: wrap;
 }
 
 .custom-modal-body {

@@ -11,6 +11,7 @@
 .content-body {
     padding-bottom: 0.5rem;
 }
+
 ::deep .content-header .icon {
     width: 100%;
     aspect-ratio: 1/1;
@@ -21,21 +22,30 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    align-items: baseline;
+    align-items: center;
 }
 
+::deep .content-header * {
+    align-self: center;
+}
 .content-header .left {
     padding-left: 0.5rem;
     display: flex;
     justify-content: flex-start
 }
 
+.content-header .right {
+    padding-right: 0.25rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
 ::deep .content-header .left > * {
     padding-right: 0.5rem;
 }
-.content-header .right {
-    display: flex;
-    justify-content: flex-end;
+
+::deep .content-header .right > * {
+    margin-left: 0.5rem;
 }
 
 ::deep .content-header .form-control {
