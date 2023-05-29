@@ -8,6 +8,7 @@
 
 ::deep .model-attributes .custom-tooltip-text {
     margin-left: 0.5rem;
+    z-index: 99;
 }
 
 
@@ -54,8 +55,6 @@
 
 
     ::deep .datagrid th {
-        /*border-left-width: 0.5px;
-        border-right-width: 0.5px;*/
         border-color: var(--theme-tableheader-border-color, black);
     }
 
@@ -200,9 +199,28 @@
             color: var(--theme-text-color-0, white) !important;
         }
 
-/* Handle the color of checkboxes */ 
+
+/* Handle the style of checkboxes */
+::deep input[type=checkbox].checkbox-themed {
+    -webkit-appearance: none;
+    background-color: var(--theme-form-control-back-color, white);
+    border: 1px solid;
+    border-color: var(--theme-form-control-border-color, gray);
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 0.25rem;
+    position: static;
+}
+
 ::deep input[type=checkbox].checkbox-themed:checked {
-    accent-color: var(--theme-hexcolor-secondary-2-1, inherit);
+    background-color: var(--theme-hexcolor-secondary-2-1, white);
+}
+::deep input[type=checkbox].checkbox-themed:checked:after {
+    content: '\2714';
+    aspect-ratio: 1/1;
+    position: relative;
+    top: -0.15em;
+    left: 0.15em;
 }
 
 /* Remove the InputNumber element's selector control */

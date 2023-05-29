@@ -45,17 +45,17 @@
         </CascadingValue>
         <ContentTile>
             <TitleAlignLeft>
-                @(ModelMetadata
-                    .GetAttribute<SecuritySymbol, NounAttribute>()
-                    .GetPlural().ToTitleCase())
-            </TitleAlignLeft>
-            <TitleAlignRight>
-                <button id="add-new-entry-button"
-                    class="form-control button icon"
-                    type="button"
+                <div>
+                    @(ModelMetadata
+                        .GetAttribute<SecuritySymbol, NounAttribute>()
+                        .GetPlural().ToTitleCase())
+                </div>
+                <button class="form-control button icon" type="button"
                     @onclick="() => ModelDto.AddNewSecuritySymbol()">
                     <IonIcon Name="add" />
                 </button>
+            </TitleAlignLeft>
+            <TitleAlignRight>
             </TitleAlignRight>
             <Body>
                 <EditForm width="100%" Model="@ModelDto.SecuritySymbols">

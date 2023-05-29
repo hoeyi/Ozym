@@ -8,13 +8,15 @@ else
 {
     <ContentTile>
         <TitleAlignLeft>
-            @ModelDto.ParentAttribute.DisplayName
-            @if (ReadOnly)
-            {
-                <span class="sub-title">
-                    (@ModelDto.EffectiveDate.ToShortDateString())
-                </span>
-            }
+            <div>
+                @ModelDto.ParentAttribute.DisplayName
+                @if (ReadOnly)
+                {
+                    <span class="sub-title">
+                        (@ModelDto.EffectiveDate.ToShortDateString())
+                    </span>
+                }
+            </div>
         </TitleAlignLeft>
         <TitleAlignRight>
             @if (!ReadOnly)
@@ -31,7 +33,6 @@ else
                     <IonIcon Name="add" />
                 </button>
             }
-
         </TitleAlignRight>
         <Body>
             <DataGrid Data="@ModelDto.Entries">

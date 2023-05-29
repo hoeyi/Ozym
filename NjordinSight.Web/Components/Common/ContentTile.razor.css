@@ -34,6 +34,10 @@
     justify-content: flex-start
 }
 
+::deep .content-header > .left > span {
+    padding-left: 0.5rem;
+}
+
 .content-header .right {
     padding-right: 0.25rem;
     display: flex;
