@@ -29,7 +29,7 @@ namespace NjordinSight.EntityModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<AccountComposite>(
-                Context, modelMetadata, logger)
+                contextFactory, modelMetadata, logger)
             {
                 IncludeDelegate = (queryable) => queryable
                     .Include(a => a.AccountCompositeNavigation)
@@ -39,7 +39,7 @@ namespace NjordinSight.EntityModelService
                     .Include(a => a.AccountCompositeMembers)
             };
             Writer = new ModelWriterService<AccountComposite>(
-                Context, modelMetadata, logger)
+                contextFactory, modelMetadata, logger)
             {
                 CreateDelegate = async (context, model) =>
                 {
