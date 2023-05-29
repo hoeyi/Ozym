@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using NjordinSight.DataTransfer;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.Logging;
 using System;
@@ -208,11 +209,5 @@ namespace NjordinSight.EntityModelService.Abstractions
         }
     }
 
-    public record PaginationData
-    {
-        public int PageIndex { get; init; }
-        public int PageSize { get; init; }
-        public int ItemCount { get; init; }
-        public int PageCount => (int)Math.Ceiling(ItemCount / (double)PageSize);
-    }
+    
 }
