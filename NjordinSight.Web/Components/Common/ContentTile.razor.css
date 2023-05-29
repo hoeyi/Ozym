@@ -1,6 +1,6 @@
 ﻿.content-tile {
-    /*padding: 0.5rem;*/
     display: block;
+    overflow: auto;
 }
 
 .content-tile > .content-header, .content-body {

@@ -51,6 +51,8 @@
     line-height: normal;
 }
 
+
+
 .grid-container > .icon {
     max-width: var(--icon-max-width);
     aspect-ratio: 1/1;
@@ -92,6 +94,20 @@ a {
     padding-left: 0.1rem;
 }
 
+@media only screen and (max-width: 608px) {
+    .grid-container {
+        width: 40px;
+        grid-template-areas: "a";
+        grid-template-columns: auto;
+    }
+    .caption {
+        display: none;
+    }
+
+    .icon.right {
+        display: none;
+    }
+}
 
 /*#region Ion-Icon svg formatting */
 /*Change the fill color to light shade if not 'none' or 'transparent'.*/
