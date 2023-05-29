@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordinSight.EntityModelService;
+using NjordinSight.EntityModelService.Abstractions;
 using NjordinSight.EntityModelService.Query;
 
 namespace NjordinSight.Web.Controllers.Abstractions
@@ -112,6 +113,15 @@ namespace NjordinSight.Web.Controllers.Abstractions
             var query = await _modelService.SelectAsync();
 
             return query.ToList();
+        }
+
+        /// <inheritdoc/>
+        public async Task<ActionResult<(IEnumerable<T>, PaginationData)>> SelectAsync(
+            Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 20)
+        {
+            var query = await _modelService.SelectAsync(predicate, pageNumber, pageSize);
+
+            return (query.Item1?.ToList(), query.Item2);
         }
 
         /// <inheritdoc/>
