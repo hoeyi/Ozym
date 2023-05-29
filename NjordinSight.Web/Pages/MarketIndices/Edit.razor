@@ -17,32 +17,31 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <ContentTile>
-            <Body>
-                <CascadingValue Value="@Model">
-                    <EditForm class="model-editor" Model="@Model"
-                        OnValidSubmit="HandleValidSubmit">
+        <CascadingValue Value="@Model">
+            <EditForm class="model-editor" Model="@Model" OnValidSubmit="HandleValidSubmit">
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button">
+                        @Strings.Caption_Button_Save
+                    </button>
+                    <button type="button" class="form-control button"
+                        @onclick="Delete_OnClick"
+                        @onclick:preventDefault>
+                        @Strings.Caption_Button_Delete
+                    </button>
+                    <button type="button" class="form-control button"
+                        @onclick="Cancel_OnClick"
+                        @onclick:preventDefault>
+                        @Strings.Caption_Button_Cancel
+                    </button>
+                </ActionButtonMenu>
+                <ContentTile>
+                    <Body>
                         <DataAnnotationsValidator />
-                        <ActionButtonMenu>
-                            <button type="submit" class="form-control button">
-                                @Strings.Caption_Button_Save
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="Delete_OnClick"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Delete
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="Cancel_OnClick"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Cancel
-                            </button>
-                        </ActionButtonMenu>
                         <MarketIndexCRUD Disabled="false" ReadOnly="false" />
-                    </EditForm>
-                </CascadingValue>
-            </Body>
-        </ContentTile>
+                    </Body>
+                </ContentTile>
+            </EditForm>
+        </CascadingValue>
     }
 </ThemedComponent>
 

@@ -19,24 +19,24 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <ContentTile>
-            <Body>
-                <EditForm width="100%" Model="@Entries">
-                    <ActionButtonMenu>
-                        <button class="form-control button"
-                            @onclick="@(async (args) => await Submit_OnClick(context, args))">
-                            @Strings.Caption_Button_Save
-                        </button>
-                        <button class="form-control button"
-                            @onclick=@(async (args) => await AddNewAsync(args))>
-                            @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
-                        </button>
-                        <button class="form-control button" @onclick="Cancel_OnClick"
-                            @onclick:preventDefault>
-                            @Strings.Caption_Button_Cancel
-                        </button>
-                    </ActionButtonMenu>
-                    <DataAnnotationsValidator />
+        <EditForm width="100%" Model="@Entries">
+            <DataAnnotationsValidator />
+            <ActionButtonMenu>
+                <button class="form-control button"
+                    @onclick="@(async (args) => await Submit_OnClick(context, args))">
+                    @Strings.Caption_Button_Save
+                </button>
+                <button class="form-control button"
+                    @onclick=@(async (args) => await AddNewAsync(args))>
+                    @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
+                </button>
+                <button class="form-control button" @onclick="Cancel_OnClick"
+                    @onclick:preventDefault>
+                    @Strings.Caption_Button_Cancel
+                </button>
+            </ActionButtonMenu>
+            <ContentTile>
+                <Body>
                     <ValidationSummary />
                     <DataGrid Data="@Entries">
                         <DataGridColumn 
@@ -161,9 +161,9 @@
                             </CellTemplate>
                         </DataGridColumn>
                     </DataGrid>
-                </EditForm>
-            </Body>
-        </ContentTile>
+                </Body>
+            </ContentTile>
+        </EditForm>
         if (ShowAllocationInstructionTable)
         {
             <CascadingValue Value="@CurrentAllocationInstruction">

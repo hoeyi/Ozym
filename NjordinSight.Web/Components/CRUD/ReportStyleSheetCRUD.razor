@@ -7,7 +7,7 @@
 else
 {
     <ModelForm TModelDto="ReportConfiguration">
-        <ModelFormLineItem ForMember="@(() => ModelDto.StyleSheetCode)">
+        <ModelFormEntry ForMember="@(() => ModelDto.StyleSheetCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -20,8 +20,8 @@ else
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.StyleSheetCode)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.StyleSheetDescription)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.StyleSheetDescription)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -34,8 +34,8 @@ else
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.StyleSheetDescription)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.XmlDefinition)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.XmlDefinition)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -48,6 +48,6 @@ else
                        disable="@Disabled"
                        DisplayName="@NameFor(x => x.XmlDefinition)" />
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
     </ModelForm>
 }

@@ -1,13 +1,11 @@
 ﻿<p class="@Class">
     @if(RenderTitleSection)
     {
-        <div class="content-tile-title">
+        <div class="content-header">
             @if(TitleAlignLeft is not null)
             {
                 <div class="left">
-                    <h4>
-                        @TitleAlignLeft
-                    </h4>
+                    @TitleAlignLeft
                 </div>
             }
             @if(TitleAlignRight is not null)

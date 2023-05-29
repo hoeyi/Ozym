@@ -8,7 +8,7 @@ else
 {   
     <ModelForm TModelDto="AccountDto">
         @*AccountObject inputs*@
-        <ModelFormLineItem ForMember="@(() => ModelDto.AccountObjectCode)">
+        <ModelFormEntry ForMember="@(() => ModelDto.AccountObjectCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -21,8 +21,8 @@ else
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.AccountObjectCode)) />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.DisplayName)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.DisplayName)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -35,8 +35,8 @@ else
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.DisplayName)) />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.Description)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.Description)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -49,8 +49,8 @@ else
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.Description)) />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.StartDate)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.StartDate)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -63,8 +63,8 @@ else
                     disable="@Disabled" 
                     DisplayName=@(NameFor(x => x.StartDate))/>
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.CloseDate)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.CloseDate)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -77,10 +77,10 @@ else
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.CloseDate)) />
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
 
         @*Account inputs*@
-        <ModelFormLineItem ForMember="@(() => ModelDto.AccountNumber)">
+        <ModelFormEntry ForMember="@(() => ModelDto.AccountNumber)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -93,8 +93,8 @@ else
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.AccountNumber)) />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.AccountCustodianId)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.AccountCustodianId)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -113,8 +113,8 @@ else
                     }
                 </InputSelect>
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.BooksClosedDate)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.BooksClosedDate)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -127,8 +127,8 @@ else
                         disabled="@Disabled"
                         DisplayName=@(NameFor(x => x.BooksClosedDate))/>
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.IsComplianceTradable)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.IsComplianceTradable)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -139,8 +139,8 @@ else
             {
                 <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.IsComplianceTradable disabled="@Disabled" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.HasWallet)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.HasWallet)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -152,8 +152,8 @@ else
                 <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasWallet disabled="@Disabled" />
                 <ValidationMessage For="@(() => ModelDto.HasWallet)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.HasBankTransaction)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.HasBankTransaction)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -165,8 +165,8 @@ else
                 <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasBankTransaction disabled="@Disabled" />
                 <ValidationMessage For="@(() => ModelDto.HasBankTransaction)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.HasBrokerTransaction)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.HasBrokerTransaction)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -177,7 +177,7 @@ else
             {
                 <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasBrokerTransaction disabled="@Disabled" />
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
     </ModelForm>
 }
 @code {

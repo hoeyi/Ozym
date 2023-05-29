@@ -7,7 +7,7 @@
 else
 {
     <ModelForm TModelDto="SecurityType">
-        <ModelFormLineItem ForMember="@(() => ModelDto.SecurityTypeName)">
+        <ModelFormEntry ForMember="@(() => ModelDto.SecurityTypeName)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -20,8 +20,8 @@ else
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.SecurityTypeName)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.SecurityTypeGroupId)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.SecurityTypeGroupId)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -40,8 +40,8 @@ else
                 }
             </InputSelect>
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.CanHavePosition)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.CanHavePosition)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -54,8 +54,8 @@ else
                        disable="@Disabled"
                        DisplayName="@NameFor(x => x.CanHavePosition)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.CanHaveDerivative)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.CanHaveDerivative)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -68,8 +68,8 @@ else
                        disable="@Disabled"
                        DisplayName="@NameFor(x => x.CanHaveDerivative)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.HeldInWallet)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.HeldInWallet)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -82,8 +82,8 @@ else
                        disable="@Disabled"
                        DisplayName="@NameFor(x => x.HeldInWallet)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.ValuationFactor)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.ValuationFactor)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -96,7 +96,7 @@ else
                    disable="@Disabled"
                      DisplayName="@NameFor(x => x.ValuationFactor)" />
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
     </ModelForm>
 }
 

@@ -8,9 +8,9 @@ else
 {
     <ContentTile>
         <TitleAlignLeft>
-            @ModelDto.ParentAttribute.DisplayName
-        </TitleAlignLeft>
-        <TitleAlignRight>
+            <div>
+                @ModelDto.ParentAttribute.DisplayName
+            </div>
             @if (!ReadOnly)
             {
                 <button id="add-new-entry-button"
@@ -20,10 +20,11 @@ else
                     <IonIcon Name="add" />
                 </button>
             }
-
-        </TitleAlignRight>
+        </TitleAlignLeft>
+        @*<TitleAlignRight>
+        </TitleAlignRight>*@
         <Body>
-            <EditForm Model="@ModelDto">
+            <EditForm class="model-editor" Model="@ModelDto">
                 <DataGrid Data="@ModelDto.Entries">
                     @if (ReadOnly)
                     {

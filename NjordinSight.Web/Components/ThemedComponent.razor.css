@@ -2,20 +2,22 @@
     position: static;
 }
 
-/*::deep form.model-editor {
-    width: 50%;
-}
-*/
 ::deep .model-attributes .custom-tooltip {
     position: static;
 }
 
 ::deep .model-attributes .custom-tooltip-text {
     margin-left: 0.5rem;
+    z-index: 99;
 }
+
 
 ::deep .model-attributes td {
     padding-bottom: 0.5rem;  
+}
+
+::deep .model-attributes tr:last-child td {
+    padding-bottom: 0;
 }
 
 ::deep .model-attributes .text-area {
@@ -53,8 +55,6 @@
 
 
     ::deep .datagrid th {
-        border-left-width: 0.5px;
-        border-right-width: 0.5px;
         border-color: var(--theme-tableheader-border-color, black);
     }
 
@@ -189,7 +189,7 @@
         padding: 0.125rem;
     }
 
-    ::deep .form-control.button.cion {
+    ::deep .form-control.button.icon {
         vertical-align: revert;
     }
 
@@ -199,9 +199,28 @@
             color: var(--theme-text-color-0, white) !important;
         }
 
-/* Handle the color of checkboxes */ 
+
+/* Handle the style of checkboxes */
+::deep input[type=checkbox].checkbox-themed {
+    -webkit-appearance: none;
+    background-color: var(--theme-form-control-back-color, white);
+    border: 1px solid;
+    border-color: var(--theme-form-control-border-color, gray);
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 0.25rem;
+    position: static;
+}
+
 ::deep input[type=checkbox].checkbox-themed:checked {
-    accent-color: var(--theme-hexcolor-secondary-2-1, inherit);
+    background-color: var(--theme-hexcolor-secondary-2-1, white);
+}
+::deep input[type=checkbox].checkbox-themed:checked:after {
+    content: '\2714';
+    aspect-ratio: 1/1;
+    position: relative;
+    top: -0.15em;
+    left: 0.15em;
 }
 
 /* Remove the InputNumber element's selector control */
@@ -220,6 +239,7 @@ input::-webkit-inner-spin-button {
 /* Handle the width of date input controls. */
 ::deep input[type=date] {
     width: auto;
+    min-width: 155px;
 }
 
 ::deep .validation-message {
@@ -230,79 +250,22 @@ input::-webkit-inner-spin-button {
 /*#endregion*/
 
 
-/*#region Content tile, headers, & columns*/
+/*#region Content tile, headers, & columns */
 
 ::deep .content-tile {
     background-color: var(--theme-elevation-backcolor-2, white);
     border: 1px solid var(--theme-elevation-backcolor-2, black);
     border-radius: 1rem;
-    padding: 0.5rem;
-    display: block;
-    /*margin-bottom: 0;*/
-}
-.content-tile-title {
-    --default-height: 32px;
-    --icon-max-width: 32px;
 }
 
-::deep .content-tile-title {
-    display: flex;
-    position: relative;
-    padding-left: 0.25rem;
-    justify-content: space-between;
-    width: 100%;
-    /*height: 1rem;*/
+/* Style the font for content tile headers */
+::deep .content-header .left {
+    font-size: 1.25rem;
+    font-weight: bold;
 }
 
-::deep .content-tile-title .left {
-    margin-right: auto;
-    float: left;
-    display: flex;
-}
-
-::deep .content-tile-title .left h4 {
-    display: flex;
-}
-
-::deep h4 > div {
-    padding-right: 1rem;
-}
-
-::deep .content-tile-title .left > * {
-    float: left;
-}
-
-::deep .content-tile-title .right {
-    margin-left: auto;
-    float: right;
-}
-
-::deep .content-tile-title .right > * {
-    float: none;
-    display: inline;
-    vertical-align: bottom;
-}
-
-    ::deep .content-tile-title .icon {
-        width: 2rem;
-        aspect-ratio: 1/1;
-    }
-
-    ::deep .content-tile-title .form-control {
-        height: 2rem;
-        width: auto;
-    }
-        
-    ::deep .content-tile-title .sub-title {
-        font-size: 0.85rem;
-    }
-
-/*::deep p.content-tile::after {
-    padding-bottom: 1rem;
-*/}
-
-::deep .column {
-    width: 50%;
+::deep .content-header .sub-title {
+    font-size: 0.85rem;
 }
 
 /*#endregion*/
@@ -313,23 +276,21 @@ input::-webkit-inner-spin-button {
 ::deep .custom-modal {
     border: 0.1rem solid var(--theme-form-control-border-color, black);
 }
-::deep .custom-modal .model-editor {
-    width: 100%;
-}
 
-::deep .custom-modal .content-tile {
-    background-color: transparent;
-    border: none;
-}
+    ::deep .custom-modal .content-tile {
+        background-color: var(--theme-elevation-backcolor-0);
+        border: none;
+    }
 
-::deep .custom-modal .content-tile {
-    padding: 0.25rem;
-}
+    ::deep .custom-modal .action-button-menu {
+        padding: 0rem 0.75rem 0rem 0.75rem;
+        width: 100%;
+    }
 
-::deep .custom-modal .action-button-menu {
-    padding: 0.25rem;
-}
-
+    ::deep .custom-modal[tag="attribute-target"] {
+        min-width: 525px;
+        min-height: 240px;
+    }
 
 /*#endregion */
 

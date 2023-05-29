@@ -18,32 +18,31 @@
         </CascadingValue>
 
         <CascadingValue Value="@ModelDto">
-            <EditForm class="model-editor" 
-                Model="@ModelDto" 
-                OnValidSubmit="HandleValidSubmit">
+            <EditForm class="model-editor" Model="@ModelDto" OnValidSubmit="HandleValidSubmit" On>
                 <DataAnnotationsValidator />
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button">
+                        @Strings.Caption_Button_Save
+                    </button>
+                    <button type="button" class="form-control button"
+                        @onclick="(async (args) => await Delete_OnClick())"
+                        @onclick:preventDefault>
+                        @Strings.Caption_Button_Delete
+                    </button>
+                    <button type="button" class="form-control button"
+                        @onclick="Cancel_OnClick"
+                        @onclick:preventDefault>
+                        @Strings.Caption_Button_Cancel
+                    </button>
+                </ActionButtonMenu>
                 <ContentTile>
                     <Body>
-                        <ActionButtonMenu>
-                            <button type="submit" class="form-control button">
-                                @Strings.Caption_Button_Save
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="(async (args) => await Delete_OnClick())"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Delete
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="Cancel_OnClick"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Cancel
-                            </button>
-                        </ActionButtonMenu>
                         <ModelAttributeCRUD Disabled="false" ReadOnly="false" />
                     </Body>
                 </ContentTile>
             </EditForm>
-            <EditForm Model="@ModelDto">
+            <EditForm class="model-editor" EditContext="_attributeScopeContext" >
+                <DataAnnotationsValidator />
                 <ContentTile>
                     <Body>
                         <ActionButtonMenu>
@@ -53,6 +52,7 @@
                                     .GetAttribute<ModelAttributeScope, NounAttribute>()?.GetSingular())
                             </button>
                         </ActionButtonMenu>
+                        <ValidationSummary />
                         <DataGrid Data="@ModelDto.AttributeScopes">
                             <DataGridColumn Type="DataGridCellType.Control"
                                         Property="@nameof(ModelAttributeScope.ScopeCode)"
@@ -81,7 +81,7 @@
                     </Body>
                 </ContentTile>
             </EditForm>
-            <EditForm Model="@ModelDto">
+            <EditForm class="model-editor" EditContext="_attributeMemberContext">
                 <ContentTile>
                     <Body>
                         <ActionButtonMenu>
@@ -91,6 +91,7 @@
                                     .GetAttribute<ModelAttributeMember, NounAttribute>()?.GetSingular())
                             </button>
                         </ActionButtonMenu>
+                        <ValidationSummary />
                         <DataGrid Data="@ModelDto.AttributeMembers">
                             <DataGridColumn Type="DataGridCellType.Control"
                                         Property="@nameof(ModelAttributeMember.DisplayName)"
@@ -133,6 +134,9 @@
 
     private IEnumerable<LookupModel<string, string>> AttributeScopeDtos { get; set; }
 
+    private EditContext _attributeScopeContext;
+    private EditContext _attributeMemberContext;
+
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
@@ -158,6 +162,8 @@
                 Model = (await modelQuery).Value;
                 ModelDto = new(Model);
                 AttributeScopeDtos = (await scopesQuery).Value;
+                _attributeScopeContext = new(ModelDto.AttributeScopes);
+                _attributeMemberContext = new(ModelDto.AttributeMembers);
             }
         }
         finally

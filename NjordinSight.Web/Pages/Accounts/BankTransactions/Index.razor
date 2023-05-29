@@ -90,6 +90,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        IsLoading = true;
         try
         {
             var transactionCodeDTOsTask = Controller.ReferenceQueries.GetBankTransactionCodeDTOsAsync();

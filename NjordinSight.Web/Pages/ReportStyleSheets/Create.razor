@@ -1,6 +1,6 @@
-﻿@page "/composites/create/{RequestGuid:guid}"
+﻿@page "/style-sheets/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<AccountComposite>
+@inherits ModelDetail<ReportStyleSheet>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -9,18 +9,16 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.UpdateSingle(Model.StyleSheetCode).AsPageTitle())</PageTitle>
 
         <ModelPageHeader Header="@(PageTitle.CreateSingle())" />
 
         <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic"/>
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ModelDto">
-            <EditForm class="model-editor"
-                  Model="@ModelDto"
-                  OnValidSubmit="HandleValidSubmit">
+        <CascadingValue Value="@Model">
+            <EditForm class="model-editor" Model="@Model" OnValidSubmit="HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <ActionButtonMenu>
                     <button type="submit" class="form-control button">
@@ -34,14 +32,7 @@
                 </ActionButtonMenu>
                 <ContentTile>
                     <Body>
-                        <AccountCompositeCRUD Disabled="false" ReadOnly="false" />
-                    </Body>
-                </ContentTile>
-            </EditForm>
-            <EditForm Model="@ModelDto">
-                <ContentTile>
-                    <Body>
-                        <AccountCompositeMembersCRUD Accounts="@AccountDtos" Disabled="false" ReadOnly="false" />
+                        <ReportStyleSheetCRUD Disabled="false" ReadOnly="false" />
                     </Body>
                 </ContentTile>
             </EditForm>
@@ -49,13 +40,13 @@
     }
 </ThemedComponent>
 
+
 @code {
+    /// <summary>
+    /// Gets or sets the unique identifier for the creation action.
+    /// </summary>
     [Parameter]
     public Guid RequestGuid { get; init; }
-
-    private IEnumerable<LookupModel<int, string>> AccountDtos { get; set; }
-
-    private AccountCompositeDto ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,19 +54,14 @@
 
         try
         {
-            var compositeQuery = Controller.GetDefaultAsync();
-            var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
+            var modelQuery = Controller.GetDefaultAsync();
 
-            Task dataTask = Task.WhenAll(compositeQuery, accountsQuery);
-
-            Model = (await compositeQuery).Value;
-            AccountDtos = (await accountsQuery).Value;
-
-            ModelDto = new(Model);
+            if ((await modelQuery).Value is ReportStyleSheet model)
+                Model = model;
         }
         finally
         {
-            IsLoading = Model is null || AccountDtos is null || ModelDto is null;
+            IsLoading = Model is null;
         }
     }
 
@@ -83,8 +69,6 @@
 
     protected override async Task HandleValidSubmit()
     {
-        Model = ModelDto.ToEntity();
-
         var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
 
         ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);

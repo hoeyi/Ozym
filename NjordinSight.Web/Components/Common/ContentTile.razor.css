@@ -1,0 +1,58 @@
+﻿.content-tile {
+    display: block;
+    overflow: auto;
+}
+
+.content-tile > .content-header, .content-body {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
+}
+.content-body {
+    padding-bottom: 0.5rem;
+}
+
+::deep .content-header .icon {
+    width: 100%;
+    aspect-ratio: 1/1;
+    min-width: 16px;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+::deep .content-header * {
+    align-self: center;
+}
+.content-header .left {
+    padding-left: 0.5rem;
+    display: flex;
+    justify-content: flex-start
+}
+
+::deep .content-header > .left > span {
+    padding-left: 0.5rem;
+}
+
+.content-header .right {
+    padding-right: 0.25rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+::deep .content-header .left > * {
+    padding-right: 0.5rem;
+}
+
+::deep .content-header .right > * {
+    margin-left: 0.5rem;
+}
+
+::deep .content-header .form-control {
+    height: 2rem;
+    width: auto;
+}

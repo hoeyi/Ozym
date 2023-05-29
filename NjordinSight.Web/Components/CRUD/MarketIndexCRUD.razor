@@ -7,7 +7,7 @@
 else
 {
     <ModelForm TModelDto="MarketIndex">
-        <ModelFormLineItem ForMember="@(() => ModelDto.IndexCode)">
+        <ModelFormEntry ForMember="@(() => ModelDto.IndexCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -20,8 +20,8 @@ else
                    disable="@Disabled"
                    DisplayName=@(NameFor(x => x.IndexCode)) />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.IndexDescription)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.IndexDescription)">
             @if(ReadOnly)
             {
                 <div class="form-control">
@@ -34,6 +34,6 @@ else
                     disable="@Disabled"
                     DisplayName="@NameFor(x => x.IndexDescription)" />
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
     </ModelForm>
 }
