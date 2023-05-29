@@ -18,36 +18,26 @@
         </CascadingValue>
 
         <CascadingValue Value="@ModelDto">
-            <ContentTile>
-                <Body>
-                    <EditForm class="model-editor" 
-                        Model="@ModelDto" 
-                        OnValidSubmit="HandleValidSubmit">
-                        <DataAnnotationsValidator />
-                        <ActionButtonMenu>
-                            <button type="submit" class="form-control button">
-                                @Strings.Caption_Button_Save
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="(async (args) => await Delete_OnClick())"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Delete
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="Cancel_OnClick"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Cancel
-                            </button>
-                        </ActionButtonMenu>
-                        <AccountCompositeCRUD Disabled="false" ReadOnly="false" />
-                    </EditForm>
-                </Body>
-            </ContentTile>
+            <AttributeEntryEditor TViewModelParent="AccountAttributesDto"
+                TViewModelChild="AccountAttributeGrouping"
+                TModel="AccountObject"
+                TModelChild="AccountAttributeMemberEntry"
+                OnCancelEditorClick="FormCancelClickHandler"
+                OnDeleteModelClick="FormDeleteClickHandler"
+                OnValidFormSubmit="ValidFormSubmitHandler"
+                ModelDto="@ModelDto.AttributeViewModel"
+                Mode="EditorMode.Edit">
+                <ViewModelCRUD>
+                    <AccountCompositeCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelCRUD>
+                <ViewModelChildCRUD>
+                    <AccountAttributesCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelChildCRUD>
+            </AttributeEntryEditor>
             <ContentTile>
                 <Body>
                     <EditForm Model="@ModelDto">
-                        <AccountCompositeMembersCRUD 
-                            Accounts="@Accounts" Disabled="false" ReadOnly="false" />
+                        <AccountCompositeMembersCRUD Accounts="@Accounts" Disabled="false" ReadOnly="false" />
                     </EditForm>
                 </Body>
             </ContentTile>
@@ -85,9 +75,10 @@
         }
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
-
-    private async Task Delete_OnClick()
+    /// <summary>
+    /// Handles the delete click event of this page.
+    /// </summary>
+    private async Task FormDeleteClickHandler(MouseEventArgs args)
     {
         var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
 
@@ -95,14 +86,21 @@
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
-    protected override async Task HandleValidSubmit()
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
     {
-        Model = ModelDto.ToEntity();
-
         var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
 
         int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
 
         ProcessDetailAtAction(id);
     }
+
+    /// <summary>edit
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
+        NavigationHelper.NavigateTo(FormatDetailUri(Model.AccountCompositeId));
 }
