@@ -4,8 +4,8 @@
 
 @if(!string.IsNullOrEmpty(LabelText))
 {
-    <tr class="grid-container">
-        <td class="col-sm-2">
+    <tr class="grid-container model-property-input">
+        <td class="label">
             @if(!string.IsNullOrEmpty(ToolTipText))
             {
                 <ToolTip Text="@ToolTipText">
@@ -17,7 +17,7 @@
                 @LabelText
             }
         </td>
-        <td class="col-sm-10">
+        <td class="value">
             @ChildContent
             @if(!SuppressValidation)
             {

@@ -8,7 +8,7 @@ else
 {
     <ModelForm TModelDto="AccountCompositeDto">
         @*AccountObject inputs*@
-        <ModelFormLineItem ForMember="@(() => ModelDto.AccountObjectCode)">
+        <ModelFormEntry ForMember="@(() => ModelDto.AccountObjectCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -21,8 +21,8 @@ else
                     disable="@Disabled"
                    DisplayName=@(NameFor(x => x.AccountObjectCode)) />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.DisplayName)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.DisplayName)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -35,8 +35,8 @@ else
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.DisplayName)) />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.Description)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.Description)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -49,8 +49,8 @@ else
                     disable="@Disabled"
                    DisplayName=@(NameFor(x => x.Description)) />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.StartDate)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.StartDate)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -61,8 +61,8 @@ else
             {
                 <InputDate class="form-control" @bind-Value=ModelDto.StartDate disable="@Disabled" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.CloseDate)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.CloseDate)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -73,6 +73,6 @@ else
             {
                 <InputDate class="form-control" @bind-Value=ModelDto.CloseDate disable="@Disabled" />
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
     </ModelForm>
 }

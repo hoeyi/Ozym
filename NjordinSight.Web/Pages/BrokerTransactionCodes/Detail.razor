@@ -34,17 +34,17 @@
                 <Body>
                     <EditForm class="model-editor" Model="entry">
                         <ModelForm TModelDto="BrokerTransactionCodeAttributeMemberEntry">
-                            <ModelFormLineItem LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
+                            <ModelFormEntry LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
                                        ForMember="@(() => entry.AttributeMember.DisplayName)">
                                 <div class="form-control">
                                     @entry.AttributeMember.DisplayName
                                 </div>
-                            </ModelFormLineItem>
-                            <ModelFormLineItem ForMember="@(() => entry.EffectiveDate)">
+                            </ModelFormEntry>
+                            <ModelFormEntry ForMember="@(() => entry.EffectiveDate)">
                                 <div class="form-control">
                                     @entry.EffectiveDate.ToShortDateString()
                                 </div>
-                            </ModelFormLineItem>
+                            </ModelFormEntry>
                         </ModelForm>
                     </EditForm>
                 </Body>

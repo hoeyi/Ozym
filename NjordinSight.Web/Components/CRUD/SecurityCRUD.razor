@@ -10,7 +10,7 @@
 else
 {
     <ModelForm TModelDto="SecurityDto">
-        <ModelFormLineItem ForMember="@(() => ModelDto.SecurityDescription)">
+        <ModelFormEntry ForMember="@(() => ModelDto.SecurityDescription)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -23,8 +23,8 @@ else
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.SecurityDescription)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.SecurityTypeId)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.SecurityTypeId)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -43,8 +43,8 @@ else
                 }
             </InputSelect>
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.Issuer)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.Issuer)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -57,8 +57,8 @@ else
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.Issuer)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.HasPerpetualMarket)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.HasPerpetualMarket)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -71,8 +71,8 @@ else
                     disable="@Disabled"
                     DisplayName="@NameFor(x => x.HasPerpetualMarket)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.HasPerpetualPrice)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.HasPerpetualPrice)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -85,8 +85,8 @@ else
                     disable="@Disabled"
                     DisplayName="@NameFor(x => x.HasPerpetualPrice)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.SecurityExchangeId)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.SecurityExchangeId)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -105,7 +105,7 @@ else
                 }
             </InputSelect>
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
     </ModelForm>
 }
 
