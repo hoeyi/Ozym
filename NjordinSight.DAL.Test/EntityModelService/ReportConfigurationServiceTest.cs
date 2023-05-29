@@ -12,10 +12,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            ReportConfiguration deleted = (await service.SelectWhereAysnc(
+            ReportConfiguration deleted = (await service.SelectAsync(
                 predicate: x => x.ConfigurationCode == DeleteModelSuccessSample.ConfigurationCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -30,10 +30,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            ReportConfiguration original = (await service.SelectWhereAysnc(
+            ReportConfiguration original = (await service.SelectAsync(
                 predicate: x => x.ConfigurationCode == UpdateModelSuccessSample.ConfigurationCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.ConfigurationCode = $"{original.ConfigurationCode} - u";
 

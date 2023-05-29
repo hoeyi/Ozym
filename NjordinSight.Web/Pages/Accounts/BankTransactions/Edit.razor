@@ -118,14 +118,14 @@
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
 
-            var transactionsQueryTask = Controller.SelectAllAsync();
+            var transactionsQueryTask = Controller.SelectWhereAsync(predicate: x => true, maxCount: 50);
 
             var dataTasks = Task.WhenAll(transactionsQueryTask, transactionCodeDTOsTask);
             await dataTasks;
 
             if (dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                Entries = (await transactionsQueryTask).Value;
+                Entries = (await transactionsQueryTask).Value?.ToList();
                 TransactionCodes = (await transactionCodeDTOsTask).Value;
             }
             else

@@ -19,7 +19,7 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            var model = service.SelectAllAsync().Result.FirstOrDefault();
+            var model = service.SelectAsync().Result.FirstOrDefault();
 
             model.DisplayOrder++;
 

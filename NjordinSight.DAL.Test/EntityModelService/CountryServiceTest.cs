@@ -12,10 +12,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            Country deleted = (await service.SelectWhereAysnc(
+            Country deleted = (await service.SelectAsync(
                 predicate: x => x.IsoCode3 == DeleteModelSuccessSample.IsoCode3,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -30,10 +30,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            Country original = (await service.SelectWhereAysnc(
+            Country original = (await service.SelectAsync(
                 predicate: x => x.IsoCode3 == UpdateModelSuccessSample.IsoCode3,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.DisplayName = $"{original.DisplayName} - updated";
 

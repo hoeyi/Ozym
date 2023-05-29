@@ -92,7 +92,7 @@
 
     private IDictionary<int, string> SecurityDtos { get; set; }
 
-    private IList<SecurityPrice> SecurityPrices { get; set; }
+    private IEnumerable<SecurityPrice> SecurityPrices { get; set; }
 
     private int MaxRecordCount { get; set; } = 100;
 
@@ -167,7 +167,7 @@
             SearchFields = ExpressionBuilder!.GetSearchableMembers<SecurityPrice>();
             ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
-            var pricesTask = Controller.SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+            var pricesTask = Controller.SelectWhereAsync(InitialSearchExpression, MaxRecordCount);
             var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
                 key: x => x.SecurityId,
                 display: x => x.SecurityDescription);
@@ -214,10 +214,10 @@
             IsLoading = true;
             if (args is not null)
             {
-                var actionResult = await Controller!.SelectWhereAysnc(
+                var actionResult = await Controller!.SelectWhereAsync(
                         predicate: args.SearchExpression, maxCount: MaxRecordCount);
 
-                SecurityPrices = actionResult.Value ?? new List<SecurityPrice>();
+                SecurityPrices = actionResult.Value?.ToList() ?? new List<SecurityPrice>();
             }
         }
         finally

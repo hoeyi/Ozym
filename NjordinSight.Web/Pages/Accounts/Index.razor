@@ -122,13 +122,6 @@
 
 
 @code {
-    protected override async Task OnInitializedAsync()
-    {
-        MaxRecordCount = -1;
-
-        await base.OnInitializedAsync();
-    }
-
     private void Detail_OnClick(Account model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.AccountId));

@@ -12,10 +12,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            SecurityExchange deleted = (await service.SelectWhereAysnc(
+            SecurityExchange deleted = (await service.SelectAsync(
                 predicate: x => x.ExchangeCode == DeleteModelSuccessSample.ExchangeCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -30,10 +30,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            SecurityExchange original = (await service.SelectWhereAysnc(
+            SecurityExchange original = (await service.SelectAsync(
                 predicate: x => x.ExchangeCode == UpdateModelSuccessSample.ExchangeCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.ExchangeCode = $"{original.ExchangeCode}-u";
             original.ExchangeDescription = $"{original.ExchangeDescription} - updated";

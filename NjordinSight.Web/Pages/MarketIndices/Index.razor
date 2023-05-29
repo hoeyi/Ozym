@@ -47,13 +47,6 @@
 
 
 @code {
-    protected override async Task OnInitializedAsync()
-    {
-        MaxRecordCount = -1;
-
-        await base.OnInitializedAsync();
-    }
-
     private void Detail_OnClick(MarketIndex model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.IndexId));

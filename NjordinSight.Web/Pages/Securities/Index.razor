@@ -104,13 +104,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        MaxRecordCount = -1;
-
-        await base.OnInitializedAsync();
         IsLoading = true;
 
         try
         {
+            var baseInitTask = base.OnInitializedAsync();
+
             var exchangesQuery = Controller.ReferenceQueries
                 .GetDtosAsync<SecurityExchange, int, string>(
                     key: x => x.ExchangeId,
@@ -121,7 +120,7 @@
                     key: x => x.SecurityTypeId,
                     display: x => x.SecurityTypeName);
 
-            var dataTasks = Task.WhenAll(exchangesQuery, secTypesQuery);
+            var dataTasks = Task.WhenAll(baseInitTask, exchangesQuery, secTypesQuery);
 
             await dataTasks;
 

@@ -74,16 +74,16 @@ namespace NjordinSight.EntityModelService.Abstractions
         }
 
         /// <inheritdoc/>
-        public async Task<List<T>> SelectAllAsync()
+        public async Task<IEnumerable<T>> SelectAsync()
         {
-            return await Reader.SelectAllAsync();
+            return await Reader.SelectAsync();
         }
 
         /// <inheritdoc/>
-        public async Task<List<T>> SelectWhereAysnc(
-            Expression<Func<T, bool>> predicate, int maxCount = 0)
+        public async Task<(IEnumerable<T>, PaginationData)> SelectAsync(
+            Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 50)
         {
-            return await Reader.SelectWhereAysnc(predicate, maxCount);
+            return await Reader.SelectAsync(predicate, pageNumber, pageSize);
         }
     }
 }

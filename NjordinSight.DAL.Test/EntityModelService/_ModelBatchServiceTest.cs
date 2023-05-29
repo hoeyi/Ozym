@@ -108,7 +108,7 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            var models = await service.SelectAllAsync();
+            var models = (await service.SelectAsync()).ToList();
 
             Assert.IsTrue(models.Count > 0);
             Assert.IsInstanceOfType(models, typeof(List<T>));
@@ -139,7 +139,7 @@ namespace NjordinSight.Test.EntityModelService
                 expression = GetKeySearchExpression(GetKey(model));
             }
 
-            var models = await service.SelectWhereAysnc(predicate: expression, maxCount: 1);
+            var models = (await service.SelectAsync(predicate: expression, pageSize: 1)).Item1;;
 
             Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
         }

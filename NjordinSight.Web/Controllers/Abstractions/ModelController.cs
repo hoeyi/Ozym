@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -106,16 +107,20 @@ namespace NjordinSight.Web.Controllers.Abstractions
         }
 
         /// <inheritdoc/>
-        public async Task<ActionResult<IList<T>>> SelectAllAsync()
+        public async Task<ActionResult<IEnumerable<T>>> SelectAllAsync()
         {
-            return await _modelService.SelectAllAsync();
+            var query = await _modelService.SelectAsync();
+
+            return query.ToList();
         }
 
         /// <inheritdoc/>
-        public async Task<ActionResult<IList<T>>> SelectWhereAysnc(
+        public async Task<ActionResult<IEnumerable<T>>> SelectWhereAysnc(
             Expression<Func<T, bool>> predicate, int maxCount = 0)
         {
-            return await _modelService.SelectWhereAysnc(predicate, maxCount);
+            var query = await _modelService.SelectAsync(predicate, pageSize: maxCount);
+
+            return query.Item1.ToList();
         }
 
         /// <inheritdoc/>
