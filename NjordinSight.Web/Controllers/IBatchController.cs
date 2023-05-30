@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NjordinSight.DataTransfer;
 using NjordinSight.EntityModelService.Abstractions;
 using System;
 using System.Collections.Generic;
