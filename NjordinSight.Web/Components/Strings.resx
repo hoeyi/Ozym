@@ -169,6 +169,15 @@
   <data name="Caption_NoContent" xml:space="preserve">
     <value>(No content)</value>
   </data>
+  <data name="Caption_PageCount" xml:space="preserve">
+    <value>{0} pages</value>
+    <comment>{0} is the total count of pages</comment>
+  </data>
+  <data name="Caption_RecordCount_WithTotal" xml:space="preserve">
+    <value>{0} records of {1}</value>
+    <comment>{0} is the count of returned records
+{1} is the total count of records matching the filter</comment>
+  </data>
   <data name="Caption_SaveMany" xml:space="preserve">
     <value>Save {0}</value>
   </data>

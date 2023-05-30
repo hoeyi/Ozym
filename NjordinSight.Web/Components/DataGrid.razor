@@ -29,7 +29,7 @@
             <tfoot class="datagrid-footer">
                 <tr>
                     <td class="datagrid-cell text" colspan="@Columns.Count()">
-                        @($"{Data.Count()} records returned.")
+                        @($"{RecordCount} records returned.")
                     </td>
                 </tr>
             </tfoot>
@@ -40,6 +40,7 @@
 
 
 @code {
+    #nullable enable
     /// <summary>
     /// Gets or sets the edit context for this cell.
     /// </summary>
@@ -69,6 +70,8 @@
     /// </summary>
     public IList<DataGridColumn<TModel>> Columns { get; init; } = new List<DataGridColumn<TModel>>();
 
+    private int RecordCount => Data?.Count() ?? default;
+
     /// <summary>
     /// Adds the given column to the data grid collection.
     /// </summary>
@@ -90,12 +93,13 @@
     {
         if (firstRender)
         {
-            // The first render will instantiate the GridColumn defined in the ChildContent.
+            // The first render will instantiate the Gri
+            // dColumn defined in the ChildContent.
             // GridColumn calls AddColumn during its initialization. This means that until
             // the first render is completed, the columns collection is empty.
             // Calling StateHasChanged() will re-render the component, so the second time it will know the columns
             StateHasChanged();
         }
     }
-
+    #nullable disable
 }
