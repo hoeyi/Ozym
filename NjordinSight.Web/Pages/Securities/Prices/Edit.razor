@@ -99,7 +99,7 @@
                             Type="DataGridCellType.Control"
                             Caption=@(NameFor(x => x.PriceLow))>
                             <CellEditTemplate Context="model">
-                                <InputNumber class="form-control" @bind-Value="model.PriceClose" />
+                                <InputNumber class="form-control" @bind-Value="model.PriceLow" />
                             </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property=@nameof(SecurityPrice.Volume)
