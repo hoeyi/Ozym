@@ -1,0 +1,24 @@
+﻿.control-container {
+    display: flex;
+    justify-content: flex-start
+}
+
+.control-container > .form-control:not(button) {
+    /*margin-left: 0.5rem !important;*/
+    width: 100px;
+}
+
+.control-container .pagination-caption {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 0.85rem;
+
+    /* This flag does not seem correct. Dev toosl recognize value just fine.*/
+    /* TODO: Investigate. */
+    align-self: last baseline;
+}
+::deep .paginator .icon {
+    width: 100%;
+    aspect-ratio: 1/1;
+    min-width: 16px;
+}
