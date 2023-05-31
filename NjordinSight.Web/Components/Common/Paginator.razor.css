@@ -1,11 +1,18 @@
 ﻿.control-container {
     display: flex;
-    justify-content: flex-start
+    justify-content: flex-start;
+    /*max-height: 2rem;*/
+    /*position: relative;*/
 }
 
-.control-container > .form-control:not(button) {
-    /*margin-left: 0.5rem !important;*/
-    width: 100px;
+#8FF508DD-48E0-412F-831A-D70930322DE1, #1A9C259A-D299-40C3-8FAB-55D2C9557CE1 {
+    text-align: center;
+    width: min-content;
+}
+
+.form-control:not(button) {
+    width: auto;
+    max-width: 50px;
 }
 
 .control-container .pagination-caption {
@@ -13,12 +20,9 @@
     padding-right: 1rem;
     font-size: 0.85rem;
 
-    /* This flag does not seem correct. Dev toosl recognize value just fine.*/
+    /* This flag does not seem correct. Browser deve tools recognize value just fine.*/
     /* TODO: Investigate. */
-    align-self: last baseline;
-}
-::deep .paginator .icon {
-    width: 100%;
-    aspect-ratio: 1/1;
-    min-width: 16px;
+    /* Prefer the center look. */
+    /* TODO: Remove */
+    /*align-self: last baseline;*/
 }

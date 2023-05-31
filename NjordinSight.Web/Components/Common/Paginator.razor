@@ -6,21 +6,30 @@
                 @onclick="@((args) => Model.MoveStart())">
                 <IonIcon Name="play-skip-back-circle" />
             </button>
-            <button class="form-control button icon" type="button"
+            <button class="form-control button icon" type="button" 
                     @onclick="@((args) => Model.MovePrevious())">
                 <IonIcon Name="caret-back-circle" />
             </button>
-            <InputNumber class="form-control" @bind-Value="@Model.PageIndex" />
+            <InputNumber id="8FF508DD-48E0-412F-831A-D70930322DE1" 
+                class="form-control page-index" @bind-Value="@Model.PageIndex" />
             <button class="form-control button icon" type="button"
                 @onclick="@((args) => Model.MoveNext())">
                 <IonIcon Name="caret-forward-circle" />
             </button>
             <button class="form-control button icon" type="button"
-                @onclick="@((args) => Model.MoveEnd())">
+                @onclick="@((args) => Model.MoveEnd())" >
                 <IonIcon Name="play-skip-forward-circle" />
             </button>
+            <InputSelect id="1A9C259A-D299-40C3-8FAB-55D2C9557CE1" 
+                class="form-control page-size" @bind-Value="@Model.PageSize">
+                <option value="20">20</option>
+                <option value="40">40</option>
+                <option value="60">60</option>
+                <option value="80">80</option>
+                <option value="100">100</option>
+            </InputSelect>
             <div class="pagination-caption">
-                @RecordsCaption
+                @RecordsCaption; @PageCaption
             </div>
         </div>
     </EditForm>
@@ -45,6 +54,8 @@
     [Parameter, EditorRequired]
     public EventCallback<int> PageSizeChanged { get; init; }
 
+    private bool IsEnabled { get; set; }
+
     private string PageCaption => Strings.Caption_PageCount.Format(Model.PageCount.ToString());
 
     private string RecordsCaption => Strings.Caption_RecordCount_WithTotal
@@ -60,13 +71,14 @@
         if (args.PropertyName == nameof(PagerModel.PageIndex) && 
             IndexChanged.HasDelegate)
         {
+            IsEnabled = false;
             IndexChanged.InvokeAsync(Model.PageIndex);
         }
         else if (args.PropertyName == nameof(PagerModel.PageSize) &&
             PageSizeChanged.HasDelegate)
         {
+            IsEnabled = false;
             PageSizeChanged.InvokeAsync(Model.PageSize);
         }
-
     }
 }

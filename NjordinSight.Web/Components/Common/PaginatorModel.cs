@@ -69,7 +69,7 @@ namespace NjordinSight.Web.Components.Common
             get { return _pageSize; }
             set
             {
-                if(_pageSize != value)
+                if (_pageSize != value)
                 {
                     _pageSize = value;
                     NotifyPropertyChanged();
