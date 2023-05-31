@@ -36,7 +36,9 @@ namespace NjordinSight.Web
                 .AddScoped<IController<Security>, ModelController<Security>>()
                 .AddScoped<IController<SecuritySymbolType>, ModelController<SecuritySymbolType>>()
                 .AddScoped<IController<SecurityTypeGroup>, ModelController<SecurityTypeGroup>>()
-                .AddScoped<IController<SecurityType>, ModelController<SecurityType>>();
+                .AddScoped<IController<SecurityType>, ModelController<SecurityType>>()
+
+                .AddScoped<IController<SecurityPrice>, ModelController<SecurityPrice>>();
 
             // Add batch controllers.
             // These should probably be transient, else changes one page may be retained 
