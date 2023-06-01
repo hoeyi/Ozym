@@ -1,26 +1,42 @@
-﻿.control-container {
+﻿form.paginator {
+    height: inherit;
+}
+
+.control-container {
     display: flex;
     justify-content: flex-start;
-    /*max-height: 2rem;*/
-    /*position: relative;*/
 }
 
-#8FF508DD-48E0-412F-831A-D70930322DE1, #1A9C259A-D299-40C3-8FAB-55D2C9557CE1 {
-    text-align: center;
-    width: min-content;
+.control-container > .form-control {
+    /*height: 100%;*/
 }
 
-.form-control:not(button) {
-    width: auto;
-    max-width: 50px;
+.control-container > .form-control.button.icon {
+    width: 2rem;
+}
+
+::deep #8FF508DD.form-control.page-index {
+    display: inline-flex !important;
+    text-align: center !important;
+    width: 4rem !important;
+}
+
+#8FF508DD-48E0-412F-831A-D70930322DE1 {
+    display: inline-flex !important;
+}
+#1A9C259A-D299-40C3-8FAB-55D2C9557CE1 {
+    display: inline-flex !important;
 }
 
 .control-container .pagination-caption {
     padding-left: 1rem;
     padding-right: 1rem;
     font-size: 0.85rem;
+    white-space: nowrap;
+    display: flex;
+    align-self: center;
 
-    /* This flag does not seem correct. Browser deve tools recognize value just fine.*/
+    /* This flag does not seem correct. Browser dev tools recognize value just fine.*/
     /* TODO: Investigate. */
     /* Prefer the center look. */
     /* TODO: Remove */

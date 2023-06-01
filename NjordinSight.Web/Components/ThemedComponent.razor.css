@@ -282,11 +282,6 @@ input::-webkit-inner-spin-button {
         border: none;
     }
 
-    ::deep .custom-modal .action-button-menu {
-        padding: 0rem 0.75rem 0rem 0.75rem;
-        width: 100%;
-    }
-
     ::deep .custom-modal[tag="attribute-target"] {
         min-width: 525px;
         min-height: 240px;
@@ -295,6 +290,10 @@ input::-webkit-inner-spin-button {
 /*#endregion */
 
 /*#region Ion-Icon svg formatting */
+::deep .ion-icon {
+    height: 100%;
+}
+
 /*Change the fill color to light shade if not 'none' or 'transparent'.*/
 ::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
     fill: var(--theme-text-color-0, black);

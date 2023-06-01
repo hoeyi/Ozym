@@ -1,21 +1,27 @@
 ﻿.content-tile {
     display: block;
     overflow: auto;
+    margin-bottom: 1rem;
 }
+
+/** + .content-tile {
+    margin-top: 1rem;
+}*/
 
 .content-tile > .content-header, .content-body {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 0.5rem;
-}
-.content-body {
-    padding-bottom: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
-::deep .content-header .icon {
-    width: 100%;
+.content-header {
+    margin-top: 0.5rem;
+}
+
+::deep .content-header .form-control {
+    height: 2rem !important;
+}
+
+::deep button.form-control.icon {
     aspect-ratio: 1/1;
-    min-width: 16px;
 }
 
 .content-header {
@@ -23,20 +29,19 @@
     justify-content: space-between;
     width: 100%;
     align-items: center;
+    
+    height: 2rem;
 }
 
-::deep .content-header * {
+::deep .content-header > * {
     align-self: center;
+    height: 2rem;
 }
 
 .content-header .left {
     padding-left: 0.5rem;
-    display: flex;
-    justify-content: flex-start
-}
-
-::deep .content-header > .left > span {
-    padding-left: 0.5rem;
+    display: flex;  
+    justify-content: flex-start;
 }
 
 .content-header .right {
@@ -45,15 +50,26 @@
     justify-content: flex-end;
 }
 
+::deep .content-header > .left > span {
+    padding-left: 0.5rem;
+}
+
 ::deep .content-header .left > * {
-    padding-right: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 ::deep .content-header .right > * {
     margin-left: 0.5rem;
 }
 
-::deep .left .form-control {
-    height: 2rem;
+::deep .content-header > * > .form-control {
+    height: 100%;
     width: fit-content;
+    font-size: 0.9rem;
+}
+
+::deep .content-header > * > label {
+    display: flex;
+    align-self: center;
+    font-size: 0.9rem;
 }
