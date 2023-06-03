@@ -6,20 +6,32 @@
                 @onclick="@((args) => Model.MoveStart())">
                 <IonIcon Name="play-skip-back-circle" />
             </button>
-            <button class="form-control button icon" type="button"
+            <button class="form-control button icon" type="button" 
                     @onclick="@((args) => Model.MovePrevious())">
                 <IonIcon Name="caret-back-circle" />
             </button>
-            <InputNumber class="form-control" @bind-Value="@Model.PageIndex" />
+            <InputNumber 
+                class="form-control page-index" @bind-Value="@Model.PageIndex" />
+            <div class="paginator-caption">
+                @PageCaption
+            </div>
             <button class="form-control button icon" type="button"
                 @onclick="@((args) => Model.MoveNext())">
                 <IonIcon Name="caret-forward-circle" />
             </button>
             <button class="form-control button icon" type="button"
-                @onclick="@((args) => Model.MoveEnd())">
+                @onclick="@((args) => Model.MoveEnd())" >
                 <IonIcon Name="play-skip-forward-circle" />
             </button>
-            <div class="pagination-caption">
+            <InputSelect 
+                class="form-control page-size" @bind-Value="@Model.PageSize">
+                <option value="20">20</option>
+                <option value="40">40</option>
+                <option value="60">60</option>
+                <option value="80">80</option>
+                <option value="100">100</option>
+            </InputSelect>
+            <div class="paginator-caption">
                 @RecordsCaption
             </div>
         </div>
@@ -45,10 +57,12 @@
     [Parameter, EditorRequired]
     public EventCallback<int> PageSizeChanged { get; init; }
 
-    private string PageCaption => Strings.Caption_PageCount.Format(Model.PageCount.ToString());
+    private bool IsEnabled { get; set; }
 
-    private string RecordsCaption => Strings.Caption_RecordCount_WithTotal
-        .Format(Model.ItemCount.ToString(), Model.TotalItemCount.ToString());
+    private string PageCaption => Strings.Paginator_Caption_PageCount
+        .Format(Model.PageCount.ToString("N0"));
+
+    private string RecordsCaption => Strings.Paginator_Caption_PageSize;
 
     protected override void OnInitialized()
     {
@@ -60,13 +74,14 @@
         if (args.PropertyName == nameof(PagerModel.PageIndex) && 
             IndexChanged.HasDelegate)
         {
+            IsEnabled = false;
             IndexChanged.InvokeAsync(Model.PageIndex);
         }
         else if (args.PropertyName == nameof(PagerModel.PageSize) &&
             PageSizeChanged.HasDelegate)
         {
+            IsEnabled = false;
             PageSizeChanged.InvokeAsync(Model.PageSize);
         }
-
     }
 }

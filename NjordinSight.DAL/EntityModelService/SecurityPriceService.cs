@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModelService.Abstractions;
-using System;
 
 namespace NjordinSight.EntityModelService
 {
@@ -12,40 +11,18 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing single CRUD requests against the <see cref="SecurityPrice"/> 
     /// data store.
     /// </summary>
-    internal class SecurityPriceService : ModelBatchService<SecurityPrice>
+    internal class SecurityPriceService : ModelService<SecurityPrice>
     {
-        /// <summary>
-        /// Creates a new <see cref="SecurityPriceService"/> instance.
-        /// </summary>
-        /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
-        /// instance.</param>
-        /// <param name="modelMetadata">An <see cref="IModelMetadataService"/> instance.</param>
-        /// <param name="logger">An <see cref="ILogger"/> instance.</param>
         public SecurityPriceService(
-                IDbContextFactory<FinanceDbContext> contextFactory,
-                IModelMetadataService modelMetadata,
-                ILogger logger)
-            : base(contextFactory, modelMetadata, logger)
+            IDbContextFactory<FinanceDbContext> contextFactory, 
+            IModelMetadataService metadataService, 
+            ILogger logger) : base(contextFactory, metadataService, logger)
         {
             Reader = new ModelReaderService<SecurityPrice>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = null
-            };
+                _contextFactory, _modelMetadata, _logger);
 
-            Writer = new ModelWriterBatchService<SecurityPrice>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = null,
-                GetDefaultModelDelegate = () => new()
-            };
-        }
-
-        public override bool ForParent(int parentId, out Exception e)
-        {
-            e = new NotSupportedException(
-                message: ExceptionString.ModelService_ParentNotSupported);
-            return false;
+            Writer = new ModelWriterService<SecurityPrice>(
+                _contextFactory, _modelMetadata, _logger);
         }
     }
 }

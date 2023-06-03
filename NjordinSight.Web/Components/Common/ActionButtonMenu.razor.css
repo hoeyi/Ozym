@@ -1,9 +1,10 @@
 ﻿.action-button-menu {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min-content, 15%));
-    grid-gap: 10px;
-    margin-top: auto;
-    margin-bottom: 0.5rem;
+    grid-gap: 0.75rem;
+    padding: 0.5rem;
+    /*margin-top: auto;*/
+    /*margin-bottom: 0.5rem;*/
 }
 
 ::deep .action-button-menu > button {

@@ -39,7 +39,9 @@ namespace NjordinSight
                 .AddScoped<IModelService<Security>, SecurityService>()
                 .AddScoped<IModelService<SecuritySymbolType>, SecuritySymbolTypeService>()
                 .AddScoped<IModelService<SecurityTypeGroup>, SecurityTypeGroupService>()
-                .AddScoped<IModelService<SecurityType>, SecurityTypeService>();
+                .AddScoped<IModelService<SecurityType>, SecurityTypeService>()
+
+                .AddScoped<IModelService<SecurityPrice>, SecurityPriceService>();
 
             // Add batch services.
             services
@@ -62,7 +64,7 @@ namespace NjordinSight
                 .AddScoped<IModelBatchService<ModelAttributeMember>, ModelAttributeMemberService>()
                 .AddScoped<IModelBatchService<SecurityAttributeMemberEntry>, SecurityAttributeService>()
                 .AddScoped<IModelBatchService<SecurityExchange>, SecurityExchangeBatchService>()
-                .AddScoped<IModelBatchService<SecurityPrice>, SecurityPriceService>()
+                .AddScoped<IModelBatchService<SecurityPrice>, SecurityPriceBatchService>()
                 .AddScoped<IModelBatchService<SecuritySymbol>, SecuritySymbolService>();
         }
     }

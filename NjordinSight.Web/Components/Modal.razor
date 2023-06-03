@@ -13,9 +13,9 @@
         <div class="custom-modal-body">
             @if(ReadOnly)
             {
-                <div>
-                    @ChildContent
-                </div>
+                @ChildContent
+                @*<div>
+                </div>*@
                 <ActionButtonMenu>
                     @foreach(var dialogOption in _dialogResultButtons)
                     {
@@ -34,9 +34,9 @@
                 <EditForm class="model-editor" Model="@ModelDto"
                     OnValidSubmit="(async () => await OnClickAsync(DialogResult.OK))">
                     <DataAnnotationsValidator />
-                        <div>
-                            @ChildContent
-                        </div>
+                        @ChildContent
+                        @*<div>
+                        </div>*@
                         <ActionButtonMenu>
                             @foreach (var dialogOption in _dialogResultButtons)
                             {
