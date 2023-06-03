@@ -196,20 +196,11 @@ namespace NjordinSight.Web.Components {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} pages.
-        /// </summary>
-        public static string Caption_PageCount {
-            get {
-                return ResourceManager.GetString("Caption_PageCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} records of {1}.
         /// </summary>
-        public static string Caption_RecordCount_WithTotal {
+        public static string Caption_RecordCount {
             get {
-                return ResourceManager.GetString("Caption_RecordCount_WithTotal", resourceCulture);
+                return ResourceManager.GetString("Caption_RecordCount", resourceCulture);
             }
         }
         
@@ -246,6 +237,15 @@ namespace NjordinSight.Web.Components {
         public static string Caption_ViewSingle {
             get {
                 return ResourceManager.GetString("Caption_ViewSingle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} records returned..
+        /// </summary>
+        public static string DataGrid_Caption_RecordCount {
+            get {
+                return ResourceManager.GetString("DataGrid_Caption_RecordCount", resourceCulture);
             }
         }
         
@@ -345,6 +345,24 @@ namespace NjordinSight.Web.Components {
         public static string DialogResult_Yes {
             get {
                 return ResourceManager.GetString("DialogResult_Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to of {0} pages.
+        /// </summary>
+        public static string Paginator_Caption_PageCount {
+            get {
+                return ResourceManager.GetString("Paginator_Caption_PageCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to records per page.
+        /// </summary>
+        public static string Paginator_Caption_PageSize {
+            get {
+                return ResourceManager.GetString("Paginator_Caption_PageSize", resourceCulture);
             }
         }
     }

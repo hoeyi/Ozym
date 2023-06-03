@@ -1,5 +1,6 @@
 ﻿form.paginator {
     height: inherit;
+    width: 100%;
 }
 
 .control-container {
@@ -7,38 +8,22 @@
     justify-content: flex-start;
 }
 
-.control-container > .form-control {
-    /*height: 100%;*/
-}
-
 .control-container > .form-control.button.icon {
     width: 2rem;
+    background-color: transparent;
+    border: none;
 }
 
-::deep #8FF508DD.form-control.page-index {
-    display: inline-flex !important;
-    text-align: center !important;
-    width: 4rem !important;
-}
-
-#8FF508DD-48E0-412F-831A-D70930322DE1 {
-    display: inline-flex !important;
-}
-#1A9C259A-D299-40C3-8FAB-55D2C9557CE1 {
-    display: inline-flex !important;
-}
-
-.control-container .pagination-caption {
-    padding-left: 1rem;
-    padding-right: 1rem;
+::deep .form-control:not(button) {
+    margin-left: 0.5rem !important;
     font-size: 0.85rem;
+}
+
+.control-container .paginator-caption {
+    padding: 0rem 0.5rem;
+    font-size: 0.85rem;
+    font-weight: normal;
     white-space: nowrap;
     display: flex;
     align-self: center;
-
-    /* This flag does not seem correct. Browser dev tools recognize value just fine.*/
-    /* TODO: Investigate. */
-    /* Prefer the center look. */
-    /* TODO: Remove */
-    /*align-self: last baseline;*/
 }
