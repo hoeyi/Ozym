@@ -2,6 +2,7 @@
     position: static;
 }
 
+/*#region Model attributes form */
 ::deep .model-attributes .custom-tooltip {
     position: static;
 }
@@ -10,7 +11,6 @@
     margin-left: 0.5rem;
     z-index: 99;
 }
-
 
 ::deep .model-attributes td {
     padding-bottom: 0.5rem;  
@@ -30,9 +30,10 @@
     white-space: pre-wrap;
     height: 0.25rem;
 }
+/*#endregion */
+
 
 /*#region DataGrid*/
-
 ::deep .datagrid {
     width: 100%;
     overflow: scroll;
@@ -159,7 +160,7 @@
 ::deep .form-control {
     color: var(--theme-text-color-0, black) !important;
     outline: none !important;
-    font-size: inherit !important;
+    /*font-size: inherit !important;*/
     font-family: inherit !important;
 }
 
@@ -199,6 +200,15 @@
             color: var(--theme-text-color-0, white) !important;
         }
 
+/*::deep :focus-visible {
+    // TODO: Find out why this is not applied unless written 
+    // using the browswer dev tools.
+    outline: 0.1rem solid var(--theme-hexcolor-secondary-2-2, blue);
+}*/
+
+::deep .form-control:focus {
+    box-shadow: 0 0 0 0.2rem var(--theme-hexcolor-secondary-2-2, blue);
+}
 
 /* Handle the style of checkboxes */
 ::deep input[type=checkbox].checkbox-themed {
@@ -233,7 +243,7 @@ input::-webkit-inner-spin-button {
 
 /* Firefox */
 ::deep input[type=number] {
-    -moz-appearance: textfield;
+    -moz-appearance: textfield; 
 }
 
 /* Handle the width of date input controls. */
@@ -282,11 +292,6 @@ input::-webkit-inner-spin-button {
         border: none;
     }
 
-    ::deep .custom-modal .action-button-menu {
-        padding: 0rem 0.75rem 0rem 0.75rem;
-        width: 100%;
-    }
-
     ::deep .custom-modal[tag="attribute-target"] {
         min-width: 525px;
         min-height: 240px;
@@ -295,6 +300,10 @@ input::-webkit-inner-spin-button {
 /*#endregion */
 
 /*#region Ion-Icon svg formatting */
+::deep .ion-icon {
+    height: 100%;
+}
+
 /*Change the fill color to light shade if not 'none' or 'transparent'.*/
 ::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
     fill: var(--theme-text-color-0, black);

@@ -1,6 +1,6 @@
 ﻿@page "/securities/prices"
 
-@inherits ModelPage<SecurityPrice>
+@inherits ModelListPage<SecurityPrice>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -36,6 +36,10 @@
         </CascadingValue>
 
         <ContentTile>
+            <TitleAlignLeft>
+                <Paginator Model="PaginationHelper" 
+                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+            </TitleAlignLeft>
             <Body>
                 <DataGrid Data="@SecurityPrices">
                     <DataGridColumn Property="@nameof(SecurityPrice.SecurityId)"
@@ -87,14 +91,9 @@
 </ThemedComponent>
 
 @code {
-    [Inject]
-    protected IBatchController<SecurityPrice> Controller { get; set; }
-
     private IDictionary<int, string> SecurityDtos { get; set; }
 
     private IEnumerable<SecurityPrice> SecurityPrices { get; set; }
-
-    private int MaxRecordCount { get; set; } = 100;
 
     private DateTime GetLastBusinessDay()
     {
@@ -161,13 +160,16 @@
 
             DateTime lastBusinessDay = GetLastBusinessDay();
 
-            //InitialSearchExpression = x => x.PriceDate == lastBusinessDay;
             InitialSearchExpression = x => true;
 
             SearchFields = ExpressionBuilder!.GetSearchableMembers<SecurityPrice>();
             ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
-            var pricesTask = Controller.SelectWhereAsync(InitialSearchExpression, MaxRecordCount);
+            var pricesTask = Controller.SelectAsync(
+                                predicate: LastSearchExpression,
+                                pageNumber: PaginationHelper.PageIndex,
+                                pageSize: PaginationHelper.PageSize);
+
             var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
                 key: x => x.SecurityId,
                 display: x => x.SecurityDescription);
@@ -181,7 +183,12 @@
                 var securityDtoResult = await securityDtosTask;
 
                 SecurityDtos = securityDtoResult.Value.ToDictionary(k => k.Key, v => v.Display);
-                SecurityPrices = pricesResult.Value;
+                var actionResult = await pricesTask;
+
+                SecurityPrices = actionResult.Value.Item1?.ToList() ?? new List<SecurityPrice>();
+
+                PaginationHelper.TotalItemCount = actionResult.Value.Item2.ItemCount;
+                PaginationHelper.ItemCount = SecurityPrices.Count();
             }
         }
         finally
@@ -209,16 +216,43 @@
     /// search expression.</returns>
     protected async Task SearchClicked(SearchSubmittedEventArgs<SecurityPrice> args)
     {
+        await RefreshResults(
+            predicate: args.SearchExpression, 
+            pageNumber: PaginationHelper.PageIndex, 
+            pageSize: PaginationHelper.PageSize);
+
+    }
+    private async Task OnIndexChangedAsync(int args)
+    {
+        await RefreshResults(
+            predicate: LastSearchExpression,
+            pageNumber: PaginationHelper.PageIndex,
+            pageSize: PaginationHelper.PageSize);
+    }
+
+    private async Task OnPageSizeChangedAsync(int args)
+    {
+        await RefreshResults(
+            predicate: LastSearchExpression,
+            pageNumber: PaginationHelper.PageIndex,
+            pageSize: PaginationHelper.PageSize);
+    }
+
+    private readonly object _lock;
+
+    protected async Task RefreshResults(
+        Expression<Func<SecurityPrice, bool>> predicate, int pageNumber, int pageSize)
+    {
+        IsLoading = true;
+
         try
         {
-            IsLoading = true;
-            if (args is not null)
-            {
-                var actionResult = await Controller!.SelectWhereAsync(
-                        predicate: args.SearchExpression, maxCount: MaxRecordCount);
+            var actionResult = await Controller.SelectAsync(predicate, pageNumber, pageSize);
 
-                SecurityPrices = actionResult.Value?.ToList() ?? new List<SecurityPrice>();
-            }
+            SecurityPrices = actionResult.Value.Item1?.ToList() ?? new List<SecurityPrice>();
+
+            PaginationHelper.TotalItemCount = actionResult.Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = SecurityPrices.Count();
         }
         finally
         {

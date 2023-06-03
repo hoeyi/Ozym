@@ -2,7 +2,7 @@
     display: none;
     position: fixed;
     justify-content: center;
-    min-height: 20vh;
+    min-height: 10vh;
     min-width: 30vw;
     max-height: 70vh;
     max-width: 50vw;
@@ -25,17 +25,24 @@
     overflow: hidden;
 }
 
-::deep .custom-modal p {
+::deep .custom-modal div {
     margin-bottom: 0 !important;
 }
 
-::deep .custom-modal .content-tile {
+::deep .custom-modal-body > * > .content-tile {
     background-color: transparent;
     border: none;
+    margin-bottom: revert !important;
+    /*margin-bottom: 0.5rem;*/
 }
 
-::deep .custom-modal .action-button-menu {
-    padding: 0.75rem;
+::deep .custom-modal .content-tile > .content-header {
+    margin-bottom: 0.5rem !important;
+}
+
+::deep .custom-modal-body .action-button-menu {
+    /*padding-left: 1rem;*/
+    width: 100%;
 }
 
 .custom-modal.visible {
@@ -43,7 +50,7 @@
 }
 
 .custom-modal-body {
-    padding: 1rem;
+    padding: 0.5rem;
     width: 100% !important;
 }
 

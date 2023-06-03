@@ -1,0 +1,29 @@
+﻿form.paginator {
+    height: inherit;
+    width: 100%;
+}
+
+.control-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.control-container > .form-control.button.icon {
+    width: 2rem;
+    background-color: transparent;
+    border: none;
+}
+
+::deep .form-control:not(button) {
+    margin-left: 0.5rem !important;
+    font-size: 0.85rem;
+}
+
+.control-container .paginator-caption {
+    padding: 0rem 0.5rem;
+    font-size: 0.85rem;
+    font-weight: normal;
+    white-space: nowrap;
+    display: flex;
+    align-self: center;
+}

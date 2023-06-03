@@ -10,6 +10,11 @@ using NjordinSight.UserInterface;
 using NjordinSight.Web.Controllers;
 using Ichosys.DataModel;
 using Microsoft.AspNetCore.Http;
+using NjordinSight.EntityModelService.Abstractions;
+using NjordinSight.DataTransfer;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using NjordinSight.EntityModel;
 
 namespace NjordinSight.Web.Components.Generic
 {
@@ -32,9 +37,9 @@ namespace NjordinSight.Web.Components.Generic
         protected virtual IController<TModel> Controller { get; set; } = default!;
 
         /// <summary>
-        /// Gets or sets the default search expression used when first loading the index.
+        /// Gets or sets the last saved search expression. Defaults to return all records.
         /// </summary>
-        protected Expression<Func<TModel, bool>> InitialSearchExpression { get; set; } = x => true;
+        protected Expression<Func<TModel, bool>> SavedSearchExpression { get; set; } = x => true;
 
         /// <summary>
         /// Gets the model collection that matches the search expression for this component.
@@ -58,6 +63,25 @@ namespace NjordinSight.Web.Components.Generic
         /// Gets or sets the default maximum record count.
         /// </summary>
         protected int MaxRecordCount { get; set; } = 20;
+
+        /// <summary>
+        /// Gets or sets page record limit for each request.
+        /// </summary>
+        protected int PageSize { get; set; } = 20;
+
+        /// <summary>
+        /// Gets or sets the page index to request.
+        /// </summary>
+        protected int PageIndex { get; set; } = 1;
+
+        /// <summary>
+        /// Gets or sets the <see cref="PagerModel" /> for this component.
+        /// </summary>
+        protected PagerModel PaginationHelper { get; set; } = new()
+        {
+            PageIndex = 1,
+            PageSize = 20
+        };
 
         /// <inheritdoc/>
         protected override MenuRoot CreateSectionNavigationMenu() => new()
@@ -88,10 +112,12 @@ namespace NjordinSight.Web.Components.Generic
                 SearchFields = ExpressionBuilder!.GetSearchableMembers<TModel>();
                 ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
-                var results = await Controller
-                    .SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
+                ActionResult<(IEnumerable<TModel>, PaginationData)> results = await Controller
+                    .SelectAsync(SavedSearchExpression, pageNumber: PageIndex, pageSize: PageSize);
 
-                Models = results.Value ?? Array.Empty<TModel>();
+                Models = results.Value.Item1 ?? Array.Empty<TModel>();
+                PaginationHelper.TotalItemCount = results.Value.Item2.ItemCount;
+                PaginationHelper.ItemCount = Models.Count();
             }
             finally
             {
@@ -115,10 +141,15 @@ namespace NjordinSight.Web.Components.Generic
                 IsLoading = true;
                 if (args is not null)
                 {
-                    var results = await Controller
-                        .SelectWhereAysnc(predicate: args.SearchExpression, maxCount: MaxRecordCount);
+                    ActionResult<(IEnumerable<TModel>, PaginationData)> results = 
+                        await Controller.SelectAsync(
+                                predicate: args.SearchExpression, 
+                                pageNumber: PaginationHelper.PageIndex, 
+                                pageSize: PaginationHelper.PageSize);
 
-                    Models = results.Value ?? Array.Empty<TModel>();
+                    Models = results.Value.Item1 ?? Array.Empty<TModel>();
+                    PaginationHelper.TotalItemCount = results.Value.Item2.ItemCount;
+                    PaginationHelper.ItemCount = Models.Count();
                 }
             }
             finally

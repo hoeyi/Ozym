@@ -35,7 +35,7 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <EditForm width="100%" EditContext="@_context">
+        <EditForm width="100%" EditContext="@Context">
             <DataAnnotationsValidator />
             <ActionButtonMenu>
                 <button class="form-control button"
@@ -99,7 +99,7 @@
                             Type="DataGridCellType.Control"
                             Caption=@(NameFor(x => x.PriceLow))>
                             <CellEditTemplate Context="model">
-                                <InputNumber class="form-control" @bind-Value="model.PriceClose" />
+                                <InputNumber class="form-control" @bind-Value="model.PriceLow" />
                             </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property=@nameof(SecurityPrice.Volume)
@@ -213,7 +213,7 @@
         {
             Entries ??= new List<SecurityPrice>();
 
-            _context = new(Entries);
+            Context = new(Entries);
             IsLoading = UpodateLoading();
         }
     }

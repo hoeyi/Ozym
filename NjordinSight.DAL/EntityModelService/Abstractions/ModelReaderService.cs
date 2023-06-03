@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using NjordinSight.DataTransfer;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.Logging;
 using System;
@@ -152,15 +153,15 @@ namespace NjordinSight.EntityModelService.Abstractions
         {
             int limitPageSize = Clamp(pageSize, 0, 100);
 
-            if (ParentExpression is not null)
-                predicate = ParentExpression.AndAlso(predicate);
+                if (ParentExpression is not null)
+                    predicate = ParentExpression.AndAlso(predicate);
 
-            if (HasSharedContext)
-                return await ReadAsync(SharedContext, predicate, pageNumber, pageSize: limitPageSize);
+                if (HasSharedContext)
+                    return await ReadAsync(SharedContext, predicate, pageNumber, pageSize: limitPageSize);
 
-            using var context = await _contextFactory.CreateDbContextAsync();
+                using var context = await _contextFactory.CreateDbContextAsync();
 
-            return await ReadAsync(context, predicate, pageNumber, pageSize: limitPageSize);
+                return await ReadAsync(context, predicate, pageNumber, pageSize: limitPageSize);
         }
 
         static int Clamp(int value, int min, int max)
@@ -208,11 +209,5 @@ namespace NjordinSight.EntityModelService.Abstractions
         }
     }
 
-    public record PaginationData
-    {
-        public int PageIndex { get; init; }
-        public int PageSize { get; init; }
-        public int ItemCount { get; init; }
-        public int PageCount => (int)Math.Ceiling(ItemCount / (double)PageSize);
-    }
+    
 }

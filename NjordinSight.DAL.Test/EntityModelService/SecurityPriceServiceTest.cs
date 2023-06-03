@@ -22,7 +22,7 @@ namespace NjordinSight.Test.EntityModelService
         }
 
         protected override IModelBatchService<SecurityPrice> GetModelService() =>
-            BuildModelService<SecurityPriceService>();
+            BuildModelService<SecurityPriceBatchService>();
 
     }
 }
