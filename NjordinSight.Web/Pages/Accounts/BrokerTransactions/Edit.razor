@@ -135,17 +135,6 @@
                                 </InputSelect>
                             </CellEditTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Type="DataGridCellType.Button">
-                            <CellEditTemplate Context="model">
-                                <ToolTip Text="@Strings.Caption_Button_Delete">
-                                    <button class="form-control button icon"
-                                        type="button"
-                                        @onclick="async (args) => await DeleteAsync(args, model)">
-                                        <IonIcon Name="close-circle" />
-                                    </button>
-                                </ToolTip>
-                            </CellEditTemplate>
-                        </DataGridColumn>
                         <DataGridColumn Type="DataGridCellType.Control"
                                     Property="@nameof(BrokerTransaction.TransactionId)"
                                     Caption="@(NameFor(x => x.TransactionId))">
@@ -159,6 +148,16 @@
                             <CellTemplate Context="model">
                                 <div class="form-control">@model.TaxLotId</div>
                             </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon" type="button"
+                                        @onclick="async (args) => await DeleteAsync(args, model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
+                            </CellEditTemplate>
                         </DataGridColumn>
                     </DataGrid>
                 </Body>

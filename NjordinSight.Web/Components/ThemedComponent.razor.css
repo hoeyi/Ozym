@@ -77,12 +77,6 @@
         text-decoration: underline;
     }
 
-::deep .datagrid .title {
-    font-size: 1.25rem;
-    font-weight: bold;
-}
-
-
 ::deep .datagrid-cell {
     background-color: var(--theme-tablecell-back-color, white);
     border: solid;
@@ -103,13 +97,19 @@
         width: 2rem;
     }
 
+    ::deep .datagrid tbody .datagrid-cell {
+        font-size: 0.9rem;
+    }
+
 ::deep .datagrid-column-header {
-    text-indent: 0.5rem;
+    padding-top: 0.25rem;
+    padding-left: 0.5rem;
     background-color: var(--theme-tableheader-back-color, white);
     color: var(--theme-tableheader-fore-color, black);
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 2.25rem;
+    height: 2rem;
+    font-size: 1rem;
 }
 
 

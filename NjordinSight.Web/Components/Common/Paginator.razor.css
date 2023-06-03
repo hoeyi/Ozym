@@ -16,12 +16,12 @@
 
 ::deep .form-control:not(button) {
     margin-left: 0.5rem !important;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 }
 
 .control-container .paginator-caption {
     padding: 0rem 0.5rem;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: normal;
     white-space: nowrap;
     display: flex;

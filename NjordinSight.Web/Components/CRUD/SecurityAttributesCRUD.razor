@@ -36,6 +36,17 @@ else
         <Body>
             <DataGrid Data="@ModelDto.Entries">
                 <ValidationMessage For=@(() => ModelDto.SumOfMemberWeights) />
+                @if(!ReadOnly)
+                {
+                    <DataGridColumn Type="DataGridCellType.Button">
+                        <CellEditTemplate Context="model">
+                            <button class="form-control button icon" type="button"
+                            @onclick="(args) => RemoveExisting_OnClick(args, model)">
+                                <IonIcon Name="close-circle" />
+                            </button>
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                }
                 @if (ReadOnly)
                 {
                     <DataGridColumn Property=@nameof(SecurityAttributeMemberEntry.AttributeMemberId)
@@ -69,15 +80,6 @@ else
                             Caption=@(ModelMetadata.NameFor<SecurityAttributeMemberEntry>(x => x.Weight))>
                         <CellEditTemplate Context="model">
                             <InputNumber class="form-control" @bind-Value="@model.Weight" />
-                        </CellEditTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Type="DataGridCellType.Button">
-                        <CellEditTemplate Context="model">
-                            <button class="form-control button icon"
-                            type="button"
-                            @onclick="(args) => RemoveExisting_OnClick(args, model)">
-                                <IonIcon Name="close-circle" />
-                            </button>
                         </CellEditTemplate>
                     </DataGridColumn>
                 }

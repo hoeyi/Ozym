@@ -50,7 +50,18 @@ else
             </button>
         </ActionButtonMenu>
         <DataGrid TModel="AccountCompositeMember" Data="@ModelDto.Members">
+            <DataGridColumn Type="DataGridCellType.Button">
+                <CellEditTemplate Context="model">
+                    <ToolTip Text="@Strings.Caption_Button_Delete">
+                        <button class="form-control button icon" type="button"
+                            @onclick="async (args) => ModelDto.RemoveMember(model)">
+                            <IonIcon Name="close-circle" />
+                        </button>
+                    </ToolTip>
+                </CellEditTemplate>
+            </DataGridColumn>
             <DataGridColumn 
+                Type="DataGridCellType.Control"
                 Property="@nameof(AccountCompositeMember.AccountId)"
                     Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.AccountId))">
                 <CellEditTemplate Context="model">
@@ -65,38 +76,30 @@ else
                 </CellEditTemplate>
             </DataGridColumn>
             <DataGridColumn 
-                    Property="@nameof(AccountCompositeMember.EntryDate)"
-                    Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.EntryDate))">
+                Type="DataGridCellType.Control"
+                Property="@nameof(AccountCompositeMember.EntryDate)"
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.EntryDate))">
                 <CellEditTemplate Context="model">
                     <InputDate class="form-control" @bind-Value="@model.EntryDate" />
                     <ValidationMessage For=@(()=> model.EntryDate) />
                 </CellEditTemplate>
             </DataGridColumn>
             <DataGridColumn 
+                Type="DataGridCellType.Control"
                 Property="@nameof(AccountCompositeMember.ExitDate)"
-                    Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.ExitDate))">
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.ExitDate))">
                 <CellEditTemplate Context="model">
                     <InputDate class="form-control" @bind-Value="@model.ExitDate" />
                     <ValidationMessage For=@(()=> model.ExitDate) />
                 </CellEditTemplate>
             </DataGridColumn>
             <DataGridColumn 
+                Type="DataGridCellType.Control"
                 Property="@nameof(AccountCompositeMember.Comment)"
-                    Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.Comment))">
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.Comment))">
                 <CellEditTemplate Context="model">
                     <InputText class="form-control" @bind-Value="@model.Comment" />
                     <ValidationMessage For=@(()=> model.Comment) />
-                </CellEditTemplate>
-            </DataGridColumn>
-            <DataGridColumn Type="DataGridCellType.Button">
-                <CellEditTemplate Context="model">
-                    <ToolTip Text="@Strings.Caption_Button_Delete">
-                        <button class="form-control button icon"
-                            type="button"
-                            @onclick="async (args) => ModelDto.RemoveMember(model)">
-                            <IonIcon Name="close-circle" />
-                        </button>
-                    </ToolTip>
                 </CellEditTemplate>
             </DataGridColumn>
         </DataGrid>

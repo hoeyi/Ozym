@@ -55,6 +55,16 @@
                 <Body>
                     <ValidationSummary />
                     <DataGrid Data="@Entries">
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon" type="button"
+                                        @onclick="async (args) => await DeleteAsync(args, model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
+                            </CellEditTemplate>
+                        </DataGridColumn>
                         <DataGridColumn Property=@nameof(SecurityPrice.SecurityId)
                             Type="DataGridCellType.Control"
                             Caption=@(NameFor(x => x.SecurityId))>
@@ -107,17 +117,6 @@
                             Caption=@(NameFor(x => x.Volume))>
                             <CellEditTemplate Context="model">
                                 <InputNumber class="form-control" @bind-Value="model.Volume" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Type="DataGridCellType.Button">
-                            <CellEditTemplate Context="model">
-                                <ToolTip Text="@Strings.Caption_Button_Delete">
-                                    <button class="form-control button icon"
-                                        type="button"
-                                        @onclick="async (args) => await DeleteAsync(args, model)">
-                                        <IonIcon Name="close-circle" />
-                                    </button>
-                                </ToolTip>
                             </CellEditTemplate>
                         </DataGridColumn>
                     </DataGrid>
