@@ -238,8 +238,6 @@
             pageSize: PaginationHelper.PageSize);
     }
 
-    private readonly object _lock;
-
     protected async Task RefreshResults(
         Expression<Func<SecurityPrice, bool>> predicate, int pageNumber, int pageSize)
     {
