@@ -7,20 +7,9 @@ using System.Threading.Tasks;
 namespace NjordinSight.EntityModelService.ChangeTracking
 {
     /// <summary>
-    /// Represents a read-only description of an an entry in a 
-    /// <see cref="ICollectionCommandHistory"/>.
-    /// </summary>
-    public readonly record struct CommandHistoryEntry
-    {
-        public int Index { get; init; }
-
-        public string Description { get; init; }
-    }
-
-    /// <summary>
     /// Represents a collection of commands supporting 'undo' and 'redo' actions.
     /// </summary>
-    internal interface ICollectionCommandHistory
+    internal interface ICommandHistory
     {
         /// <summary>
         /// Returns true if the next undo operation is valid for the current state, else false.

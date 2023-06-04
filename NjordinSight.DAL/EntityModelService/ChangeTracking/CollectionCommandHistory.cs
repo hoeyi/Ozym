@@ -13,7 +13,7 @@ namespace NjordinSight.EntityModelService.ChangeTracking
     /// <summary>
     /// Represents a collection of commands supporting 'undo' and 'redo' actions.
     /// </summary>
-    internal class CollectionCommandHistory<T> : ICollectionCommandHistory
+    internal class CollectionCommandHistory<T> : ICommandHistory
     {
         private readonly List<(ICommand, CommandHistoryEntry)> _commands = new();
 
