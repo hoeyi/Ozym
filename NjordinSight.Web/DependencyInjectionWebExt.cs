@@ -34,7 +34,6 @@ namespace NjordinSight.Web
                 .AddScoped<IController<ResourceImage>, ModelController<ResourceImage>>()
                 .AddScoped<IController<SecurityExchange>, ModelController<SecurityExchange>>()
                 .AddScoped<IController<Security>, ModelController<Security>>()
-                .AddScoped<IController<SecuritySymbolType>, ModelController<SecuritySymbolType>>()
                 .AddScoped<IController<SecurityTypeGroup>, ModelController<SecurityTypeGroup>>()
                 .AddScoped<IController<SecurityType>, ModelController<SecurityType>>()
 
@@ -47,27 +46,16 @@ namespace NjordinSight.Web
             // Alternative is to expose a cancel changes method so that the context can revert to its
             // original state.
             services
-                .AddScoped<IBatchController<AccountAttributeMemberEntry>, ModelBatchController<AccountAttributeMemberEntry>>()
-                .AddScoped<IBatchController<AccountCompositeMember>, ModelBatchController<AccountCompositeMember>>()
                 .AddScoped<IBatchController<AccountCustodian>, ModelBatchController<AccountCustodian>>()
                 .AddScoped<IBatchController<AccountWallet>, ModelBatchController<AccountWallet>>()
                 .AddScoped<IBatchController<BankTransaction>, ModelBatchController<BankTransaction>>()
-                .AddScoped<IBatchController<BankTransactionCode>, ModelBatchController<BankTransactionCode>>()
-                .AddScoped<IBatchController<BankTransactionCodeAttributeMemberEntry>, ModelBatchController<BankTransactionCodeAttributeMemberEntry>>()
                 .AddScoped<IBrokerTransactionController, BrokerTransactionController>()
-                .AddScoped<IBatchController<BrokerTransactionCode>, ModelBatchController<BrokerTransactionCode>>()
-                .AddScoped<IBatchController<BrokerTransactionCodeAttributeMemberEntry>, ModelBatchController<BrokerTransactionCodeAttributeMemberEntry>>()
-                .AddScoped<IBatchController<CountryAttributeMemberEntry>, ModelBatchController<CountryAttributeMemberEntry>>()
                 .AddScoped<IBatchController<InvestmentPerformanceAttributeMemberEntry>, ModelBatchController<InvestmentPerformanceAttributeMemberEntry>>()
                 .AddScoped<IBatchController<InvestmentPerformanceEntry>, ModelBatchController<InvestmentPerformanceEntry>>()
-                .AddScoped<IBatchController<InvestmentStrategyTarget>, ModelBatchController<InvestmentStrategyTarget>>()
                 .AddScoped<IBatchController<MarketHolidayObservance>, ModelBatchController<MarketHolidayObservance>>()
                 .AddScoped<IBatchController<MarketIndexPrice>, ModelBatchController<MarketIndexPrice>>()
-                .AddScoped<IBatchController<ModelAttributeMember>, ModelBatchController<ModelAttributeMember>>()
-                .AddScoped<IBatchController<SecurityAttributeMemberEntry>, ModelBatchController<SecurityAttributeMemberEntry>>()
                 .AddScoped<IBatchController<SecurityExchange>, ModelBatchController<SecurityExchange>>()
-                .AddScoped<IBatchController<SecurityPrice>, ModelBatchController<SecurityPrice>>()
-                .AddScoped<IBatchController<SecuritySymbol>, ModelBatchController<SecuritySymbol>>();
+                .AddScoped<IBatchController<SecurityPrice>, ModelBatchController<SecurityPrice>>();
         }
     }
 }
