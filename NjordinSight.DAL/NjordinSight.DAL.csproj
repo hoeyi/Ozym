@@ -23,6 +23,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="EntityModelService\ChangeTracking\ChangeTrackingStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ChangeTrackingStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="EntityModelService\Query\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -78,6 +83,10 @@
     <EmbeddedResource Update="BusinessLogic\ExceptionString.resx">
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="EntityModelService\ChangeTracking\ChangeTrackingStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChangeTrackingStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="EntityModelService\Query\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
