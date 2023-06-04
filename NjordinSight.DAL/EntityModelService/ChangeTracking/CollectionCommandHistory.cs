@@ -73,6 +73,9 @@ namespace NjordinSight.EntityModelService.ChangeTracking
         }
 
         /// <inheritdoc/>
+        public void Clear() => _commands.Clear();
+
+        /// <inheritdoc/>
         public void UndoCommand()
         {
             // If undo is not possible

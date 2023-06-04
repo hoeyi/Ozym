@@ -40,6 +40,11 @@ namespace NjordinSight.EntityModelService.ChangeTracking
         void AddThenExecute(ICommand command);
 
         /// <summary>
+        /// Clears the command history of all entries.
+        /// </summary>
+        void Clear();
+
+        /// <summary>
         /// Re-applies the most recently undone command.
         /// </summary>
         /// <exception cref="InvalidOperationException"><see cref="RedoCommand"/> is 
