@@ -37,7 +37,6 @@ namespace NjordinSight
                 .AddScoped<IModelService<ResourceImage>, ResourceImageService>()
                 .AddScoped<IModelService<SecurityExchange>, SecurityExchangeService>()
                 .AddScoped<IModelService<Security>, SecurityService>()
-                .AddScoped<IModelService<SecuritySymbolType>, SecuritySymbolTypeService>()
                 .AddScoped<IModelService<SecurityTypeGroup>, SecurityTypeGroupService>()
                 .AddScoped<IModelService<SecurityType>, SecurityTypeService>()
 
@@ -45,27 +44,16 @@ namespace NjordinSight
 
             // Add batch services.
             services
-                .AddScoped<IModelBatchService<AccountAttributeMemberEntry>, AccountAttributeMemberService>()
-                .AddScoped<IModelBatchService<AccountCompositeMember>, AccountCompositeMemberService>()
                 .AddScoped<IModelBatchService<AccountCustodian>, AccountCustodianBatchService>()
                 .AddScoped<IModelBatchService<AccountWallet>, AccountWalletService>()
                 .AddScoped<IModelBatchService<BankTransaction>, BankTransactionService>()
-                .AddScoped<IModelBatchService<BankTransactionCode>, BankTransactionCodeBatchService>()
-                .AddScoped<IModelBatchService<BankTransactionCodeAttributeMemberEntry>, BankTransactionCodeAttributeService>()
                 .AddScoped<IModelBatchService<BrokerTransaction>, BrokerTransactionService>()
-                .AddScoped<IModelBatchService<BrokerTransactionCode>, BrokerTransactionCodeBatchService>()
-                .AddScoped<IModelBatchService<BrokerTransactionCodeAttributeMemberEntry>, BrokerTransactionCodeAttributeService>()
-                .AddScoped<IModelBatchService<CountryAttributeMemberEntry>, CountryAttributeService>()
                 .AddScoped<IModelBatchService<InvestmentPerformanceAttributeMemberEntry>, InvestmentPerformanceAttributeService>()
                 .AddScoped<IModelBatchService<InvestmentPerformanceEntry>, InvestmentPerformanceService>()
-                .AddScoped<IModelBatchService<InvestmentStrategyTarget>, InvestmentStrategyTargetService>()
                 .AddScoped<IModelBatchService<MarketHolidayObservance>, MarketHolidayObservanceService>()
                 .AddScoped<IModelBatchService<MarketIndexPrice>, MarketIndexPriceBatchService>()
-                .AddScoped<IModelBatchService<ModelAttributeMember>, ModelAttributeMemberService>()
-                .AddScoped<IModelBatchService<SecurityAttributeMemberEntry>, SecurityAttributeService>()
                 .AddScoped<IModelBatchService<SecurityExchange>, SecurityExchangeBatchService>()
-                .AddScoped<IModelBatchService<SecurityPrice>, SecurityPriceBatchService>()
-                .AddScoped<IModelBatchService<SecuritySymbol>, SecuritySymbolService>();
+                .AddScoped<IModelBatchService<SecurityPrice>, SecurityPriceBatchService>();
         }
     }
 }
