@@ -172,5 +172,18 @@ namespace NjordinSight.Test.ChangeTracking
             Assert.IsFalse(commandHistory.CanRedo);
             Assert.ThrowsException<InvalidOperationException>(() => commandHistory.RedoCommand());
         }
+
+        [TestMethod]
+        public void Collection_WhenNotEmpty_After_Clear_CountEqualsZero()
+        {
+            var commandHistory = new CollectionCommandHistory<int>();
+            var collection = new List<int>();
+
+            commandHistory.AddThenExecute(new AddCommand<int>(collection, 5, "Add 5"));
+
+            commandHistory.Clear();
+
+            Assert.AreEqual(0, commandHistory.Count);
+        }
     }
 }
