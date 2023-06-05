@@ -8,11 +8,11 @@ namespace NjordinSight.EntityModelService.ChangeTracking
 {
     internal interface IChangeTracker<T>
     {
-        IEnumerable<T> Added();
+        ISet<T> Added();
 
-        IEnumerable<T> Removed();
+        ISet<T> Removed();
 
-        IEnumerable<T> Updated();
+        ISet<T> Updated();
 
         bool HasChanges { get; }
     }

@@ -116,29 +116,46 @@ namespace NjordinSight.EntityModelService.ChangeTracking
 
     internal partial class CommandHistory<T> : IChangeTracker<T>
     {
+        /// <inheritdoc/>
         public bool HasChanges => _commands.Count > 0;
 
-        public IEnumerable<T> Added()
+        /// <inheritdoc/>
+        public ISet<T> Added()
         {
             var addedHistory = new HashSet<T>(
-                _commands.OfType<(AddCommand<T>, CommandHistoryEntry)>()
+                _commands
+                    .Where(x => x.Item2.Index <= _index && 
+                        x.Item1.IsType<T, AddCommand<T>>())
                     .Select(x => x.Item1.TrackedItem));
 
             return addedHistory;
         }
 
-        public IEnumerable<T> Removed()
+        /// <inheritdoc/>
+        public ISet<T> Removed()
         {
             var addedHistory = new HashSet<T>(
-                _commands.OfType<(RemoveCommand<T>, CommandHistoryEntry)>()
+                _commands
+                    .Where(x => x.Item2.Index <= _index &&
+                        x.Item1.IsType<T, RemoveCommand<T>>())
                     .Select(x => x.Item1.TrackedItem));
 
             return addedHistory;
         }
 
-        public IEnumerable<T> Updated()
+        /// <inheritdoc/>
+        public ISet<T> Updated() => throw new NotImplementedException();
+
+    }
+    internal static class EnumExtensions
+    {
+        public static bool IsType<T, TCommand>(this ICommand<T> command)
         {
-            throw new NotImplementedException();
+            if (command is TCommand)
+                return true;
+            else
+                return false;
         }
     }
+
 }
