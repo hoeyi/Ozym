@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace NjordinSight.EntityModelService.ChangeTracking
 {
     /// <summary>
-    /// Represents a single action taken on a stateful object.
+    /// Represents a single action action affecting the state of a <typeparamref name="T"/> object.
     /// </summary>
-    internal interface ICommand
+    /// <typeparam name="T"></typeparam>
+    internal interface ICommand<T>
     {
         /// <summary>
         /// Gets a string describing this command.
@@ -19,11 +20,16 @@ namespace NjordinSight.EntityModelService.ChangeTracking
         /// <summary>
         /// Executes this command.
         /// </summary>
-        void Execute();
+        bool Execute();
 
         /// <summary>
         /// Reverts this command.
         /// </summary>
-        void Undo();
+        bool Undo();
+
+        /// <summary>
+        /// The <typeparamref name="T"/> instance modified by the action this command represents.
+        /// </summary>
+        T TrackedItem { get; }
     }
 }

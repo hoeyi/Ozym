@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace NjordinSight.EntityModelService.ChangeTracking
 {
     /// <summary>
-    /// Represents a collection of commands supporting 'undo' and 'redo' actions.
+    /// Represents a collection of commands supporting 'undo' and 'redo' actions changing the 
+    /// state of <typeparamref name="T"/> objects.
     /// </summary>
-    internal interface ICommandHistory
+    internal interface ICommandHistory<T>
     {
         /// <summary>
         /// Returns true if the next undo operation is valid for the current state, else false.
@@ -35,9 +36,8 @@ namespace NjordinSight.EntityModelService.ChangeTracking
         /// <summary>
         /// Adds the command to the history then executes the command.
         /// </summary>
-        /// <param name="command">Am <see cref="ICommand"/> acting on an 
-        /// <see cref="ICollection{T}"/>.</param>
-        void AddThenExecute(ICommand command);
+        /// <param name="command">A command affect the state of an object. </param>
+        void AddThenExecute(ICommand<T> command);
 
         /// <summary>
         /// Clears the command history of all entries.

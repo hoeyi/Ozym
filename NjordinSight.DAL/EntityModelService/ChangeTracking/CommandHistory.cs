@@ -11,11 +11,12 @@ using System.Threading.Tasks;
 namespace NjordinSight.EntityModelService.ChangeTracking
 {
     /// <summary>
-    /// Represents a collection of commands supporting 'undo' and 'redo' actions.
+    /// Represents a collection of commands supporting 'undo' and 'redo' actions changing the 
+    /// state of <typeparamref name="T"/> objects.
     /// </summary>
-    internal class CollectionCommandHistory<T> : ICommandHistory
+    internal partial class CommandHistory<T> : ICommandHistory<T>
     {
-        private readonly List<(ICommand, CommandHistoryEntry)> _commands = new();
+        private readonly List<(ICommand<T>, CommandHistoryEntry)> _commands = new();
 
         // The index identifying the current position. Default is -1, indicating no position.
         private int _index = -1;
@@ -34,7 +35,7 @@ namespace NjordinSight.EntityModelService.ChangeTracking
         public int Count => _commands.Count;
 
         /// <inheritdoc/>
-        public void AddThenExecute(ICommand command)
+        public void AddThenExecute(ICommand<T> command)
         {
             if (command is null)
                 throw new ArgumentNullException(paramName: nameof(command));
@@ -46,7 +47,7 @@ namespace NjordinSight.EntityModelService.ChangeTracking
                 _commands.RemoveRange(_index, _commands.Count - _index);
 
             _index++;
-            (ICommand, CommandHistoryEntry) commandEntry =
+            (ICommand<T>, CommandHistoryEntry) commandEntry =
                 (command, new() { Index = _index, Description = command.Description });
 
             try
@@ -110,6 +111,34 @@ namespace NjordinSight.EntityModelService.ChangeTracking
                 ChangeTrackingStrings.CollectionCommandHistory_InvalidOperationException,
                 methodName,
                 $"{{{nameof(Count)}: {Count}; {nameof(_index)}: {_index}}}");
+        }
+    }
+
+    internal partial class CommandHistory<T> : IChangeTracker<T>
+    {
+        public bool HasChanges => _commands.Count > 0;
+
+        public IEnumerable<T> Added()
+        {
+            var addedHistory = new HashSet<T>(
+                _commands.OfType<(AddCommand<T>, CommandHistoryEntry)>()
+                    .Select(x => x.Item1.TrackedItem));
+
+            return addedHistory;
+        }
+
+        public IEnumerable<T> Removed()
+        {
+            var addedHistory = new HashSet<T>(
+                _commands.OfType<(RemoveCommand<T>, CommandHistoryEntry)>()
+                    .Select(x => x.Item1.TrackedItem));
+
+            return addedHistory;
+        }
+
+        public IEnumerable<T> Updated()
+        {
+            throw new NotImplementedException();
         }
     }
 }
