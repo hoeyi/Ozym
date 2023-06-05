@@ -10,12 +10,13 @@ using Microsoft.Extensions.Logging;
 namespace NjordinSight.Test.ChangeTracking
 {
     [TestClass]
-    public class CollectionCommandHistoryTest
+    [TestCategory("Unit")]
+    public class CommandHistoryTest
     {
         [TestMethod]
         public void Collection_AddThenExecute_CurrentEntry_IsAddedValue()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             commandHistory.AddThenExecute(new AddCommand<int>(collection, 5, "Add 5"));
@@ -34,7 +35,7 @@ namespace NjordinSight.Test.ChangeTracking
         [TestMethod]
         public void Collection_AddThenExecute_CanUndo_IsTrue_CanRedo_IsFalse()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             commandHistory.AddThenExecute(new AddCommand<int>(collection, 5, "Add 5"));
@@ -46,7 +47,7 @@ namespace NjordinSight.Test.ChangeTracking
         [TestMethod]
         public void Collection_AddThenUndo_CurrentEntry_IsNull()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             commandHistory.AddThenExecute(new AddCommand<int>(collection, 5, "Add 5"));
@@ -58,7 +59,7 @@ namespace NjordinSight.Test.ChangeTracking
         [TestMethod]
         public void Collection_AddThenUndo_CanUndo_IsFalse()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             commandHistory.AddThenExecute(new AddCommand<int>(collection, 5, "Add 5"));
@@ -71,7 +72,7 @@ namespace NjordinSight.Test.ChangeTracking
         [TestMethod]
         public void Collection_AddThenUndoThenRedo_CurrentEntry_IsAddedValue()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             commandHistory.AddThenExecute(new AddCommand<int>(collection, 5, "Add 5"));
@@ -92,7 +93,7 @@ namespace NjordinSight.Test.ChangeTracking
         [TestMethod]
         public void Collection_AddThenRemoveThenUndo_CurrentEntry_IsLastValueAdded()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             commandHistory.AddThenExecute(new AddCommand<int>(collection, 5, "Add 5"));
@@ -113,7 +114,7 @@ namespace NjordinSight.Test.ChangeTracking
         [TestMethod]
         public void Collection_AddThenRemoveThenUndo_Count_EqualsTwo()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             commandHistory.AddThenExecute(new AddCommand<int>(collection, 5, "Add 5"));
@@ -131,7 +132,7 @@ namespace NjordinSight.Test.ChangeTracking
         [TestMethod]
         public void Collection_WhenIsEmpty_WhenCanUndoIsFalse_UndoCommand_ThrowsInvalidOperationException()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             Assert.IsFalse(commandHistory.CanUndo);
@@ -141,7 +142,7 @@ namespace NjordinSight.Test.ChangeTracking
         [TestMethod]
         public void Collection_WhenIsEmpty_And_WhenCanRedoIsFalse_RedoCommand_ThrowsInvalidOperationException()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             Assert.IsFalse(commandHistory.CanRedo);
@@ -151,7 +152,7 @@ namespace NjordinSight.Test.ChangeTracking
         [TestMethod]
         public void Collection_WhenNotEmpty_And_WhenCanUndoIsFalse_UndoCommand_ThrowsInvalidOperationException()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             commandHistory.AddThenExecute(new AddCommand<int>(collection, 5, "Add 5"));
@@ -164,7 +165,7 @@ namespace NjordinSight.Test.ChangeTracking
         [TestMethod]
         public void Collection_WhenNotEmpty_And_WhenCanRedoIsFalse_RedoCommand_ThrowsInvalidOperationException()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             commandHistory.AddThenExecute(new AddCommand<int>(collection, 5, "Add 5"));
@@ -176,7 +177,7 @@ namespace NjordinSight.Test.ChangeTracking
         [TestMethod]
         public void Collection_WhenNotEmpty_After_Clear_CountEqualsZero()
         {
-            var commandHistory = new CollectionCommandHistory<int>();
+            var commandHistory = new CommandHistory<int>();
             var collection = new List<int>();
 
             commandHistory.AddThenExecute(new AddCommand<int>(collection, 5, "Add 5"));
