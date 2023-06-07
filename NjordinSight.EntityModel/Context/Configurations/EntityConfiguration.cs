@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using NjordFinance.EntityModel.Context;
 
 namespace NjordinSight.EntityModel.Context.Configurations
 {
@@ -48,7 +49,7 @@ namespace NjordinSight.EntityModel.Context.Configurations
         public Type EntityType { get; } = typeof(T);
 
         /// <inheritdoc/>
-        public HashSet<DatabaseKey> ReservedKeys => Entries.Select(x => GetKeyValue(x)).ToHashSet();
+        public HashSet<DatabaseKey> ReservedKeys => Entries.Select(x => x.GetKeyValue()).ToHashSet();
 
         /// <inheritdoc/>
         public Guid Guid { get; private init; }
@@ -58,53 +59,6 @@ namespace NjordinSight.EntityModel.Context.Configurations
         {
             if (Entries?.Any(x => x is not null) ?? false)
                 builder.HasData(Entries);
-        }
-
-        /// <summary>
-        /// Gets the <see cref="DatabaseKey"/> that uniquely identifies a <typeparamref name="T"/> 
-        /// instance.
-        /// </summary>
-        /// <param name="entity">An instance of <typeparamref name="T"/>.</param>
-        /// <returns>A <see cref="DatabaseKey"/> from <paramref name="entity"/>that can be used to 
-        /// compare to other <typeparamref name="T"/> instances.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        private DatabaseKey GetKeyValue(T entity)
-        {
-            if (entity is null)
-                throw new ArgumentNullException(paramName: nameof(entity));
-
-#pragma warning disable IDE0037 // Use inferred member name
-            var keyColumns = typeof(T)
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(x => x.GetCustomAttribute<KeyAttribute>() is not null)
-                .Select(x => new
-                {
-                    // Select the property so that we can retrieve the value later.
-                    Property = x,
-                    // Select the order so that we consistently build the same composite key.
-                    Order = x.GetCustomAttribute<ColumnAttribute>()?.Order
-                });
-#pragma warning restore IDE0037 // Use inferred member name
-
-            // Throw an exception if no key columns are defined.
-            if (!keyColumns?.Any() ?? false)
-                throw new InvalidOperationException(string.Format(
-                    Strings.EntityConfiguration_Exception_NoKeyForType,
-                    typeof(T).FullName,
-                    nameof(KeyAttribute)));
-
-            // Throw an exception if a composite key and any of the value orders are null.
-            if (keyColumns.Count() > 1 && keyColumns.Any(x => x.Order is null))
-                throw new InvalidOperationException(string.Format(
-                    Strings.EntityConfiguration_Exception_CompositeKeyNotOrdered,
-                    typeof(T).FullName));
-
-            // Return a new instance of DatabaseKey with the 1- or n-length array.
-            return new(keyColumns
-                .OrderBy(x => x.Order)
-                .Select(x => x.Property.GetValue(entity))
-                .ToArray());
         }
     }
 }
