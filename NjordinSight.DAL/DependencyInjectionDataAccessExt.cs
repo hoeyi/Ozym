@@ -2,6 +2,7 @@
 using NjordinSight.EntityModelService;
 using NjordinSight.EntityModelService.Query;
 using Microsoft.Extensions.DependencyInjection;
+using NjordinSight.EntityModelService.Abstractions;
 
 namespace NjordinSight
 {
@@ -46,7 +47,7 @@ namespace NjordinSight
             services
                 .AddScoped<IModelBatchService<AccountCustodian>, AccountCustodianBatchService>()
                 .AddScoped<IModelBatchService<AccountWallet>, AccountWalletService>()
-                .AddScoped<IModelBatchService<BankTransaction>, BankTransactionService>()
+                .AddScoped<IModelCollectionService<BankTransaction>, BankTransactionService>()
                 .AddScoped<IModelBatchService<BrokerTransaction>, BrokerTransactionService>()
                 .AddScoped<IModelBatchService<InvestmentPerformanceAttributeMemberEntry>, InvestmentPerformanceAttributeService>()
                 .AddScoped<IModelBatchService<InvestmentPerformanceEntry>, InvestmentPerformanceService>()

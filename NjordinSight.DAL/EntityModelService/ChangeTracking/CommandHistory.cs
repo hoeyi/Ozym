@@ -120,33 +120,70 @@ namespace NjordinSight.EntityModelService.ChangeTracking
         public bool HasChanges => _commands.Count > 0;
 
         /// <inheritdoc/>
-        public ISet<T> Added()
+        public ChangeCollection<T> GetChanges()
         {
-            var addedHistory = new HashSet<T>(
-                _commands
-                    .Where(x => x.Item2.Index <= _index && 
-                        x.Item1.IsType<T, AddCommand<T>>())
-                    .Select(x => x.Item1.TrackedItem));
+            var changeCollection = new ChangeCollection<T>()
+            {
+                Added = Added(),
+                Removed = Removed()
+            };
 
-            return addedHistory;
+            return changeCollection;
         }
 
-        /// <inheritdoc/>
-        public ISet<T> Removed()
+        /// <summary>
+        /// Gets the set of <typeparamref name="T"/> that are added to the initial 
+        /// collection, less items removed in the same session.
+        /// </summary>
+        /// <returns>An <see cref="ISet{T}"/>.</returns>
+        private ISet<T> Added()
         {
-            var addedHistory = new HashSet<T>(
-                _commands
-                    .Where(x => x.Item2.Index <= _index &&
-                        x.Item1.IsType<T, RemoveCommand<T>>())
-                    .Select(x => x.Item1.TrackedItem));
+            var added = GetCommittedCommands<AddCommand<T>>();
+            var removed = GetCommittedCommands<RemoveCommand<T>>();
 
-            return addedHistory;
+            // Adjust additions for items that were subsequently removed.
+            // Subtract from 'added' items that exist in 'removed' with a higher index.
+            var addedLessRemoved = added
+                .Where(x => !removed.Any(
+                    y => y.Item1.TrackedItem.Equals(x.Item1.TrackedItem) 
+                        && y.Item2.Index > x.Item2.Index))
+                .Select(x => x.Item1.TrackedItem);
+
+            return new HashSet<T>(addedLessRemoved);
         }
 
-        /// <inheritdoc/>
-        public ISet<T> Updated() => throw new NotImplementedException();
+        /// <summary>
+        /// Gets the set of <typeparamref name="T"/> that are removed from the initial 
+        /// collection, less items added in the same session.
+        /// </summary>
+        /// <returns>An <see cref="ISet{T}"/>.</returns>
+        private ISet<T> Removed()
+        {
+            var added = GetCommittedCommands<AddCommand<T>>();
+            var removed = GetCommittedCommands<RemoveCommand<T>>();
 
+            // Adjust removals for items that were previously added.
+            // Subtract from 'removed' items that exist in 'added' with a lower index.
+            var remmovedLessAdded = removed
+                .Where(r => !added.Any(
+                    a => a.Item1.TrackedItem.Equals(r.Item1.TrackedItem)
+                        && a.Item2.Index < r.Item2.Index))
+                .Select(x => x.Item1.TrackedItem);
+
+            return new HashSet<T>(remmovedLessAdded);
+        }
+
+        /// <summary>
+        /// Gets the collection of commands in the history that are on or before the current index.
+        /// </summary>
+        /// <typeparam name="TCommand"></typeparam>
+        /// <returns>An <see cref="IEnumerable{T}"/> of 
+        /// <see cref="(ICommand{T}, CommandHistoryEntry)"/></returns>
+        private IEnumerable<(ICommand<T>, CommandHistoryEntry)> GetCommittedCommands<TCommand>()
+            where TCommand : ICommand<T>
+            => _commands.Where(x => x.Item2.Index <= _index && x.Item1.IsType<T, TCommand>());
     }
+
     internal static class EnumExtensions
     {
         public static bool IsType<T, TCommand>(this ICommand<T> command)
