@@ -53,7 +53,7 @@ namespace NjordinSight.Web.Controllers.Abstractions
 
                 return CreatedAtAction(
                     nameof(ReadAsync),
-                    new { id = _modelService.GetKey(createdModel) },
+                    new { id = _modelService.GetKey<int>(createdModel) },
                     createdModel);
             }
             // TODO: This code may not be reachable. ModelServices are capturing the
@@ -62,7 +62,7 @@ namespace NjordinSight.Web.Controllers.Abstractions
             {
                 _logger.LogError(exception: due, message: due.Message);
 
-                if (_modelService.ModelExists(_modelService.GetKey(model)))
+                if (_modelService.ModelExists(_modelService.GetKey<int>(model)))
                 {
                     return Conflict();
                 }
@@ -137,7 +137,7 @@ namespace NjordinSight.Web.Controllers.Abstractions
         /// <inheritdoc/>
         public async Task<ActionResult<T>> UpdateAsync(int? id, T model)
         {
-            if (id != _modelService.GetKey(model))
+            if (id != _modelService.GetKey<int>(model))
             {
                 return BadRequest();
             }

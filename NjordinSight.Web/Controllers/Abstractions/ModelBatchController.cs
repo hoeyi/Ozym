@@ -16,13 +16,13 @@ namespace NjordinSight.Web.Controllers.Abstractions
     public class ModelBatchController<T> : ControllerBase, IBatchController<T>
         where T : class, new()
     {
-        private readonly IModelBatchService<T> _modelService;
+        private readonly IModelCollectionService<T, int> _modelService;
         private readonly IQueryController _queryController;
         private readonly ILogger _logger;
 
 
         public ModelBatchController(
-            IModelBatchService<T> modelService,
+            IModelCollectionService<T, int> modelService,
             IQueryService queryService,
             ILogger logger)
         {
@@ -66,7 +66,7 @@ namespace NjordinSight.Web.Controllers.Abstractions
         {
             IActionResult Delete()
             {
-                if (_modelService.GetKey(model) != default && !_modelService.ModelExists(model))
+                if (_modelService.GetKey<int>(model) != default && !_modelService.ModelExists(model))
                 {
                     return BadRequest();
                 }
@@ -87,20 +87,9 @@ namespace NjordinSight.Web.Controllers.Abstractions
         {
             IActionResult RegisterParent()
             {
-                if (_modelService.ForParent(parentId, out Exception e))
-                    return Ok();
-                else
-                {
-                    _logger.ModelServiceParentSetFailed(service: new
-                    {
-                        Service = _modelService.GetType().Name,
-                        KeyType = parentId.GetType().Name,
-                        KeyValue = parentId,
-                        Message = e?.Message ?? string.Empty
-                    });
+                _modelService.SetParent(parentId);
 
-                    return Conflict();
-                }
+                return Ok();
             }
 
             var result = await Task.Run(() => RegisterParent());

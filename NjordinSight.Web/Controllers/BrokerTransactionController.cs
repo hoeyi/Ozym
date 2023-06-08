@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NjordinSight.BusinessLogic.Brokerage;
+using NjordinSight.EntityModelService.Abstractions;
 
 namespace NjordinSight.Web.Controllers
 {
@@ -18,7 +19,7 @@ namespace NjordinSight.Web.Controllers
         private IBrokerTransactionBLL _transactionBLL;
 
         public BrokerTransactionController(
-            IModelBatchService<BrokerTransaction> modelService,
+            IModelCollectionService<BrokerTransaction, int> modelService,
             IQueryService queryService,
             ILogger logger) : base(modelService, queryService, logger)
         {
