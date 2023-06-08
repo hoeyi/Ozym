@@ -4,10 +4,10 @@
         where T : class, new()
     {
         /// <summary>
-        /// Gets the integer key value given a model.
+        /// Gets the <typeparamref name="TKey"/> key value for the given model.
         /// </summary>
         /// <param name="model"></param>
-        /// <returns>The integer key if it exists, else null.</returns>
-        int? GetKey(T model);
+        /// <returns>A <typeparamref name="TKey"/> if it exists, else null.</returns>
+        TKey GetKey<TKey>(T model);
     }
 }

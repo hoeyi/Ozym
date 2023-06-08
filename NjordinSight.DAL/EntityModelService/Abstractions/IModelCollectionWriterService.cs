@@ -8,13 +8,13 @@ namespace NjordinSight.EntityModelService.Abstractions
     /// <typeparamref name="T"/> models.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IModelWriterBatchService<T>
+    public interface IModelCollectionWriterService<T>
         where T : class, new()
     {
         /// <summary>
         /// Returns true if changes have not been saved.
         /// </summary>
-        bool IsDirty { get; }
+        bool HasChanges { get; }
 
         /// <summary>
         /// Attaches the given model to the service context as an addition.

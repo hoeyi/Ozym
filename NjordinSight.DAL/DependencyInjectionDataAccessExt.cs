@@ -45,16 +45,16 @@ namespace NjordinSight
 
             // Add batch services.
             services
-                .AddScoped<IModelBatchService<AccountCustodian>, AccountCustodianBatchService>()
-                .AddScoped<IModelBatchService<AccountWallet>, AccountWalletService>()
+                .AddScoped<IModelCollectionService<AccountCustodian>, AccountCustodianBatchService>()
+                .AddScoped<IModelCollectionService<AccountWallet>, AccountWalletService>()
                 .AddScoped<IModelCollectionService<BankTransaction>, BankTransactionService>()
-                .AddScoped<IModelBatchService<BrokerTransaction>, BrokerTransactionService>()
-                .AddScoped<IModelBatchService<InvestmentPerformanceAttributeMemberEntry>, InvestmentPerformanceAttributeService>()
-                .AddScoped<IModelBatchService<InvestmentPerformanceEntry>, InvestmentPerformanceService>()
-                .AddScoped<IModelBatchService<MarketHolidayObservance>, MarketHolidayObservanceService>()
-                .AddScoped<IModelBatchService<MarketIndexPrice>, MarketIndexPriceBatchService>()
-                .AddScoped<IModelBatchService<SecurityExchange>, SecurityExchangeBatchService>()
-                .AddScoped<IModelBatchService<SecurityPrice>, SecurityPriceBatchService>();
+                .AddScoped<IModelCollectionService<BrokerTransaction>, BrokerTransactionService>()
+                .AddScoped<IModelCollectionService<InvestmentPerformanceAttributeMemberEntry>, InvestmentPerformanceAttributeService>()
+                .AddScoped<IModelCollectionService<InvestmentPerformanceEntry>, InvestmentPerformanceService>()
+                .AddScoped<IModelCollectionService<MarketHolidayObservance>, MarketHolidayObservanceService>()
+                .AddScoped<IModelCollectionService<MarketIndexPrice>, MarketIndexPriceBatchService>()
+                .AddScoped<IModelCollectionService<SecurityExchange>, SecurityExchangeBatchService>()
+                .AddScoped<IModelCollectionService<SecurityPrice>, SecurityPriceBatchService>();
         }
     }
 }

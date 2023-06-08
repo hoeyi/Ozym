@@ -32,21 +32,6 @@ namespace NjordinSight.EntityModelService.Abstractions
         {
         }
 
-        /// <summary>
-        /// Base constructor for <see cref="ModelWriterService{T}"/> instances where a
-        /// shared context is used.
-        /// </summary>
-        /// <param name="sharedContext"></param>
-        /// <param name="metadataService"></param>
-        /// <param name="logger"></param>
-        public ModelWriterService(
-            FinanceDbContext sharedContext,
-            IModelMetadataService metadataService,
-            ILogger logger)
-            : base(sharedContext, metadataService, logger)
-        {
-        }
-
         /// <inheritdoc/>
         public async Task<T> CreateAsync(T model)
         {
@@ -55,26 +40,18 @@ namespace NjordinSight.EntityModelService.Abstractions
                     string.Format(
                         ExceptionString.ModelService_DelegateIsNull, nameof(CreateDelegate)));
 
-            DbActionResult<T> createAction;
-            
-            if(HasSharedContext)
-                createAction = await DoWriteOperationAsync(SharedContext, CreateDelegate, model);
-            else
-            {
-                using var context = await _contextFactory.CreateDbContextAsync();
-                createAction = await DoWriteOperationAsync(
-                    context, CreateDelegate, model);
-            }
+            using var context = await ContextFactory.CreateDbContextAsync();
+            var createAction = await DoWriteOperationAsync(context, CreateDelegate, model);
 
             if (createAction.Successful)
             {
                 var logModel = new
                 {
                     Type = typeof(T).Name,
-                    Id = GetKey(model) ?? default
+                    Id = GetKey<int>(model)
                 };
 
-                _logger.ModelServiceCreatedModel(logModel);
+                Logger.ModelServiceCreatedModel(logModel);
                 return createAction.Result;
             }
             else
@@ -105,23 +82,15 @@ namespace NjordinSight.EntityModelService.Abstractions
             var logModel = new
             {
                 Type = typeof(T).Name,
-                Id = GetKey(model) ?? default
+                Id = GetKey<int>(model)
             };
 
-            DbActionResult<bool> deleteAction;
-
-            if (HasSharedContext)
-                deleteAction = await DoWriteOperationAsync(SharedContext, DeleteDelegate, model);
-            else
-            {
-                using var context = await _contextFactory.CreateDbContextAsync();
-                deleteAction = await DoWriteOperationAsync(
-                    context, DeleteDelegate, model);
-            }
+            using var context = await ContextFactory.CreateDbContextAsync();
+            var deleteAction = await DoWriteOperationAsync(context, DeleteDelegate, model);
 
             if (deleteAction.Successful)
             {
-                _logger.ModelServiceDeletedModel(logModel);
+                Logger.ModelServiceDeletedModel(logModel);
                 return deleteAction.Result;
             }
             else
@@ -141,24 +110,15 @@ namespace NjordinSight.EntityModelService.Abstractions
             var logModel = new
             {
                 Type = typeof(T).Name,
-                Id = GetKey(model) ?? default
+                Id = GetKey<int>(model)
             };
 
-            DbActionResult<bool> udpateAction;
-
-            if (HasSharedContext)
-                udpateAction = await DoWriteOperationAsync(
-                    SharedContext, UpdateDelegate, model);
-            else
-            {
-                using var context = await _contextFactory.CreateDbContextAsync();
-                udpateAction = await DoWriteOperationAsync(
-                    context, UpdateDelegate, model);
-            }
+            using var context = await ContextFactory.CreateDbContextAsync();
+            var udpateAction = await DoWriteOperationAsync(context, UpdateDelegate, model);
 
             if (udpateAction.Successful)
             {
-                _logger.ModelServiceUpdatedModel(logModel);
+                Logger.ModelServiceUpdatedModel(logModel);
                 return udpateAction.Result;
             }
             else
@@ -241,17 +201,17 @@ namespace NjordinSight.EntityModelService.Abstractions
             }
             catch(InvalidOperationException ioe)
             {
-                _logger.LogWarning(ioe, ioe.Message);
+                Logger.LogWarning(ioe, ioe.Message);
                 throw new ModelUpdateException(ioe.Message);
             }
             catch (DbUpdateConcurrencyException duc)
             {
-                _logger.LogWarning(duc, duc.Message);
+                Logger.LogWarning(duc, duc.Message);
                 throw new ModelUpdateException(duc.Message);
             }
             catch (DbUpdateException du)
             {
-                _logger.ModelServiceSaveChangesFailed(du);
+                Logger.ModelServiceSaveChangesFailed(du);
                 throw new ModelUpdateException(du.InnerException.Message, du);
             }
         }

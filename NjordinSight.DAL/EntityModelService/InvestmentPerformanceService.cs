@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing single CRUD requests against the <see cref="InvestmentPerformanceEntry"/> 
     /// data store.
     /// </summary>
-    internal class InvestmentPerformanceService : ModelBatchService<InvestmentPerformanceEntry>
+    internal class InvestmentPerformanceService : ModelCollectionService<InvestmentPerformanceEntry, int>
     {
         /// <summary>
         /// Creates a new <see cref="InvestmentPerformanceService"/> instance.
@@ -29,26 +29,15 @@ namespace NjordinSight.EntityModelService
         {
         }
 
-        public override bool ForParent(int parentId, out Exception e)
+        /// <inheritdoc/>
+        public override void SetParent(int parent)
         {
             Reader = new ModelReaderService<InvestmentPerformanceEntry>(
-                Context, _modelMetadata, _logger)
+                ContextFactory, ModelMetadata, Logger)
             {
-                ParentExpression = x => x.AccountObjectId == parentId
+                ParentExpression = x => x.AccountObjectId == parent
             };
-
-            Writer = new ModelWriterBatchService<InvestmentPerformanceEntry>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = x => x.AccountObjectId == parentId,
-                GetDefaultModelDelegate = () => new()
-                {
-                    AccountObjectId = parentId
-                }
-            };
-
-            e = null;
-            return true;
+            GetDefaultModelDelegate = () => new() { AccountObjectId = parent };
         }
     }
 }

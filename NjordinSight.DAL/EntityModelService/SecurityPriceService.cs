@@ -19,10 +19,10 @@ namespace NjordinSight.EntityModelService
             ILogger logger) : base(contextFactory, metadataService, logger)
         {
             Reader = new ModelReaderService<SecurityPrice>(
-                _contextFactory, _modelMetadata, _logger);
+                ContextFactory, ModelMetadata, Logger);
 
             Writer = new ModelWriterService<SecurityPrice>(
-                _contextFactory, _modelMetadata, _logger);
+                ContextFactory, ModelMetadata, Logger);
         }
     }
 }

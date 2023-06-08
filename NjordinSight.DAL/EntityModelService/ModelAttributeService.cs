@@ -27,14 +27,14 @@ namespace NjordinSight.EntityModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<ModelAttribute>(
-                Context, modelMetadata, logger)
+                ContextFactory, modelMetadata, logger)
             {
                 IncludeDelegate = (queryable) => queryable
                     .Include(a => a.ModelAttributeScopes)
                     .Include(a => a.ModelAttributeMembers)
             };
             Writer = new ModelWriterService<ModelAttribute>(
-                Context, modelMetadata, logger)
+                ContextFactory, modelMetadata, logger)
             {
                 GetDefaultDelegate = () => new ModelAttribute()
             };

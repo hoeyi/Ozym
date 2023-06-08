@@ -14,7 +14,7 @@ using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.EntityModelService.Abstractions
 {
-    public interface IModelCollectionServiceWithParent<T, TParent>
+    public interface IModelCollectionService<T, TParent>
         : IModelCollectionService<T>
         where T : class, new()
     {
@@ -24,14 +24,13 @@ namespace NjordinSight.EntityModelService.Abstractions
     public interface IModelCollectionService<T> :
             IModelBaseService<T>,
             IModelReaderService<T>, 
-            IModelWriterBatchService<T>,
-            IModelBatchService<T>
+            IModelCollectionWriterService<T>
         where T : class, new()
     {
     }
 
     internal abstract partial class ModelCollectionService<T, TParent> :
-        ModelCollectionService<T>, IModelCollectionServiceWithParent<T, TParent>
+        ModelCollectionService<T>, IModelCollectionService<T, TParent>
         where T : class, new()
     {
         protected ModelCollectionService(
@@ -40,9 +39,13 @@ namespace NjordinSight.EntityModelService.Abstractions
             ILogger logger) : base(contextFactory, metadataService, logger)
         {
         }
-        public virtual void SetParent(TParent parent)
-        {
-        }
+
+        /// <summary>
+        /// Configures this service to utilize the given <typeparamref name="TParent"/>  
+        /// as the parent object to the models in this collection.
+        /// </summary>
+        /// <param name="parent"></param>
+        public abstract void SetParent(TParent parent);
     }
 
     internal abstract partial class ModelCollectionService<T> : 
@@ -55,7 +58,7 @@ namespace NjordinSight.EntityModelService.Abstractions
             ILogger logger)
             : base(contextFactory, metadataService, logger)
         {
-            ModelNoun = _modelMetadata.GetAttribute<T, NounAttribute>();
+            ModelNoun = ModelMetadata.GetAttribute<T, NounAttribute>();
             _commandHistory = new CommandHistory<T>();
         }
 
@@ -67,14 +70,14 @@ namespace NjordinSight.EntityModelService.Abstractions
         protected IModelReaderService<T> Reader { get; set; }
 
         /// <inheritdoc/>
-        public bool IsDirty => CommandHistory.Count > 0;
+        public bool HasChanges => CommandHistory.Count > 0;
 
         /// <inheritdoc/>
         public bool AddPendingSave(T model)
         {
             if (!RequiredParentIdIsSet(model))
             {
-                string modelDisplayName = _modelMetadata
+                string modelDisplayName = ModelMetadata
                     .GetAttribute<T, NounAttribute>()
                     ?.GetSingular();
 
@@ -145,11 +148,13 @@ namespace NjordinSight.EntityModelService.Abstractions
         public async Task<int> SaveChangesAsync()
         {
             var changes = ChangeTracker.GetChanges();
+            var updated = WorkingEntries.ToHashSet().Except(changes.Added);
 
-            using var context = await _contextFactory.CreateDbContextAsync();
+            using var context = await ContextFactory.CreateDbContextAsync();
 
             context.Set<T>().AddRange(changes.Added);
             context.Set<T>().RemoveRange(changes.Removed);
+            context.Set<T>().UpdateRange(updated);
 
             return await context.SaveChangesAsync();
         }
@@ -181,16 +186,6 @@ namespace NjordinSight.EntityModelService.Abstractions
             CommandHistory.Clear();
             return WorkingEntries;
         }
-
-        /// <inheritdoc/>
-        public bool ForParent(int parentId, out Exception e)
-        {
-            e = null;
-            SetParent(parentId);
-            return true;
-        }
-
-        public abstract void SetParent<TParent>(TParent parent);
     }
 
     internal abstract partial class ModelCollectionService<T>

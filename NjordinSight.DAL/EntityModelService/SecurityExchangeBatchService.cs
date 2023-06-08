@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing batch CRUD requests against the <see cref="SecurityExchange"/> 
     /// data store.
     /// </summary>
-    internal class SecurityExchangeBatchService : ModelBatchService<SecurityExchange>
+    internal class SecurityExchangeBatchService : ModelCollectionService<SecurityExchange>
     {
         /// <summary>
         /// Creates a new <see cref="AccountCustodianBatchService"/> instance.
@@ -27,26 +27,6 @@ namespace NjordinSight.EntityModelService
             ILogger logger)
                 : base(contextFactory, modelMetadata, logger)
         {
-            ForParent(parentId: default, out _);
-        }
-
-        public override bool ForParent(int parentId, out Exception e)
-        {
-            Reader = new ModelReaderService<SecurityExchange>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = x => true
-            };
-
-            Writer = new ModelWriterBatchService<SecurityExchange>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = x => true,
-                GetDefaultModelDelegate = () => new SecurityExchange()
-            };
-
-            e = null;
-            return true;
         }
     }
 }

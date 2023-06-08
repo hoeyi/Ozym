@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing batch CRUD requests against the <see cref="AccountCustodian"/> 
     /// data store.
     /// </summary>
-    internal class AccountCustodianBatchService : ModelBatchService<AccountCustodian>
+    internal class AccountCustodianBatchService : ModelCollectionService<AccountCustodian>
     {
         /// <summary>
         /// Creates a new <see cref="AccountCustodianBatchService"/> instance.
@@ -27,26 +27,10 @@ namespace NjordinSight.EntityModelService
             ILogger logger)
                 : base(contextFactory, modelMetadata, logger)
         {
-            ForParent(parentId: default, out _);
-        }
-
-        public override bool ForParent(int parentId, out Exception e)
-        {
             Reader = new ModelReaderService<AccountCustodian>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = x => true
-            };
+                ContextFactory, ModelMetadata, Logger);
 
-            Writer = new ModelWriterBatchService<AccountCustodian>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = x => true,
-                GetDefaultModelDelegate = () => new AccountCustodian()
-            };
-
-            e = null;
-            return true;
+            GetDefaultModelDelegate = () => new AccountCustodian();
         }
     }
 }
