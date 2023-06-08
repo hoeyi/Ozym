@@ -1,36 +1,37 @@
 ﻿using System.Threading.Tasks;
+using NjordinSight.EntityModelService.Abstractions;
 
 namespace NjordinSight.Test.EntityModelService
 {
     /// <summary>
-    /// Required tests for classes implementing <see cref="IModelBatchService{T}"/>.
+    /// Required tests for classes implementing <see cref="IModelCollectionService{T}"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IModelBatchServiceTest<T>
+    public interface IModelCollectionServiceTest<T>
     {
         /// <summary>
-        /// Verifies that adding a model pending save sets the <em>IsDirty</em> state 
+        /// Verifies that adding a model pending save sets the <em>HasChanges</em> value 
         /// to true.
         /// </summary>
-        void AddPendingSave_IsDirty_Is_True();
+        void AddPendingSave_HasChanges_Is_True();
 
         /// <summary>
-        /// Verifies that removing a model pending save sets the <em>IsDirty</em> state 
+        /// Verifies that removing a model pending save sets the <em>HasChanges</em> value 
         /// to true.
         /// </summary>
-        void DeletePendingSave_IsDirty_Is_True();
+        Task DeletePendingSave_HasChanges_Is_True();
 
         /// <summary>
-        /// Verifies that removing an added model pending save sets the <em>IsDirty</em> state 
+        /// Verifies that removing an added model pending save sets the <em>HasChanges</em> value 
         /// to true.
         /// </summary>
-        void DeletePendingAdd_IsDirty_Is_False();
+        void DeletePendingAdd_HasChanges_Is_True();
 
         /// <summary>
-        /// Verifies that updating a model pending save sets the <em>IsDirty</em> state 
-        /// to true.
+        /// Verifies that updating a model pending save sets the <em>HasChanges</em> value 
+        /// to false. Update tracking is not yet supported.
         /// </summary>
-        void UpdatePendingSave_IsDirty_Is_True();
+        Task Update_PendingSave_HasChanges_IsFalse();
 
         /// <summary>
         /// Verifies the unit of work for generating the default <typeparamref name="T"/> model.

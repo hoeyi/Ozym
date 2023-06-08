@@ -25,7 +25,7 @@ namespace NjordinSight.Test.ChangeTracking
             var changes = changeTracker.GetChanges();
 
             var expected = 5;
-            var observed = changes.Removed.FirstOrDefault();
+            var observed = changes.Added.FirstOrDefault();
 
             Assert.AreEqual(expected, observed);
         }

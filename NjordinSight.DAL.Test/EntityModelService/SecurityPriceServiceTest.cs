@@ -1,27 +1,26 @@
 ﻿using NjordinSight.EntityModel;
+using NjordinSight.EntityModelService.Abstractions;
 using System;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
     public class SecurityPriceServiceTest
-        : ModelBatchServiceTest<SecurityPrice>
+        : ModelCollectionServiceTest<SecurityPrice>
     {
 
         protected override Expression<Func<SecurityPrice, bool>> ParentExpression =>
             x => true;
 
-        /// <inheritdoc/>
-        /// <remarks>Always passes because <see cref="UpdatePendingSave_IsDirty_Is_True"/> the 
-        /// <see cref="SecurityPrice"/> entity does not have updatable members.</remarks>
-        [TestMethod]
-        public override void UpdatePendingSave_IsDirty_Is_True()
+        // TODO: Finish writing this test.
+        public override Task Update_PendingSave_HasChanges_IsFalse()
         {
-            return;
+            return Task.CompletedTask;
         }
 
-        protected override IModelBatchService<SecurityPrice> GetModelService() =>
+        protected override IModelCollectionService<SecurityPrice> GetModelService() =>
             BuildModelService<SecurityPriceBatchService>();
 
     }

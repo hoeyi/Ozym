@@ -1,4 +1,5 @@
 ﻿using NjordinSight.EntityModel;
+using NjordinSight.EntityModelService.Abstractions;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,7 +9,7 @@ namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
     public class InvestmentPerformanceEntryServiceTest 
-        : ModelBatchServiceTest<InvestmentPerformanceEntry>
+        : ModelCollectionServiceTest<InvestmentPerformanceEntry>
     {
         private const int _accountObjectId = -8;
         protected override Expression<Func<InvestmentPerformanceEntry, bool>> ParentExpression =>
@@ -39,18 +40,18 @@ namespace NjordinSight.Test.EntityModelService
         }
 
         [TestMethod]
-        public override void UpdatePendingSave_IsDirty_Is_True()
+        public override async Task Update_PendingSave_HasChanges_IsFalse()
         {
             var service = GetModelService();
 
-            var model = service.SelectAsync().Result.FirstOrDefault();
+            var model = (await service.SelectAsync()).FirstOrDefault();
 
             model.AverageCapital *= 1.37M;
 
-            Assert.IsTrue(service.IsDirty);
+            Assert.IsFalse(service.HasChanges);
         }
 
-        protected override IModelBatchService<InvestmentPerformanceEntry> GetModelService() =>
-            BuildModelService<InvestmentPerformanceService>().WithParent(_accountObjectId);
+        protected override IModelCollectionService<InvestmentPerformanceEntry, int> GetModelService() =>
+            BuildModelService<InvestmentPerformanceService, int>().WithParent(_accountObjectId);
     }
 }

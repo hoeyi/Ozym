@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
+using NjordinSight.EntityModelService.Abstractions;
 
 namespace NjordinSight.Test.EntityModelService
 {
@@ -12,12 +13,12 @@ namespace NjordinSight.Test.EntityModelService
     /// Base class for testing units of work done by <typeparamref name="T"/> batch model services.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
-    public abstract partial class ModelBatchServiceTest<T> : IModelBatchServiceTest<T>
+    public abstract partial class ModelCollectionServiceTest<T> : IModelCollectionServiceTest<T>
         where T : class, new()
     {
         /// <inheritdoc/>
         [TestMethod]
-        public virtual void AddPendingSave_IsDirty_Is_True()
+        public virtual void AddPendingSave_HasChanges_Is_True()
         {
             var service = GetModelService();
 
@@ -25,7 +26,7 @@ namespace NjordinSight.Test.EntityModelService
 
             service.AddPendingSave(model);
 
-            Assert.IsTrue(service.IsDirty);
+            Assert.IsTrue(service.HasChanges);
         }
 
         /// <inheritdoc/>
@@ -76,7 +77,7 @@ namespace NjordinSight.Test.EntityModelService
 
         /// <inheritdoc/>
         [TestMethod]
-        public virtual void DeletePendingAdd_IsDirty_Is_False()
+        public virtual void DeletePendingAdd_HasChanges_Is_True()
         {
             var service = GetModelService();
 
@@ -86,20 +87,22 @@ namespace NjordinSight.Test.EntityModelService
 
             service.DeletePendingSave(model);
 
-            Assert.IsFalse(service.IsDirty);
+            Assert.IsTrue(service.HasChanges);
         }
 
         /// <inheritdoc/>
         [TestMethod]
-        public virtual void DeletePendingSave_IsDirty_Is_True()
+        public async virtual Task DeletePendingSave_HasChanges_Is_True()
         {
             var service = GetModelService();
 
-            var model = GetLast(ParentExpression);
+            var models = await service.SelectAsync(x => true);
 
-            service.DeletePendingSave(model);
+            var lastModel = models.Item1.LastOrDefault();
 
-            Assert.IsTrue(service.IsDirty);
+            service.DeletePendingSave(lastModel);
+
+            Assert.IsTrue(service.HasChanges);
         }
 
         /// <inheritdoc/>
@@ -146,14 +149,14 @@ namespace NjordinSight.Test.EntityModelService
 
         /// <inheritdoc/>
         [TestMethod]
-        public abstract void UpdatePendingSave_IsDirty_Is_True();
+        public abstract Task Update_PendingSave_HasChanges_IsFalse();
     }
 
     /// <summary>
     /// Base class for testing units of work done by <typeparamref name="T"/> batch model services.
     /// </summary>
     /// <typeparam name="T">The model type.</typeparam>
-    public abstract partial class ModelBatchServiceTest<T> : ModelServiceTestBase<T>
+    public abstract partial class ModelCollectionServiceTest<T> : ModelServiceTestBase<T>
     {
         /// <summary>
         /// Gets the <see cref="ILogger"/> instance for this service.
@@ -169,26 +172,26 @@ namespace NjordinSight.Test.EntityModelService
             new Dictionary<string, Func<T, Expression<Func<T, bool>>>>();
 
         /// <summary>
-        /// Creates the <see cref="IModelBatchService{T}"/> to be tested.
+        /// Creates the <see cref="IModelCollectionService{T}"/> to be tested.
         /// </summary>
         /// <returns></returns>
-        protected IModelBatchService<T> BuildModelService<TService>() =>
-            (IModelBatchService<T>)Activator.CreateInstance(
+        protected IModelCollectionService<T> BuildModelService<TService>() =>
+            (IModelCollectionService<T>)Activator.CreateInstance(
                 typeof(TService), TestUtility.DbContextFactory, new ModelMetadataService(), Logger);
 
         /// <summary>
-        /// Creates the <see cref="IModelBatchService{T,TParent}"/> to be tested.
+        /// Creates the <see cref="IModelCollectionService{T,TParent}"/> to be tested.
         /// </summary>
         /// <returns></returns>
-        protected IModelBatchService<T, TParent> BuildModelService<TService, TParent>() =>
-            (IModelBatchService<T, TParent>)Activator.CreateInstance(
+        protected IModelCollectionService<T, TParent> BuildModelService<TService, TParent>() =>
+            (IModelCollectionService<T, TParent>)Activator.CreateInstance(
                 typeof(TService), TestUtility.DbContextFactory, new ModelMetadataService(), Logger);
 
         /// <summary>
-        /// Creates a new instance implementing <see cref="IModelBatchService{T}"/> for 
+        /// Creates a new instance implementing <see cref="IModelCollectionService{T}"/> for 
         /// testing.
         /// </summary>
-        /// <returns>An instance implementing <see cref="IModelBatchService{T}"/>.</returns>
-        protected abstract IModelBatchService<T> GetModelService();
+        /// <returns>An instance implementing <see cref="IModelCollectionService{T}"/>.</returns>
+        protected abstract IModelCollectionService<T> GetModelService();
     }
 }
