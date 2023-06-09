@@ -17,7 +17,7 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <EditForm width="100%" Model="@Wallets">
+        <EditForm width="100%" Model="@Entries">
             <DataAnnotationsValidator/>
             <ActionButtonMenu>
                 <button class="form-control button" 
@@ -36,7 +36,7 @@
             <ContentTile>
                 <Body>
                     <ValidationSummary />
-                    <DataGrid Data="@Wallets">
+                    <DataGrid Data="@Entries">
                         <DataGridColumn Type="DataGridCellType.Button">
                             <CellEditTemplate Context="model">
                                 <ToolTip Text="@Strings.Caption_Button_Delete">
@@ -88,15 +88,19 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IList<AccountWallet> Wallets { get; set; }
-
     private IEnumerable<LookupModel<int, string>> DenominationSecurities { get; set; }
 
     private Account ParentAccount { get; set; }
 
+    [Inject]
+    protected new ICollectionController<AccountWallet, int> Controller { get; init; }
+
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
+
+        // Update the hidden reference to refer the same object to avoid null reference exception.
+        base.Controller = Controller;
 
         try
         {
@@ -113,20 +117,18 @@
 
             var denominationDtosTask = Controller.ReferenceQueries
                 .GetCryptocurrencyDTOsAsync();
-            var walletsTask = Controller.SelectWhereAsync(predicate: x => true, maxCount: 50);
+            var walletsTask = Controller.SelectAsync(predicate: x => true);
 
             var dataTasks = Task.WhenAll(denominationDtosTask, walletsTask);
             await dataTasks;
 
             if (dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                Wallets = (await walletsTask).Value?.ToList();
+                Entries = (await walletsTask).Value.Item1.ToList();
                 DenominationSecurities = (await denominationDtosTask).Value;
 
-                if (!Wallets.Any())
-                {
-                    await AddNewAsync(args: null);
-                }
+                PaginationHelper.TotalItemCount = (await walletsTask).Value.Item2.ItemCount;
+                PaginationHelper.ItemCount = Entries.Count;
             }
             else
             {
@@ -136,7 +138,7 @@
         }
         finally
         {
-            IsLoading = Wallets is null || ParentAccount is null || DenominationSecurities is null;
+            IsLoading = Entries is null || ParentAccount is null || DenominationSecurities is null;
         }
     }
     

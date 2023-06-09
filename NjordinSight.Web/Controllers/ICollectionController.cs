@@ -9,18 +9,13 @@ using System.Threading.Tasks;
 namespace NjordinSight.Web.Controllers
 {
     /// <summary>
-    /// Represents the controller for a given <typeparamref name="T"/> model.
+    /// Represents the controller for a given <typeparamref name="T"/> model with parent type 
+    /// <typeparamref name="TParent"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IBatchController<T>
-        where T: class, new()
+    public interface ICollectionController<T, TParent> : ICollectionController<T>
+        where T : class, new()
     {
-        /// <summary>
-        /// Represents the <see cref="IQueryController"/> instance used for retrieving data-transfer 
-        /// objects representing valid foreign-key value options.
-        /// </summary>
-        IQueryController ReferenceQueries { get; }
-
         /// <summary>
         /// Initializes the intance with the given parent key. Call this method before all others.
         /// </summary>
@@ -30,7 +25,21 @@ namespace NjordinSight.Web.Controllers
         /// </returns>
         /// <remarks>Calls to other methods fail if this method has not been successfully called 
         /// first.</remarks>
-        Task<IActionResult> ForParent(int parentId);
+        Task<IActionResult> ForParent(TParent parent);
+    }
+
+    /// <summary>
+    /// Represents the controller for a given <typeparamref name="T"/> model.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public interface ICollectionController<T>
+        where T: class, new()
+    {
+        /// <summary>
+        /// Represents the <see cref="IQueryController"/> instance used for retrieving data-transfer 
+        /// objects representing valid foreign-key value options.
+        /// </summary>
+        IQueryController ReferenceQueries { get; }
 
         /// <summary>
         /// Adds the model pending a call to <see cref="SaveChangesAsync"/>.
@@ -105,7 +114,8 @@ namespace NjordinSight.Web.Controllers
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns>An <see cref="ActionResult{TValue}"/> whose value is a tuple containing 
-        /// and enumeration of results and metadata about the query.</returns>
+        /// and enumeration of results and metadata about the query. The <see cref="IEnumerable{T}"/> 
+        /// property will always be an instance, even if the result set is empty.</returns>
         Task<ActionResult<(IEnumerable<T>, PaginationData)>> SelectAsync(
             Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 20);
     }

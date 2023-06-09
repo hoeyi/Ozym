@@ -41,7 +41,7 @@
                     IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
             </TitleAlignLeft>
             <Body>
-                <DataGrid Data="@SecurityPrices">
+                <DataGrid Data="@Entries">
                     <DataGridColumn Property="@nameof(SecurityPrice.SecurityId)"
                         Caption="@(NameFor(x => x.SecurityId))">
                         <CellTemplate Context="model">
@@ -93,22 +93,10 @@
 @code {
     private IDictionary<int, string> SecurityDtos { get; set; }
 
-    private IEnumerable<SecurityPrice> SecurityPrices { get; set; }
-
-    private DateTime GetLastBusinessDay()
-    {
-        var currentDateTime = DateTime.UtcNow;
-
-        DateTime lastBusinessDate  = currentDateTime.DayOfWeek switch
-        {
-            DayOfWeek.Saturday => currentDateTime.Date.AddDays(-1),
-            DayOfWeek.Sunday => currentDateTime.Date.AddDays(-2),
-            _ => currentDateTime.Date
-        };
-
-        return lastBusinessDate;
-    }
     private Expression<Func<SecurityPrice, bool>> InitialSearchExpression { get; set; }
+
+    [Inject]
+    protected new ICollectionController<SecurityPrice> Controller {get; init; }
 
     #region Search componenents
     /// <summary>
@@ -150,6 +138,9 @@
     {
         IsLoading = true;
 
+        // Update the hidden reference to refer the same object to avoid null reference exception.
+        base.Controller = Controller;
+
         try
         {
             if (ExpressionBuilder is null)
@@ -157,8 +148,6 @@
 
             if (Controller is null)
                 throw new ArgumentNullException(paramName: nameof(Controller));
-
-            DateTime lastBusinessDay = GetLastBusinessDay();
 
             InitialSearchExpression = x => true;
 
@@ -185,15 +174,15 @@
                 SecurityDtos = securityDtoResult.Value.ToDictionary(k => k.Key, v => v.Display);
                 var actionResult = await pricesTask;
 
-                SecurityPrices = actionResult.Value.Item1?.ToList() ?? new List<SecurityPrice>();
+                Entries = actionResult.Value.Item1?.ToList() ?? new List<SecurityPrice>();
 
                 PaginationHelper.TotalItemCount = actionResult.Value.Item2.ItemCount;
-                PaginationHelper.ItemCount = SecurityPrices.Count();
+                PaginationHelper.ItemCount = Entries.Count;
             }
         }
         finally
         {
-            IsLoading = SecurityPrices is null || SecurityDtos is null;
+            IsLoading = Entries is null || SecurityDtos is null;
         }
     }
 
@@ -203,58 +192,5 @@
             return display;
         else
             return string.Empty;
-    }
-
-    /// <summary>
-    /// Handles search submission events that that contain
-    /// <see cref="SearchSubmittedEventArgs{TModel}"/> data.
-    /// </summary>
-    /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that
-    /// containst the data for the invoked event.</param>
-    /// <returns>A task representing an asynchronous operator. Successful operation will
-    /// cause <see cref="Models"/> to update to the collection matching the event arguments
-    /// search expression.</returns>
-    protected async Task SearchClicked(SearchSubmittedEventArgs<SecurityPrice> args)
-    {
-        await RefreshResults(
-            predicate: args.SearchExpression, 
-            pageNumber: PaginationHelper.PageIndex, 
-            pageSize: PaginationHelper.PageSize);
-
-    }
-    private async Task OnIndexChangedAsync(int args)
-    {
-        await RefreshResults(
-            predicate: LastSearchExpression,
-            pageNumber: PaginationHelper.PageIndex,
-            pageSize: PaginationHelper.PageSize);
-    }
-
-    private async Task OnPageSizeChangedAsync(int args)
-    {
-        await RefreshResults(
-            predicate: LastSearchExpression,
-            pageNumber: PaginationHelper.PageIndex,
-            pageSize: PaginationHelper.PageSize);
-    }
-
-    protected async Task RefreshResults(
-        Expression<Func<SecurityPrice, bool>> predicate, int pageNumber, int pageSize)
-    {
-        IsLoading = true;
-
-        try
-        {
-            var actionResult = await Controller.SelectAsync(predicate, pageNumber, pageSize);
-
-            SecurityPrices = actionResult.Value.Item1?.ToList() ?? new List<SecurityPrice>();
-
-            PaginationHelper.TotalItemCount = actionResult.Value.Item2.ItemCount;
-            PaginationHelper.ItemCount = SecurityPrices.Count();
-        }
-        finally
-        {
-            IsLoading = false;
-        }
     }
 }

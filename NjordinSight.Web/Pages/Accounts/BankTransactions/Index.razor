@@ -1,8 +1,6 @@
 ﻿@page "/accounts/{ModelId:int}/detail/bank-transactions"
 
-@inherits ModelPage<BankTransaction>
-
-@inject IBatchController<BankTransaction> Controller
+@inherits ModelListPage<BankTransaction>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -21,10 +19,10 @@
 
         <ContentTile>
             <Body>
-                <EditForm width="100%" Model="@BankTransactions">
+                <EditForm width="100%" Model="@Entries">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <DataGrid Data="@BankTransactions">
+                    <DataGrid Data="@Entries">
                         <DataGridColumn Property="@nameof(BankTransaction.TransactionCodeId)"
                                     Caption="@NameFor(x => x.TransactionCodeId)">
                             <CellTemplate Context="model">
@@ -60,11 +58,12 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<BankTransaction> BankTransactions { get; set; }
-
     private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
 
     private Account ParentAccount { get; set; }
+
+    [Inject]
+    public new ICollectionController<BankTransaction, int> Controller { get; init; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -91,6 +90,10 @@
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
+
+        // Update the hidden reference to refer the same dobject to avoid null reference exception.
+        base.Controller = Controller;
+
         try
         {
             var transactionCodeDTOsTask = Controller.ReferenceQueries.GetBankTransactionCodeDTOsAsync();
@@ -106,15 +109,21 @@
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
 
-            var transactionsQueryTask = Controller.SelectWhereAsync(predicate: x => true, maxCount: 50);
+            var transactionsQueryTask = Controller.SelectAsync(
+                predicate: x => true,
+                PaginationHelper.PageIndex,
+                PaginationHelper.PageSize);
 
             var dataTasks = Task.WhenAll(transactionsQueryTask, transactionCodeDTOsTask);
             await dataTasks;
 
             if (dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                BankTransactions = (await transactionsQueryTask).Value;
+                Entries = (await transactionsQueryTask).Value.Item1.ToList();
                 TransactionCodes = (await transactionCodeDTOsTask).Value;
+
+                PaginationHelper.TotalItemCount = (await transactionsQueryTask).Value.Item2.ItemCount;
+                PaginationHelper.ItemCount = Entries.Count;
             }
             else
             {
@@ -123,18 +132,14 @@
         }
         finally
         {
-            IsLoading = BankTransactions is null
+            IsLoading = Entries is null
                 || ParentAccount is null
                 || TransactionCodes is null;
         }
     }
 
-    /// <summary>
-    /// Gets the index uri stem to this page.
-    /// </summary>
-    private string IndexUriRelative => $"{IndexUriRelativePath}/{ModelId}/edit/broker-transactions";
-
-    private void Cancel_OnClick() => NavigationHelper
+    /// <inheritdoc/>
+    protected override void Cancel_OnClick() => NavigationHelper
         .NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
 
     private string GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>

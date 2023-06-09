@@ -99,9 +99,15 @@
 
     private Account ParentAccount { get; set; }
 
+    [Inject]
+    protected new ICollectionController<BankTransaction, int> Controller { get; init; }
+
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
+
+        // Update the hidden reference to refer the same object to avoid null reference exception.
+        base.Controller = Controller;
 
         try
         {
@@ -118,15 +124,21 @@
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
 
-            var transactionsQueryTask = Controller.SelectWhereAsync(predicate: x => true, maxCount: 50);
+            var transactionsQueryTask = Controller.SelectAsync(
+                predicate: x => true,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
 
             var dataTasks = Task.WhenAll(transactionsQueryTask, transactionCodeDTOsTask);
             await dataTasks;
 
             if (dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                Entries = (await transactionsQueryTask).Value?.ToList();
+                Entries = (await transactionsQueryTask).Value.Item1.ToList();
                 TransactionCodes = (await transactionCodeDTOsTask).Value;
+
+                PaginationHelper.TotalItemCount = (await transactionsQueryTask).Value.Item2.ItemCount;
+                PaginationHelper.ItemCount = Entries.Count;
             }
             else
             {

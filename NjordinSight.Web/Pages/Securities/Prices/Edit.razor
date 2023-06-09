@@ -128,21 +128,6 @@
 @code {
     private IEnumerable<LookupModel<int, string>> SecurityLookup { get; set; }
 
-    private int MaxRecordCount { get; set; } = 100;
-
-    private DateTime GetLastBusinessDay()
-    {
-        var currentDateTime = DateTime.UtcNow;
-
-        DateTime lastBusinessDate = currentDateTime.DayOfWeek switch
-        {
-            DayOfWeek.Saturday => currentDateTime.Date.AddDays(-1),
-            DayOfWeek.Sunday => currentDateTime.Date.AddDays(-2),
-            _ => currentDateTime.Date
-        };
-
-        return lastBusinessDate;
-    }
     private Expression<Func<SecurityPrice, bool>> InitialSearchExpression { get; set; }
 
     #region Search componenents
@@ -167,11 +152,15 @@
 
     #endregion
 
-    private bool UpodateLoading() => SecurityLookup is null || Entries is null;
+    [Inject]    
+    protected new ICollectionController<SecurityPrice> Controller { get; init; }
 
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
+
+        // Update the hidden reference to refer the same object to avoid null reference exception.
+        base.Controller = Controller;
 
         try
         {
@@ -181,15 +170,16 @@
             if (Controller is null)
                 throw new ArgumentNullException(paramName: nameof(Controller));
 
-            DateTime lastBusinessDay = GetLastBusinessDay();
-
             // TODO: Update this to a more useful initial expression.
             InitialSearchExpression = x => true;
 
             SearchFields = ExpressionBuilder!.GetSearchableMembers<SecurityPrice>();
             ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
-            var pricesTask = Controller.SelectWhereAsync(InitialSearchExpression, MaxRecordCount);
+            var pricesTask = Controller.SelectAsync(
+                predicate: InitialSearchExpression,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
             var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
                 key: x => x.SecurityId,
                 display: x => x.SecurityDescription,
@@ -205,38 +195,22 @@
                 var securityDtoResult = await securityDtosTask;
 
                 SecurityLookup = securityDtoResult.Value;
-                Entries = pricesResult.Value?.ToList();
+                Entries = pricesResult.Value.Item1.ToList();
+
+                Context = new(Entries);
+
+                PaginationHelper.TotalItemCount = pricesResult.Value.Item2.ItemCount;
+                PaginationHelper.ItemCount = Entries.Count;
             }
+
         }
         finally
         {
-            Entries ??= new List<SecurityPrice>();
-
-            Context = new(Entries);
-            IsLoading = UpodateLoading();
+            IsLoading = SecurityLookup is null || Entries is null;
         }
     }
 
     /// <inheritdoc/>
     protected override void Cancel_OnClick() => 
         NavigationHelper.NavigateTo($"{IndexUriRelativePath}/prices");
-
-    private async Task SearchClicked(SearchSubmittedEventArgs<SecurityPrice> args)
-    {
-        try
-        {
-            IsLoading = true;
-            if (args is not null)
-            {
-                var actionResult = await Controller!.SelectWhereAsync(
-                        predicate: args.SearchExpression, maxCount: MaxRecordCount);
-
-                Entries = actionResult.Value?.ToList() ?? new List<SecurityPrice>();
-            }
-        }
-        finally
-        {
-            IsLoading = UpodateLoading();
-        }
-    }
 }

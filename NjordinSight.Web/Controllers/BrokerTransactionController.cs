@@ -14,7 +14,7 @@ using NjordinSight.EntityModelService.Abstractions;
 namespace NjordinSight.Web.Controllers
 {
     public class BrokerTransactionController : 
-        ModelBatchController<BrokerTransaction>, IBrokerTransactionController
+        ModelCollectionController<BrokerTransaction, int>, IBrokerTransactionController
     {
         private IBrokerTransactionBLL _transactionBLL;
 
@@ -26,12 +26,14 @@ namespace NjordinSight.Web.Controllers
         }
 
         /// <inheritdoc/>
-        public async Task<IActionResult> AddNewAsync()
+        public async Task<ActionResult<BrokerTransaction>> AddNewAsync()
         {
             var newModel = _transactionBLL.AddTransaction();
             await UpdateTransactionCodeAsync(newModel, newModel.TransactionCodeId);
 
-            return await AddAsync(newModel);
+            await AddAsync(newModel);
+
+            return newModel;
         }
 
         /// <inheritdoc/>
@@ -88,13 +90,11 @@ namespace NjordinSight.Web.Controllers
                 {
                     throw tasks.Exception.Flatten();
                 }
-
             }
             else
             {
                 throw new InvalidOperationException();
             }
-
         }
 
         /// <inheritdoc/>

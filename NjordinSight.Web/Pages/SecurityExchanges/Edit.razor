@@ -72,3 +72,15 @@
         </EditForm>
     }
 </ThemedComponent>
+
+@code{
+    [Inject]    
+    protected new ICollectionController<SecurityExchange> Controller { get; init; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.Controller = Controller;
+
+        await base.OnInitializedAsync();
+    }
+}

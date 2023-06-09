@@ -118,21 +118,8 @@
 
     private IEnumerable<LookupModel<int, string>> MarketIndexLookup {get; set;}
 
-    private int MaxRecordCount { get; set; } = 100;
+    protected new ICollectionController<MarketIndexPrice> Controller { get; init; }
 
-    private DateTime GetLastBusinessDay()
-    {
-        var currentDateTime = DateTime.UtcNow;
-
-        DateTime lastBusinessDate = currentDateTime.DayOfWeek switch
-        {
-            DayOfWeek.Saturday => currentDateTime.Date.AddDays(-1),
-            DayOfWeek.Sunday => currentDateTime.Date.AddDays(-2),
-            _ => currentDateTime.Date
-        };
-
-        return lastBusinessDate;
-    }
     private Expression<Func<MarketIndexPrice, bool>> InitialSearchExpression { get; set; }
 
     #region Search componenents
@@ -161,6 +148,9 @@
     {
         IsLoading = true;
 
+        // Update the hidden reference to refer the same object to avoid null reference exception.
+        base.Controller = Controller;
+
         try
         {
             if (ExpressionBuilder is null)
@@ -169,16 +159,13 @@
             if (Controller is null)
                 throw new ArgumentNullException(paramName: nameof(Controller));
 
-            DateTime lastBusinessDay = GetLastBusinessDay();
-
-            // InitialSearchExpression = x => x.PriceDate == lastBusinessDay;
+            // TODO: Add a more useful default expression.
             InitialSearchExpression = x => true;
 
             SearchFields = ExpressionBuilder!.GetSearchableMembers<MarketIndexPrice>();
             ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
 
-            var queryActionResultTask = Controller!
-                .SelectWhereAsync(InitialSearchExpression, MaxRecordCount);
+            var queryActionResultTask = Controller!.SelectAsync(InitialSearchExpression);
 
             var indexDtosTask = Controller.ReferenceQueries.GetMarketIndexDTOsAsync();
 
@@ -193,16 +180,18 @@
                         Display = Resources.Strings.Caption_InputSelect_Placeholder
                     });
 
-
             var dataTasks = Task.WhenAll(queryActionResultTask, indexDtosTask, priceCodeDtoTask);
             await dataTasks;
 
             if(dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                Entries = (await queryActionResultTask).Value?.ToList();
+                Entries = (await queryActionResultTask).Value.Item1.ToList();
                 MarketIndexLookup = (await indexDtosTask).Value;
                 PriceCodeLookup = (await priceCodeDtoTask).Value;
                 Context = new(Entries);
+
+                PaginationHelper.TotalItemCount = (await queryActionResultTask).Value.Item2.ItemCount;
+                PaginationHelper.ItemCount = Entries.Count;
             }
 
         }
@@ -218,32 +207,4 @@
     /// <inheritdoc/>
     protected override void Cancel_OnClick() => 
         NavigationHelper.NavigateTo($"{IndexUriRelativePath}/rates");
-
-    /// <summary>
-    /// Handles search submission events that that contain
-    /// <see cref="SearchSubmittedEventArgs{TModel}"/> data.
-    /// </summary>
-    /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that
-    /// containst the data for the invoked event.</param>
-    /// <returns>A task representing an asynchronous operator. Successful ooperation will
-    /// cause <see cref="Entries"/> to update to the collection matching the event arguments
-    /// search expression.</returns>
-    private async Task SearchClicked(SearchSubmittedEventArgs<MarketIndexPrice> args)
-    {
-        try
-        {
-            IsLoading = true;
-            if (args is not null)
-            {
-                var actionResult = await Controller!.SelectWhereAsync(
-                        predicate: args.SearchExpression, maxCount: MaxRecordCount);
-
-                Entries = actionResult.Value?.ToList() ?? new List<MarketIndexPrice>();
-            }
-        }
-        finally
-        {
-            IsLoading = false;
-        }
-    }
 }

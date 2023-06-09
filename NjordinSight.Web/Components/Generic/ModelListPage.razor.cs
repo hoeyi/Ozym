@@ -10,6 +10,7 @@ using System.Linq;
 using NjordinSight.Web.Components.Common;
 using System.Linq.Expressions;
 using NjordinSight.EntityModel;
+using Microsoft.AspNetCore.Http;
 
 namespace NjordinSight.Web.Components.Generic
 {
@@ -21,8 +22,10 @@ namespace NjordinSight.Web.Components.Generic
     public partial class ModelListPage<TModelDto>
         where TModelDto : class, new()
     {
-        [Inject]
-        protected IBatchController<TModelDto> Controller { get; init; }
+        /// <summary>
+        /// Gets or sets the <see cref="ICollectionController{T}"/> provider for this page.
+        /// </summary>
+        protected ICollectionController<TModelDto> Controller { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of entries worked via this page.
@@ -53,7 +56,7 @@ namespace NjordinSight.Web.Components.Generic
         /// <exception cref="InvalidOperationException"></exception>
 #pragma warning disable IDE0060 // Remove unused parameter
         // TODO: Do something with MouseEventArgs?
-        protected async Task AddNewAsync(MouseEventArgs args)
+        protected virtual async Task AddNewAsync(MouseEventArgs args)
 #pragma warning restore IDE0060 // Remove unused parameter
         {
             var getDefaultTask = await Controller.GetDefaultAsync();
@@ -103,30 +106,69 @@ namespace NjordinSight.Web.Components.Generic
                 else if (saveResult is ObjectResult objectResult)
                     ErrorMessage = (objectResult.Value as Exception)?.Message;
             }
+            else
+            {
+                ErrorMessage = string.Join("\n", context.GetValidationMessages());
+            }
         }
 
+        /// <inheritdoc/>
         protected override async Task OnInitializedAsync()
+        {
+            await RefreshResults(
+                LastSearchExpression, PaginationHelper.PageIndex, PaginationHelper.PageCount);
+                
+            Context = new(Entries);
+        }
+
+        protected async Task OnIndexChangedAsync(int args)
+        {
+            await RefreshResults(
+                predicate: LastSearchExpression,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
+        }
+
+        protected async Task OnPageSizeChangedAsync(int args)
+        {
+            await RefreshResults(
+                predicate: LastSearchExpression,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
+        }
+
+        protected async Task RefreshResults(
+            Expression<Func<TModelDto, bool>> predicate, 
+            int pageNumber, 
+            int pageSize,
+            Func<bool> isLoadingDelegate = null)
         {
             IsLoading = true;
 
             try
             {
-                var actionResult = await Controller.SelectAsync(
-                    predicate: x => true, pageNumber: PaginationHelper.PageIndex, PaginationHelper.PageSize);
+                var actionResult = await Controller.SelectAsync(predicate, pageNumber, pageSize);
 
-                Entries = actionResult.Value.Item1?.ToList() ?? new List<TModelDto>();
-                
+                Entries = actionResult.Value.Item1.ToList();
 
-                if (!Entries.Any())
-                {
-                    await AddNewAsync(args: null);
-                }
+                PaginationHelper.TotalItemCount = actionResult.Value.Item2.ItemCount;
+                PaginationHelper.ItemCount = Entries.Count;
             }
             finally
             {
-                Context = new(Entries);
-                IsLoading = Entries is null;
+                if (isLoadingDelegate is null)
+                    IsLoading = Entries is null;
+                else
+                    IsLoading = isLoadingDelegate.Invoke();
             }
+        }
+
+        protected async Task SearchClicked(SearchSubmittedEventArgs<TModelDto> args)
+        {
+            await RefreshResults(
+                predicate: args.SearchExpression,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
         }
     }
 }

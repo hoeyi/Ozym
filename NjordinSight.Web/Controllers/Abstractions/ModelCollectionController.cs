@@ -13,16 +13,47 @@ using NjordinSight.DataTransfer;
 
 namespace NjordinSight.Web.Controllers.Abstractions
 {
-    public class ModelBatchController<T> : ControllerBase, IBatchController<T>
+    public class ModelCollectionController<T, TParent> 
+        : ModelCollectionController<T>, ICollectionController<T, TParent>
         where T : class, new()
     {
-        private readonly IModelCollectionService<T, int> _modelService;
+        public ModelCollectionController(
+            IModelCollectionService<T, TParent> modelService, 
+            IQueryService queryService, ILogger logger) 
+            : base(modelService, queryService, logger)
+        {
+        }
+        
+        /// <inheritdoc/>
+        public virtual async Task<IActionResult> ForParent(TParent parent)
+        {
+            IActionResult RegisterParent()
+            {
+                ((IModelCollectionService<T, TParent>)_modelService)
+                    .SetParent(parent);
+
+                return Ok();
+            }
+
+            var result = await Task.Run(() => RegisterParent());
+
+            return result;
+        }
+    }
+
+    // TODO: Move the use of <T, TParent> collection service into a separate class.
+    //       Use here causes issues with the DI service collection resolution because 
+    //       some collections are not children of a parent object.
+    public class ModelCollectionController<T> : ControllerBase, ICollectionController<T>
+        where T : class, new()
+    {
+        protected readonly IModelCollectionService<T> _modelService;
         private readonly IQueryController _queryController;
         private readonly ILogger _logger;
 
 
-        public ModelBatchController(
-            IModelCollectionService<T, int> modelService,
+        public ModelCollectionController(
+            IModelCollectionService<T> modelService,
             IQueryService queryService,
             ILogger logger)
         {
@@ -83,21 +114,6 @@ namespace NjordinSight.Web.Controllers.Abstractions
         }
 
         /// <inheritdoc/>
-        public virtual async Task<IActionResult> ForParent(int parentId)
-        {
-            IActionResult RegisterParent()
-            {
-                _modelService.SetParent(parentId);
-
-                return Ok();
-            }
-
-            var result = await Task.Run(() => RegisterParent());
-
-            return result;
-        }
-
-        /// <inheritdoc/>
         public virtual async Task<ActionResult<T>> GetDefaultAsync()
         {
             return await _modelService.GetDefaultAsync();
@@ -132,7 +148,7 @@ namespace NjordinSight.Web.Controllers.Abstractions
         {
             var query = await _modelService.SelectAsync(predicate, pageNumber, pageSize);
 
-            return (query.Item1?.ToList(), query.Item2);
+            return (query.Item1, query.Item2);
         }
 
         /// <inheritdoc/>

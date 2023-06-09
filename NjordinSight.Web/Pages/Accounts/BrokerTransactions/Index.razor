@@ -1,8 +1,6 @@
 ﻿@page "/accounts/{ModelId:int}/detail/broker-transactions"
 
-@inherits ModelPage<BrokerTransaction>
-
-@inject IBrokerTransactionController Controller
+@inherits ModelListPage<BrokerTransaction>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -106,8 +104,6 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<BrokerTransaction> Entries { get; set; }
-
     private IEnumerable<LookupModel<int, string>> DepositSecurities { get; set; }
 
     private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
@@ -115,6 +111,9 @@
     private IEnumerable<LookupModel<int, string>> TransactableSecurities { get; set; }
 
     private Account ParentAccount { get; set; }
+
+    [Inject]
+    protected new IBrokerTransactionController Controller { get; init; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -141,6 +140,9 @@
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
+
+        // Update the hidden reference to refer the same object to avoid null reference exception.
+        base.Controller = Controller;
 
         try
         {
@@ -171,7 +173,7 @@
                 DepositSecurities = (await depositySecurityDTOsTask).Value;
                 TransactableSecurities = (await securityDTOsTask).Value;
                 TransactionCodes = (await transactionCodeDTOsTask).Value;
-                Entries = (await loadRecordsTask);
+                Entries = (await loadRecordsTask).ToList();
                 ParentAccount = (await parentAccountTask).Value;
             }
             else
@@ -189,11 +191,7 @@
         }
     }
 
-    /// <summary>
-    /// Gets the index uri stem to this page.
-    /// </summary>
-    private string IndexUriRelative => $"{IndexUriRelativePath}/{ModelId}/edit/broker-transactions";
-
-    private void Cancel_OnClick() => NavigationHelper
+    /// <inheritdoc/>
+    protected override void Cancel_OnClick() => NavigationHelper
         .NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
 }

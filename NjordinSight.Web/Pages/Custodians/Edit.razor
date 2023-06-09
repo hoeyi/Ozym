@@ -70,3 +70,15 @@
         </EditForm>
     }
 </ThemedComponent>
+
+@code{
+    [Inject]
+    protected new ICollectionController<AccountCustodian> Controller { get; init; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.Controller = Controller;
+
+        await base.OnInitializedAsync();
+    }
+}

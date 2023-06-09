@@ -115,7 +115,7 @@ namespace NjordinSight.Web.Components.Generic
                 ActionResult<(IEnumerable<TModel>, PaginationData)> results = await Controller
                     .SelectAsync(SavedSearchExpression, pageNumber: PageIndex, pageSize: PageSize);
 
-                Models = results.Value.Item1 ?? Array.Empty<TModel>();
+                Models = results.Value.Item1;
                 PaginationHelper.TotalItemCount = results.Value.Item2.ItemCount;
                 PaginationHelper.ItemCount = Models.Count();
             }
@@ -147,7 +147,8 @@ namespace NjordinSight.Web.Components.Generic
                                 pageNumber: PaginationHelper.PageIndex, 
                                 pageSize: PaginationHelper.PageSize);
 
-                    Models = results.Value.Item1 ?? Array.Empty<TModel>();
+                    Models = results.Value.Item1.ToList();
+
                     PaginationHelper.TotalItemCount = results.Value.Item2.ItemCount;
                     PaginationHelper.ItemCount = Models.Count();
                 }
