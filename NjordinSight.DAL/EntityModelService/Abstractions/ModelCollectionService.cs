@@ -14,23 +14,8 @@ using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.EntityModelService.Abstractions
 {
-    public interface IModelCollectionService<T, TParent>
-        : IModelCollectionService<T>
-        where T : class, new()
-    {
-        void SetParent(TParent parent);
-    }
-
-    public interface IModelCollectionService<T> :
-            IModelBaseService<T>,
-            IModelReaderService<T>, 
-            IModelCollectionWriterService<T>
-        where T : class, new()
-    {
-    }
-
-    internal abstract partial class ModelCollectionService<T, TParent> :
-        ModelCollectionService<T>, IModelCollectionService<T, TParent>
+    internal abstract partial class ModelCollectionService<T, TParent> 
+        : ModelCollectionService<T>, IModelCollectionService<T, TParent>
         where T : class, new()
     {
         protected ModelCollectionService(
