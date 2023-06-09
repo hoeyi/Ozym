@@ -46,11 +46,13 @@ namespace NjordinSight
             // Add batch services.
             services
                 .AddScoped<IModelCollectionService<AccountCustodian>, AccountCustodianBatchService>()
-                .AddScoped<IModelCollectionService<AccountWallet>, AccountWalletService>()
-                .AddScoped<IModelCollectionService<BankTransaction>, BankTransactionService>()
-                .AddScoped<IModelCollectionService<BrokerTransaction>, BrokerTransactionService>()
-                .AddScoped<IModelCollectionService<InvestmentPerformanceAttributeMemberEntry>, InvestmentPerformanceAttributeService>()
-                .AddScoped<IModelCollectionService<InvestmentPerformanceEntry>, InvestmentPerformanceService>()
+                .AddScoped<IModelCollectionService<AccountWallet, int>, AccountWalletService>()
+                .AddScoped<IModelCollectionService<BankTransaction, int>, BankTransactionService>()
+                .AddScoped<IModelCollectionService<BrokerTransaction, int>, BrokerTransactionService>()
+                .AddScoped<IModelCollectionService<
+                    InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)>, 
+                    InvestmentPerformanceAttributeService>()
+                .AddScoped<IModelCollectionService<InvestmentPerformanceEntry, int>, InvestmentPerformanceService>()
                 .AddScoped<IModelCollectionService<MarketHolidayObservance>, MarketHolidayObservanceService>()
                 .AddScoped<IModelCollectionService<MarketIndexPrice>, MarketIndexPriceBatchService>()
                 .AddScoped<IModelCollectionService<SecurityExchange>, SecurityExchangeBatchService>()
