@@ -25,106 +25,118 @@
         </ContentTile>
     }
 
-    @if (IsLoading)
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+
+    @if(Context is null)
     {
         <LoadingSvg />
     }
     else
     {
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
-
         <EditForm width="100%" EditContext="@Context">
-            <DataAnnotationsValidator />
-            <ActionButtonMenu>
-                <button class="form-control button"
-                    @onclick="@(async (args) => await Submit_OnClick(context, args))">
-                    @Strings.Caption_Button_Save
-                </button>
-                <button class="form-control button"
-                    @onclick="(async (args) => await AddNewAsync(args))">
-                    @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
-                </button>
-                <button class="form-control button" @onclick="Cancel_OnClick"
-                    @onclick:preventDefault>
-                    @Strings.Caption_Button_Cancel
-                </button>
-            </ActionButtonMenu>
-            <ContentTile>
-                <Body>
-                    <ValidationSummary />
-                    <DataGrid Data="@WorkingEntries">
-                        <DataGridColumn Type="DataGridCellType.Button">
-                            <CellEditTemplate Context="model">
-                                <ToolTip Text="@Strings.Caption_Button_Delete">
-                                    <button class="form-control button icon" type="button"
-                                        @onclick="async (args) => await DeleteAsync(args, model)">
-                                        <IonIcon Name="close-circle" />
-                                    </button>
-                                </ToolTip>
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(SecurityPrice.SecurityId)
-                            Type="DataGridCellType.Control"
-                            Caption=@(NameFor(x => x.SecurityId))>
-                            <CellEditTemplate Context="model">
-                                <InputSelect class="form-control" @bind-Value="@model.SecurityId">
-                                    @foreach (var lookup in SecurityLookup)
-                                    {
-                                        <option value=@lookup.Key>@lookup.Display</option>
-                                    }
-                                </InputSelect>
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(SecurityPrice.PriceDate)
-                            Type="DataGridCellType.Control"
-                            Caption=@(NameFor(x => x.PriceDate))>
-                            <CellEditTemplate Context="model">
-                                <InputDate class="form-control" @bind-Value="model.PriceDate" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(SecurityPrice.PriceClose)
-                            Type="DataGridCellType.Control"
-                            Caption=@(NameFor(x => x.PriceClose))>
-                            <CellEditTemplate Context="model">
-                                <InputNumber class="form-control" @bind-Value="model.PriceClose" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(SecurityPrice.PriceOpen)
-                            Type="DataGridCellType.Control"
-                            Caption=@(NameFor(x => x.PriceOpen))>
-                            <CellEditTemplate Context="model">
-                                <InputNumber class="form-control" @bind-Value="model.PriceOpen" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(SecurityPrice.PriceHigh)
-                            Type="DataGridCellType.Control"
-                            Caption=@(NameFor(x => x.PriceHigh))>
-                            <CellEditTemplate Context="model">
-                                <InputNumber class="form-control" @bind-Value="model.PriceHigh" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(SecurityPrice.PriceLow)
-                            Type="DataGridCellType.Control"
-                            Caption=@(NameFor(x => x.PriceLow))>
-                            <CellEditTemplate Context="model">
-                                <InputNumber class="form-control" @bind-Value="model.PriceLow" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(SecurityPrice.Volume)
-                            Type="DataGridCellType.Control"
-                            Caption=@(NameFor(x => x.Volume))>
-                            <CellEditTemplate Context="model">
-                                <InputNumber class="form-control" @bind-Value="model.Volume" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
-                </Body>
-            </ContentTile>
-        </EditForm>
+                <DataAnnotationsValidator />
+                <ActionButtonMenu>
+                    <button class="form-control button"
+                        @onclick="@(async (args) => await Submit_OnClick(context, args))">
+                        @Strings.Caption_Button_Save
+                    </button>
+                    <button class="form-control button"
+                        @onclick="(async (args) => await AddNewAsync(args))">
+                        @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
+                    </button>
+                    <button class="form-control button" @onclick="Cancel_OnClick"
+                        @onclick:preventDefault>
+                        @Strings.Caption_Button_Cancel
+                    </button>
+                </ActionButtonMenu>
+                <ContentTile>
+                    <TitleAlignLeft>
+                        <Paginator Model="PaginationHelper"
+                               IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+                    </TitleAlignLeft>
+                    <Body>
+                        @if (IsLoading)
+                        {
+                            <LoadingSvg />
+                        }
+                        else
+                        {
+                            <ValidationSummary />
+                            <DataGrid Data="@WorkingEntries">
+                                <DataGridColumn Type="DataGridCellType.Button">
+                                    <CellEditTemplate Context="model">
+                                        <ToolTip Text="@Strings.Caption_Button_Delete">
+                                            <button class="form-control button icon" type="button"
+                                                @onclick="async (args) => await DeleteAsync(args, model)">
+                                                <IonIcon Name="close-circle" />
+                                            </button>
+                                        </ToolTip>
+                                    </CellEditTemplate>
+                                </DataGridColumn>
+                                <DataGridColumn Property=@nameof(SecurityPrice.SecurityId)
+                                    Type="DataGridCellType.Control"
+                                    Caption=@(NameFor(x => x.SecurityId))>
+                                    <CellEditTemplate Context="model">
+                                        <InputSelect class="form-control" @bind-Value="@model.SecurityId">
+                                            @foreach (var lookup in SecurityLookup)
+                                            {
+                                                <option value=@lookup.Key>@lookup.Display</option>
+                                            }
+                                        </InputSelect>
+                                    </CellEditTemplate>
+                                </DataGridColumn>
+                                <DataGridColumn Property=@nameof(SecurityPrice.PriceDate)
+                                    Type="DataGridCellType.Control"
+                                    Caption=@(NameFor(x => x.PriceDate))>
+                                    <CellEditTemplate Context="model">
+                                        <InputDate class="form-control" @bind-Value="model.PriceDate" />
+                                    </CellEditTemplate>
+                                </DataGridColumn>
+                                <DataGridColumn Property=@nameof(SecurityPrice.PriceClose)
+                                    Type="DataGridCellType.Control"
+                                    Caption=@(NameFor(x => x.PriceClose))>
+                                    <CellEditTemplate Context="model">
+                                        <InputNumber class="form-control" @bind-Value="model.PriceClose" />
+                                    </CellEditTemplate>
+                                </DataGridColumn>
+                                <DataGridColumn Property=@nameof(SecurityPrice.PriceOpen)
+                                    Type="DataGridCellType.Control"
+                                    Caption=@(NameFor(x => x.PriceOpen))>
+                                    <CellEditTemplate Context="model">
+                                        <InputNumber class="form-control" @bind-Value="model.PriceOpen" />
+                                    </CellEditTemplate>
+                                </DataGridColumn>
+                                <DataGridColumn Property=@nameof(SecurityPrice.PriceHigh)
+                                    Type="DataGridCellType.Control"
+                                    Caption=@(NameFor(x => x.PriceHigh))>
+                                    <CellEditTemplate Context="model">
+                                        <InputNumber class="form-control" @bind-Value="model.PriceHigh" />
+                                    </CellEditTemplate>
+                                </DataGridColumn>
+                                <DataGridColumn Property=@nameof(SecurityPrice.PriceLow)
+                                    Type="DataGridCellType.Control"
+                                    Caption=@(NameFor(x => x.PriceLow))>
+                                    <CellEditTemplate Context="model">
+                                        <InputNumber class="form-control" @bind-Value="model.PriceLow" />
+                                    </CellEditTemplate>
+                                </DataGridColumn>
+                                <DataGridColumn Property=@nameof(SecurityPrice.Volume)
+                                    Type="DataGridCellType.Control"
+                                    Caption=@(NameFor(x => x.Volume))>
+                                    <CellEditTemplate Context="model">
+                                        <InputNumber class="form-control" @bind-Value="model.Volume" />
+                                    </CellEditTemplate>
+                                </DataGridColumn>
+                            </DataGrid>
+                        }
+                    </Body>
+                </ContentTile>
+            </EditForm>
     }
 </ThemedComponent>
+
 @code {
     private IEnumerable<LookupModel<int, string>> SecurityLookup { get; set; }
 

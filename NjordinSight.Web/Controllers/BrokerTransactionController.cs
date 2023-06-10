@@ -56,9 +56,9 @@ namespace NjordinSight.Web.Controllers
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<BrokerTransaction>> LoadRecordsAsync(int parentId)
+        public async Task<IEnumerable<BrokerTransaction>> LoadRecordsAsync(int parent)
         {
-            var forParentResult = await ForParent(parentId);
+            var forParentResult = await ForParent(parent);
 
             if(forParentResult is OkResult)
             {
@@ -66,7 +66,7 @@ namespace NjordinSight.Web.Controllers
                     .GetManyAsync<BrokerTransactionCode>(x => true);
                 var transactionsTask = SelectAllAsync();
                 var parentTask = ReferenceQueries.GetSingleAsync<Account>(
-                    predicate: a => a.AccountId == parentId,
+                    predicate: a => a.AccountId == parent,
                     path: a => a.AccountNavigation);
 
                 var tasks = Task.WhenAll(transactionCodesTask, transactionsTask, parentTask);

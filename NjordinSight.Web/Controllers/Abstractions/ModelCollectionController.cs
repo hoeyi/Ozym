@@ -23,7 +23,7 @@ namespace NjordinSight.Web.Controllers.Abstractions
             : base(modelService, queryService, logger)
         {
         }
-        
+
         /// <inheritdoc/>
         public virtual async Task<IActionResult> ForParent(TParent parent)
         {
@@ -149,15 +149,6 @@ namespace NjordinSight.Web.Controllers.Abstractions
             var query = await _modelService.SelectAsync(predicate, pageNumber, pageSize);
 
             return (query.Item1, query.Item2);
-        }
-
-        /// <inheritdoc/>
-        public async Task<ActionResult<IEnumerable<T>>> SelectWhereAsync(
-            Expression<Func<T, bool>> predicate, int maxCount = 0)
-        {
-            var results = await _modelService.SelectAsync(predicate, pageSize: maxCount);
-
-            return results.Item1.ToList();
         }
 
         /// <inheritdoc/>

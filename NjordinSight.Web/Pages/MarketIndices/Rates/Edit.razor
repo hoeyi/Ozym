@@ -25,16 +25,16 @@
         </ContentTile>
     }
 
-    @if (IsLoading)
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+
+    @if(Context is null)
     {
         <LoadingSvg />
     }
     else
     {
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
-
         <EditForm width="100%" EditContext="@Context">
             <DataAnnotationsValidator />
             <ActionButtonMenu>
@@ -52,60 +52,71 @@
                 </button>
             </ActionButtonMenu>
             <ContentTile>
+                <TitleAlignLeft>
+                    <Paginator Model="PaginationHelper"
+                            IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+                </TitleAlignLeft>
                 <Body>
-                    <ValidationSummary />
-                    <DataGrid Data="@WorkingEntries">
-                        <DataGridColumn Type="DataGridCellType.Button">
-                            <CellEditTemplate Context="model">
-                                <ToolTip Text="@Strings.Caption_Button_Delete">
-                                    <button class="form-control button icon" type="button"
-                                        @onclick="async (args) => await DeleteAsync(args, model)">
-                                        <IonIcon Name="close-circle" />
-                                    </button>
-                                </ToolTip>
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(MarketIndexPrice.MarketIndexId)
-                                    Type="DataGridCellType.Control"
-                                    Caption=@(NameFor(x => x.MarketIndexId))>
-                            <CellEditTemplate Context="model">
-                                <InputSelect class="form-control"
-                                    @bind-Value="@model.MarketIndexId">
-                                    @foreach (var lookup in MarketIndexLookup)
-                                    {
-                                        <option value=@lookup.Key>@lookup.Display</option>
-                                    }
-                                </InputSelect>
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(MarketIndexPrice.PriceCode)
-                                    Type="DataGridCellType.Control"
-                                    Caption=@(NameFor(x => x.PriceCode))>
-                            <CellEditTemplate Context="model">
-                                <InputSelect class="form-control"
-                                    @bind-Value="@model.PriceCode">
-                                    @foreach (var lookup in PriceCodeLookup)
-                                    {
-                                        <option value=@lookup.Key>@lookup.Display</option>
-                                    }
-                                </InputSelect>
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(MarketIndexPrice.PriceDate)
-                                    Type="DataGridCellType.Control"
-                                    Caption=@(NameFor(x => x.PriceDate))>
-                            <CellEditTemplate Context="model">
-                                <InputDate class="form-control" @bind-Value="@model.PriceDate" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(MarketIndexPrice.Price)
-                                    Type="DataGridCellType.Control"
-                                    Caption=@(NameFor(x => x.Price))>
-                            <CellEditTemplate Context="model">
-                                <InputNumber class="form-control" @bind-Value="@model.Price" />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
+                    @if (IsLoading)
+                    {
+                        <LoadingSvg />
+                    }
+                    else
+                    {
+                        <ValidationSummary />
+                        <DataGrid Data="@WorkingEntries">
+                            <DataGridColumn Type="DataGridCellType.Button">
+                                <CellEditTemplate Context="model">
+                                    <ToolTip Text="@Strings.Caption_Button_Delete">
+                                        <button class="form-control button icon" type="button"
+                                            @onclick="async (args) => await DeleteAsync(args, model)">
+                                            <IonIcon Name="close-circle" />
+                                        </button>
+                                    </ToolTip>
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn Property=@nameof(MarketIndexPrice.MarketIndexId)
+                                        Type="DataGridCellType.Control"
+                                        Caption=@(NameFor(x => x.MarketIndexId))>
+                                <CellEditTemplate Context="model">
+                                    <InputSelect class="form-control"
+                                        @bind-Value="@model.MarketIndexId">
+                                        @foreach (var lookup in MarketIndexLookup)
+                                        {
+                                            <option value=@lookup.Key>@lookup.Display</option>
+                                        }
+                                    </InputSelect>
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn Property=@nameof(MarketIndexPrice.PriceCode)
+                                        Type="DataGridCellType.Control"
+                                        Caption=@(NameFor(x => x.PriceCode))>
+                                <CellEditTemplate Context="model">
+                                    <InputSelect class="form-control"
+                                        @bind-Value="@model.PriceCode">
+                                        @foreach (var lookup in PriceCodeLookup)
+                                        {
+                                            <option value=@lookup.Key>@lookup.Display</option>
+                                        }
+                                    </InputSelect>
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn Property=@nameof(MarketIndexPrice.PriceDate)
+                                        Type="DataGridCellType.Control"
+                                        Caption=@(NameFor(x => x.PriceDate))>
+                                <CellEditTemplate Context="model">
+                                    <InputDate class="form-control" @bind-Value="@model.PriceDate" />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn Property=@nameof(MarketIndexPrice.Price)
+                                        Type="DataGridCellType.Control"
+                                        Caption=@(NameFor(x => x.Price))>
+                                <CellEditTemplate Context="model">
+                                    <InputNumber class="form-control" @bind-Value="@model.Price" />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                        </DataGrid>
+                    }
                 </Body>
             </ContentTile>
         </EditForm>

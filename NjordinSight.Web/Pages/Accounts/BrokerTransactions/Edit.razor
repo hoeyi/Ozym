@@ -224,7 +224,7 @@
                 .GetSingleAsync<Account>(
                     predicate: x => x.AccountId == ModelId,
                     path: x => x.AccountNavigation);
-            var loadRecordsTask = Controller.LoadRecordsAsync(parentId: ModelId);
+            var loadRecordsTask = Controller.LoadRecordsAsync(parent: ModelId);
 
             await InitializationTasksAsync(
                 securityDTOsTask,
@@ -257,7 +257,7 @@
         var result = await Controller.AddNewAsync();
         if (result.Value is BrokerTransaction model)
         {
-            WorkingEntries.Add(model);
+            WorkingEntries.Insert(0, model);
         }
         else
         {

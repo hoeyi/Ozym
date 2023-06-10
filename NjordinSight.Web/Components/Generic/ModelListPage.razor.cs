@@ -35,7 +35,7 @@ namespace NjordinSight.Web.Components.Generic
         /// <summary>
         /// Gets or sets the collection of entries worked via this page.
         /// </summary>
-        protected ICollection<TModelDto> WorkingEntries { get; set; }
+        protected IList<TModelDto> WorkingEntries { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="EditContext" /> for this control.
@@ -55,11 +55,12 @@ namespace NjordinSight.Web.Components.Generic
             await Controller.AddAsync(getDefaultTask.Value);
 
             if (getDefaultTask.Value is TModelDto model)
-                WorkingEntries.Add(model);
+                WorkingEntries.Insert(0, model);
             else
                 // TODO: Log error here with useful message.
                 throw new InvalidOperationException();
         }
+
         /// <summary>
         /// Checks the <see cref="SearchService"/> and <see cref="Controller"/> properties are 
         /// non-null, else throws an <see cref="ArgumentNullException" />.
@@ -158,6 +159,10 @@ namespace NjordinSight.Web.Components.Generic
             //Entries = WorkingEntries;
 
             Context = new(WorkingEntries);
+
+            #if DEBUG
+            await Task.Delay(5000);
+            #endif
 
             PaginationHelper.TotalItemCount = actionResult.Value.Item2.ItemCount;
             PaginationHelper.ItemCount = WorkingEntries.Count;

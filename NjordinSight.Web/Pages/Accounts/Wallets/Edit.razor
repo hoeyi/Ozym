@@ -3,21 +3,28 @@
 @inherits ModelListPage<AccountWallet>
 
 <ThemedComponent>
-    @if (IsLoading)
+    @if(ParentAccount is null)
     {
         <LoadingSvg />
     }
     else
-    {   
+    {
         <PageTitle>@(PageTitle.UpdateSingle(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
 
         <ModelPageHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
+    }
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <EditForm width="100%" Model="@WorkingEntries">
+    @if(Context is null)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <EditForm width="100%" EditContext="Context">
             <DataAnnotationsValidator/>
             <ActionButtonMenu>
                 <button class="form-control button" 
@@ -35,6 +42,12 @@
             </ActionButtonMenu>
             <ContentTile>
                 <Body>
+                @if (IsLoading)
+                {
+                    <LoadingSvg />
+                }
+                else
+                {   
                     <ValidationSummary />
                     <DataGrid Data="@WorkingEntries">
                         <DataGridColumn Type="DataGridCellType.Button">
@@ -52,7 +65,7 @@
                                         width="20%">
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
-                                         @bind-Value="@model.DenominationSecurityId">
+                                            @bind-Value="@model.DenominationSecurityId">
                                     @foreach (var security in DenominationSecurities)
                                     {
                                         <option value=@security.Key>@security.Display</option>
@@ -78,6 +91,7 @@
                             </CellEditTemplate>
                         </DataGridColumn>
                     </DataGrid>
+                    }
                 </Body>
             </ContentTile>
         </EditForm>
@@ -94,6 +108,9 @@
 
     [Inject]
     protected new ICollectionController<AccountWallet, int> Controller { get; init; }
+
+    protected override bool GetLoadingState() => 
+        WorkingEntries is null || ParentAccount is null || DenominationSecurities is null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -126,15 +143,17 @@
             var denominationDtoResult = await denominationDtosTask;
             var walletsResult = await walletsTask;
 
-            WorkingEntries = (await walletsTask).Value.Item1.ToList();
-            DenominationSecurities = (await denominationDtosTask).Value;
+            WorkingEntries = walletsResult.Value.Item1.ToList();
+            DenominationSecurities = denominationDtoResult.Value;
+
+            Context = new(WorkingEntries);
 
             PaginationHelper.TotalItemCount = (await walletsTask).Value.Item2.ItemCount;
             PaginationHelper.ItemCount = WorkingEntries.Count;
         }
         finally
         {
-            IsLoading = WorkingEntries is null || ParentAccount is null || DenominationSecurities is null;
+            IsLoading = GetLoadingState();
         }
     }
     

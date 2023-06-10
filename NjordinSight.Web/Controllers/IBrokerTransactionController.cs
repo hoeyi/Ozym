@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NjordinSight.Web.Controllers
 {
-    public interface IBrokerTransactionController : ICollectionController<BrokerTransaction>
+    public interface IBrokerTransactionController : ICollectionController<BrokerTransaction, int>
     {
         /// <summary>
         /// Adds a new <see cref="BrokerTransaction"/> record to the working collection.
@@ -18,9 +18,9 @@ namespace NjordinSight.Web.Controllers
         /// Loads the child <see cref="BrokerTransaction"/> records for the given id for the 
         /// parent <see cref="Account"/> object.
         /// </summary>
-        /// <param name="parentId"></param>
+        /// <param name="parent"></param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTransaction"/>.</returns>
-        Task<IEnumerable<BrokerTransaction>> LoadRecordsAsync(int parentId);
+        Task<IEnumerable<BrokerTransaction>> LoadRecordsAsync(int parent);
 
         /// <summary>
         /// Gets the collection of <see cref="BrokerTaxLot"/> for this instance, subject to the 
