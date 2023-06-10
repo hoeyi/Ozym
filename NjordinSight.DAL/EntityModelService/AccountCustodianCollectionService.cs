@@ -9,28 +9,28 @@ using System;
 namespace NjordinSight.EntityModelService
 {
     /// <summary>
-    /// The class for servicing batch CRUD requests against the <see cref="SecurityExchange"/> 
+    /// The class for servicing batch CRUD requests against the <see cref="AccountCustodian"/> 
     /// data store.
     /// </summary>
-    internal class SecurityExchangeBatchService : ModelCollectionService<SecurityExchange>
+    internal class AccountCustodianCollectionService : ModelCollectionService<AccountCustodian>
     {
         /// <summary>
-        /// Creates a new <see cref="SecurityExchangeBatchService"/> instance.
+        /// Creates a new <see cref="AccountCustodianCollectionService"/> instance.
         /// </summary>
         /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
         /// instance.</param>
         /// <param name="modelMetadata">An <see cref="IModelMetadataService"/> instance.</param>
         /// <param name="logger">An <see cref="ILogger"/> instance.</param>
-        public SecurityExchangeBatchService(
+        public AccountCustodianCollectionService(
             IDbContextFactory<FinanceDbContext> contextFactory,
             IModelMetadataService modelMetadata,
             ILogger logger)
                 : base(contextFactory, modelMetadata, logger)
         {
-            Reader = new ModelReaderService<SecurityExchange>(
+            Reader = new ModelReaderService<AccountCustodian>(
                 ContextFactory, ModelMetadata, Logger);
 
-            GetDefaultModelDelegate = () => new SecurityExchange();
+            GetDefaultModelDelegate = () => new AccountCustodian();
         }
     }
 }
