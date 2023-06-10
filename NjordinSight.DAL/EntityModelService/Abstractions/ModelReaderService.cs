@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using NjordinSight.BusinessLogic.Functions;
 using NjordinSight.DataTransfer;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.Logging;
@@ -129,7 +130,7 @@ namespace NjordinSight.EntityModelService.Abstractions
         public async Task<(IEnumerable<T>, PaginationData)> SelectAsync(
             Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 20)
         {
-            int limitPageSize = Clamp(pageSize, 0, 100);
+            int limitPageSize = BusinessMath.Clamp(pageSize, 0, 100);
 
                 if (ParentExpression is not null)
                     predicate = ParentExpression.AndAlso(predicate);
@@ -137,14 +138,6 @@ namespace NjordinSight.EntityModelService.Abstractions
                 using var context = await ContextFactory.CreateDbContextAsync();
 
                 return await ReadAsync(context, predicate, pageNumber, pageSize: limitPageSize);
-        }
-
-        static int Clamp(int value, int min, int max)
-        {
-            // if value is less than min, return min
-            // if value is greater than min and less greater than max return max
-            // else return value
-            return (value < min) ? min : (value > max) ? max : value;
         }
 
         private async Task<(IEnumerable<T>, PaginationData)> ReadAsync(
