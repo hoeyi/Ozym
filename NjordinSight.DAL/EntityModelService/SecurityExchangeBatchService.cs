@@ -15,7 +15,7 @@ namespace NjordinSight.EntityModelService
     internal class SecurityExchangeBatchService : ModelCollectionService<SecurityExchange>
     {
         /// <summary>
-        /// Creates a new <see cref="AccountCustodianBatchService"/> instance.
+        /// Creates a new <see cref="SecurityExchangeBatchService"/> instance.
         /// </summary>
         /// <param name="contextFactory">An <see cref="IDbContextFactory{FinanceDbContext}" /> 
         /// instance.</param>
@@ -27,6 +27,10 @@ namespace NjordinSight.EntityModelService
             ILogger logger)
                 : base(contextFactory, modelMetadata, logger)
         {
+            Reader = new ModelReaderService<SecurityExchange>(
+                ContextFactory, ModelMetadata, Logger);
+
+            GetDefaultModelDelegate = () => new SecurityExchange();
         }
     }
 }
