@@ -29,7 +29,7 @@ namespace NjordinSight.EntityModelService.Abstractions
             ILogger logger)
                 : base(contextFactory, metadataService, logger)
         {
-            Context = _contextFactory.CreateDbContext();
+            Context = ContextFactory.CreateDbContext();
         }
 
         /// <inheritdoc/>

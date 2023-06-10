@@ -1,11 +1,9 @@
 ﻿@page "/accounts/{ModelId:int}/detail/broker-transactions"
 
-@inherits ModelPage<BrokerTransaction>
-
-@inject IBrokerTransactionController Controller
+@inherits ModelListPage<BrokerTransaction>
 
 <ThemedComponent>
-    @if (IsLoading)
+    @if(ParentAccount is null)
     {
         <LoadingSvg />
     }
@@ -15,98 +13,103 @@
 
         <ModelPageHeader 
             Header="@(PageTitle.ReadMany(ParentAccount.AccountCode))" ActionMenu="@SectionNavigationMenu"/>
-
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
-
-        <ContentTile>
-            <Body>
-                <EditForm width="100%" Model="@Entries">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <DataGrid Data="@Entries">
-                        <DataGridColumn 
-                            Property="@nameof(BrokerTransaction.TransactionCodeId)"
-                            Caption="@NameFor(x => x.TransactionCodeId)">
-                            <CellTemplate Context="model">
-                                @TransactionCodes.GetDisplayName(model.TransactionCodeId)
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn
-                            Property="@nameof(BrokerTransaction.SecurityId)"
-                            Caption="@NameFor(x => x.SecurityId)">
-                            <CellTemplate Context="model">
-                                @TransactableSecurities.GetDisplayName(model.SecurityId)
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn
-                            Property="@nameof(BrokerTransaction.TradeDate)"
-                            Caption="@(NameFor(x => x.TradeDate))">
-                            <CellTemplate Context="model">
-                                @model.TradeDate.ToShortDateString()
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn
-                            Property="@nameof(BrokerTransaction.SettleDate)"
-                            Caption="@(NameFor(x => x.SettleDate))">
-                            <CellTemplate Context="model">
-                                @model.SettleDate?.ToShortDateString()
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property="@nameof(BrokerTransaction.AcquisitionDate)"
-                                    Caption="@(NameFor(x => x.AcquisitionDate))">
-                            <CellTemplate Context="model">
-                                @model.AcquisitionDate?.ToShortDateString()
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn 
-                            Property="@nameof(BrokerTransaction.Quantity)"
-                            Caption="@(NameFor(x => x.Quantity))">
-                            <CellTemplate Context="model">
-                                @model.Quantity
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn 
-                            Property="@nameof(BrokerTransaction.Amount)"
-                            Caption="@(NameFor(x => x.Amount))">
-                            <CellTemplate Context="model">
-                                @model.Amount
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn 
-                            Property="@nameof(BrokerTransaction.Fee)"
-                            Caption="@(NameFor(x => x.Fee))">
-                            <CellTemplate Context="model">
-                                @model.Fee
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn 
-                            Property="@nameof(BrokerTransaction.Withholding)"
-                            Caption="@(NameFor(x => x.Withholding))">
-                            <CellTemplate Context="model">
-                                @model.Withholding
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn 
-                            Property="@nameof(BrokerTransaction.DepSecurityId)"
-                            Caption="@NameFor(x => x.DepSecurityId)">
-                            <CellTemplate Context="model">
-                                @DepositSecurities.GetDisplayName(model.DepSecurityId)
-                            </CellTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
-                </EditForm>
-            </Body>
-        </ContentTile>
     }
+
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+
+    <ContentTile>
+        <TitleAlignLeft>
+            <Paginator Model="PaginationHelper"
+                IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </TitleAlignLeft>
+        <Body>
+            @if (IsLoading)
+            {
+                <LoadingSvg />
+            }
+            else
+            {
+                <DataGrid Data="@WorkingEntries">
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransaction.TransactionCodeId)"
+                        Caption="@NameFor(x => x.TransactionCodeId)">
+                        <CellTemplate Context="model">
+                            @TransactionCodes.GetDisplayName(model.TransactionCodeId)
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn
+                        Property="@nameof(BrokerTransaction.SecurityId)"
+                        Caption="@NameFor(x => x.SecurityId)">
+                        <CellTemplate Context="model">
+                            @TransactableSecurities.GetDisplayName(model.SecurityId)
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn
+                        Property="@nameof(BrokerTransaction.TradeDate)"
+                        Caption="@(NameFor(x => x.TradeDate))">
+                        <CellTemplate Context="model">
+                            @model.TradeDate.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn
+                        Property="@nameof(BrokerTransaction.SettleDate)"
+                        Caption="@(NameFor(x => x.SettleDate))">
+                        <CellTemplate Context="model">
+                            @model.SettleDate?.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property="@nameof(BrokerTransaction.AcquisitionDate)"
+                                Caption="@(NameFor(x => x.AcquisitionDate))">
+                        <CellTemplate Context="model">
+                            @model.AcquisitionDate?.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransaction.Quantity)"
+                        Caption="@(NameFor(x => x.Quantity))">
+                        <CellTemplate Context="model">
+                            @model.Quantity
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransaction.Amount)"
+                        Caption="@(NameFor(x => x.Amount))">
+                        <CellTemplate Context="model">
+                            @model.Amount
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransaction.Fee)"
+                        Caption="@(NameFor(x => x.Fee))">
+                        <CellTemplate Context="model">
+                            @model.Fee
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransaction.Withholding)"
+                        Caption="@(NameFor(x => x.Withholding))">
+                        <CellTemplate Context="model">
+                            @model.Withholding
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(BrokerTransaction.DepSecurityId)"
+                        Caption="@NameFor(x => x.DepSecurityId)">
+                        <CellTemplate Context="model">
+                            @DepositSecurities.GetDisplayName(model.DepSecurityId)
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            }
+        </Body>
+    </ContentTile>
 </ThemedComponent>
 
 @code {
     [Parameter]
     public int ModelId { get; init; }
-
-    private IEnumerable<BrokerTransaction> Entries { get; set; }
 
     private IEnumerable<LookupModel<int, string>> DepositSecurities { get; set; }
 
@@ -115,6 +118,9 @@
     private IEnumerable<LookupModel<int, string>> TransactableSecurities { get; set; }
 
     private Account ParentAccount { get; set; }
+
+    [Inject]
+    protected new IBrokerTransactionController Controller { get; init; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -138,12 +144,27 @@
         }
     };
 
+    /// <inheritdoc />
+    protected override bool GetLoadingState() => 
+        WorkingEntries is null
+        || ParentAccount is null
+        || DepositSecurities is null
+        || TransactionCodes is null
+        || TransactableSecurities is null;
+
     protected override async Task OnInitializedAsync()
     {
+        // Update the hidden reference to refer the same object to avoid null reference exception.
+        base.Controller = Controller;
+
+        CheckNullParameters();
+
         IsLoading = true;
 
         try
         {
+            var forParentResult = await Controller.ForParent(parent: ModelId);
+
             var securityDTOsTask = Controller.ReferenceQueries
                 .GetTransactableSecurityDTOsAsync();
             var depositySecurityDTOsTask = Controller.ReferenceQueries
@@ -154,46 +175,41 @@
                 .GetSingleAsync<Account>(
                     predicate: x => x.AccountId == ModelId,
                     path: x => x.AccountNavigation);
-            var loadRecordsTask = Controller.LoadRecordsAsync(parentId: ModelId);
 
-            var initTasks = Task.WhenAll(
+            var recordsTask = Controller.SelectAsync(
+                predicate: SearchService.CurrentExpression,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
+
+            await InitializationTasksAsync(
                 securityDTOsTask,
                 depositySecurityDTOsTask,
                 transactionCodeDTOsTask,
                 parentAccountTask,
-                loadRecordsTask);
+                recordsTask);
 
-            await initTasks;
+            var securityDtoResult = await securityDTOsTask;
+            var depSecurityDtoResult = await depositySecurityDTOsTask;
+            var trxCodeDtoResult = await transactionCodeDTOsTask;
+            var parentAccountResult = await parentAccountTask;
+            var recordsResult = await recordsTask;
 
-            if (initTasks.Status == TaskStatus.RanToCompletion)
-            {
-                //BrokerTransactions = (await transactionListTask).Value;
-                DepositSecurities = (await depositySecurityDTOsTask).Value;
-                TransactableSecurities = (await securityDTOsTask).Value;
-                TransactionCodes = (await transactionCodeDTOsTask).Value;
-                Entries = (await loadRecordsTask);
-                ParentAccount = (await parentAccountTask).Value;
-            }
-            else
-            {
-                throw initTasks.Exception.Flatten();
-            }
+            TransactableSecurities = securityDtoResult.Value;
+            DepositSecurities = depSecurityDtoResult.Value;
+            TransactionCodes = trxCodeDtoResult.Value;
+            WorkingEntries = recordsResult.Value.Item1.ToList();
+            ParentAccount = parentAccountResult.Value;
+
+            PaginationHelper.TotalItemCount = recordsResult.Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
         }
         finally
         {
-            IsLoading = Entries is null
-                || ParentAccount is null
-                || DepositSecurities is null
-                || TransactionCodes is null
-                || TransactableSecurities is null;
+            IsLoading = GetLoadingState();
         }
     }
 
-    /// <summary>
-    /// Gets the index uri stem to this page.
-    /// </summary>
-    private string IndexUriRelative => $"{IndexUriRelativePath}/{ModelId}/edit/broker-transactions";
-
-    private void Cancel_OnClick() => NavigationHelper
+    /// <inheritdoc/>
+    protected override void Cancel_OnClick() => NavigationHelper
         .NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
 }

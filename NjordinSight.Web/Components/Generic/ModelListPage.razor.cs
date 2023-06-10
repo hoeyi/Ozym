@@ -10,6 +10,9 @@ using System.Linq;
 using NjordinSight.Web.Components.Common;
 using System.Linq.Expressions;
 using NjordinSight.EntityModel;
+using Microsoft.AspNetCore.Http;
+using NjordinSight.Web.Services;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace NjordinSight.Web.Components.Generic
 {
@@ -18,16 +21,21 @@ namespace NjordinSight.Web.Components.Generic
     /// with a stateful server collection.
     /// </summary>
     /// <typeparam name="TModelDto">The entity type worked.</typeparam>
-    public partial class ModelListPage<TModelDto>
+    public partial class ModelListPage<TModelDto> : ModelPagedIndex<TModelDto>
         where TModelDto : class, new()
     {
-        [Inject]
-        protected IBatchController<TModelDto> Controller { get; init; }
+        /// <inheritdoc/>
+        protected override bool GetLoadingState() => WorkingEntries is null || Context is null;
+        
+        /// <summary>
+        /// Gets or sets the <see cref="ICollectionController{T}"/> provider for this page.
+        /// </summary>
+        protected ICollectionController<TModelDto> Controller { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of entries worked via this page.
         /// </summary>
-        protected ICollection<TModelDto> Entries { get; set; }
+        protected IList<TModelDto> WorkingEntries { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="EditContext" /> for this control.
@@ -35,36 +43,36 @@ namespace NjordinSight.Web.Components.Generic
         protected EditContext Context { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="PagerModel" /> for this component.
-        /// </summary>
-        protected PagerModel PaginationHelper { get; set; } = new()
-        {
-            PageIndex = 1,
-            PageSize = 20
-        };
-
-        protected Expression<Func<TModelDto, bool>> LastSearchExpression { get; set; } = x => true;
-
-        /// <summary>
         /// Adds a new entry to the worked collection.
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-#pragma warning disable IDE0060 // Remove unused parameter
-        // TODO: Do something with MouseEventArgs?
-        protected async Task AddNewAsync(MouseEventArgs args)
-#pragma warning restore IDE0060 // Remove unused parameter
+        protected virtual async Task AddNewAsync(MouseEventArgs args)
         {
             var getDefaultTask = await Controller.GetDefaultAsync();
             
             await Controller.AddAsync(getDefaultTask.Value);
 
             if (getDefaultTask.Value is TModelDto model)
-                Entries.Add(model);
+                WorkingEntries.Insert(0, model);
             else
                 // TODO: Log error here with useful message.
                 throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Checks the <see cref="SearchService"/> and <see cref="Controller"/> properties are 
+        /// non-null, else throws an <see cref="ArgumentNullException" />.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        protected void CheckNullParameters()
+        {
+            if (SearchService is null)
+                throw new ArgumentNullException(paramName: nameof(SearchService));
+
+            if (Controller is null)
+                throw new ArgumentNullException(paramName: nameof(Controller));
         }
 
         /// <summary>
@@ -75,21 +83,30 @@ namespace NjordinSight.Web.Components.Generic
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
 #pragma warning disable IDE0060 // Remove unused parameter
-        // TODO: Do sommething with MouseEventArgs?
         protected async Task DeleteAsync(MouseEventArgs args, TModelDto model)
-#pragma warning restore IDE0060 // Remove unused parameter
+        #pragma warning restore IDE0060 // Remove unused parameter
         {
             var result = await Controller.DeleteOrDetachAsync(model);
 
             if (result is OkResult)
-                Entries.Remove(model);
+                WorkingEntries.Remove(model);
             else
                 // TODO: Log error here with useful message.
                 throw new InvalidOperationException();
         }
 
+        /// <summary>
+        /// Cancels the operation on this page and returns to <typeparamref name="TModelDto"/> 
+        /// index URI.
+        /// </summary>
         protected virtual void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 
+        /// <summary>
+        /// Validates and submits a request to save changes to <see cref="WorkingEntries"/>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         protected virtual async Task Submit_OnClick(EditContext context, MouseEventArgs args)
         {
             bool isValid = context.Validate();
@@ -98,35 +115,57 @@ namespace NjordinSight.Web.Components.Generic
                 var saveResult = await Controller.SaveChangesAsync();
 
                 if (saveResult is NoContentResult)
+                    // Brings us back to the next highest index page.
                     Cancel_OnClick();
 
                 else if (saveResult is ObjectResult objectResult)
                     ErrorMessage = (objectResult.Value as Exception)?.Message;
             }
+            else
+            {
+                ErrorMessage = string.Join("\n", context.GetValidationMessages());
+            }
         }
 
+        /// <inheritdoc/>
         protected override async Task OnInitializedAsync()
         {
+            CheckNullParameters();
+
             IsLoading = true;
 
             try
             {
-                var actionResult = await Controller.SelectAsync(
-                    predicate: x => true, pageNumber: PaginationHelper.PageIndex, PaginationHelper.PageSize);
-
-                Entries = actionResult.Value.Item1?.ToList() ?? new List<TModelDto>();
-                
-
-                if (!Entries.Any())
-                {
-                    await AddNewAsync(args: null);
-                }
+                await RefreshResultsAsync(
+                    predicate: SearchService.CurrentExpression, 
+                    pageNumber: PaginationHelper.PageIndex, 
+                    pageSize: PaginationHelper.PageSize);
             }
             finally
             {
-                Context = new(Entries);
-                IsLoading = Entries is null;
+                IsLoading = GetLoadingState();
             }
+        }
+
+        /// <inheritdoc/>
+        protected override async Task RefreshResultsAsync(
+            Expression<Func<TModelDto, bool>> predicate, 
+            int pageNumber, 
+            int pageSize)
+        {
+            var actionResult = await Controller.SelectAsync(predicate, pageNumber, pageSize);
+
+            WorkingEntries = actionResult.Value.Item1.ToList();
+            //Entries = WorkingEntries;
+
+            Context = new(WorkingEntries);
+
+            #if DEBUG
+            await Task.Delay(5000);
+            #endif
+
+            PaginationHelper.TotalItemCount = actionResult.Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
         }
     }
 }

@@ -14,28 +14,23 @@ namespace NjordinSight.EntityModelService.Abstractions
     /// <summary>
     /// Base class from which model service classes are derived.
     /// </summary>
-    internal abstract class ModelServiceBase<T> : IModelBaseService<T>, IDisposable
+    internal abstract class ModelServiceBase<T> : IModelBaseService<T>
         where T: class, new()
     {
         /// <summary>
-        /// The shared context for this instance.
-        /// </summary>
-        private readonly FinanceDbContext _sharedContext;
-
-        /// <summary>
         /// The data context factory for this service.
         /// </summary>
-        protected readonly IDbContextFactory<FinanceDbContext> _contextFactory;
+        protected IDbContextFactory<FinanceDbContext> ContextFactory { get; init; }
 
         /// <summary>
         /// The <see cref="IModelMetadataService"/> instance for this service.
         /// </summary>
-        protected readonly IModelMetadataService _modelMetadata;
+        protected IModelMetadataService ModelMetadata { get; init; }
 
         /// <summary>
         /// The <see cref="ILogger"/> instance for this service.
         /// </summary>
-        protected readonly ILogger _logger;
+        protected ILogger Logger { get; init; }
 
         /// <summary>
         /// Base constructor for <see cref="ModelServiceBase{T}"/>-dervied classes.
@@ -57,55 +52,9 @@ namespace NjordinSight.EntityModelService.Abstractions
             if (logger is null)
                 throw new ArgumentNullException(paramName: nameof(logger));
 
-            _contextFactory = contextFactory;
-            _modelMetadata = metadataService;
-            _logger = logger;
-        }
-
-        /// <summary>
-        /// Base constructor for <see cref="ModelBatchService{T}"/>-derived classes where a
-        /// shared context is used.
-        /// </summary>
-        /// <param name="sharedContext">A <see cref="FinanceDbContext"/> instance resolved via 
-        /// dependency injection.</param>
-        /// <param name="metadataService"></param>
-        /// <param name="logger"></param>
-        protected ModelServiceBase(
-            FinanceDbContext sharedContext,
-            IModelMetadataService metadataService,
-            ILogger logger)
-        {
-            _sharedContext = sharedContext;
-            _modelMetadata = metadataService;
-            _logger = logger;
-        }
-
-        public void Dispose()
-        {
-            SharedContext?.Dispose();
-            GC.SuppressFinalize(this);
-        }
-
-        public bool HasSharedContext
-        {
-            get { return SharedContext is not null; }
-        }
-
-        /// <inheritdoc/>
-        public int? GetKey(T model)
-        {
-            int key = GetKey<int>(model);
-
-            if (key == default) return null;
-            else return key;
-        }
-
-        /// <summary>
-        /// Gets the shared context for this service instance.
-        /// </summary>
-        protected FinanceDbContext SharedContext
-        {
-            get { return _sharedContext; }
+            ContextFactory = contextFactory;
+            ModelMetadata = metadataService;
+            Logger = logger;
         }
 
         /// <summary>
@@ -115,7 +64,7 @@ namespace NjordinSight.EntityModelService.Abstractions
         /// <typeparam name="TKey"></typeparam>
         /// <param name="model"></param>
         /// <returns></returns>
-        private static TKey GetKey<TKey>(T model)
+        public TKey GetKey<TKey>(T model)
         {
             if (model is null)
                 return default;

@@ -187,7 +187,11 @@
         border-color: var(--theme-form-control-border-color, inherit) !important;
         border: 1px solid;
         color: var(--theme-text-color-0, white) !important;
-        padding: 0.125rem;
+        /*padding: 0.125rem;*/
+    }
+    
+    ::deep .form-control.button.icon {
+        padding: 0.125rem !important;
     }
 
     ::deep .form-control.button.icon {

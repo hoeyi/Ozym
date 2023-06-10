@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing single CRUD requests against the <see cref="MarketHolidayObservance"/> 
     /// data store.
     /// </summary>
-    internal class MarketHolidayObservanceService : ModelBatchService<MarketHolidayObservance>
+    internal class MarketHolidayObservanceService : ModelCollectionService<MarketHolidayObservance>
     {
         /// <summary>
         /// Creates a new <see cref="MarketHolidayObservanceService"/> instance.
@@ -28,23 +28,9 @@ namespace NjordinSight.EntityModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<MarketHolidayObservance>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = null
-            };
+                ContextFactory, ModelMetadata, Logger);
 
-            Writer = new ModelWriterBatchService<MarketHolidayObservance>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = null,
-                GetDefaultModelDelegate = () => new()
-            };
-        }
-
-        public override bool ForParent(int parentId, out Exception e)
-        {
-            e = new(message: ExceptionString.ModelService_ParentNotSupported);
-            return false;
+            GetDefaultModelDelegate = () => new();
         }
     }
 }

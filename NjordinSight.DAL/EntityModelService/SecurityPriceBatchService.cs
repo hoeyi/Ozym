@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing batch CRUD requests against the <see cref="SecurityPrice"/> 
     /// data store.
     /// </summary>
-    internal class SecurityPriceBatchService : ModelBatchService<SecurityPrice>
+    internal class SecurityPriceBatchService : ModelCollectionService<SecurityPrice>
     {
         /// <summary>
         /// Creates a new <see cref="SecurityPriceBatchService"/> instance.
@@ -28,24 +28,12 @@ namespace NjordinSight.EntityModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<SecurityPrice>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = null
-            };
+                ContextFactory, ModelMetadata, Logger);
 
-            Writer = new ModelWriterBatchService<SecurityPrice>(
-                Context, _modelMetadata, _logger)
+            GetDefaultModelDelegate = () => new SecurityPrice()
             {
-                ParentExpression = null,
-                GetDefaultModelDelegate = () => new()
+                PriceDate = DateTime.UtcNow.Date
             };
-        }
-
-        public override bool ForParent(int parentId, out Exception e)
-        {
-            e = new NotSupportedException(
-                message: ExceptionString.ModelService_ParentNotSupported);
-            return false;
         }
     }
 }

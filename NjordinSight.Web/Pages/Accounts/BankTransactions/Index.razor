@@ -1,11 +1,9 @@
 ﻿@page "/accounts/{ModelId:int}/detail/bank-transactions"
 
-@inherits ModelPage<BankTransaction>
-
-@inject IBatchController<BankTransaction> Controller
+@inherits ModelListPage<BankTransaction>
 
 <ThemedComponent>
-    @if (IsLoading)
+    @if (ParentAccount is null)
     {
         <LoadingSvg />
     }
@@ -13,58 +11,67 @@
     {
         <PageTitle>@(PageTitle.ReadMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.ReadMany(ParentAccount.AccountCode))" ActionMenu="@SectionNavigationMenu" />
-
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
-
-        <ContentTile>
-            <Body>
-                <EditForm width="100%" Model="@BankTransactions">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <DataGrid Data="@BankTransactions">
-                        <DataGridColumn Property="@nameof(BankTransaction.TransactionCodeId)"
-                                    Caption="@NameFor(x => x.TransactionCodeId)">
-                            <CellTemplate Context="model">
-                                @GetLookupDisplayName(TransactionCodes, model.TransactionCodeId)
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property="@nameof(BankTransaction.TransactionDate)"
-                                    Caption="@(NameFor(x => x.TransactionDate))">
-                            <CellTemplate Context="model">
-                                @model.TransactionDate.ToShortDateString()
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property="@nameof(BankTransaction.Amount)"
-                                    Caption="@(NameFor(x => x.Amount))">
-                            <CellTemplate Context="model">
-                                @model.Amount
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property="@nameof(BankTransaction.Comment)"
-                                    Caption="@(NameFor(x => x.Comment))">
-                            <CellTemplate Context="model">
-                                @model.Comment
-                            </CellTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
-                </EditForm>
-            </Body>
-        </ContentTile>
+        <ModelPageHeader Header="@(PageTitle.ReadMany(ParentAccount.AccountCode))" 
+            ActionMenu="@SectionNavigationMenu" />
     }
+
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+
+    <ContentTile>
+        <TitleAlignLeft>
+            <Paginator Model="PaginationHelper"
+                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </TitleAlignLeft>
+        <Body>
+            @if(IsLoading)
+            {
+                <LoadingSvg />
+            }
+            else
+            {
+                <DataGrid Data="@WorkingEntries">
+                    <DataGridColumn Property="@nameof(BankTransaction.TransactionCodeId)"
+                                Caption="@NameFor(x => x.TransactionCodeId)">
+                        <CellTemplate Context="model">
+                            @GetLookupDisplayName(TransactionCodes, model.TransactionCodeId)
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property="@nameof(BankTransaction.TransactionDate)"
+                                Caption="@(NameFor(x => x.TransactionDate))">
+                        <CellTemplate Context="model">
+                            @model.TransactionDate.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property="@nameof(BankTransaction.Amount)"
+                                Caption="@(NameFor(x => x.Amount))">
+                        <CellTemplate Context="model">
+                            @model.Amount
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property="@nameof(BankTransaction.Comment)"
+                                Caption="@(NameFor(x => x.Comment))">
+                        <CellTemplate Context="model">
+                            @model.Comment
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            }
+        </Body>
+    </ContentTile>
 </ThemedComponent>
 
 @code {
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<BankTransaction> BankTransactions { get; set; }
-
     private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
 
     private Account ParentAccount { get; set; }
+
+    [Inject]
+    public new ICollectionController<BankTransaction, int> Controller { get; init; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -88,9 +95,21 @@
         }
     };
 
+    /// <inheritdoc />
+    protected override bool GetLoadingState() => 
+        WorkingEntries is null
+        || ParentAccount is null
+        || TransactionCodes is null;
+
     protected override async Task OnInitializedAsync()
     {
+        // Update the hidden reference to refer the same dobject to avoid null reference exception.
+        base.Controller = Controller;
+
+        CheckNullParameters();
+
         IsLoading = true;
+
         try
         {
             var transactionCodeDTOsTask = Controller.ReferenceQueries.GetBankTransactionCodeDTOsAsync();
@@ -106,35 +125,30 @@
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
 
-            var transactionsQueryTask = Controller.SelectWhereAsync(predicate: x => true, maxCount: 50);
+            var transactionsQueryTask = Controller.SelectAsync(
+                predicate: SearchService.CurrentExpression,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
 
-            var dataTasks = Task.WhenAll(transactionsQueryTask, transactionCodeDTOsTask);
-            await dataTasks;
+            await InitializationTasksAsync(transactionsQueryTask, transactionCodeDTOsTask);
 
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                BankTransactions = (await transactionsQueryTask).Value;
-                TransactionCodes = (await transactionCodeDTOsTask).Value;
-            }
-            else
-            {
-                throw dataTasks.Exception.Flatten();
-            }
+            var transactionResult = await transactionsQueryTask;
+            var transactionCodeDtoResult = await transactionCodeDTOsTask;
+
+            WorkingEntries = transactionResult.Value.Item1.ToList();
+            TransactionCodes = transactionCodeDtoResult.Value;
+
+            PaginationHelper.TotalItemCount = transactionResult.Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
         }
         finally
         {
-            IsLoading = BankTransactions is null
-                || ParentAccount is null
-                || TransactionCodes is null;
+            IsLoading = GetLoadingState();
         }
     }
 
-    /// <summary>
-    /// Gets the index uri stem to this page.
-    /// </summary>
-    private string IndexUriRelative => $"{IndexUriRelativePath}/{ModelId}/edit/broker-transactions";
-
-    private void Cancel_OnClick() => NavigationHelper
+    /// <inheritdoc/>
+    protected override void Cancel_OnClick() => NavigationHelper
         .NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
 
     private string GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>

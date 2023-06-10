@@ -37,22 +37,6 @@ namespace NjordinSight.EntityModelService.Abstractions
         {
         }
 
-
-        /// <summary>
-        /// Base constructor for <see cref="ModelReaderService{T}"/> instances where a
-        /// shared context is used.
-        /// </summary>
-        /// <param name="sharedContext"></param>
-        /// <param name="metadataService"></param>
-        /// <param name="logger"></param>
-        public ModelReaderService(
-            FinanceDbContext sharedContext,
-            IModelMetadataService metadataService,
-            ILogger logger)
-            : base(sharedContext, metadataService, logger)
-        {
-        }
-
         /// <summary>
         /// Gets the <see cref="Delegate"/> that configures an <see cref="IQueryable{T}"/> 
         /// for use as <see cref="IIncludableQueryable{TEntity, TProperty}" />.
@@ -77,10 +61,7 @@ namespace NjordinSight.EntityModelService.Abstractions
             if (ParentExpression is not null)
                 keySearch = ParentExpression.AndAlso(keySearch);
 
-            if (HasSharedContext)
-                return Exists(SharedContext, keySearch);
-
-            using var context = _contextFactory.CreateDbContext();
+            using var context = ContextFactory.CreateDbContext();
 
             return Exists(context, keySearch);
         }
@@ -88,7 +69,7 @@ namespace NjordinSight.EntityModelService.Abstractions
         /// <inheritdoc/>
         public bool ModelExists(T model)
         {
-            return ModelExists(GetKey(model));
+            return ModelExists(GetKey<int>(model));
         }
 
         /// <inheritdoc/>
@@ -108,7 +89,7 @@ namespace NjordinSight.EntityModelService.Abstractions
                             .FirstOrDefault();
 
                 if (result is not null)
-                    _logger.ModelServiceReadModel(
+                    Logger.ModelServiceReadModel(
                         model: new
                         {
                             Type = typeof(T).Name,
@@ -119,7 +100,7 @@ namespace NjordinSight.EntityModelService.Abstractions
             }
             catch (Exception exception)
             {
-                _logger.ModelServiceReadSingleFailed(
+                Logger.ModelServiceReadSingleFailed(
                     model: new
                     {
                         Type = typeof(T).Name,
@@ -139,10 +120,7 @@ namespace NjordinSight.EntityModelService.Abstractions
             if (ParentExpression is not null)
                 predicate = ParentExpression.AndAlso(predicate);
 
-            if (HasSharedContext)
-                return (await ReadAsync(SharedContext, predicate, pageSize: int.MaxValue)).Item1;
-
-            using var context = await _contextFactory.CreateDbContextAsync();
+            using var context = await ContextFactory.CreateDbContextAsync();
 
             return (await ReadAsync(context, predicate, pageSize: int.MaxValue)).Item1;
         }
@@ -156,10 +134,7 @@ namespace NjordinSight.EntityModelService.Abstractions
                 if (ParentExpression is not null)
                     predicate = ParentExpression.AndAlso(predicate);
 
-                if (HasSharedContext)
-                    return await ReadAsync(SharedContext, predicate, pageNumber, pageSize: limitPageSize);
-
-                using var context = await _contextFactory.CreateDbContextAsync();
+                using var context = await ContextFactory.CreateDbContextAsync();
 
                 return await ReadAsync(context, predicate, pageNumber, pageSize: limitPageSize);
         }
@@ -180,7 +155,7 @@ namespace NjordinSight.EntityModelService.Abstractions
         {
             var searchGuid = Guid.NewGuid();
 
-            _logger.ModelServiceSearchRequestAccepted(
+            Logger.ModelServiceSearchRequestAccepted(
                 requestGuid: searchGuid,
                 type: typeof(T),
                 predicate: predicate.Body,
@@ -200,7 +175,7 @@ namespace NjordinSight.EntityModelService.Abstractions
                 .Take(pageSize)
                 .ToListAsync();
 
-            _logger.ModelServiceSearchResultReturned(
+            Logger.ModelServiceSearchResultReturned(
                 requestGuid: searchGuid,
                 type: typeof(T),
                 resultCount: result?.Count ?? default);

@@ -7,28 +7,32 @@
 <ThemedComponent>
     <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <ContentTile>
-            <Body>
-                <DataGrid Data="@Models">
+    <ContentTile>
+        <TitleAlignLeft>
+            <Paginator Model="PaginationHelper"
+                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </TitleAlignLeft>
+        <Body>
+            @if (IsLoading)
+            {
+                <LoadingSvg />
+            }
+            else
+            {
+                <DataGrid Data="@Entries">
                     <DataGridColumn 
                         Property=@nameof(BankTransactionCode.TransactionCode)
                         Caption=@(NameFor(x => x.TransactionCode))
                         Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
                             <a class="custom-nav-link" 
-                            href=@(FormatDetailUri(GetKeyValueOrDefault<int>(model))) 
-                            @onclick:preventDefault
-                           @onclick="@(args => Detail_OnClick(model, args))">
+                                href=@(FormatDetailUri(GetKeyValueOrDefault<int>(model))) 
+                                @onclick:preventDefault
+                                @onclick="@(args => Detail_OnClick(model, args))">
                                 @model.TransactionCode.ToLower()
                             </a>
                         </CellTemplate>
@@ -40,9 +44,9 @@
                         </CellTemplate>
                     </DataGridColumn>
                 </DataGrid>
-            </Body>
-        </ContentTile>
-    }
+            }
+        </Body>
+    </ContentTile>
 </ThemedComponent>
 
 @code {

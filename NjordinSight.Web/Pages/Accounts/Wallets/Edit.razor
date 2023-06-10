@@ -3,21 +3,28 @@
 @inherits ModelListPage<AccountWallet>
 
 <ThemedComponent>
-    @if (IsLoading)
+    @if(ParentAccount is null)
     {
         <LoadingSvg />
     }
     else
-    {   
+    {
         <PageTitle>@(PageTitle.UpdateSingle(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
 
         <ModelPageHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
+    }
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <EditForm width="100%" Model="@Wallets">
+    @if(Context is null)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <EditForm width="100%" EditContext="Context">
             <DataAnnotationsValidator/>
             <ActionButtonMenu>
                 <button class="form-control button" 
@@ -35,8 +42,14 @@
             </ActionButtonMenu>
             <ContentTile>
                 <Body>
+                @if (IsLoading)
+                {
+                    <LoadingSvg />
+                }
+                else
+                {   
                     <ValidationSummary />
-                    <DataGrid Data="@Wallets">
+                    <DataGrid Data="@WorkingEntries">
                         <DataGridColumn Type="DataGridCellType.Button">
                             <CellEditTemplate Context="model">
                                 <ToolTip Text="@Strings.Caption_Button_Delete">
@@ -52,7 +65,7 @@
                                         width="20%">
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
-                                         @bind-Value="@model.DenominationSecurityId">
+                                            @bind-Value="@model.DenominationSecurityId">
                                     @foreach (var security in DenominationSecurities)
                                     {
                                         <option value=@security.Key>@security.Display</option>
@@ -78,6 +91,7 @@
                             </CellEditTemplate>
                         </DataGridColumn>
                     </DataGrid>
+                    }
                 </Body>
             </ContentTile>
         </EditForm>
@@ -88,14 +102,23 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IList<AccountWallet> Wallets { get; set; }
-
     private IEnumerable<LookupModel<int, string>> DenominationSecurities { get; set; }
 
     private Account ParentAccount { get; set; }
 
+    [Inject]
+    protected new ICollectionController<AccountWallet, int> Controller { get; init; }
+
+    protected override bool GetLoadingState() => 
+        WorkingEntries is null || ParentAccount is null || DenominationSecurities is null;
+
     protected override async Task OnInitializedAsync()
     {
+        // Update the hidden reference to refer the same object to avoid null reference exception.
+        base.Controller = Controller;
+
+        CheckNullParameters();
+
         IsLoading = true;
 
         try
@@ -113,30 +136,24 @@
 
             var denominationDtosTask = Controller.ReferenceQueries
                 .GetCryptocurrencyDTOsAsync();
-            var walletsTask = Controller.SelectWhereAsync(predicate: x => true, maxCount: 50);
+            var walletsTask = Controller.SelectAsync(predicate: x => true);
 
-            var dataTasks = Task.WhenAll(denominationDtosTask, walletsTask);
-            await dataTasks;
+            await InitializationTasksAsync(denominationDtosTask, walletsTask);
 
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                Wallets = (await walletsTask).Value?.ToList();
-                DenominationSecurities = (await denominationDtosTask).Value;
+            var denominationDtoResult = await denominationDtosTask;
+            var walletsResult = await walletsTask;
 
-                if (!Wallets.Any())
-                {
-                    await AddNewAsync(args: null);
-                }
-            }
-            else
-            {
-                throw dataTasks.Exception.Flatten();
-            }
+            WorkingEntries = walletsResult.Value.Item1.ToList();
+            DenominationSecurities = denominationDtoResult.Value;
 
+            Context = new(WorkingEntries);
+
+            PaginationHelper.TotalItemCount = (await walletsTask).Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
         }
         finally
         {
-            IsLoading = Wallets is null || ParentAccount is null || DenominationSecurities is null;
+            IsLoading = GetLoadingState();
         }
     }
     

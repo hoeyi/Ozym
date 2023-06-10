@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing single CRUD requests against the <see cref="BrokerTransaction"/> 
     /// data store.
     /// </summary>
-    internal class BrokerTransactionService : ModelBatchService<BrokerTransaction>
+    internal class BrokerTransactionService : ModelCollectionService<BrokerTransaction, int>
     {
         /// <summary>
         /// Creates a new <see cref="BrokerTransactionService"/> instance.
@@ -29,27 +29,17 @@ namespace NjordinSight.EntityModelService
         {
         }
 
-        public override bool ForParent(int parentId, out Exception e)
+        /// <inheritdoc/>
+        public override void SetParent(int parent)
         {
             Reader = new ModelReaderService<BrokerTransaction>(
-                Context, _modelMetadata, _logger)
+                ContextFactory, ModelMetadata, Logger)
             {
-                ParentExpression = x => x.AccountId == parentId,
+                ParentExpression = x => x.AccountId == parent,
                 IncludeDelegate = (queryable) => queryable.Include(x => x.TransactionCode)
             };
 
-            Writer = new ModelWriterBatchService<BrokerTransaction>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = x => x.AccountId == parentId,
-                GetDefaultModelDelegate = () => new BrokerTransaction()
-                {
-                    AccountId = parentId
-                }
-            };
-
-            e = null;
-            return true;
+            GetDefaultModelDelegate = () => new BrokerTransaction() { AccountId = parent };
         }
     }
 }

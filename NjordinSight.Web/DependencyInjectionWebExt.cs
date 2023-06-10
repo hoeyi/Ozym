@@ -2,6 +2,7 @@
 using NjordinSight.EntityModel;
 using NjordinSight.Web.Controllers;
 using NjordinSight.Web.Controllers.Abstractions;
+using NjordinSight.Web.Services;
 
 namespace NjordinSight.Web
 {
@@ -34,40 +35,27 @@ namespace NjordinSight.Web
                 .AddScoped<IController<ResourceImage>, ModelController<ResourceImage>>()
                 .AddScoped<IController<SecurityExchange>, ModelController<SecurityExchange>>()
                 .AddScoped<IController<Security>, ModelController<Security>>()
-                .AddScoped<IController<SecuritySymbolType>, ModelController<SecuritySymbolType>>()
                 .AddScoped<IController<SecurityTypeGroup>, ModelController<SecurityTypeGroup>>()
                 .AddScoped<IController<SecurityType>, ModelController<SecurityType>>()
 
                 .AddScoped<IController<SecurityPrice>, ModelController<SecurityPrice>>();
 
             // Add batch controllers.
-            // These should probably be transient, else changes one page may be retained 
-            // (even if unsaved) on the next page, e.g., delete records without saving, cancel changes, 
-            // then make different changes. Pending changes from both actions will still be in the context.
-            // Alternative is to expose a cancel changes method so that the context can revert to its
-            // original state.
             services
-                .AddScoped<IBatchController<AccountAttributeMemberEntry>, ModelBatchController<AccountAttributeMemberEntry>>()
-                .AddScoped<IBatchController<AccountCompositeMember>, ModelBatchController<AccountCompositeMember>>()
-                .AddScoped<IBatchController<AccountCustodian>, ModelBatchController<AccountCustodian>>()
-                .AddScoped<IBatchController<AccountWallet>, ModelBatchController<AccountWallet>>()
-                .AddScoped<IBatchController<BankTransaction>, ModelBatchController<BankTransaction>>()
-                .AddScoped<IBatchController<BankTransactionCode>, ModelBatchController<BankTransactionCode>>()
-                .AddScoped<IBatchController<BankTransactionCodeAttributeMemberEntry>, ModelBatchController<BankTransactionCodeAttributeMemberEntry>>()
+                .AddScoped<ICollectionController<AccountCustodian>, ModelCollectionController<AccountCustodian>>()
+                .AddScoped<ICollectionController<AccountWallet, int>, ModelCollectionController<AccountWallet, int>>()
+                .AddScoped<ICollectionController<BankTransaction, int>, ModelCollectionController<BankTransaction, int>>()
                 .AddScoped<IBrokerTransactionController, BrokerTransactionController>()
-                .AddScoped<IBatchController<BrokerTransactionCode>, ModelBatchController<BrokerTransactionCode>>()
-                .AddScoped<IBatchController<BrokerTransactionCodeAttributeMemberEntry>, ModelBatchController<BrokerTransactionCodeAttributeMemberEntry>>()
-                .AddScoped<IBatchController<CountryAttributeMemberEntry>, ModelBatchController<CountryAttributeMemberEntry>>()
-                .AddScoped<IBatchController<InvestmentPerformanceAttributeMemberEntry>, ModelBatchController<InvestmentPerformanceAttributeMemberEntry>>()
-                .AddScoped<IBatchController<InvestmentPerformanceEntry>, ModelBatchController<InvestmentPerformanceEntry>>()
-                .AddScoped<IBatchController<InvestmentStrategyTarget>, ModelBatchController<InvestmentStrategyTarget>>()
-                .AddScoped<IBatchController<MarketHolidayObservance>, ModelBatchController<MarketHolidayObservance>>()
-                .AddScoped<IBatchController<MarketIndexPrice>, ModelBatchController<MarketIndexPrice>>()
-                .AddScoped<IBatchController<ModelAttributeMember>, ModelBatchController<ModelAttributeMember>>()
-                .AddScoped<IBatchController<SecurityAttributeMemberEntry>, ModelBatchController<SecurityAttributeMemberEntry>>()
-                .AddScoped<IBatchController<SecurityExchange>, ModelBatchController<SecurityExchange>>()
-                .AddScoped<IBatchController<SecurityPrice>, ModelBatchController<SecurityPrice>>()
-                .AddScoped<IBatchController<SecuritySymbol>, ModelBatchController<SecuritySymbol>>();
+
+                .AddScoped<ICollectionController<InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)>,
+                    ModelCollectionController<InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)>>()
+
+                .AddScoped<ICollectionController<InvestmentPerformanceEntry, int>, ModelCollectionController<InvestmentPerformanceEntry, int>>()
+
+                .AddScoped<ICollectionController<MarketHolidayObservance>, ModelCollectionController<MarketHolidayObservance>>()
+                .AddScoped<ICollectionController<MarketIndexPrice>, ModelCollectionController<MarketIndexPrice>>()
+                .AddScoped<ICollectionController<SecurityExchange>, ModelCollectionController<SecurityExchange>>()
+                .AddScoped<ICollectionController<SecurityPrice>, ModelCollectionController<SecurityPrice>>();
         }
     }
 }

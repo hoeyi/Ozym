@@ -47,7 +47,7 @@
             var modelQuery = Controller.ReadAsync(ModelId);
             var typeGroupsQuery = Controller.ReferenceQueries.GetSecurityTypeGroupDTOsAsync();
 
-            Task dataTasks = Task.WhenAll(modelQuery, typeGroupsQuery);
+            var dataTasks = Task.WhenAll(modelQuery, typeGroupsQuery);
             await dataTasks;
 
             SecurityTypeGroups = (await typeGroupsQuery).Value;

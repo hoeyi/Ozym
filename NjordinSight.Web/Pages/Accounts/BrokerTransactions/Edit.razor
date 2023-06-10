@@ -1,8 +1,6 @@
 ﻿@page "/accounts/{ModelId:int}/edit/broker-transactions"
 
-@inherits ModelPage<BrokerTransaction>
-
-@inject IBrokerTransactionController Controller
+@inherits ModelListPage<BrokerTransaction>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -19,7 +17,7 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <EditForm width="100%" Model="@Entries">
+        <EditForm width="100%" Model="@WorkingEntries">
             <DataAnnotationsValidator />
             <ActionButtonMenu>
                 <button class="form-control button"
@@ -38,7 +36,7 @@
             <ContentTile>
                 <Body>
                     <ValidationSummary />
-                    <DataGrid Data="@Entries">
+                    <DataGrid Data="@WorkingEntries">
                         <DataGridColumn 
                             Type="DataGridCellType.Control"
                             Property="@nameof(BrokerTransaction.TransactionCodeId)"
@@ -181,8 +179,6 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<BrokerTransaction> Entries { get; set; }
-
     private IEnumerable<LookupModel<int, string>> DepositSecurities { get; set; }
 
     private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
@@ -195,8 +191,25 @@
 
     private AllocationInstructionTable CurrentAllocationInstruction { get; set; }
 
+    [Inject]
+    /// <inheritdoc/>
+    protected new IBrokerTransactionController Controller { get; init; }
+
+    /// <inheritdoc/>
+    protected override bool GetLoadingState() =>
+        ParentAccount is null
+        || DepositSecurities is null
+        || TransactionCodes is null
+        || TransactableSecurities is null;
+
+    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
+        // Update the hidden reference to refer the same object to avoid null reference exception.
+        base.Controller = Controller;
+
+        CheckNullParameters();
+
         IsLoading = true;
 
         try
@@ -211,67 +224,49 @@
                 .GetSingleAsync<Account>(
                     predicate: x => x.AccountId == ModelId,
                     path: x => x.AccountNavigation);
-            var loadRecordsTask = Controller.LoadRecordsAsync(parentId: ModelId);
+            var loadRecordsTask = Controller.LoadRecordsAsync(parent: ModelId);
 
-            var initTasks = Task.WhenAll(
+            await InitializationTasksAsync(
                 securityDTOsTask,
                 depositySecurityDTOsTask,
                 transactionCodeDTOsTask,
                 parentAccountTask,
                 loadRecordsTask);
 
-            await initTasks;
+            var securityDtoResult = await securityDTOsTask;
+            var depSecurityDtoResult = await depositySecurityDTOsTask;
+            var trxCodeDtoResult = await transactionCodeDTOsTask;
+            var parentAccountDtoResult = await parentAccountTask;
+            var loadRecordsResult = await loadRecordsTask;
 
-            if (initTasks.Status == TaskStatus.RanToCompletion)
-            {
-                // BrokerTransactions = (await transactionListTask).Value;
-                DepositSecurities = (await depositySecurityDTOsTask).Value;
-                TransactableSecurities = (await securityDTOsTask).Value;
-                TransactionCodes = (await transactionCodeDTOsTask).Value;
-                Entries = (await loadRecordsTask);
-                ParentAccount = (await parentAccountTask).Value;
-
-                if (!Entries.Any())
-                {
-                    await AddNewAsync(args: null);
-                } 
-
-            }
-            else
-            {
-                throw initTasks.Exception.Flatten();
-            }
+            TransactableSecurities = securityDtoResult.Value;
+            DepositSecurities = depSecurityDtoResult.Value;
+            TransactionCodes = trxCodeDtoResult.Value;
+            ParentAccount = parentAccountDtoResult.Value;
+            WorkingEntries = loadRecordsResult.ToList();
         }
         finally
         {
-            IsLoading = ParentAccount is null
-                || DepositSecurities is null
-                || TransactionCodes is null
-                || TransactableSecurities is null;
+            IsLoading = GetLoadingState();
         }
     }
 
-    /// <summary>
-    /// Gets the index uri stem to this page.
-    /// </summary>
-    private string IndexUriRelative => $"{IndexUriRelativePath}/{ModelId}/detail/broker-transactions";
-
-    private async Task AddNewAsync(MouseEventArgs args)
+    protected override async Task AddNewAsync(MouseEventArgs args)
     {
         // TODO: Do something with MouseEventArgs?
         var result = await Controller.AddNewAsync();
-        if (result is not OkResult)
+        if (result.Value is BrokerTransaction model)
+        {
+            WorkingEntries.Insert(0, model);
+        }
+        else
+        {
+            // TODO: Log error here with useful message.
             throw new InvalidOperationException();
+        }
     }
 
-    private async Task DeleteAsync(MouseEventArgs args, BrokerTransaction brokerTransaction)
-    {
-        var result = await Controller.DeleteOrDetachAsync(brokerTransaction);
-        if (result is not OkResult)
-            throw new InvalidOperationException();
-    }
-
-    private void Cancel_OnClick() => 
+    protected override void Cancel_OnClick() => 
         NavigationHelper.NavigateTo(
             $"{IndexUriRelativePath}/{ModelId}/detail/broker-transactions");
 
@@ -328,24 +323,5 @@
             }
         }
         // TODO: Add handling for the cancel event of posting allocation instructions.
-    }
-
-    private async Task Submit_OnClick(EditContext context, MouseEventArgs args)
-    {
-        bool isValid = context.Validate();
-        if (isValid)
-        {
-            var saveResult = await Controller.SaveChangesAsync();
-
-            if (saveResult is NoContentResult)
-                NavigationHelper.NavigateTo(IndexUriRelative);
-
-            else if (saveResult is ObjectResult objectResult)
-                ErrorMessage = (objectResult.Value as Exception)?.Message;
-        }
-        else
-        {
-            ErrorMessage = string.Join("\n", context.GetValidationMessages());
-        }
     }
 }

@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing single CRUD requests against the <see cref="BankTransaction"/> 
     /// data store.
     /// </summary>
-    internal class BankTransactionService : ModelBatchService<BankTransaction>
+    internal class BankTransactionService : ModelCollectionService<BankTransaction, int>
     {
         /// <summary>
         /// Creates a new <see cref="BankTransactionService"/> instance.
@@ -29,26 +29,16 @@ namespace NjordinSight.EntityModelService
         {
         }
 
-        public override bool ForParent(int parentId, out Exception e)
+        /// <inheritdoc/>
+        public override void SetParent(int parent)
         {
             Reader = new ModelReaderService<BankTransaction>(
-                Context, _modelMetadata, _logger)
+                ContextFactory, ModelMetadata, Logger)
             {
-                ParentExpression = x => x.AccountId == parentId
+                ParentExpression = x => x.AccountId == parent,
             };
 
-            Writer = new ModelWriterBatchService<BankTransaction>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = x => x.AccountId == parentId,
-                GetDefaultModelDelegate = () => new BankTransaction()
-                {
-                    AccountId = parentId
-                }
-            };
-
-            e = null;
-            return true;
+            GetDefaultModelDelegate = () => new BankTransaction(){ AccountId = parent };
         }
     }
 }

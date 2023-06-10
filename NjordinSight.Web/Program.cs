@@ -22,6 +22,7 @@ using NjordinSight.EntityModel.Context;
 using System;
 using Microsoft.AspNetCore.Hosting;
 using NjordinSight.UserInterface;
+using NjordinSight.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -97,6 +98,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
 builder.Services.AddSingleton<IModelMetadataService, ModelMetadataService>();
 builder.Services.AddSingleton(typeof(IViewHelper<>), typeof(ViewHelper<>));
+
+builder.Services.AddTransient(typeof(ISearchService<>), typeof(SearchService<>));
 
 builder.Services.AddSingleton<IMessageService, MessageService>();
 

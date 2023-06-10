@@ -6,18 +6,18 @@
 <ThemedComponent>
     <PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
 
-    @if (IsLoading)
+    <ModelPageHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
+    
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+    
+    @if(Context is null)
     {
         <LoadingSvg />
     }
     else
     {
-        <ModelPageHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
-
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
-
         <EditForm width="100%" EditContext="@Context">
             <DataAnnotationsValidator />
             <ActionButtonMenu>
@@ -35,40 +35,64 @@
                 </button>
             </ActionButtonMenu>
             <ContentTile>
+                <TitleAlignLeft>
+                    <Paginator Model="PaginationHelper"
+                        IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+                </TitleAlignLeft>
                 <Body>
-                    <ValidationSummary />
-                    <DataGrid Data="@Entries">
-                        <DataGridColumn Type="DataGridCellType.Button">
-                            <CellEditTemplate Context="model">
-                                <ToolTip Text="@Strings.Caption_Button_Delete">
-                                    <button class="form-control button icon" type="button"
-                                        @onclick="async (args) => await DeleteAsync(args, model)">
-                                        <IonIcon Name="close-circle" />
-                                    </button>
-                                </ToolTip>
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn 
-                            Type="DataGridCellType.Control"
-                            Property=@nameof(SecurityExchange.ExchangeCode)
-                            Caption=@(NameFor(x => x.ExchangeCode))>
-                            <CellEditTemplate Context="model">
-                                <InputText class="form-control" @bind-Value=model.ExchangeCode />
-                                <ValidationMessage For=@(()=> model.ExchangeCode) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn 
-                            Type="DataGridCellType.Control"
-                            Property=@nameof(SecurityExchange.ExchangeDescription)
-                            Caption=@(NameFor(x => x.ExchangeDescription))>
-                            <CellEditTemplate Context="model">
-                                <InputText class="form-control" @bind-Value=model.ExchangeDescription />
-                                <ValidationMessage For=@(()=> model.ExchangeDescription) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
+                    @if(IsLoading)
+                    {
+                        <LoadingSvg />
+                    }
+                    else
+                    {
+                        <ValidationSummary />
+                        <DataGrid Data="@WorkingEntries">
+                            <DataGridColumn Type="DataGridCellType.Button">
+                                <CellEditTemplate Context="model">
+                                    <ToolTip Text="@Strings.Caption_Button_Delete">
+                                        <button class="form-control button icon" type="button"
+                                            @onclick="async (args) => await DeleteAsync(args, model)">
+                                            <IonIcon Name="close-circle" />
+                                        </button>
+                                    </ToolTip>
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn 
+                                Type="DataGridCellType.Control"
+                                Property=@nameof(SecurityExchange.ExchangeCode)
+                                Caption=@(NameFor(x => x.ExchangeCode))>
+                                <CellEditTemplate Context="model">
+                                    <InputText class="form-control" @bind-Value=model.ExchangeCode />
+                                    <ValidationMessage For=@(()=> model.ExchangeCode) />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn 
+                                Type="DataGridCellType.Control"
+                                Property=@nameof(SecurityExchange.ExchangeDescription)
+                                Caption=@(NameFor(x => x.ExchangeDescription))>
+                                <CellEditTemplate Context="model">
+                                    <InputText class="form-control" @bind-Value=model.ExchangeDescription />
+                                    <ValidationMessage For=@(()=> model.ExchangeDescription) />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                        </DataGrid>
+                    }
                 </Body>
             </ContentTile>
         </EditForm>
     }
 </ThemedComponent>
+
+@code{
+    [Inject]    
+    protected new ICollectionController<SecurityExchange> Controller { get; init; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Update the hidden reference to refer the same object to avoid null reference exception.
+        base.Controller = Controller;
+
+        await base.OnInitializedAsync();
+    }
+}

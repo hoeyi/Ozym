@@ -1,30 +1,33 @@
 ﻿using NjordinSight.EntityModel;
+using NjordinSight.EntityModelService.Abstractions;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using NjordinSight.EntityModelService;
+using System.Threading.Tasks;
 
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
-    public class AccountWalletServiceTest : ModelBatchServiceTest<AccountWallet>
+    public class AccountWalletServiceTest : ModelCollectionServiceTest<AccountWallet>
     {
         private const int _accountId = -7;
         protected override Expression<Func<AccountWallet, bool>> ParentExpression =>
             x => x.AccountId == _accountId;
 
         [TestMethod]
-        public override void UpdatePendingSave_IsDirty_Is_True()
+        public override async Task Update_PendingSave_HasChanges_IsFalse()
         {
             var service = GetModelService();
 
-            var model = service.SelectAsync().Result.FirstOrDefault();
+            var model = (await service.SelectAsync()).FirstOrDefault();
 
             model.AddressCode = $"{model.AddressCode}-u";
 
-            Assert.IsTrue(service.IsDirty);
+            Assert.IsFalse(service.HasChanges);
         }
 
-        protected override IModelBatchService<AccountWallet> GetModelService() =>
-            BuildModelService<AccountWalletService>().WithParent(parentId: _accountId);
+        protected override IModelCollectionService<AccountWallet, int> GetModelService() =>
+            BuildModelService<AccountWalletService, int>().WithParent(_accountId);
     }
 }
