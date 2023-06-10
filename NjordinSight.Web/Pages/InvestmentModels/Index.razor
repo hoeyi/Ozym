@@ -7,33 +7,39 @@
 <ThemedComponent>
     <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <ContentTile>
-            <Body>
+    <ContentTile>
+        <TitleAlignLeft>
+            <Paginator Model="PaginationHelper"
+                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </TitleAlignLeft>
+        <Body>
+            @if (IsLoading)
+            {
+                <LoadingSvg />
+            }
+            else
+            {
+
                 <DataGrid Data="@Entries" class="datagrid">
                     <DataGridColumn Property=@nameof(InvestmentStrategy.DisplayName)
                                 Caption=@(NameFor(x => x.DisplayName))
                                 Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
-                            <a href=@(FormatDetailUri(model.InvestmentStrategyId)) @onclick:preventDefault 
+                            <a href=@(FormatDetailUri(model.InvestmentStrategyId)) 
+                                @onclick:preventDefault 
                                 @onclick="@(args => Detail_OnClick(model, args))">
                                 @model.DisplayName
                             </a>
                         </CellTemplate>
                     </DataGridColumn>
                 </DataGrid>
-            </Body>
-        </ContentTile>
-    }
+            }
+        </Body>
+    </ContentTile>
 </ThemedComponent>
 
 @code {

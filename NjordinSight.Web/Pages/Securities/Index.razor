@@ -25,24 +25,29 @@
         </ContentTile>
     }
 
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <ContentTile>
-            <Body>
+    <ContentTile>
+        <TitleAlignLeft>
+            <Paginator Model="PaginationHelper"
+                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </TitleAlignLeft>
+        <Body>
+            @if (IsLoading)
+            {
+                <LoadingSvg />
+            }
+            else
+            {
                 <DataGrid Data="@Entries">
                     <DataGridColumn Property=@nameof(Security.SecurityDescription)
                                 Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityDescription))
                                 Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
-                            <a class="custom-nav-link" href=@(FormatDetailUri(model.SecurityId)) @onclick:preventDefault
+                            <a class="custom-nav-link" href=@(FormatDetailUri(model.SecurityId)) 
+                                @onclick:preventDefault
                                 @onclick="@(args => Detail_OnClick(model, args))">
                                 @model.SecurityDescription
                             </a>
@@ -91,9 +96,9 @@
                         </CellTemplate>
                     </DataGridColumn>
                 </DataGrid>
-            </Body>
-        </ContentTile>
-    }
+            }
+        </Body>
+    </ContentTile>
 </ThemedComponent>
 
 
@@ -136,6 +141,9 @@
             Entries = securityTaskResult.Value.Item1;
             Exchanges = exchangeTaskResult.Value;
             SecurityTypes = secTypeTaskResult.Value;
+
+            PaginationHelper.TotalItemCount = securityTaskResult.Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = Entries.Count();
         }
         finally
         {
