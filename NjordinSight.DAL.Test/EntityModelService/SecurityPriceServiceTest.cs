@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
-    public class SecurityPriceServiceTest
-        : ModelCollectionServiceTest<SecurityPrice>
+    [TestCategory("Integration")]
+    public class SecurityPriceServiceTest : ModelCollectionServiceTest<SecurityPrice>
     {
 
         protected override Expression<Func<SecurityPrice, bool>> ParentExpression =>

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public partial class SecurityTypeGroupServiceTest
     {
         [TestMethod]
@@ -52,8 +53,7 @@ namespace NjordinSight.Test.EntityModelService
         }
     }
 
-    public partial class SecurityTypeGroupServiceTest
-        : ModelServiceTest<SecurityTypeGroup>
+    public partial class SecurityTypeGroupServiceTest : ModelServiceTest<SecurityTypeGroup>
     {
         protected override SecurityTypeGroup CreateModelSuccessSample => new()
         {

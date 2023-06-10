@@ -6,7 +6,7 @@ using NjordinSight.EntityModel;
 namespace NjordinSight.Test.EntityModelService.Abstractions
 {
     [TestClass]
-    [TestCategory("UnitTest")]
+    [TestCategory("Unit")]
     public class ExpressionExtensionTest
     {
         [TestMethod]

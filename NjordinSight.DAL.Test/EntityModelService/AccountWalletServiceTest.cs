@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public class AccountWalletServiceTest : ModelCollectionServiceTest<AccountWallet>
     {
         private const int _accountId = -7;

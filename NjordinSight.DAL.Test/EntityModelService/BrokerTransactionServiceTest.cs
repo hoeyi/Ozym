@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public class BrokerTransactionServiceTest : ModelCollectionServiceTest<BrokerTransaction>
     {
         private const int _accountId = -5;

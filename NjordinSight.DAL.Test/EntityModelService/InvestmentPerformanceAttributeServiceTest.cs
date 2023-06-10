@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public class InvestmentPerformanceAttributeServiceTest
         : ModelCollectionServiceTest<InvestmentPerformanceAttributeMemberEntry>
     {
