@@ -19,7 +19,7 @@
 
         <ContentTile>
             <Body>
-                <DataGrid Data="@Models">
+                <DataGrid Data="@Entries">
                     <DataGridColumn Property=@nameof(ReportStyleSheet.StyleSheetCode)
                                 Caption=@(NameFor(x => x.StyleSheetCode))
                                 Type=@DataGridCellType.Link>

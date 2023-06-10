@@ -54,7 +54,7 @@
             <ContentTile>
                 <Body>
                     <ValidationSummary />
-                    <DataGrid Data="@Entries">
+                    <DataGrid Data="@WorkingEntries">
                         <DataGridColumn Type="DataGridCellType.Button">
                             <CellEditTemplate Context="model">
                                 <ToolTip Text="@Strings.Caption_Button_Delete">
@@ -118,54 +118,32 @@
 
     private IEnumerable<LookupModel<int, string>> MarketIndexLookup {get; set;}
 
+    [Inject]
     protected new ICollectionController<MarketIndexPrice> Controller { get; init; }
 
-    private Expression<Func<MarketIndexPrice, bool>> InitialSearchExpression { get; set; }
+    /// <inheritdoc />
+    protected override bool GetLoadingState() => 
+        WorkingEntries is null
+        || Context is null
+        || MarketIndexLookup is null
+        || PriceCodeLookup is null;
 
-    #region Search componenents
-    /// <summary>
-    /// Gets or sets the <see cref="IExpressionBuilder"/> for this component.
-    /// </summary>
-    [Inject]
-    protected IExpressionBuilder ExpressionBuilder { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the collection of searchables fields for the type: <typeparamref name="TModel"/>.
-    /// </summary>
-    private IEnumerable<ISearchableMemberMetadata> SearchFields { get; set; }
-        = Array.Empty<ISearchableMemberMetadata>();
-
-    /// <summary>
-    /// Gets or sets the collection of allowable <see cref="ComparisonOperator"/> for
-    /// the type: <typeparamref name="TModel"/>.
-    /// </summary>
-    private IEnumerable<ComparisonOperator> ComparisonOperators { get; set; }
-        = Array.Empty<ComparisonOperator>();
-
-    #endregion
-
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-
         // Update the hidden reference to refer the same object to avoid null reference exception.
         base.Controller = Controller;
+        
+        CheckNullParameters();
+
+        IsLoading = true;
 
         try
         {
-            if (ExpressionBuilder is null)
-                throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
-
-            if (Controller is null)
-                throw new ArgumentNullException(paramName: nameof(Controller));
-
-            // TODO: Add a more useful default expression.
-            InitialSearchExpression = x => true;
-
-            SearchFields = ExpressionBuilder!.GetSearchableMembers<MarketIndexPrice>();
-            ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
-
-            var queryActionResultTask = Controller!.SelectAsync(InitialSearchExpression);
+            var marketPriceTask = Controller.SelectAsync(
+                predicate: SearchService.CurrentExpression,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
 
             var indexDtosTask = Controller.ReferenceQueries.GetMarketIndexDTOsAsync();
 
@@ -180,27 +158,24 @@
                         Display = Resources.Strings.Caption_InputSelect_Placeholder
                     });
 
-            var dataTasks = Task.WhenAll(queryActionResultTask, indexDtosTask, priceCodeDtoTask);
-            await dataTasks;
+            await InitializationTasksAsync(marketPriceTask, indexDtosTask, priceCodeDtoTask);
 
-            if(dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                Entries = (await queryActionResultTask).Value.Item1.ToList();
-                MarketIndexLookup = (await indexDtosTask).Value;
-                PriceCodeLookup = (await priceCodeDtoTask).Value;
-                Context = new(Entries);
+            var marketPriceResult = await marketPriceTask;
+            var indexDtoResult = await indexDtosTask;
+            var priceCodeDtoResult = await priceCodeDtoTask;
 
-                PaginationHelper.TotalItemCount = (await queryActionResultTask).Value.Item2.ItemCount;
-                PaginationHelper.ItemCount = Entries.Count;
-            }
+            WorkingEntries = marketPriceResult.Value.Item1.ToList();
+            MarketIndexLookup = indexDtoResult.Value;
+            PriceCodeLookup = priceCodeDtoResult.Value;
 
+            Context = new(WorkingEntries);
+
+            PaginationHelper.TotalItemCount = marketPriceResult.Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
         }
         finally
         {
-            IsLoading = Entries is null
-                || Context is null
-                || MarketIndexLookup is null
-                || PriceCodeLookup is null;
+            IsLoading = GetLoadingState();
         }
     }
 

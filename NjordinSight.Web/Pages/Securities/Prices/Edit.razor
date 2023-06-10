@@ -54,7 +54,7 @@
             <ContentTile>
                 <Body>
                     <ValidationSummary />
-                    <DataGrid Data="@Entries">
+                    <DataGrid Data="@WorkingEntries">
                         <DataGridColumn Type="DataGridCellType.Button">
                             <CellEditTemplate Context="model">
                                 <ToolTip Text="@Strings.Caption_Button_Delete">
@@ -128,85 +128,57 @@
 @code {
     private IEnumerable<LookupModel<int, string>> SecurityLookup { get; set; }
 
-    private Expression<Func<SecurityPrice, bool>> InitialSearchExpression { get; set; }
-
-    #region Search componenents
-    /// <summary>
-    /// Gets or sets the <see cref="IExpressionBuilder"/> for this component.
-    /// </summary>
-    [Inject]
-    protected IExpressionBuilder ExpressionBuilder { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the collection of searchables fields for the type: <typeparamref name="TModel"/>.
-    /// </summary>
-    private IEnumerable<ISearchableMemberMetadata> SearchFields { get; set; }
-        = Array.Empty<ISearchableMemberMetadata>();
-
-    /// <summary>
-    /// Gets or sets the collection of allowable <see cref="ComparisonOperator"/> for
-    /// the type: <typeparamref name="TModel"/>.
-    /// </summary>
-    private IEnumerable<ComparisonOperator> ComparisonOperators { get; set; }
-        = Array.Empty<ComparisonOperator>();
-
-    #endregion
-
     [Inject]    
     protected new ICollectionController<SecurityPrice> Controller { get; init; }
 
+    /// <inheritdoc />
+    protected override bool GetLoadingState() => SecurityLookup is null || WorkingEntries is null;
+
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-
         // Update the hidden reference to refer the same object to avoid null reference exception.
         base.Controller = Controller;
 
+        CheckNullParameters();
+
+        IsLoading = true;
+
         try
         {
-            if (ExpressionBuilder is null)
+            if (SearchService is null)
                 throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
 
             if (Controller is null)
                 throw new ArgumentNullException(paramName: nameof(Controller));
 
-            // TODO: Update this to a more useful initial expression.
-            InitialSearchExpression = x => true;
-
-            SearchFields = ExpressionBuilder!.GetSearchableMembers<SecurityPrice>();
-            ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
-
             var pricesTask = Controller.SelectAsync(
-                predicate: InitialSearchExpression,
+                predicate: SearchService.CurrentExpression,
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
+
             var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
                 key: x => x.SecurityId,
                 display: x => x.SecurityDescription,
                 defaultKey: default,
                 defaultDisplay: Strings.Caption_InputSelect_Prompt);
 
-            var dataTasks = Task.WhenAll(pricesTask, securityDtosTask);
-            await dataTasks;
+            await InitializationTasksAsync(pricesTask, securityDtosTask);
 
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                var pricesResult = await pricesTask;
-                var securityDtoResult = await securityDtosTask;
+            var pricesResult = await pricesTask;
+            var securityDtosResult = await securityDtosTask;
 
-                SecurityLookup = securityDtoResult.Value;
-                Entries = pricesResult.Value.Item1.ToList();
+            SecurityLookup = securityDtosResult.Value;
+            WorkingEntries = pricesResult.Value.Item1.ToList();
 
-                Context = new(Entries);
+            Context = new(WorkingEntries);
 
-                PaginationHelper.TotalItemCount = pricesResult.Value.Item2.ItemCount;
-                PaginationHelper.ItemCount = Entries.Count;
-            }
-
+            PaginationHelper.TotalItemCount = pricesResult.Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
         }
         finally
         {
-            IsLoading = SecurityLookup is null || Entries is null;
+            IsLoading = GetLoadingState();
         }
     }
 

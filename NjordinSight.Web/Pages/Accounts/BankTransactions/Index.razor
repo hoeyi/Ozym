@@ -19,10 +19,10 @@
 
         <ContentTile>
             <Body>
-                <EditForm width="100%" Model="@Entries">
+                <EditForm width="100%" Model="@WorkingEntries">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <DataGrid Data="@Entries">
+                    <DataGrid Data="@WorkingEntries">
                         <DataGridColumn Property="@nameof(BankTransaction.TransactionCodeId)"
                                     Caption="@NameFor(x => x.TransactionCodeId)">
                             <CellTemplate Context="model">
@@ -87,12 +87,20 @@
         }
     };
 
+    /// <inheritdoc />
+    protected override bool GetLoadingState() => 
+        WorkingEntries is null
+        || ParentAccount is null
+        || TransactionCodes is null;
+
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-
         // Update the hidden reference to refer the same dobject to avoid null reference exception.
         base.Controller = Controller;
+
+        CheckNullParameters();
+
+        IsLoading = true;
 
         try
         {
@@ -110,31 +118,24 @@
                 throw new InvalidOperationException();
 
             var transactionsQueryTask = Controller.SelectAsync(
-                predicate: x => true,
-                PaginationHelper.PageIndex,
-                PaginationHelper.PageSize);
+                predicate: SearchService.CurrentExpression,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
 
-            var dataTasks = Task.WhenAll(transactionsQueryTask, transactionCodeDTOsTask);
-            await dataTasks;
+            await InitializationTasksAsync(transactionsQueryTask, transactionCodeDTOsTask);
 
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                Entries = (await transactionsQueryTask).Value.Item1.ToList();
-                TransactionCodes = (await transactionCodeDTOsTask).Value;
+            var transactionResult = await transactionsQueryTask;
+            var transactionCodeDtoResult = await transactionCodeDTOsTask;
 
-                PaginationHelper.TotalItemCount = (await transactionsQueryTask).Value.Item2.ItemCount;
-                PaginationHelper.ItemCount = Entries.Count;
-            }
-            else
-            {
-                throw dataTasks.Exception.Flatten();
-            }
+            WorkingEntries = transactionResult.Value.Item1.ToList();
+            TransactionCodes = transactionCodeDtoResult.Value;
+
+            PaginationHelper.TotalItemCount = (await transactionsQueryTask).Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
         }
         finally
         {
-            IsLoading = Entries is null
-                || ParentAccount is null
-                || TransactionCodes is null;
+            IsLoading = GetLoadingState();
         }
     }
 

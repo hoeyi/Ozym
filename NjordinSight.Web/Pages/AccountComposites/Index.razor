@@ -37,7 +37,7 @@
 
         <ContentTile>
             <Body>
-                <DataGrid Data="@Models" >
+                <DataGrid Data="@Entries" >
                     <DataGridColumn 
                         Property=@nameof(AccountComposite.AccountCompositeNavigation.AccountObjectCode)
                         Caption=@(ModelMetadata.NameFor<AccountObject>(x => x.AccountObjectCode))

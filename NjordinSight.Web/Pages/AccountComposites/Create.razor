@@ -66,7 +66,7 @@
             var compositeQuery = Controller.GetDefaultAsync();
             var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
 
-            Task dataTask = Task.WhenAll(compositeQuery, accountsQuery);
+            var dataTask = Task.WhenAll(compositeQuery, accountsQuery);
 
             Model = (await compositeQuery).Value;
             AccountDtos = (await accountsQuery).Value;

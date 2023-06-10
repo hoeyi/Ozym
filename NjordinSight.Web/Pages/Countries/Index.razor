@@ -37,7 +37,7 @@
 
         <ContentTile>
             <Body>
-                <DataGrid Data="@Models">
+                <DataGrid Data="@Entries">
                     <DataGridColumn Type="DataGridCellType.Link" Property=@nameof(Country.DisplayName)
                                 Caption=@(NameFor(x => x.DisplayName))>
                         <CellTemplate Context="model">

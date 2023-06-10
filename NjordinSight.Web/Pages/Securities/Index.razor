@@ -37,7 +37,7 @@
 
         <ContentTile>
             <Body>
-                <DataGrid Data="@Models">
+                <DataGrid Data="@Entries">
                     <DataGridColumn Property=@nameof(Security.SecurityDescription)
                                 Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityDescription))
                                 Type=@DataGridCellType.Link>
@@ -102,41 +102,44 @@
 
     private IEnumerable<LookupModel<int, string>> SecurityTypes { get; set; }
 
+    /// <inheritdoc/>
+    protected override bool GetLoadingState() => 
+        Entries is null || Exchanges is null || SecurityTypes is null;
+
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
 
         try
         {
-            var baseInitTask = base.OnInitializedAsync();
+            var securitiesTask = Controller.SelectAsync(
+                predicate: SearchService.CurrentExpression,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
 
-            var exchangesQuery = Controller.ReferenceQueries
+            var exchangesTask = Controller.ReferenceQueries
                 .GetDtosAsync<SecurityExchange, int, string>(
                     key: x => x.ExchangeId,
                     display: x => x.ExchangeCode);
 
-            var secTypesQuery = Controller.ReferenceQueries
+            var secTypesTask = Controller.ReferenceQueries
                 .GetDtosAsync<SecurityType, int, string>(
                     key: x => x.SecurityTypeId,
                     display: x => x.SecurityTypeName);
 
-            var dataTasks = Task.WhenAll(baseInitTask, exchangesQuery, secTypesQuery);
+            await InitializationTasksAsync(securitiesTask, exchangesTask, secTypesTask);
 
-            await dataTasks;
+            var securityTaskResult = await securitiesTask;
+            var exchangeTaskResult = await exchangesTask;
+            var secTypeTaskResult = await secTypesTask;
 
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                Exchanges = (await exchangesQuery).Value;
-                SecurityTypes = (await secTypesQuery).Value;
-            }
-            else
-            {
-                throw dataTasks.Exception.Flatten();
-            }
+            Entries = securityTaskResult.Value.Item1;
+            Exchanges = exchangeTaskResult.Value;
+            SecurityTypes = secTypeTaskResult.Value;
         }
         finally
         {
-            IsLoading = Models is null || Exchanges is null | SecurityTypes is null;
+            IsLoading = GetLoadingState();
         }
     }
 

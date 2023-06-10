@@ -17,7 +17,7 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <EditForm width="100%" Model="@Entries">
+        <EditForm width="100%" Model="@WorkingEntries">
             <DataAnnotationsValidator />
             <ActionButtonMenu>
                 <button class="form-control button"
@@ -36,7 +36,7 @@
             <ContentTile>
                 <Body>
                     <ValidationSummary />
-                    <DataGrid Data="@Entries">
+                    <DataGrid Data="@WorkingEntries">
                         <DataGridColumn 
                             Type="DataGridCellType.Control"
                             Property="@nameof(BrokerTransaction.TransactionCodeId)"
@@ -195,12 +195,22 @@
     /// <inheritdoc/>
     protected new IBrokerTransactionController Controller { get; init; }
 
+    /// <inheritdoc/>
+    protected override bool GetLoadingState() =>
+        ParentAccount is null
+        || DepositSecurities is null
+        || TransactionCodes is null
+        || TransactableSecurities is null;
+
+    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-
         // Update the hidden reference to refer the same object to avoid null reference exception.
         base.Controller = Controller;
+
+        CheckNullParameters();
+
+        IsLoading = true;
 
         try
         {
@@ -216,42 +226,30 @@
                     path: x => x.AccountNavigation);
             var loadRecordsTask = Controller.LoadRecordsAsync(parentId: ModelId);
 
-            var initTasks = Task.WhenAll(
+            await InitializationTasksAsync(
                 securityDTOsTask,
                 depositySecurityDTOsTask,
                 transactionCodeDTOsTask,
                 parentAccountTask,
                 loadRecordsTask);
 
-            await initTasks;
+            var securityDtoResult = await securityDTOsTask;
+            var depSecurityDtoResult = await depositySecurityDTOsTask;
+            var trxCodeDtoResult = await transactionCodeDTOsTask;
+            var parentAccountDtoResult = await parentAccountTask;
+            var loadRecordsResult = await loadRecordsTask;
 
-            if (initTasks.Status == TaskStatus.RanToCompletion)
-            {
-                // BrokerTransactions = (await transactionListTask).Value;
-                DepositSecurities = (await depositySecurityDTOsTask).Value;
-                TransactableSecurities = (await securityDTOsTask).Value;
-                TransactionCodes = (await transactionCodeDTOsTask).Value;
-                Entries = (await loadRecordsTask).ToList();
-                ParentAccount = (await parentAccountTask).Value;
-            }
-            else
-            {
-                throw initTasks.Exception.Flatten();
-            }
+            TransactableSecurities = securityDtoResult.Value;
+            DepositSecurities = depSecurityDtoResult.Value;
+            TransactionCodes = trxCodeDtoResult.Value;
+            ParentAccount = parentAccountDtoResult.Value;
+            WorkingEntries = loadRecordsResult.ToList();
         }
         finally
         {
-            IsLoading = ParentAccount is null
-                || DepositSecurities is null
-                || TransactionCodes is null
-                || TransactableSecurities is null;
+            IsLoading = GetLoadingState();
         }
     }
-
-    /// <summary>
-    /// Gets the index uri stem to this page.
-    /// </summary>
-    private string IndexUriRelative => $"{IndexUriRelativePath}/{ModelId}/detail/broker-transactions";
 
     protected override async Task AddNewAsync(MouseEventArgs args)
     {
@@ -259,7 +257,7 @@
         var result = await Controller.AddNewAsync();
         if (result.Value is BrokerTransaction model)
         {
-            Entries.Add(model);
+            WorkingEntries.Add(model);
         }
         else
         {

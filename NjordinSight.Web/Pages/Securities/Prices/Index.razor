@@ -41,7 +41,7 @@
                     IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
             </TitleAlignLeft>
             <Body>
-                <DataGrid Data="@Entries">
+                <DataGrid Data="@WorkingEntries">
                     <DataGridColumn Property="@nameof(SecurityPrice.SecurityId)"
                         Caption="@(NameFor(x => x.SecurityId))">
                         <CellTemplate Context="model">
@@ -93,33 +93,10 @@
 @code {
     private IDictionary<int, string> SecurityDtos { get; set; }
 
-    private Expression<Func<SecurityPrice, bool>> InitialSearchExpression { get; set; }
-
     [Inject]
     protected new ICollectionController<SecurityPrice> Controller {get; init; }
 
-    #region Search componenents
-    /// <summary>
-    /// Gets or sets the <see cref="IExpressionBuilder"/> for this component.
-    /// </summary>
-    [Inject]
-    protected IExpressionBuilder ExpressionBuilder { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the collection of searchables fields for the type: <typeparamref name="TModel"/>.
-    /// </summary>
-    private IEnumerable<ISearchableMemberMetadata> SearchFields { get; set; }
-        = Array.Empty<ISearchableMemberMetadata>();
-
-    /// <summary>
-    /// Gets or sets the collection of allowable <see cref="ComparisonOperator"/> for
-    /// the type: <typeparamref name="TModel"/>.
-    /// </summary>
-    private IEnumerable<ComparisonOperator> ComparisonOperators { get; set; }
-        = Array.Empty<ComparisonOperator>();
-
-    #endregion
-
+    /// <inheritdoc/>
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
         IconKey = "reorder-four",
@@ -134,55 +111,57 @@
             }
         }
     };
+
+    /// <inheritdoc />
+    protected override bool GetLoadingState() => 
+        WorkingEntries is null 
+        || SecurityDtos is null
+        || Context  is null;
+
+    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-
         // Update the hidden reference to refer the same object to avoid null reference exception.
         base.Controller = Controller;
 
+        CheckNullParameters();
+
+        IsLoading = true;
+
         try
         {
-            if (ExpressionBuilder is null)
-                throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
+            if (SearchService is null)
+                throw new ArgumentNullException(paramName: nameof(SearchService));
 
             if (Controller is null)
                 throw new ArgumentNullException(paramName: nameof(Controller));
 
-            InitialSearchExpression = x => true;
-
-            SearchFields = ExpressionBuilder!.GetSearchableMembers<SecurityPrice>();
-            ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
-
             var pricesTask = Controller.SelectAsync(
-                                predicate: LastSearchExpression,
-                                pageNumber: PaginationHelper.PageIndex,
-                                pageSize: PaginationHelper.PageSize);
+                predicate: SearchService.CurrentExpression,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
 
             var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
                 key: x => x.SecurityId,
                 display: x => x.SecurityDescription);
 
-            var dataTasks = Task.WhenAll(pricesTask, securityDtosTask);
-            await dataTasks;
+            var initTasks = InitializationTasksAsync(pricesTask, securityDtosTask);
+            await initTasks;
 
-            if(dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                var pricesResult = await pricesTask;
-                var securityDtoResult = await securityDtosTask;
+            var dtosTaskResult = await securityDtosTask;
+            var priceTaskResult = await pricesTask;
 
-                SecurityDtos = securityDtoResult.Value.ToDictionary(k => k.Key, v => v.Display);
-                var actionResult = await pricesTask;
+            SecurityDtos = dtosTaskResult.Value.ToDictionary(k => k.Key, v => v.Display);
+            WorkingEntries = priceTaskResult.Value.Item1.ToList();
 
-                Entries = actionResult.Value.Item1?.ToList() ?? new List<SecurityPrice>();
+            PaginationHelper.TotalItemCount = priceTaskResult.Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
 
-                PaginationHelper.TotalItemCount = actionResult.Value.Item2.ItemCount;
-                PaginationHelper.ItemCount = Entries.Count;
-            }
+            Context = new(WorkingEntries);
         }
         finally
         {
-            IsLoading = Entries is null || SecurityDtos is null;
+            IsLoading = GetLoadingState();
         }
     }
 

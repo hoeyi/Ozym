@@ -20,10 +20,10 @@
 
         <ContentTile>
             <Body>
-                <EditForm width="100%" Model="@Entries">
+                <EditForm width="100%" Model="@WorkingEntries">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <DataGrid Data="@Entries">
+                    <DataGrid Data="@WorkingEntries">
                         <DataGridColumn 
                             Property="@nameof(BrokerTransaction.TransactionCodeId)"
                             Caption="@NameFor(x => x.TransactionCodeId)">
@@ -137,12 +137,22 @@
         }
     };
 
+    /// <inheritdoc />
+    protected override bool GetLoadingState() => 
+        WorkingEntries is null
+        || ParentAccount is null
+        || DepositSecurities is null
+        || TransactionCodes is null
+        || TransactableSecurities is null;
+
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-
         // Update the hidden reference to refer the same object to avoid null reference exception.
         base.Controller = Controller;
+
+        CheckNullParameters();
+
+        IsLoading = true;
 
         try
         {
@@ -158,36 +168,28 @@
                     path: x => x.AccountNavigation);
             var loadRecordsTask = Controller.LoadRecordsAsync(parentId: ModelId);
 
-            var initTasks = Task.WhenAll(
+            await InitializationTasksAsync(
                 securityDTOsTask,
                 depositySecurityDTOsTask,
                 transactionCodeDTOsTask,
                 parentAccountTask,
                 loadRecordsTask);
 
-            await initTasks;
+            var securityDtoResult = await securityDTOsTask;
+            var depSecurityDtoResult = await depositySecurityDTOsTask;
+            var trxCodeDtoResult = await transactionCodeDTOsTask;
+            var parentAccountResult = await parentAccountTask;
+            var loadRecordResult = await loadRecordsTask;
 
-            if (initTasks.Status == TaskStatus.RanToCompletion)
-            {
-                //BrokerTransactions = (await transactionListTask).Value;
-                DepositSecurities = (await depositySecurityDTOsTask).Value;
-                TransactableSecurities = (await securityDTOsTask).Value;
-                TransactionCodes = (await transactionCodeDTOsTask).Value;
-                Entries = (await loadRecordsTask).ToList();
-                ParentAccount = (await parentAccountTask).Value;
-            }
-            else
-            {
-                throw initTasks.Exception.Flatten();
-            }
+            TransactableSecurities = (await securityDTOsTask).Value;
+            DepositSecurities = depSecurityDtoResult.Value;
+            TransactionCodes = trxCodeDtoResult.Value;
+            WorkingEntries = loadRecordResult.ToList();
+            ParentAccount = parentAccountResult.Value;
         }
         finally
         {
-            IsLoading = Entries is null
-                || ParentAccount is null
-                || DepositSecurities is null
-                || TransactionCodes is null
-                || TransactableSecurities is null;
+            IsLoading = GetLoadingState();
         }
     }
 

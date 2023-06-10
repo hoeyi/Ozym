@@ -35,7 +35,7 @@
             </ActionButtonMenu>
             <ContentTile>
                 <Body>
-                    <DataGrid Data="@Entries">
+                    <DataGrid Data="@WorkingEntries">
                         <DataGridColumn Type="DataGridCellType.Button">
                             <CellEditTemplate Context="model">
                                 <ToolTip Text="@Strings.Caption_Button_Delete">
@@ -77,6 +77,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // Update the hidden reference to refer the same object to avoid null reference exception.
         base.Controller = Controller;
 
         await base.OnInitializedAsync();

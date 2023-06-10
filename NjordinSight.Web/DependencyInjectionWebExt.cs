@@ -2,6 +2,7 @@
 using NjordinSight.EntityModel;
 using NjordinSight.Web.Controllers;
 using NjordinSight.Web.Controllers.Abstractions;
+using NjordinSight.Web.Services;
 
 namespace NjordinSight.Web
 {

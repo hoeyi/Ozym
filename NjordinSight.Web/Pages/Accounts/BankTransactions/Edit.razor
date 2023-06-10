@@ -17,7 +17,7 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <EditForm width="100%" Model="@Entries">
+        <EditForm width="100%" Model="@WorkingEntries">
             <DataAnnotationsValidator />
             <ActionButtonMenu>
                 <button class="form-control button" width="20%"
@@ -37,7 +37,7 @@
             <ContentTile>
                 <Body>
                     <ValidationSummary />
-                    <DataGrid Data="@Entries">
+                    <DataGrid Data="@WorkingEntries">
                         <DataGridColumn Type="DataGridCellType.Button">
                             <CellEditTemplate Context="model">
                                 <ToolTip Text="@Strings.Caption_Button_Delete">
@@ -99,20 +99,28 @@
 
     private Account ParentAccount { get; set; }
 
+    /// <inheritdoc/>
     [Inject]
     protected new ICollectionController<BankTransaction, int> Controller { get; init; }
 
+    /// <inheritdoc/>
+    protected override bool GetLoadingState() =>
+        WorkingEntries is null
+        || ParentAccount is null
+        || TransactionCodes is null;
+
+    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
-
         // Update the hidden reference to refer the same object to avoid null reference exception.
         base.Controller = Controller;
 
+        CheckNullParameters();
+
+        IsLoading = true;
+
         try
         {
-            var transactionCodeDTOsTask = Controller.ReferenceQueries.GetBankTransactionCodeDTOsAsync();
-
             ParentAccount = (
                 await Controller.ReferenceQueries
                     .GetSingleAsync<Account>(
@@ -124,32 +132,27 @@
             if (initResult is not OkResult)
                 throw new InvalidOperationException();
 
+            var transactionCodeDTOsTask = Controller.ReferenceQueries.GetBankTransactionCodeDTOsAsync();
+
             var transactionsQueryTask = Controller.SelectAsync(
                 predicate: x => true,
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
 
-            var dataTasks = Task.WhenAll(transactionsQueryTask, transactionCodeDTOsTask);
-            await dataTasks;
+            await InitializationTasksAsync(transactionCodeDTOsTask, transactionsQueryTask);
 
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                Entries = (await transactionsQueryTask).Value.Item1.ToList();
-                TransactionCodes = (await transactionCodeDTOsTask).Value;
+            var transactionResult = await transactionsQueryTask;
+            var transactionCodeDtoResul = await transactionCodeDTOsTask;
 
-                PaginationHelper.TotalItemCount = (await transactionsQueryTask).Value.Item2.ItemCount;
-                PaginationHelper.ItemCount = Entries.Count;
-            }
-            else
-            {
-                throw dataTasks.Exception.Flatten();
-            }
+            WorkingEntries = (await transactionsQueryTask).Value.Item1.ToList();
+            TransactionCodes = (await transactionCodeDTOsTask).Value;
+
+            PaginationHelper.TotalItemCount = (await transactionsQueryTask).Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
         }
         finally
         {
-            IsLoading = Entries is null
-                || ParentAccount is null
-                || TransactionCodes is null;
+            IsLoading = GetLoadingState();
         }
     }
 
