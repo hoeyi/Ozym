@@ -22,24 +22,24 @@ namespace NjordinSight.DataTransfer.MethodParams {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ParamsMetadata {
+    public class DisplayString {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ParamsMetadata() {
+        internal DisplayString() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.MethodParams.ParamsMetadata", typeof(ParamsMetadata).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.MethodParams.DisplayString", typeof(DisplayString).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Constant growth rate applied to balance.
         /// </summary>
-        internal static string FutureValueInput_GrowthRate_Description {
+        public static string FutureValueInput_GrowthRate_Description {
             get {
                 return ResourceManager.GetString("FutureValueInput_GrowthRate_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Growth rate.
         /// </summary>
-        internal static string FutureValueInput_GrowthRate_Name {
+        public static string FutureValueInput_GrowthRate_Name {
             get {
                 return ResourceManager.GetString("FutureValueInput_GrowthRate_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Number of periods measured.
         /// </summary>
-        internal static string FutureValueInput_Periods_Description {
+        public static string FutureValueInput_Periods_Description {
             get {
                 return ResourceManager.GetString("FutureValueInput_Periods_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Periods.
         /// </summary>
-        internal static string FutureValueInput_Periods_Name {
+        public static string FutureValueInput_Periods_Name {
             get {
                 return ResourceManager.GetString("FutureValueInput_Periods_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Length of each period.
         /// </summary>
-        internal static string FutureValueInput_PeriodType_Description {
+        public static string FutureValueInput_PeriodType_Description {
             get {
                 return ResourceManager.GetString("FutureValueInput_PeriodType_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Period Type.
         /// </summary>
-        internal static string FutureValueInput_PeriodType_Name {
+        public static string FutureValueInput_PeriodType_Name {
             get {
                 return ResourceManager.GetString("FutureValueInput_PeriodType_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Initial balance for the forecast.
         /// </summary>
-        internal static string FutureValueInput_PresentValue_Description {
+        public static string FutureValueInput_PresentValue_Description {
             get {
                 return ResourceManager.GetString("FutureValueInput_PresentValue_Description", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Initial balance.
         /// </summary>
-        internal static string FutureValueInput_PresentValue_Name {
+        public static string FutureValueInput_PresentValue_Name {
             get {
                 return ResourceManager.GetString("FutureValueInput_PresentValue_Name", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Regular amount contributed to balance.
         /// </summary>
-        internal static string FutureValueInput_RegularDeposit_Description {
+        public static string FutureValueInput_RegularDeposit_Description {
             get {
                 return ResourceManager.GetString("FutureValueInput_RegularDeposit_Description", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Regular deposit.
         /// </summary>
-        internal static string FutureValueInput_RegularDeposit_Name {
+        public static string FutureValueInput_RegularDeposit_Name {
             get {
                 return ResourceManager.GetString("FutureValueInput_RegularDeposit_Name", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Start date of the forecast.
         /// </summary>
-        internal static string FutureValueInput_StartDate_Description {
+        public static string FutureValueInput_StartDate_Description {
             get {
                 return ResourceManager.GetString("FutureValueInput_StartDate_Description", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Start date.
         /// </summary>
-        internal static string FutureValueInput_StartDate_Name {
+        public static string FutureValueInput_StartDate_Name {
             get {
                 return ResourceManager.GetString("FutureValueInput_StartDate_Name", resourceCulture);
             }

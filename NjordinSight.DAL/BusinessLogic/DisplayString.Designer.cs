@@ -230,5 +230,77 @@ namespace NjordinSight.BusinessLogic {
                 return ResourceManager.GetString("BrokerTaxLot_UnitCostBasis_Name", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Principal plus interest.
+        /// </summary>
+        public static string FutureValueResult_Balance_Description {
+            get {
+                return ResourceManager.GetString("FutureValueResult_Balance_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balance.
+        /// </summary>
+        public static string FutureValueResult_Balance_Name {
+            get {
+                return ResourceManager.GetString("FutureValueResult_Balance_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sum of interest earned to date.
+        /// </summary>
+        public static string FutureValueResult_Interest_Description {
+            get {
+                return ResourceManager.GetString("FutureValueResult_Interest_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interest.
+        /// </summary>
+        public static string FutureValueResult_Interest_Name {
+            get {
+                return ResourceManager.GetString("FutureValueResult_Interest_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date of the period.
+        /// </summary>
+        public static string FutureValueResult_PeriodDate_Description {
+            get {
+                return ResourceManager.GetString("FutureValueResult_PeriodDate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string FutureValueResult_PeriodDate_Name {
+            get {
+                return ResourceManager.GetString("FutureValueResult_PeriodDate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initial value plus contributions to date.
+        /// </summary>
+        public static string FutureValueResult_Principal_Description {
+            get {
+                return ResourceManager.GetString("FutureValueResult_Principal_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Principal.
+        /// </summary>
+        public static string FutureValueResult_Principal_Name {
+            get {
+                return ResourceManager.GetString("FutureValueResult_Principal_Name", resourceCulture);
+            }
+        }
     }
 }

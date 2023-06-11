@@ -23,10 +23,10 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="DataTransfer\MethodParams\ParamsMetadata.Designer.cs">
+    <Compile Update="DataTransfer\MethodParams\DisplayString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ParamsMetadata.resx</DependentUpon>
+      <DependentUpon>DisplayString.resx</DependentUpon>
     </Compile>
     <Compile Update="EntityModelService\Abstractions\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -94,9 +94,9 @@
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="DataTransfer\MethodParams\ParamsMetadata.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ParamsMetadata.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="DataTransfer\MethodParams\DisplayString.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DisplayString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="EntityModelService\Abstractions\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
