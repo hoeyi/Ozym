@@ -60,7 +60,7 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>ModelDetail.resx</DependentUpon>
 	</Compile>
-	<Compile Update="Components\Strings.Designer.cs">
+	<Compile Update="Components\Common\Strings.Designer.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>Strings.resx</DependentUpon>
@@ -77,7 +77,7 @@
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>ModelDetail.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
-	<EmbeddedResource Update="Components\Strings.resx">
+	<EmbeddedResource Update="Components\Common\Strings.resx">
 	  <Generator>PublicResXFileCodeGenerator</Generator>
 	  <LastGenOutput>Strings.Designer.cs</LastGenOutput>
 	</EmbeddedResource>

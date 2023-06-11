@@ -80,7 +80,7 @@
     /// Gets or sets whether the record count in the grid's data is displayed in the footer.
     /// </summary>
     [Parameter]
-    public bool SuppressRecordCount { get; set; }
+    public bool SuppressRecordCount { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the enumerable collection of <typeparamref name="TModel"/> for this grid.
@@ -116,11 +116,11 @@
     {
         if (firstRender)
         {
-            // The first render will instantiate the Gri
-            // dColumn defined in the ChildContent.
+            // The first render will instantiate the GridColumn defined in the ChildContent.
             // GridColumn calls AddColumn during its initialization. This means that until
             // the first render is completed, the columns collection is empty.
-            // Calling StateHasChanged() will re-render the component, so the second time it will know the columns
+            // Calling StateHasChanged() will re-render the component, so the second time it will 
+            // know the columns.
             StateHasChanged();
         }
     }

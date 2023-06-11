@@ -2,7 +2,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace NjordinSight.Web.Components
+namespace NjordinSight.Web.Components.Common
 {
     /// <summary>
     /// Class the contains event data from a search submission event.

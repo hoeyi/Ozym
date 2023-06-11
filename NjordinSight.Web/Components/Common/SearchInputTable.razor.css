@@ -3,3 +3,12 @@
     border-radius: 1rem !important;
     padding: 0.5rem 1rem 0.5rem 1rem !important;
 }
+
+.search-parameter-table * {
+    border: none;
+}
+
+.search-parameter-table {
+    border: none;
+    margin-bottom: 0rem;
+}

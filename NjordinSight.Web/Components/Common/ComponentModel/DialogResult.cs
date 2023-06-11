@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NjordinSight.Web.Components
+namespace NjordinSight.Web.Components.Common
 {
     /// <summary>
     /// Specifies indentifiers to indicate the return value of a dialog action.

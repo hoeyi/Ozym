@@ -165,6 +165,8 @@
             WorkingEntries = (await transactionsQueryTask).Value.Item1.ToList();
             TransactionCodes = (await transactionCodeDTOsTask).Value;
 
+            Context = new(WorkingEntries);
+
             PaginationHelper.TotalItemCount = (await transactionsQueryTask).Value.Item2.ItemCount;
             PaginationHelper.ItemCount = WorkingEntries.Count;
         }
