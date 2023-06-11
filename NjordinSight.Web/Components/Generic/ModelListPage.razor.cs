@@ -160,10 +160,6 @@ namespace NjordinSight.Web.Components.Generic
 
             Context = new(WorkingEntries);
 
-            #if DEBUG
-            await Task.Delay(5000);
-            #endif
-
             PaginationHelper.TotalItemCount = actionResult.Value.Item2.ItemCount;
             PaginationHelper.ItemCount = WorkingEntries.Count;
         }

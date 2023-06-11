@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace NjordFinance.EntityModel.Context
+namespace NjordinSight.EntityModel.Context
 {
     /// <summary>
     /// The class for servicing single CRUD requests against the <see cref="MODEL"/> 

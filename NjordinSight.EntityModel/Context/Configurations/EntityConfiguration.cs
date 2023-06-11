@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using NjordFinance.EntityModel.Context;
 
 namespace NjordinSight.EntityModel.Context.Configurations
 {
