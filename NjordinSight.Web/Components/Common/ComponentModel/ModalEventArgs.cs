@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NjordinSight.Web.Components
+namespace NjordinSight.Web.Components.Common
 {
     /// <summary>
     /// Describes the result stemming from completion of a modal form.

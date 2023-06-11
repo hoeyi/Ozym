@@ -1,4 +1,4 @@
-﻿namespace NjordinSight.Web.Components
+﻿namespace NjordinSight.Web.Components.Common
 {
     /// <summary>
     /// Enumerate the supported cell types.

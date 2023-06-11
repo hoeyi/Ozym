@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NjordinSight.Web.Components
+namespace NjordinSight.Web.Components.Common
 {
     public partial class SearchInputTable<TModel> : LocalizableComponent
     {

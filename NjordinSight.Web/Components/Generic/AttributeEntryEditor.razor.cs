@@ -7,12 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NjordinSight.Web.Components.Common;
 
 namespace NjordinSight.Web.Components.Generic
 {
     public partial class AttributeEntryEditor<
-        TViewModelParent, TViewModelChild, TModel, TModelChild>
-        : LocalizableComponent
+        TViewModelParent, TViewModelChild, TModel, TModelChild> : LocalizableComponent
         where TModel : class, new()
         where TModelChild : class, new()
         where TViewModelChild : IAttributeEntryUnweightedGrouping<TModel, TModelChild>

@@ -8,6 +8,7 @@ using NjordinSight.DataTransfer.Generic;
 using NjordinSight.EntityModelService.Query;
 using NjordinSight.EntityModelService;
 using NjordinSight.EntityModel.ConstraintType;
+using NjordinSight.Web.Components.Common;
 
 namespace NjordinSight.Web.Components.Generic
 {
@@ -25,8 +26,7 @@ namespace NjordinSight.Web.Components.Generic
     /// <typeparam name="TModelChild">The entity that represents a single entry in this collection.
     /// </typeparam>
     public partial class AttributeEntryCollectionEditor<
-        TViewModelParent, TViewModelChild, TModel, TModelChild>
-        : LocalizableComponent
+        TViewModelParent, TViewModelChild, TModel, TModelChild>: LocalizableComponent
         where TModel: class, new()
         where TModelChild : class, new()
         where TViewModelChild: IAttributeEntryWeightedGrouping<TModel, TModelChild>

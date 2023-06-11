@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
 
-namespace NjordinSight.Web.Components
+namespace NjordinSight.Web.Components.Common
 {
     /// <summary>
     /// Supplies information about a clicked link event raised. Derives from 
