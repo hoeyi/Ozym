@@ -160,7 +160,7 @@
 ::deep .form-control {
     color: var(--theme-text-color-0, black) !important;
     outline: none !important;
-    /*font-size: inherit !important;*/
+    font-size: inherit !important;
     font-family: inherit !important;
 }
 
@@ -321,3 +321,4 @@ input::-webkit-inner-spin-button {
     vertical-align: revert !important;
 }
 /*#endregion*/
+

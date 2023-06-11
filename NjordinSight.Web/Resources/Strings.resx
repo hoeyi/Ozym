@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>NjordinSight</value>
+  </data>
+  <data name="ApplicationSummary" xml:space="preserve">
+    <value>NjordinSight is a web-application for financial management and reporting, powered by Blazor and ASP.NET.</value>
+  </data>
   <data name="Caption_InputSelect_Placeholder" xml:space="preserve">
     <value>&lt; Select &gt;</value>
+  </data>
+  <data name="ComponentTitle_AttributeSelector" xml:space="preserve">
+    <value>Select attribute</value>
+  </data>
+  <data name="ComponentTitle_FutureValueCalculator" xml:space="preserve">
+    <value>Future value calculator</value>
   </data>
   <data name="Exception_Application_Fatal" xml:space="preserve">
     <value>Host terminated unexpectedly.</value>
@@ -135,22 +147,16 @@
 If submitting a ticket, please include the following timestamp in your report: {0}</value>
     <comment>{0} is the timestamp of the event</comment>
   </data>
-  <data name="Text_ApplicationSummary" xml:space="preserve">
-    <value>NjordinSight is a web-application for financial management and reporting, powered by Blazor and ASP.NET.</value>
-  </data>
-  <data name="Title_ApplicationHome" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="Title_ApplicationName" xml:space="preserve">
-    <value>NjordinSight</value>
-  </data>
-  <data name="Title_ApplicationSummary" xml:space="preserve">
+  <data name="PageTitle_About" xml:space="preserve">
     <value>About</value>
   </data>
-  <data name="Title_Component_AttributeSelector" xml:space="preserve">
-    <value>Select attribute</value>
+  <data name="PageTitle_Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
   </data>
-  <data name="Title_NotFound" xml:space="preserve">
+  <data name="PageTitle_Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="PageTitle_NotFound" xml:space="preserve">
     <value>(No title)</value>
   </data>
 </root>

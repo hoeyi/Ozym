@@ -1,0 +1,8 @@
+﻿<div class="ni-dashboard-container">
+    @ContentTiles
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment ContentTiles { get; set; }
+}
