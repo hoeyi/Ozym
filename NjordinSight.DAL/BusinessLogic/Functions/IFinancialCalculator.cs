@@ -38,7 +38,7 @@ namespace NjordinSight.BusinessLogic.Functions
         /// <param name="compounding">The frequency of compounding.</param>
         /// <returns>A <see cref="float"/> representing the effective annual rate, e.g., 0.1 for 10%.
         /// </returns>
-        public float EffectiveAnnualInterestRate(float nominalRate, CompoundSchedule compounding);
+        public double EffectiveAnnualInterestRate(float nominalRate, CompoundSchedule compounding);
 
         /// <summary>
         /// Calculates a series of <see cref="FutureValueResult"/> records representing the 
