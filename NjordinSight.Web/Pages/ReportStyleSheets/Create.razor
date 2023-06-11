@@ -1,0 +1,76 @@
+﻿@page "/style-sheets/create/{RequestGuid:guid}"
+
+@inherits ModelDetail<ReportStyleSheet>
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.UpdateSingle(Model.StyleSheetCode).AsPageTitle())</PageTitle>
+
+        <ModelPageHeader Header="@(PageTitle.CreateSingle())" />
+
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
+        <CascadingValue Value="@Model">
+            <EditForm class="model-editor" Model="@Model" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button">
+                        @Strings.Caption_Button_Save
+                    </button>
+                    <button type="button" class="form-control button"
+                        @onclick="Cancel_OnClick"
+                        @onclick:preventDefault>
+                        @Strings.Caption_Button_Cancel
+                    </button>
+                </ActionButtonMenu>
+                <ContentTile>
+                    <Body>
+                        <ReportStyleSheetCRUD Disabled="false" ReadOnly="false" />
+                    </Body>
+                </ContentTile>
+            </EditForm>
+        </CascadingValue>
+    }
+</ThemedComponent>
+
+
+@code {
+    /// <summary>
+    /// Gets or sets the unique identifier for the creation action.
+    /// </summary>
+    [Parameter]
+    public Guid RequestGuid { get; init; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var modelQuery = Controller.GetDefaultAsync();
+
+            if ((await modelQuery).Value is ReportStyleSheet model)
+                Model = model;
+        }
+        finally
+        {
+            IsLoading = Model is null;
+        }
+    }
+
+    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
+
+    protected override async Task HandleValidSubmit()
+    {
+        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
+
+        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
+    }
+}

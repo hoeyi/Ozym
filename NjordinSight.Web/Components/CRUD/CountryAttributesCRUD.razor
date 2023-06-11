@@ -8,13 +8,15 @@ else
 {
     <ContentTile>
         <TitleAlignLeft>
-            @ModelDto.ParentAttribute.DisplayName
-            @if (ReadOnly)
-            {
-                <span class="sub-title">
-                    (@ModelDto.EffectiveDate.ToShortDateString())
-                </span>
-            }
+            <div>
+                @ModelDto.ParentAttribute.DisplayName
+                @if (ReadOnly)
+                {
+                    <span class="sub-title">
+                        (@ModelDto.EffectiveDate.ToShortDateString())
+                    </span>
+                }
+            </div>
         </TitleAlignLeft>
         <TitleAlignRight>
             @if (!ReadOnly)
@@ -31,11 +33,21 @@ else
                     <IonIcon Name="add" />
                 </button>
             }
-
         </TitleAlignRight>
         <Body>
             <DataGrid Data="@ModelDto.Entries">
                 <ValidationMessage For=@(() => ModelDto.SumOfMemberWeights) />
+                @if(!ReadOnly)
+                {
+                    <DataGridColumn Type="DataGridCellType.Button">
+                        <CellEditTemplate Context="model">
+                            <button class="form-control button icon" type="button"
+                                @onclick="(args) => RemoveExisting_OnClick(args, model)">
+                                <IonIcon Name="close-circle" />
+                            </button>
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                }
                 @if (ReadOnly)
                 {
                     <DataGridColumn Property=@nameof(CountryAttributeMemberEntry.AttributeMemberId)
@@ -53,8 +65,10 @@ else
                 }
                 else
                 {
-                    <DataGridColumn Property=@nameof(CountryAttributeMemberEntry.AttributeMemberId)
-                            Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.AttributeMemberId))>
+                    <DataGridColumn 
+                        Type="DataGridCellType.Control"
+                        Property=@nameof(CountryAttributeMemberEntry.AttributeMemberId)
+                        Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.AttributeMemberId))>
                         <CellEditTemplate Context="model">
                             <InputSelect class="form-control"
                                  @bind-Value="@model.AttributeMemberId">
@@ -65,19 +79,12 @@ else
                             </InputSelect>
                         </CellEditTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(CountryAttributeMemberEntry.Weight)
-                            Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.Weight))>
+                    <DataGridColumn
+                        Type="DataGridCellType.Control"
+                        Property=@nameof(CountryAttributeMemberEntry.Weight)
+                        Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.Weight))>
                         <CellEditTemplate Context="model">
                             <InputNumber class="form-control" @bind-Value="@model.Weight" />
-                        </CellEditTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Type="DataGridCellType.Button">
-                        <CellEditTemplate Context="model">
-                            <button class="form-control button icon"
-                            type="button"
-                            @onclick="(args) => RemoveExisting_OnClick(args, model)">
-                                <IonIcon Name="close-circle" />
-                            </button>
                         </CellEditTemplate>
                     </DataGridColumn>
                 }

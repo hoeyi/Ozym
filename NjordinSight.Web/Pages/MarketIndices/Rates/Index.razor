@@ -1,6 +1,6 @@
 ﻿@page "/market-indices/rates"
 
-@inherits ModelPage<MarketIndexPrice>
+@inherits ModelListPage<MarketIndexPrice>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -25,19 +25,23 @@
         </ContentTile>
     }
 
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <ContentTile>
-            <Body>
-                <DataGrid Data="@IndexPrices">
+    <ContentTile>
+        <TitleAlignLeft>
+            <Paginator Model="PaginationHelper"
+                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </TitleAlignLeft>
+        <Body>
+            @if (IsLoading)
+            {
+                <LoadingSvg />
+            }
+            else
+            {
+                <DataGrid Data="@WorkingEntries">
                     <DataGridColumn Property=@nameof(MarketIndexPrice.MarketIndexId)
                                 Caption=@(NameFor(x => x.MarketIndexId))>
                         <CellTemplate Context="model">
@@ -52,7 +56,7 @@
                     </DataGridColumn>
                     <DataGridColumn Property=@nameof(MarketIndexPrice.PriceDate)
                         Caption=@(NameFor(x => x.PriceDate))>
-                         <CellTemplate Context="model">
+                            <CellTemplate Context="model">
                             @model.PriceDate.ToShortDateString()
                         </CellTemplate>
                     </DataGridColumn>
@@ -63,55 +67,14 @@
                         </CellTemplate>
                     </DataGridColumn>
                 </DataGrid>
-            </Body>
-        </ContentTile>
-    }
+            }
+        </Body>
+    </ContentTile>
 </ThemedComponent>
 
 @code {
     [Inject]
-    protected IBatchController<MarketIndexPrice> Controller { get; set; }
-
-    private IList<MarketIndexPrice> IndexPrices { get; set; }
-
-    private int MaxRecordCount { get; set; } = 100;
-
-    private DateTime GetLastBusinessDay()
-    {
-        var currentDateTime = DateTime.UtcNow;
-
-        DateTime lastBusinessDate  = currentDateTime.DayOfWeek switch
-        {
-            DayOfWeek.Saturday => currentDateTime.Date.AddDays(-1),
-            DayOfWeek.Sunday => currentDateTime.Date.AddDays(-2),
-            _ => currentDateTime.Date
-        };
-
-        return lastBusinessDate;
-    }
-    private Expression<Func<MarketIndexPrice, bool>> InitialSearchExpression { get; set; }
-
-    #region Search componenents
-    /// <summary>
-    /// Gets or sets the <see cref="IExpressionBuilder"/> for this component.
-    /// </summary>
-    [Inject]
-    protected IExpressionBuilder ExpressionBuilder { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the collection of searchables fields for the type: <typeparamref name="TModel"/>.
-    /// </summary>
-    private IEnumerable<ISearchableMemberMetadata> SearchFields { get; set; }
-        = Array.Empty<ISearchableMemberMetadata>();
-
-    /// <summary>
-    /// Gets or sets the collection of allowable <see cref="ComparisonOperator"/> for
-    /// the type: <typeparamref name="TModel"/>.
-    /// </summary>
-    private IEnumerable<ComparisonOperator> ComparisonOperators { get; set; }
-        = Array.Empty<ComparisonOperator>();
-
-    #endregion
+    protected new ICollectionController<MarketIndexPrice> Controller { get; set; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -128,64 +91,13 @@
         }
     };
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
+        // Update the hidden reference to refer the same object to avoid null reference exception.
+        base.Controller = Controller;
 
-        try
-        {
-            if (ExpressionBuilder is null)
-                throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
-
-            if (Controller is null)
-                throw new ArgumentNullException(paramName: nameof(Controller));
-
-            DateTime lastBusinessDay = GetLastBusinessDay();
-
-            // InitialSearchExpression = x => x.PriceDate == lastBusinessDay;
-            InitialSearchExpression = x => true;
-
-            SearchFields = ExpressionBuilder!.GetSearchableMembers<MarketIndexPrice>();
-            ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
-
-            var queryActionResultTask = Controller!
-                .SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
-
-            IndexPrices = (await queryActionResultTask).Value;
-
-        }
-        finally
-        {
-            IsLoading = IndexPrices is null;
-        }
-    }
-
-    /// <summary>
-    /// Handles search submission events that that contain 
-    /// <see cref="SearchSubmittedEventArgs{TModel}"/> data.
-    /// </summary>
-    /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that 
-    /// containst the data for the invoked event.</param>
-    /// <returns>A task representing an asynchronous operator. Successful operation will 
-    /// cause <see cref="IndexPrices"/> to update to the collection matching the event arguments 
-    /// search expression.</returns>
-    protected async Task SearchClicked(SearchSubmittedEventArgs<MarketIndexPrice> args)
-    {
-        try
-        {
-            IsLoading = true;
-            if (args is not null)
-            {
-                var actionResult = await Controller!.SelectWhereAysnc(
-                        predicate: args.SearchExpression, maxCount: MaxRecordCount);
-
-                IndexPrices = actionResult.Value ?? new List<MarketIndexPrice>();
-            }
-        }
-        finally
-        {
-            IsLoading = false;
-        }
+        await base.OnInitializedAsync();
     }
 
     private string GetPriceCodeDisplayValue(MarketIndexPriceCode? priceCodeMember)

@@ -7,7 +7,7 @@
 else
 {
     <ModelForm TModelDto="BrokerTransactionCodeDto">
-        <ModelFormLineItem ForMember="@(() => ModelDto.TransactionCode)">
+        <ModelFormEntry ForMember="@(() => ModelDto.TransactionCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -20,8 +20,8 @@ else
                     disable="@Disabled"
                     DisplayName="@(NameFor(x => x.TransactionCode))" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.DisplayName)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.DisplayName)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -34,8 +34,8 @@ else
                     disable="@Disabled"
                     DisplayName="@(NameFor(x => x.DisplayName))" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.CashEffect)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.CashEffect)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -48,8 +48,8 @@ else
                     disable="@Disabled"
                     DisplayName="@(NameFor(x => x.CashEffect))" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.ContributionWithdrawalEffect)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.ContributionWithdrawalEffect)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -62,8 +62,8 @@ else
                     disable="@Disabled"
                     DisplayName="@(NameFor(x => x.ContributionWithdrawalEffect))" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.QuantityEffect)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.QuantityEffect)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -76,6 +76,6 @@ else
                     disable="@Disabled"
                     DisplayName="@(NameFor(x => x.QuantityEffect))" />
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
     </ModelForm>
 }

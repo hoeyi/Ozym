@@ -7,7 +7,7 @@ using NjordinSight.Configuration;
 namespace NjordinSight.Test.EntityModelService.Validation
 {
     [TestClass]
-    [TestCategory("UnitTest")]
+    [TestCategory("Unit")]
     public class XmlValidatorTest
     {
         private const string TestXmlSchemaDefitintion = 

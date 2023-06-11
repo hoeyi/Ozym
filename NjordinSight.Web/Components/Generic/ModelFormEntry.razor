@@ -1,0 +1,68 @@
+﻿@typeparam TModelDto where TModelDto : class
+
+@inherits LocalizableComponent
+
+@if(!string.IsNullOrEmpty(LabelText))
+{
+    <tr class="grid-container model-property-input">
+        <td class="label">
+            @if(!string.IsNullOrEmpty(ToolTipText))
+            {
+                <ToolTip Text="@ToolTipText">
+                    @LabelText
+                </ToolTip>
+            }
+            else
+            {
+                @LabelText
+            }
+        </td>
+        <td class="value">
+            @ChildContent
+            @if(!SuppressValidation)
+            {
+                <ValidationMessage For="@ForMember" />
+            }
+        </td>
+    </tr>
+}
+
+@code {
+    [CascadingParameter]
+    private ModelForm<TModelDto> ParentForm { get; set; }
+
+    [Parameter, EditorRequired] 
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter, EditorRequired]
+    public Expression<Func<object>> ForMember { get; set; }
+
+    [Parameter]
+    public string LabelOverride { get; set; }
+
+    [Parameter]
+    public bool SuppressValidation { get; set; }
+
+    private string ToolTipText { get; set; }
+
+    private string LabelText { get; set; }
+
+    private Expression<Func<TModelDto, object>> TypedAccessor { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (ForMember is null)
+            throw new ArgumentNullException(paramName: nameof(ForMember));
+
+        // Convert the ForMember parameter into a typed accessor for compatability with the
+        // IModelMetadataService methods.
+        TypedAccessor = ExpressionConverter.ConvertAccessor<TModelDto, object>(ForMember);
+
+        LabelText = string.IsNullOrEmpty(LabelOverride) ?
+            ModelMetadata.NameFor<TModelDto>(TypedAccessor) : LabelOverride;
+
+        ToolTipText = ModelMetadata.DescriptionFor(TypedAccessor);
+    }
+
+
+}

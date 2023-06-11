@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public partial class SecurityServiceTest
     {
         [TestMethod]
@@ -12,10 +13,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            Security deleted = (await service.SelectWhereAysnc(
+            Security deleted = (await service.SelectAsync(
                 predicate: x => x.SecurityDescription == DeleteModelSuccessSample.SecurityDescription,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -30,10 +31,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            Security original = (await service.SelectWhereAysnc(
+            Security original = (await service.SelectAsync(
                 predicate: x => x.SecurityDescription == UpdateModelSuccessSample.SecurityDescription,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.SecurityDescription = $"{original.SecurityDescription}-u";
             original.HasPerpetualPrice = !original.HasPerpetualPrice;
@@ -52,8 +53,7 @@ namespace NjordinSight.Test.EntityModelService
 
     }
 
-    public partial class SecurityServiceTest
-        : ModelServiceTest<Security>
+    public partial class SecurityServiceTest : ModelServiceTest<Security>
     {
         protected override Security CreateModelSuccessSample => new()
         {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public partial class ReportStyleSheetServiceTest
     {
         [TestMethod]
@@ -12,10 +13,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            ReportStyleSheet deleted = (await service.SelectWhereAysnc(
+            ReportStyleSheet deleted = (await service.SelectAsync(
                 predicate: x => x.StyleSheetCode == DeleteModelSuccessSample.StyleSheetCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -30,10 +31,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            ReportStyleSheet original = (await service.SelectWhereAysnc(
+            ReportStyleSheet original = (await service.SelectAsync(
                 predicate: x => x.StyleSheetCode == UpdateModelSuccessSample.StyleSheetCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.StyleSheetCode = $"{original.StyleSheetCode} - u";
 

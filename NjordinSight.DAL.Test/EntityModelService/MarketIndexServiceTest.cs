@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public partial class MarketIndexServiceTest
         : ModelServiceTest<MarketIndex>
     {
@@ -13,10 +14,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            MarketIndex deleted = (await service.SelectWhereAysnc(
+            MarketIndex deleted = (await service.SelectAsync(
                 predicate: x => x.IndexCode == DeleteModelSuccessSample.IndexCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -31,10 +32,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            MarketIndex original = (await service.SelectWhereAysnc(
+            MarketIndex original = (await service.SelectAsync(
                 predicate: x => x.IndexCode == UpdateModelSuccessSample.IndexCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.IndexCode = $"{original.IndexCode}-u";
             original.IndexDescription = $"{original.IndexDescription} - updated";

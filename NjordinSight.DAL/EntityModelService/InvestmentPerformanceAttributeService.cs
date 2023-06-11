@@ -13,8 +13,8 @@ namespace NjordinSight.EntityModelService
     /// <see cref="InvestmentPerformanceAttributeMemberEntry"/> data store.
     /// </summary>
     internal class InvestmentPerformanceAttributeService : 
-        ModelBatchService<InvestmentPerformanceAttributeMemberEntry>, 
-        IModelBatchService<InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)>
+        ModelCollectionService<InvestmentPerformanceAttributeMemberEntry,
+            (AccountObject, ModelAttributeMember)>
     {
         /// <summary>
         /// Creates a new <see cref="InvestmentPerformanceAttributeService"/> instance.
@@ -31,60 +31,45 @@ namespace NjordinSight.EntityModelService
         {
         }
 
-        public override bool ForParent(int parentId, out Exception e)
+        /// <inheritdoc/>
+        public override void SetParent((AccountObject, ModelAttributeMember) parent)
         {
-            e = new(message: ExceptionString.ModelService_ParentNotSupported);
-            return false;
-        }
 
-        public bool ForParent(
-            (AccountObject, ModelAttributeMember) parent, out Exception e)
-        {
             if (ParentCompositeKey is null)
-                ParentCompositeKey = new(parent.Item1.AccountObjectId, parent.Item2.AttributeMemberId);
+            {
+                ParentCompositeKey = new ParentKey
+                {
+                    AccountObjectId = parent.Item1.AccountObjectId,
+                    AttributeMemberId = parent.Item2.AttributeMemberId
+                };
+            }
             else
             {
-                e = new(message: ExceptionString.ModelService_ParentKeyAlreadySet);
-                return false;
+                throw new InvalidOperationException(
+                    message: ExceptionString.ModelService_ParentKeyAlreadySet);
             }
 
             Reader = new ModelReaderService<InvestmentPerformanceAttributeMemberEntry>(
-                Context, _modelMetadata, _logger)
+                ContextFactory, ModelMetadata, Logger)
             {
                 ParentExpression = x => x.AccountObjectId == ParentCompositeKey.AccountObjectId
                     && x.AttributeMemberId == ParentCompositeKey.AttributeMemberId
             };
 
-            Writer = new ModelWriterBatchService<InvestmentPerformanceAttributeMemberEntry>(
-                Context, _modelMetadata, _logger)
+            GetDefaultModelDelegate = () => new()
             {
-                ParentExpression = x => x.AccountObjectId == ParentCompositeKey.AccountObjectId
-                    && x.AttributeMemberId == ParentCompositeKey.AttributeMemberId,
-                GetDefaultModelDelegate = () => new()
-                {
-                    AccountObjectId = ParentCompositeKey.AccountObjectId,
-                    AttributeMemberId = ParentCompositeKey.AttributeMemberId
-                }
+                AccountObjectId = ParentCompositeKey.AccountObjectId,
+                AttributeMemberId = ParentCompositeKey.AttributeMemberId
             };
-
-
-            e = null;
-            return true;
         }
 
         private ParentKey ParentCompositeKey { get; set; }
 
         private record ParentKey
         {
-            public ParentKey(int accountObjectId, int attributeMemberId)
-            {
-                AccountObjectId = accountObjectId;
-                AttributeMemberId = attributeMemberId;
-            }
+            public int AccountObjectId { get; init; }
 
-            public int AccountObjectId { get; }
-
-            public int AttributeMemberId { get; }
+            public int AttributeMemberId { get; init; }
         }
     }
 }

@@ -1,0 +1,87 @@
+﻿@if(Model is not null)
+{
+    <EditForm class="paginator" Model="Model" >
+        <div class="control-container">
+            <button class="form-control button icon" type="button"
+                @onclick="@((args) => Model.MoveStart())">
+                <IonIcon Name="play-skip-back-circle" />
+            </button>
+            <button class="form-control button icon" type="button" 
+                    @onclick="@((args) => Model.MovePrevious())">
+                <IonIcon Name="caret-back-circle" />
+            </button>
+            <InputNumber 
+                class="form-control page-index" @bind-Value="@Model.PageIndex" />
+            <div class="paginator-caption">
+                @PageCaption
+            </div>
+            <button class="form-control button icon" type="button"
+                @onclick="@((args) => Model.MoveNext())">
+                <IonIcon Name="caret-forward-circle" />
+            </button>
+            <button class="form-control button icon" type="button"
+                @onclick="@((args) => Model.MoveEnd())" >
+                <IonIcon Name="play-skip-forward-circle" />
+            </button>
+            <InputSelect 
+                class="form-control page-size" @bind-Value="@Model.PageSize">
+                <option value="20">20</option>
+                <option value="40">40</option>
+                <option value="60">60</option>
+                <option value="80">80</option>
+                <option value="100">100</option>
+            </InputSelect>
+            <div class="paginator-caption">
+                @RecordsCaption
+            </div>
+        </div>
+    </EditForm>
+}
+ 
+@code {
+    /// <summary>
+    /// Gets or sets the <see cref="PagerModel" /> instance bound to this component.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public PagerModel Model { get; init; } = new();
+
+    /// <summary>
+    /// Gets or sets the delegate for handling a change to the current page index.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public EventCallback<int> IndexChanged { get; init; }
+
+    /// <summary>
+    /// Gets or sets the delegate for handling a change to desired page size.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public EventCallback<int> PageSizeChanged { get; init; }
+
+    private bool IsEnabled { get; set; }
+
+    private string PageCaption => Strings.Paginator_Caption_PageCount
+        .Format(Model.PageCount.ToString("N0"));
+
+    private string RecordsCaption => Strings.Paginator_Caption_PageSize;
+
+    protected override void OnInitialized()
+    {
+        Model.PropertyChanged += OnPropertyChanged;
+    }
+
+    private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs args)
+    {
+        if (args.PropertyName == nameof(PagerModel.PageIndex) && 
+            IndexChanged.HasDelegate)
+        {
+            IsEnabled = false;
+            IndexChanged.InvokeAsync(Model.PageIndex);
+        }
+        else if (args.PropertyName == nameof(PagerModel.PageSize) &&
+            PageSizeChanged.HasDelegate)
+        {
+            IsEnabled = false;
+            PageSizeChanged.InvokeAsync(Model.PageSize);
+        }
+    }
+}

@@ -9,28 +9,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NjordinSight.BusinessLogic.Brokerage;
+using NjordinSight.EntityModelService.Abstractions;
 
 namespace NjordinSight.Web.Controllers
 {
     public class BrokerTransactionController : 
-        ModelBatchController<BrokerTransaction>, IBrokerTransactionController
+        ModelCollectionController<BrokerTransaction, int>, IBrokerTransactionController
     {
         private IBrokerTransactionBLL _transactionBLL;
 
         public BrokerTransactionController(
-            IModelBatchService<BrokerTransaction> modelService,
+            IModelCollectionService<BrokerTransaction, int> modelService,
             IQueryService queryService,
             ILogger logger) : base(modelService, queryService, logger)
         {
         }
 
         /// <inheritdoc/>
-        public async Task<IActionResult> AddNewAsync()
+        public async Task<ActionResult<BrokerTransaction>> AddNewAsync()
         {
             var newModel = _transactionBLL.AddTransaction();
             await UpdateTransactionCodeAsync(newModel, newModel.TransactionCodeId);
 
-            return await AddAsync(newModel);
+            await AddAsync(newModel);
+
+            return newModel;
         }
 
         /// <inheritdoc/>
@@ -53,9 +56,9 @@ namespace NjordinSight.Web.Controllers
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<BrokerTransaction>> LoadRecordsAsync(int parentId)
+        public async Task<IEnumerable<BrokerTransaction>> LoadRecordsAsync(int parent)
         {
-            var forParentResult = await ForParent(parentId);
+            var forParentResult = await ForParent(parent);
 
             if(forParentResult is OkResult)
             {
@@ -63,7 +66,7 @@ namespace NjordinSight.Web.Controllers
                     .GetManyAsync<BrokerTransactionCode>(x => true);
                 var transactionsTask = SelectAllAsync();
                 var parentTask = ReferenceQueries.GetSingleAsync<Account>(
-                    predicate: a => a.AccountId == parentId,
+                    predicate: a => a.AccountId == parent,
                     path: a => a.AccountNavigation);
 
                 var tasks = Task.WhenAll(transactionCodesTask, transactionsTask, parentTask);
@@ -87,13 +90,11 @@ namespace NjordinSight.Web.Controllers
                 {
                     throw tasks.Exception.Flatten();
                 }
-
             }
             else
             {
                 throw new InvalidOperationException();
             }
-
         }
 
         /// <inheritdoc/>

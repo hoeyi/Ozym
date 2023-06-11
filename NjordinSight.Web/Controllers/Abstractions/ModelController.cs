@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NjordinSight.DataTransfer;
 using NjordinSight.EntityModelService;
+using NjordinSight.EntityModelService.Abstractions;
 using NjordinSight.EntityModelService.Query;
 
 namespace NjordinSight.Web.Controllers.Abstractions
@@ -50,7 +53,7 @@ namespace NjordinSight.Web.Controllers.Abstractions
 
                 return CreatedAtAction(
                     nameof(ReadAsync),
-                    new { id = _modelService.GetKey(createdModel) },
+                    new { id = _modelService.GetKey<int>(createdModel) },
                     createdModel);
             }
             // TODO: This code may not be reachable. ModelServices are capturing the
@@ -59,7 +62,7 @@ namespace NjordinSight.Web.Controllers.Abstractions
             {
                 _logger.LogError(exception: due, message: due.Message);
 
-                if (_modelService.ModelExists(_modelService.GetKey(model)))
+                if (_modelService.ModelExists(_modelService.GetKey<int>(model)))
                 {
                     return Conflict();
                 }
@@ -106,22 +109,35 @@ namespace NjordinSight.Web.Controllers.Abstractions
         }
 
         /// <inheritdoc/>
-        public async Task<ActionResult<IList<T>>> SelectAllAsync()
+        public async Task<ActionResult<IEnumerable<T>>> SelectAllAsync()
         {
-            return await _modelService.SelectAllAsync();
+            var query = await _modelService.SelectAsync();
+
+            return query.ToList();
         }
 
         /// <inheritdoc/>
-        public async Task<ActionResult<IList<T>>> SelectWhereAysnc(
+        public async Task<ActionResult<(IEnumerable<T>, PaginationData)>> SelectAsync(
+            Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 20)
+        {
+            var query = await _modelService.SelectAsync(predicate, pageNumber, pageSize);
+
+            return (query.Item1?.ToList(), query.Item2);
+        }
+
+        /// <inheritdoc/>
+        public async Task<ActionResult<IEnumerable<T>>> SelectWhereAysnc(
             Expression<Func<T, bool>> predicate, int maxCount = 0)
         {
-            return await _modelService.SelectWhereAysnc(predicate, maxCount);
+            var query = await _modelService.SelectAsync(predicate, pageSize: maxCount);
+
+            return query.Item1.ToList();
         }
 
         /// <inheritdoc/>
         public async Task<ActionResult<T>> UpdateAsync(int? id, T model)
         {
-            if (id != _modelService.GetKey(model))
+            if (id != _modelService.GetKey<int>(model))
             {
                 return BadRequest();
             }

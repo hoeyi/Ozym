@@ -2,6 +2,7 @@
 using NjordinSight.EntityModelService;
 using NjordinSight.EntityModelService.Query;
 using Microsoft.Extensions.DependencyInjection;
+using NjordinSight.EntityModelService.Abstractions;
 
 namespace NjordinSight
 {
@@ -37,33 +38,25 @@ namespace NjordinSight
                 .AddScoped<IModelService<ResourceImage>, ResourceImageService>()
                 .AddScoped<IModelService<SecurityExchange>, SecurityExchangeService>()
                 .AddScoped<IModelService<Security>, SecurityService>()
-                .AddScoped<IModelService<SecuritySymbolType>, SecuritySymbolTypeService>()
                 .AddScoped<IModelService<SecurityTypeGroup>, SecurityTypeGroupService>()
-                .AddScoped<IModelService<SecurityType>, SecurityTypeService>();
+                .AddScoped<IModelService<SecurityType>, SecurityTypeService>()
+
+                .AddScoped<IModelService<SecurityPrice>, SecurityPriceService>();
 
             // Add batch services.
             services
-                .AddScoped<IModelBatchService<AccountAttributeMemberEntry>, AccountAttributeMemberService>()
-                .AddScoped<IModelBatchService<AccountCompositeMember>, AccountCompositeMemberService>()
-                .AddScoped<IModelBatchService<AccountCustodian>, AccountCustodianBatchService>()
-                .AddScoped<IModelBatchService<AccountWallet>, AccountWalletService>()
-                .AddScoped<IModelBatchService<BankTransaction>, BankTransactionService>()
-                .AddScoped<IModelBatchService<BankTransactionCode>, BankTransactionCodeBatchService>()
-                .AddScoped<IModelBatchService<BankTransactionCodeAttributeMemberEntry>, BankTransactionCodeAttributeService>()
-                .AddScoped<IModelBatchService<BrokerTransaction>, BrokerTransactionService>()
-                .AddScoped<IModelBatchService<BrokerTransactionCode>, BrokerTransactionCodeBatchService>()
-                .AddScoped<IModelBatchService<BrokerTransactionCodeAttributeMemberEntry>, BrokerTransactionCodeAttributeService>()
-                .AddScoped<IModelBatchService<CountryAttributeMemberEntry>, CountryAttributeService>()
-                .AddScoped<IModelBatchService<InvestmentPerformanceAttributeMemberEntry>, InvestmentPerformanceAttributeService>()
-                .AddScoped<IModelBatchService<InvestmentPerformanceEntry>, InvestmentPerformanceService>()
-                .AddScoped<IModelBatchService<InvestmentStrategyTarget>, InvestmentStrategyTargetService>()
-                .AddScoped<IModelBatchService<MarketHolidayObservance>, MarketHolidayObservanceService>()
-                .AddScoped<IModelBatchService<MarketIndexPrice>, MarketIndexPriceBatchService>()
-                .AddScoped<IModelBatchService<ModelAttributeMember>, ModelAttributeMemberService>()
-                .AddScoped<IModelBatchService<SecurityAttributeMemberEntry>, SecurityAttributeService>()
-                .AddScoped<IModelBatchService<SecurityExchange>, SecurityExchangeBatchService>()
-                .AddScoped<IModelBatchService<SecurityPrice>, SecurityPriceService>()
-                .AddScoped<IModelBatchService<SecuritySymbol>, SecuritySymbolService>();
+                .AddScoped<IModelCollectionService<AccountCustodian>, AccountCustodianCollectionService>()
+                .AddScoped<IModelCollectionService<AccountWallet, int>, AccountWalletService>()
+                .AddScoped<IModelCollectionService<BankTransaction, int>, BankTransactionService>()
+                .AddScoped<IModelCollectionService<BrokerTransaction, int>, BrokerTransactionService>()
+                .AddScoped<IModelCollectionService<
+                    InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)>, 
+                    InvestmentPerformanceAttributeService>()
+                .AddScoped<IModelCollectionService<InvestmentPerformanceEntry, int>, InvestmentPerformanceService>()
+                .AddScoped<IModelCollectionService<MarketHolidayObservance>, MarketHolidayObservanceService>()
+                .AddScoped<IModelCollectionService<MarketIndexPrice>, MarketIndexPriceBatchService>()
+                .AddScoped<IModelCollectionService<SecurityExchange>, SecurityExchangeCollectionService>()
+                .AddScoped<IModelCollectionService<SecurityPrice>, SecurityPriceBatchService>();
         }
     }
 }

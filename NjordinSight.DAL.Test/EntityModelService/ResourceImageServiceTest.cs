@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public partial class ResourceImageServiceTest
     {
         [TestMethod]
@@ -13,10 +14,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            ResourceImage deleted = (await service.SelectWhereAysnc(
+            ResourceImage deleted = (await service.SelectAsync(
                 predicate: x => x.ImageDescription == DeleteModelSuccessSample.ImageDescription,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -31,10 +32,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            ResourceImage original = (await service.SelectWhereAysnc(
+            ResourceImage original = (await service.SelectAsync(
                 predicate: x => x.ImageDescription == UpdateModelSuccessSample.ImageDescription,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.ImageDescription = $"{original.ImageDescription}-u";
 

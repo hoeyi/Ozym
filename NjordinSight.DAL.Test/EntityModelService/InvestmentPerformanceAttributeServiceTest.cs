@@ -1,4 +1,5 @@
 ﻿using NjordinSight.EntityModel;
+using NjordinSight.EntityModelService.Abstractions;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,8 +8,9 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public class InvestmentPerformanceAttributeServiceTest
-        : ModelBatchServiceTest<InvestmentPerformanceAttributeMemberEntry>
+        : ModelCollectionServiceTest<InvestmentPerformanceAttributeMemberEntry>
     {
         private const int _accountObjectId = -5;
         private const int _attributeMemberId = -100;
@@ -37,25 +39,26 @@ namespace NjordinSight.Test.EntityModelService
                 x.AccountObjectId == model.AccountObjectId && x.AttributeMemberId == model.AttributeMemberId
                 && x.FromDate == model.FromDate;
 
-            var models = await service.SelectWhereAysnc(predicate: expression, maxCount: 1);
+            var models = (await service.SelectAsync(predicate: expression, pageSize: 1)).Item1;;
 
             Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
         }
 
         [TestMethod]
-        public override void UpdatePendingSave_IsDirty_Is_True()
+        public override async Task Update_PendingSave_HasChanges_IsFalse()
         {
             var service = GetModelService();
 
-            var model = service.SelectAllAsync().Result.FirstOrDefault();
+            var model = (await service.SelectAsync()).FirstOrDefault();
 
             model.AverageCapital *= 1.1M;
 
-            Assert.IsTrue(service.IsDirty);
+            Assert.IsFalse(service.HasChanges);
         }
 
-        protected override IModelBatchService<InvestmentPerformanceAttributeMemberEntry> GetModelService() =>
-            BuildModelService<
+        protected override IModelCollectionService<
+            InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)> 
+            GetModelService() => BuildModelService<
                 InvestmentPerformanceAttributeService,
                 (AccountObject, ModelAttributeMember)>()
                 .WithParent((

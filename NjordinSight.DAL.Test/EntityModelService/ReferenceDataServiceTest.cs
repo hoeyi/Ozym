@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public class ReferenceDataServiceTest
     {
         private static readonly IQueryService _dataService = 

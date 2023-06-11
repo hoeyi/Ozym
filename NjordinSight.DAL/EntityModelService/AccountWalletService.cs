@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing batch CRUD requests against the <see cref="AccountWallet"/> 
     /// data store.
     /// </summary>
-    internal class AccountWalletService : ModelBatchService<AccountWallet>
+    internal class AccountWalletService : ModelCollectionService<AccountWallet, int>
     {
         /// <summary>
         /// Creates a new <see cref="AccountWalletService"/> instance.
@@ -29,23 +29,16 @@ namespace NjordinSight.EntityModelService
         {
         }
 
-        public override bool ForParent(int parentId, out Exception e)
+        /// <inheritdoc/>
+        public override void SetParent(int parent)
         {
             Reader = new ModelReaderService<AccountWallet>(
-                Context, _modelMetadata, _logger)
+                ContextFactory, ModelMetadata, Logger)
             {
-                ParentExpression = x => x.AccountId == parentId
+                ParentExpression = x => x.AccountId == parent
             };
 
-            Writer = new ModelWriterBatchService<AccountWallet>(
-                Context, _modelMetadata, _logger)
-            {
-                ParentExpression = x => x.AccountId == parentId,
-                GetDefaultModelDelegate = () => new AccountWallet() { AccountId = parentId }
-            };
-
-            e = null;
-            return true;
+            GetDefaultModelDelegate = () => new AccountWallet() { AccountId = parent };
         }
     }
 }

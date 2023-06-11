@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NjordinSight.DataTransfer;
+using NjordinSight.EntityModelService.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -52,8 +54,8 @@ namespace NjordinSight.Web.Controllers
         /// <summary>
         /// Select all records.
         /// </summary>
-        /// <returns>A <see cref="IList{T}"/> representing all records in the data store.</returns>
-        Task<ActionResult<IList<T>>> SelectAllAsync();
+        /// <returns>A <see cref="IEnumerable{T}"/> representing all records in the data store.</returns>
+        Task<ActionResult<IEnumerable<T>>> SelectAllAsync();
 
         /// <summary>
         /// Selects records matching the given <paramref name="predicate"/>, 
@@ -61,9 +63,21 @@ namespace NjordinSight.Web.Controllers
         /// </summary>
         /// <param name="predicate">The <see cref="Expression{Func{T}}"/> used to determine results.</param>
         /// <param name="maxCount">The maximum count of results to return. Default is zero.</param>
-        /// <returns>A <see cref="IList{T}"/> representing the records matching the predicate, limited to a maximum count.</returns>
-        Task<ActionResult<IList<T>>> SelectWhereAysnc(
+        /// <returns>A <see cref="IEnumerable{T}"/> representing the records matching the predicate, limited to a maximum count.</returns>
+        Task<ActionResult<IEnumerable<T>>> SelectWhereAysnc(
             Expression<Func<T, bool>> predicate, int maxCount = 0);
+
+        /// <summary>
+        /// Selects records matching the given <paramref name="predicate"/>, limited to the given
+        /// page index, and page size.
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns>An <see cref="ActionResult{TValue}"/> whose value is a tuple containing 
+        /// and enumeration of results and metadata about the query.</returns>
+        Task<ActionResult<(IEnumerable<T>, PaginationData)>> SelectAsync(
+            Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
         /// Represents the <see cref="IQueryController"/> instance used for retrieving data-transfer 

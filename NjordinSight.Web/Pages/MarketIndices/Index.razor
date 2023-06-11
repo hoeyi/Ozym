@@ -7,19 +7,23 @@
     <ThemedComponent>
         <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <ContentTile>
-            <Body>
-                <DataGrid Data="@Models">
+    <ContentTile>
+        <TitleAlignLeft>
+            <Paginator Model="PaginationHelper"
+                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </TitleAlignLeft>
+        <Body>
+            @if (IsLoading)
+            {
+                <LoadingSvg />
+            }
+            else
+            {
+                <DataGrid Data="@Entries">
                     <DataGridColumn 
                         Property=@nameof(MarketIndex.IndexCode)
                         Caption=@(NameFor(x => x.IndexCode))
@@ -40,20 +44,13 @@
                         </CellTemplate>
                     </DataGridColumn>
                 </DataGrid>
-            </Body>
-        </ContentTile>
-    }
+            }
+        </Body>
+    </ContentTile>
 </ThemedComponent>
 
 
 @code {
-    protected override async Task OnInitializedAsync()
-    {
-        MaxRecordCount = -1;
-
-        await base.OnInitializedAsync();
-    }
-
     private void Detail_OnClick(MarketIndex model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.IndexId));

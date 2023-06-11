@@ -1,6 +1,7 @@
 ﻿using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace NjordinSight.Web.Components
 {
     public partial class SearchInputTable<TModel> : LocalizableComponent
     {
+#nullable enable
         /// <summary>
         /// Gets or sets the collection of searchables fields for the type: <typeparamref name="TModel"/>.
         /// </summary>
@@ -47,7 +49,10 @@ namespace NjordinSight.Web.Components
         /// <summary>
         /// Gets whether the last search submitted to this index had valid syntax.
         /// </summary>
+#pragma warning disable IDE0052 // Remove unread private members
+        // This warning is incorrect. Not sure why.
         private bool SearchIsValid { get; set; }
+#pragma warning restore IDE0052 // Remove unread private members
 
         /// <summary>
         /// Gets or sets the search error message for this component.
@@ -148,4 +153,5 @@ namespace NjordinSight.Web.Components
             }
         }
     }
+#nullable disable
 }

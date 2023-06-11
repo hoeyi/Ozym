@@ -7,7 +7,7 @@
 else
 {
     <ModelForm TModelDto="BankTransactionCodeDto">
-        <ModelFormLineItem ForMember="@(() => ModelDto.TransactionCode)">
+        <ModelFormEntry ForMember="@(() => ModelDto.TransactionCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -20,8 +20,8 @@ else
                     disable="@Disabled"
                     DisplayName="@(NameFor(x => x.TransactionCode))" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.DisplayName)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.DisplayName)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -34,6 +34,6 @@ else
                     disable="@Disabled"
                     DisplayName="@(NameFor(x => x.DisplayName))" />
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
     </ModelForm>
 }

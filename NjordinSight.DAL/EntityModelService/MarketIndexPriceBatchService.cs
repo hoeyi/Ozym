@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing single CRUD requests against the <see cref="MarketIndexPrice"/> 
     /// data store.
     /// </summary>
-    internal class MarketIndexPriceBatchService : ModelBatchService<MarketIndexPrice>
+    internal class MarketIndexPriceBatchService : ModelCollectionService<MarketIndexPrice>
     {
         /// <summary>
         /// Creates a new <see cref="MarketIndexPriceBatchService"/> instance.
@@ -28,30 +28,16 @@ namespace NjordinSight.EntityModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<MarketIndexPrice>(
-                Context, _modelMetadata, _logger)
+                ContextFactory, ModelMetadata, Logger)
             {
-                ParentExpression = null,
-                IncludeDelegate = (queryable) => queryable
-                    .Include(a => a.MarketIndex)
+                IncludeDelegate = (queryable) => queryable.Include(a => a.MarketIndex)
             };
 
-            Writer = new ModelWriterBatchService<MarketIndexPrice>(
-                Context, _modelMetadata, _logger)
+            GetDefaultModelDelegate = () => new()
             {
-                ParentExpression = null,
-                GetDefaultModelDelegate = () => new()
-                {
-                    PriceCode = string.Empty,
-                    PriceDate = DateTime.UtcNow.Date
-                }
+                PriceCode = string.Empty,
+                PriceDate = DateTime.UtcNow.Date
             };
-        }
-
-        public override bool ForParent(int parentId, out Exception e)
-        {
-            e = new NotSupportedException(
-                message: ExceptionString.ModelService_ParentNotSupported);
-            return false;
         }
     }
 }

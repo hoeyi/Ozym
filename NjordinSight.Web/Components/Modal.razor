@@ -3,7 +3,7 @@
 
 @inherits LocalizableComponent
 
-<div class="custom-modal @IsShownClassAttribute">
+<div class="custom-modal @IsShownClassAttribute" @attributes="AdditionalAttributes">
     @if(IsLoading)
     {
         <LoadingSvg />
@@ -13,9 +13,9 @@
         <div class="custom-modal-body">
             @if(ReadOnly)
             {
-                <div>
-                    @ChildContent
-                </div>
+                @ChildContent
+                @*<div>
+                </div>*@
                 <ActionButtonMenu>
                     @foreach(var dialogOption in _dialogResultButtons)
                     {
@@ -31,32 +31,32 @@
             }
             else
             {
-                <EditForm
-                    class="model-editor"
-                    Model="@ModelDto"
+                <EditForm class="model-editor" Model="@ModelDto"
                     OnValidSubmit="(async () => await OnClickAsync(DialogResult.OK))">
                     <DataAnnotationsValidator />
-                    @ChildContent
-                    <ActionButtonMenu>
-                        @foreach (var dialogOption in _dialogResultButtons)
-                        {
-                            if(dialogOption == DialogResult.OK)
+                        @ChildContent
+                        @*<div>
+                        </div>*@
+                        <ActionButtonMenu>
+                            @foreach (var dialogOption in _dialogResultButtons)
                             {
-                                <button type="submit" class="form-control button">
-                                    @(NameFor(@enum: dialogOption))
-                                </button>
+                                if(dialogOption == DialogResult.OK)
+                                {
+                                    <button type="submit" class="form-control button">
+                                        @(NameFor(@enum: dialogOption))
+                                    </button>
 
+                                }
+                                else
+                                {
+                                    <button type="button" class="form-control button"
+                                        @onclick="(async () => await OnClickAsync(dialogOption))"
+                                        @onclick:preventDefault>
+                                        @(NameFor(@enum: dialogOption))
+                                    </button>
+                                }
                             }
-                            else
-                            {
-                                <button type="button" class="form-control button"
-                                    @onclick="(async () => await OnClickAsync(dialogOption))"
-                                    @onclick:preventDefault>
-                                    @(NameFor(@enum: dialogOption))
-                                </button>
-                            }
-                        }
-                    </ActionButtonMenu>
+                        </ActionButtonMenu>
                 </EditForm>
             }
         </div>
@@ -98,6 +98,12 @@
     /// </summary>
     [Parameter]
     public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// Captures unmatched attributes for additional style flexibility.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; }
 
     private IEnumerable<DialogResult> _dialogResultButtons;
 

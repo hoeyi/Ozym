@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public partial class MarketHolidayServiceTest
     {
         [TestMethod]
@@ -12,10 +13,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            MarketHoliday deleted = (await service.SelectWhereAysnc(
+            MarketHoliday deleted = (await service.SelectAsync(
                 predicate: x => x.MarketHolidayName == DeleteModelSuccessSample.MarketHolidayName,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 

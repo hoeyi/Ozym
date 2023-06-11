@@ -7,7 +7,7 @@
 else
 {
     <ModelForm TModelDto="ModelAttribute">
-        <ModelFormLineItem ForMember="@(() => ModelDto.DisplayName)">
+        <ModelFormEntry ForMember="@(() => ModelDto.DisplayName)">
             @if(ReadOnly)
             {
                 <div class="form-control">
@@ -20,6 +20,6 @@ else
                     disable="@Disabled"
                     DisplayName="@NameFor(x => x.DisplayName)" />
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
     </ModelForm>
 }

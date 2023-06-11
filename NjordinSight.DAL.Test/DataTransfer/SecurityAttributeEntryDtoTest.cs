@@ -7,6 +7,7 @@ using NjordinSight.EntityModel;
 namespace NjordinSight.Test.DataTransfer
 {
     [TestClass]
+    [TestCategory("Unit")]
     public class SecurityAttributeEntryDtoTest
     {
         [TestMethod]

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public partial class ModelAttributeServiceTest
     {
         [TestMethod]
@@ -12,10 +13,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            ModelAttribute deleted = (await service.SelectWhereAysnc(
+            ModelAttribute deleted = (await service.SelectAsync(
                 predicate: x => x.DisplayName == DeleteModelSuccessSample.DisplayName,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -30,10 +31,10 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            ModelAttribute original = (await service.SelectWhereAysnc(
+            ModelAttribute original = (await service.SelectAsync(
                 predicate: x => x.DisplayName == UpdateModelSuccessSample.DisplayName,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.DisplayName = $"{original.DisplayName} - u";
 

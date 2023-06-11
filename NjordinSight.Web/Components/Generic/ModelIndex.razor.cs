@@ -9,54 +9,27 @@ using NjordinSight.Web.Components.Common;
 using NjordinSight.UserInterface;
 using NjordinSight.Web.Controllers;
 using Ichosys.DataModel;
+using Microsoft.AspNetCore.Http;
+using NjordinSight.EntityModelService.Abstractions;
+using NjordinSight.DataTransfer;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using NjordinSight.EntityModel;
+using NjordinSight.Web.Services;
 
 namespace NjordinSight.Web.Components.Generic
 {
     /// <summary>
     /// A component for interacting with a model index.
     /// </summary>
-    public partial class ModelIndex<TModel> : ModelPage<TModel>
-        where TModel : class, new()
+    public partial class ModelIndex<TModelDto> : ModelPagedIndex<TModelDto>
+        where TModelDto : class, new()
     {
         /// <summary>
-        /// Gets or sets the <see cref="IExpressionBuilder"/> for this component.
+        /// Gets or sets the <see cref="IController{TModelDto}"/> for this component.
         /// </summary>
         [Inject]
-        protected IExpressionBuilder ExpressionBuilder { get; set; } = default!;
-
-        /// <summary>
-        /// Gets or sets the <see cref="IController{TModel}"/> for this component.
-        /// </summary>
-        [Inject]
-        protected virtual IController<TModel> Controller { get; set; } = default!;
-
-        /// <summary>
-        /// Gets or sets the default search expression used when first loading the index.
-        /// </summary>
-        protected Expression<Func<TModel, bool>> InitialSearchExpression { get; set; } = x => true;
-
-        /// <summary>
-        /// Gets the model collection that matches the search expression for this component.
-        /// </summary>
-        protected IEnumerable<TModel> Models { get; private set; } = default!;
-
-        /// <summary>
-        /// Gets or sets the collection of searchables fields for the type: <typeparamref name="TModel"/>.
-        /// </summary>
-        protected IEnumerable<ISearchableMemberMetadata> SearchFields { get; set; }
-            = Array.Empty<ISearchableMemberMetadata>();
-
-        /// <summary>
-        /// Gets or sets the collection of allowable <see cref="ComparisonOperator"/> for
-        /// the type: <typeparamref name="TModel"/>.
-        /// </summary>
-        protected IEnumerable<ComparisonOperator> ComparisonOperators { get; set; }
-            = Array.Empty<ComparisonOperator>();
-
-        /// <summary>
-        /// Gets or sets the default maximum record count.
-        /// </summary>
-        protected int MaxRecordCount { get; set; } = 0;
+        protected IController<TModelDto> Controller { get; init; } = default!;
 
         /// <inheritdoc/>
         protected override MenuRoot CreateSectionNavigationMenu() => new()
@@ -72,58 +45,54 @@ namespace NjordinSight.Web.Components.Generic
             }
         };
         
+        /// <summary>
+        /// Checks the <see cref="SearchService"/> and <see cref="Controller"/> properties are 
+        /// non-null, else throws an <see cref="ArgumentNullException" />.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        protected void CheckNullParameters()
+        {
+            if (SearchService is null)
+                throw new ArgumentNullException(paramName: nameof(SearchService));
+
+            if (Controller is null)
+                throw new ArgumentNullException(paramName: nameof(Controller));
+        }
+                
         /// <inheritdoc/>   
         protected override async Task OnInitializedAsync()
         {
+            CheckNullParameters();
+
             IsLoading = true;
+
             try
             {
-                if (ExpressionBuilder is null)
-                    throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
+                var refreshEntriesTask = RefreshResultsAsync(
+                    predicate: SearchService.CurrentExpression,
+                    pageNumber: PaginationHelper.PageIndex,
+                    pageSize: PaginationHelper.PageSize);
 
-                if (Controller is null)
-                    throw new ArgumentNullException(paramName: nameof(Controller));
-
-                SearchFields = ExpressionBuilder!.GetSearchableMembers<TModel>();
-                ComparisonOperators = ExpressionBuilder!.GetComparisonOperators();
-
-                ActionResult<IList<TModel>> actionResult =
-                    await Controller!.SelectWhereAysnc(InitialSearchExpression, MaxRecordCount);
-
-                Models = actionResult.Value ?? Array.Empty<TModel>();
+                await refreshEntriesTask;
             }
             finally
             {
-                IsLoading = Models is null;
+                IsLoading = GetLoadingState();
             }
         }
 
-        /// <summary>
-        /// Handles search submission events that that contain 
-        /// <see cref="SearchSubmittedEventArgs{TModel}"/> data.
-        /// </summary>
-        /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that 
-        /// containst the data for the invoked event.</param>
-        /// <returns>A task representing an asynchronous operator. Successful ooperation will 
-        /// cause <see cref="Models"/> to updates to the collection matching the event arguments 
-        /// search expression.</returns>
-        protected async Task SearchClicked(SearchSubmittedEventArgs<TModel> args)
+        /// <inheritdoc/>
+        protected override async Task RefreshResultsAsync(
+            Expression<Func<TModelDto, bool>> predicate,
+            int pageNumber,
+            int pageSize)
         {
-            try
-            {
-                IsLoading = true;
-                if (args is not null)
-                {
-                    var actionResult = await Controller!.SelectWhereAysnc(
-                            predicate: args.SearchExpression, maxCount: MaxRecordCount);
+            var actionResult = await Controller.SelectAsync(predicate, pageNumber, pageSize);
 
-                    Models = actionResult.Value ?? Array.Empty<TModel>();
-                }
-            }
-            finally
-            {
-                IsLoading = false;
-            }
+            Entries = actionResult.Value.Item1;
+
+            PaginationHelper.TotalItemCount = actionResult.Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = Entries.Count();
         }
     }
 }

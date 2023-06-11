@@ -25,24 +25,29 @@
         </ContentTile>
     }
 
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <ContentTile>
-            <Body>
-                <DataGrid Data="@Models">
+    <ContentTile>
+        <TitleAlignLeft>
+            <Paginator Model="PaginationHelper"
+                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </TitleAlignLeft>
+        <Body>
+            @if (IsLoading)
+            {
+                <LoadingSvg />
+            }
+            else
+            {
+                <DataGrid Data="@Entries">
                     <DataGridColumn Property=@nameof(Security.SecurityDescription)
                                 Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityDescription))
                                 Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
-                            <a class="custom-nav-link" href=@(FormatDetailUri(model.SecurityId)) @onclick:preventDefault
+                            <a class="custom-nav-link" href=@(FormatDetailUri(model.SecurityId)) 
+                                @onclick:preventDefault
                                 @onclick="@(args => Detail_OnClick(model, args))">
                                 @model.SecurityDescription
                             </a>
@@ -91,9 +96,9 @@
                         </CellTemplate>
                     </DataGridColumn>
                 </DataGrid>
-            </Body>
-        </ContentTile>
-    }
+            }
+        </Body>
+    </ContentTile>
 </ThemedComponent>
 
 
@@ -102,42 +107,47 @@
 
     private IEnumerable<LookupModel<int, string>> SecurityTypes { get; set; }
 
+    /// <inheritdoc/>
+    protected override bool GetLoadingState() => 
+        Entries is null || Exchanges is null || SecurityTypes is null;
+
     protected override async Task OnInitializedAsync()
     {
-        MaxRecordCount = -1;
-
-        await base.OnInitializedAsync();
         IsLoading = true;
 
         try
         {
-            var exchangesQuery = Controller.ReferenceQueries
+            var securitiesTask = Controller.SelectAsync(
+                predicate: SearchService.CurrentExpression,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
+
+            var exchangesTask = Controller.ReferenceQueries
                 .GetDtosAsync<SecurityExchange, int, string>(
                     key: x => x.ExchangeId,
                     display: x => x.ExchangeCode);
 
-            var secTypesQuery = Controller.ReferenceQueries
+            var secTypesTask = Controller.ReferenceQueries
                 .GetDtosAsync<SecurityType, int, string>(
                     key: x => x.SecurityTypeId,
                     display: x => x.SecurityTypeName);
 
-            var dataTasks = Task.WhenAll(exchangesQuery, secTypesQuery);
+            await InitializationTasksAsync(securitiesTask, exchangesTask, secTypesTask);
 
-            await dataTasks;
+            var securityTaskResult = await securitiesTask;
+            var exchangeTaskResult = await exchangesTask;
+            var secTypeTaskResult = await secTypesTask;
 
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                Exchanges = (await exchangesQuery).Value;
-                SecurityTypes = (await secTypesQuery).Value;
-            }
-            else
-            {
-                throw dataTasks.Exception.Flatten();
-            }
+            Entries = securityTaskResult.Value.Item1;
+            Exchanges = exchangeTaskResult.Value;
+            SecurityTypes = secTypeTaskResult.Value;
+
+            PaginationHelper.TotalItemCount = securityTaskResult.Value.Item2.ItemCount;
+            PaginationHelper.ItemCount = Entries.Count();
         }
         finally
         {
-            IsLoading = Models is null || Exchanges is null | SecurityTypes is null;
+            IsLoading = GetLoadingState();
         }
     }
 

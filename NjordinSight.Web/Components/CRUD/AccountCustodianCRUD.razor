@@ -7,7 +7,7 @@
 else
 {
     <ModelForm TModelDto="AccountCustodian" >
-        <ModelFormLineItem ForMember="@(() => ModelDto.CustodianCode)">
+        <ModelFormEntry ForMember="@(() => ModelDto.CustodianCode)">
             @if(ReadOnly)
             {
                 @ModelDto.CustodianCode
@@ -18,8 +18,8 @@ else
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.CustodianCode)) />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.DisplayName)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.DisplayName)">
             @if(ReadOnly)
             {
                 @ModelDto.DisplayName
@@ -30,6 +30,6 @@ else
                     disable="@Disabled"
                     DisplayName=@(NameFor(x => x.DisplayName)) />
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
     </ModelForm>
 }

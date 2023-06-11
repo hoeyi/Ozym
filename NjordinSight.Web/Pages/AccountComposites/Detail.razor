@@ -26,6 +26,27 @@
                         <AccountCompositeCRUD Disabled="false" ReadOnly="true" />
                     </Body>
                 </ContentTile>
+                @foreach (var entry in ModelDto.AttributeViewModel.CurrentEntries
+                    .OrderBy(g => g.AttributeMember.Attribute.DisplayName))
+                    {
+                        <ContentTile>
+                            <Body>
+                                <ModelForm TModelDto="AccountAttributeMemberEntry">
+                                    <ModelFormEntry LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
+                                                ForMember="@(() => entry.AttributeMember.DisplayName)">
+                                        <div class="form-control">
+                                            @entry.AttributeMember.DisplayName
+                                        </div>
+                                    </ModelFormEntry>
+                                    <ModelFormEntry ForMember="@(() => entry.EffectiveDate)">
+                                        <div class="form-control">
+                                            @entry.EffectiveDate.ToShortDateString()
+                                        </div>
+                                    </ModelFormEntry>
+                                </ModelForm>
+                            </Body>
+                        </ContentTile>
+                    }
                 <ContentTile>
                     <Body>
                         <AccountCompositeMembersCRUD 
@@ -34,29 +55,6 @@
                 </ContentTile>
             </EditForm>
         </CascadingValue>
-        @foreach (var entry in ModelDto.AttributeViewModel.CurrentEntries.OrderBy(g =>
-            g.AttributeMember.Attribute.DisplayName))
-        {
-            <ContentTile>
-                <Body>
-                    <EditForm Model="@entry">
-                        <ModelForm TModelDto="AccountAttributeMemberEntry">
-                            <ModelFormLineItem LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
-                                       ForMember="@(() => entry.AttributeMember.DisplayName)">
-                                <div class="form-control">
-                                    @entry.AttributeMember.DisplayName
-                                </div>
-                            </ModelFormLineItem>
-                            <ModelFormLineItem ForMember="@(() => entry.EffectiveDate)">
-                                <div class="form-control">
-                                    @entry.EffectiveDate.ToShortDateString()
-                                </div>
-                            </ModelFormLineItem>
-                        </ModelForm>
-                    </EditForm>
-                </Body>
-            </ContentTile>
-        }
     }
 </ThemedComponent>
 
@@ -78,7 +76,7 @@
             var compositeQuery = Controller.ReadAsync(ModelId);
             var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
 
-            Task dataTasks = Task.WhenAll(compositeQuery, accountsQuery);
+            var dataTasks = Task.WhenAll(compositeQuery, accountsQuery);
             await dataTasks;
 
             if ((await compositeQuery).Value is AccountComposite composite)
@@ -91,7 +89,5 @@
         {
             IsLoading = Accounts is null || Model is null;
         }
-
-        // TODO: Take corrective action here, accountQuery.Value should be Account
     }
 }

@@ -9578,7 +9578,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -1,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33136.37m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9586,7 +9586,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -2,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 10386.98m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9594,7 +9594,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -3,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3824.14m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9602,7 +9602,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -4,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33269.77m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9610,7 +9610,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -5,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 10458.76m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9618,7 +9618,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -6,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3852.97m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9626,7 +9626,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -7,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32930.08m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9634,7 +9634,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -8,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 10305.24m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9642,7 +9642,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -9,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3808.10m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9650,7 +9650,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -10,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33630.61m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9658,7 +9658,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -11,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 10569.29m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9666,7 +9666,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -12,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3895.08m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9674,7 +9674,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -13,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33517.65m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9682,7 +9682,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -14,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 10635.65m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9690,7 +9690,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -15,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3892.09m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9698,7 +9698,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -16,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33704.10m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9706,7 +9706,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -17,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 10742.63m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9714,7 +9714,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -18,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3919.25m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9722,7 +9722,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -19,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33973.01m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9730,7 +9730,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -20,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 10931.67m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9738,7 +9738,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -21,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3969.61m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9746,7 +9746,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -22,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 34189.97m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9754,7 +9754,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -23,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11001.10m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9762,7 +9762,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -24,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3983.17m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9770,7 +9770,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -25,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 34302.61m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9778,7 +9778,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -26,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11079.16m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9786,7 +9786,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -27,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3999.09m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9794,7 +9794,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -28,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33910.85m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9802,7 +9802,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -29,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11095.11m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9810,7 +9810,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -30,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3990.97m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9818,7 +9818,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -31,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33296.96m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9826,7 +9826,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -32,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 10957.01m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9834,7 +9834,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -33,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3928.86m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9842,7 +9842,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -34,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33044.56m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9850,7 +9850,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -35,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 10852.27m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9858,7 +9858,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -36,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3898.85m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9866,7 +9866,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -37,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33375.49m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9874,7 +9874,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -38,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11140.43m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9882,7 +9882,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -39,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3972.61m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9890,7 +9890,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -40,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33629.56m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9898,7 +9898,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -41,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11364.41m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9906,7 +9906,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -42,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4019.81m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9914,7 +9914,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -43,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33733.96m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9922,7 +9922,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -44,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11334.27m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9930,7 +9930,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -45,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4016.95m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9938,7 +9938,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -46,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33743.84m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9946,7 +9946,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -47,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11313.36m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9954,7 +9954,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -48,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4016.22m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9962,7 +9962,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -49,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33949.41m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9970,7 +9970,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -50,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11512.41m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9978,7 +9978,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -51,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4060.43m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9986,7 +9986,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -52,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33978.08m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -9994,7 +9994,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -53,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11621.71m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10002,7 +10002,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -54,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4070.56m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10010,7 +10010,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -55,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33717.09m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10018,7 +10018,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -56,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11393.81m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10026,7 +10026,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -57,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4017.77m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10034,7 +10034,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -58,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 34086.04m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10042,7 +10042,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -59,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11584.55m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10050,7 +10050,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -60,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4076.60m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10058,7 +10058,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -61,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 34092.96m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10066,7 +10066,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -62,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11816.32m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10074,7 +10074,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -63,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4119.21m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10082,7 +10082,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -64,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 34053.94m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10090,7 +10090,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -65,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 12200.82m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10098,7 +10098,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -66,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4179.76m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10106,7 +10106,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -67,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33926.01m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10114,7 +10114,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -68,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 12006.95m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10122,7 +10122,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -69,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4136.48m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10130,7 +10130,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -70,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33891.02m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10138,7 +10138,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -71,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11887.45m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10146,7 +10146,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -72,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4111.08m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10154,7 +10154,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -73,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 34156.69m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10162,7 +10162,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -74,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 12113.79m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10170,7 +10170,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -75,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4164.00m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10178,7 +10178,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -76,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33949.01m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10186,7 +10186,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -77,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11910.52m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10194,7 +10194,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -78,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4117.86m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10202,7 +10202,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -79,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33699.88m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10210,7 +10210,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -80,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11789.58m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10218,7 +10218,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -81,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4081.50m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10226,7 +10226,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -82,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33869.27m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10234,7 +10234,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -83,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11718.12m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10242,7 +10242,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -84,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4090.46m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10250,7 +10250,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -85,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 34245.93m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10258,7 +10258,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -86,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11891.79m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10266,7 +10266,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -87,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4137.29m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10274,7 +10274,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -88,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 34089.27m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10282,7 +10282,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -89,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11960.15m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10290,7 +10290,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -90,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4136.13m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10298,7 +10298,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -91,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 34128.05m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10306,7 +10306,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -92,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 12070.59m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10314,7 +10314,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -93,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4147.60m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10322,7 +10322,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -94,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33696.85m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10330,7 +10330,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -95,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11855.83m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10338,7 +10338,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -96,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4090.41m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10346,7 +10346,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -97,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33826.69m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10354,7 +10354,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -98,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11787.27m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10362,7 +10362,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -99,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4079.09m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10370,7 +10370,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -100,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33129.59m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10378,7 +10378,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -101,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11492.30m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10386,7 +10386,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -102,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3997.34m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10394,7 +10394,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -103,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33045.09m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10402,7 +10402,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -104,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11507.07m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10410,7 +10410,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -105,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3991.05m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10418,7 +10418,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -106,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33153.91m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10426,7 +10426,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -107,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11590.40m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10434,7 +10434,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -108,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4012.32m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10442,7 +10442,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -109,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32816.92m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10450,7 +10450,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -110,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11394.94m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10458,7 +10458,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -111,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3970.04m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10466,7 +10466,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -112,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32889.09m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10474,7 +10474,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -113,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11466.98m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10482,7 +10482,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -114,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3982.24m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10490,7 +10490,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -115,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32656.70m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10498,7 +10498,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -116,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11455.54m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10506,7 +10506,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -117,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3970.15m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10514,7 +10514,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -118,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32661.84m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10522,7 +10522,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -119,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11379.48m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10530,7 +10530,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -120,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3951.39m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10538,7 +10538,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -121,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33003.57m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10546,7 +10546,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -122,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11462.98m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10554,7 +10554,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -123,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3981.35m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10562,7 +10562,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -124,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33390.97m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10570,7 +10570,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -125,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11689.01m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10578,7 +10578,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -126,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4045.64m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10586,7 +10586,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -127,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33431.44m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10594,7 +10594,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -128,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11675.74m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10602,7 +10602,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -129,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4048.42m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10610,7 +10610,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -130,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32856.46m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10618,7 +10618,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -131,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11530.33m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10626,7 +10626,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -132,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3986.37m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10634,7 +10634,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -133,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32798.40m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10642,7 +10642,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -134,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11576.00m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10650,7 +10650,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -135,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3992.01m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10658,7 +10658,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -136,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32254.86m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10666,7 +10666,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -137,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11338.35m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10674,7 +10674,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -138,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3918.32m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10682,7 +10682,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -139,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 31909.64m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10690,7 +10690,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -140,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11138.89m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10698,7 +10698,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -141,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3861.59m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10706,7 +10706,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -142,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 31819.14m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10714,7 +10714,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -143,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11188.84m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10722,7 +10722,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -144,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3855.76m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10730,7 +10730,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -145,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32155.40m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10738,7 +10738,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -146,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11428.15m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10746,7 +10746,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -147,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3919.29m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10754,7 +10754,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -148,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 31874.57m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10762,7 +10762,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -149,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11434.05m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10770,7 +10770,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -150,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3891.93m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10778,7 +10778,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -151,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32246.55m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10786,7 +10786,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -152,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11717.28m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10794,7 +10794,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -153,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3960.28m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10802,7 +10802,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -154,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 31861.98m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10810,7 +10810,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -155,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11630.51m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10818,7 +10818,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -156,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3916.64m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10826,7 +10826,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -157,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32244.58m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10834,7 +10834,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -158,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11675.54m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10842,7 +10842,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -159,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3951.57m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10850,7 +10850,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -160,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32560.60m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10858,7 +10858,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -161,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11860.11m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10866,7 +10866,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -162,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4002.87m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10874,7 +10874,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -163,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32030.11m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10882,7 +10882,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -164,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11669.96m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10890,7 +10890,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -165,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3936.97m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10898,7 +10898,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -166,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32105.25m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10906,7 +10906,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -167,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11787.40m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10914,7 +10914,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -168,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3948.72m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10922,7 +10922,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -169,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32237.53m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10930,7 +10930,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -170,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11823.96m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10938,7 +10938,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -171,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3970.99m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10946,7 +10946,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -172,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32432.08m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10954,7 +10954,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -173,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11768.84m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10962,7 +10962,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -174,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3977.53m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10970,7 +10970,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -175,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32394.25m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10978,7 +10978,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -176,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11716.08m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10986,7 +10986,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -177,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 3971.27m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -10994,7 +10994,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -178,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32717.60m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -11002,7 +11002,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -179,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 11926.24m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -11010,7 +11010,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -180,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4027.81m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -11018,7 +11018,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -181,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 32859.03m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -11026,7 +11026,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -182,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 12013.47m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -11034,7 +11034,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -183,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4050.83m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 30, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -11042,7 +11042,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -184,
                             MarketIndexId = -3,
-                            Price = 0m,
+                            Price = 33274.15m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -11050,7 +11050,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -185,
                             MarketIndexId = -4,
-                            Price = 0m,
+                            Price = 12221.91m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -11058,7 +11058,7 @@ namespace NjordinSight.EntityMigration.FinanceApp
                         {
                             IndexPriceId = -186,
                             MarketIndexId = -2,
-                            Price = 0m,
+                            Price = 4109.31m,
                             PriceCode = "p",
                             PriceDate = new DateTime(2023, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });

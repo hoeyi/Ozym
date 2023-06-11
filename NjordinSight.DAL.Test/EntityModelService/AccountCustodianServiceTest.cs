@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
+    [TestCategory("Integration")]
     public partial class AccountCustodianServiceTest
     {
         [TestMethod]
@@ -12,9 +13,9 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            AccountCustodian deleted = (await service.SelectWhereAysnc(a =>
+            AccountCustodian deleted = (await service.SelectAsync(a =>
                 a.CustodianCode == DeleteModelSuccessSample.CustodianCode, 1))
-                .First();
+                .Item1.First();
 
             var result = await service.DeleteAsync(deleted);
 
@@ -30,11 +31,11 @@ namespace NjordinSight.Test.EntityModelService
         {
             var service = GetModelService();
 
-            AccountCustodian original = (await service.SelectWhereAysnc(
+            AccountCustodian original = (await service.SelectAsync(
                 predicate: x =>
                     x.CustodianCode == UpdateModelSuccessSample.CustodianCode,
-                maxCount: 1))
-                .First();
+                pageSize: 1))
+                .Item1.First();
 
             original.DisplayName = "Test custodian UPDATED";
 

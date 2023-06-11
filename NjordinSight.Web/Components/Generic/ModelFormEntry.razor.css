@@ -1,0 +1,36 @@
+﻿.grid-container td:last-child {
+    padding-right: 0.5rem;
+}
+
+.grid-container {
+    display: inline-grid;
+    grid-template-columns: 12rem auto;
+    grid-template-areas: "lbl vlu vlu vlu vlu";
+    width: 100%;
+    align-items: center;
+}
+
+.grid-container td.label {
+    grid-area: lbl;
+}
+
+.grid-container td.value {
+    grid-area: vlu;
+}
+
+td:first-child {
+    padding-left: 0.5rem;
+}
+
+    td:first-child div {
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+td:not(:first-child) {
+    padding-left: 1rem;
+}
+
+::deep div.form-control:empty {
+    padding: 1rem;
+}

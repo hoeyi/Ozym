@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using NjordinSight.BusinessLogic.Functions;
+using NjordinSight.DataTransfer;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.Logging;
 using System;
@@ -35,22 +38,6 @@ namespace NjordinSight.EntityModelService.Abstractions
         {
         }
 
-
-        /// <summary>
-        /// Base constructor for <see cref="ModelReaderService{T}"/> instances where a
-        /// shared context is used.
-        /// </summary>
-        /// <param name="sharedContext"></param>
-        /// <param name="metadataService"></param>
-        /// <param name="logger"></param>
-        public ModelReaderService(
-            FinanceDbContext sharedContext,
-            IModelMetadataService metadataService,
-            ILogger logger)
-            : base(sharedContext, metadataService, logger)
-        {
-        }
-
         /// <summary>
         /// Gets the <see cref="Delegate"/> that configures an <see cref="IQueryable{T}"/> 
         /// for use as <see cref="IIncludableQueryable{TEntity, TProperty}" />.
@@ -75,10 +62,7 @@ namespace NjordinSight.EntityModelService.Abstractions
             if (ParentExpression is not null)
                 keySearch = ParentExpression.AndAlso(keySearch);
 
-            if (HasSharedContext)
-                return Exists(SharedContext, keySearch);
-
-            using var context = _contextFactory.CreateDbContext();
+            using var context = ContextFactory.CreateDbContext();
 
             return Exists(context, keySearch);
         }
@@ -86,7 +70,7 @@ namespace NjordinSight.EntityModelService.Abstractions
         /// <inheritdoc/>
         public bool ModelExists(T model)
         {
-            return ModelExists(GetKey(model));
+            return ModelExists(GetKey<int>(model));
         }
 
         /// <inheritdoc/>
@@ -102,13 +86,11 @@ namespace NjordinSight.EntityModelService.Abstractions
 
             try
             {
-                var result = (await SelectWhereAysnc(
-                                        predicate: keySearch,
-                                        maxCount: 1))
+                var result = (await SelectAsync(predicate: keySearch, pageSize: 1)).Item1
                             .FirstOrDefault();
 
                 if (result is not null)
-                    _logger.ModelServiceReadModel(
+                    Logger.ModelServiceReadModel(
                         model: new
                         {
                             Type = typeof(T).Name,
@@ -119,7 +101,7 @@ namespace NjordinSight.EntityModelService.Abstractions
             }
             catch (Exception exception)
             {
-                _logger.ModelServiceReadSingleFailed(
+                Logger.ModelServiceReadSingleFailed(
                     model: new
                     {
                         Type = typeof(T).Name,
@@ -132,61 +114,68 @@ namespace NjordinSight.EntityModelService.Abstractions
         }
 
         /// <inheritdoc/>
-        public async Task<List<T>> SelectAllAsync()
+        public async Task<IEnumerable<T>> SelectAsync()
         {
             Expression<Func<T, bool>> predicate = x => true;
 
             if (ParentExpression is not null)
                 predicate = ParentExpression.AndAlso(predicate);
 
-            return await SelectWhereAysnc(
-                predicate: predicate,
-                maxCount: -1);
+            using var context = await ContextFactory.CreateDbContextAsync();
+
+            return (await ReadAsync(context, predicate, pageSize: int.MaxValue)).Item1;
         }
 
         /// <inheritdoc/>
-        public async Task<List<T>> SelectWhereAysnc(
-            Expression<Func<T, bool>> predicate, int maxCount = 0)
+        public async Task<(IEnumerable<T>, PaginationData)> SelectAsync(
+            Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 20)
         {
-            maxCount = maxCount < 0 ? int.MaxValue : maxCount;
+            int limitPageSize = BusinessMath.Clamp(pageSize, 0, 100);
 
-            if (ParentExpression is not null)
-                predicate = ParentExpression.AndAlso(predicate);
+                if (ParentExpression is not null)
+                    predicate = ParentExpression.AndAlso(predicate);
 
-            if (HasSharedContext)
-                return await ReadAsync(SharedContext, predicate, maxCount);
+                using var context = await ContextFactory.CreateDbContextAsync();
 
-            using var context = await _contextFactory.CreateDbContextAsync();
-
-            return await ReadAsync(context, predicate, maxCount);
+                return await ReadAsync(context, predicate, pageNumber, pageSize: limitPageSize);
         }
 
-        private async Task<List<T>> ReadAsync(
-            FinanceDbContext context, Expression<Func<T, bool>> predicate, int maxCount = 0)
+        private async Task<(IEnumerable<T>, PaginationData)> ReadAsync(
+            FinanceDbContext context, 
+            Expression<Func<T, bool>> predicate,
+            int pageNumber = 1, 
+            int pageSize = 20)
         {
             var searchGuid = Guid.NewGuid();
 
-            _logger.ModelServiceSearchRequestAccepted(
+            Logger.ModelServiceSearchRequestAccepted(
                 requestGuid: searchGuid,
                 type: typeof(T),
                 predicate: predicate.Body,
-                recordLimit: maxCount);
+                recordLimit: pageSize);
 
-            IQueryable<T> queryable = IncludeDelegate(context.Set<T>());
+            IQueryable<T> queryable = IncludeDelegate(context.Set<T>()).Where(predicate);
+
+            PaginationData pageData = new()
+            {
+                ItemCount = await queryable.CountAsync(),
+                PageIndex = pageNumber,
+                PageSize = pageSize
+            };
 
             var result = await queryable
-                            .Where(predicate)
-                            .Take(maxCount)
-                            .ToListAsync();
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
 
-            _logger.ModelServiceSearchResultReturned(
+            Logger.ModelServiceSearchResultReturned(
                 requestGuid: searchGuid,
                 type: typeof(T),
                 resultCount: result?.Count ?? default);
 
-            return result;
+            return (result, pageData);
         }
-
-        
     }
+
+    
 }

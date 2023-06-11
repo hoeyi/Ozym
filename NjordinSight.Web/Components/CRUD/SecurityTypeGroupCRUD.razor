@@ -7,7 +7,7 @@
 else
 {
     <ModelForm TModelDto="SecurityTypeGroup">
-        <ModelFormLineItem ForMember="@(() => ModelDto.SecurityTypeGroupName)">
+        <ModelFormEntry ForMember="@(() => ModelDto.SecurityTypeGroupName)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -20,8 +20,8 @@ else
                    disable="@Disabled"
                    DisplayName="@NameFor(x => x.SecurityTypeGroupName)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.Transactable)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.Transactable)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -34,8 +34,8 @@ else
                        disable="@Disabled"
                        DisplayName="@NameFor(x => x.Transactable)" />
             }
-        </ModelFormLineItem>
-        <ModelFormLineItem ForMember="@(() => ModelDto.DepositSource)">
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.DepositSource)">
             @if (ReadOnly)
             {
                 <div class="form-control">
@@ -48,7 +48,7 @@ else
                        disable="@Disabled"
                        DisplayName="@NameFor(x => x.DepositSource)" />
             }
-        </ModelFormLineItem>
+        </ModelFormEntry>
     </ModelForm>
 }
 

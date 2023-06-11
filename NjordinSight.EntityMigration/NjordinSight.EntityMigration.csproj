@@ -13,8 +13,4 @@
     <ProjectReference Include="..\NjordinSight.EntityModel\NjordinSight.EntityModel.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="FinanceApp\" />
-  </ItemGroup>
-
 </Project>

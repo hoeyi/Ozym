@@ -26,49 +26,43 @@
                 </CascadingValue>
             </Body>
         </ContentTile>
-        <ContentTile>
-            <Body>
-                <EditForm Model="@ModelDto">
-                    <ContentTile>
-                        <Body>
-                            <DataGrid Data="@ModelDto.AttributeScopes">
-                                <DataGridColumn Type="DataGridCellType.Text"
-                                            Property="@nameof(ModelAttributeScope.ScopeCode)"
-                                            Caption="@(ModelMetadata.NameFor<ModelAttributeScope>(x => x.ScopeCode))">
-                                    <CellTemplate Context="model">
-                                        @(model.ScopeCode
-                                            .ConvertFromStringCode<ModelAttributeScopeCode>()
-                                            ?.GetDisplayName())
-                                    </CellTemplate>
-                                </DataGridColumn>
-                            </DataGrid>
-                        </Body>
-                    </ContentTile>
-                </EditForm>
-                <EditForm Model="@ModelDto">
-                    <ContentTile>
-                        <Body>
-                            <DataGrid Data="@ModelDto.AttributeMembers">
-                                <DataGridColumn Type="DataGridCellType.Text"
-                                            Property="@nameof(ModelAttributeMember.DisplayName)"
-                                            Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayName))">
-                                    <CellTemplate Context="model">
-                                        @model.DisplayName
-                                    </CellTemplate>
-                                </DataGridColumn>
-                                <DataGridColumn Type="DataGridCellType.Text"
-                                            Property="@nameof(ModelAttributeMember.DisplayOrder)"
-                                            Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayOrder))">
-                                    <CellTemplate Context="model">
-                                        @model.DisplayOrder
-                                    </CellTemplate>
-                                </DataGridColumn>
-                            </DataGrid>
-                        </Body>
-                    </ContentTile>
-                </EditForm>
-            </Body>
-        </ContentTile>
+        <EditForm Model="@ModelDto">
+            <ContentTile>
+                <Body>
+                    <DataGrid Data="@ModelDto.AttributeScopes">
+                        <DataGridColumn Type="DataGridCellType.Text"
+                                    Property="@nameof(ModelAttributeScope.ScopeCode)"
+                                    Caption="@(ModelMetadata.NameFor<ModelAttributeScope>(x => x.ScopeCode))">
+                            <CellTemplate Context="model">
+                                @(model.ScopeCode
+                                    .ConvertFromStringCode<ModelAttributeScopeCode>()
+                                    ?.GetDisplayName())
+                            </CellTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </Body>
+            </ContentTile>
+            <ContentTile>
+                <Body>
+                    <DataGrid Data="@ModelDto.AttributeMembers">
+                        <DataGridColumn Type="DataGridCellType.Text"
+                                    Property="@nameof(ModelAttributeMember.DisplayName)"
+                                    Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayName))">
+                            <CellTemplate Context="model">
+                                @model.DisplayName
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Text"
+                                    Property="@nameof(ModelAttributeMember.DisplayOrder)"
+                                    Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayOrder))">
+                            <CellTemplate Context="model">
+                                @model.DisplayOrder
+                            </CellTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </Body>
+            </ContentTile>
+        </EditForm>
     }
 </ThemedComponent>
 

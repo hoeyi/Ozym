@@ -18,32 +18,31 @@
         </CascadingValue>
 
         <CascadingValue Value="@ModelDto">
-            <EditForm class="model-editor" 
-                Model="@ModelDto" 
-                OnValidSubmit="HandleValidSubmit">
+            <EditForm class="model-editor" Model="@ModelDto" OnValidSubmit="HandleValidSubmit" On>
                 <DataAnnotationsValidator />
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button">
+                        @Strings.Caption_Button_Save
+                    </button>
+                    <button type="button" class="form-control button"
+                        @onclick="(async (args) => await Delete_OnClick())"
+                        @onclick:preventDefault>
+                        @Strings.Caption_Button_Delete
+                    </button>
+                    <button type="button" class="form-control button"
+                        @onclick="Cancel_OnClick"
+                        @onclick:preventDefault>
+                        @Strings.Caption_Button_Cancel
+                    </button>
+                </ActionButtonMenu>
                 <ContentTile>
                     <Body>
-                        <ActionButtonMenu>
-                            <button type="submit" class="form-control button">
-                                @Strings.Caption_Button_Save
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="(async (args) => await Delete_OnClick())"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Delete
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="Cancel_OnClick"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Cancel
-                            </button>
-                        </ActionButtonMenu>
                         <ModelAttributeCRUD Disabled="false" ReadOnly="false" />
                     </Body>
                 </ContentTile>
             </EditForm>
-            <EditForm Model="@ModelDto">
+            <EditForm class="model-editor" EditContext="_attributeScopeContext" >
+                <DataAnnotationsValidator />
                 <ContentTile>
                     <Body>
                         <ActionButtonMenu>
@@ -53,7 +52,18 @@
                                     .GetAttribute<ModelAttributeScope, NounAttribute>()?.GetSingular())
                             </button>
                         </ActionButtonMenu>
+                        <ValidationSummary />
                         <DataGrid Data="@ModelDto.AttributeScopes">
+                            <DataGridColumn Type="DataGridCellType.Button">
+                                <CellEditTemplate Context="model">
+                                    <ToolTip Text="@Strings.Caption_Button_Delete">
+                                        <button class="form-control button icon" type="button"
+                                            @onclick="async (args) => ModelDto.RemoveScope(model)">
+                                            <IonIcon Name="close-circle" />
+                                        </button>
+                                    </ToolTip>
+                                </CellEditTemplate>
+                            </DataGridColumn>
                             <DataGridColumn Type="DataGridCellType.Control"
                                         Property="@nameof(ModelAttributeScope.ScopeCode)"
                                         Caption="@(ModelMetadata.NameFor<ModelAttributeScope>(x => x.ScopeCode))">
@@ -66,22 +76,11 @@
                                     </InputSelect>
                                 </CellEditTemplate>
                             </DataGridColumn>
-                            <DataGridColumn Type="DataGridCellType.Button">
-                                <CellEditTemplate Context="model">
-                                    <ToolTip Text="@Strings.Caption_Button_Delete">
-                                        <button class="form-control button icon"
-                                            type="button"
-                                            @onclick="async (args) => ModelDto.RemoveScope(model)">
-                                            <IonIcon Name="close-circle" />
-                                        </button>
-                                    </ToolTip>
-                                </CellEditTemplate>
-                            </DataGridColumn>
                         </DataGrid>
                     </Body>
                 </ContentTile>
             </EditForm>
-            <EditForm Model="@ModelDto">
+            <EditForm class="model-editor" EditContext="_attributeMemberContext">
                 <ContentTile>
                     <Body>
                         <ActionButtonMenu>
@@ -91,7 +90,18 @@
                                     .GetAttribute<ModelAttributeMember, NounAttribute>()?.GetSingular())
                             </button>
                         </ActionButtonMenu>
+                        <ValidationSummary />
                         <DataGrid Data="@ModelDto.AttributeMembers">
+                            <DataGridColumn Type="DataGridCellType.Button">
+                                <CellEditTemplate Context="model">
+                                    <ToolTip Text="@Strings.Caption_Button_Delete">
+                                        <button class="form-control button icon" type="button"
+                                            @onclick="async (args) => ModelDto.RemoveAttributeMember(model)">
+                                            <IonIcon Name="close-circle" />
+                                        </button>
+                                    </ToolTip>
+                                </CellEditTemplate>
+                            </DataGridColumn>
                             <DataGridColumn Type="DataGridCellType.Control"
                                         Property="@nameof(ModelAttributeMember.DisplayName)"
                                         Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayName))">
@@ -104,17 +114,6 @@
                                         Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayOrder))">
                                 <CellEditTemplate Context="model">
                                     <InputNumber class="form-control" @bind-Value="@model.DisplayOrder" />
-                                </CellEditTemplate>
-                            </DataGridColumn>
-                            <DataGridColumn Type="DataGridCellType.Button">
-                                <CellEditTemplate Context="model">
-                                    <ToolTip Text="@Strings.Caption_Button_Delete">
-                                        <button class="form-control button icon"
-                                            type="button"
-                                            @onclick="async (args) => ModelDto.RemoveAttributeMember(model)">
-                                            <IonIcon Name="close-circle" />
-                                        </button>
-                                    </ToolTip>
                                 </CellEditTemplate>
                             </DataGridColumn>
                         </DataGrid>
@@ -132,6 +131,9 @@
     private ModelAttributeDto ModelDto { get; set; }
 
     private IEnumerable<LookupModel<string, string>> AttributeScopeDtos { get; set; }
+
+    private EditContext _attributeScopeContext;
+    private EditContext _attributeMemberContext;
 
     protected override async Task OnInitializedAsync()
     {
@@ -158,6 +160,8 @@
                 Model = (await modelQuery).Value;
                 ModelDto = new(Model);
                 AttributeScopeDtos = (await scopesQuery).Value;
+                _attributeScopeContext = new(ModelDto.AttributeScopes);
+                _attributeMemberContext = new(ModelDto.AttributeMembers);
             }
         }
         finally

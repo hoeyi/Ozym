@@ -31,17 +31,13 @@
         @foreach(var group in ModelDto.CurrentEntryCollectionGroups.OrderBy(g => 
             g.ParentAttribute.DisplayName))
         {
-            <ContentTile>
-                <Body>
-                    <CascadingValue Value="@group">
-                        <EditForm class="model-editor" Model="@group">
-                            <InvestmentModelTargetCRUD 
-                                Disabled="false"
-                                ReadOnly="true" />
-                        </EditForm>
-                    </CascadingValue>
-                </Body>
-            </ContentTile>
+            <CascadingValue Value="@group">
+                <EditForm class="model-editor" Model="@group">
+                    <InvestmentModelTargetCRUD 
+                        Disabled="false"
+                        ReadOnly="true" />
+                </EditForm>
+            </CascadingValue>
         }
     }
 </ThemedComponent>
