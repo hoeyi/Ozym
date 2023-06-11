@@ -70,7 +70,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Growth rate.
+        ///   Looks up a localized string similar to Growth Rate.
         /// </summary>
         public static string FutureValueInput_GrowthRate_Name {
             get {
@@ -124,7 +124,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Initial balance.
+        ///   Looks up a localized string similar to Initial Balance.
         /// </summary>
         public static string FutureValueInput_PresentValue_Name {
             get {
@@ -142,7 +142,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Regular deposit.
+        ///   Looks up a localized string similar to Regular Deposit.
         /// </summary>
         public static string FutureValueInput_RegularDeposit_Name {
             get {
@@ -160,7 +160,7 @@ namespace NjordinSight.DataTransfer.MethodParams {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start date.
+        ///   Looks up a localized string similar to Start Date.
         /// </summary>
         public static string FutureValueInput_StartDate_Name {
             get {

@@ -121,7 +121,7 @@
     <value>Constant growth rate applied to balance</value>
   </data>
   <data name="FutureValueInput_GrowthRate_Name" xml:space="preserve">
-    <value>Growth rate</value>
+    <value>Growth Rate</value>
   </data>
   <data name="FutureValueInput_Periods_Description" xml:space="preserve">
     <value>Number of periods measured</value>
@@ -139,18 +139,18 @@
     <value>Initial balance for the forecast</value>
   </data>
   <data name="FutureValueInput_PresentValue_Name" xml:space="preserve">
-    <value>Initial balance</value>
+    <value>Initial Balance</value>
   </data>
   <data name="FutureValueInput_RegularDeposit_Description" xml:space="preserve">
     <value>Regular amount contributed to balance</value>
   </data>
   <data name="FutureValueInput_RegularDeposit_Name" xml:space="preserve">
-    <value>Regular deposit</value>
+    <value>Regular Deposit</value>
   </data>
   <data name="FutureValueInput_StartDate_Description" xml:space="preserve">
     <value>Start date of the forecast</value>
   </data>
   <data name="FutureValueInput_StartDate_Name" xml:space="preserve">
-    <value>Start date</value>
+    <value>Start Date</value>
   </data>
 </root>
