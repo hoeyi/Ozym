@@ -8,6 +8,7 @@ using NjordinSight.EntityModelService.Query;
 namespace NjordinSight.Test.EntityModelService.Query
 {
     [TestClass]
+    [TestCategory("Integration")]
     public class QueryBuilderTest
     {
         [TestMethod]

@@ -7,6 +7,7 @@ using System.Linq;
 namespace NjordinSight.Test.DataTransfer
 {
     [TestClass]
+    [TestCategory("Unit")]
     public class InvestmentModelDtoTest
     {
         [TestMethod]

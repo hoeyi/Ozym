@@ -9,6 +9,7 @@ namespace NjordinSight.Test.EntityModelService
 {
     /// <inheritdoc/>
     [TestClass]
+    [TestCategory("Integration")]
     public partial class AccountCompositeServiceTest
     {
         /// <inheritdoc/>
