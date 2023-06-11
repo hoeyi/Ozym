@@ -23,7 +23,7 @@
             }
             else
             {
-                <DataGrid Data="@Entries">
+                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
                     <DataGridColumn Property="@nameof(ModelAttribute.DisplayName)"
                          Caption="@(ModelMetadata.NameFor<ModelAttribute>(x => x.DisplayName))"
                          Type="DataGridCellType.Link" >

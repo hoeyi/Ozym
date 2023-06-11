@@ -31,7 +31,7 @@
             }
             else
             {
-                <DataGrid Data="@WorkingEntries">
+                <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
                     <DataGridColumn 
                         Property="@nameof(BrokerTransaction.TransactionCodeId)"
                         Caption="@NameFor(x => x.TransactionCodeId)">

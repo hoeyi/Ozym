@@ -23,7 +23,7 @@
             }
             else
             {
-                <DataGrid Data="@Entries">
+                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
                     <DataGridColumn Property=@nameof(ReportStyleSheet.StyleSheetCode)
                                 Caption=@(NameFor(x => x.StyleSheetCode))
                                 Type=@DataGridCellType.Link>

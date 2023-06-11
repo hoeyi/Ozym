@@ -243,4 +243,9 @@
   <data name="Paginator_Caption_PageSize" xml:space="preserve">
     <value>records per page</value>
   </data>
+  <data name="Paginator_Caption_RecordCount" xml:space="preserve">
+    <value>{0} of {1} records</value>
+    <comment>{0} is the count of visible records
+{1} is the count of all records</comment>
+  </data>
 </root>

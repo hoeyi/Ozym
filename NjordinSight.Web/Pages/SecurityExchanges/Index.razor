@@ -23,7 +23,7 @@
             }
             else
             {
-                <DataGrid Data="@Entries">
+                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
                     <DataGridColumn Property=@nameof(SecurityExchange)
                                 Caption=@(NameFor(x => x.ExchangeCode))>
                         <CellTemplate Context="model">

@@ -41,7 +41,7 @@
             }
             else
             {
-                <DataGrid Data="@WorkingEntries">
+                <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
                     <DataGridColumn Property="@nameof(SecurityPrice.SecurityId)"
                         Caption="@(NameFor(x => x.SecurityId))">
                         <CellTemplate Context="model">

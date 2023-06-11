@@ -23,7 +23,7 @@
             }
             else
             {
-                <DataGrid Data="@Entries">
+                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
                     <DataGridColumn 
                         Property=@nameof(AccountCustodian.CustodianCode)
                         Caption=@(NameFor(x => x.CustodianCode))>
