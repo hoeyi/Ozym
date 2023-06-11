@@ -142,7 +142,7 @@
     <comment>{0} is text indicating the type/record to delete, e.g., account or account 1234</comment>
   </data>
   <data name="Caption_DevelopmentPlaceholder" xml:space="preserve">
-    <value>Page/component is not available at this time. Please try again later or report this message to the project maintainer.</value>
+    <value>In development</value>
     <comment>Placeholder for development when text will be present, but not available at the time the page component is being built. There should be no references to this resource in production builds.</comment>
   </data>
   <data name="Caption_EditMany" xml:space="preserve">

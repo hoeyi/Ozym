@@ -124,7 +124,7 @@ namespace NjordinSight.Web.Components.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Page/component is not available at this time. Please try again later or report this message to the project maintainer..
+        ///   Looks up a localized string similar to In development.
         /// </summary>
         public static string Caption_DevelopmentPlaceholder {
             get {
