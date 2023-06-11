@@ -41,7 +41,7 @@
             }
             else
             {
-                <DataGrid Data="@Entries">
+                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
                     <DataGridColumn Property=@nameof(Security.SecurityDescription)
                                 Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityDescription))
                                 Type=@DataGridCellType.Link>

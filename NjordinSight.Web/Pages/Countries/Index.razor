@@ -41,7 +41,7 @@
             }
             else
             {
-                <DataGrid Data="@Entries">
+                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
                     <DataGridColumn Type="DataGridCellType.Link" Property=@nameof(Country.DisplayName)
                                 Caption=@(NameFor(x => x.DisplayName))>
                         <CellTemplate Context="model">

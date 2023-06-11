@@ -44,8 +44,8 @@
                         <LoadingSvg />
                     }
                     else
-                    {   
-                        <DataGrid Data="@WorkingEntries">
+                    {
+                        <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
                             <DataGridColumn Type="DataGridCellType.Button">
                                 <CellEditTemplate Context="model">
                                     <ToolTip Text="@Strings.Caption_Button_Delete">

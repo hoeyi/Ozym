@@ -23,7 +23,7 @@
             }
             else
             {
-                <DataGrid Data="@Entries">
+                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
                     <DataGridColumn 
                         Property=@nameof(MarketIndex.IndexCode)
                         Caption=@(NameFor(x => x.IndexCode))

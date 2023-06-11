@@ -83,6 +83,12 @@ namespace NjordinSight.Web.Components.Common
         public int PageCount => (int)Math.Ceiling(TotalItemCount / (double)PageSize);
 
         /// <summary>
+        /// Gets the string message describing the record result set.
+        /// </summary>
+        public string RecordReport => string.Format(
+            Strings.Paginator_Caption_RecordCount, arg0: ItemCount, arg1: TotalItemCount);
+
+        /// <summary>
         /// Increments the index to the next value unless the last value has been reached.
         /// </summary>
         public void MoveNext()

@@ -24,7 +24,7 @@
             else
             {
 
-                <DataGrid Data="@Entries" class="datagrid">
+                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
                     <DataGridColumn Property=@nameof(InvestmentStrategy.DisplayName)
                                 Caption=@(NameFor(x => x.DisplayName))
                                 Type=@DataGridCellType.Link>

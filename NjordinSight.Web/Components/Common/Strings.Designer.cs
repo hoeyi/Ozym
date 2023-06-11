@@ -365,5 +365,14 @@ namespace NjordinSight.Web.Components.Common {
                 return ResourceManager.GetString("Paginator_Caption_PageSize", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} of {1} records.
+        /// </summary>
+        public static string Paginator_Caption_RecordCount {
+            get {
+                return ResourceManager.GetString("Paginator_Caption_RecordCount", resourceCulture);
+            }
+        }
     }
 }
