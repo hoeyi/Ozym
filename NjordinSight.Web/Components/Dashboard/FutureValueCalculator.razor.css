@@ -5,9 +5,6 @@
     resize: both;   
 }
 
-.ni-dashboard-tile > * {
-    position: relative;
-}
 .ni-dashboard-tile .future-value-calculator {
     padding-top: 1rem;
     max-width: 300px;
@@ -36,6 +33,7 @@
 ::deep .form-control:not(button) {
     width: 150px !important;
     min-width: 100px !important;
+    font-size: 0.8rem;
 }
 
 /* #region Radzen.Blazor Material customization */
