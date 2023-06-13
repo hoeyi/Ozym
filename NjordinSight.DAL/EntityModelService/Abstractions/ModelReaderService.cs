@@ -163,6 +163,7 @@ namespace NjordinSight.EntityModelService.Abstractions
                 PageSize = pageSize
             };
 
+            // TODO: This needs an ORDER BY clause in order to generate consistent results.
             var result = await queryable
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)
