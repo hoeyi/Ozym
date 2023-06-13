@@ -42,17 +42,37 @@
                 Smooth="@smooth" Data="@Data" CategoryProperty="@nameof(FutureValueResult.PeriodDate)" 
                 Title="@(GetName<FutureValueResult>(x => x.Balance))" 
                 ValueProperty="@nameof(FutureValueResult.Balance)" RenderingOrder="1">
+                <ChildContent>
+                    <RadzenMarkers MarkerType="MarkerType.Diamond" Fill="#fff" Stroke="rgba(236,72,127)" StrokeWidth="@markerStrokeWidth" Size="@markerSize" />
+                </ChildContent>
+                <TooltipTemplate Context="data">
+                    @($"{GetName<FutureValueResult>(x => x.Balance)}: {data.Balance:C0}")
+                </TooltipTemplate>
             </RadzenAreaSeries>
+
             <RadzenAreaSeries 
                 Smooth="@smooth" Data="@Data" CategoryProperty="@nameof(FutureValueResult.PeriodDate)" 
-                Title="@(GetName<FutureValueResult>(x => x.Principal))" 
-                ValueProperty="@nameof(FutureValueResult.Principal)">
+                Title="@(GetName<FutureValueResult>(x => x.Principal))"
+                LineType="LineType.Dashed"
+                ValueProperty="@nameof(FutureValueResult.Principal)" RenderingOrder="2">
+                <ChildContent>
+                    <RadzenMarkers MarkerType="MarkerType.Diamond" StrokeWidth="@markerStrokeWidth" Size="@markerSize" />
+                </ChildContent>
+                <TooltipTemplate Context="data">
+                    @($"{GetName<FutureValueResult>(x => x.Principal)}: {data.Principal:C0}")
+                </TooltipTemplate>
             </RadzenAreaSeries>
             <RadzenAreaSeries 
                 Smooth="@smooth" Data="@Data" CategoryProperty="@nameof(FutureValueResult.PeriodDate)" 
                 Title="@(GetName<FutureValueResult>(x => x.Interest))" 
                 LineType="LineType.Dashed"
-                ValueProperty="@nameof(FutureValueResult.Interest)">
+                ValueProperty="@nameof(FutureValueResult.Interest)" RenderingOrder="3">
+                <ChildContent>
+                    <RadzenMarkers MarkerType="MarkerType.Diamond" StrokeWidth="@markerStrokeWidth" Size="@markerSize" />
+                </ChildContent>
+                <TooltipTemplate Context="data">
+                    @($"{GetName<FutureValueResult>(x => x.Interest)}: {data.Interest:C0}")
+                </TooltipTemplate>
             </RadzenAreaSeries>
             <RadzenCategoryAxis Padding="20" Formatter="@FormatAsYear" />
             <RadzenValueAxis Formatter="@FormatAsUSD">
@@ -74,8 +94,10 @@
 
     [Parameter, EditorRequired]
     public EventCallback<EditContext> OnValidSubmit { get; set; }
-    
+
     bool smooth = true;
+    short markerSize = 3;
+    short markerStrokeWidth = 1;
 
     private string GetName<T>(Expression<Func<T, object>> selector)
         where T : class
