@@ -109,6 +109,9 @@ builder.Services.AddSingleton<IFinancialCalculator, FinancialCalculator>();
 builder.Services.AddModelServices();
 builder.Services.AddModelControllers();
 
+// Add calculator services
+builder.Services.AddCalculatorServices();
+
 #endregion
 
 builder.Services.AddRazorPages();
