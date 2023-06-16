@@ -43,7 +43,7 @@
                 Title="@(GetName<FutureValueResult>(x => x.Balance))" 
                 ValueProperty="@nameof(FutureValueResult.Balance)" RenderingOrder="1">
                 <ChildContent>
-                    <RadzenMarkers MarkerType="MarkerType.Diamond" Fill="#fff" Stroke="rgba(236,72,127)" StrokeWidth="@markerStrokeWidth" Size="@markerSize" />
+                    <RadzenMarkers MarkerType="MarkerType.Diamond" StrokeWidth="@markerStrokeWidth" Size="@markerSize" />
                 </ChildContent>
                 <TooltipTemplate Context="data">
                     @($"{GetName<FutureValueResult>(x => x.Balance)}: {data.Balance:C0}")

@@ -25,6 +25,12 @@
     --theme-hexcolor-secondary-2-2: #81724D;
     --theme-hexcolor-secondary-2-3: #A39470;
     --theme-hexcolor-secondary-2-4: #C5B99D;
+    /* secondary color(3) (green)*/
+    --theme-hexcolor-secondary-3-0: #0E4123;
+    --theme-hexcolor-secondary-3-1: #204F33;
+    --theme-hexcolor-secondary-3-2: #375C46;
+    --theme-hexcolor-secondary-3-3: #50755F;
+    --theme-hexcolor-secondary-3-4: #718D7C;
     --theme-hexcolor-gray-0: #121212;
     --theme-hexcolor-gray-1: #161616;
     --theme-hexcolor-gray-2: #1a1a1a;
@@ -47,6 +53,9 @@
     --theme-elevation-backcolor-8: var(--theme-hexcolor-gray-8);
     --theme-elevation-backcolor-9: var(--theme-hexcolor-gray-9);
     --theme-text-color-0: var(--theme-hexcolor-text-0);
+    --theme-text-color-success: #3EC70B;
+    --theme-text-color-failure: #DC0303;
+
     /*#endregion */
     /*#region Control colors */
     --theme-form-control-back-color: var(--theme-hexcolor-gray-1, gray);
@@ -66,11 +75,10 @@
     --theme-fontfamily-tablecell: 'Arial';
     /*#endregion */
     --theme-box-shadow-opacity: 0.3;
-
     /*#region Radzen.Blazor chart series override */
-    --rz-series-1: var(--theme-hexcolor-primary-2, #3700b3);
-    --rz-series-2: #ba68c8;
-    --rz-series-3: #f06292;
+    --rz-series-1: var(--theme-hexcolor-secondary-3-0, #3700b3) !important;
+    --rz-series-2: var(--theme-hexcolor-secondary-3-1, #ba68c8) !important;
+    --rz-series-3: var(--theme-hexcolor-secondary-3-2, #f06292) !important;
     --rz-series-4: #ff8a65;
     --rz-series-5: #ffee58;
     --rz-series-6: #9ccc65;

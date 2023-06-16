@@ -1,0 +1,11 @@
+﻿div {
+    padding: 0rem;
+}
+
+div.positive {
+    color: var(--theme-text-color-success, green);
+}
+
+div.negative {
+    color: var(--theme-text-color-failure, red);
+}

@@ -1,47 +1,53 @@
-﻿@if(Quotes is null)
-{
-    <LoadingSvg />
-}
-else
-{
-    <DataGrid Data="Quotes">
-        <DataGridColumn 
-            Type="DataGridCellType.Text"
-            Property="@nameof(Quote.Symbol)" Caption="@nameof(Quote.Symbol)">
-            <CellTemplate Context="model">
-                @model.Symbol
-            </CellTemplate>
-        </DataGridColumn>
-        <DataGridColumn 
-            Type="DataGridCellType.Text"
-            Property="@nameof(Quote.Description)" Caption="@nameof(Quote.Description)">
-            <CellTemplate Context="model">
-                @model.Description
-            </CellTemplate>
-        </DataGridColumn>
-        <DataGridColumn 
-            Type="DataGridCellType.Text"
-            Property="@nameof(Quote.LastPrice)" Caption="@nameof(Quote.LastPrice)">
-            <CellTemplate Context="model">
-                @model.LastPrice.ToString("C2")
-            </CellTemplate>
-        </DataGridColumn>
-        <DataGridColumn 
-            Type="DataGridCellType.Text"
-                        Property="@nameof(Quote.Change)" Caption="@nameof(Quote.Change)">
-            <CellTemplate Context="model">
-                @model.Change.ToString("C2")
-            </CellTemplate>
-        </DataGridColumn>
-        <DataGridColumn 
-            Type="DataGridCellType.Text"
-            Property="@nameof(Quote.PercentChange)" Caption="@nameof(Quote.PercentChange)">
-            <CellTemplate Context="model">
-                @model.PercentChange.ToString("P2")
-            </CellTemplate>
-        </DataGridColumn>
-    </DataGrid>
-}
+﻿<div class="market-quote-table">
+    @if(Quotes is null)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <DataGrid Data="Quotes">
+            <DataGridColumn 
+                Type="DataGridCellType.Text"
+                Property="@nameof(Quote.Symbol)" Caption="@nameof(Quote.Symbol)">
+                <CellTemplate Context="model">
+                        @model.Symbol
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn 
+                Type="DataGridCellType.Text"
+                Property="@nameof(Quote.Description)" Caption="@nameof(Quote.Description)">
+                <CellTemplate Context="model">
+                        @model.Description
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn 
+                Type="DataGridCellType.Text"
+                Property="@nameof(Quote.LastPrice)" Caption="@nameof(Quote.LastPrice)">
+                <CellTemplate Context="model">
+                        @model.LastPrice.ToString("C2")
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn 
+                Type="DataGridCellType.Text"
+                            Property="@nameof(Quote.Change)" Caption="@nameof(Quote.Change)">
+                <CellTemplate Context="model">
+                    <div class="@(IsNegativeClass(model.Change))">
+                        @model.Change.ToString("C2")
+                    </div>
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn 
+                Type="DataGridCellType.Text"
+                Property="@nameof(Quote.PercentChange)" Caption="@nameof(Quote.PercentChange)">
+                <CellTemplate Context="model">
+                    <div class="@(IsNegativeClass(model.Change))">
+                        @model.PercentChange.ToString("P2")
+                    </div>
+                </CellTemplate>
+            </DataGridColumn>
+        </DataGrid>
+    }
+</div>
 
 @code {
     [Inject]
@@ -71,4 +77,7 @@ else
     {
         _timer?.Dispose();
     }
+
+    private string IsNegativeClass(double delta) => 
+        delta > 0 ? "positive" : delta < 0 ? "negative" : string.Empty;
 }
