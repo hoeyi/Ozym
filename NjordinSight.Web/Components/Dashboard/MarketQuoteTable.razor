@@ -1,4 +1,6 @@
-﻿<div class="market-quote-table">
+﻿@inherits ModelComponent<Quote>
+
+<div class="market-quote-table">
     @if(Quotes is null)
     {
         <LoadingSvg />
@@ -8,28 +10,28 @@
         <DataGrid Data="Quotes">
             <DataGridColumn 
                 Type="DataGridCellType.Text"
-                Property="@nameof(Quote.Symbol)" Caption="@nameof(Quote.Symbol)">
+                Property="@nameof(Quote.Symbol)" Caption="@NameFor(x => x.Symbol)">
                 <CellTemplate Context="model">
                         @model.Symbol
                 </CellTemplate>
             </DataGridColumn>
             <DataGridColumn 
                 Type="DataGridCellType.Text"
-                Property="@nameof(Quote.Description)" Caption="@nameof(Quote.Description)">
+                Property="@nameof(Quote.Description)" Caption="@NameFor(x => x.Description)">
                 <CellTemplate Context="model">
                         @model.Description
                 </CellTemplate>
             </DataGridColumn>
             <DataGridColumn 
                 Type="DataGridCellType.Text"
-                Property="@nameof(Quote.LastPrice)" Caption="@nameof(Quote.LastPrice)">
+                Property="@nameof(Quote.LastPrice)" Caption="@NameFor(x => x.LastPrice)">
                 <CellTemplate Context="model">
                         @model.LastPrice.ToString("C2")
                 </CellTemplate>
             </DataGridColumn>
             <DataGridColumn 
                 Type="DataGridCellType.Text"
-                            Property="@nameof(Quote.Change)" Caption="@nameof(Quote.Change)">
+                Property="@nameof(Quote.Change)" Caption="@NameFor(x => x.Change)">
                 <CellTemplate Context="model">
                     <div class="@(IsNegativeClass(model.Change))">
                         @model.Change.ToString("C2")
@@ -38,7 +40,7 @@
             </DataGridColumn>
             <DataGridColumn 
                 Type="DataGridCellType.Text"
-                Property="@nameof(Quote.PercentChange)" Caption="@nameof(Quote.PercentChange)">
+                Property="@nameof(Quote.PercentChange)" Caption="@NameFor(x => x.PercentChange)">
                 <CellTemplate Context="model">
                     <div class="@(IsNegativeClass(model.Change))">
                         @model.PercentChange.ToString("P2")

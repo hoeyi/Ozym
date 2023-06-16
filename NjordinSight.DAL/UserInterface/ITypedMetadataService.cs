@@ -8,7 +8,7 @@ namespace NjordinSight.UserInterface
     /// Helpers class for simplifying calls to metadata get methods on a given type.
     /// </summary>
     /// <typeparam name="T">The model type in which metadata is defined.</typeparam>
-    public interface IViewHelper<T>
+    public interface ITypedMetadataService<T>
         where T : class
     {
         /// <summary>

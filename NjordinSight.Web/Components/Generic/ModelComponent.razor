@@ -3,7 +3,7 @@
 @inherits LocalizableComponent
 
 @code {
-    private IViewHelper<TModelDto> _viewHelper;
+    private ITypedMetadataService<TModelDto> _typedMetadataHelper;
 
     /// <summary>
     /// Gets the description text for select <typeparamref name="TModelDto"/> member.
@@ -11,7 +11,7 @@
     /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
     /// <returns>A <see cref="string"/> representing the description if defined, else null.</returns>
     protected string DescriptionFor(Expression<Func<TModelDto, object>> expression)
-        => ViewHelper.DescriptionFor(expression);
+        => TypedMetdataHelper.DescriptionFor(expression);
 
     /// <summary>
     /// Gets the group name for select <typeparamref name="TModelDto"/> member.
@@ -19,7 +19,7 @@
     /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
     /// <returns>A <see cref="string"/> representing the description if defined, else null.</returns>
     protected string GroupNameFor(Expression<Func<TModelDto, object>> expression)
-        => ViewHelper.GroupNameFor(expression);
+        => TypedMetdataHelper.GroupNameFor(expression);
 
     /// <summary>
     /// Gets the name for select <typeparamref name="TModelDto"/> member.
@@ -27,7 +27,7 @@
     /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
     /// <returns>A <see cref="string"/> representing the name if defined, else null.</returns>
     protected string NameFor(Expression<Func<TModelDto, object>> expression)
-        => ViewHelper.NameFor(expression);
+        => TypedMetdataHelper.NameFor(expression);
 
     /// <summary>
     /// Gets the display order for select <typeparamref name="TModelDto"/> member.
@@ -35,7 +35,7 @@
     /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
     /// <returns>A <see cref="int"/> representing the display order if defined, else null.</returns>
     protected int? OrderFor(Expression<Func<TModelDto, object>> expression)
-        => ViewHelper.OrderFor(expression);
+        => TypedMetdataHelper.OrderFor(expression);
 
     /// <summary>
     /// Gets the input prompt text for select <typeparamref name="TModelDto"/> member.
@@ -43,7 +43,7 @@
     /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
     /// <returns>A <see cref="string"/> representing the input prompt if defined, else null.</returns>
     protected string PromptFor(Expression<Func<TModelDto, object>> expression)
-        => ViewHelper.PromptFor(expression);
+        => TypedMetdataHelper.PromptFor(expression);
 
     /// <summary>
     /// Gets the short name text for select <typeparamref name="TModelDto"/> member.
@@ -51,17 +51,17 @@
     /// <param name="expression">The expression indicated the member to retrieve metadata for.</param>
     /// <returns>A <see cref="string"/> representing the short name if defined, else null.</returns>
     protected string ShortNameFor(Expression<Func<TModelDto, object>> expression)
-            => ViewHelper.ShortNameFor(expression);
+            => TypedMetdataHelper.ShortNameFor(expression);
 
     /// <summary>
-    /// Gets the <see cref="IViewHelper{T}"/> instance for this component's type.
+    /// Gets the <see cref="ITypedMetadataService{T}"/> instance for this component's type.
     /// </summary>
-    public IViewHelper<TModelDto> ViewHelper
+    public ITypedMetadataService<TModelDto> TypedMetdataHelper
     {
         get
         {
-            _viewHelper ??= new ViewHelper<TModelDto>(ModelMetadata);
-            return _viewHelper;
+            _typedMetadataHelper ??= new TypedMetadataService<TModelDto>(ModelMetadata);
+            return _typedMetadataHelper;
         }
     }
 }

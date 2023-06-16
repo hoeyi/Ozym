@@ -199,4 +199,34 @@
   <data name="FutureValueResult_Principal_Name" xml:space="preserve">
     <value>Principal</value>
   </data>
+  <data name="Quote_Change_Description" xml:space="preserve">
+    <value>Unit change from last close price to most recent quote</value>
+  </data>
+  <data name="Quote_Change_Name" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="Quote_Description_Description" xml:space="preserve">
+    <value>Security/index description</value>
+  </data>
+  <data name="Quote_Description_Name" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Quote_LastPrice_Description" xml:space="preserve">
+    <value>Most recent quoted price</value>
+  </data>
+  <data name="Quote_LastPrice_Name" xml:space="preserve">
+    <value>Last Price</value>
+  </data>
+  <data name="Quote_PercentChange_Description" xml:space="preserve">
+    <value>Percent change from last close price to most recent quote</value>
+  </data>
+  <data name="Quote_PercentChange_Name" xml:space="preserve">
+    <value>Pct. Change</value>
+  </data>
+  <data name="Quote_Symbol_Description" xml:space="preserve">
+    <value>Security/index identifier</value>
+  </data>
+  <data name="Quote_Symbol_Name" xml:space="preserve">
+    <value>Ticker</value>
+  </data>
 </root>
