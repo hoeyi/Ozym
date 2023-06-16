@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NjordinSight.BusinessLogic.Functions;
+using NjordinSight.BusinessLogic.MarketFeed;
 using NjordinSight.EntityModel;
 using NjordinSight.Web.Controllers;
 using NjordinSight.Web.Controllers.Abstractions;
@@ -61,15 +62,16 @@ namespace NjordinSight.Web
         }
 
         /// <summary>
-        /// Adds business logic calculator services to this service collection.
+        /// Adds auxiliary business logic services to this service collection.
         /// </summary>
         /// <param name="services"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public static void AddCalculatorServices(this IServiceCollection services)
+        public static void AddAuxiliaryServices(this IServiceCollection services)
         {
             services
                 .AddSingleton<IFinancialCalculator, FinancialCalculator>()
-                .AddSingleton<IStatisticsCalculator, StatisticsCalculator>();
+                .AddSingleton<IStatisticsCalculator, StatisticsCalculator>()
+                .AddTransient<IWatchlist, Watchlist>();
         }
     }
 }

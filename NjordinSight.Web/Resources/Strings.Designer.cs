@@ -88,6 +88,15 @@ namespace NjordinSight.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Market quotes.
+        /// </summary>
+        internal static string ComponentTile_MarketQuotes {
+            get {
+                return ResourceManager.GetString("ComponentTile_MarketQuotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select attribute.
         /// </summary>
         internal static string ComponentTitle_AttributeSelector {

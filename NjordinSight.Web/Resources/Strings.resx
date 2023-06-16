@@ -126,6 +126,9 @@
   <data name="Caption_InputSelect_Placeholder" xml:space="preserve">
     <value>&lt; Select &gt;</value>
   </data>
+  <data name="ComponentTile_MarketQuotes" xml:space="preserve">
+    <value>Market quotes</value>
+  </data>
   <data name="ComponentTitle_AttributeSelector" xml:space="preserve">
     <value>Select attribute</value>
   </data>
