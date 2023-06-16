@@ -8,9 +8,7 @@
     display: flex;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 2rem;
-    /*color: black;*/
     color: var(--theme-text-color-0, black);
-    /*height: fit-content;*/
     text-align: left;
     vertical-align: text-bottom;
     z-index: 2;
@@ -18,15 +16,16 @@
 
     .banner > ::deep .ion-icon {
         width: 64px;
-        aspect-ratio: 1/1;
         color: var(--theme-text-color-0, black);
         padding-right: 1rem;
     }
 
 .planet-icon > ::deep .ion-icon {
-    width: 50%;
-    position: absolute;
-    left: 25%;
+    width: 25%;
+}
+
+.planet-icon {
+    display: flex;
     justify-content: center;
 }
 /* Change the fill color to light shade if not 'none' or 'transparent'. */
