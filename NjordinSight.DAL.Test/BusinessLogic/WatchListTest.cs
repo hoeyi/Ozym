@@ -16,7 +16,7 @@ namespace NjordinSight.Test.BusinessLogic
         [TestMethod]
         public void GetQuotes_CalledOnce_ReturnsPriceDeltas_EqualToZero()
         {
-            var facade = new WatchList(new StatisticsCalculator());
+            var facade = new Watchlist(new StatisticsCalculator());
             var quotes = facade.GetQuotes();
 
             Assert.IsTrue(quotes.All(x => x.Change == 0));
@@ -25,7 +25,7 @@ namespace NjordinSight.Test.BusinessLogic
         [TestMethod]
         public void GetQuotes_CalledTwice_ReturnsPriceDeltas_NotEqualToZero()
         {
-            var facade = new WatchList(new StatisticsCalculator());
+            var facade = new Watchlist(new StatisticsCalculator());
             var quotes = facade.GetQuotes();
             quotes = facade.GetQuotes();
 

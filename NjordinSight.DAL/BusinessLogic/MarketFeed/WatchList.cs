@@ -12,9 +12,9 @@ namespace NjordinSight.BusinessLogic.MarketFeed
     /// <summary>
     /// Service that generates data randomly to represent the behavior of a stock market watchlist.
     /// </summary>
-    public class WatchList : IWatchlist
+    public class Watchlist : IWatchlist
     {
-        public WatchList(IStatisticsCalculator calculator)
+        public Watchlist(IStatisticsCalculator calculator)
         {
             Calculator = calculator;
         }
