@@ -32,8 +32,8 @@ namespace NjordinSight.BusinessLogic.MarketFeed
         public double Change { get; set; }
 
         /// <summary>
-        /// Gets the signed percent change from the previous quote.
+        /// Gets the signed proportional change from the previous quote.
         /// </summary>
-        public double PercentChange => Change / (LastPrice - Change) * 100.0;
+        public double PercentChange => Change / (LastPrice - Change);
     }
 }
