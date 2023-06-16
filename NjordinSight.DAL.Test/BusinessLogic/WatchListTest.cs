@@ -27,9 +27,11 @@ namespace NjordinSight.Test.BusinessLogic
         {
             var facade = new Watchlist(new StatisticsCalculator());
             var quotes = facade.GetQuotes();
-            quotes = facade.GetQuotes();
+            quotes = facade.UpdateQuotes(quotes.ToList());
 
-            Assert.IsTrue(quotes.All(x => x.Change != 0));
+            Assert.AreEqual(
+                expected: quotes.Count(), 
+                actual: quotes.Select(x => x.Change).Distinct().Count());
         }
     }
 }
