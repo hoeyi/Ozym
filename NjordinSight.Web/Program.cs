@@ -98,7 +98,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 // Add metadata, search, and message services.
 builder.Services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
 builder.Services.AddSingleton<IModelMetadataService, ModelMetadataService>();
-builder.Services.AddSingleton(typeof(IViewHelper<>), typeof(ViewHelper<>));
+builder.Services.AddSingleton(typeof(ITypedMetadataService<>), typeof(TypedMetadataService<>));
 
 builder.Services.AddTransient(typeof(ISearchService<>), typeof(SearchService<>));
 

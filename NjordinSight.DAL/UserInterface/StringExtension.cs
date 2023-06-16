@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NjordinSight.UserInterface
 {
-    public static class ViewHelperExtension
+    public static class StringExtension
     {
         /// <summary>
         /// The application name. Used as page title component.

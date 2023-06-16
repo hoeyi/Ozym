@@ -302,5 +302,95 @@ namespace NjordinSight.BusinessLogic {
                 return ResourceManager.GetString("FutureValueResult_Principal_Name", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit change from last close price to most recent quote.
+        /// </summary>
+        public static string Quote_Change_Description {
+            get {
+                return ResourceManager.GetString("Quote_Change_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change.
+        /// </summary>
+        public static string Quote_Change_Name {
+            get {
+                return ResourceManager.GetString("Quote_Change_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security/index description.
+        /// </summary>
+        public static string Quote_Description_Description {
+            get {
+                return ResourceManager.GetString("Quote_Description_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Quote_Description_Name {
+            get {
+                return ResourceManager.GetString("Quote_Description_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Most recent quoted price.
+        /// </summary>
+        public static string Quote_LastPrice_Description {
+            get {
+                return ResourceManager.GetString("Quote_LastPrice_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Price.
+        /// </summary>
+        public static string Quote_LastPrice_Name {
+            get {
+                return ResourceManager.GetString("Quote_LastPrice_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percent change from last close price to most recent quote.
+        /// </summary>
+        public static string Quote_PercentChange_Description {
+            get {
+                return ResourceManager.GetString("Quote_PercentChange_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pct. Change.
+        /// </summary>
+        public static string Quote_PercentChange_Name {
+            get {
+                return ResourceManager.GetString("Quote_PercentChange_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security/index identifier.
+        /// </summary>
+        public static string Quote_Symbol_Description {
+            get {
+                return ResourceManager.GetString("Quote_Symbol_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ticker.
+        /// </summary>
+        public static string Quote_Symbol_Name {
+            get {
+                return ResourceManager.GetString("Quote_Symbol_Name", resourceCulture);
+            }
+        }
     }
 }

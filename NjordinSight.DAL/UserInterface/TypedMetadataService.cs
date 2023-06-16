@@ -9,18 +9,18 @@ namespace NjordinSight.UserInterface
     /// syntax for querying metadata for type <typeparamref name="T"/>.
     /// </summary>
     /// <typeparam name="T">The type for which metadata is retrieved.</typeparam>
-    public class ViewHelper<T> : IViewHelper<T>
+    public class TypedMetadataService<T> : ITypedMetadataService<T>
         where T : class
     {
         private readonly IModelMetadataService _metadataService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewHelper{T}"/> class.
+        /// Initializes a new instance of the <see cref="TypedMetadataService{T}"/> class.
         /// </summary>
         /// <param name="metadataService">The <see cref="IModelMetadataService"/> service for the 
         /// new instance.</param>
         /// <exception cref="ArgumentNullException">Parameter <paramref name="metadataService"/> was null.</exception>
-        public ViewHelper(IModelMetadataService metadataService)
+        public TypedMetadataService(IModelMetadataService metadataService)
         {
             if (metadataService is null)
                 throw new ArgumentNullException(paramName: nameof(metadataService));
