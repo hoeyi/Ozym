@@ -23,6 +23,7 @@ using System;
 using Microsoft.AspNetCore.Hosting;
 using NjordinSight.UserInterface;
 using NjordinSight.Web.Services;
+using NjordinSight.BusinessLogic.Functions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -102,11 +103,14 @@ builder.Services.AddSingleton(typeof(IViewHelper<>), typeof(ViewHelper<>));
 builder.Services.AddTransient(typeof(ISearchService<>), typeof(SearchService<>));
 
 builder.Services.AddSingleton<IMessageService, MessageService>();
-
+builder.Services.AddSingleton<IFinancialCalculator, FinancialCalculator>();
 
 // Register model services and controllers.
 builder.Services.AddModelServices();
 builder.Services.AddModelControllers();
+
+// Add auxiliary business-logic services
+builder.Services.AddAuxiliaryServices();
 
 #endregion
 

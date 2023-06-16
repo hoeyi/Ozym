@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NjordinSight.EntityModel\NjordinSight.EntityModel.csproj" />
   </ItemGroup>
 
@@ -22,6 +26,11 @@
       <DependentUpon>ExceptionString.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="DataTransfer\MethodParams\DisplayString.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DisplayString.resx</DependentUpon>
     </Compile>
     <Compile Update="EntityModelService\Abstractions\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -88,6 +97,10 @@
     <EmbeddedResource Update="BusinessLogic\ExceptionString.resx">
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\MethodParams\DisplayString.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DisplayString.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="EntityModelService\Abstractions\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>

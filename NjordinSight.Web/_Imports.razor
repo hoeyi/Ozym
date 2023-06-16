@@ -29,6 +29,9 @@
 @using Ichosys.Extensions.Common.Localization;
 @using Ichosys.Blazor.Ionicons
 
+@*Radzen control library*@
+@using Radzen.Blazor
+
 @*NjordinSight namespace references*@
 @using NjordinSight.Web
 @using NjordinSight.Web.Shared
@@ -36,15 +39,20 @@
 @using NjordinSight.Web.Components.CRUD
 @using NjordinSight.Web.Components.Generic
 @using NjordinSight.Web.Components.Common
+@using NjordinSight.Web.Components.Dashboard
+@using NjordinSight.Web.Controllers
+@using NjordinSight.Web.Controllers.Abstractions;
 @using NjordinSight.Web.Services
 
 @using NjordinSight.BusinessLogic
 @using NjordinSight.BusinessLogic.Brokerage
-@using NjordinSight.Web.Controllers
-@using NjordinSight.Web.Controllers.Abstractions;
-@using NjordinSight.EntityModel
+@using NjordinSight.BusinessLogic.Functions
+@using NjordinSight.BusinessLogic.MarketFeed
+
 @using NjordinSight.DataTransfer
 @using NjordinSight.DataTransfer.Generic
+@using NjordinSight.DataTransfer.MethodParams
+@using NjordinSight.EntityModel
 @using NjordinSight.EntityModel.Metadata
 @using NjordinSight.EntityModelService
 @using NjordinSight.EntityModelService.Query

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NjordinSight.BusinessLogic.Test
+namespace NjordinSight.Test.BusinessLogic
 {
     [TestClass]
     [TestCategory("Unit")]

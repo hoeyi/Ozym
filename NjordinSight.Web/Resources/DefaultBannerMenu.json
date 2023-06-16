@@ -28,6 +28,23 @@
   },
   {
     "IconKey": null,
+    "Caption": "Reports",
+    "UriRelativePath": null,
+    "Children": [
+      {
+        "IconKey": "analytics",
+        "Caption": "Data Tools",
+        "UriRelativePath": "/dashboard"
+      },
+      {
+        "IconKey": "reader",
+        "Caption": "Reports",
+        "UriRelativePath": "/under-construction"
+      }
+    ]
+  },
+  {
+    "IconKey": null,
     "Caption": "Market Data",
     "UriRelativePath": "/under-construction",
     "Children": [

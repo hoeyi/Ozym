@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NjordinSight.BusinessLogic.Functions;
+using NjordinSight.BusinessLogic.MarketFeed;
 using NjordinSight.EntityModel;
 using NjordinSight.Web.Controllers;
 using NjordinSight.Web.Controllers.Abstractions;
 using NjordinSight.Web.Services;
+using System;
 
 namespace NjordinSight.Web
 {
@@ -56,6 +59,19 @@ namespace NjordinSight.Web
                 .AddScoped<ICollectionController<MarketIndexPrice>, ModelCollectionController<MarketIndexPrice>>()
                 .AddScoped<ICollectionController<SecurityExchange>, ModelCollectionController<SecurityExchange>>()
                 .AddScoped<ICollectionController<SecurityPrice>, ModelCollectionController<SecurityPrice>>();
+        }
+
+        /// <summary>
+        /// Adds auxiliary business logic services to this service collection.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public static void AddAuxiliaryServices(this IServiceCollection services)
+        {
+            services
+                .AddSingleton<IFinancialCalculator, FinancialCalculator>()
+                .AddSingleton<IStatisticsCalculator, StatisticsCalculator>()
+                .AddTransient<IWatchlist, Watchlist>();
         }
     }
 }

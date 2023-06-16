@@ -117,7 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ModelDetail_CreateSectionNavigationMenu_InvalidOperationException" xml:space="preserve">
-    <value />
+  <data name="FutureValueInput_GrowthRate_Description" xml:space="preserve">
+    <value>Constant growth rate applied to balance</value>
+  </data>
+  <data name="FutureValueInput_GrowthRate_Name" xml:space="preserve">
+    <value>Growth Rate</value>
+  </data>
+  <data name="FutureValueInput_Periods_Description" xml:space="preserve">
+    <value>Number of periods measured</value>
+  </data>
+  <data name="FutureValueInput_Periods_Name" xml:space="preserve">
+    <value>Periods</value>
+  </data>
+  <data name="FutureValueInput_PeriodType_Description" xml:space="preserve">
+    <value>Length of each period</value>
+  </data>
+  <data name="FutureValueInput_PeriodType_Name" xml:space="preserve">
+    <value>Period Type</value>
+  </data>
+  <data name="FutureValueInput_PresentValue_Description" xml:space="preserve">
+    <value>Initial balance for the forecast</value>
+  </data>
+  <data name="FutureValueInput_PresentValue_Name" xml:space="preserve">
+    <value>Initial Balance</value>
+  </data>
+  <data name="FutureValueInput_RegularDeposit_Description" xml:space="preserve">
+    <value>Regular amount contributed to balance</value>
+  </data>
+  <data name="FutureValueInput_RegularDeposit_Name" xml:space="preserve">
+    <value>Regular Deposit</value>
+  </data>
+  <data name="FutureValueInput_StartDate_Description" xml:space="preserve">
+    <value>Start date of the forecast</value>
+  </data>
+  <data name="FutureValueInput_StartDate_Name" xml:space="preserve">
+    <value>Start Date</value>
   </data>
 </root>

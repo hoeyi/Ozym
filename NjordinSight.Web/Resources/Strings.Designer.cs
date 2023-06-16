@@ -61,11 +61,56 @@ namespace NjordinSight.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NjordinSight.
+        /// </summary>
+        internal static string ApplicationName {
+            get {
+                return ResourceManager.GetString("ApplicationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NjordinSight is a web-application for financial management and reporting, powered by Blazor and ASP.NET..
+        /// </summary>
+        internal static string ApplicationSummary {
+            get {
+                return ResourceManager.GetString("ApplicationSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt; Select &gt;.
         /// </summary>
         internal static string Caption_InputSelect_Placeholder {
             get {
                 return ResourceManager.GetString("Caption_InputSelect_Placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Market quotes.
+        /// </summary>
+        internal static string ComponentTile_MarketQuotes {
+            get {
+                return ResourceManager.GetString("ComponentTile_MarketQuotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select attribute.
+        /// </summary>
+        internal static string ComponentTitle_AttributeSelector {
+            get {
+                return ResourceManager.GetString("ComponentTitle_AttributeSelector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Future value calculator.
+        /// </summary>
+        internal static string ComponentTitle_FutureValueCalculator {
+            get {
+                return ResourceManager.GetString("ComponentTitle_FutureValueCalculator", resourceCulture);
             }
         }
         
@@ -108,56 +153,38 @@ namespace NjordinSight.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NjordinSight is a web-application for financial management and reporting, powered by Blazor and ASP.NET..
+        ///   Looks up a localized string similar to About.
         /// </summary>
-        internal static string Text_ApplicationSummary {
+        internal static string PageTitle_About {
             get {
-                return ResourceManager.GetString("Text_ApplicationSummary", resourceCulture);
+                return ResourceManager.GetString("PageTitle_About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        internal static string PageTitle_Dashboard {
+            get {
+                return ResourceManager.GetString("PageTitle_Dashboard", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
-        internal static string Title_ApplicationHome {
+        internal static string PageTitle_Home {
             get {
-                return ResourceManager.GetString("Title_ApplicationHome", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to NjordinSight.
-        /// </summary>
-        internal static string Title_ApplicationName {
-            get {
-                return ResourceManager.GetString("Title_ApplicationName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to About.
-        /// </summary>
-        internal static string Title_ApplicationSummary {
-            get {
-                return ResourceManager.GetString("Title_ApplicationSummary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Select attribute.
-        /// </summary>
-        internal static string Title_Component_AttributeSelector {
-            get {
-                return ResourceManager.GetString("Title_Component_AttributeSelector", resourceCulture);
+                return ResourceManager.GetString("PageTitle_Home", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to (No title).
         /// </summary>
-        internal static string Title_NotFound {
+        internal static string PageTitle_NotFound {
             get {
-                return ResourceManager.GetString("Title_NotFound", resourceCulture);
+                return ResourceManager.GetString("PageTitle_NotFound", resourceCulture);
             }
         }
     }

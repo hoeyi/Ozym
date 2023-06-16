@@ -1,0 +1,114 @@
+﻿<div class="ni-dashboard-tile">
+    <div class="future-value-calculator">
+        <EditForm Model="Model" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <ModelForm TModelDto="FutureValueInput">
+                <ModelFormEntry ForMember="@(() => Model.StartDate)">
+                    <InputDate class="form-control"
+                        DisplayName="@(GetName<FutureValueInput>(x => x.StartDate))"
+                        @bind-Value="Model.StartDate" />
+                </ModelFormEntry>
+                <ModelFormEntry ForMember="@(() => Model.Periods)">
+                    <InputNumber class="form-control"
+                        DisplayName="@(GetName<FutureValueInput>(x => x.Periods))"
+                        @bind-Value="Model.Periods" />
+                </ModelFormEntry>
+                <ModelFormEntry ForMember="@(() => Model.PresentValue)">
+                    <InputNumber class="form-control"
+                        DisplayName="@(GetName<FutureValueInput>(x => x.PresentValue))"
+                        @bind-Value="Model.PresentValue" />
+                </ModelFormEntry>
+                <ModelFormEntry ForMember="@(() => Model.GrowthRate)">
+                    <InputNumber class="form-control"
+                        DisplayName="@(GetName<FutureValueInput>(x => x.GrowthRate))"
+                        @bind-Value="Model.GrowthRate" />
+                </ModelFormEntry>
+                <ModelFormEntry ForMember="@(() => Model.RegularDeposit)">
+                    <InputNumber class="form-control"
+                        DisplayName="@(GetName<FutureValueInput>(x => x.RegularDeposit))"
+                        @bind-Value="Model.RegularDeposit" />
+                </ModelFormEntry>
+            </ModelForm>
+            <ActionButtonMenu>
+                <button type="submit" class="form-control button">
+                    @Strings.Caption_Button_Calculate
+                </button>
+            </ActionButtonMenu>
+        </EditForm>
+    </div>
+    <div class="radzen-chart"> 
+        <RadzenChart>
+            <RadzenAreaSeries 
+                Smooth="@smooth" Data="@Data" CategoryProperty="@nameof(FutureValueResult.PeriodDate)" 
+                Title="@(GetName<FutureValueResult>(x => x.Balance))" 
+                ValueProperty="@nameof(FutureValueResult.Balance)" RenderingOrder="1">
+                <ChildContent>
+                    <RadzenMarkers MarkerType="MarkerType.Diamond" StrokeWidth="@markerStrokeWidth" Size="@markerSize" />
+                </ChildContent>
+                <TooltipTemplate Context="data">
+                    @($"{GetName<FutureValueResult>(x => x.Balance)}: {data.Balance:C0}")
+                </TooltipTemplate>
+            </RadzenAreaSeries>
+
+            <RadzenAreaSeries 
+                Smooth="@smooth" Data="@Data" CategoryProperty="@nameof(FutureValueResult.PeriodDate)" 
+                Title="@(GetName<FutureValueResult>(x => x.Principal))"
+                LineType="LineType.Dashed"
+                ValueProperty="@nameof(FutureValueResult.Principal)" RenderingOrder="2">
+                <ChildContent>
+                    <RadzenMarkers MarkerType="MarkerType.Diamond" StrokeWidth="@markerStrokeWidth" Size="@markerSize" />
+                </ChildContent>
+                <TooltipTemplate Context="data">
+                    @($"{GetName<FutureValueResult>(x => x.Principal)}: {data.Principal:C0}")
+                </TooltipTemplate>
+            </RadzenAreaSeries>
+            <RadzenAreaSeries 
+                Smooth="@smooth" Data="@Data" CategoryProperty="@nameof(FutureValueResult.PeriodDate)" 
+                Title="@(GetName<FutureValueResult>(x => x.Interest))" 
+                LineType="LineType.Dashed"
+                ValueProperty="@nameof(FutureValueResult.Interest)" RenderingOrder="3">
+                <ChildContent>
+                    <RadzenMarkers MarkerType="MarkerType.Diamond" StrokeWidth="@markerStrokeWidth" Size="@markerSize" />
+                </ChildContent>
+                <TooltipTemplate Context="data">
+                    @($"{GetName<FutureValueResult>(x => x.Interest)}: {data.Interest:C0}")
+                </TooltipTemplate>
+            </RadzenAreaSeries>
+            <RadzenCategoryAxis Padding="20" Formatter="@FormatAsYear" />
+            <RadzenValueAxis Formatter="@FormatAsUSD">
+                <RadzenGridLines Visible="true" />
+                <RadzenAxisTitle Text="@(GetName<FutureValueResult>(x => x.Balance))" />
+            </RadzenValueAxis>
+        </RadzenChart>
+    </div>
+</div>
+@code {
+    [Inject]
+    IModelMetadataService Metadata { get; init; } = default!;
+
+    [Parameter, EditorRequired]
+    public IEnumerable<FutureValueResult> Data { get; set; }
+
+    [Parameter, EditorRequired]
+    public FutureValueInput Model { get; init; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<EditContext> OnValidSubmit { get; set; }
+
+    bool smooth = true;
+    short markerSize = 3;
+    short markerStrokeWidth = 1;
+
+    private string GetName<T>(Expression<Func<T, object>> selector)
+        where T : class
+        => Metadata.NameFor<T>(selector);
+
+    private string GetDescription<T>(Expression<Func<T, object>> selector)
+        where T : class
+        => Metadata.DescriptionFor<T>(selector);
+
+    string FormatAsUSD(object value) => ((double)value).ToString("C0");
+
+    string FormatAsYear(object value) =>
+        value is null ? string.Empty : Convert.ToDateTime(value).ToString("yyyy");
+}

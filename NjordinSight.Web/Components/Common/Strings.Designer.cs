@@ -61,6 +61,15 @@ namespace NjordinSight.Web.Components.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Calculate.
+        /// </summary>
+        public static string Caption_Button_Calculate {
+            get {
+                return ResourceManager.GetString("Caption_Button_Calculate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Caption_Button_Cancel {
@@ -124,7 +133,7 @@ namespace NjordinSight.Web.Components.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Page/component is not available at this time. Please try again later or report this message to the project maintainer..
+        ///   Looks up a localized string similar to In development.
         /// </summary>
         public static string Caption_DevelopmentPlaceholder {
             get {

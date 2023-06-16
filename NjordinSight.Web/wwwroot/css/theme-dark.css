@@ -25,6 +25,12 @@
     --theme-hexcolor-secondary-2-2: #81724D;
     --theme-hexcolor-secondary-2-3: #A39470;
     --theme-hexcolor-secondary-2-4: #C5B99D;
+    /* secondary color(3) (green)*/
+    --theme-hexcolor-secondary-3-0: #0E4123;
+    --theme-hexcolor-secondary-3-1: #204F33;
+    --theme-hexcolor-secondary-3-2: #375C46;
+    --theme-hexcolor-secondary-3-3: #50755F;
+    --theme-hexcolor-secondary-3-4: #718D7C;
     --theme-hexcolor-gray-0: #121212;
     --theme-hexcolor-gray-1: #161616;
     --theme-hexcolor-gray-2: #1a1a1a;
@@ -47,6 +53,9 @@
     --theme-elevation-backcolor-8: var(--theme-hexcolor-gray-8);
     --theme-elevation-backcolor-9: var(--theme-hexcolor-gray-9);
     --theme-text-color-0: var(--theme-hexcolor-text-0);
+    --theme-text-color-success: #3EC70B;
+    --theme-text-color-failure: #DC0303;
+
     /*#endregion */
     /*#region Control colors */
     --theme-form-control-back-color: var(--theme-hexcolor-gray-1, gray);
@@ -66,6 +75,32 @@
     --theme-fontfamily-tablecell: 'Arial';
     /*#endregion */
     --theme-box-shadow-opacity: 0.3;
+    /*#region Radzen.Blazor chart series override */
+    --rz-series-1: var(--theme-hexcolor-secondary-3-0, #3700b3) !important;
+    --rz-series-2: var(--theme-hexcolor-secondary-3-1, #ba68c8) !important;
+    --rz-series-3: var(--theme-hexcolor-secondary-3-2, #f06292) !important;
+    --rz-series-4: #ff8a65;
+    --rz-series-5: #ffee58;
+    --rz-series-6: #9ccc65;
+    --rz-series-7: #26a69a;
+    --rz-series-8: #4fc3f7;
+    --rz-series-9: #7f5cce;
+    --rz-series-10: #ce93d8;
+    --rz-series-11: #f48fb1;
+    --rz-series-12: #ffab91;
+    --rz-series-13: #fff176;
+    --rz-series-14: #aed581;
+    --rz-series-15: #4db6ac;
+    --rz-series-16: #81d4fa;
+    --rz-series-17: #a58cdd;
+    --rz-series-18: #e1bee7;
+    --rz-series-19: #f8bbd0;
+    --rz-series-20: #ffccbc;
+    --rz-series-21: #fff59d;
+    --rz-series-22: #c5e1a5;
+    --rz-series-23: #80cbc4;
+    --rz-series-24: #b3e5fc;
+    /*#endregion */
 }
 
 body {
@@ -111,3 +146,5 @@ body {
 ::deep [theme_elevation="09"] {
     background-color: var(--theme-elevation-backcolor-9, white);
 }
+
+
