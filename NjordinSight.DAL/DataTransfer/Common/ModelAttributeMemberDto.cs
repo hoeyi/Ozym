@@ -2,10 +2,9 @@
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public class ModelAttributeValueDto : DtoBase
+    public class ModelAttributeMemberDto : DtoBase
     {
         private int _attributeMemberId;
-        private int _attributeId;
         private string _displayName;
         private int _displayOrder;
 
@@ -23,26 +22,9 @@ namespace NjordinSight.DataTransfer.Common
         }
 
         [Display(
-            Name = nameof(ModelAttributeValueDto_SR.AttributeId_Name),
-            Description = nameof(ModelAttributeValueDto_SR.AttributeId_Description),
-            ResourceType = typeof(ModelAttributeValueDto_SR))]
-        public int AttributeId
-        {
-            get { return _attributeId; }
-            set
-            {
-                if (_attributeId != value)
-                {
-                    _attributeId = value;
-                    OnPropertyChanged(nameof(AttributeId));
-                }
-            }
-        }
-
-        [Display(
-            Name = nameof(ModelAttributeValueDto_SR.DisplayName_Name),
-            Description = nameof(ModelAttributeValueDto_SR.DisplayName_Description),
-            ResourceType = typeof(ModelAttributeValueDto_SR))]
+            Name = nameof(ModelAttributeMemberDto_SR.DisplayName_Name),
+            Description = nameof(ModelAttributeMemberDto_SR.DisplayName_Description),
+            ResourceType = typeof(ModelAttributeMemberDto_SR))]
         public string DisplayName
         {
             get { return _displayName; }
@@ -57,9 +39,9 @@ namespace NjordinSight.DataTransfer.Common
         }
 
         [Display(
-            Name = nameof(ModelAttributeValueDto_SR.DisplayOrder_Name),
-            Description = nameof(ModelAttributeValueDto_SR.DisplayOrder_Description),
-            ResourceType = typeof(ModelAttributeValueDto_SR))]
+            Name = nameof(ModelAttributeMemberDto_SR.DisplayOrder_Name),
+            Description = nameof(ModelAttributeMemberDto_SR.DisplayOrder_Description),
+            ResourceType = typeof(ModelAttributeMemberDto_SR))]
         public int DisplayOrder
         {
             get { return _displayOrder; }
@@ -72,6 +54,12 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        [Display(
+            Name = nameof(ModelAttributeMemberDto_SR.AttributeId_Name),
+            Description = nameof(ModelAttributeMemberDto_SR.AttributeId_Description),
+            ResourceType = typeof(ModelAttributeMemberDto_SR))]
+        public ModelAttributeDto Attribute { get; set; } = new();
     }
 
 

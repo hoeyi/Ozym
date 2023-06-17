@@ -152,10 +152,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ReportStyleSheetDto_SR.resx</DependentUpon>
     </Compile>
-    <Compile Update="DataTransfer\Common\ModelAttributeValueDto_SR.Designer.cs">
+    <Compile Update="DataTransfer\Common\ModelAttributeMemberDto_SR.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ModelAttributeValueDto_SR.resx</DependentUpon>
+      <DependentUpon>ModelAttributeMemberDto_SR.resx</DependentUpon>
     </Compile>
     <Compile Update="DataTransfer\Common\SecurityAttributeDto_SR.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -373,9 +373,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ReportStyleSheetDto_SR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="DataTransfer\Common\ModelAttributeValueDto_SR.resx">
+    <EmbeddedResource Update="DataTransfer\Common\ModelAttributeMemberDto_SR.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ModelAttributeValueDto_SR.Designer.cs</LastGenOutput>
+      <LastGenOutput>ModelAttributeMemberDto_SR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="DataTransfer\Common\SecurityAttributeDto_SR.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -461,9 +461,5 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DataTransfer\Collections\" />
   </ItemGroup>
 </Project>

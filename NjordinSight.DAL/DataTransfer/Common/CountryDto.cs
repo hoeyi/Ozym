@@ -7,6 +7,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using NjordinSight.DataTransfer.Common.Collections;
 
 namespace NjordinSight.DataTransfer.Common
 {
@@ -15,6 +16,12 @@ namespace NjordinSight.DataTransfer.Common
         private int _countryId;
         private string _displayName;
         private string _isoCode3;
+
+        public CountryDto()
+        {
+            Attributes = new List<CountryAttributeDto>();
+            AttributeCollection = new(this);
+        }
 
         [Display(
             Name = nameof(CountryDto_SR.CountryId_Name),
@@ -66,6 +73,10 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public CountryAttributeDtoCollection AttributeCollection { get; set; }
+
+        public ICollection<CountryAttributeDto> Attributes { get; set; }
     }
 
 }

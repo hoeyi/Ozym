@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using NjordinSight.DataTransfer.Common.Collections;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
@@ -11,6 +14,12 @@ namespace NjordinSight.DataTransfer.Common
         private short _cashEffect;
         private short _contributionWithdrawalEffect;
         private short _quantityEffect;
+
+        public BrokerTransactionCodeDto()
+        {
+            Attributes = new List<BrokerTransactionCodeAttributeDto>();
+            AttributeCollection = new(this);
+        }
 
         [Display(
             Name = nameof(BrokerTransactionCodeDto_SR.TransactionCodeId_Name),
@@ -113,6 +122,10 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public BrokerCodeAttributeDtoCollection AttributeCollection { get; set; }
+
+        public ICollection<BrokerTransactionCodeAttributeDto> Attributes { get; set; }
     }
 
 }

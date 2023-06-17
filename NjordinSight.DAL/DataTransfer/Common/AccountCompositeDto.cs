@@ -34,5 +34,7 @@ namespace NjordinSight.DataTransfer.Common
             Description = nameof(AccountCompositeDto_SR.DisplayName_Description),
             ResourceType = typeof(AccountCompositeDto_SR))]
         public override string DisplayName { get => base.DisplayName; set => base.DisplayName = value; }
+
+        public string ObjectType { get; init; } = "c";
     }
 }

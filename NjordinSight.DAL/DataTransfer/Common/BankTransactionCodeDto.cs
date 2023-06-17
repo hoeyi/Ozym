@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using NjordinSight.DataTransfer.Common.Collections;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
@@ -8,6 +11,12 @@ namespace NjordinSight.DataTransfer.Common
         private int _transactionCodeId;
         private string _transactionCode;
         private string _displayName;
+
+        public BankTransactionCodeDto()
+        {
+            Attributes = new List<BankTransactionCodeAttributeDto>();
+            AttributeCollection = new(this);
+        }
 
         [Display(
             Name = nameof(BankTransactionCodeDto_SR.TransactionCodeId_Name),
@@ -59,6 +68,10 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public BankCodeAttributeDtoCollection AttributeCollection { get; set; }
+
+        public ICollection<BankTransactionCodeAttributeDto> Attributes { get; set; }
     }
 
 }

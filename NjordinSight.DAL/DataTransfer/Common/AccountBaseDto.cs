@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NjordinSight.DataTransfer.Common.Collections;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace NjordinSight.DataTransfer.Common
 {
@@ -10,6 +13,12 @@ namespace NjordinSight.DataTransfer.Common
         private DateTime? _closeDate;
         private string _displayName;
         private string _description;
+
+        public AccountBaseDto()
+        {
+            Attributes = new List<AccountAttributeDto>();
+            AttributeCollection = new(this);
+        }
 
         public int Id
         {
@@ -89,5 +98,10 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public ICollection<AccountAttributeDto> Attributes { get; set; } 
+            = new List<AccountAttributeDto>();
+
+        public AccountAttributeDtoCollection AttributeCollection { get; set; }
     }
 }

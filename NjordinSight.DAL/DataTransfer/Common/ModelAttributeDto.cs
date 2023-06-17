@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
@@ -7,6 +9,11 @@ namespace NjordinSight.DataTransfer.Common
         private int _attributeId;
         private string _displayName;
 
+        public ModelAttributeDto()
+        {
+            AttributeValues = new List<ModelAttributeMemberDto>();
+            AttributeScopes = new List<ModelAttributeScopeDto>();
+        }
         public int AttributeId
         {
             get { return _attributeId; }
@@ -36,5 +43,9 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public ICollection<ModelAttributeMemberDto> AttributeValues { get; set; }
+
+        public ICollection<ModelAttributeScopeDto> AttributeScopes { get; set; }
     }
 }

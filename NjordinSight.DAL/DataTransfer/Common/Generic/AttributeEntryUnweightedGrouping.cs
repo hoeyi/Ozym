@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace NjordinSight.DataTransfer.Generic
+namespace NjordinSight.DataTransfer.Common.Generic
 {
     /// <summary>
     /// Base class for collections of attribute member entries that are children 
@@ -32,7 +32,7 @@ namespace NjordinSight.DataTransfer.Generic
         /// <exception cref="ArgumentNullException"></exception>
         protected AttributeEntryUnweightedGrouping(
             TParentEntity parentObject,
-            ModelAttribute parentAttribute)
+            ModelAttributeDto parentAttribute)
         {
             if (parentObject is null)
                 throw new ArgumentNullException(paramName: nameof(parentObject));
@@ -76,7 +76,7 @@ namespace NjordinSight.DataTransfer.Generic
         public IEnumerable<TChildEntity> Entries => ParentEntryCollection.Where(EntrySelector);
 
         /// <inheritdoc/>
-        public ModelAttribute ParentAttribute { get; init; }
+        public ModelAttributeDto ParentAttribute { get; init; }
 
         /// <inheritdoc/>
         public TParentEntity ParentObject { get; private set; }

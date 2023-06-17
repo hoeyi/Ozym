@@ -144,5 +144,7 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public string ObjectType { get; init; } = "a";
     }
 }

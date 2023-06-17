@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using NjordinSight.DataTransfer.Common.Collections;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
@@ -12,6 +15,13 @@ namespace NjordinSight.DataTransfer.Common
         private string _issuer;
         private bool _hasPerpetualMarket;
         private bool _hasPerpetualPrice;
+
+        public SecurityDto()
+        {
+            Attributes = new List<SecurityAttributeDto>();
+            AttributeCollection = new(this);
+            Symbols = new List<SecuritySymbolDto>();
+        }
 
         [Display(
             Name = nameof(SecurityDto_SR.SecurityId_Name),
@@ -132,5 +142,10 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
+        public SecurityAttributeDtoCollection AttributeCollection { get; set; }
+
+        public ICollection<SecurityAttributeDto> Attributes { get; set; }
+
+        public ICollection<SecuritySymbolDto> Symbols { get; set; }
     }
 }

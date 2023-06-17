@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public class SecurityAttributeMemberEntryDto : DtoBase
+    public class SecurityAttributeDto : DtoBase
     {
         private int _attributeMemberId;
         private int _securityId;
@@ -84,6 +84,8 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public ModelAttributeMemberDto AttributeMember { get; set; } = new();
     }
 
 }

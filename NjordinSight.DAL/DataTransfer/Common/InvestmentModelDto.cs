@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using NjordinSight.DataTransfer.Common.Collections;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
@@ -8,6 +11,12 @@ namespace NjordinSight.DataTransfer.Common
         private int _investmentModelId;
         private string _displayName;
         private string _notes;
+
+        public InvestmentModelDto()
+        {
+            Targets = new List<InvestmentModelTargetDto>();
+            TargetCollection = new(this);
+        }
 
         [Display(
             Name = nameof(InvestmentModelDto_SR.InvestmentModelId_Name),
@@ -59,6 +68,10 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public InvestmentModelTargetDtoCollection TargetCollection { get; set; }
+
+        public ICollection<InvestmentModelTargetDto> Targets { get; set; }
     }
 
 }

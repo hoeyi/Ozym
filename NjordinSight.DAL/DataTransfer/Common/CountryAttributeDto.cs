@@ -84,6 +84,9 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public ModelAttributeMemberDto AttributeMember { get; set; }
+
     }
 
 }
