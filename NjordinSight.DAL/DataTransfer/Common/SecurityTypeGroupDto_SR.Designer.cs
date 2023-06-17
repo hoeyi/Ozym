@@ -79,6 +79,24 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order in which the type group is displayed in reports..
+        /// </summary>
+        internal static string DisplayOrder_Description {
+            get {
+                return ResourceManager.GetString("DisplayOrder_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Order.
+        /// </summary>
+        internal static string DisplayOrder_Name {
+            get {
+                return ResourceManager.GetString("DisplayOrder_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string SecurityTypeGroupId_Description {

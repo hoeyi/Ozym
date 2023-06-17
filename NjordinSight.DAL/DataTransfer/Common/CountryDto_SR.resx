@@ -129,6 +129,12 @@
   <data name="DisplayName_Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="DisplayOrder_Description" xml:space="preserve">
+    <value>Order in which the country is displayed in reports.</value>
+  </data>
+  <data name="DisplayOrder_Name" xml:space="preserve">
+    <value>Display Order</value>
+  </data>
   <data name="IsoCode3_Description" xml:space="preserve">
     <value>ISO-3 code identifiying the country / territory.</value>
   </data>

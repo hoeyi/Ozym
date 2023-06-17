@@ -123,6 +123,12 @@
   <data name="DepositSource_Name" xml:space="preserve">
     <value>Is Deposit Source</value>
   </data>
+  <data name="DisplayOrder_Description" xml:space="preserve">
+    <value>Order in which the type group is displayed in reports.</value>
+  </data>
+  <data name="DisplayOrder_Name" xml:space="preserve">
+    <value>Display Order</value>
+  </data>
   <data name="SecurityTypeGroupId_Description" xml:space="preserve">
     <value />
   </data>

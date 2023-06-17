@@ -97,6 +97,24 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order in which the security type is displayed in reports..
+        /// </summary>
+        internal static string DisplayOrder_Description {
+            get {
+                return ResourceManager.GetString("DisplayOrder_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Order.
+        /// </summary>
+        internal static string DisplayOrder_Name {
+            get {
+                return ResourceManager.GetString("DisplayOrder_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Indicates whether securities of the type are held in a digital wallet..
         /// </summary>
         internal static string HeldInWallet_Description {

@@ -74,6 +74,12 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
+        [Display(
+            Name = nameof(CountryDto_SR.DisplayOrder_Name),
+            Description = nameof(CountryDto_SR.DisplayOrder_Description),
+            ResourceType = typeof(CountryDto_SR))]
+        public int DisplayOrder { get; set; }
+
         public CountryAttributeDtoCollection AttributeCollection { get; set; }
 
         public ICollection<CountryAttributeDto> Attributes { get; set; }

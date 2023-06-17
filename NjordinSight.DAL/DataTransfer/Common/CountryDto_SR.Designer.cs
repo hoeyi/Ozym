@@ -97,6 +97,24 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order in which the country is displayed in reports..
+        /// </summary>
+        internal static string DisplayOrder_Description {
+            get {
+                return ResourceManager.GetString("DisplayOrder_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Order.
+        /// </summary>
+        internal static string DisplayOrder_Name {
+            get {
+                return ResourceManager.GetString("DisplayOrder_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ISO-3 code identifiying the country / territory..
         /// </summary>
         internal static string IsoCode3_Description {

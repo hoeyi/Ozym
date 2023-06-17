@@ -77,6 +77,12 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        [Display(
+            Name = nameof(SecurityTypeGroupDto_SR.DisplayOrder_Name),
+            Description = nameof(SecurityTypeGroupDto_SR.DisplayOrder_Description),
+            ResourceType = typeof(SecurityTypeGroupDto_SR))]
+        public int DisplayOrder { get; set; }
     }
 
 }

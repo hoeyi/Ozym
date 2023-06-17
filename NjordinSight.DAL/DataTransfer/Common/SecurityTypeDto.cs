@@ -131,6 +131,12 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        [Display(
+            Name = nameof(SecurityTypeDto_SR.DisplayOrder_Name),
+            Description = nameof(SecurityTypeDto_SR.DisplayOrder_Description),
+            ResourceType = typeof(SecurityTypeDto_SR))]
+        public int DisplayOrder { get; set; }
     }
 
 }
