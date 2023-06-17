@@ -69,8 +69,6 @@ namespace NjordinSight.DataTransfer.Generic
     #region IAttributeGrouping implementation
     public abstract partial class AttributeEntryUnweightedGrouping<TParentEntity, TChildEntity> :
         IAttributeEntryUnweightedGrouping<TParentEntity, TChildEntity>
-        where TParentEntity : class, new()
-        where TChildEntity : class, new()
     {
         /// <inheritdoc/>
         public bool IsEmpty => !Entries.Any();

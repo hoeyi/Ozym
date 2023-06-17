@@ -4,8 +4,6 @@ namespace NjordinSight.DataTransfer.Generic
 {
     public interface IAttributeEntryWeightedGrouping<TParentEntity, TEntryEntity>
         : IAttributeEntryUnweightedGrouping<TParentEntity, TEntryEntity>
-        where TParentEntity : class, new()
-        where TEntryEntity : class, new()
     {
 
         /// <summary>
