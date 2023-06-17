@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using NjordinSight.EntityModel.Metadata;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -31,6 +32,9 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(ModelAttributeDto_SR.DisplayName_Name),
             Description = nameof(ModelAttributeDto_SR.DisplayName_Description),
             ResourceType = typeof(ModelAttributeDto_SR))]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string DisplayName
         {
             get { return _displayName; }

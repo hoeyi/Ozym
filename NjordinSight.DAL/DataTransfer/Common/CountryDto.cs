@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using NjordinSight.DataTransfer.Common.Collections;
+using NjordinSight.EntityModel.Metadata;
 
 namespace NjordinSight.DataTransfer.Common
 {
@@ -44,6 +45,12 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(CountryDto_SR.DisplayName_Name),
             Description = nameof(CountryDto_SR.DisplayName_Description),
             ResourceType = typeof(CountryDto_SR))]
+        [Required(
+                    ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+                    ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(32,
+                    ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+                    ErrorMessageResourceType = typeof(ModelValidation))]
         public string DisplayName
         {
             get { return _displayName; }

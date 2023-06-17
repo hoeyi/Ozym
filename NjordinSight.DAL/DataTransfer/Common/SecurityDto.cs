@@ -1,4 +1,5 @@
 ﻿using NjordinSight.DataTransfer.Common.Collections;
+using NjordinSight.EntityModel.Metadata;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ namespace NjordinSight.DataTransfer.Common
     {
         private int _securityId;
         private int _securityTypeId;
-        private int _securityExchangeId;
+        private int? _securityExchangeId;
         private string _securityDescription;
         private string _issuer;
         private bool _hasPerpetualMarket;
@@ -61,7 +62,7 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(SecurityDto_SR.SecurityExchangeId_Name),
             Description = nameof(SecurityDto_SR.SecurityExchangeId_Description),
             ResourceType = typeof(SecurityDto_SR))]
-        public int SecurityExchangeId
+        public int? SecurityExchangeId
         {
             get { return _securityExchangeId; }
             set
@@ -78,6 +79,12 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(SecurityDto_SR.SecurityDescription_Name),
             Description = nameof(SecurityDto_SR.SecurityDescription_Description),
             ResourceType = typeof(SecurityDto_SR))]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string SecurityDescription
         {
             get { return _securityDescription; }
@@ -95,6 +102,9 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(SecurityDto_SR.Issuer_Name),
             Description = nameof(SecurityDto_SR.Issuer_Description),
             ResourceType = typeof(SecurityDto_SR))]
+        [StringLength(96,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string Issuer
         {
             get { return _issuer; }

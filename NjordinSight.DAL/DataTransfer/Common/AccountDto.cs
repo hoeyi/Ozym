@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NjordinSight.EntityModel.Metadata;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
@@ -16,6 +17,12 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(AccountCompositeDto_SR.ShortCode_Name),
             Description = nameof(AccountCompositeDto_SR.ShortCode_Description),
             ResourceType = typeof(AccountCompositeDto_SR))]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(12,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public override string ShortCode { get => base.ShortCode; set => base.ShortCode = value; }
 
         [Display(
@@ -34,12 +41,21 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(AccountCompositeDto_SR.Description_Name),
             Description = nameof(AccountCompositeDto_SR.Description_Description),
             ResourceType = typeof(AccountCompositeDto_SR))]
+        [StringLength(128,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public override string Description { get => base.Description; set => base.Description = value; }
 
         [Display(
             Name = nameof(AccountCompositeDto_SR.DisplayName_Name),
             Description = nameof(AccountCompositeDto_SR.DisplayName_Description),
             ResourceType = typeof(AccountCompositeDto_SR))]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public override string DisplayName { get => base.DisplayName; set => base.DisplayName = value; }
 
 
@@ -47,6 +63,9 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(AccountDto_SR.AccountNumber_Name),
             Description = nameof(AccountDto_SR.AccountNumber_Description),
             ResourceType = typeof(AccountDto_SR))]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string AccountNumber
         {
             get { return _accountNumber; }

@@ -1,4 +1,5 @@
 ﻿using NjordinSight.DataTransfer.Common.Collections;
+using NjordinSight.EntityModel.Metadata;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,6 +40,12 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(InvestmentModelDto_SR.DisplayName_Name),
             Description = nameof(InvestmentModelDto_SR.DisplayName_Description),
             ResourceType = typeof(InvestmentModelDto_SR))]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(32,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
         public string DisplayName
         {
             get { return _displayName; }
