@@ -1,4 +1,5 @@
-﻿using NjordinSight.EntityModel.Metadata;
+﻿using NjordinSight.EntityModel;
+using NjordinSight.EntityModel.Metadata;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,7 +8,7 @@ namespace NjordinSight.DataTransfer.Common
     public class AccountDto : AccountBaseDto
     {
         private string _accountNumber;
-        private int _accountCustodianId;
+        private int? _accountCustodianId;
         private DateTime? _booksClosedDate;
         private bool _hasWallet;
         private bool _hasBankTransaction;
@@ -83,7 +84,7 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(AccountDto_SR.AccountCustodianId_Name),
             Description = nameof(AccountDto_SR.AccountCustodianId_Description),
             ResourceType = typeof(AccountDto_SR))]
-        public int AccountCustodianId
+        public int? AccountCustodianId
         {
             get { return _accountCustodianId; }
             set
@@ -164,6 +165,6 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
-        public string ObjectType { get; init; } = "a";
+        public override string ObjectType { get; } = AccountObjectType.Account.ConvertToStringCode();
     }
 }

@@ -2,10 +2,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public class AccountBaseDto : DtoBase
+    public abstract class AccountBaseDto : DtoBase
     {
         private int _id;
         private string _shortCode;
@@ -16,7 +17,7 @@ namespace NjordinSight.DataTransfer.Common
 
         public AccountBaseDto()
         {
-            Attributes = new List<AccountAttributeDto>();
+            Attributes = new List<AccountBaseAttributeDto>();
             AttributeCollection = new(this);
         }
 
@@ -99,9 +100,12 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
-        public ICollection<AccountAttributeDto> Attributes { get; set; } 
-            = new List<AccountAttributeDto>();
+        public abstract string ObjectType { get; }
 
+        public ICollection<AccountBaseAttributeDto> Attributes { get; set; } 
+            = new List<AccountBaseAttributeDto>();
+
+        [JsonIgnore]
         public AccountAttributeDtoCollection AttributeCollection { get; set; }
     }
 }

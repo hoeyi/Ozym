@@ -1,4 +1,5 @@
-﻿using NjordinSight.EntityModel.Metadata;
+﻿using NjordinSight.EntityModel;
+using NjordinSight.EntityModel.Metadata;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -51,6 +52,6 @@ namespace NjordinSight.DataTransfer.Common
             ErrorMessageResourceType = typeof(ModelValidation))]
         public override string DisplayName { get => base.DisplayName; set => base.DisplayName = value; }
 
-        public string ObjectType { get; init; } = "c";
+        public override string ObjectType { get; } = AccountObjectType.Composite.ConvertToStringCode();
     }
 }
