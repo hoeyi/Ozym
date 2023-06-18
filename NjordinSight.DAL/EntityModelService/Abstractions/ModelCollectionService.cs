@@ -1,7 +1,6 @@
 ﻿using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NjordinSight.DataTransfer;
 using NjordinSight.EntityModelService.ChangeTracking;
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NjordinSight.EntityModel.Context;
 using Ichosys.DataModel.Annotations;
+using NjordinSight.DataTransfer.Deprecated;
 
 namespace NjordinSight.EntityModelService.Abstractions
 {

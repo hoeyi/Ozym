@@ -1,27 +1,27 @@
-﻿using NjordinSight.EntityModel.Metadata;
+﻿using NjordinSight.EntityModel;
+using NjordinSight.EntityModel.Annotations;
+using NjordinSight.EntityModel.Metadata;
+using NjordinSight.DataTransfer.Generic;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using NjordinSight.EntityModel.Annotations;
-using NjordinSight.DataTransfer.Generic;
-using NjordinSight.EntityModel;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
     [ModelAttributeSupport(
-            SupportedScopes = ModelAttributeScopeCode.BrokerTransactionCode)]
-    public class BrokerTransactionCodeDto
+            SupportedScopes = ModelAttributeScopeCode.BankTransactionCode)]
+    public class BankTransactionCodeDto
         : AttributeEntryUnweightedCollection<
-            BrokerTransactionCode,
-            BrokerTransactionCodeAttributeMemberEntry,
-            BrokerTransactionCodeAttributeGrouping>
+            BankTransactionCode,
+            BankTransactionCodeAttributeMemberEntry,
+            BankTransactionCodeAttributeGrouping>
     {
-        public BrokerTransactionCodeDto(BrokerTransactionCode sourceModel)
+        public BankTransactionCodeDto(BankTransactionCode sourceModel)
             : base(
                   parentEntity: sourceModel,
                   groupConstructor: (parent, attriubte) =>
                   {
-                      return new BrokerTransactionCodeAttributeGrouping(parent, attriubte);
+                      return new BankTransactionCodeAttributeGrouping(parent, attriubte);
                   },
                   groupConverter: (grouping, parent) =>
                   {
@@ -39,7 +39,7 @@ namespace NjordinSight.DataTransfer
                             var attribute = g.First().AttributeMember.Attribute;
 
                             var group = new AttributeGrouping<
-                                ModelAttribute, BrokerTransactionCodeAttributeMemberEntry>(
+                                ModelAttribute, BankTransactionCodeAttributeMemberEntry>(
                                 key: attribute, collection: g);
 
                             return group;
@@ -47,34 +47,34 @@ namespace NjordinSight.DataTransfer
                   },
                   entryMemberSelector: (parent) =>
                   {
-                      return parent.BrokerTransactionCodeAttributeMemberEntries;
+                      return parent.BankTransactionCodeAttributeMemberEntries;
                   },
                   entryDateSelector: (entry) => entry.EffectiveDate)
         {
             // Check child entry records were included in the given model.
-            if (sourceModel.BrokerTransactionCodeAttributeMemberEntries is null)
+            if (sourceModel.BankTransactionCodeAttributeMemberEntries is null)
                 throw new InvalidOperationException(
-                    message: GetIncompleteObjectGraphMessage(x => x.BrokerTransactionCodeAttributeMemberEntries));
+                    message: GetIncompleteObjectGraphMessage(x => x.BankTransactionCodeAttributeMemberEntries));
 
             // Check all child records have the ModelAttributeMember related record.
-            if (sourceModel.BrokerTransactionCodeAttributeMemberEntries.Any(a => a.AttributeMember is null))
+            if (sourceModel.BankTransactionCodeAttributeMemberEntries.Any(a => a.AttributeMember is null))
                 throw new InvalidOperationException(
                     message: GetIncompleteObjectGraphMessage(x => x.AttributeMember));
 
             // Check all child record ModelAttributeMember records have the ModelAttribute record.
-            if (sourceModel.BrokerTransactionCodeAttributeMemberEntries.Any(a => a.AttributeMember.Attribute is null))
+            if (sourceModel.BankTransactionCodeAttributeMemberEntries.Any(a => a.AttributeMember.Attribute is null))
                 throw new InvalidOperationException(
                     message: GetIncompleteObjectGraphMessage(x => x.AttributeMember.Attribute));
         }
 
         [Display(
-            Name = nameof(ModelDisplay.BrokerTransactionCode_TransactionCode_Name),
-            Description = nameof(ModelDisplay.BrokerTransactionCode_TransactionCode_Description),
+            Name = nameof(ModelDisplay.BankTransactionCode_TransactionCode_Name),
+            Description = nameof(ModelDisplay.BankTransactionCode_TransactionCode_Description),
             ResourceType = typeof(ModelDisplay))]
         [Required(
             ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]
-        [StringLength(3,
+        [StringLength(12,
             ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]
         public string TransactionCode
@@ -88,8 +88,8 @@ namespace NjordinSight.DataTransfer
         }
 
         [Display(
-            Name = nameof(ModelDisplay.BrokerTransactionCode_DisplayName_Name),
-            Description = nameof(ModelDisplay.BrokerTransactionCode_DisplayName_Description),
+            Name = nameof(ModelDisplay.BankTransactionCode_DisplayName_Name),
+            Description = nameof(ModelDisplay.BankTransactionCode_DisplayName_Description),
             ResourceType = typeof(ModelDisplay))]
         [Required(
             ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
@@ -104,48 +104,6 @@ namespace NjordinSight.DataTransfer
             {
                 if (ParentEntity.DisplayName != value)
                     ParentEntity.DisplayName = value;
-            }
-        }
-
-        [Display(
-            Name = nameof(ModelDisplay.BrokerTransactionCode_CashEffect_Name),
-            Description = nameof(ModelDisplay.BrokerTransactionCode_CashEffect_Description),
-            ResourceType = typeof(ModelDisplay))]
-        public short CashEffect
-        {
-            get { return ParentEntity.CashEffect; }
-            set
-            {
-                if (ParentEntity.CashEffect != value)
-                    ParentEntity.CashEffect = value;
-            }
-        }
-
-        [Display(
-            Name = nameof(ModelDisplay.BrokerTransactionCode_ContributionWithdrawalEffect_Name),
-            Description = nameof(ModelDisplay.BrokerTransactionCode_ContributionWithdrawalEffect_Description),
-            ResourceType = typeof(ModelDisplay))]
-        public short ContributionWithdrawalEffect
-        {
-            get { return ParentEntity.ContributionWithdrawalEffect; }
-            set
-            {
-                if (ParentEntity.ContributionWithdrawalEffect != value)
-                    ParentEntity.ContributionWithdrawalEffect = value;
-            }
-        }
-
-        [Display(
-            Name = nameof(ModelDisplay.BrokerTransactionCode_QuantityEffect_Name),
-            Description = nameof(ModelDisplay.BrokerTransactionCode_QuantityEffect_Description),
-            ResourceType = typeof(ModelDisplay))]
-        public short QuantityEffect
-        {
-            get { return ParentEntity.QuantityEffect; }
-            set
-            {
-                if (ParentEntity.QuantityEffect != value)
-                    ParentEntity.QuantityEffect = value;
             }
         }
     }

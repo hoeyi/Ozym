@@ -5,7 +5,7 @@ using System.Linq;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Metadata;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
     public class SecurityDto
     {
@@ -43,7 +43,7 @@ namespace NjordinSight.DataTransfer
                     _security.SecurityTypeId = value;
             }
         }
-        
+
         [Display(
             Name = nameof(ModelDisplay.Security_SecurityExchangeID_Name),
             Description = nameof(ModelDisplay.Security_SecurityExchangeID_Description),
@@ -77,7 +77,7 @@ namespace NjordinSight.DataTransfer
                     _security.SecurityDescription = value;
             }
         }
-        
+
         [Display(
             Name = nameof(ModelDisplay.Security_Issuer_Name),
             Description = nameof(ModelDisplay.Security_Issuer_Description),
@@ -133,7 +133,7 @@ namespace NjordinSight.DataTransfer
 
         public void RemoveSecuritySymbol(SecuritySymbol securitySymbol) =>
             _security.SecuritySymbols.Remove(securitySymbol);
-        
+
         public Security ToEntity() => _security;
     }
 }

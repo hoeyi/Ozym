@@ -4,7 +4,7 @@ using System.Linq;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Annotations;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
     [ModelAttributeSupport(
         SupportedScopes = ModelAttributeScopeCode.Account)]
@@ -19,12 +19,12 @@ namespace NjordinSight.DataTransfer
                   groupConstructor: (parent, attriubte) =>
                   {
                       return new AccountAttributeGrouping(parent, attriubte);
-    },
+                  },
                   groupConverter: (grouping, parent) =>
                   {
                       var firstEntry = grouping.Where(x => x.AttributeMember is not null).First();
 
-                      return new (
+                      return new(
                           parentEntity: parent,
                           modelAttribute: firstEntry.AttributeMember.Attribute);
                   },

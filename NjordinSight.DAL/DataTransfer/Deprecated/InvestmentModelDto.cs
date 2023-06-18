@@ -6,29 +6,30 @@ using NjordinSight.DataTransfer.Generic;
 using NjordinSight.EntityModel.Annotations;
 using NjordinSight.EntityModel;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
-    [ModelAttributeSupport(SupportedScopes = ModelAttributeScopeCode.Country)]
-    public class CountryDto
+    [ModelAttributeSupport(
+            SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]
+    public class InvestmentModelDto
         : AttributeEntryWeightedCollection<
-            Country,
-            CountryAttributeMemberEntry,
-            CountryAttributeGrouping>
+            InvestmentStrategy,
+            InvestmentStrategyTarget,
+            InvestmentModelTargetGrouping>
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="CountryDto"/>
+        /// Initializes a new instance of <see cref="InvestmentModelDto"/>
         /// </summary>
         /// <param name="sourceModel"></param>
         /// <exception cref="ArgumentNullException"><paramref name="sourceModel"/> was null.</exception>
         /// <exception cref="InvalidOperationException"><paramref name="sourceModel"/> did not include 
-        /// the <see cref="Country.CountryAttributeMemberEntries"/> and/or 
-        /// <see cref="CountryAttributeMemberEntry.AttributeMember"/> members.</exception>
-        public CountryDto(Country sourceModel)
+        /// the <see cref="InvestmentStrategy.InvestmentStrategyTargets"/> and/or 
+        /// <see cref="InvestmentStrategyTarget.AttributeMember"/> members.</exception>
+        public InvestmentModelDto(InvestmentStrategy sourceModel)
             : base(
                   parentEntity: sourceModel,
                   groupConstructor: (parent, key) =>
                   {
-                      return new CountryAttributeGrouping(parent, key.Item1, key.Item2);
+                      return new InvestmentModelTargetGrouping(parent, key.Item1, key.Item2);
                   },
                   groupingConverterFunc: (grouping, parent) =>
                   {
@@ -49,7 +50,7 @@ namespace NjordinSight.DataTransfer
 
                             var group = new AttributeGrouping<
                                 (ModelAttribute, DateTime),
-                                CountryAttributeMemberEntry>(
+                                InvestmentStrategyTarget>(
                                 key: (attribute, forDate), collection: g);
 
                             return group;
@@ -57,28 +58,28 @@ namespace NjordinSight.DataTransfer
                   },
                   entryMemberSelector: (parent) =>
                   {
-                      return parent.CountryAttributeMemberEntries;
+                      return parent.InvestmentStrategyTargets;
                   })
         {
             // Check child entry records were included in the given model.
-            if (sourceModel.CountryAttributeMemberEntries is null)
+            if (sourceModel.InvestmentStrategyTargets is null)
                 throw new InvalidOperationException(
-                    message: GetIncompleteObjectGraphMessage(x => x.CountryAttributeMemberEntries));
+                    message: GetIncompleteObjectGraphMessage(x => x.InvestmentStrategyTargets));
 
             // Check all child records have the ModelAttributeMember related record.
-            if (sourceModel.CountryAttributeMemberEntries.Any(a => a.AttributeMember is null))
+            if (sourceModel.InvestmentStrategyTargets.Any(a => a.AttributeMember is null))
                 throw new InvalidOperationException(
                     message: GetIncompleteObjectGraphMessage(x => x.AttributeMember));
 
             // Check all child record ModelAttributeMember records have the ModelAttribute record.
-            if (sourceModel.CountryAttributeMemberEntries.Any(a => a.AttributeMember.Attribute is null))
+            if (sourceModel.InvestmentStrategyTargets.Any(a => a.AttributeMember.Attribute is null))
                 throw new InvalidOperationException(
                     message: GetIncompleteObjectGraphMessage(x => x.AttributeMember.Attribute));
         }
 
         [Display(
-                    Name = nameof(ModelDisplay.Country_DisplayName_Name),
-                    Description = nameof(ModelDisplay.Country_DisplayName_Description),
+                    Name = nameof(ModelDisplay.InvestmentStrategy_DisplayName_Name),
+                    Description = nameof(ModelDisplay.InvestmentStrategy_DisplayName_Description),
                     ResourceType = typeof(ModelDisplay))]
         [Required(
                     ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
@@ -97,16 +98,16 @@ namespace NjordinSight.DataTransfer
         }
 
         [Display(
-            Name = nameof(ModelDisplay.Country_IsoCode3_Name),
-            Description = nameof(ModelDisplay.Country_IsoCode3_Description),
+            Name = nameof(ModelDisplay.InvestmentStrategy_Notes_Name),
+            Description = nameof(ModelDisplay.InvestmentStrategy_Notes_Description),
             ResourceType = typeof(ModelDisplay))]
-        public string IsoCode3
+        public string Notes
         {
-            get { return ParentEntity.IsoCode3; }
+            get { return ParentEntity.Notes; }
             set
             {
-                if (ParentEntity.IsoCode3 != value)
-                    ParentEntity.IsoCode3 = value;
+                if (ParentEntity.Notes != value)
+                    ParentEntity.Notes = value;
             }
         }
     }

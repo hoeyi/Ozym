@@ -4,7 +4,7 @@ using NjordinSight.DataTransfer.Generic;
 using System;
 using System.Linq;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
     [ModelAttributeSupport(
             SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]

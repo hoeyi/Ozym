@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using NjordinSight.EntityModel;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
     public class AccountDto : AccountObjectDto
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NjordinSight.EntityModel;
 using NjordinSight.DataTransfer.Generic;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
     /// <summary>
     /// Represents a collection of <see cref="InvestmentStrategyTarget"/> instances with the same 

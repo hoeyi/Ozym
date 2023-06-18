@@ -3,41 +3,41 @@ using NjordinSight.DataTransfer.Generic;
 using System;
 using System.Collections.Generic;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
-    public class BankTransactionCodeAttributeGrouping
-        : AttributeEntryUnweightedGrouping<BankTransactionCode, BankTransactionCodeAttributeMemberEntry>,
-        IAttributeEntryUnweightedGrouping<BankTransactionCode, BankTransactionCodeAttributeMemberEntry>
+    public class BrokerTransactionCodeAttributeGrouping
+        : AttributeEntryUnweightedGrouping<BrokerTransactionCode, BrokerTransactionCodeAttributeMemberEntry>,
+        IAttributeEntryUnweightedGrouping<BrokerTransactionCode, BrokerTransactionCodeAttributeMemberEntry>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BankTransactionCodeAttributeGrouping"/> 
         /// class.
         /// </summary>
-        /// <param name="parentEntity">The <see cref="BankTransactionCode"/> to which entries in the instance apply.</param>
+        /// <param name="parentEntity">The <see cref="BrokerTransactionCode"/> to which entries in the instance apply.</param>
         /// <param name="modelAttribute">The <see cref="ModelAttribute"/> that entries in the instance describe.</param>
         /// <param name="effectiveDate">The effective date for entries in the instance.</param>
-        public BankTransactionCodeAttributeGrouping(
-            BankTransactionCode parentEntity, ModelAttribute modelAttribute)
+        public BrokerTransactionCodeAttributeGrouping(
+            BrokerTransactionCode parentEntity, ModelAttribute modelAttribute)
             : base(parentEntity, modelAttribute)
         {
         }
 
         /// <inheritdoc/>
-        protected override Func<BankTransactionCode, ICollection<BankTransactionCodeAttributeMemberEntry>>
-            ParentEntryMemberSelector => x => x.BankTransactionCodeAttributeMemberEntries;
+        protected override Func<BrokerTransactionCode, ICollection<BrokerTransactionCodeAttributeMemberEntry>>
+            ParentEntryMemberSelector => x => x.BrokerTransactionCodeAttributeMemberEntries;
 
         /// <inheritdoc/>
-        protected override Func<BankTransactionCodeAttributeMemberEntry, bool> EntrySelector => x =>
+        protected override Func<BrokerTransactionCodeAttributeMemberEntry, bool> EntrySelector => x =>
             x.AttributeMember is null || x.AttributeMember.AttributeId == ParentAttribute.AttributeId;
 
         /// <inheritdoc/>
-        protected override Func<BankTransactionCodeAttributeMemberEntry, decimal> WeightSelector =>
+        protected override Func<BrokerTransactionCodeAttributeMemberEntry, decimal> WeightSelector =>
             x => x.Weight;
 
         /// <inheritdoc/>
-        public override BankTransactionCodeAttributeMemberEntry AddNewEntry()
+        public override BrokerTransactionCodeAttributeMemberEntry AddNewEntry()
         {
-            BankTransactionCodeAttributeMemberEntry newEntry = new()
+            BrokerTransactionCodeAttributeMemberEntry newEntry = new()
             {
                 TransactionCodeId = ParentObject.TransactionCodeId,
                 EffectiveDate = DateTime.UtcNow.Date,

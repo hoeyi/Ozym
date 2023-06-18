@@ -1,4 +1,4 @@
-﻿using NjordinSight.DataTransfer;
+﻿using NjordinSight.DataTransfer.Deprecated;
 using NjordinSight.UserInterface;
 using System;
 using System.Collections.Generic;

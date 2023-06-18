@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
     /// <summary>
     /// Object wrapping a <see cref="ModelAttribute"/> instance for later conversion to a
@@ -26,8 +26,8 @@ namespace NjordinSight.DataTransfer
         public string DisplayName
         {
             get { return _entity.DisplayName; }
-            set 
-            { 
+            set
+            {
                 if (_entity.DisplayName != value)
                     _entity.DisplayName = value;
             }

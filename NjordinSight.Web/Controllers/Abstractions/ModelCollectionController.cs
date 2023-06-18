@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Linq;
 using NjordinSight.EntityModelService.Abstractions;
-using NjordinSight.DataTransfer;
+using NjordinSight.DataTransfer.Deprecated;
 
 namespace NjordinSight.Web.Controllers.Abstractions
 {
@@ -41,9 +41,6 @@ namespace NjordinSight.Web.Controllers.Abstractions
         }
     }
 
-    // TODO: Move the use of <T, TParent> collection service into a separate class.
-    //       Use here causes issues with the DI service collection resolution because 
-    //       some collections are not children of a parent object.
     public class ModelCollectionController<T> : ControllerBase, ICollectionController<T>
         where T : class, new()
     {

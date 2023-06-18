@@ -10,7 +10,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
 {
     /// <summary>
     /// Base class for collections of attribute member entries that are children 
-    /// of a composite entity uniquely identified by a composite key constructed from <see cref="ModelAttribute"/>, 
+    /// of a <typeparamref name="TParentEntity"/> with a key constructed from <see cref="ModelAttribute"/>, 
     /// and <typeparamref name="TParentEntity"/> identifiers, as well as a <see cref="DateTime"/>.
     /// </summary>
     /// <typeparam name="TChildEntity">The entity type this view model represents.</typeparam>

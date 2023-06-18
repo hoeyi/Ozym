@@ -4,37 +4,38 @@ using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Annotations;
 using NjordinSight.DataTransfer.Generic;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
-    [ModelAttributeSupport(SupportedScopes = ModelAttributeScopeCode.Country)]
+    [ModelAttributeSupport(
+            SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]
     /// <summary>
-    /// Represents a collection of <see cref="CountryAttributeMemberEntry"/> instances with the same 
-    /// <see cref="Country" />, <see cref="ModelAttribute"/>, and effective date.
+    /// Represents a collection of <see cref="SecurityAttributeMemberEntry"/> instances with the same 
+    /// <see cref="Security" />, <see cref="ModelAttribute"/>, and effective date.
     /// </summary>
-    public class CountryAttributeGrouping :
-        AttributeEntryWeightedGrouping<Country, CountryAttributeMemberEntry>
+    public class SecurityAttributeGrouping :
+        AttributeEntryWeightedGrouping<Security, SecurityAttributeMemberEntry>
     {
-        public CountryAttributeGrouping(
-            Country parentEntity,
+        public SecurityAttributeGrouping(
+            Security parentEntity,
             ModelAttribute modelAttribute,
             DateTime effectiveDate) : base(parentEntity, modelAttribute, effectiveDate)
         {
         }
 
-        protected override Func<Country, ICollection<CountryAttributeMemberEntry>>
-            ParentEntryMemberSelector => x => x.CountryAttributeMemberEntries;
+        protected override Func<Security, ICollection<SecurityAttributeMemberEntry>>
+            ParentEntryMemberSelector => x => x.SecurityAttributeMemberEntries;
 
-        protected override Func<CountryAttributeMemberEntry, bool> EntrySelector => x =>
+        protected override Func<SecurityAttributeMemberEntry, bool> EntrySelector => x =>
             (x.AttributeMember is null || x.AttributeMember.AttributeId == ParentAttribute.AttributeId)
                 && x.EffectiveDate == EffectiveDate;
 
-        protected override Func<CountryAttributeMemberEntry, decimal> WeightSelector => x => x.Weight;
+        protected override Func<SecurityAttributeMemberEntry, decimal> WeightSelector => x => x.Weight;
 
-        public override CountryAttributeMemberEntry AddNewEntry()
+        public override SecurityAttributeMemberEntry AddNewEntry()
         {
-            CountryAttributeMemberEntry newEntry = new()
+            SecurityAttributeMemberEntry newEntry = new()
             {
-                CountryId = ParentObject.CountryId,
+                SecurityId = ParentObject.SecurityId,
                 EffectiveDate = EffectiveDate,
                 Weight = default,
                 AttributeMemberId = default,
@@ -52,7 +53,7 @@ namespace NjordinSight.DataTransfer
         }
 
         protected override bool UpdateEntryEffectiveDate(
-            CountryAttributeMemberEntry entry, DateTime effectiveDate)
+            SecurityAttributeMemberEntry entry, DateTime effectiveDate)
         {
             entry.EffectiveDate = effectiveDate;
             return entry.EffectiveDate == effectiveDate;

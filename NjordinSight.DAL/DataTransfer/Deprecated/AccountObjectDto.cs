@@ -3,7 +3,7 @@ using NjordinSight.EntityModel.Metadata;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
     /// <summary>
     /// Provides a flattened view-object for working with complex type <see cref="Model.AccountObject"/>.

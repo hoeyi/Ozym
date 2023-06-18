@@ -3,7 +3,7 @@ using NjordinSight.DataTransfer.Generic;
 using System;
 using System.Collections.Generic;
 
-namespace NjordinSight.DataTransfer
+namespace NjordinSight.DataTransfer.Deprecated
 {
     public class AccountAttributeGrouping :
         AttributeEntryUnweightedGrouping<AccountObject, AccountAttributeMemberEntry>,
