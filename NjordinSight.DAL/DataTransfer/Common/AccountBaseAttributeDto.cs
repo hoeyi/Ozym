@@ -10,29 +10,11 @@ using System.Xml.Linq;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public class AccountAttributeDto : DtoBase
+    public class AccountBaseAttributeDto : DtoBase
     {
-        private int _attributeMemberId;
         private int _accountObjectId;
         private DateTime _effectiveDate;
         private decimal _percentWeight;
-
-        [Display(
-            Name = nameof(AccountBaseAttributeDto_SR.AttributeMemberId_Name),
-            Description = nameof(AccountBaseAttributeDto_SR.AttributeMemberId_Description),
-            ResourceType = typeof(AccountBaseAttributeDto_SR))]
-        public int AttributeMemberId
-        {
-            get { return _attributeMemberId; }
-            set
-            {
-                if (_attributeMemberId != value)
-                {
-                    _attributeMemberId = value;
-                    OnPropertyChanged(nameof(AttributeMemberId));
-                }
-            }
-        }
 
         [Display(
             Name = nameof(AccountBaseAttributeDto_SR.AccountObjectId_Name),
@@ -85,6 +67,10 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
+        [Display(
+            Name = nameof(AccountBaseAttributeDto_SR.AttributeMemberId_Name),
+            Description = nameof(AccountBaseAttributeDto_SR.AttributeMemberId_Description),
+            ResourceType = typeof(AccountBaseAttributeDto_SR))]
         public ModelAttributeMemberDto AttributeMember { get; set; } = new();
     }
 

@@ -2,12 +2,13 @@
 using NjordinSight.DataTransfer.Common.Generic;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace NjordinSight.DataTransfer.Common.Collections
 {
     public class AccountAttributeGrouping :
-        AttributeEntryUnweightedGrouping<AccountBaseDto, AccountAttributeDto>,
-        IAttributeEntryUnweightedGrouping<AccountBaseDto, AccountAttributeDto>
+        AttributeEntryUnweightedGrouping<AccountBaseDto, AccountBaseAttributeDto>,
+        IAttributeEntryUnweightedGrouping<AccountBaseDto, AccountBaseAttributeDto>
     {
         public AccountAttributeGrouping(
             AccountBaseDto parentEntity, ModelAttributeDto modelAttribute)
@@ -15,22 +16,21 @@ namespace NjordinSight.DataTransfer.Common.Collections
         {
         }
 
-        protected override Func<AccountBaseDto, ICollection<AccountAttributeDto>>
+        protected override Func<AccountBaseDto, ICollection<AccountBaseAttributeDto>>
             ParentEntryMemberSelector => x => x.Attributes;
 
-        protected override Func<AccountAttributeDto, bool> EntrySelector => x =>
+        protected override Func<AccountBaseAttributeDto, bool> EntrySelector => x =>
             x.AttributeMember.Attribute.AttributeId == ParentAttribute.AttributeId;
 
-        protected override Func<AccountAttributeDto, decimal> WeightSelector => x => x.PercentWeight;
+        protected override Func<AccountBaseAttributeDto, decimal> WeightSelector => x => x.PercentWeight;
 
-        public override AccountAttributeDto AddNewEntry()
+        public override AccountBaseAttributeDto AddNewEntry()
         {
-            AccountAttributeDto newEntry = new()
+            AccountBaseAttributeDto newEntry = new()
             {
                 AccountObjectId = ParentObject.Id,
                 EffectiveDate = DateTime.UtcNow.Date,
                 PercentWeight = 1M,
-                AttributeMemberId = default,
                 AttributeMember = new()
                 {
                     AttributeMemberId = default,

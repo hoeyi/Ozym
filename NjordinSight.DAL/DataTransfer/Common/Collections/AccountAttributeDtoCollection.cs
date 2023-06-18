@@ -10,7 +10,7 @@ namespace NjordinSight.DataTransfer.Common.Collections
         SupportedScopes = ModelAttributeScopeCode.Account)]
     public class AccountAttributeDtoCollection : AttributeEntryUnweightedCollection<
             AccountBaseDto,
-            AccountAttributeDto,
+            AccountBaseAttributeDto,
             AccountAttributeGrouping>
     {
         public AccountAttributeDtoCollection(AccountBaseDto sourceModel)
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common.Collections
                         var attribute = g.First().AttributeMember.Attribute;
 
                         var group = new AttributeGrouping<
-                            ModelAttributeDto, AccountAttributeDto>(
+                            ModelAttributeDto, AccountBaseAttributeDto>(
                             key: attribute, collection: g);
 
                         return group;

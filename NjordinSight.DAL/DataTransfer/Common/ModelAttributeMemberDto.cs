@@ -61,14 +61,6 @@ namespace NjordinSight.DataTransfer.Common
             ResourceType = typeof(ModelAttributeMemberDto_SR))]
         public ModelAttributeDto Attribute { get; set; } = new();
     }
-
-
-    
-
-    
-
-    
-
 }
 
 
