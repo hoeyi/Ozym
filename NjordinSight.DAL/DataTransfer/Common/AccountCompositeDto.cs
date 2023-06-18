@@ -1,6 +1,8 @@
 ﻿using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Metadata;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
@@ -53,5 +55,8 @@ namespace NjordinSight.DataTransfer.Common
         public override string DisplayName { get => base.DisplayName; set => base.DisplayName = value; }
 
         public override string ObjectType { get; } = AccountObjectType.Composite.ConvertToStringCode();
+
+        public ICollection<AccountCompositeMemberDto> AccountMembers { get; set; }
+            = new List<AccountCompositeMemberDto>();
     }
 }

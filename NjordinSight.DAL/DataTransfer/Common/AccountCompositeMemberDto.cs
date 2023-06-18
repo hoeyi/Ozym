@@ -23,7 +23,7 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(AccountCompositeMemberDto_SR.AccountCompositeId_Name),
             Description = nameof(AccountCompositeMemberDto_SR.AccountCompositeId_Description),
             ResourceType = typeof(AccountCompositeMemberDto_SR))]
-        public int AccountCompositeID
+        public int AccountCompositeId
         {
             get { return _accountCompositeId; }
             set
@@ -31,7 +31,7 @@ namespace NjordinSight.DataTransfer.Common
                 if (_accountCompositeId != value)
                 {
                     _accountCompositeId = value;
-                    OnPropertyChanged(nameof(AccountCompositeID));
+                    OnPropertyChanged(nameof(AccountCompositeId));
                 }
             }
         }
@@ -40,7 +40,7 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(AccountCompositeMemberDto_SR.AccountId_Name),
             Description = nameof(AccountCompositeMemberDto_SR.AccountId_Description),
             ResourceType = typeof(AccountCompositeMemberDto_SR))]
-        public int AccountID
+        public int AccountId
         {
             get { return _accountId; }
             set
@@ -48,7 +48,7 @@ namespace NjordinSight.DataTransfer.Common
                 if (_accountId != value)
                 {
                     _accountId = value;
-                    OnPropertyChanged(nameof(AccountID));
+                    OnPropertyChanged(nameof(AccountId));
                 }
             }
         }
