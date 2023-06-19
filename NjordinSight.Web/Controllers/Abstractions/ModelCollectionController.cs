@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Linq;
 using NjordinSight.EntityModelService.Abstractions;
-using NjordinSight.DataTransfer.Deprecated;
+using NjordinSight.DataTransfer;
 
 namespace NjordinSight.Web.Controllers.Abstractions
 {

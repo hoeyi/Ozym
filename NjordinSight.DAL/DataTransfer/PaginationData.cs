@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NjordinSight.DataTransfer.Deprecated
+namespace NjordinSight.DataTransfer
 {
     /// <summary>
     /// Represents a small collection of metadata describing the pagination of query 

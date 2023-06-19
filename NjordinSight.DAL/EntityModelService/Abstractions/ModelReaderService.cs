@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using NjordinSight.BusinessLogic.Functions;
-using NjordinSight.DataTransfer.Deprecated;
+using NjordinSight.DataTransfer;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.Logging;
 using System;

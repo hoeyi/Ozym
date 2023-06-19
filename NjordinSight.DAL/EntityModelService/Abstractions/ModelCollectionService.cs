@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NjordinSight.EntityModel.Context;
 using Ichosys.DataModel.Annotations;
-using NjordinSight.DataTransfer.Deprecated;
+using NjordinSight.DataTransfer;
 
 namespace NjordinSight.EntityModelService.Abstractions
 {

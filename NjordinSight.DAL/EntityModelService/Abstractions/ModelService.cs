@@ -1,7 +1,7 @@
 ﻿using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NjordinSight.DataTransfer.Deprecated;
+using NjordinSight.DataTransfer;
 using NjordinSight.EntityModel.Context;
 using System;
 using System.Collections.Generic;
