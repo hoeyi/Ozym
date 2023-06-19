@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 		UpdateNjordWorksDatabaseToMigration.bat = UpdateNjordWorksDatabaseToMigration.bat
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordinSight.Api", "NjordinSight.API\NjordinSight.Api.csproj", "{FC9329A5-3CFF-44ED-99E9-141ADC55C6C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AAD1729-E635-4A53-9F58-914A2A81220A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC9329A5-3CFF-44ED-99E9-141ADC55C6C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC9329A5-3CFF-44ED-99E9-141ADC55C6C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC9329A5-3CFF-44ED-99E9-141ADC55C6C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC9329A5-3CFF-44ED-99E9-141ADC55C6C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
