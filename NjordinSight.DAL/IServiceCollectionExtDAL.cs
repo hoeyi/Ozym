@@ -14,6 +14,9 @@ using NjordinSight.EntityModel.Context;
 using System;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
+using NjordinSight.DataTransfer.Profiles;
+using AutoMapper;
+using System.Reflection;
 
 namespace NjordinSight
 {
@@ -34,12 +37,17 @@ namespace NjordinSight
         /// <remarks>Adds to the DI container:
         /// <list type="bullet">
         /// <item><see cref="ITypedMetadataService{T}"/></item>
+        /// <item><see cref="IMapper"/></item>
         /// <item><see cref="IMessageService"/></item>
         /// <item><see cref="IQueryService"/></item>
         /// <item><see cref="IWatchlist"/></item>
         /// </list>
-        /// Includes calls to <see cref="AddModelServices(IServiceCollection)"/> and 
-        /// <see cref="AddCalculatorServices(IServiceCollection)"/>.
+        /// Wraps methods:
+        /// <list type="bullet">
+        /// <item><see cref="AddCalculatorServices(IServiceCollection)"/></item>
+        /// <item><see cref="AddMappingProfiles(IServiceCollection)"/></item>
+        /// <item><see cref="AddModelServices(IServiceCollection)"/></item>
+        /// </list>
         /// </remarks>
         public static IServiceCollection AddDataAccessServices(
             this IServiceCollection services,
@@ -58,6 +66,7 @@ namespace NjordinSight
                 .AddSingleton<IQueryService, QueryService>()
                 .AddTransient<IWatchlist, Watchlist>()
                 .AddCalculatorServices()
+                .AddMappingProfiles()
                 .AddModelServices()
                 .AddDbContextFactoryServices(dbProvider, developerMode);
 
@@ -126,6 +135,20 @@ namespace NjordinSight
                 .AddScoped<IModelCollectionService<MarketIndexPrice>, MarketIndexPriceBatchService>()
                 .AddScoped<IModelCollectionService<SecurityExchange>, SecurityExchangeCollectionService>()
                 .AddScoped<IModelCollectionService<SecurityPrice>, SecurityPriceBatchService>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Registers AutoMapper with all <see cref="Profile"/>-derived classes in the 
+        /// <b>NjordinSight.DAL</b> assembly.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns>A reference to this instance after the operation is completed.</returns>
+        public static IServiceCollection AddMappingProfiles(this IServiceCollection services)
+        {
+            // Grab all Profile-derived classes defined in the assembly with AccountProfile.
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(AccountProfile)));
 
             return services;
         }
