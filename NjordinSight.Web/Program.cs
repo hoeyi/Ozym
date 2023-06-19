@@ -40,7 +40,7 @@ builder.Services.AddSingleton(implementationInstance: config);
 
 #endregion
 
-builder.ConfigureDbContextFactories(databaseProvider);
+builder.AddIdentityContextFactoryService(databaseProvider);
 
 #region Authentication configuration
 
@@ -54,12 +54,13 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 #endregion
 
-// Register model services and controllers.
-builder.Services.AddModelServices();
-builder.Services.AddModelControllers();
+// DAL services
+builder.Services.AddDataAccessServices(
+    databaseProvider: databaseProvider,
+    developerMode: builder.Environment.IsDevelopment());
 
-// Add auxiliary business-logic and view services
-builder.Services.AddAuxiliaryServices();
+// Blazor app services
+builder.Services.AddBlazorPageServices();
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
