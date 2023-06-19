@@ -69,7 +69,7 @@ namespace NjordinSight.EntityModel.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseInMemoryDatabase("NjordWorks");
+                optionsBuilder.UseInMemoryDatabase(IServiceCollectionExtEntityModel.app_db_name);
             }
         }
     }
