@@ -2,17 +2,20 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 using Serilog.Formatting.Compact;
 using Serilog;
 using Ichosys.Extensions.Configuration;
 using Serilog.Extensions.Logging;
-using NjordinSight;
+using Ichosys.DataModel.Expressions;
+using System.IO;
+using System;
 
 namespace NjordinSight.Api
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class Program
+
     {
         public static void Main(string[] args)
         {
@@ -31,11 +34,17 @@ namespace NjordinSight.Api
                 databaseProvider: databaseProvider,
                 developerMode: builder.Environment.IsDevelopment());
 
+            builder.Services.AddSingleton<IExpressionBuilder, ExpressionBuilder>();
+
             builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                var filePath = Path.Combine(AppContext.BaseDirectory, "NjordinSight.Api.docs.xml");
+                c.IncludeXmlComments(filePath);
+            });
 
             builder.Services.AddApiVersioning(setupAction =>
             {
@@ -50,7 +59,9 @@ namespace NjordinSight.Api
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                // TODO: Implement query parameters or ODATA to avoid need for 
+                //       suppressing schema definition.
+                app.UseSwaggerUI(options => options.DefaultModelsExpandDepth(-1));
             }
 
             app.UseHttpsRedirection();
@@ -140,4 +151,5 @@ namespace NjordinSight.Api
             return new SerilogLoggerFactory(logger).CreateLogger(nameof(Program));
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
