@@ -42,7 +42,10 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+    }
 
+    public class ModelAttributeDtoForEdit : ModelAttributeDto
+    {
         public ICollection<ModelAttributeMemberDto> AttributeValues { get; set; }
             = new List<ModelAttributeMemberDto>();
 
