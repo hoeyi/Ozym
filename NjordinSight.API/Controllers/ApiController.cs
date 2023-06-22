@@ -11,6 +11,7 @@ using AutoMapper.Extensions.ExpressionMapping;
 using Ichosys.DataModel.Expressions;
 using NjordinSight.DataTransfer.Common.Query;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace NjordinSight.Api.Controllers
 {
@@ -20,8 +21,9 @@ namespace NjordinSight.Api.Controllers
     /// </summary>
     /// <typeparam name="TObject">The type representing a business object record.</typeparam>
     /// <typeparam name="TEntity">The type representing a data store record.</typeparam>
-    public abstract class ApiController<TObject, TEntity> : 
-        ControllerBase, IApiController<TObject> where TEntity : class, new()
+    public class ApiController<TObject, TEntity> : 
+        ControllerBase, IApiController<TObject> 
+        where TEntity : class, new()
     {
         private readonly IExpressionBuilder _expressionBuilder;
         private readonly IModelService<TEntity> _modelService;
@@ -74,16 +76,24 @@ namespace NjordinSight.Api.Controllers
             var entity = await _modelService.ReadAsync(id);
             var deleteTask = _modelService.DeleteAsync(entity);
 
-            var success = await deleteTask;
+            try
+            {
+                var success = await deleteTask;
 
-            if (success)
-                return NoContent();
+                if (success)
+                    return NoContent();
 
-            if (deleteTask?.Exception is null)
-                throw new InvalidOperationException();
-
-            else
-                throw deleteTask.Exception;
+                else
+                    return StatusCode(
+                        statusCode: StatusCodes.Status500InternalServerError,
+                        value: ResponseString.DeleteResource_FailedResult_InternalErrorResponse);
+            }
+            catch(ModelUpdateException me)
+            {
+                return StatusCode(
+                    statusCode: StatusCodes.Status409Conflict,
+                    value: new { me.Message, Detail = me.InnerException?.Message ?? string.Empty });
+            }
         }
 
         /// <summary>

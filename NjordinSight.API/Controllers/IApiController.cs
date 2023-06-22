@@ -25,7 +25,6 @@ namespace NjordinSight.Api.Controllers
 
         Task<ActionResult<TObject>> PostAsync(TObject model);
 
-        
         Task<ActionResult<TObject>> PutAsync(int id, TObject model);
     #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
