@@ -10,30 +10,6 @@ namespace NjordinSight.Test.EntityModelService
     public interface IModelCollectionServiceTest<T>
     {
         /// <summary>
-        /// Verifies that adding a model pending save sets the <em>HasChanges</em> value 
-        /// to true.
-        /// </summary>
-        void AddPendingSave_HasChanges_Is_True();
-
-        /// <summary>
-        /// Verifies that removing a model pending save sets the <em>HasChanges</em> value 
-        /// to true.
-        /// </summary>
-        Task DeletePendingSave_HasChanges_Is_True();
-
-        /// <summary>
-        /// Verifies that removing an added model pending save sets the <em>HasChanges</em> value 
-        /// to true.
-        /// </summary>
-        void DeletePendingAdd_HasChanges_Is_True();
-
-        /// <summary>
-        /// Verifies that updating a model pending save sets the <em>HasChanges</em> value 
-        /// to false. Update tracking is not yet supported.
-        /// </summary>
-        Task Update_PendingSave_HasChanges_IsFalse();
-
-        /// <summary>
         /// Verifies the unit of work for generating the default <typeparamref name="T"/> model.
         /// </summary>
         /// <returns></returns>

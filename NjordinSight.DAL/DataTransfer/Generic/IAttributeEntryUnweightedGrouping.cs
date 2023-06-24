@@ -10,8 +10,6 @@ namespace NjordinSight.DataTransfer.Generic
     /// <typeparam name="TEntryEntity"></typeparam>
     /// <typeparam name="TParentEntity"></typeparam>
     public interface IAttributeEntryUnweightedGrouping<TParentEntity, TEntryEntity>
-        where TParentEntity : class, new()
-        where TEntryEntity : class, new()
     {
         /// <summary>
         /// Gets the collection of <typeparamref name="TEntryEntity"/> entries in this model.

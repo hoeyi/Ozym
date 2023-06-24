@@ -14,12 +14,6 @@ namespace NjordinSight.Test.EntityModelService
         protected override Expression<Func<SecurityPrice, bool>> ParentExpression =>
             x => true;
 
-        // TODO: Finish writing this test.
-        public override Task Update_PendingSave_HasChanges_IsFalse()
-        {
-            return Task.CompletedTask;
-        }
-
         protected override IModelCollectionService<SecurityPrice> GetModelService() =>
             BuildModelService<SecurityPriceBatchService>();
 

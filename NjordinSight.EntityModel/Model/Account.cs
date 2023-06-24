@@ -28,6 +28,9 @@ namespace NjordinSight.EntityModel
         public int? AccountCustodianId { get; set; }
         [Column(TypeName = "date")]
         public DateTime? BooksClosedDate { get; set; }
+
+        [Obsolete(message: "To be replaced with account attribute.")]
+        // TODO: Remove this attribute from the model.
         public bool IsComplianceTradable { get; set; }
         public bool HasWallet { get; set; }
         public bool HasBankTransaction { get; set; }

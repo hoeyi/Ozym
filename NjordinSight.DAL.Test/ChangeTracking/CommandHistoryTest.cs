@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NjordinSight.EntityModelService.ChangeTracking;
+using NjordinSight.ChangeTracking;
 using Microsoft.Extensions.Logging;
 
 namespace NjordinSight.Test.ChangeTracking

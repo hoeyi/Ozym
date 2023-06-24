@@ -9,8 +9,6 @@ namespace NjordinSight.DataTransfer.Generic
         TParentEntity, TChildEntity, TGroupViewModel> :
         AttributeEntryCollection<TParentEntity, TChildEntity, TGroupViewModel, ModelAttribute>,
         IAttributeEntryUnweightedCollection<TParentEntity, TChildEntity, TGroupViewModel>
-        where TParentEntity : class, new()
-        where TChildEntity : class, new()
         where TGroupViewModel : IAttributeEntryUnweightedGrouping<TParentEntity, TChildEntity>
     {
         private readonly Func<TChildEntity, DateTime> _entryDateSelector;

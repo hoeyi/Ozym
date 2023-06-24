@@ -1,4 +1,5 @@
-﻿using NjordinSight.EntityModel;
+﻿using NjordinSight.DataTransfer.Deprecated;
+using NjordinSight.EntityModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

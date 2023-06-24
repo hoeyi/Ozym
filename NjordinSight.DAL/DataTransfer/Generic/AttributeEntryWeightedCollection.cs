@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NjordinSight.DataTransfer.Deprecated;
 using NjordinSight.EntityModel;
 
 namespace NjordinSight.DataTransfer.Generic
@@ -17,8 +18,6 @@ namespace NjordinSight.DataTransfer.Generic
         TParentEntity, TChildEntity, TGroupViewModel>
         : AttributeEntryCollection<TParentEntity, TChildEntity, TGroupViewModel, (ModelAttribute, DateTime)>,
         IAttributeEntryWeightedCollection<TParentEntity, TChildEntity, TGroupViewModel>
-        where TParentEntity : class, new()
-        where TChildEntity : class, new()
         where TGroupViewModel : IAttributeEntryWeightedGrouping<TParentEntity, TChildEntity>
     {
         /// <inheritdoc/>
