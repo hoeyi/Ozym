@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NjordinSight.ChangeTracking;
 using NjordinSight.UserInterface;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NjordinSight.EntityModelService.ChangeTracking
+namespace NjordinSight.ChangeTracking
 {
     /// <summary>
     /// Represents a collection of commands supporting 'undo' and 'redo' actions changing the 
     /// state of <typeparamref name="T"/> objects.
     /// </summary>
-    internal partial class CommandHistory<T> : ICommandHistory<T>
+    public partial class CommandHistory<T> : ICommandHistory<T>
     {
         private readonly List<(ICommand<T>, CommandHistoryEntry)> _commands = new();
 
@@ -114,7 +115,7 @@ namespace NjordinSight.EntityModelService.ChangeTracking
         }
     }
 
-    internal partial class CommandHistory<T> : IChangeTracker<T>
+    public partial class CommandHistory<T> : IChangeTracker<T>
     {
         /// <inheritdoc/>
         public bool HasChanges => _commands.Count > 0;

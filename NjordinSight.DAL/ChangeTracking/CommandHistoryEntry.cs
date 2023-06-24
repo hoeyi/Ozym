@@ -1,8 +1,8 @@
-﻿namespace NjordinSight.EntityModelService.ChangeTracking
+﻿namespace NjordinSight.ChangeTracking
 {
     /// <summary>
     /// Represents a read-only description of an an entry in a 
-    /// <see cref="ICommandHistory"/>.
+    /// <see cref="ICommandHistory{T}"/>.
     /// </summary>
     public readonly record struct CommandHistoryEntry
     {

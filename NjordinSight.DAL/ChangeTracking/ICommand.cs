@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NjordinSight.EntityModelService.ChangeTracking
+namespace NjordinSight.ChangeTracking
 {
     /// <summary>
     /// Represents a single action action affecting the state of a <typeparamref name="T"/> object.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal interface ICommand<T>
+    public interface ICommand<T>
     {
         /// <summary>
         /// Gets a string describing this command.

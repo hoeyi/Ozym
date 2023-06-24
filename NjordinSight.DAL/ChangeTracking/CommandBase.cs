@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NjordinSight.EntityModelService.ChangeTracking
+namespace NjordinSight.ChangeTracking
 {
     /// <summary>
     /// Base class representing an action performed on an <see cref="ICollection{T}"/>.
@@ -13,7 +14,7 @@ namespace NjordinSight.EntityModelService.ChangeTracking
     internal abstract class CommandBase<T> : ICommand<T>
     {
         private Func<T, bool> DoAction { get; init; }
-        
+
         private Func<T, bool> UndoAction { get; init; }
 
         private T ActionInput { get; init; }
@@ -95,7 +96,7 @@ namespace NjordinSight.EntityModelService.ChangeTracking
                       collection.Add(x);
                       return true;
                   },
-                  actionInput: item, 
+                  actionInput: item,
                   description: description)
         {
         }

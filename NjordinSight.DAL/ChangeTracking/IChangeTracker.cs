@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NjordinSight.EntityModelService.ChangeTracking
+namespace NjordinSight.ChangeTracking
 {
     /// <summary>
     /// A service to report tracked changes for a collection inserts and deletes, but not 
     /// updates.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal interface IChangeTracker<T>
+    public interface IChangeTracker<T>
     {
         /// <summary>
         /// Gets the <see cref="ChangeCollection{T}"/> representing the changes from the 
@@ -31,7 +31,7 @@ namespace NjordinSight.EntityModelService.ChangeTracking
     /// Container class for passing added and removed <typeparamref name="T"/> instances.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class ChangeCollection<T>
+    public class ChangeCollection<T>
     {
         /// <summary>
         /// Gets the set of <typeparamref name="T"/> that are added to the initial 

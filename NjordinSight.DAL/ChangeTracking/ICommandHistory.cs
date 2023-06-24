@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NjordinSight.EntityModelService.ChangeTracking
+namespace NjordinSight.ChangeTracking
 {
     /// <summary>
     /// Represents a collection of commands supporting 'undo' and 'redo' actions changing the 
     /// state of <typeparamref name="T"/> objects.
     /// </summary>
-    internal interface ICommandHistory<T>
+    public interface ICommandHistory<T>
     {
         /// <summary>
         /// Returns true if the next undo operation is valid for the current state, else false.
