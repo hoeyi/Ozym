@@ -1,7 +1,6 @@
 ﻿using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NjordinSight.EntityModelService.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +10,7 @@ using System.Threading.Tasks;
 using NjordinSight.EntityModel.Context;
 using Ichosys.DataModel.Annotations;
 using NjordinSight.DataTransfer;
+using NjordinSight.ChangeTracking;
 
 namespace NjordinSight.EntityModelService.Abstractions
 {
@@ -58,6 +58,75 @@ namespace NjordinSight.EntityModelService.Abstractions
         public bool HasChanges => CommandHistory.Count > 0;
 
         /// <inheritdoc/>
+        public async Task<T> GetDefaultAsync()
+        {
+            if (GetDefaultModelDelegate is null)
+                throw new InvalidOperationException(
+                    string.Format(
+                        ExceptionString.ModelService_DelegateIsNull, nameof(GetDefaultModelDelegate)));
+
+            return await Task.Run(() => GetDefaultModelDelegate.Invoke());
+        }
+
+        /// <inheritdoc/>
+        public bool ModelExists(int? id) => Reader.ModelExists(id);
+
+        /// <inheritdoc/>
+        public bool ModelExists(T model) => Reader.ModelExists(model);
+
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<T>, PaginationData)> SelectAsync(
+            Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 20)
+        {
+            var results = await Reader.SelectAsync(predicate, pageNumber, pageSize);
+
+            WorkingEntries = results.Item1.ToList();
+
+            CommandHistory.Clear();
+            return (WorkingEntries, results.Item2);
+        }
+
+        /// <inheritdoc/>
+        public async Task<T> ReadAsync(int? id)
+        {
+            return await Reader.ReadAsync(id);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<T>> SelectAsync() => await Reader.SelectAsync();
+
+        /// <inheritdoc/>
+        public async Task<int> AddUpdateDeleteAsync(
+            IEnumerable<T> inserts, IEnumerable<T> updates, IEnumerable<T> deletes)
+        {
+            if (inserts is null)
+                throw new ArgumentNullException(paramName: nameof(inserts));
+
+            if (updates is null)
+                throw new ArgumentNullException(paramName: nameof(updates));
+
+            if (deletes is null)
+                throw new ArgumentNullException(paramName: nameof(deletes));
+
+            using var context = await ContextFactory.CreateDbContextAsync();
+
+            if(inserts.Any())
+                context.Set<T>().AddRange(inserts);
+
+            if(updates.Any())
+                context.Set<T>().UpdateRange(updates);
+
+            if(deletes.Any())
+                context.Set<T>().RemoveRange(deletes);
+
+            var result = await context.SaveChangesAsync();
+
+            return result;
+        }
+
+        #region Obsolete methods
+        /// <inheritdoc/>
+        [Obsolete($"Superseded by {nameof(AddUpdateDeleteAsync)}")]
         public bool AddPendingSave(T model)
         {
             if (!RequiredParentIdIsSet(model))
@@ -91,6 +160,7 @@ namespace NjordinSight.EntityModelService.Abstractions
         }
 
         /// <inheritdoc/>
+        [Obsolete($"Superseded by {nameof(AddUpdateDeleteAsync)}")]
         public bool DeletePendingSave(T model)
         {
             if (WorkingEntries.Contains(model))
@@ -113,23 +183,7 @@ namespace NjordinSight.EntityModelService.Abstractions
         }
 
         /// <inheritdoc/>
-        public async Task<T> GetDefaultAsync()
-        {
-            if (GetDefaultModelDelegate is null)
-                throw new InvalidOperationException(
-                    string.Format(
-                        ExceptionString.ModelService_DelegateIsNull, nameof(GetDefaultModelDelegate)));
-
-            return await Task.Run(() => GetDefaultModelDelegate.Invoke());
-        }
-
-        /// <inheritdoc/>
-        public bool ModelExists(int? id) => Reader.ModelExists(id);
-
-        /// <inheritdoc/>
-        public bool ModelExists(T model) => Reader.ModelExists(model);
-
-        /// <inheritdoc/>
+        [Obsolete($"Superseded by {nameof(AddUpdateDeleteAsync)}")]
         public async Task<int> SaveChangesAsync()
         {
             var changes = ChangeTracker.GetChanges();
@@ -143,34 +197,7 @@ namespace NjordinSight.EntityModelService.Abstractions
 
             return await context.SaveChangesAsync();
         }
-
-        /// <inheritdoc/>
-        public async Task<(IEnumerable<T>, PaginationData)> SelectAsync(
-            Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 20)
-        {
-            var results = await Reader.SelectAsync(predicate, pageNumber, pageSize);
-
-            WorkingEntries = results.Item1.ToList();
-
-            CommandHistory.Clear();
-            return (WorkingEntries, results.Item2);
-        }
-
-        /// <inheritdoc/>
-        public async Task<T> ReadAsync(int? id)
-        {
-            return await Reader.ReadAsync(id);
-        }
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<T>> SelectAsync()
-        {
-            var results = await Reader.SelectAsync();
-            WorkingEntries = results.ToList();
-
-            CommandHistory.Clear();
-            return WorkingEntries;
-        }
+        #endregion
     }
 
     internal abstract partial class ModelCollectionService<T>

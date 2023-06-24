@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NjordinSight.EntityModelService.Abstractions
@@ -12,8 +13,20 @@ namespace NjordinSight.EntityModelService.Abstractions
         where T : class, new()
     {
         /// <summary>
+        /// Adds, updates, or delets the given collections.
+        /// </summary>
+        /// <param name="insert">The collection of <typeparamref name="T"/> to insert.</param>
+        /// <param name="updates">The collection of <typeparamref name="T"/> to update.</param>
+        /// <param name="deletes">The collection of <typeparamref name="T"/> to delete.</param>
+        /// <returns>The <see cref="int"/> giving the total count of <typeparamref name="T"/> records 
+        /// inserted, updated, or deleted.</returns>
+        Task<int> AddUpdateDeleteAsync(
+            IEnumerable<T> insert, IEnumerable<T> updates, IEnumerable<T> deletes);
+
+        /// <summary>
         /// Returns true if changes have not been saved.
         /// </summary>
+        [Obsolete($"Superseded by {nameof(AddUpdateDeleteAsync)}")]
         bool HasChanges { get; }
 
         /// <summary>
@@ -24,6 +37,7 @@ namespace NjordinSight.EntityModelService.Abstractions
         /// false.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="model"/> was null.</exception>
         /// <exception cref="InvalidOperationException"></exception>
+        [Obsolete($"Superseded by {nameof(AddUpdateDeleteAsync)}")]
         bool AddPendingSave(T model);
 
         /// <summary>
@@ -34,6 +48,7 @@ namespace NjordinSight.EntityModelService.Abstractions
         /// false.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="model"/> was null.</exception>
         /// <exception cref="InvalidOperationException"></exception>
+        [Obsolete($"Superseded by {nameof(AddUpdateDeleteAsync)}")]
         bool DeletePendingSave(T model);
 
         /// <summary>
@@ -51,6 +66,7 @@ namespace NjordinSight.EntityModelService.Abstractions
         /// for this call.</exception>/// 
         /// <exception cref="ModelUpdateException">An error occured when writing changes to the 
         /// data store.</exception>
+        [Obsolete($"Superseded by {nameof(AddUpdateDeleteAsync)}")]
         Task<int> SaveChangesAsync();
     }
 }
