@@ -213,7 +213,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Update="EntityModelService\ChangeTracking\ChangeTrackingStrings.Designer.cs">
+    <Compile Update="ChangeTracking\ChangeTrackingStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ChangeTrackingStrings.resx</DependentUpon>
@@ -273,6 +273,10 @@
     <EmbeddedResource Update="BusinessLogic\ExceptionString.resx">
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ChangeTracking\TrackingEnumerable_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TrackingEnumerable_SR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="DataTransfer\Common\AccountBaseAttributeDto_SR.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -422,7 +426,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="EntityModelService\ChangeTracking\ChangeTrackingStrings.resx">
+    <EmbeddedResource Update="ChangeTracking\ChangeTrackingStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ChangeTrackingStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
