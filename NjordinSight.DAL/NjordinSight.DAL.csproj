@@ -28,6 +28,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="ChangeTracking\TrackingEnumerable_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TrackingEnumerable_SR.resx</DependentUpon>
+    </Compile>
     <Compile Update="DataTransfer\Common\AccountBaseAttributeDto_SR.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
