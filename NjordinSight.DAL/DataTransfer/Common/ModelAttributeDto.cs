@@ -10,11 +10,6 @@ namespace NjordinSight.DataTransfer.Common
         private int _attributeId;
         private string _displayName;
 
-        public ModelAttributeDto()
-        {
-            AttributeValues = new List<ModelAttributeMemberDto>();
-            AttributeScopes = new List<ModelAttributeScopeDto>();
-        }
         public int AttributeId
         {
             get { return _attributeId; }
@@ -47,9 +42,14 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+    }
 
+    public class ModelAttributeDtoForEdit : ModelAttributeDto
+    {
         public ICollection<ModelAttributeMemberDto> AttributeValues { get; set; }
+            = new List<ModelAttributeMemberDto>();
 
         public ICollection<ModelAttributeScopeDto> AttributeScopes { get; set; }
+            = new List<ModelAttributeScopeDto>();
     }
 }

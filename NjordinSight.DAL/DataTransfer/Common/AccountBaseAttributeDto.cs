@@ -16,6 +16,10 @@ namespace NjordinSight.DataTransfer.Common
         private DateTime _effectiveDate;
         private decimal _percentWeight;
 
+        public AccountBaseAttributeDto()
+        {
+        }
+
         [Display(
             Name = nameof(AccountBaseAttributeDto_SR.AccountObjectId_Name),
             Description = nameof(AccountBaseAttributeDto_SR.AccountObjectId_Description),

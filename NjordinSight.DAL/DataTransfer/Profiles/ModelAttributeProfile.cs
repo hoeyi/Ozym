@@ -15,9 +15,11 @@ namespace NjordinSight.DataTransfer.Profiles
         {
             #region Entity-DTO
             CreateMap<ModelAttributeMember, ModelAttributeMemberDto>();
+
             CreateMap<ModelAttributeScope, ModelAttributeScopeDto>();
 
-            CreateMap<ModelAttribute, ModelAttributeDto>()
+            CreateMap<ModelAttribute, ModelAttributeDto>();
+            CreateMap<ModelAttribute, ModelAttributeDtoForEdit>()
                 .ForMember(
                     a => a.AttributeValues,
                     b => b.MapFrom(x => x.ModelAttributeMembers))
@@ -29,6 +31,7 @@ namespace NjordinSight.DataTransfer.Profiles
             #region DTO-Entity
             CreateMap<ModelAttributeMemberDto, ModelAttributeMember>()
                 .ForMember(a => a.AttributeId, b => b.MapFrom(x => x.Attribute.AttributeId))
+                .ForMember(a => a.Attribute, b => b.Ignore())
                 .ForMember(a => a.AccountAttributeMemberEntries, b => b.Ignore())
                 .ForMember(a => a.BankTransactionCodeAttributeMemberEntries, b => b.Ignore())
                 .ForMember(a => a.BrokerTransactionCodeAttributeMemberEntries, b => b.Ignore())
@@ -43,7 +46,7 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<ModelAttributeScopeDto, ModelAttributeScope>()
                 .ForMember(a => a.Attribute, b => b.Ignore());
 
-            CreateMap<ModelAttributeDto, ModelAttribute>()
+            CreateMap<ModelAttributeDtoForEdit, ModelAttribute>()
                 .ForMember(
                     a => a.ModelAttributeMembers,
                     b => b.MapFrom(x => x.AttributeValues))

@@ -103,7 +103,6 @@ namespace NjordinSight.DataTransfer.Common
         public abstract string ObjectType { get; }
 
         public ICollection<AccountBaseAttributeDto> Attributes { get; set; } 
-            = new List<AccountBaseAttributeDto>();
 
         [JsonIgnore]
         public AccountAttributeDtoCollection AttributeCollection { get; set; }

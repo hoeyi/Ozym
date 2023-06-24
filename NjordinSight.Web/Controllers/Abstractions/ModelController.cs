@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NjordinSight.DataTransfer.Deprecated;
+using NjordinSight.DataTransfer;
 using NjordinSight.EntityModelService;
 using NjordinSight.EntityModelService.Abstractions;
 using NjordinSight.EntityModelService.Query;
