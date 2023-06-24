@@ -50,5 +50,11 @@ namespace NjordinSight.Test.ChangeTracking
         }
 
         public abstract void After_Reset_HasChanges_Equals_False();
+
+        public abstract void After_Add_GetChanges_Returns_AddedItem();
+
+        public abstract void After_Update_GetChanges_Returns_UpdatedItem();
+
+        public abstract void After_Remove_GetChanges_Returns_RemovedItem();
     }
 }
