@@ -146,9 +146,7 @@ namespace NjordinSight.ChangeTracking
                 .Where(x => Items.Contains(x) && !_addedItems.Contains(x))
                 .Select(x => (x, TrackingState.Updated));
 
-            var changes = addedItems.Union(removedItems).Union(modifiedItems);
-
-            return changes.ToList();
+            return addedItems.Union(removedItems).Union(modifiedItems);
         }
 
         /// <inheritdoc/>
