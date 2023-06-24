@@ -15,18 +15,6 @@ namespace NjordinSight.Test.EntityModelService
         protected override Expression<Func<BankTransaction, bool>> ParentExpression =>
             x => x.AccountId == _accountId;
 
-        [TestMethod]
-        public override async Task Update_PendingSave_HasChanges_IsFalse()
-        {
-            var service = GetModelService();
-
-            var model = (await service.SelectAsync()).FirstOrDefault();
-
-            model.Amount *= 1.37M;
-
-            Assert.IsFalse(service.HasChanges);
-        }
-
         protected override IModelCollectionService<BankTransaction, int> GetModelService() =>
             BuildModelService<BankTransactionService, int>().WithParent(_accountId);
     }

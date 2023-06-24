@@ -44,18 +44,6 @@ namespace NjordinSight.Test.EntityModelService
             Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
         }
 
-        [TestMethod]
-        public override async Task Update_PendingSave_HasChanges_IsFalse()
-        {
-            var service = GetModelService();
-
-            var model = (await service.SelectAsync()).FirstOrDefault();
-
-            model.AverageCapital *= 1.1M;
-
-            Assert.IsFalse(service.HasChanges);
-        }
-
         protected override IModelCollectionService<
             InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)> 
             GetModelService() => BuildModelService<
