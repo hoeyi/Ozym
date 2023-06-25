@@ -8,6 +8,7 @@ namespace NjordinSight.DataTransfer.Common
     public class SecuritySymbolDto : DtoBase
     {
         private int _symbolId;
+        private int _securityId;
         private DateTime _effectiveDate;
         private int _symbolTypeId;
         private string _symbol;
@@ -29,6 +30,23 @@ namespace NjordinSight.DataTransfer.Common
                 {
                     _symbolId = value;
                     OnPropertyChanged(nameof(SymbolId));
+                }
+            }
+        }
+
+        [Display(
+            Name = nameof(SecuritySymbolDto_SR.SecurityId_Name),
+            Description = nameof(SecuritySymbolDto_SR.SecurityId_Description),
+            ResourceType = typeof(SecuritySymbolDto_SR))]
+        public int SecurityId
+        {
+            get { return _securityId; }
+            set
+            {
+                if (_securityId != value)
+                {
+                    _securityId = value;
+                    OnPropertyChanged(nameof(SecurityId));
                 }
             }
         }
@@ -152,5 +170,4 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
     }
-
 }
