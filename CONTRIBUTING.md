@@ -14,7 +14,7 @@ Must be one of the following:
 
 * **build**: Changes that affect the build system or external dependencies
 * **design**: Changes to CSS rules or code changes to support UI behavior
-* **docs**: Documentation only changes
+* **docs**: Changes to documentation or code comments
 * **feat**: A new feature / ehancement
 * **fix**: A bug fix
 * **perf**: A code change that improves performance
