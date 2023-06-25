@@ -5,8 +5,17 @@ using NjordinSight.DataTransfer.Common;
 namespace NjordinSight.DataTransfer.Profiles
 {
     /// <summary>
-    /// Maps account-related strucutres. Requires <see cref="ModelAttributeProfile"/>.
+    /// Maps account-related entities to DTOs and vice versa. Requires 
+    /// <see cref="ModelAttributeProfile"/>.
     /// </summary>
+    /// <remarks>The default constructor for this profile applies the following mappings:
+    /// <list type="bullet">
+    /// <item><see cref="AccountAttributeMemberEntry"/> - <see cref="AccountBaseAttributeDto"/></item>
+    /// <item><see cref="Account"/> - <see cref="AccountDto"/></item>
+    /// <item><see cref="AccountCompositeMember"/> - <see cref="AccountCompositeMemberDto"/></item>
+    /// <item><see cref="AccountComposite"/> - <see cref="AccountCompositeDto"/></item>
+    /// </list>
+    /// </remarks>
     public class AccountProfile : Profile
     {
         public AccountProfile()
@@ -58,7 +67,6 @@ namespace NjordinSight.DataTransfer.Profiles
 #pragma warning disable CS0618 // Type or member is obsolete
                 .ForMember(a => a.IsComplianceTradable, b => b.Ignore()) 
 #pragma warning restore CS0618 // Type or member is obsolete
-
                 .ForMember(a => a.AccountId, b => b.MapFrom(x => x.Id))
                 .ForMember(a => a.AccountCustodian, b => b.Ignore())
                 .ForMember(a => a.AccountWallets, b => b.Ignore())

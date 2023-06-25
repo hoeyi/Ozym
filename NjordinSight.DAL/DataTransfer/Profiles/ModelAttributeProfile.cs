@@ -9,6 +9,17 @@ using System.Threading.Tasks;
 
 namespace NjordinSight.DataTransfer.Profiles
 {
+    /// <summary>
+    /// Maps attribute-related entities to DTOs and vice versa.
+    /// </summary>
+    /// <remarks>The default constructor for this profile applies the following mappings:
+    /// <list type="bullet">
+    /// <item><see cref="ModelAttributeMember"/> - <see cref="ModelAttributeMemberDto"/></item>
+    /// <item><see cref="ModelAttributeScope"/> - <see cref="ModelAttributeScopeDto"/></item>
+    /// <item><see cref="ModelAttribute"/> - <see cref="ModelAttributeDto"/></item>
+    /// <item><see cref="ModelAttribute"/> - <see cref="ModelAttributeDtoForEdit"/></item>
+    /// </list>
+    /// </remarks>
     public class ModelAttributeProfile : Profile
     {
         public ModelAttributeProfile()
