@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NjordinSight.DataTransfer.Common;
 using NjordinSight.DataTransfer.Profiles;
@@ -13,28 +14,44 @@ namespace NjordinSight.Test.DataTransfer.Mapping
 {
     [TestClass]
     [TestCategory("Unit")]
-    public class AccountProfileTest : ProfileBaseTest
+    public class AccountProfileTest : IProfileTest
     {
-        public AccountProfileTest()
-            : base(configuration:
-                new(x =>
-                {
-                    x.AddProfile<ModelAttributeProfile>();
-                    x.AddProfile<AccountProfile>();
-                }))
+        [TestMethod]
+        public void Configuration_WithProfileDependencies_IsValid()
         {
+            // Arrange
+            var config = new MapperConfiguration(x =>
+            {
+                x.AddProfile<ModelAttributeProfile>();
+                x.AddProfile<AccountProfile>();
+            });
+
+            // Act
+
+            // Assert
+            config.AssertConfigurationIsValid();
         }
 
         [TestMethod]
-        public void Configuration_WithProfile_IsValid()
+        public void Configuration_WithoutProfileDependencies_IsInvalid()
         {
-            // Fact: Configuration is valid.
-            Configuration.AssertConfigurationIsValid();
+            // Arrange
+            var config = new MapperConfiguration(x =>
+            {
+                x.AddProfile<AccountProfile>();
+            });
+
+            // Act
+
+            // Assert
+            Assert.ThrowsException<AutoMapperConfigurationException>(() => 
+            config.AssertConfigurationIsValid());
         }
 
         [TestMethod]
-        public void Account_MapTo_AccountDto_PopulatesAllProperties()
+        public async Task Account_MapTo_AccountDto_PopulatesAllProperties()
         {
+            // Arrange
             var account = new Account()
             {
                 AccountId = 1,
@@ -91,9 +108,16 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                     }
                 }
             };
+            var mapper = new Mapper(new MapperConfiguration(x =>
+            {
+                x.AddProfile<ModelAttributeProfile>();
+                x.AddProfile<AccountProfile>();
+            }));
 
-            var accountDto = Mapper.Map<AccountDto>(account);
+            // Act
+            var accountDto = mapper.Map<AccountDto>(account);
 
+            // Assert
             // Fact: Instance is created.
             Assert.IsInstanceOfType(accountDto, typeof(AccountDto));
 
@@ -109,28 +133,35 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             Assert.IsTrue(accountDto.Attributes.All(x => x.AttributeMember.Attribute is not null));
 
             // Fact: All property values match.
-            var comparisons = new List<Func<bool>>()
+            var comparisons = new List<Task>()
             {
-                () => accountDto.Id == account.AccountNavigation.AccountObjectId,
-                () => accountDto.ShortCode == account.AccountNavigation.AccountObjectCode,
-                () => accountDto.StartDate == account.AccountNavigation.StartDate,
-                () => accountDto.CloseDate == account.AccountNavigation.CloseDate,
-                () => accountDto.DisplayName == account.AccountNavigation.ObjectDisplayName,
-                () => accountDto.Description == account.AccountNavigation.ObjectDescription,
-                () => accountDto.ObjectType == account.AccountNavigation.ObjectType,
-                () => accountDto.AccountCustodianId == account.AccountCustodianId,
-                () => accountDto.AccountNumber == account.AccountNumber,
-                () => accountDto.HasWallet == account.HasWallet,
-                () => accountDto.HasBankTransaction == account.HasBankTransaction,
-                () => accountDto.HasBrokerTransaction == account.HasBrokerTransaction,
+                Task.Run(() => Assert.AreEqual(accountDto.Id, account.AccountNavigation.AccountObjectId)),
+                Task.Run(() => Assert.AreEqual(accountDto.ShortCode, account.AccountNavigation.AccountObjectCode)),
+                Task.Run(() => Assert.AreEqual(accountDto.StartDate, account.AccountNavigation.StartDate)),
+                Task.Run(() => Assert.AreEqual(accountDto.CloseDate, account.AccountNavigation.CloseDate)),
+                Task.Run(() => Assert.AreEqual(accountDto.DisplayName, account.AccountNavigation.ObjectDisplayName)),
+                Task.Run(() => Assert.AreEqual(accountDto.Description, account.AccountNavigation.ObjectDescription)),
+                Task.Run(() => Assert.AreEqual(accountDto.ObjectType, account.AccountNavigation.ObjectType)),
+                Task.Run(() => Assert.AreEqual(accountDto.AccountCustodianId, account.AccountCustodianId)),
+                Task.Run(() => Assert.AreEqual(accountDto.AccountNumber, account.AccountNumber)),
+                Task.Run(() => Assert.AreEqual(accountDto.HasWallet, account.HasWallet)),
+                Task.Run(() => Assert.AreEqual(accountDto.HasBankTransaction, account.HasBankTransaction)),
+                Task.Run(() => Assert.AreEqual(accountDto.HasBrokerTransaction, account.HasBrokerTransaction))
             };
 
-            Assert.IsTrue(comparisons.All(x => x.Invoke()));
+            Task assertions = Task.WhenAll(comparisons);
+            await assertions;
+
+            if (assertions.Status == TaskStatus.Faulted)
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod]
         public async Task Account_MapFrom_AccountDto_PopulatesAllProperties()
         {
+            // Arrange
             var accountDto = new AccountDto()
             {
                 Id = 1,
@@ -180,9 +211,16 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                     }
                 }
             };
+            var mapper = new Mapper(new MapperConfiguration(x =>
+            {
+                x.AddProfile<ModelAttributeProfile>();
+                x.AddProfile<AccountProfile>();
+            }));
 
-            var account = Mapper.Map<Account>(accountDto);
+            // Act
+            var account = mapper.Map<Account>(accountDto);
 
+            // Assert
             // Fact: Instance is created.
             Assert.IsInstanceOfType(account, typeof(Account));
 
@@ -277,8 +315,16 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                     DisplayName = "Test added attribute"
                 });
 
-            var account = Mapper.Map<Account>(accountDto);
+            var mapper = new Mapper(new MapperConfiguration(x =>
+            {
+                x.AddProfile<ModelAttributeProfile>();
+                x.AddProfile<AccountProfile>();
+            }));
 
+            // Act
+            var account = mapper.Map<Account>(accountDto);
+
+            // Assert
             // Fact: Instance is created.
             Assert.IsInstanceOfType(account, typeof(Account));
 
@@ -312,5 +358,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 Assert.Fail();
             }
         }
+
+        
     }
 }

@@ -11,23 +11,38 @@ namespace NjordinSight.Test.DataTransfer.Mapping
 {
     [TestClass]
     [TestCategory("Unit")]
-    public class CountryProfileTest : ProfileBaseTest
+    public class CountryProfileTest : IProfileTest
     {
-        public CountryProfileTest() 
-            : base(configuration: new(
-                x =>
-                {
-                    x.AddProfile<ModelAttributeProfile>();
-                    x.AddProfile<CountryProfile>();
-                }))
+        [TestMethod]
+        public void Configuration_WithProfileDependencies_IsValid()
         {
+            // Arrange
+            var config = new MapperConfiguration(x =>
+            {
+                x.AddProfile<ModelAttributeProfile>();
+                x.AddProfile<CountryProfile>();
+            });
+
+            // Act
+
+            // Assert
+            config.AssertConfigurationIsValid();
         }
 
         [TestMethod]
-        public void Configuration_WithProfile_IsValid()
+        public void Configuration_WithoutProfileDependencies_IsInvalid()
         {
+            // Arrange
+            var config = new MapperConfiguration(x =>
+            {
+                x.AddProfile<CountryProfile>();
+            });
+
+            // Act
+
             // Assert
-            Configuration.AssertConfigurationIsValid();
+            Assert.ThrowsException<AutoMapperConfigurationException>(() =>
+            config.AssertConfigurationIsValid());
         }
     }
 }
