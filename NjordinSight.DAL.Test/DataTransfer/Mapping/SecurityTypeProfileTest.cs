@@ -13,7 +13,6 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             // Arrange
             var config = new MapperConfiguration(x =>
             {
-                x.AddProfile<ModelAttributeProfile>();
                 x.AddProfile<SecurityTypeProfile>();
             });
 
@@ -21,22 +20,6 @@ namespace NjordinSight.Test.DataTransfer.Mapping
 
             // Assert
             config.AssertConfigurationIsValid();
-        }
-
-        [TestMethod]
-        public void Configuration_WithoutProfileDependencies_IsInvalid()
-        {
-            // Arrange
-            var config = new MapperConfiguration(x =>
-            {
-                x.AddProfile<SecurityTypeProfile>();
-            });
-
-            // Act
-
-            // Assert
-            Assert.ThrowsException<AutoMapperConfigurationException>(() =>
-            config.AssertConfigurationIsValid());
         }
     }
 }

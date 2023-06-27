@@ -36,7 +36,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
 
             // Assert
             Assert.ThrowsException<AutoMapperConfigurationException>(() =>
-            config.AssertConfigurationIsValid());
+                config.AssertConfigurationIsValid());
         }
     }
 }
