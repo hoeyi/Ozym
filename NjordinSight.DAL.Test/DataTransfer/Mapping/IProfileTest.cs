@@ -1,11 +1,4 @@
-﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NjordinSight.Test.DataTransfer.Mapping
+﻿namespace NjordinSight.Test.DataTransfer.Mapping
 {
     public interface IProfileTest
     {
