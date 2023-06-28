@@ -12,7 +12,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
 {
     [TestClass]
     [TestCategory("Unit")]
-    public class AccountProfileTest : IProfileTest, IAccountProfileTest
+    public class AccountProfileTest : IProfileTest
     {
         [TestMethod]
         public void Configuration_WithProfileDependencies_IsValid()
