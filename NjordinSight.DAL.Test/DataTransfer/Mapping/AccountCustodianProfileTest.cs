@@ -14,8 +14,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             // Arrange
             var config = new MapperConfiguration(x =>
             {
-                x.AddProfile<ModelAttributeProfile>();
-                x.AddProfile<CountryProfile>();
+                x.AddProfile<AccountCustodianProfile>();
             });
 
             // Act
