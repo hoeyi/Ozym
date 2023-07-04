@@ -116,18 +116,18 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             // Fact: All property values match.
             var assertions = new List<Action>()
             {
-                () => Assert.AreEqual(accountDto.Id, account.AccountNavigation.AccountObjectId),
-                () => Assert.AreEqual(accountDto.ShortCode, account.AccountNavigation.AccountObjectCode),
-                () => Assert.AreEqual(accountDto.StartDate, account.AccountNavigation.StartDate),
-                () => Assert.AreEqual(accountDto.CloseDate, account.AccountNavigation.CloseDate),
-                () => Assert.AreEqual(accountDto.DisplayName, account.AccountNavigation.ObjectDisplayName),
-                () => Assert.AreEqual(accountDto.Description, account.AccountNavigation.ObjectDescription),
-                () => Assert.AreEqual(accountDto.ObjectType, account.AccountNavigation.ObjectType),
-                () => Assert.AreEqual(accountDto.AccountCustodianId, account.AccountCustodianId),
-                () => Assert.AreEqual(accountDto.AccountNumber, account.AccountNumber),
-                () => Assert.AreEqual(accountDto.HasWallet, account.HasWallet),
-                () => Assert.AreEqual(accountDto.HasBankTransaction, account.HasBankTransaction),
-                () => Assert.AreEqual(accountDto.HasBrokerTransaction, account.HasBrokerTransaction),
+                () => Assert.AreEqual(account.AccountNavigation.AccountObjectId, accountDto.Id),
+                () => Assert.AreEqual(account.AccountNavigation.AccountObjectCode, accountDto.ShortCode),
+                () => Assert.AreEqual(account.AccountNavigation.StartDate, accountDto.StartDate),
+                () => Assert.AreEqual(account.AccountNavigation.CloseDate, accountDto.CloseDate),
+                () => Assert.AreEqual(account.AccountNavigation.ObjectDisplayName, accountDto.DisplayName),
+                () => Assert.AreEqual(account.AccountNavigation.ObjectDescription, accountDto.Description),
+                () => Assert.AreEqual(account.AccountNavigation.ObjectType, accountDto.ObjectType),
+                () => Assert.AreEqual(account.AccountCustodianId, accountDto.AccountCustodianId),
+                () => Assert.AreEqual(account.AccountNumber, accountDto.AccountNumber),
+                () => Assert.AreEqual(account.HasWallet, accountDto.HasWallet),
+                () => Assert.AreEqual(account.HasBankTransaction, accountDto.HasBankTransaction),
+                () => Assert.AreEqual(account.HasBrokerTransaction, accountDto.HasBrokerTransaction),
                 () => Assert.IsTrue(
                     Compare(
                         attributeDto: accountDto.Attributes.First(),
