@@ -13,17 +13,5 @@ namespace NjordinSight.Test.DataTransfer.Mapping
         /// Verify a configuration built with all required profiles in the dependency tree is valid.
         /// </summary>
         public void Configuration_IsValid();
-
-        /// <summary>
-        /// Verify an entity instance mapped from a DTO instance has all mapped properties equal 
-        /// to the source.
-        /// </summary>
-        void Entity_MapFrom_Dto_MappedProperties_AreEqual();
-
-        /// <summary>
-        /// Verify an DTO instance mapped from an entity instance has all mapped properties equal 
-        /// to the source.
-        /// </summary>
-        void Dto_MapFrom_Entity_MappedProperties_AreEqual();
     }
 }

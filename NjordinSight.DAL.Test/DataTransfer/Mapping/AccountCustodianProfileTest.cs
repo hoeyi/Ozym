@@ -5,21 +5,30 @@ using NjordinSight.EntityModel;
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
     [TestClass]
     [TestCategory("Unit")]
-    public class AccountCustodianProfileTest : IProfileTest
+    public partial class AccountCustodianProfileTest : IProfileTest
     {
+        /// <summary>
+        /// Defines the <see cref="IConfigurationProvider"/> used to test the target profile 
+        /// and constituent mappings.
+        /// </summary>
+        private static IConfigurationProvider MapperConfiguration =>
+            new MapperConfiguration(x =>
+            {
+                x.AddProfile<ModelAttributeProfile>();
+                x.AddProfile<AccountProfile>();
+            });
+
         [TestMethod]
         public void Configuration_IsValid()
         {
             // Arrange
-            var config = new MapperConfiguration(x =>
-            {
-                x.AddProfile<AccountCustodianProfile>();
-            });
+            var config = MapperConfiguration;
 
             // Act
 
@@ -27,42 +36,78 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             config.AssertConfigurationIsValid();
         }
 
-        [TestMethod]
-        public void Dto_MapFrom_Entity_MappedProperties_AreEqual()
+    }
+
+    public partial class AccountCustodianProfileTest
+    {
+        [TestClass]
+        [TestCategory("Unit")]
+        public class AccountCustodianMapping : MappingTest
         {
-            // Arrange
-            var entity = new AccountCustodian()
+            /// <summary>
+            /// Initializes a new instance of the <see cref="AccountCustodianMapping"/> class.
+            /// </summary>
+            public AccountCustodianMapping() : base(new Mapper(MapperConfiguration))
             {
-                AccountCustodianId = 1,
-                CustodianCode = "TEST",
-                DisplayName = "Test Custodian",
-            };
-            var mapper = new Mapper(new MapperConfiguration(x =>
+            }
+
+            [TestMethod]
+            public override void Dto_MapFrom_Entity_MappedProperties_AreEqual()
             {
-                x.AddProfile<AccountCustodianProfile>();
-            }));
+                // Arrange
+                var entity = new AccountCustodian()
+                {
+                    AccountCustodianId = 1,
+                    CustodianCode = "TEST",
+                    DisplayName = "Test Custodian",
+                };
 
-            // Act
-            var dto = mapper.Map<AccountCustodianDto>(entity);
+                // Act
+                var dto = Mapper.Map<AccountCustodianDto>(entity);
 
-            // Assert
-            // Fact: Instance is created 
-            Assert.IsInstanceOfType(dto, typeof(AccountCustodianDto));
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(dto, typeof(AccountCustodianDto));
 
-            // Fact: All property values match.
-            var assertions = new List<Action>()
+                // Fact: All property values match.
+                var assertions = new List<Action>()
+                {
+                    () => Assert.AreEqual(entity.AccountCustodianId, dto.AccountCustodianId),
+                    () => Assert.AreEqual(entity.CustodianCode, dto.CustodianCode),
+                    () => Assert.AreEqual(entity.DisplayName, dto.DisplayName)
+                };
+
+                assertions.ForEach(x => x.Invoke());
+            }
+
+            [TestMethod]
+            public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
             {
-                () => Assert.AreEqual(entity.AccountCustodianId, dto.AccountCustodianId),
-                () => Assert.AreEqual(entity.CustodianCode, dto.CustodianCode),
-                () => Assert.AreEqual(entity.DisplayName, string.Empty)
-            };
+                // Arrange
+                var dto = new AccountCustodianDto()
+                {
+                    AccountCustodianId = 1,
+                    CustodianCode = "TEST",
+                    DisplayName = "Test Custodian"
+                };
+                
+                // Act
+                var entity = Mapper.Map<AccountCustodian>(dto);
 
-            assertions.ForEach(x => x.Invoke());
-        }
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(entity, typeof(AccountCustodian));
 
-        void IProfileTest.Entity_MapFrom_Dto_MappedProperties_AreEqual()
-        {
-            throw new NotImplementedException();
+                // Fact: All property values match.
+                var assertions = new List<Action>()
+                {
+                    () => Assert.AreEqual(entity.AccountCustodianId, dto.AccountCustodianId),
+                    () => Assert.AreEqual(entity.CustodianCode, dto.CustodianCode),
+                    () => Assert.AreEqual(entity.DisplayName, dto.DisplayName)
+                };
+
+                assertions.ForEach(x => x.Invoke());
+            }
         }
     }
 }
