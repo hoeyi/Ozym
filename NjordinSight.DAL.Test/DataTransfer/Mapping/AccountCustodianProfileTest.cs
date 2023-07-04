@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
 using NjordinSight.DataTransfer.Profiles;
+using NjordinSight.DataTransfer.Common;
+using NjordinSight.EntityModel;
 using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
@@ -23,14 +27,42 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             config.AssertConfigurationIsValid();
         }
 
-        public Task Dto_MapFrom_Entity_MappedProperties_AreEqual()
+        [TestMethod]
+        public void Dto_MapFrom_Entity_MappedProperties_AreEqual()
         {
-            throw new System.NotImplementedException();
+            // Arrange
+            var entity = new AccountCustodian()
+            {
+                AccountCustodianId = 1,
+                CustodianCode = "TEST",
+                DisplayName = "Test Custodian",
+            };
+            var mapper = new Mapper(new MapperConfiguration(x =>
+            {
+                x.AddProfile<AccountCustodianProfile>();
+            }));
+
+            // Act
+            var dto = mapper.Map<AccountCustodianDto>(entity);
+
+            // Assert
+            // Fact: Instance is created 
+            Assert.IsInstanceOfType(dto, typeof(AccountCustodianDto));
+
+            // Fact: All property values match.
+            var assertions = new List<Action>()
+            {
+                () => Assert.AreEqual(entity.AccountCustodianId, dto.AccountCustodianId),
+                () => Assert.AreEqual(entity.CustodianCode, dto.CustodianCode),
+                () => Assert.AreEqual(entity.DisplayName, string.Empty)
+            };
+
+            assertions.ForEach(x => x.Invoke());
         }
 
-        public Task Entity_MapFrom_Dto_MappedProperties_AreEqual()
+        void IProfileTest.Entity_MapFrom_Dto_MappedProperties_AreEqual()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

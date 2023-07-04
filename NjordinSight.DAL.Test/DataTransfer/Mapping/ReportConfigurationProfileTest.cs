@@ -23,12 +23,12 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             config.AssertConfigurationIsValid();
         }
 
-        public Task Dto_MapFrom_Entity_MappedProperties_AreEqual()
+        public void Dto_MapFrom_Entity_MappedProperties_AreEqual()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task Entity_MapFrom_Dto_MappedProperties_AreEqual()
+        public void Entity_MapFrom_Dto_MappedProperties_AreEqual()
         {
             throw new System.NotImplementedException();
         }

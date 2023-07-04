@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MathNet.Numerics.Statistics.Mcmc;
 using NjordinSight.DataTransfer.Common;
 using NjordinSight.DataTransfer.Profiles;
 using NjordinSight.EntityModel;
@@ -47,7 +48,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
         }
 
         [TestMethod]
-        public async Task Dto_MapFrom_Entity_MappedProperties_AreEqual()
+        public void Dto_MapFrom_Entity_MappedProperties_AreEqual()
         {
             // Arrange
             var account = new Account()
@@ -113,37 +114,31 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             Assert.IsTrue(accountDto.Attributes.All(x => x.AttributeMember.Attribute is not null));
 
             // Fact: All property values match.
-            var comparisons = new List<Task>()
+            var assertions = new List<Action>()
             {
-                Task.Run(() => Assert.AreEqual(accountDto.Id, account.AccountNavigation.AccountObjectId)),
-                Task.Run(() => Assert.AreEqual(accountDto.ShortCode, account.AccountNavigation.AccountObjectCode)),
-                Task.Run(() => Assert.AreEqual(accountDto.StartDate, account.AccountNavigation.StartDate)),
-                Task.Run(() => Assert.AreEqual(accountDto.CloseDate, account.AccountNavigation.CloseDate)),
-                Task.Run(() => Assert.AreEqual(accountDto.DisplayName, account.AccountNavigation.ObjectDisplayName)),
-                Task.Run(() => Assert.AreEqual(accountDto.Description, account.AccountNavigation.ObjectDescription)),
-                Task.Run(() => Assert.AreEqual(accountDto.ObjectType, account.AccountNavigation.ObjectType)),
-                Task.Run(() => Assert.AreEqual(accountDto.AccountCustodianId, account.AccountCustodianId)),
-                Task.Run(() => Assert.AreEqual(accountDto.AccountNumber, account.AccountNumber)),
-                Task.Run(() => Assert.AreEqual(accountDto.HasWallet, account.HasWallet)),
-                Task.Run(() => Assert.AreEqual(accountDto.HasBankTransaction, account.HasBankTransaction)),
-                Task.Run(() => Assert.AreEqual(accountDto.HasBrokerTransaction, account.HasBrokerTransaction)),
-                Task.Run(() => Assert.IsTrue(
+                () => Assert.AreEqual(accountDto.Id, account.AccountNavigation.AccountObjectId),
+                () => Assert.AreEqual(accountDto.ShortCode, account.AccountNavigation.AccountObjectCode),
+                () => Assert.AreEqual(accountDto.StartDate, account.AccountNavigation.StartDate),
+                () => Assert.AreEqual(accountDto.CloseDate, account.AccountNavigation.CloseDate),
+                () => Assert.AreEqual(accountDto.DisplayName, account.AccountNavigation.ObjectDisplayName),
+                () => Assert.AreEqual(accountDto.Description, account.AccountNavigation.ObjectDescription),
+                () => Assert.AreEqual(accountDto.ObjectType, account.AccountNavigation.ObjectType),
+                () => Assert.AreEqual(accountDto.AccountCustodianId, account.AccountCustodianId),
+                () => Assert.AreEqual(accountDto.AccountNumber, account.AccountNumber),
+                () => Assert.AreEqual(accountDto.HasWallet, account.HasWallet),
+                () => Assert.AreEqual(accountDto.HasBankTransaction, account.HasBankTransaction),
+                () => Assert.AreEqual(accountDto.HasBrokerTransaction, account.HasBrokerTransaction),
+                () => Assert.IsTrue(
                     Compare(
                         attributeDto: accountDto.Attributes.First(),
-                        attribute: account.AccountNavigation.AccountAttributeMemberEntries.First())))
+                        attribute: account.AccountNavigation.AccountAttributeMemberEntries.First()))
             };
 
-            Task assertions = Task.WhenAll(comparisons);
-            await assertions;
-
-            if (assertions.Status == TaskStatus.Faulted)
-            {
-                Assert.Fail();
-            }
+            assertions.ForEach(x => x.Invoke());
         }
 
         [TestMethod]
-        public async Task Entity_MapFrom_Dto_MappedProperties_AreEqual()
+        public void Entity_MapFrom_Dto_MappedProperties_AreEqual()
         {
             // Arrange
             var accountDto = new AccountDto()
@@ -192,38 +187,34 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             Assert.IsInstanceOfType(account, typeof(Account));
 
             // Fact: Attributes property is non-empty collection with count matching source.
+            // We do not test colleciton equality because that overlaps with testing the mapping 
+            // behavior of the colleciton type.
             Assert.AreEqual(
                 accountDto.Attributes.Count,
                 account.AccountNavigation.AccountAttributeMemberEntries.Count);
 
             // Fact: All property values match.
-            var comparisons = new List<Task>()
+            var assertions = new List<Action>()
             {
-                Task.Run(() => Assert.AreEqual(accountDto.Id, account.AccountNavigation.AccountObjectId)),
-                Task.Run(() => Assert.AreEqual(accountDto.ShortCode, account.AccountNavigation.AccountObjectCode)),
-                Task.Run(() => Assert.AreEqual(accountDto.StartDate, account.AccountNavigation.StartDate)),
-                Task.Run(() => Assert.AreEqual(accountDto.CloseDate, account.AccountNavigation.CloseDate)),
-                Task.Run(() => Assert.AreEqual(accountDto.DisplayName, account.AccountNavigation.ObjectDisplayName)),
-                Task.Run(() => Assert.AreEqual(accountDto.Description, account.AccountNavigation.ObjectDescription)),
-                Task.Run(() => Assert.AreEqual(accountDto.ObjectType, account.AccountNavigation.ObjectType)),
-                Task.Run(() => Assert.AreEqual(accountDto.AccountCustodianId, account.AccountCustodianId)),
-                Task.Run(() => Assert.AreEqual(accountDto.AccountNumber, account.AccountNumber)),
-                Task.Run(() => Assert.AreEqual(accountDto.HasWallet, account.HasWallet)),
-                Task.Run(() => Assert.AreEqual(accountDto.HasBankTransaction, account.HasBankTransaction)),
-                Task.Run(() => Assert.AreEqual(accountDto.HasBrokerTransaction, account.HasBrokerTransaction)),
-                Task.Run(() => Assert.IsTrue(
+                () => Assert.AreEqual(accountDto.Id, account.AccountNavigation.AccountObjectId),
+                () => Assert.AreEqual(accountDto.ShortCode, account.AccountNavigation.AccountObjectCode),
+                () => Assert.AreEqual(accountDto.StartDate, account.AccountNavigation.StartDate),
+                () => Assert.AreEqual(accountDto.CloseDate, account.AccountNavigation.CloseDate),
+                () => Assert.AreEqual(accountDto.DisplayName, account.AccountNavigation.ObjectDisplayName),
+                () => Assert.AreEqual(accountDto.Description, account.AccountNavigation.ObjectDescription),
+                () => Assert.AreEqual(accountDto.ObjectType, account.AccountNavigation.ObjectType),
+                () => Assert.AreEqual(accountDto.AccountCustodianId, account.AccountCustodianId),
+                () => Assert.AreEqual(accountDto.AccountNumber, account.AccountNumber),
+                () => Assert.AreEqual(accountDto.HasWallet, account.HasWallet),
+                () => Assert.AreEqual(accountDto.HasBankTransaction, account.HasBankTransaction),
+                () => Assert.AreEqual(accountDto.HasBrokerTransaction, account.HasBrokerTransaction),
+                () => Assert.IsTrue(
                     Compare(
                         attributeDto: accountDto.Attributes.First(),
-                        attribute: account.AccountNavigation.AccountAttributeMemberEntries.First())))
+                        attribute: account.AccountNavigation.AccountAttributeMemberEntries.First()))
             };
 
-            Task assertions = Task.WhenAll(comparisons);
-            await assertions;
-
-            if (assertions.Status == TaskStatus.Faulted)
-            {
-                Assert.Fail();
-            }
+            assertions.ForEach(x => x.Invoke());
         }
 
         private static bool Compare(
