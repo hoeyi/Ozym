@@ -12,10 +12,10 @@ namespace NjordinSight.Test.DataTransfer.Mapping
 {
     [TestClass]
     [TestCategory("Unit")]
-    public class AccountProfileTest : IProfileTest
+    public class AccountProfileTest : IProfileTest, IProfileWithDependencyTest
     {
         [TestMethod]
-        public void Configuration_WithProfileDependencies_IsValid()
+        public void Configuration_IsValid()
         {
             // Arrange
             var config = new MapperConfiguration(x =>
