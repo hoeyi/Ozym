@@ -9,26 +9,27 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
+    /// <summary>
+    /// Test class targeting <see cref="AccountCustodianProfile"/>.
+    /// </summary>
     [TestClass]
     [TestCategory("Unit")]
     public partial class AccountCustodianProfileTest : IProfileTest
     {
         /// <summary>
-        /// Defines the <see cref="IConfigurationProvider"/> used to test the target profile 
-        /// and constituent mappings.
+        /// Gets the <see cref="IConfigurationProvider"/> instance to be tested.
         /// </summary>
-        private static IConfigurationProvider MapperConfiguration =>
+        private static IConfigurationProvider TestConfiguration { get; } =
             new MapperConfiguration(x =>
             {
-                x.AddProfile<ModelAttributeProfile>();
-                x.AddProfile<AccountProfile>();
+                x.AddProfile<AccountCustodianProfile>();
             });
 
         [TestMethod]
         public void Configuration_IsValid()
         {
             // Arrange
-            var config = MapperConfiguration;
+            var config = TestConfiguration;
 
             // Act
 
@@ -47,7 +48,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             /// <summary>
             /// Initializes a new instance of the <see cref="AccountCustodianMapping"/> class.
             /// </summary>
-            public AccountCustodianMapping() : base(new Mapper(MapperConfiguration))
+            public AccountCustodianMapping() : base(new Mapper(TestConfiguration))
             {
             }
 

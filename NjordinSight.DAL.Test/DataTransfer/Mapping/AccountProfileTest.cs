@@ -13,17 +13,16 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
     /// <summary>
-    /// Test class targetting <see cref="AccountProfile"/>.
+    /// Test class targeting <see cref="AccountProfile"/>.
     /// </summary>
     [TestClass]
     [TestCategory("Unit")]
     public partial class AccountProfileTest : IProfileTest, IProfileWithDependencyTest
     {
         /// <summary>
-        /// Defines the <see cref="IConfigurationProvider"/> used to test the target profile 
-        /// and constituent mappings.
+        /// Gets the <see cref="IConfigurationProvider"/> instance to be tested.
         /// </summary>
-        private static IConfigurationProvider MapperConfiguration =>
+        private static IConfigurationProvider TestConfiguration { get; } =
             new MapperConfiguration(x =>
             {
                 x.AddProfile<ModelAttributeProfile>();
@@ -35,7 +34,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
         public void Configuration_IsValid()
         {
             // Arrange
-            var config = MapperConfiguration;
+            var config = TestConfiguration;
 
             // Assert
             config.AssertConfigurationIsValid();
@@ -67,7 +66,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             /// <summary>
             /// Initializes a new instance of the <see cref="AccountMapping"/> class.
             /// </summary>
-            public AccountMapping() : base(new Mapper(MapperConfiguration))
+            public AccountMapping() : base(new Mapper(TestConfiguration))
             {
             }
 
@@ -233,7 +232,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             /// <summary>
             /// Initializes a new instance of the <see cref="AccountCompositeMapping"/> class.
             /// </summary>
-            public AccountCompositeMapping() : base(new Mapper(MapperConfiguration))
+            public AccountCompositeMapping() : base(new Mapper(TestConfiguration))
             {
             }
 
@@ -259,7 +258,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             /// <summary>
             /// Initializes a new instance of the <see cref="AccountCompositeMemberMapping"/> class.
             /// </summary>
-            public AccountCompositeMemberMapping() : base(new Mapper(MapperConfiguration))
+            public AccountCompositeMemberMapping() : base(new Mapper(TestConfiguration))
             {
             }
 
@@ -285,7 +284,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             /// <summary>
             /// Initializes a new instance of the <see cref="AttributeEntryMapping"/> class.
             /// </summary>
-            public AttributeEntryMapping() : base(new Mapper(MapperConfiguration))
+            public AttributeEntryMapping() : base(new Mapper(TestConfiguration))
             {
             }
 
