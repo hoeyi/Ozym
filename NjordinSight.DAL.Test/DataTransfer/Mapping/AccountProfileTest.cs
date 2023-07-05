@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
-using MathNet.Numerics.Statistics.Mcmc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NjordinSight.DataTransfer.Common;
 using NjordinSight.DataTransfer.Profiles;
 using NjordinSight.EntityModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
@@ -75,7 +71,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             public override void Dto_MapFrom_Entity_MappedProperties_AreEqual()
             {
                 // Arrange
-                var account = new Account()
+                var entity = new Account()
                 {
                     AccountId = 1,
                     AccountNumber = "####-####-####",
@@ -115,38 +111,38 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 };
 
                 // Act
-                var accountDto = Mapper.Map<AccountDto>(account);
+                var dto = Mapper.Map<AccountDto>(entity);
 
                 // Assert
                 // Fact: Instance is created.
-                Assert.IsInstanceOfType(accountDto, typeof(AccountDto));
+                Assert.IsInstanceOfType(dto, typeof(AccountDto));
 
                 // Fact: Attributes property is non-empty collection with count matching source.
                 Assert.AreEqual(
-                    accountDto.Attributes.Count,
-                    account.AccountNavigation.AccountAttributeMemberEntries.Count);
+                    dto.Attributes.Count,
+                    entity.AccountNavigation.AccountAttributeMemberEntries.Count);
 
                 // Fact: All attributes have AttributeMember complex property defined.
-                Assert.IsTrue(accountDto.Attributes.All(x => x.AttributeMember is not null));
+                Assert.IsTrue(dto.Attributes.All(x => x.AttributeMember is not null));
 
                 // Fact: All AttributeMember complex properties have Attribute complex property defined.
-                Assert.IsTrue(accountDto.Attributes.All(x => x.AttributeMember.Attribute is not null));
+                Assert.IsTrue(dto.Attributes.All(x => x.AttributeMember.Attribute is not null));
 
                 // Fact: All property values match.
                 var assertions = new List<Action>()
                 {
-                    () => Assert.AreEqual(account.AccountNavigation.AccountObjectId, accountDto.Id),
-                    () => Assert.AreEqual(account.AccountNavigation.AccountObjectCode, accountDto.ShortCode),
-                    () => Assert.AreEqual(account.AccountNavigation.StartDate, accountDto.StartDate),
-                    () => Assert.AreEqual(account.AccountNavigation.CloseDate, accountDto.CloseDate),
-                    () => Assert.AreEqual(account.AccountNavigation.ObjectDisplayName, accountDto.DisplayName),
-                    () => Assert.AreEqual(account.AccountNavigation.ObjectDescription, accountDto.Description),
-                    () => Assert.AreEqual(account.AccountNavigation.ObjectType, accountDto.ObjectType),
-                    () => Assert.AreEqual(account.AccountCustodianId, accountDto.AccountCustodianId),
-                    () => Assert.AreEqual(account.AccountNumber, accountDto.AccountNumber),
-                    () => Assert.AreEqual(account.HasWallet, accountDto.HasWallet),
-                    () => Assert.AreEqual(account.HasBankTransaction, accountDto.HasBankTransaction),
-                    () => Assert.AreEqual(account.HasBrokerTransaction, accountDto.HasBrokerTransaction),
+                    () => Assert.AreEqual(entity.AccountNavigation.AccountObjectId, dto.Id),
+                    () => Assert.AreEqual(entity.AccountNavigation.AccountObjectCode, dto.ShortCode),
+                    () => Assert.AreEqual(entity.AccountNavigation.StartDate, dto.StartDate),
+                    () => Assert.AreEqual(entity.AccountNavigation.CloseDate, dto.CloseDate),
+                    () => Assert.AreEqual(entity.AccountNavigation.ObjectDisplayName, dto.DisplayName),
+                    () => Assert.AreEqual(entity.AccountNavigation.ObjectDescription, dto.Description),
+                    () => Assert.AreEqual(entity.AccountNavigation.ObjectType, dto.ObjectType),
+                    () => Assert.AreEqual(entity.AccountCustodianId, dto.AccountCustodianId),
+                    () => Assert.AreEqual(entity.AccountNumber, dto.AccountNumber),
+                    () => Assert.AreEqual(entity.HasWallet, dto.HasWallet),
+                    () => Assert.AreEqual(entity.HasBankTransaction, dto.HasBankTransaction),
+                    () => Assert.AreEqual(entity.HasBrokerTransaction, dto.HasBrokerTransaction),
                 };
 
                 assertions.ForEach(x => x.Invoke());
@@ -157,7 +153,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
             {
                 // Arrange
-                var accountDto = new AccountDto()
+                var dto = new AccountDto()
                 {
                     Id = 1,
                     AccountNumber = "####-####-####",
@@ -191,11 +187,11 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 };
 
                 // Act
-                var account = Mapper.Map<Account>(accountDto);
+                var entity = Mapper.Map<Account>(dto);
 
                 // Assert
                 // Fact: Instance is created.
-                Assert.IsInstanceOfType(account, typeof(Account));
+                Assert.IsInstanceOfType(entity, typeof(Account));
 
                 // Fact: Attributes property is non-empty collection with count matching source.
                 // We do not test colleciton equality because that overlaps with testing the mapping 
@@ -204,21 +200,21 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 // Fact: All property values match.
                 var assertions = new List<Action>()
                 {
-                    () => Assert.AreEqual(accountDto.Id, account.AccountNavigation.AccountObjectId),
-                    () => Assert.AreEqual(accountDto.ShortCode, account.AccountNavigation.AccountObjectCode),
-                    () => Assert.AreEqual(accountDto.StartDate, account.AccountNavigation.StartDate),
-                    () => Assert.AreEqual(accountDto.CloseDate, account.AccountNavigation.CloseDate),
-                    () => Assert.AreEqual(accountDto.DisplayName, account.AccountNavigation.ObjectDisplayName),
-                    () => Assert.AreEqual(accountDto.Description, account.AccountNavigation.ObjectDescription),
-                    () => Assert.AreEqual(accountDto.ObjectType, account.AccountNavigation.ObjectType),
-                    () => Assert.AreEqual(accountDto.AccountCustodianId, account.AccountCustodianId),
-                    () => Assert.AreEqual(accountDto.AccountNumber, account.AccountNumber),
-                    () => Assert.AreEqual(accountDto.HasWallet, account.HasWallet),
-                    () => Assert.AreEqual(accountDto.HasBankTransaction, account.HasBankTransaction),
-                    () => Assert.AreEqual(accountDto.HasBrokerTransaction, account.HasBrokerTransaction),
+                    () => Assert.AreEqual(dto.Id, entity.AccountNavigation.AccountObjectId),
+                    () => Assert.AreEqual(dto.ShortCode, entity.AccountNavigation.AccountObjectCode),
+                    () => Assert.AreEqual(dto.StartDate, entity.AccountNavigation.StartDate),
+                    () => Assert.AreEqual(dto.CloseDate, entity.AccountNavigation.CloseDate),
+                    () => Assert.AreEqual(dto.DisplayName, entity.AccountNavigation.ObjectDisplayName),
+                    () => Assert.AreEqual(dto.Description, entity.AccountNavigation.ObjectDescription),
+                    () => Assert.AreEqual(dto.ObjectType, entity.AccountNavigation.ObjectType),
+                    () => Assert.AreEqual(dto.AccountCustodianId, entity.AccountCustodianId),
+                    () => Assert.AreEqual(dto.AccountNumber, entity.AccountNumber),
+                    () => Assert.AreEqual(dto.HasWallet, entity.HasWallet),
+                    () => Assert.AreEqual(dto.HasBankTransaction, entity.HasBankTransaction),
+                    () => Assert.AreEqual(dto.HasBrokerTransaction, entity.HasBrokerTransaction),
                     () => Assert.AreEqual(
-                            accountDto.Attributes.Count,
-                            account.AccountNavigation.AccountAttributeMemberEntries.Count)
+                            dto.Attributes.Count,
+                            entity.AccountNavigation.AccountAttributeMemberEntries.Count)
                 };
 
                 assertions.ForEach(x => x.Invoke());
