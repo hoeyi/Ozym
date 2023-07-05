@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
     /// <summary>
-    /// Test class targeting <see cref="AccountProfile"/>.
+    /// Class for unit test methods targeting <see cref="AccountProfile"/>.
     /// </summary>
     [TestClass]
     [TestCategory("Unit")]

@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
     /// <summary>
-    /// Test class targeting <see cref="AccountCustodianProfile"/>.
+    /// Class for unit test methods targeting <see cref="AccountCustodianProfile"/>.
     /// </summary>
     [TestClass]
     [TestCategory("Unit")]
