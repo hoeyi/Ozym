@@ -119,8 +119,8 @@ namespace NjordinSight.Test.DataTransfer.Mapping
 
                 // Fact: Attributes property is non-empty collection with count matching source.
                 Assert.AreEqual(
-                    dto.Attributes.Count,
-                    entity.AccountNavigation.AccountAttributeMemberEntries.Count);
+                    expected: entity.AccountNavigation.AccountAttributeMemberEntries.Count,
+                    actual: dto.Attributes.Count);
 
                 // Fact: All attributes have AttributeMember complex property defined.
                 Assert.IsTrue(dto.Attributes.All(x => x.AttributeMember is not null));
@@ -194,8 +194,9 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 Assert.IsInstanceOfType(entity, typeof(Account));
 
                 // Fact: Attributes property is non-empty collection with count matching source.
-                // We do not test colleciton equality because that overlaps with testing the mapping 
-                // behavior of the colleciton type.
+                Assert.AreEqual(
+                    expected: dto.Attributes.Count,
+                    actual: entity.AccountNavigation.AccountAttributeMemberEntries.Count);
 
                 // Fact: All property values match.
                 var assertions = new List<Action>()
