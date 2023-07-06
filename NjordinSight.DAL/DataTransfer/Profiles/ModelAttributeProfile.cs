@@ -57,6 +57,10 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<ModelAttributeScopeDto, ModelAttributeScope>()
                 .ForMember(a => a.Attribute, b => b.Ignore());
 
+            CreateMap<ModelAttributeDto, ModelAttribute>()
+                .ForMember(a => a.ModelAttributeMembers, b => b.Ignore())
+                .ForMember(a => a.ModelAttributeScopes, b => b.Ignore());
+
             CreateMap<ModelAttributeDtoForEdit, ModelAttribute>()
                 .ForMember(
                     a => a.ModelAttributeMembers,
