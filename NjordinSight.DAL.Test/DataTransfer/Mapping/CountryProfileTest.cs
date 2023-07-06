@@ -196,5 +196,31 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 assertions.ForEach(x => x.Invoke());
             }
         }
+
+        [TestClass]
+        [TestCategory("Unit")]
+        public class CountryAttributeMapping : MappingTest
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CountryAttributeMapping"/> class.
+            /// </summary>
+            public CountryAttributeMapping() : base(new Mapper(TestConfiguration))
+            {
+            }
+
+            /// <inheritdoc/>
+            [TestMethod]
+            public override void Dto_MapFrom_Entity_MappedProperties_AreEqual()
+            {
+                throw new NotImplementedException();
+            }
+
+            /// <inheritdoc/>
+            [TestMethod]
+            public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
