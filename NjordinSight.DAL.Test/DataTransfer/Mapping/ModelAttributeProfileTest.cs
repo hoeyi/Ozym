@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Castle.DynamicProxy;
 using NjordinSight.DataTransfer.Common;
 using NjordinSight.DataTransfer.Profiles;
 using NjordinSight.EntityModel;
@@ -105,7 +106,78 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             [TestMethod]
             public void DtoForEdit_MapFrom_Entity_MappedProperties_AreEqual()
             {
-                throw new System.NotImplementedException();
+                // Arrange
+                var entity = new ModelAttribute()
+                {
+                    AttributeId = 1,
+                    DisplayName = "Attribute",
+                    ModelAttributeMembers = new List<ModelAttributeMember>()
+                    {
+                        new()
+                        {
+                            AttributeId = 1,
+                            Attribute = new()
+                            {
+                                AttributeId = 1,
+                                DisplayName = "Attribute"
+                            },
+                            AttributeMemberId = 1,
+                            DisplayName = "Attribute value 1",
+                            DisplayOrder = 1
+                        },
+                        new()
+                        {
+                            AttributeId = 1,
+                            Attribute = new()
+                            {
+                                AttributeId = 1,
+                                DisplayName = "Attribute"
+                            },
+                            AttributeMemberId = 2,
+                            DisplayName = "Attribute value 2",
+                            DisplayOrder = 2
+                        }
+                    },
+                    ModelAttributeScopes = new List<ModelAttributeScope>()
+                    {
+                        new()
+                        {
+                            AttributeId = 1,
+                            ScopeCode = "sec"
+                        },
+                        new()
+                        {
+                            AttributeId = 1,
+                            ScopeCode = "cou"
+                        }
+                    }
+                };
+
+                // Act
+                var dto = Mapper.Map<ModelAttributeDtoForEdit>(entity);
+
+                // Assert
+                // Fact: Instance is created.
+                Assert.IsInstanceOfType(dto, typeof(ModelAttributeDto));
+
+                // Fact: AttributeValues property is non-empty collection with count matching source.
+                Assert.IsTrue(dto.AttributeValues.Count > 0);
+                Assert.AreEqual(
+                    expected: entity.ModelAttributeMembers.Count,
+                    actual: dto.AttributeValues.Count);
+
+                // Fact: All attribute members have Attribute complex property defined.
+                Assert.IsTrue(dto.AttributeValues.All(x => x.Attribute is not null));
+
+                // Fact: AttributeScopes property is non-empty collection with count matching source.
+                Assert.IsTrue(dto.AttributeScopes.Count > 0);
+                Assert.AreEqual(
+                    expected: entity.ModelAttributeScopes.Count,
+                    actual: dto.AttributeScopes.Count);
+
+                // Fact: All property values match.
+                Assert.AreEqual(entity.AttributeId, dto.AttributeId);
+                Assert.AreEqual(entity.DisplayName, dto.DisplayName);
             }
 
             /// <summary>
@@ -115,7 +187,73 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             [TestMethod]
             public void Entity_MapFrom_DtoForEdit_MappedProperties_AreEqual()
             {
-                throw new System.NotImplementedException();
+                // Arrange
+                var dto = new ModelAttributeDtoForEdit()
+                {
+                    AttributeId = 1,
+                    DisplayName = "Attribute",
+                    AttributeValues = new List<ModelAttributeMemberDto>()
+                    {
+                        new()
+                        {
+                            Attribute = new()
+                            {
+                                AttributeId = 1,
+                                DisplayName = "Attribute"
+                            },
+                            AttributeMemberId = 1,
+                            DisplayName = "Attribute value 1",
+                            DisplayOrder = 1
+                        },
+                        new()
+                        {
+                            Attribute = new()
+                            {
+                                AttributeId = 1,
+                                DisplayName = "Attribute"
+                            },
+                            AttributeMemberId = 2,
+                            DisplayName = "Attribute value 2",
+                            DisplayOrder = 2
+                        }
+                    },
+                    AttributeScopes = new List<ModelAttributeScopeDto>()
+                    {
+                        new()
+                        {
+                            AttributeId = 1,
+                            ScopeCode = "sec"
+                        },
+                        new()
+                        {
+                            AttributeId = 1,
+                            ScopeCode = "cou"
+                        }
+                    }
+                };
+
+                // Act
+                var entity = Mapper.Map<ModelAttribute>(dto);
+
+                // Assert
+                // Fact: Instance is created.
+                Assert.IsInstanceOfType(entity, typeof(ModelAttribute));
+
+                // Fact: AttributeValues property is non-empty collection with count matching source.
+                Assert.IsTrue(entity.ModelAttributeMembers.Count > 0);
+                Assert.AreEqual(
+                    expected: dto.AttributeValues.Count,
+                    actual: entity.ModelAttributeMembers.Count);
+
+                // Fact: AttributeScopes property is non-empty collection with count matching source.
+                Assert.IsTrue(entity.ModelAttributeScopes.Count > 0);
+                Assert.AreEqual(
+                    expected: dto.AttributeScopes.Count,
+                    actual: entity.ModelAttributeScopes.Count);
+
+                // Fact: All property values match.
+                Assert.AreEqual(dto.AttributeId, entity.AttributeId);
+                Assert.AreEqual(dto.DisplayName, entity.DisplayName);
             }
         }
 
