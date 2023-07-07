@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 		AddNjordIdentityMigration.bat = AddNjordIdentityMigration.bat
 		AddNjordWorksMigration.bat = AddNjordWorksMigration.bat
 		Dockerfile = Dockerfile
+		GenerateCodeCoverageReport.bat = GenerateCodeCoverageReport.bat
+		RunCodeCoverage.bat = RunCodeCoverage.bat
 		UpdateNjordIdentityDatabase.bat = UpdateNjordIdentityDatabase.bat
 		UpdateNjordWorksDatabase.bat = UpdateNjordWorksDatabase.bat
 		UpdateNjordWorksDatabaseToMigration.bat = UpdateNjordWorksDatabaseToMigration.bat
@@ -35,7 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordinSight.Api", "NjordinSight.API\NjordinSight.Api.csproj", "{FC9329A5-3CFF-44ED-99E9-141ADC55C6C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NjordinSight.Api.Test", "NjordinSight.Api.Test\NjordinSight.Api.Test.csproj", "{4C46AF22-F459-4B81-A976-82B478D16BB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NjordinSight.Api.Test", "NjordinSight.Api.Test\NjordinSight.Api.Test.csproj", "{4C46AF22-F459-4B81-A976-82B478D16BB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
