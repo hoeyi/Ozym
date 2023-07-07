@@ -12,4 +12,10 @@ dotnet ef database update %migration% ^
 	--startup-project ..\NjordinSight.Web\NjordinSight.Web.csproj ^
 	--project ..\NjordinSight.EntityMigration\NjordinSight.EntityMigration.csproj
 
+goto :finally
+
+:missingparameter
+echo "Required 1st positional argument was not provided."
+
+:finally
 cd ..\
