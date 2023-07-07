@@ -23,9 +23,15 @@ namespace NjordinSight.DataTransfer.Profiles
         public SecurityTypeProfile()
         {
             #region Entity-DTO
-            CreateMap<SecurityTypeGroup, SecurityTypeGroupDto>();
+            CreateMap<SecurityTypeGroup, SecurityTypeGroupDto>()
+                .ForMember(
+                    a => a.DisplayOrder, 
+                    b => b.MapFrom(x => x.AttributeMemberNavigation.DisplayOrder));
 
-            CreateMap<SecurityType, SecurityTypeDto>();
+            CreateMap<SecurityType, SecurityTypeDto>()
+                .ForMember(
+                    a => a.DisplayOrder, 
+                    b => b.MapFrom(x => x.AttributeMemberNavigation.DisplayOrder));
             #endregion
 
             #region DTO-Entity
@@ -36,10 +42,11 @@ namespace NjordinSight.DataTransfer.Profiles
                     b => b.MapFrom(x => x.SecurityTypeGroupName))
                 .ForPath(
                     a => a.AttributeMemberNavigation.DisplayOrder,
-                    b => b.MapFrom(x => x.DisplayOrder)); ;
+                    b => b.MapFrom(x => x.DisplayOrder));
 
             CreateMap<SecurityTypeDto, SecurityType>()
                 .ForMember(a => a.SecurityTypeGroup, b => b.Ignore())
+                .ForMember(a => a.Securities, b => b.Ignore())
                 .ForPath(
                     a => a.AttributeMemberNavigation.DisplayName,
                     b => b.MapFrom(x => x.SecurityTypeName))

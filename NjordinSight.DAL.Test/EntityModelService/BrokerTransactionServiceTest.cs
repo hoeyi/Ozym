@@ -1,9 +1,7 @@
 ﻿using NjordinSight.EntityModel;
 using NjordinSight.EntityModelService.Abstractions;
 using System;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace NjordinSight.Test.EntityModelService
 {

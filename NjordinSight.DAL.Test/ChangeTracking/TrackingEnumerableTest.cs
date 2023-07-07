@@ -1,12 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordinSight.ChangeTracking;
-using NjordinSight.DataTransfer.Common;
+﻿using NjordinSight.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NjordinSight.Test.ChangeTracking
 {

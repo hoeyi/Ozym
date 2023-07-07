@@ -1,11 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NjordinSight.BusinessLogic.Functions;
+﻿using NjordinSight.BusinessLogic.Functions;
 using NjordinSight.BusinessLogic.MarketFeed;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NjordinSight.Test.BusinessLogic
 {
