@@ -100,6 +100,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 Assert.IsInstanceOfType(dto, typeof(CountryDto));
 
                 // Fact: Attributes property is non-empty collection with count matching source.
+                Assert.IsTrue(dto.Attributes.Count > 0);
                 Assert.AreEqual(
                     expected: entity.CountryAttributeMemberEntries.Count,
                     actual: dto.Attributes.Count);
@@ -160,7 +161,9 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 // Fact: Instance is created.
                 Assert.IsInstanceOfType(entity, typeof(Country));
 
-                // Fact: Attributes property is non-empty collection with count matching source.
+                // Fact: CountryAttributeMemberEntries property is non-empty collection with
+                // count matching source.
+                Assert.IsTrue(entity.CountryAttributeMemberEntries.Count > 0);
                 Assert.AreEqual(
                     expected: dto.Attributes.Count,
                     actual: entity.CountryAttributeMemberEntries.Count);

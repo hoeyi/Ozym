@@ -102,6 +102,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 Assert.IsInstanceOfType(dto, typeof(AccountDto));
 
                 // Fact: Attributes property is non-empty collection with count matching source.
+                Assert.IsTrue(dto.Attributes.Count > 0);
                 Assert.AreEqual(
                     expected: entity.AccountNavigation.AccountAttributeMemberEntries.Count,
                     actual: dto.Attributes.Count);
@@ -172,7 +173,9 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 // Fact: Instance is created.
                 Assert.IsInstanceOfType(entity, typeof(Account));
 
-                // Fact: Attributes property is non-empty collection with count matching source.
+                // Fact: AccountAttributeMemberEntries property is non-empty collection with
+                // count matching source.
+                Assert.IsTrue(entity.AccountNavigation.AccountAttributeMemberEntries.Count > 0);
                 Assert.AreEqual(
                     expected: dto.Attributes.Count,
                     actual: entity.AccountNavigation.AccountAttributeMemberEntries.Count);
@@ -190,15 +193,6 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 Assert.AreEqual(dto.HasWallet, entity.HasWallet);
                 Assert.AreEqual(dto.HasBankTransaction, entity.HasBankTransaction);
                 Assert.AreEqual(dto.HasBrokerTransaction, entity.HasBrokerTransaction);
-                Assert.AreEqual(
-                    dto.Attributes.Count,
-                    entity.AccountNavigation.AccountAttributeMemberEntries.Count);
-
-                var assertions = new List<Action>()
-                {
-                };
-
-                assertions.ForEach(x => x.Invoke());
             }
         }
 
@@ -217,14 +211,159 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             [TestMethod]
             public override void Dto_MapFrom_Entity_MappedProperties_AreEqual()
             {
-                throw new NotImplementedException();
+                // Arrange
+                var entity = new AccountComposite()
+                {
+                    AccountCompositeId = 1,
+                    AccountCompositeNavigation = new()
+                    {
+                        AccountObjectId = 1,
+                        AccountObjectCode = "TEST",
+                        ObjectDescription = "For testing purposes.",
+                        ObjectType = "c",
+                        ObjectDisplayName = "Test Account",
+                        StartDate = DateTime.UtcNow.Date,
+                        AccountAttributeMemberEntries = new List<AccountAttributeMemberEntry>()
+                        {
+                            new()
+                            {
+                                AccountObjectId = 1,
+                                AttributeMemberId = 1,
+                                AttributeMember = new()
+                                {
+                                    AttributeMemberId = 1,
+                                    DisplayName = "Member 1",
+                                    DisplayOrder = 1,
+                                    Attribute = new()
+                                    {
+                                        AttributeId = 1,
+                                        DisplayName = "Attribute 1"
+                                    }
+                                },
+                                EffectiveDate = DateTime.UtcNow.Date,
+                                Weight = 1M
+                            }
+                        }
+                    },
+                    AccountCompositeMembers = new List<AccountCompositeMember>()
+                    {
+                        new()
+                        {
+                            AccountCompositeId = 1,
+                            AccountId = 2,
+                            EntryDate = DateTime.UtcNow.Date
+                        }
+                    }
+                };
+
+                // Act
+                var dto = Mapper.Map<AccountCompositeDto>(entity);
+
+                // Assert
+                // Fact: Instance is created.
+                Assert.IsInstanceOfType(dto, typeof(AccountCompositeDto));
+
+                // Fact: Attributes property is non-empty collection with count matching source.
+                Assert.IsTrue(dto.Attributes.Count > 0);
+                Assert.AreEqual(
+                    expected: entity.AccountCompositeNavigation.AccountAttributeMemberEntries.Count,
+                    actual: dto.Attributes.Count);
+
+                // Fact: All attributes have AttributeMember complex property defined.
+                Assert.IsTrue(dto.Attributes.All(x => x.AttributeMember is not null));
+
+                // Fact: All AttributeMember complex properties have Attribute complex property defined.
+                Assert.IsTrue(dto.Attributes.All(x => x.AttributeMember.Attribute is not null));
+
+                // Fact: AccountMembers property is non-empty collection with count matching source.
+                Assert.IsTrue(dto.AccountMembers.Count > 0);
+                Assert.AreEqual(
+                    expected: dto.AccountMembers.Count,
+                    actual: entity.AccountCompositeMembers.Count);
+
+                // Fact: All property values match.
+                Assert.AreEqual(entity.AccountCompositeNavigation.AccountObjectId, dto.Id);
+                Assert.AreEqual(entity.AccountCompositeNavigation.AccountObjectCode, dto.ShortCode);
+                Assert.AreEqual(entity.AccountCompositeNavigation.StartDate, dto.StartDate);
+                Assert.AreEqual(entity.AccountCompositeNavigation.CloseDate, dto.CloseDate);
+                Assert.AreEqual(entity.AccountCompositeNavigation.ObjectDisplayName, dto.DisplayName);
+                Assert.AreEqual(entity.AccountCompositeNavigation.ObjectDescription, dto.Description);
+                Assert.AreEqual(entity.AccountCompositeNavigation.ObjectType, dto.ObjectType);
             }
 
             /// <inheritdoc/>
             [TestMethod]
             public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
             {
-                throw new NotImplementedException();
+                // Arrange
+                var dto = new AccountCompositeDto()
+                {
+                    Id = 1,
+                    ShortCode = "TEST",
+                    Description = "For testing purposes.",
+                    DisplayName = "Test Account",
+                    StartDate = DateTime.UtcNow.Date,
+                    Attributes = new List<AccountBaseAttributeDto>()
+                    {
+                        new()
+                        {
+                            AccountObjectId = 1,
+                            AttributeMember = new()
+                            {
+                                AttributeMemberId = 1,
+                                DisplayName = "Member 1",
+                                DisplayOrder = 1,
+                                Attribute = new()
+                                {
+                                    AttributeId = 1,
+                                    DisplayName = "Attribute 1"
+                                }
+                            },
+                            EffectiveDate = DateTime.UtcNow.Date,
+                            PercentWeight = 1M
+                        },
+                    },
+                    AccountMembers = new List<AccountCompositeMemberDto>()
+                    {
+                        new()
+                        {
+                            AccountCompositeId = 1,
+                            AccountId = 2,
+                            EntryDate = DateTime.UtcNow.Date
+                        }
+                    }
+                };
+
+                // Act
+                var entity = Mapper.Map<AccountComposite>(dto);
+
+                // Assert
+                // Fact: Instance is created.
+                Assert.IsInstanceOfType(entity, typeof(AccountComposite));
+
+                // Fact: AccountAttributeMemberEntries property is non-empty collection with
+                // count matching source.
+                Assert.IsTrue(
+                    entity.AccountCompositeNavigation.AccountAttributeMemberEntries.Count > 0);
+                Assert.AreEqual(
+                    expected: dto.Attributes.Count,
+                    actual: entity.AccountCompositeNavigation.AccountAttributeMemberEntries.Count);
+
+                // Fact: AccountCompositeMembers property is non-empty collection with count
+                // matching source.
+                Assert.IsTrue(entity.AccountCompositeMembers.Count > 0);
+                Assert.AreEqual(
+                    expected: dto.AccountMembers.Count,
+                    actual: entity.AccountCompositeMembers.Count);
+
+                // Fact: All property values match.
+                Assert.AreEqual(dto.Id, entity.AccountCompositeNavigation.AccountObjectId);
+                Assert.AreEqual(dto.ShortCode, entity.AccountCompositeNavigation.AccountObjectCode);
+                Assert.AreEqual(dto.StartDate, entity.AccountCompositeNavigation.StartDate);
+                Assert.AreEqual(dto.CloseDate, entity.AccountCompositeNavigation.CloseDate);
+                Assert.AreEqual(dto.DisplayName, entity.AccountCompositeNavigation.ObjectDisplayName);
+                Assert.AreEqual(dto.Description, entity.AccountCompositeNavigation.ObjectDescription);
+                Assert.AreEqual(dto.ObjectType, entity.AccountCompositeNavigation.ObjectType);
             }
         }
 
@@ -243,14 +382,62 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             [TestMethod]
             public override void Dto_MapFrom_Entity_MappedProperties_AreEqual()
             {
-                throw new NotImplementedException();
+                // Arrange
+                var entity = new AccountCompositeMember()
+                {
+                    AccountId = 1,
+                    AccountCompositeId = 2,
+                    EntryDate = DateTime.UtcNow.Date,
+                    ExitDate = DateTime.UtcNow.Date.AddDays(13),
+                    Comment = "Some comment",
+                    DisplayOrder = 1
+                };
+
+                // Act
+                var dto = Mapper.Map<AccountCompositeMemberDto>(entity);
+
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(dto, typeof(AccountCompositeMemberDto));
+
+                // Fact: All property values match.
+                Assert.AreEqual(entity.AccountId, dto.AccountId);
+                Assert.AreEqual(entity.AccountCompositeId, dto.AccountCompositeId);
+                Assert.AreEqual(entity.EntryDate, dto.EntryDate);
+                Assert.AreEqual(entity.ExitDate, dto.ExitDate);
+                Assert.AreEqual(entity.Comment, dto.Comment);
+                Assert.AreEqual(entity.DisplayOrder, dto.DisplayOrder);
             }
 
             /// <inheritdoc/>
             [TestMethod]
             public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
             {
-                throw new NotImplementedException();
+                // Arrange
+                var dto = new AccountCompositeMemberDto()
+                {
+                    AccountId = 1,
+                    AccountCompositeId = 2,
+                    EntryDate = DateTime.UtcNow.Date,
+                    ExitDate = DateTime.UtcNow.Date.AddDays(13),
+                    Comment = "Some comment",
+                    DisplayOrder = 1
+                };
+
+                // Act
+                var entity = Mapper.Map<AccountCompositeMember>(dto);
+
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(entity, typeof(AccountCompositeMember));
+
+                // Fact: All property values match.
+                Assert.AreEqual(dto.AccountId, entity.AccountId);
+                Assert.AreEqual(dto.AccountCompositeId, entity.AccountCompositeId);
+                Assert.AreEqual(dto.EntryDate, entity.EntryDate);
+                Assert.AreEqual(dto.ExitDate, entity.ExitDate);
+                Assert.AreEqual(dto.Comment, entity.Comment);
+                Assert.AreEqual(dto.DisplayOrder, entity.DisplayOrder);
             }
         }
 

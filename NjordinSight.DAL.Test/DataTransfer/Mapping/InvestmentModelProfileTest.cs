@@ -110,7 +110,8 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 // Fact: Instance is created 
                 Assert.IsInstanceOfType(dto, typeof(InvestmentModelDto));
 
-                // Fact: Attributes property is non-empty collection with count matching source.
+                // Fact: Targets property is non-empty collection with count matching source.
+                Assert.IsTrue(dto.Targets.Count > 0);
                 Assert.AreEqual(
                     expected: entity.InvestmentStrategyTargets.Count,
                     actual: dto.Targets.Count);
@@ -190,7 +191,8 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 // Fact: Instance is created.
                 Assert.IsInstanceOfType(entity, typeof(InvestmentStrategy));
 
-                // Fact: Targets property is non-empty collection with count matching source.
+                // Fact: InvestmentStrategyTargets property is non-empty collection with count matching source.
+                Assert.IsTrue(entity.InvestmentStrategyTargets.Count > 0);
                 Assert.AreEqual(
                     expected: dto.Targets.Count,
                     actual: entity.InvestmentStrategyTargets.Count);
