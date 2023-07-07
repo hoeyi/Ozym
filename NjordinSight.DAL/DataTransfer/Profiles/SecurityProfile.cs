@@ -57,6 +57,7 @@ namespace NjordinSight.DataTransfer.Profiles
                 .ForMember(a => a.SecuritySymbols, b => b.MapFrom(x => x.Symbols));
 
             CreateMap<SecurityAttributeDto, SecurityAttributeMemberEntry>()
+                .ForMember(a => a.AttributeMemberId, b => b.MapFrom(x => x.AttributeMember.AttributeMemberId))
                 .ForMember(a => a.Security, b => b.Ignore())
                 .ForMember(a => a.Weight, b => b.MapFrom(x => x.PercentWeight));
 
@@ -64,7 +65,7 @@ namespace NjordinSight.DataTransfer.Profiles
                 .ForMember(a => a.SecuritySymbolMaps, b => b.Ignore())
                 .ForMember(a => a.SymbolType, b => b.Ignore())
                 .ForMember(a => a.Security, b => b.Ignore())
-                .ForMember(a => a.SymbolCode, b => b.MapFrom(x => x.Symbol));
+                .ForMember(a => a.SymbolCode, b => b.Ignore());
 
             CreateMap<SecuritySymbolTypeDto, SecuritySymbolType>()
                 .ForMember(a => a.SecuritySymbols, b => b.Ignore());
