@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using NjordinSight.DataTransfer.Common;
 using NjordinSight.DataTransfer.Profiles;
+using NjordinSight.EntityModel;
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
@@ -53,14 +56,54 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             [TestMethod]
             public override void Dto_MapFrom_Entity_MappedProperties_AreEqual()
             {
-                throw new System.NotImplementedException();
+                // Arrange
+                var entity = new ReportConfiguration()
+                {
+                    ConfigurationId = 1,
+                    ConfigurationCode = "DEFAULT",
+                    ConfigurationDescription = "Default description",
+                    XmlDefinition = "does not need to be valid xml for this test"
+                };
+
+                // Act
+                var dto = Mapper.Map<ReportConfigurationDto>(entity);
+
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(dto, typeof(ReportConfigurationDto));
+
+                // Fact: All property values match.
+                Assert.AreEqual(entity.ConfigurationId, dto.ConfigurationId);
+                Assert.AreEqual(entity.ConfigurationCode, dto.ConfigurationCode);
+                Assert.AreEqual(entity.ConfigurationDescription, dto.ConfigurationDescription);
+                Assert.AreEqual(entity.XmlDefinition, dto.XmlDefinition);
             }
 
             /// <inheritdoc/>
             [TestMethod]
             public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
             {
-                throw new System.NotImplementedException();
+                // Arrange
+                var dto = new ReportConfigurationDto()
+                {
+                    ConfigurationId = 1,
+                    ConfigurationCode = "DEFAULT",
+                    ConfigurationDescription = "Default description",
+                    XmlDefinition = "does not need to be valid xml for this test"
+                };
+
+                // Act
+                var entity = Mapper.Map<ReportConfiguration>(dto);
+
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(entity, typeof(ReportConfiguration));
+
+                // Fact: All property values match.
+                Assert.AreEqual(dto.ConfigurationId, entity.ConfigurationId);
+                Assert.AreEqual(dto.ConfigurationCode, entity.ConfigurationCode);
+                Assert.AreEqual(dto.ConfigurationDescription, entity.ConfigurationDescription);
+                Assert.AreEqual(dto.XmlDefinition, entity.XmlDefinition);
             }
         }
     }

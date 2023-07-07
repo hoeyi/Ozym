@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using NjordinSight.DataTransfer.Common;
 using NjordinSight.DataTransfer.Profiles;
+using NjordinSight.EntityModel;
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
@@ -52,14 +55,54 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             [TestMethod]
             public override void Dto_MapFrom_Entity_MappedProperties_AreEqual()
             {
-                throw new System.NotImplementedException();
+                // Arrange
+                var entity = new ReportStyleSheet()
+                {
+                    StyleSheetId = 1,
+                    StyleSheetCode = "DEFAULT-THEME",
+                    StyleSheetDescription = "Default description",
+                    XmlDefinition = "does not need to be valid xml for this test"
+                };
+
+                // Act
+                var dto = Mapper.Map<ReportStyleSheetDto>(entity);
+
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(dto, typeof(ReportStyleSheetDto));
+
+                // Fact: All property values match.
+                Assert.AreEqual(entity.StyleSheetId, dto.StyleSheetId);
+                Assert.AreEqual(entity.StyleSheetCode, dto.StyleSheetCode);
+                Assert.AreEqual(entity.StyleSheetDescription, dto.StyleSheetDescription);
+                Assert.AreEqual(entity.XmlDefinition, dto.XmlDefinition);
             }
 
             /// <inheritdoc/>
             [TestMethod]
             public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
             {
-                throw new System.NotImplementedException();
+                // Arrange
+                var dto = new ReportStyleSheetDto()
+                {
+                    StyleSheetId = 1,
+                    StyleSheetCode = "DEFAULT-THEME",
+                    StyleSheetDescription = "Default description",
+                    XmlDefinition = "does not need to be valid xml for this test"
+                };
+
+                // Act
+                var entity = Mapper.Map<ReportStyleSheet>(dto);
+
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(entity, typeof(ReportStyleSheet));
+
+                // Fact: All property values match.
+                Assert.AreEqual(dto.StyleSheetId, entity.StyleSheetId);
+                Assert.AreEqual(dto.StyleSheetCode, entity.StyleSheetCode);
+                Assert.AreEqual(dto.StyleSheetDescription, entity.StyleSheetDescription);
+                Assert.AreEqual(dto.XmlDefinition, entity.XmlDefinition);
             }
         }
     }

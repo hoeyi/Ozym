@@ -1,7 +1,14 @@
 ﻿using AutoMapper;
+using NjordinSight.DataTransfer.Common;
+using NjordinSight.DataTransfer.Common.Query;
 using NjordinSight.DataTransfer.Profiles;
+using NjordinSight.EntityModel;
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using Ichosys.DataModel.Expressions;
+using Moq;
+using System.Net.Http.Headers;
 
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
@@ -39,27 +46,58 @@ namespace NjordinSight.Test.DataTransfer.Mapping
     {
         [TestClass]
         [TestCategory("Unit")]
-        public class ParameterMapping : MappingTest
+        public class ParameterMapping
         {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="ParameterMapping"/> class.
-            /// </summary>
-            public ParameterMapping() : base(new Mapper(TestConfiguration))
+            private IMapper Mapper { get; } = new Mapper(TestConfiguration);
+
+            /// <inheritdoc/>
+            [TestMethod]
+            public void Dto_MapFrom_IQueryParameter_MappedProperties_AreEqual()
             {
+                // Arrange
+                var mock = new Mock<IQueryParameter<AccountDto>>();
+                mock.SetupGet(x => x.MemberName).Returns(nameof(AccountDto.Id));
+                mock.SetupGet(x => x.Operator).Returns(ComparisonOperator.EqualTo);
+                mock.SetupGet(x => x.Value).Returns("1");
+
+                // Act
+                var dto = Mapper.Map<ParameterDto<AccountDto>>(mock.Object);
+
+                // Assert
+                // Assert
+                // Fact: Instance is created.
+                Assert.IsInstanceOfType(dto, typeof(ParameterDto<AccountDto>));
+
+                // Fact: All property values match.
+                Assert.AreEqual(mock.Object.MemberName, dto.MemberName);
+                Assert.AreEqual(mock.Object.Operator, dto.Operator);
+                Assert.AreEqual(mock.Object.Value, dto.Value);
             }
 
             /// <inheritdoc/>
             [TestMethod]
-            public override void Dto_MapFrom_Entity_MappedProperties_AreEqual()
+            public void IQueryParameter_MapFrom_Dto_MappedProperties_AreEqual()
             {
-                throw new System.NotImplementedException();
-            }
+                // Arrange
+                var dto = new ParameterDto<AccountDto>()
+                {
+                    MemberName = nameof(AccountDto.Id),
+                    Operator = ComparisonOperator.EqualTo,
+                    Value = "1"
+                };
 
-            /// <inheritdoc/>
-            [TestMethod]
-            public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
-            {
-                throw new System.NotImplementedException();
+                // Act
+                var iQueryParam = Mapper.Map<ParameterDto<AccountDto>>(dto);
+
+                // Assert
+                // Assert
+                // Fact: Instance is created.
+                Assert.IsInstanceOfType(iQueryParam, typeof(ParameterDto<AccountDto>));
+
+                // Fact: All property values match.
+                Assert.AreEqual(dto.MemberName, iQueryParam.MemberName);
+                Assert.AreEqual(dto.Operator, iQueryParam.Operator);
+                Assert.AreEqual(dto.Value, iQueryParam.Value);
             }
         }
     }

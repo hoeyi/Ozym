@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using MathNet.Numerics.Random;
 using NjordinSight.DataTransfer.Common;
 using NjordinSight.DataTransfer.Profiles;
 using NjordinSight.EntityModel;
-using System.Collections.Generic;
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
@@ -55,14 +56,72 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             [TestMethod]
             public override void Dto_MapFrom_Entity_MappedProperties_AreEqual()
             {
-                throw new System.NotImplementedException();
+                // Arrange
+                var random = new Random();
+                var entity = new SecurityPrice()
+                {
+                    PriceId = 1,
+                    SecurityId = 1,
+                    PriceDate = DateTime.UtcNow.Date,
+                    PriceClose = Math.Round((decimal)random.NextDouble() * 1000M, 2),
+                    PriceOpen = Math.Round((decimal)random.NextDouble() * 1000M, 2),
+                    PriceHigh = Math.Round((decimal)random.NextDouble() * 1000M, 2),
+                    PriceLow = Math.Round((decimal)random.NextDouble() * 1000M, 2),
+                    Volume = random.Next()
+                };
+
+                // Act
+                var dto = Mapper.Map<SecurityPriceDto>(entity);
+
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(dto, typeof(SecurityPriceDto));
+
+                // Fact: All property values match.
+                Assert.AreEqual(entity.PriceId, dto.PriceId);
+                Assert.AreEqual(entity.SecurityId, dto.SecurityId);
+                Assert.AreEqual(entity.PriceDate, dto.PriceDate);
+                Assert.AreEqual(entity.PriceClose, dto.PriceClose);
+                Assert.AreEqual(entity.PriceOpen, dto.PriceOpen);
+                Assert.AreEqual(entity.PriceHigh, dto.PriceHigh);
+                Assert.AreEqual(entity.PriceLow, dto.PriceLow);
+                Assert.AreEqual(entity.Volume, dto.Volume);
             }
 
             /// <inheritdoc/>
             [TestMethod]
             public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
             {
-                throw new System.NotImplementedException();
+                // Arrange
+                var random = new Random();
+                var dto = new SecurityPriceDto()
+                {
+                    PriceId = 1,
+                    SecurityId = 1,
+                    PriceDate = DateTime.UtcNow.Date,
+                    PriceClose = Math.Round((decimal)random.NextDouble() * 1000M, 2),
+                    PriceOpen = Math.Round((decimal)random.NextDouble() * 1000M, 2),
+                    PriceHigh = Math.Round((decimal)random.NextDouble() * 1000M, 2),
+                    PriceLow = Math.Round((decimal)random.NextDouble() * 1000M, 2),
+                    Volume = random.Next()
+                };
+
+                // Act
+                var entity = Mapper.Map<SecurityPrice>(dto);
+
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(entity, typeof(SecurityPrice));
+
+                // Fact: All property values match.
+                Assert.AreEqual(dto.PriceId, entity.PriceId);
+                Assert.AreEqual(dto.SecurityId, entity.SecurityId);
+                Assert.AreEqual(dto.PriceDate, entity.PriceDate);
+                Assert.AreEqual(dto.PriceClose, entity.PriceClose);
+                Assert.AreEqual(dto.PriceOpen, entity.PriceOpen);
+                Assert.AreEqual(dto.PriceHigh, entity.PriceHigh);
+                Assert.AreEqual(dto.PriceLow, entity.PriceLow);
+                Assert.AreEqual(dto.Volume, entity.Volume);
             }
         }
     }

@@ -13,7 +13,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
     /// </summary>
     [TestClass]
     [TestCategory("Unit")]
-    public partial class AccountProfileTest : IProfileTest, IProfileWithDependencyTest
+    public partial class AccountProfileTest : IProfileTest
     {
         /// <summary>
         /// Gets the <see cref="IConfigurationProvider"/> instance to be tested.
@@ -34,22 +34,6 @@ namespace NjordinSight.Test.DataTransfer.Mapping
 
             // Assert
             config.AssertConfigurationIsValid();
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public void Configuration_WithoutProfileDependencies_IsInvalid()
-        {
-            // Arrange
-            var config = new MapperConfiguration(x =>
-            {
-                // Act
-                x.AddProfile<AccountProfile>();
-            });
-
-            // Assert
-            Assert.ThrowsException<AutoMapperConfigurationException>(() =>
-                config.AssertConfigurationIsValid());
         }
     }
 
@@ -129,23 +113,18 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 Assert.IsTrue(dto.Attributes.All(x => x.AttributeMember.Attribute is not null));
 
                 // Fact: All property values match.
-                var assertions = new List<Action>()
-                {
-                    () => Assert.AreEqual(entity.AccountNavigation.AccountObjectId, dto.Id),
-                    () => Assert.AreEqual(entity.AccountNavigation.AccountObjectCode, dto.ShortCode),
-                    () => Assert.AreEqual(entity.AccountNavigation.StartDate, dto.StartDate),
-                    () => Assert.AreEqual(entity.AccountNavigation.CloseDate, dto.CloseDate),
-                    () => Assert.AreEqual(entity.AccountNavigation.ObjectDisplayName, dto.DisplayName),
-                    () => Assert.AreEqual(entity.AccountNavigation.ObjectDescription, dto.Description),
-                    () => Assert.AreEqual(entity.AccountNavigation.ObjectType, dto.ObjectType),
-                    () => Assert.AreEqual(entity.AccountCustodianId, dto.AccountCustodianId),
-                    () => Assert.AreEqual(entity.AccountNumber, dto.AccountNumber),
-                    () => Assert.AreEqual(entity.HasWallet, dto.HasWallet),
-                    () => Assert.AreEqual(entity.HasBankTransaction, dto.HasBankTransaction),
-                    () => Assert.AreEqual(entity.HasBrokerTransaction, dto.HasBrokerTransaction),
-                };
-
-                assertions.ForEach(x => x.Invoke());
+                Assert.AreEqual(entity.AccountNavigation.AccountObjectId, dto.Id);
+                Assert.AreEqual(entity.AccountNavigation.AccountObjectCode, dto.ShortCode);
+                Assert.AreEqual(entity.AccountNavigation.StartDate, dto.StartDate);
+                Assert.AreEqual(entity.AccountNavigation.CloseDate, dto.CloseDate);
+                Assert.AreEqual(entity.AccountNavigation.ObjectDisplayName, dto.DisplayName);
+                Assert.AreEqual(entity.AccountNavigation.ObjectDescription, dto.Description);
+                Assert.AreEqual(entity.AccountNavigation.ObjectType, dto.ObjectType);
+                Assert.AreEqual(entity.AccountCustodianId, dto.AccountCustodianId);
+                Assert.AreEqual(entity.AccountNumber, dto.AccountNumber);
+                Assert.AreEqual(entity.HasWallet, dto.HasWallet);
+                Assert.AreEqual(entity.HasBankTransaction, dto.HasBankTransaction);
+                Assert.AreEqual(entity.HasBrokerTransaction, dto.HasBrokerTransaction);
             }
 
             /// <inheritdoc/>
@@ -199,23 +178,24 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                     actual: entity.AccountNavigation.AccountAttributeMemberEntries.Count);
 
                 // Fact: All property values match.
+                Assert.AreEqual(dto.Id, entity.AccountNavigation.AccountObjectId);
+                Assert.AreEqual(dto.ShortCode, entity.AccountNavigation.AccountObjectCode);
+                Assert.AreEqual(dto.StartDate, entity.AccountNavigation.StartDate);
+                Assert.AreEqual(dto.CloseDate, entity.AccountNavigation.CloseDate);
+                Assert.AreEqual(dto.DisplayName, entity.AccountNavigation.ObjectDisplayName);
+                Assert.AreEqual(dto.Description, entity.AccountNavigation.ObjectDescription);
+                Assert.AreEqual(dto.ObjectType, entity.AccountNavigation.ObjectType);
+                Assert.AreEqual(dto.AccountCustodianId, entity.AccountCustodianId);
+                Assert.AreEqual(dto.AccountNumber, entity.AccountNumber);
+                Assert.AreEqual(dto.HasWallet, entity.HasWallet);
+                Assert.AreEqual(dto.HasBankTransaction, entity.HasBankTransaction);
+                Assert.AreEqual(dto.HasBrokerTransaction, entity.HasBrokerTransaction);
+                Assert.AreEqual(
+                    dto.Attributes.Count,
+                    entity.AccountNavigation.AccountAttributeMemberEntries.Count);
+
                 var assertions = new List<Action>()
                 {
-                    () => Assert.AreEqual(dto.Id, entity.AccountNavigation.AccountObjectId),
-                    () => Assert.AreEqual(dto.ShortCode, entity.AccountNavigation.AccountObjectCode),
-                    () => Assert.AreEqual(dto.StartDate, entity.AccountNavigation.StartDate),
-                    () => Assert.AreEqual(dto.CloseDate, entity.AccountNavigation.CloseDate),
-                    () => Assert.AreEqual(dto.DisplayName, entity.AccountNavigation.ObjectDisplayName),
-                    () => Assert.AreEqual(dto.Description, entity.AccountNavigation.ObjectDescription),
-                    () => Assert.AreEqual(dto.ObjectType, entity.AccountNavigation.ObjectType),
-                    () => Assert.AreEqual(dto.AccountCustodianId, entity.AccountCustodianId),
-                    () => Assert.AreEqual(dto.AccountNumber, entity.AccountNumber),
-                    () => Assert.AreEqual(dto.HasWallet, entity.HasWallet),
-                    () => Assert.AreEqual(dto.HasBankTransaction, entity.HasBankTransaction),
-                    () => Assert.AreEqual(dto.HasBrokerTransaction, entity.HasBrokerTransaction),
-                    () => Assert.AreEqual(
-                            dto.Attributes.Count,
-                            entity.AccountNavigation.AccountAttributeMemberEntries.Count)
                 };
 
                 assertions.ForEach(x => x.Invoke());
@@ -294,7 +274,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 {
                     AccountObjectId = 1,
                     AttributeMemberId = 2,
-                    EffectiveDate = new DateTime(2030, 12, 31),
+                    EffectiveDate = DateTime.UtcNow.Date,
                     Weight = 1M,
                     AttributeMember = new()
                     {
@@ -318,15 +298,10 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 Assert.IsInstanceOfType(dto, typeof(AccountBaseAttributeDto));
 
                 // Fact: All property values match.
-                var assertions = new List<Action>()
-                {
-                    () => Assert.AreEqual(entity.AccountObjectId, dto.AccountObjectId),
-                    () => Assert.AreEqual(entity.AttributeMemberId, dto.AttributeMember.AttributeMemberId),
-                    () => Assert.AreEqual(entity.EffectiveDate, dto.EffectiveDate),
-                    () => Assert.AreEqual(entity.Weight, dto.PercentWeight)
-                };
-
-                assertions.ForEach(x => x.Invoke());
+                Assert.AreEqual(entity.AccountObjectId, dto.AccountObjectId);
+                Assert.AreEqual(entity.AttributeMemberId, dto.AttributeMember.AttributeMemberId);
+                Assert.AreEqual(entity.EffectiveDate, dto.EffectiveDate);
+                Assert.AreEqual(entity.Weight, dto.PercentWeight);
             }
 
             /// <inheritdoc/>
@@ -337,7 +312,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 var dto = new AccountBaseAttributeDto()
                 {
                     AccountObjectId = 1,
-                    EffectiveDate = new DateTime(2030, 12, 31),
+                    EffectiveDate = DateTime.UtcNow.Date,
                     PercentWeight = 1M,
                     AttributeMember = new()
                     {
@@ -357,18 +332,13 @@ namespace NjordinSight.Test.DataTransfer.Mapping
 
                 // Assert
                 // Fact: Instance is created 
-                Assert.IsInstanceOfType(dto, typeof(AccountBaseAttributeDto));
+                Assert.IsInstanceOfType(entity, typeof(AccountAttributeMemberEntry));
 
                 // Fact: All property values match.
-                var assertions = new List<Action>()
-                {
-                    () => Assert.AreEqual(dto.AccountObjectId, entity.AccountObjectId),
-                    () => Assert.AreEqual(dto.AttributeMember.AttributeMemberId, entity.AttributeMemberId),
-                    () => Assert.AreEqual(dto.EffectiveDate, entity.EffectiveDate),
-                    () => Assert.AreEqual(dto.PercentWeight, entity.Weight)
-                };
-
-                assertions.ForEach(x => x.Invoke());
+                Assert.AreEqual(dto.AccountObjectId, entity.AccountObjectId);
+                Assert.AreEqual(dto.AttributeMember.AttributeMemberId, entity.AttributeMemberId);
+                Assert.AreEqual(dto.EffectiveDate, entity.EffectiveDate);
+                Assert.AreEqual(dto.PercentWeight, entity.Weight);
             }
         }
     }

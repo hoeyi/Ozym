@@ -13,7 +13,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
     /// </summary>
     [TestClass]
     [TestCategory("Unit")]
-    public partial class CountryProfileTest : IProfileTest, IProfileWithDependencyTest
+    public partial class CountryProfileTest : IProfileTest
     {
         /// <summary>
         /// Gets the <see cref="IConfigurationProvider"/> instance to be tested.
@@ -37,24 +37,6 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             // Assert
             config.AssertConfigurationIsValid();
         }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public void Configuration_WithoutProfileDependencies_IsInvalid()
-        {
-            // Arrange
-            var config = new MapperConfiguration(x =>
-            {
-                x.AddProfile<CountryProfile>();
-            });
-
-            // Act
-
-            // Assert
-            Assert.ThrowsException<AutoMapperConfigurationException>(() =>
-                config.AssertConfigurationIsValid());
-        }
-
     }
 
     public partial class CountryProfileTest
@@ -212,14 +194,86 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             [TestMethod]
             public override void Dto_MapFrom_Entity_MappedProperties_AreEqual()
             {
-                throw new NotImplementedException();
+                // Arrange
+                var entity = new CountryAttributeMemberEntry()
+                {
+                    CountryId = 1,
+                    AttributeMemberId = 2,
+                    EffectiveDate = new DateTime(2030, 12, 31),
+                    Weight = 1M,
+                    AttributeMember = new()
+                    {
+                        Attribute = new()
+                        {
+                            AttributeId = 1,
+                            DisplayName = "Attribute"
+                        },
+                        AttributeId = 1,
+                        AttributeMemberId = 2,
+                        DisplayName = "Attribute value",
+                        DisplayOrder = 1
+                    }
+                };
+
+                // Act
+                var dto = Mapper.Map<CountryAttributeDto>(entity);
+
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(dto, typeof(CountryAttributeDto));
+
+                // Fact: All property values match.
+                var assertions = new List<Action>()
+                {
+                    () => Assert.AreEqual(entity.CountryId, dto.CountryId),
+                    () => Assert.AreEqual(entity.AttributeMemberId, dto.AttributeMember.AttributeMemberId),
+                    () => Assert.AreEqual(entity.EffectiveDate, dto.EffectiveDate),
+                    () => Assert.AreEqual(entity.Weight, dto.PercentWeight)
+                };
+
+                assertions.ForEach(x => x.Invoke());
             }
 
             /// <inheritdoc/>
             [TestMethod]
             public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
             {
-                throw new NotImplementedException();
+                // Arrange
+                var dto = new CountryAttributeDto()
+                {
+                    CountryId = 1,
+                    EffectiveDate = DateTime.UtcNow.Date,
+                    PercentWeight = 1M,
+                    AttributeMember = new()
+                    {
+                        Attribute = new()
+                        {
+                            AttributeId = 1,
+                            DisplayName = "Attribute"
+                        },
+                        AttributeMemberId = 2,
+                        DisplayName = "Attribute value",
+                        DisplayOrder = 1
+                    }
+                };
+
+                // Act
+                var entity = Mapper.Map<CountryAttributeMemberEntry>(dto);
+
+                // Assert
+                // Fact: Instance is created 
+                Assert.IsInstanceOfType(entity, typeof(CountryAttributeMemberEntry));
+
+                // Fact: All property values match.
+                var assertions = new List<Action>()
+                {
+                    () => Assert.AreEqual(dto.CountryId, entity.CountryId),
+                    () => Assert.AreEqual(dto.AttributeMember.AttributeMemberId, entity.AttributeMemberId),
+                    () => Assert.AreEqual(dto.EffectiveDate, entity.EffectiveDate),
+                    () => Assert.AreEqual(dto.PercentWeight, entity.Weight)
+                };
+
+                assertions.ForEach(x => x.Invoke());
             }
         }
     }

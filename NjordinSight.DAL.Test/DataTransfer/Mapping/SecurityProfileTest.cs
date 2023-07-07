@@ -1,5 +1,10 @@
 ﻿using AutoMapper;
+using NjordinSight.DataTransfer.Common;
 using NjordinSight.DataTransfer.Profiles;
+using NjordinSight.EntityModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
@@ -8,7 +13,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
     /// </summary>
     [TestClass]
     [TestCategory("Unit")]
-    public partial class SecurityProfileTest : IProfileTest, IProfileWithDependencyTest
+    public partial class SecurityProfileTest : IProfileTest
     {
         /// <summary>
         /// Gets the <see cref="IConfigurationProvider"/> instance to be tested.
@@ -31,13 +36,6 @@ namespace NjordinSight.Test.DataTransfer.Mapping
 
             // Assert
             config.AssertConfigurationIsValid();
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public void Configuration_WithoutProfileDependencies_IsInvalid()
-        {
-            throw new System.NotImplementedException();
         }
     }
 

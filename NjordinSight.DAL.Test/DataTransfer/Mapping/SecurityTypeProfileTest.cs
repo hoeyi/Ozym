@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NjordinSight.DataTransfer.Common;
 using NjordinSight.DataTransfer.Profiles;
-using System.Threading.Tasks;
+using NjordinSight.EntityModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NjordinSight.Test.DataTransfer.Mapping
 {
