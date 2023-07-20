@@ -16,13 +16,14 @@ namespace NjordinSight.Api.Controllers
     [ApiVersion("1.0")]
     public class AccountsController : ApiController<AccountDto, Account>
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountsController"/> class.
         /// </summary>
-        /// <param name="expressionBuilder"></param>
-        /// <param name="mapper"></param>
-        /// <param name="modelService"></param>
-        /// <param name="logger"></param>
+        /// <param name="expressionBuilder">The <see cref="IExpressionBuilder"/> for this instance.</param>
+        /// <param name="mapper">The <see cref="IMapper"/> for this instance.</param>
+        /// <param name="modelService">The <see cref="IModelService{T}"/> for this instance.</param>
+        /// <param name="logger">The <see cref="ILogger"/> for this instance.</param>
         public AccountsController(
             IExpressionBuilder expressionBuilder,
             IMapper mapper,
