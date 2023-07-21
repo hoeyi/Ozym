@@ -130,7 +130,7 @@ namespace NjordinSight.Api.Controllers
             Expression<Func<TEntity, bool>> entityPredicate;
 
             // If query parameter is invalid use the default filter expression.
-            if (!queryParameter.IsValid)
+            if (!(queryParameter?.IsValid ?? false))
             {
                 entityPredicate = x => true;
             }
