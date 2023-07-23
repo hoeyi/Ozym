@@ -15,7 +15,6 @@ namespace NjordinSight.Api
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class Program
-
     {
         public static void Main(string[] args)
         {
@@ -77,6 +76,8 @@ namespace NjordinSight.Api
         /// Builds the application <see cref="IConfiguration"/> instance.
         /// </summary>
         /// <param name="logger">The <see cref="ILogger"/> to use.</param>
+        /// <param name="configureSecureJson">Whether the application should configuration an 
+        /// encrypted JSON configuration provider.</param>
         /// <returns>An <see cref="IConfiguration"/>.</returns>
         private static IConfigurationRoot BuildConfiguration(
             ILogger logger, bool configureSecureJson = true)
