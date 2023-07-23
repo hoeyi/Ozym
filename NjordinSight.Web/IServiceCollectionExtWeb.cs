@@ -18,6 +18,8 @@ using NjordinSight.Messaging;
 using NjordinSight.UserInterface;
 using Ichosys.Blazor.Ionicons;
 using System.Xml.Serialization;
+using System.Reflection;
+using System.Net.Http;
 
 namespace NjordinSight.Web
 {
@@ -109,6 +111,20 @@ namespace NjordinSight.Web
                 .AddScoped<
                     ICollectionController<SecurityPrice>, 
                     ModelCollectionController<SecurityPrice>>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Registers <see cref="IHttpClientFactory"/> and <see cref="IHttpService{T}"/> services.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns>A reference to this instance after the operation is completed.</returns>
+        /// <remarks>
+        public static IServiceCollection AddHttpServices(this IServiceCollection services)
+        {
+            services.AddHttpClient();
+            services.AddTransient(typeof(IHttpService<>), typeof(HttpService<>));
 
             return services;
         }
