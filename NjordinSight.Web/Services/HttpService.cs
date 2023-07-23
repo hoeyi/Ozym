@@ -11,6 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using NjordinSight.DataTransfer.Common.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc;
+using NjordinSight.DataTransfer.Common;
 
 namespace NjordinSight.Web.Services
 {
@@ -65,6 +68,9 @@ namespace NjordinSight.Web.Services
         Task<IEnumerable<T>> SelectAsync(
             ParameterDto<T> queryParameter = null, int pageNumber = 1, int pageSize = 20);
 
+        [Obsolete("This interface member may be removed because it is not clear whether the " +
+            "Blazor component navigation should be bundled with the service repsonsible for " +
+            "sending/receiving HTTP requests to get or edit data.")]
         /// <summary>
         /// Calls navigation to the index page for the <typeparamref name="T"/> resource store.
         /// </summary>
@@ -78,17 +84,22 @@ namespace NjordinSight.Web.Services
     /// <typeparam name="T"></typeparam>
     public class HttpService<T> : IHttpService<T>
     {
-#pragma warning disable IDE0052 // Remove unread private members
         private readonly IHttpClientFactory _httpFactory;
         private readonly NavigationManager _navigationManager;
-#pragma warning restore IDE0052 // Remove unread private members
+        private readonly IReadOnlyDictionary<Type, string> _endPointMap = 
+            new Dictionary<Type, string>()
+            {
+                { typeof(AccountDto), "/accounts" }
+            };
 
         /// <summary>
         /// Initializes a new instance of <see cref="IHttpService{T}"/>.
         /// </summary>
         /// <param name="httpFactory"></param>
         /// <param name="navigationManager"></param>
-        public HttpService(IHttpClientFactory httpFactory, NavigationManager navigationManager)
+        /// <param name="configuration"></param>
+        public HttpService(
+            IHttpClientFactory httpFactory, NavigationManager navigationManager, IConfiguration configuration)
         {
             if (httpFactory is null)
                 throw new ArgumentNullException(paramName: nameof(httpFactory));
@@ -96,21 +107,31 @@ namespace NjordinSight.Web.Services
             if (navigationManager is null)
                 throw new ArgumentNullException(paramName: nameof(navigationManager));
 
+            if (configuration is null)
+                throw new ArgumentNullException(paramName: nameof(configuration));
+
             _httpFactory = httpFactory;
             _navigationManager = navigationManager;
+
+            var apiOptions = new ApiOptions();
+            configuration.GetSection(ApiOptions.ApiService).Bind(apiOptions);
+
+            var apiUri = CombinePath(rootPath: apiOptions.Url, relativePath: _endPointMap[typeof(T)]);
+
+            ResourceIndexUri = apiUri;
         }
 
         /// <summary>
         /// Gets or sets the base URI for this web service.
         /// </summary>
-        private string BaseUri { get; init; }
+        private string ResourceIndexUri { get; init; }
 
         /// <inheritdoc/>
         public async Task<T> GetAsync(int? id)
         {
             using var client = _httpFactory.CreateClient();
 
-            return await client.GetFromJsonAsync<T>($"{BaseUri}/{id}");
+            return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/{id}");
         }
 
         /// <inheritdoc/>
@@ -118,7 +139,7 @@ namespace NjordinSight.Web.Services
         {
             using var client = _httpFactory.CreateClient();
 
-            var httpResponse =  await client.DeleteAsync($"{BaseUri}/{id}");
+            var httpResponse =  await client.DeleteAsync($"{ResourceIndexUri}/{id}");
 
             httpResponse.EnsureSuccessStatusCode();
         }
@@ -128,7 +149,7 @@ namespace NjordinSight.Web.Services
         {
             using var client = _httpFactory.CreateClient();
 
-            return await client.GetFromJsonAsync<T>($"{BaseUri}/init");
+            return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/init");
         }
         
         /// <inheritdoc/>
@@ -136,8 +157,7 @@ namespace NjordinSight.Web.Services
         {
             using var client = _httpFactory.CreateClient();
 
-            var httpResponse = await client.PostAsJsonAsync(
-                requestUri: $"{BaseUri}", model, options: new(JsonSerializerDefaults.Web));
+            var httpResponse = await client.PostAsJsonAsync(requestUri: $"{ResourceIndexUri}", model);
 
             httpResponse.EnsureSuccessStatusCode();
 
@@ -150,7 +170,7 @@ namespace NjordinSight.Web.Services
             using var client = _httpFactory.CreateClient();
 
             var httpResponse = await client.PutAsJsonAsync(
-                requestUri: $"{BaseUri}", model, options: new(JsonSerializerDefaults.Web));
+                requestUri: $"{ResourceIndexUri}", model, options: new(JsonSerializerDefaults.Web));
 
             httpResponse.EnsureSuccessStatusCode();
 
@@ -159,23 +179,36 @@ namespace NjordinSight.Web.Services
 
         /// <inheritdoc/>
         public async Task<IEnumerable<T>> SelectAsync(
-            #pragma warning disable IDE0060 // Remove unused parameter
             ParameterDto<T> queryParameter, int pageNumber = 1, int pageSize = 20)
-            #pragma warning restore IDE0060 // Remove unused parameter
         {
-            // TODO: Convert methods to have query parameter be passed in the URI string. 
-            // For now no filter parameters will be provided.
+            // Initialize a default invalid parameter to create a filter that returns all records.
+            queryParameter ??= new()
+            {
+                MemberName = string.Empty
+            };
 
-            //var jsonContent = JsonContent.Create(
-            //    queryParameter, options: new(JsonSerializerDefaults.Web));
-            
+            // TODO: Convert methods to have query parameter be passed in the URI string. 
+
             using var client = _httpFactory.CreateClient();
 
-            return await client.GetFromJsonAsync<IEnumerable<T>>(
-                requestUri: $"{BaseUri}?pageNumber={pageNumber}&pageSize={pageSize}");
+            var httpResponse = await client.PostAsJsonAsync(
+                $"{ResourceIndexUri}/search?&pageNumber={pageNumber}&pageSize={pageSize}", queryParameter);
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<T>>();
+
+            return deserializedResults;
         }
 
         /// <inheritdoc/>
-        public void NavigateToIndex() => _navigationManager.NavigateTo(BaseUri, replace: true);
+        public void NavigateToIndex() => _navigationManager.NavigateTo(ResourceIndexUri, replace: true);
+
+        private static string CombinePath(string rootPath, string relativePath)
+        {
+            var combinedString = string.Join("/", rootPath.TrimEnd('/'), relativePath.TrimStart('/'));
+
+            return combinedString;
+        }
     }
 }
