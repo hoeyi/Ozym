@@ -108,6 +108,7 @@ namespace NjordinSight.Api.Controllers
         }
 
         /// <inheritdoc/>
+        [Obsolete("Retained for backwards compatability. Use PostSearchAsync instead.")]
         [HttpGet]
         public virtual async Task<ActionResult<IEnumerable<TObject>>> GetAsync(
             [FromBody] ParameterDto<TObject> queryParameter, int pageNumber = 1, int pageSize = 20)
