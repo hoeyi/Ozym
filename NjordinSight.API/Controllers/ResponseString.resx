@@ -120,4 +120,7 @@
   <data name="DeleteResource_FailedResult_InternalErrorResponse" xml:space="preserve">
     <value>Server was not able to delete the identified resource.</value>
   </data>
+  <data name="PostSearch_InvalidParameter_BadRequestResponse" xml:space="preserve">
+    <value>Invalid parameter given in request body.</value>
+  </data>
 </root>

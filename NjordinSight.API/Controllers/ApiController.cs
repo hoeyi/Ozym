@@ -16,12 +16,14 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace NjordinSight.Api.Controllers
 {
+
     /// <summary>
     /// Represents a RESTful API controller for <typeparamref name="TObject"/> classes 
     /// that are mapped to <typeparamref name="TEntity"/> classes.
     /// </summary>
     /// <typeparam name="TObject">The type representing a business object record.</typeparam>
     /// <typeparam name="TEntity">The type representing a data store record.</typeparam>
+    [ApiController]
     public class ApiController<TObject, TEntity> : 
         ControllerBase, IApiController<TObject> 
         where TEntity : class, new()
@@ -153,11 +155,15 @@ namespace NjordinSight.Api.Controllers
         [HttpPost]
         public virtual async Task<ActionResult<TObject>> PostAsync(TObject model)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var entity = _mapper.Map<TEntity>(model);
 
             try
             {
-
                 entity = await _modelService.CreateAsync(entity);
 
                 var createdDto = _mapper.Map<TObject>(entity);
@@ -198,20 +204,13 @@ namespace NjordinSight.Api.Controllers
 
             try
             {
-                var updateTask = _modelService.UpdateAsync(entity);
+                await _modelService.UpdateAsync(entity);
 
-                bool success = await updateTask;
-
-                // If success or soft-fail (no records modified) return model.
-                // Else throw the AggregateException.
-                if (success ^ (!success && updateTask.Exception is null))
-                    return _mapper.Map<TObject>(entity);
-
-                if (updateTask?.Exception is null)
-                    throw new InvalidOperationException();
-
-                else
-                    throw updateTask.Exception;
+                return Ok(model);
+            }
+            catch(ModelUpdateException mue)
+            {
+                return BadRequest(mue.Message);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -221,7 +220,8 @@ namespace NjordinSight.Api.Controllers
                 }
                 else
                 {
-                    throw;
+                    // TODO: Add list of differences in the response body.
+                    return Conflict();
                 }
             }
         }
@@ -232,15 +232,12 @@ namespace NjordinSight.Api.Controllers
         public virtual async Task<ActionResult<IEnumerable<TObject>>> PostSearchAsync(
             [FromBody] ParameterDto<TObject> queryParameter, int pageNumber = 1, int pageSize = 20)
         {
-            if (queryParameter is null)
-                throw new ArgumentNullException(paramName: nameof(queryParameter));
-
             Expression<Func<TEntity, bool>> entityPredicate;
 
             // If query parameter is invalid use the default filter expression.
             if (!queryParameter.IsValid)
             {
-                entityPredicate = x => true;
+                return BadRequest(ResponseString.PostSearch_InvalidParameter_BadRequestResponse);
             }
             else
             {

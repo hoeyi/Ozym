@@ -68,5 +68,14 @@ namespace NjordinSight.Api.Controllers {
                 return ResourceManager.GetString("DeleteResource_FailedResult_InternalErrorResponse", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid parameter given in request body..
+        /// </summary>
+        internal static string PostSearch_InvalidParameter_BadRequestResponse {
+            get {
+                return ResourceManager.GetString("PostSearch_InvalidParameter_BadRequestResponse", resourceCulture);
+            }
+        }
     }
 }
