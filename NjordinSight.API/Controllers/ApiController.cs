@@ -71,10 +71,10 @@ namespace NjordinSight.Api.Controllers
                 return NotFound();
 
             var entity = await _modelService.ReadAsync(id);
-            var deleteTask = _modelService.DeleteAsync(entity);
 
             try
             {
+                var deleteTask = _modelService.DeleteAsync(entity);
                 var success = await deleteTask;
 
                 if (success)
@@ -108,7 +108,6 @@ namespace NjordinSight.Api.Controllers
         }
 
         /// <inheritdoc/>
-        [Obsolete("Retained for backwards compatability. Use PostSearchAsync instead.")]
         [HttpGet]
         public virtual async Task<ActionResult<IEnumerable<TObject>>> GetAsync(
             [FromBody] ParameterDto<TObject> queryParameter, int pageNumber = 1, int pageSize = 20)
@@ -233,10 +232,13 @@ namespace NjordinSight.Api.Controllers
         public virtual async Task<ActionResult<IEnumerable<TObject>>> PostSearchAsync(
             [FromBody] ParameterDto<TObject> queryParameter, int pageNumber = 1, int pageSize = 20)
         {
+            if (queryParameter is null)
+                throw new ArgumentNullException(paramName: nameof(queryParameter));
+
             Expression<Func<TEntity, bool>> entityPredicate;
 
             // If query parameter is invalid use the default filter expression.
-            if (!(queryParameter?.IsValid ?? false))
+            if (!queryParameter.IsValid)
             {
                 entityPredicate = x => true;
             }
