@@ -13,6 +13,7 @@ using NjordinSight.DataTransfer.Common.Query;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NjordinSight.Api.Controllers
 {
@@ -90,7 +91,7 @@ namespace NjordinSight.Api.Controllers
             catch(ModelUpdateException me)
             {
                 return StatusCode(
-                    statusCode: StatusCodes.Status409Conflict,
+                    statusCode: StatusCodes.Status500InternalServerError,
                     value: new { me.Message, Detail = me.InnerException?.Message ?? string.Empty });
             }
         }
@@ -110,6 +111,8 @@ namespace NjordinSight.Api.Controllers
         }
 
         /// <inheritdoc/>
+        [Obsolete("Retained for backwards compatability. Use PostSearchAsync instead.")]
+        [ExcludeFromCodeCoverage]
         [HttpGet]
         public virtual async Task<ActionResult<IEnumerable<TObject>>> GetAsync(
             [FromBody] ParameterDto<TObject> queryParameter, int pageNumber = 1, int pageSize = 20)
