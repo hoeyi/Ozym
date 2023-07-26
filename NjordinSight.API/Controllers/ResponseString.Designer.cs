@@ -61,7 +61,7 @@ namespace NjordinSight.Api.Controllers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server was not able to delete the identified resource..
+        ///   Looks up a localized string similar to Could not delete the identified resource..
         /// </summary>
         internal static string DeleteResource_FailedResult_InternalErrorResponse {
             get {

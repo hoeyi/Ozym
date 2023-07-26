@@ -168,26 +168,18 @@ namespace NjordinSight.Api.Controllers
 
                 var createdDto = _mapper.Map<TObject>(entity);
 
-                var id = _modelService.GetKey<int>(entity);
+                int id = _modelService.GetKey<int>(entity);
 
                 return CreatedAtAction(
                     actionName: nameof(GetAsync), routeValues: new { id }, value: createdDto);
             }
-
-            // TODO: This code may not be reachable. ModelServices are capturing the
-            // DbUpdateException and wrapping its message in a ModelUpdateException.
-            catch (DbUpdateException due)
+            catch(ModelUpdateException mue)
             {
-                _logger.LogError(exception: due, message: due.Message);
+                _logger.LogError(exception: mue, message: mue.Message);
 
-                if (_modelService.ModelExists(_modelService.GetKey<int>(entity)))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    value: new { Detail = mue.Message });
             }
         }
 
@@ -210,7 +202,9 @@ namespace NjordinSight.Api.Controllers
             }
             catch(ModelUpdateException mue)
             {
-                return BadRequest(mue.Message);
+                return StatusCode(
+                        statusCode: StatusCodes.Status500InternalServerError,
+                        value: new { Detail = mue.Message });
             }
             catch (DbUpdateConcurrencyException)
             {
