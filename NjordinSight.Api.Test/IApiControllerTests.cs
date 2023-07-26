@@ -30,7 +30,7 @@ namespace NjordinSight.Api.Test
         /// Tests the DELETE method with an invalid id and expects an ActionResult with status 
         /// [409 - Conflict].
         /// </summary>
-        Task Delete_Failed_For_Client_Error_Return_Conflict();
+        Task Delete_Failed_For_Model_Update_Error_Return_InternalError();
 
         /// <summary>
         /// Tests the DELETE method with an invalid id and expects an ActionResult with status 
@@ -76,10 +76,16 @@ namespace NjordinSight.Api.Test
         Task Post_With_Valid_Model_Return_ActionResult();
 
         /// <summary>
+        /// Tests the POST method encountering an exception when modifying the resource and 
+        /// excpets a [500 - Internal Server Error] containing an object describing the error.
+        /// </summary>
+        Task Post_Failed_For_Model_Update_Error_Returns_InternalError();
+
+        /// <summary>
         /// Tests the POST method to the [controller]/search endpoint with invalid query parameters
         /// and expects an ActionResult with status [400 - Bad Request] as a result.
         /// </summary>
-        Task PostSearch_With_Invalid_QueryParams_Return_BadRequest();
+        Task PostSearch_With_Invalid_Parameter_Returns_BadRequest();
 
         /// <summary>
         /// Tests the POST method to the [controller]/search endpoint with valid parameter object 
@@ -87,7 +93,7 @@ namespace NjordinSight.Api.Test
         /// [200 - OK] containing an <see cref="IEnumerable{T}"/> of <typeparamref name="TObject"/> as 
         /// a result.
         /// </summary>
-        Task PostSearch_With_Valid_QueryParams_Return_ActionResult();
+        Task PostSearch_With_Valid_Parameter_Returns_OkObject_WithPaginationHeader();
 
         /// <summary>
         /// Tests the PUT method with encountering a concurrency exception where the model no longer 
@@ -96,10 +102,16 @@ namespace NjordinSight.Api.Test
         Task Put_Encounters_Concurrency_Error_ModelNoLongerExists_Returns_NotFound();
 
         /// <summary>
-        /// Tests the PUT method with an invalid id and expects an ActionResult with status 
-        /// [404 - Not Found].
+        /// Tests the PUT method with encountering a concurrency exception where the model no longer 
+        /// exists and returns an ActionResult with status [409 - Conflict].
         /// </summary>
-        Task Put_With_Invalid_Id_Return_NotFound();
+        Task Put_Encounters_Concurrency_Error_ModelExists_Returns_Conflict();
+
+        /// <summary>
+        /// Tests the PUT method encountering an exception when modifying the resource and 
+        /// excpets a [500 - Internal Server Error] containing an object describing the error.
+        /// </summary>
+        Task Put_Failed_For_Model_Update_Error_Returns_InternalError();
 
         /// <summary>
         /// Tests the PUT method with an invalid model and expects an ActionResult with status 

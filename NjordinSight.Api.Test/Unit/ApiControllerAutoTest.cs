@@ -1,11 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Ichosys.DataModel.Expressions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NjordinSight.Api.Controllers;
+using NjordinSight.DataTransfer;
+using NjordinSight.DataTransfer.Common.Query;
 using NjordinSight.EntityModelService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -58,23 +67,27 @@ namespace NjordinSight.Api.Test.Unit
 
         /// <inheritdoc/>
         [TestMethod]
-        public async Task Delete_Failed_For_Client_Error_Return_Conflict()
+        public async Task Delete_Failed_For_Model_Update_Error_Return_InternalError()
         {
             // Arrange
             var mocks = new Mocks();
-            mocks.ModelService.Setup(x => x.ModelExists(1)).Returns(true);
-            mocks.ModelService.Setup(x => x.ReadAsync(1)).ReturnsAsync(It.IsAny<TEntity>());
+
+            mocks.ModelService.Setup(x => x.ModelExists(It.IsAny<int>()))
+                .Returns(true);
+            mocks.ModelService.Setup(x => x.ReadAsync(It.IsAny<int>()))
+                .ReturnsAsync(It.IsAny<TEntity>());
             mocks.ModelService.Setup(x => x.DeleteAsync(
                 It.IsAny<TEntity>())).Throws<ModelUpdateException>();
 
             var apiController = InitTestController(mocks);
 
             // Act
-            var result = await apiController.DeleteAsync(1) as ObjectResult;
+            var result = await apiController.DeleteAsync(It.IsAny<int>()); ;
+            var errorResult = result as ObjectResult;
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(StatusCodes.Status409Conflict, result.StatusCode);
+            Assert.IsNotNull(errorResult);
+            Assert.AreEqual(StatusCodes.Status500InternalServerError, errorResult.StatusCode);
         }
 
         /// <inheritdoc/>
@@ -83,18 +96,22 @@ namespace NjordinSight.Api.Test.Unit
         {
             // Arrange
             var mocks = new Mocks();
-            mocks.ModelService.Setup(x => x.ModelExists(1)).Returns(true);
-            mocks.ModelService.Setup(x => x.ReadAsync(1)).ReturnsAsync(It.IsAny<TEntity>());
-            mocks.ModelService.Setup(x => x.DeleteAsync(It.IsAny<TEntity>())).ReturnsAsync(false);
+            mocks.ModelService.Setup(x => x.ModelExists(It.IsAny<int>()))
+                .Returns(true);
+            mocks.ModelService.Setup(x => x.ReadAsync(It.IsAny<int>()))
+                .ReturnsAsync(It.IsAny<TEntity>());
+            mocks.ModelService.Setup(x => x.DeleteAsync(It.IsAny<TEntity>()))
+                .ReturnsAsync(false);
 
             var apiController = InitTestController(mocks);
 
             // Act
-            var result = await apiController.DeleteAsync(1) as ObjectResult;
+            var result = await apiController.DeleteAsync(It.IsAny<int>());
+            var errorResult = result as ObjectResult;
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(StatusCodes.Status500InternalServerError, result.StatusCode);
+            Assert.IsNotNull(errorResult);
+            Assert.AreEqual(StatusCodes.Status500InternalServerError, errorResult.StatusCode);
         }
 
         /// <inheritdoc/>
@@ -107,7 +124,7 @@ namespace NjordinSight.Api.Test.Unit
             var apiController = InitTestController(mocks);
 
             // Act
-            var result = await apiController.GetAsync(1);
+            var result = await apiController.GetAsync(It.IsAny<int>());
 
             var notFound = result.Result as NotFoundResult;
 
@@ -181,27 +198,121 @@ namespace NjordinSight.Api.Test.Unit
         }
 
         /// <inheritdoc/>
-        public Task PostSearch_With_Invalid_QueryParams_Return_BadRequest()
+        [TestMethod]
+        public async Task PostSearch_With_Invalid_Parameter_Returns_BadRequest()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var mocks = new Mocks();
+            var parameter = new ParameterDto<T>();
+
+            var apiController = InitTestController(mocks);
+            
+            // Act
+            var result = await apiController.PostSearchAsync(
+                queryParameter: parameter, pageNumber: It.IsAny<int>(), pageSize: It.IsAny<int>());
+
+            var badRequest = result.Result as BadRequestObjectResult;
+
+            // Assert
+            Assert.IsNotNull(badRequest);
+            Assert.AreEqual(StatusCodes.Status400BadRequest, badRequest.StatusCode);
         }
 
         /// <inheritdoc/>
-        public Task PostSearch_With_Valid_QueryParams_Return_ActionResult()
+        [TestMethod]
+        public async Task PostSearch_With_Valid_Parameter_Returns_OkObject_WithPaginationHeader()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var mocks = new Mocks();
+            mocks.ModelService
+                .Setup(x => x.SelectAsync(a => true, It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync((It.IsAny<IEnumerable<TEntity>>(), It.IsAny<PaginationData>()));
+            mocks.Mapper.Setup(x => x.Map<IEnumerable<T>>(It.IsAny<TEntity>()));
+
+            var parameter = new ParameterDto<T>() { MemberName = "SomeMemberName" };
+
+            var apiController = InitTestController(mocks);
+
+            // Act
+            var result = await apiController.PostSearchAsync(parameter, pageNumber: 1, pageSize: 20);
+
+            var okResponse = result.Result as OkObjectResult;
+
+            // Assert
+            // Status is OK
+            Assert.IsNotNull(okResponse);
+            Assert.AreEqual(StatusCodes.Status200OK, okResponse.StatusCode);
+            
+            // Has object result
+            Assert.IsInstanceOfType<IEnumerable<T>>(okResponse.Value);
+
+            // Includes pagination header
+            Assert.IsTrue(apiController.Response.Headers.ContainsKey("X-Pagination"));
         }
 
         /// <inheritdoc/>
-        public Task Post_With_Invalid_Model_Return_BadRequest()
+        [TestMethod]
+        public async Task Post_Failed_For_Model_Update_Error_Returns_InternalError()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var mocks = new Mocks();
+
+            mocks.ModelService.Setup(x => x.CreateAsync(It.IsAny<TEntity>()))
+                .Throws<ModelUpdateException>();
+
+            var apiController = InitTestController(mocks);
+
+            // Act
+            var result = await apiController.PostAsync(It.IsAny<T>());
+            var errorResult = result.Result as ObjectResult;
+
+            // Assert
+            Assert.IsNotNull(errorResult);
+            Assert.AreEqual(StatusCodes.Status500InternalServerError, errorResult.StatusCode);
         }
 
         /// <inheritdoc/>
-        public Task Post_With_Valid_Model_Return_ActionResult()
+        [TestMethod]
+        public async Task Post_With_Invalid_Model_Return_BadRequest()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var mocks = new Mocks();
+
+            var apiController = InitTestController(mocks);
+            apiController.ModelState.AddModelError("ModelStateForTest", "IsInvalid");
+
+            // Act
+            var result = await apiController.PostAsync(It.IsAny<T>());
+
+            var badRequest = result.Result as BadRequestResult;
+
+            // Assert
+            Assert.IsNotNull(badRequest);
+            Assert.AreEqual(StatusCodes.Status400BadRequest, badRequest.StatusCode);
+        }
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public async Task Post_With_Valid_Model_Return_ActionResult()
+        {
+            // Arrange
+            var mocks = new Mocks();
+            int testId = 1;
+
+            mocks.ModelService.Setup(x => x.GetKey<int>(It.IsAny<TEntity>())).Returns(testId);
+
+            var apiController = InitTestController(mocks);
+
+            // Act
+            var result = await apiController.PostAsync(It.IsAny<T>());
+
+            var createdResult = result.Result as CreatedAtActionResult;
+
+            // Assert
+            Assert.IsNotNull(createdResult);
+            Assert.AreEqual(StatusCodes.Status201Created, createdResult.StatusCode);
+            Assert.IsTrue(createdResult.RouteValues?.ContainsKey("id") ?? false);
+            Assert.AreEqual(testId, createdResult.RouteValues["id"]);
         }
 
         /// <inheritdoc/>
@@ -232,9 +343,57 @@ namespace NjordinSight.Api.Test.Unit
         }
 
         /// <inheritdoc/>
-        public Task Put_With_Invalid_Id_Return_NotFound()
+        [TestMethod]
+        public async Task Put_Encounters_Concurrency_Error_ModelExists_Returns_Conflict()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var mocks = new Mocks();
+            var model = Activator.CreateInstance<T>();
+            var entity = Activator.CreateInstance<TEntity>();
+            var id = 1;
+
+            mocks.Mapper.Setup(x => x.Map<TEntity>(model)).Returns(entity);
+            mocks.ModelService.Setup(x => x.GetKey<int>(entity)).Returns(id);
+            mocks.ModelService.Setup(x => x.UpdateAsync(entity)).Throws<DbUpdateConcurrencyException>();
+            mocks.ModelService.Setup(x => x.ModelExists(id)).Returns(true);
+
+            var apiController = InitTestController(mocks);
+
+            // Act
+            var result = await apiController.PutAsync(id, model);
+
+            var conflictResult = result.Result as ConflictResult;
+
+            // Assert
+            Assert.IsNotNull(conflictResult);
+            Assert.AreEqual(StatusCodes.Status409Conflict, conflictResult.StatusCode);
+        }
+
+        /// <inheritdoc/>
+        [TestMethod]
+        public async Task Put_Failed_For_Model_Update_Error_Returns_InternalError()
+        {
+            // Arrange
+            var mocks = new Mocks();
+            var entity = Activator.CreateInstance<TEntity>();
+            var model = Activator.CreateInstance<T>();
+
+            var putId = It.IsAny<int>();
+            var modelId = putId;
+
+            mocks.Mapper.Setup(x => x.Map<TEntity>(model)).Returns(entity);
+            mocks.ModelService.Setup(x => x.GetKey<int>(entity)).Returns(modelId);
+            mocks.ModelService.Setup(x => x.UpdateAsync(entity)).Throws<ModelUpdateException>();
+
+            var apiController = InitTestController(mocks);
+
+            // Act
+            var result = await apiController.PutAsync(putId, model);
+            var errorResult = result.Result as ObjectResult;
+
+            // Assert
+            Assert.IsNotNull(errorResult);
+            Assert.AreEqual(StatusCodes.Status500InternalServerError, errorResult.StatusCode);
         }
 
         /// <inheritdoc/>
@@ -264,10 +423,161 @@ namespace NjordinSight.Api.Test.Unit
         }
 
         /// <inheritdoc/>
-        public Task Put_With_Valid_Id_And_Model_Return_ActionResult()
+        [TestMethod]
+        public async Task Put_With_Valid_Id_And_Model_Return_ActionResult()
         {
-            throw new NotImplementedException();
+            // Arrange
+            var mocks = new Mocks();
+            var entity = Activator.CreateInstance<TEntity>();
+            var model = Activator.CreateInstance<T>();
+
+            var putId = It.IsAny<int>();
+            var modelId = putId;
+
+            mocks.Mapper.Setup(x => x.Map<TEntity>(model)).Returns(entity);
+            mocks.ModelService.Setup(x => x.GetKey<int>(entity)).Returns(modelId);
+            mocks.ModelService.Setup(x => x.UpdateAsync(entity)).ReturnsAsync(true);
+            mocks.Mapper.Setup(x => x.Map<T>(entity)).Returns(model);
+
+            var apiController = InitTestController(mocks);
+
+            // Act
+            var result = await apiController.PutAsync(putId, model);
+            var okResult = result.Result as OkObjectResult;
+
+            // Assert
+            Assert.IsNotNull(okResult);
+            Assert.IsInstanceOfType<T>(okResult.Value);
+        }
+    }
+
+    public partial class ApiControllerTest<T, TEntity>
+    {
+        /// <summary>
+        /// Tests the <see cref="ApiController{TObject, TEntity}
+        /// .ApiController(IExpressionBuilder, IMapper, IModelService{TEntity}, ILogger)"/>
+        /// constructor with non-null arguments and expectes an instance.
+        /// </summary>
+        [TestMethod]
+        public void Constructor_When_Valid_Parameters_Returns_Instance()
+        {
+            // Arrange
+            var mocks = new Mocks();
+
+            // Act
+            var apiController = 
+            new ApiController<T, TEntity>(
+                expressionBuilder: mocks.Expression.Object,
+                mapper: mocks.Mapper.Object,
+                modelService: mocks.ModelService.Object,
+                logger: mocks.Logger.Object);
+
+            // Assert
+            Assert.IsInstanceOfType<ApiController<T, TEntity>>(apiController);
         }
 
+        /// <summary>
+        /// Tests the <see cref="ApiController{TObject, TEntity}
+        /// .ApiController(IExpressionBuilder, IMapper, IModelService{TEntity}, ILogger)"/>
+        /// constructor with null reference for the <see cref="IExpressionBuilder"/> and expects 
+        /// a <see cref="ArgumentNullException"/> is thrown.
+        /// </summary>
+        [TestMethod]
+        public void Constructor_When_ExpressionBuilder_IsNull_Throws_ArgumentNullException()
+        {
+            // Arrange
+            var mocks = new Mocks()
+            {
+                Mapper = new(),
+                ModelService = new(),
+                Logger = new()
+            };
+
+            // Act / Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                new ApiController<T, TEntity>(
+                    expressionBuilder: null!,
+                    mapper: mocks.Mapper.Object,
+                    modelService: mocks.ModelService.Object,
+                    logger: mocks.Logger.Object));
+        }
+
+        /// <summary>
+        /// Tests the <see cref="ApiController{TObject, TEntity}
+        /// .ApiController(IExpressionBuilder, IMapper, IModelService{TEntity}, ILogger)"/>
+        /// constructor with null reference for the <see cref="IMapper"/> and expects 
+        /// a <see cref="ArgumentNullException"/> is thrown.
+        /// </summary>
+        [TestMethod]
+        public void Constructor_When_Mapper_IsNull_Throws_ArgumentNullException()
+        {
+            // Arrange
+            var mocks = new Mocks()
+            {
+                Expression = new(),
+                ModelService = new(),
+                Logger = new()
+            };
+
+            // Act / Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                new ApiController<T, TEntity>(
+                    expressionBuilder: mocks.Expression.Object,
+                    mapper: null!,
+                    modelService: mocks.ModelService.Object,
+                    logger: mocks.Logger.Object));
+        }
+
+        /// <summary>
+        /// Tests the <see cref="ApiController{TObject, TEntity}
+        /// .ApiController(IExpressionBuilder, IMapper, IModelService{TEntity}, ILogger)"/>
+        /// constructor with null reference for the <see cref="IModelService{T}"/> and expects 
+        /// a <see cref="ArgumentNullException"/> is thrown.
+        /// </summary>
+        [TestMethod]
+        public void Constructor_When_ModelService_IsNull_Throws_ArgumentNullException()
+        {
+            // Arrange
+            var mocks = new Mocks()
+            {
+                Expression = new(),
+                Mapper = new(),
+                Logger = new()
+            };
+
+            // Act / Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                new ApiController<T, TEntity>(
+                    expressionBuilder: mocks.Expression.Object,
+                    mapper: mocks.Mapper.Object,
+                    modelService: null!,
+                    logger: mocks.Logger.Object));
+        }
+
+        /// <summary>
+        /// Tests the <see cref="ApiController{TObject, TEntity}
+        /// .ApiController(IExpressionBuilder, IMapper, IModelService{TEntity}, ILogger)"/>
+        /// constructor with null reference for the <see cref="ILogger"/> and expects 
+        /// a <see cref="ArgumentNullException"/> is thrown.
+        /// </summary>
+        [TestMethod]
+        public void Constructor_When_Logger_IsNull_Throws_ArgumentNullException()
+        {
+            // Arrange
+            var mocks = new Mocks()
+            {
+                Expression = new(),
+                Mapper = new(),
+                ModelService = new()
+            };
+
+            // Act / Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                new ApiController<T, TEntity>(
+                    expressionBuilder: mocks.Expression.Object,
+                    mapper: mocks.Mapper.Object,
+                    modelService: mocks.ModelService.Object,
+                    logger: null!));
+        }
     }
 }

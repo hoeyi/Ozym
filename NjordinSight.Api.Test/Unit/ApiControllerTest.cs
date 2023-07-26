@@ -22,7 +22,7 @@ namespace NjordinSight.Api.Test.Unit
         /// </summary>
         /// <param name="mocks">Record containing the <see cref="Mock"/> objects.</param>
         /// <returns></returns>
-        protected virtual IApiController<T> InitTestController(Mocks mocks)
+        protected virtual ApiController<T, TEntity> InitTestController(Mocks mocks)
         {
             var controller = new ApiController<T, TEntity>(
                 expressionBuilder: mocks.Expression.Object,
@@ -44,6 +44,17 @@ namespace NjordinSight.Api.Test.Unit
             public Mock<ILogger> Logger { get; init; } = new();
 
             public Mock<IModelService<TEntity>> ModelService { get; init; } = new();
+        }
+
+        protected record NullableMocks
+        {
+            public Mock<IMapper> Mapper { get; init; } = default!;
+
+            public Mock<IExpressionBuilder> Expression { get; init; } = default!;
+
+            public Mock<ILogger> Logger { get; init; } = default!;
+
+            public Mock<IModelService<TEntity>> ModelService { get; init; } = default!;
         }
     }
 }
