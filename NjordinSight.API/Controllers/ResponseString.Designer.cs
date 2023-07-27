@@ -61,11 +61,20 @@ namespace NjordinSight.Api.Controllers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server was not able to delete the identified resource..
+        ///   Looks up a localized string similar to Could not delete the identified resource..
         /// </summary>
         internal static string DeleteResource_FailedResult_InternalErrorResponse {
             get {
                 return ResourceManager.GetString("DeleteResource_FailedResult_InternalErrorResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid parameter given in request body..
+        /// </summary>
+        internal static string PostSearch_InvalidParameter_BadRequestResponse {
+            get {
+                return ResourceManager.GetString("PostSearch_InvalidParameter_BadRequestResponse", resourceCulture);
             }
         }
     }

@@ -12,9 +12,12 @@ using Ichosys.DataModel.Expressions;
 using NjordinSight.DataTransfer.Common.Query;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NjordinSight.Api.Controllers
 {
+
     /// <summary>
     /// Represents a RESTful API controller for <typeparamref name="TObject"/> classes 
     /// that are mapped to <typeparamref name="TEntity"/> classes.
@@ -62,11 +65,7 @@ namespace NjordinSight.Api.Controllers
             _logger = logger;
         }
 
-        /// <summary>
-        /// Submits a deletion request for the resource identified by the given id.
-        /// </summary>
-        /// <param name="id">The unique identifier for the resource to delete.</param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpDelete("{id}")]
         public virtual async Task<IActionResult> DeleteAsync(int id)
         {
@@ -74,10 +73,10 @@ namespace NjordinSight.Api.Controllers
                 return NotFound();
 
             var entity = await _modelService.ReadAsync(id);
-            var deleteTask = _modelService.DeleteAsync(entity);
 
             try
             {
+                var deleteTask = _modelService.DeleteAsync(entity);
                 var success = await deleteTask;
 
                 if (success)
@@ -91,16 +90,12 @@ namespace NjordinSight.Api.Controllers
             catch(ModelUpdateException me)
             {
                 return StatusCode(
-                    statusCode: StatusCodes.Status409Conflict,
+                    statusCode: StatusCodes.Status500InternalServerError,
                     value: new { me.Message, Detail = me.InnerException?.Message ?? string.Empty });
             }
         }
 
-        /// <summary>
-        /// Retrieves the resource identified by the given id.
-        /// </summary>
-        /// <param name="id">The unique identifier for the resource to retrieve.</param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpGet("{id}")]
         public virtual async Task<ActionResult<TObject>> GetAsync(int id)
         {
@@ -114,15 +109,9 @@ namespace NjordinSight.Api.Controllers
             return _mapper.Map<TObject>(entity);
         }
 
-        /// <summary>
-        /// Retrieves the collection matching the given query parameter, limited to the given 
-        /// page attributes.
-        /// </summary>
-        /// <param name="queryParameter">The <see cref="ParameterDto{T}"/> describing the operation 
-        /// to filter results.</param>
-        /// <param name="pageNumber">The index of page to retrieve.</param>
-        /// <param name="pageSize">The record limit for each page.</param>
-        /// <returns></returns>
+        /// <inheritdoc/>
+        [Obsolete("Retained for backwards compatability. Use PostSearchAsync instead.")]
+        [ExcludeFromCodeCoverage]
         [HttpGet]
         public virtual async Task<ActionResult<IEnumerable<TObject>>> GetAsync(
             [FromBody] ParameterDto<TObject> queryParameter, int pageNumber = 1, int pageSize = 20)
@@ -130,7 +119,7 @@ namespace NjordinSight.Api.Controllers
             Expression<Func<TEntity, bool>> entityPredicate;
 
             // If query parameter is invalid use the default filter expression.
-            if (!queryParameter.IsValid)
+            if (!(queryParameter?.IsValid ?? false))
             {
                 entityPredicate = x => true;
             }
@@ -153,10 +142,8 @@ namespace NjordinSight.Api.Controllers
             return Ok(dtoItems);
         }
 
-        /// <summary>
-        /// Initializes a default instance for use in a post action.
-        /// </summary>
-        /// <returns></returns>
+
+        /// <inheritdoc/>
         [HttpGet]
         [Route("init")]
         public virtual async Task<ActionResult<TObject>> InitDefaultAsync()
@@ -166,55 +153,39 @@ namespace NjordinSight.Api.Controllers
             return _mapper.Map<TObject>(entity);
         }
 
-        /// <summary>
-        /// Submits a post request for the given resource.
-        /// </summary>
-        /// <param name="model">The instance to create.</param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         [HttpPost]
         public virtual async Task<ActionResult<TObject>> PostAsync(TObject model)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var entity = _mapper.Map<TEntity>(model);
 
             try
             {
-
                 entity = await _modelService.CreateAsync(entity);
 
                 var createdDto = _mapper.Map<TObject>(entity);
 
-                var id = _modelService.GetKey<int>(entity);
+                int id = _modelService.GetKey<int>(entity);
 
                 return CreatedAtAction(
                     actionName: nameof(GetAsync), routeValues: new { id }, value: createdDto);
             }
-
-            // TODO: This code may not be reachable. ModelServices are capturing the
-            // DbUpdateException and wrapping its message in a ModelUpdateException.
-            catch (DbUpdateException due)
+            catch(ModelUpdateException mue)
             {
-                _logger.LogError(exception: due, message: due.Message);
+                _logger.LogError(exception: mue, message: mue.Message);
 
-                if (_modelService.ModelExists(_modelService.GetKey<int>(entity)))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    value: new { Detail = mue.Message });
             }
         }
 
-        /// <summary>
-        /// Submits a put request replacing the resource matching the given id with the model
-        /// instance given.
-        /// </summary>
-        /// <param name="id">The unique identifier for the resource to replace.</param>
-        /// <param name="model">The instance to replace the existing resource.</param>
-        /// <returns></returns>
-        /// <remarks>Only PUT methods are supported for updating records. PATCH method is 
-        /// planned.</remarks>
+        /// <inheritdoc/>
         [HttpPut("{id}")]
         public virtual async Task<ActionResult<TObject>> PutAsync(int id, TObject model)
         {
@@ -227,20 +198,15 @@ namespace NjordinSight.Api.Controllers
 
             try
             {
-                var updateTask = _modelService.UpdateAsync(entity);
+                await _modelService.UpdateAsync(entity);
 
-                bool success = await updateTask;
-
-                // If success or soft-fail (no records modified) return model.
-                // Else throw the AggregateException.
-                if (success ^ (!success && updateTask.Exception is null))
-                    return _mapper.Map<TObject>(entity);
-
-                if (updateTask?.Exception is null)
-                    throw new InvalidOperationException();
-
-                else
-                    throw updateTask.Exception;
+                return Ok(model);
+            }
+            catch(ModelUpdateException mue)
+            {
+                return StatusCode(
+                        statusCode: StatusCodes.Status500InternalServerError,
+                        value: new { Detail = mue.Message });
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -250,9 +216,42 @@ namespace NjordinSight.Api.Controllers
                 }
                 else
                 {
-                    throw;
+                    // TODO: Add list of differences in the response body.
+                    return Conflict();
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        [HttpPost]
+        [Route("search")]
+        public virtual async Task<ActionResult<IEnumerable<TObject>>> PostSearchAsync(
+            [FromBody] ParameterDto<TObject> queryParameter, int pageNumber = 1, int pageSize = 20)
+        {
+            Expression<Func<TEntity, bool>> entityPredicate;
+
+            // If query parameter is invalid use the default filter expression.
+            if (!queryParameter.IsValid)
+            {
+                return BadRequest(ResponseString.PostSearch_InvalidParameter_BadRequestResponse);
+            }
+            else
+            {
+                var dtoPredicate = _expressionBuilder.GetExpression(queryParameter);
+
+                entityPredicate = _mapper
+                    .MapExpression<Expression<Func<TEntity, bool>>>(dtoPredicate);
+            }
+
+            var (items, pagination) = await _modelService
+                .SelectAsync(entityPredicate, pageNumber, pageSize);
+
+            Response.Headers.Add("X-Pagination",
+                JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<TObject>>(items);
+
+            return Ok(dtoItems);
         }
     }
 }
