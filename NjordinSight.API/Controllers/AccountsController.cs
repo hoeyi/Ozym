@@ -6,8 +6,6 @@ using NjordinSight.EntityModelService;
 using Microsoft.Extensions.Logging;
 using Ichosys.DataModel.Expressions;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace NjordinSight.Api.Controllers
 {
     /// <inheritdoc/>

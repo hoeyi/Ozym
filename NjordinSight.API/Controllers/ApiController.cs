@@ -24,7 +24,6 @@ namespace NjordinSight.Api.Controllers
     /// </summary>
     /// <typeparam name="TObject">The type representing a business object record.</typeparam>
     /// <typeparam name="TEntity">The type representing a data store record.</typeparam>
-    [ApiController]
     public class ApiController<TObject, TEntity> : 
         ControllerBase, IApiController<TObject> 
         where TEntity : class, new()
