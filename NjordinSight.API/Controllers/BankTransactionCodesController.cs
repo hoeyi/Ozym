@@ -10,22 +10,22 @@ namespace NjordinSight.Api.Controllers
 {
     /// <inheritdoc/>
     [ApiController]
-    [Route("api/v{version:apiVersion}/accounts")]
+    [Route("api/v{version:apiVersion}/bank-transaction-codes")]
     [ApiVersion("1.0")]
-    public class AccountsController : ApiController<AccountDto, Account>
+    public class BankTransactionCodesController 
+        : ApiController<BankTransactionCodeDto, BankTransactionCode>
     {
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccountsController"/> class.
+        /// Initializes a new instance of the <see cref="BankTransactionCodesController"/> class.
         /// </summary>
         /// <param name="expressionBuilder">The <see cref="IExpressionBuilder"/> for this instance.</param>
         /// <param name="mapper">The <see cref="IMapper"/> for this instance.</param>
         /// <param name="modelService">The <see cref="IModelService{T}"/> for this instance.</param>
         /// <param name="logger">The <see cref="ILogger"/> for this instance.</param>
-        public AccountsController(
+        public BankTransactionCodesController(
             IExpressionBuilder expressionBuilder,
             IMapper mapper,
-            IModelService<Account> modelService,
+            IModelService<BankTransactionCode> modelService,
             ILogger logger)
             : base(expressionBuilder, mapper, modelService, logger)
         {
