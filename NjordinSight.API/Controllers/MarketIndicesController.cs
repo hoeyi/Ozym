@@ -10,22 +10,21 @@ namespace NjordinSight.Api.Controllers
 {
     /// <inheritdoc/>
     [ApiController]
-    [Route("api/v{version:apiVersion}/accounts")]
+    [Route("api/v{version:apiVersion}/market-indices")]
     [ApiVersion("1.0")]
-    public class AccountsController : ApiController<AccountDto, Account>
+    public class MarketIndicesController : ApiController<MarketIndexDto, MarketIndex>
     {
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccountsController"/> class.
+        /// Initializes a new instance of the <see cref="MarketIndicesController"/> class.
         /// </summary>
         /// <param name="expressionBuilder">The <see cref="IExpressionBuilder"/> for this instance.</param>
         /// <param name="mapper">The <see cref="IMapper"/> for this instance.</param>
         /// <param name="modelService">The <see cref="IModelService{T}"/> for this instance.</param>
         /// <param name="logger">The <see cref="ILogger"/> for this instance.</param>
-        public AccountsController(
+        public MarketIndicesController(
             IExpressionBuilder expressionBuilder,
             IMapper mapper,
-            IModelService<Account> modelService,
+            IModelService<MarketIndex> modelService,
             ILogger logger)
             : base(expressionBuilder, mapper, modelService, logger)
         {

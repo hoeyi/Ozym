@@ -18,7 +18,7 @@ namespace NjordinSight.Test.EntityModelService
         /// Verifies attempting to delete an invalid model throws <see cref="ModelUpdateException"/>.
         /// </summary>
         /// <returns></returns>
-        Task DeleteAsync_InvalidModel_ThrowsModelUpdateException();
+        Task DeleteAsync_InvalidModel_ThrowsDbUpdateConcurrencyException();
 
         /// <summary>
         /// Verifies the unit of work for deleting a single <typeparamref name="T"/> model.

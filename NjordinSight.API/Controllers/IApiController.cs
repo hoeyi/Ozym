@@ -40,6 +40,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageSize">The record limit for each page.</param>
         /// <returns>An <see cref="ActionResult{TValue}"/> whose value is an enumerable collection 
         /// of <typeparamref name="TObject"/> instances.</returns>
+        [Obsolete("Retained for backwards compatability. Use PostSearchAsync instead.")]
         Task<ActionResult<IEnumerable<TObject>>> GetAsync(
             [FromBody] ParameterDto<TObject> queryParameter, 
             int pageNumber = 1, 

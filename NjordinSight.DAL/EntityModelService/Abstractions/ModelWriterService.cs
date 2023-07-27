@@ -199,6 +199,9 @@ namespace NjordinSight.EntityModelService.Abstractions
             {
                 return await writeDelegate.Invoke(context, model);
             }
+            // TODO: Refactor this. We shouldn't see the pattern
+            // Logger.LogWarning({exception}, {exception.message}.
+            // Replace with something more useful.
             catch(InvalidOperationException ioe)
             {
                 Logger.LogWarning(ioe, ioe.Message);
@@ -207,7 +210,7 @@ namespace NjordinSight.EntityModelService.Abstractions
             catch (DbUpdateConcurrencyException duc)
             {
                 Logger.LogWarning(duc, duc.Message);
-                throw new ModelUpdateException(duc.Message);
+                throw;
             }
             catch (DbUpdateException du)
             {
