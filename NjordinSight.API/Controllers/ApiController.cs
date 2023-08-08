@@ -134,8 +134,7 @@ namespace NjordinSight.Api.Controllers
             var (items, pagination) = await _modelService
                 .SelectAsync(entityPredicate, pageNumber, pageSize);
 
-            Response.Headers.Add("X-Pagination",
-                JsonSerializer.Serialize(pagination));
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
 
             var dtoItems = _mapper.Map<IEnumerable<TObject>>(items);
 
