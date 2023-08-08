@@ -12,17 +12,11 @@ using NjordinSight.EntityModel.Metadata;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public class CountryDto : DtoBase, INotifyPropertyChanged
+    public class CountryDtoBase : DtoBase
     {
         private int _countryId;
         private string _displayName;
         private string _isoCode3;
-
-        public CountryDto()
-        {
-            Attributes = new List<CountryAttributeDto>();
-            AttributeCollection = new(this);
-        }
 
         [Display(
             Name = nameof(CountryDto_SR.CountryId_Name),
@@ -86,6 +80,15 @@ namespace NjordinSight.DataTransfer.Common
             Description = nameof(CountryDto_SR.DisplayOrder_Description),
             ResourceType = typeof(CountryDto_SR))]
         public int DisplayOrder { get; set; }
+    }
+
+    public class CountryDto : CountryDtoBase
+    {
+        public CountryDto()
+        {
+            AttributeCollection = new(this);
+            Attributes = new List<CountryAttributeDto>();
+        }
 
         public CountryAttributeDtoCollection AttributeCollection { get; set; }
 

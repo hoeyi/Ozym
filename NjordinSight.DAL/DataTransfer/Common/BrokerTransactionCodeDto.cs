@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public class BrokerTransactionCodeDto : DtoBase
+    public class BrokerTransactionCodeDtoBase : DtoBase
     {
         private int _transactionCodeId;
         private string _transactionCode;
@@ -15,12 +15,6 @@ namespace NjordinSight.DataTransfer.Common
         private short _cashEffect;
         private short _contributionWithdrawalEffect;
         private short _quantityEffect;
-
-        public BrokerTransactionCodeDto()
-        {
-            Attributes = new List<BrokerTransactionCodeAttributeDto>();
-            AttributeCollection = new(this);
-        }
 
         [Display(
             Name = nameof(BrokerTransactionCodeDto_SR.TransactionCodeId_Name),
@@ -134,6 +128,16 @@ namespace NjordinSight.DataTransfer.Common
                     OnPropertyChanged(nameof(QuantityEffect));
                 }
             }
+        }
+
+    }
+
+    public class BrokerTransactionCodeDto : BrokerTransactionCodeDtoBase
+    {
+        public BrokerTransactionCodeDto()
+        {
+            Attributes = new List<BrokerTransactionCodeAttributeDto>();
+            AttributeCollection = new(this);
         }
 
         public BrokerCodeAttributeDtoCollection AttributeCollection { get; set; }

@@ -2,7 +2,7 @@
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public class ModelAttributeMemberDto : DtoBase
+    public class ModelAttributeMemberDtoBase : DtoBase
     {
         private int _attributeMemberId;
         private string _displayName;
@@ -54,7 +54,10 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+    }
 
+    public class ModelAttributeMemberDto : ModelAttributeMemberDtoBase
+    {
         [Display(
             Name = nameof(ModelAttributeMemberDto_SR.AttributeId_Name),
             Description = nameof(ModelAttributeMemberDto_SR.AttributeId_Description),
