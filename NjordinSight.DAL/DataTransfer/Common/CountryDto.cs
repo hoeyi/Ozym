@@ -86,8 +86,11 @@ namespace NjordinSight.DataTransfer.Common
     {
         public CountryDto()
         {
-            AttributeCollection = new(this);
+            // The order is important here. If Attributes is not initialized 
+            // then AttributCollection will throw exception.
+            // TODO: Determine if better approach is available.
             Attributes = new List<CountryAttributeDto>();
+            AttributeCollection = new(this);
         }
 
         public CountryAttributeDtoCollection AttributeCollection { get; set; }

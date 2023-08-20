@@ -75,8 +75,8 @@ namespace NjordinSight.DataTransfer.Common
     {
         public InvestmentModelDto()
         {
-            TargetCollection = new(this);
             Targets = new List<InvestmentModelTargetDto>();
+            TargetCollection = new(this);
         }
 
         public InvestmentModelTargetDtoCollection TargetCollection { get; set; }

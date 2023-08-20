@@ -12,11 +12,28 @@ namespace NjordinSight.DataTransfer.Common
 {
     public class BankTransactionDto : DtoBase
     {
+        private int _accountId;
         private int _transactionId;
         private DateTime _transactionDate;
         private int _transactionCodeId;
         private decimal _amount;
         private string _comment;
+
+        public int AccountId
+        {
+            get
+            {
+                return _accountId;
+            }
+            set
+            {
+                if(_accountId != value )
+                {
+                    _accountId = value;
+                    OnPropertyChanged(nameof(AccountId));
+                }
+            }
+        }
 
         [Display(
             Name = nameof(BankTransactionDto_SR.TransactionId_Name),
@@ -102,5 +119,7 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public byte[] TransactionVersion { get; set; }
     }
 }

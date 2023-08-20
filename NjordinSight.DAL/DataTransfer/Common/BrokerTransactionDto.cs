@@ -12,6 +12,7 @@ namespace NjordinSight.DataTransfer.Common
 {
     public class BrokerTransactionDto : DtoBase, INotifyPropertyChanged
     {
+        private int _accountId;
         private int _transactionId;
         private int _transactionCodeId;
         private DateTime _tradeDate;
@@ -24,6 +25,22 @@ namespace NjordinSight.DataTransfer.Common
         private decimal? _withholding;
         private int? _depSecurityId;
         private int? _taxLotId;
+
+        public int AccountId
+        {
+            get
+            {
+                return _accountId;
+            }
+            set
+            {
+                if (_accountId != value)
+                {
+                    _accountId = value;
+                    OnPropertyChanged(nameof(AccountId));
+                }
+            }
+        }
 
         [Display(
             Name = nameof(BrokerTransactionDto_SR.TransactionId_Name),
