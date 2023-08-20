@@ -26,10 +26,12 @@ namespace NjordinSight.DataTransfer.Profiles
         {
             #region Entity-DTO
             CreateMap<ModelAttributeMember, ModelAttributeMemberDto>();
+            CreateMap<ModelAttributeMember, ModelAttributeMemberDtoBase>();
 
             CreateMap<ModelAttributeScope, ModelAttributeScopeDto>();
 
             CreateMap<ModelAttribute, ModelAttributeDto>();
+
             CreateMap<ModelAttribute, ModelAttributeDtoForEdit>()
                 .ForMember(
                     a => a.AttributeValues,
