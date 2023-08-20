@@ -27,6 +27,9 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<CountryAttributeMemberEntry, CountryAttributeDto>()
                 .ForMember(a => a.PercentWeight, b => b.MapFrom(x => x.Weight));
 
+            CreateMap<Country, CountryDtoBase>()
+                .ForMember(a => a.DisplayOrder, b => b.MapFrom(x => x.AttributeMemberNavigation.DisplayOrder));
+
             CreateMap<Country, CountryDto>()
                 .ForMember(
                     a => a.Attributes,
