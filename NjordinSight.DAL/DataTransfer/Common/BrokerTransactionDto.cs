@@ -23,7 +23,7 @@ namespace NjordinSight.DataTransfer.Common
         private decimal _amount;
         private decimal? _fee;
         private decimal? _withholding;
-        private int? _depSecurityId;
+        private int _depSecurityId;
         private int? _taxLotId;
 
         public int AccountId
@@ -216,7 +216,7 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(BrokerTransactionDto_SR.DepSecurityId_Name),
             Description = nameof(BrokerTransactionDto_SR.DepSecurityId_Description),
             ResourceType = typeof(BrokerTransactionDto_SR))]
-        public int? DepSecurityId
+        public int DepSecurityId
         {
             get { return _depSecurityId; }
             set
