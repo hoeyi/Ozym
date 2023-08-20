@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using NjordinSight.DataTransfer.Common;
@@ -14,114 +15,6 @@ using System.Threading.Tasks;
 
 namespace NjordinSight.Api.Controllers
 {
-    /// <summary>
-    /// Represents an API controller for pre-defined reference data queries.
-    /// </summary>
-    public interface IReferenceDataController
-    {
-        /// <summary>
-        /// Gets the defined <see cref="AccountDto"/> records from the data store.
-        /// </summary>
-        /// <param name="pageNumber">The index of the page to retrieve.</param>
-        /// <param name="pageSize">The record limit per page.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="AccountDto"/>.</returns>
-        public Task<ActionResult<IEnumerable<AccountDto>>> GetAccountsAsync(
-            int pageNumber = 1, int pageSize = 20);
-
-        /// <summary>
-        /// Gets the defined <see cref="AccountCustodianDto"/> records from the data store.
-        /// </summary>
-        /// <param name="pageNumber">The index of the page to retrieve.</param>
-        /// <param name="pageSize">The record limit per page.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="AccountCustodianDto"/>.</returns>
-        public Task<ActionResult<IEnumerable<AccountCustodianDto>>> GetCustodiansAsync(
-            int pageNumber = 1, int pageSize = 20);
-
-        /// <summary>
-        /// Gets the defined <see cref="BankTransactionCodeDtoBase"/> records from the data store.
-        /// </summary>
-        /// <param name="pageNumber">The index of the page to retrieve.</param>
-        /// <param name="pageSize">The record limit per page.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BankTransactionCodeDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<BankTransactionCodeDtoBase>>> GetBankCodesAsync(
-            int pageNumber = 1, int pageSize = 20);
-
-        /// <summary>
-        /// Gets the defined <see cref="BrokerTransactionCodeDtoBase"/> records from the data store.
-        /// </summary>
-        /// <param name="pageNumber">The index of the page to retrieve.</param>
-        /// <param name="pageSize">The record limit per page.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTransactionCodeDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<BrokerTransactionCodeDtoBase>>> GetBrokerCodesAsync(
-            int pageNumber = 1, int pageSize = 20);
-
-        /// <summary>
-        /// Gets the defined <see cref="CountryDtoBase"/> records from the data store.
-        /// </summary>
-        /// <param name="pageNumber">The index of the page to retrieve.</param>
-        /// <param name="pageSize">The record limit per page.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="CountryDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<CountryDtoBase>>> GetCountriesAsync(
-            int pageNumber = 1, int pageSize = 20);
-
-        /// <summary>
-        /// Gets the defined <see cref="SecurityDtoBase"/> records from the data store that are deposit 
-        /// sources or destinations.
-        /// </summary>
-        /// <param name="pageNumber">The index of the page to retrieve.</param>
-        /// <param name="pageSize">The record limit per page.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetDepositSecuritiesAsync(
-            int pageNumber = 1, int pageSize = 20);
-
-        /// <summary>
-        /// Gets the defined <see cref="SecurityDtoBase"/> records from the data store that represent 
-        /// crypto-currencies.
-        /// </summary>
-        /// <param name="pageNumber">The index of the page to retrieve.</param>
-        /// <param name="pageSize">The record limit per page.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetCryptoCurrencySecuritiesAsync(
-            int pageNumber = 1, int pageSize = 20);
-
-        /// <summary>
-        /// Gets the defined <see cref="SecurityTypeDto"/> records from the data store.
-        /// </summary>
-        /// <param name="pageNumber">The index of the page to retrieve.</param>
-        /// <param name="pageSize">The record limit per page.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityTypeDto"/>.</returns>
-        public Task<ActionResult<IEnumerable<SecurityTypeDto>>> GetSecurityTypesAsync(
-            int pageNumber = 1, int pageSize = 20);
-
-        /// <summary>
-        /// Gets the defined <see cref="SecurityTypeGroupDto"/> records from the data store.
-        /// </summary>
-        /// <param name="pageNumber">The index of the page to retrieve.</param>
-        /// <param name="pageSize">The record limit per page.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityTypeGroupDto"/>.</returns>
-        public Task<ActionResult<IEnumerable<SecurityTypeGroupDto>>> GetSecurityTypeGroupsAsync(
-            int pageNumber = 1, int pageSize = 20);
-
-        /// <summary>
-        /// Gets the defined <see cref="SecurityDtoBase"/> records from the data store that are 
-        /// transactable in brokerage-type accounts.
-        /// </summary>
-        /// <param name="pageNumber">The index of the page to retrieve.</param>
-        /// <param name="pageSize">The record limit per page.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetTransactableSecurities(
-            int pageNumber = 1, int pageSize = 20);
-
-        /// <summary>
-        /// Gets the defined <see cref="ModelAttributeMemberDtoBase"/> records from the data store.
-        /// </summary>
-        /// <param name="attributeId">Id of the parent <see cref="ModelAttributeDto"/> record.</param>
-        /// <param name="pageNumber">The index of the page to retrieve.</param>
-        /// <param name="pageSize">The record limit per page.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="ModelAttributeMemberDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<ModelAttributeMemberDtoBase>>> GetAttributeValuesAsync(
-            int attributeId, int pageNumber = 1, int pageSize = 20);
-    }
 
 
     /// <summary>
@@ -129,7 +22,7 @@ namespace NjordinSight.Api.Controllers
     /// controls or identifying valid inputs.
     /// </summary>
     [ApiController]
-    [Route("api/v{version:apiVersion}/reference-data")]
+    [Route("api/v{version:apiVersion}/reference")]
     [ApiVersion("1.0")]
     public class ReferenceDataController : ControllerBase, IReferenceDataController
     {
@@ -137,6 +30,7 @@ namespace NjordinSight.Api.Controllers
         private readonly IQueryService _queryService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
+        private const string PaginationKey = "X-Pagination";
 
         /// <summary>
         /// Initializes required parameters for <see cref="ReferenceDataController"/>.
@@ -178,7 +72,7 @@ namespace NjordinSight.Api.Controllers
             var (items, pagination) = await _queryService.GetRecordSetAsync<Account>(
                 predicate: x => true, pageNumber: pageNumber, pageSize: pageSize);
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
 
             var dtoItems = _mapper.Map<IEnumerable<AccountDto>>(items);
 
@@ -187,82 +81,185 @@ namespace NjordinSight.Api.Controllers
 
         /// <inheritdoc/>
         [HttpGet("attribute-values")]
-        public Task<ActionResult<IEnumerable<ModelAttributeMemberDtoBase>>> GetAttributeValuesAsync(
+        public async Task<ActionResult<IEnumerable<ModelAttributeMemberDtoBase>>> GetAttributeValuesAsync(
             int attributeId, int pageNumber = 1, int pageSize = 20)
         {
-            throw new NotImplementedException();
+            var (items, pagination) = await _queryService.GetRecordSetAsync<ModelAttributeMember>(
+                predicate: x => x.AttributeId == attributeId,
+                pageNumber: pageNumber, 
+                pageSize: pageSize);
+
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<ModelAttributeMemberDtoBase>>(items);
+
+            return Ok(dtoItems);
         }
 
         /// <inheritdoc/>
         [HttpGet("bank-transaction-codes")]
-        public Task<ActionResult<IEnumerable<BankTransactionCodeDtoBase>>> GetBankCodesAsync(
+        public async Task<ActionResult<IEnumerable<BankTransactionCodeDtoBase>>> GetBankCodesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
-            throw new NotImplementedException();
+            var (items, pagination) = await _queryService.GetRecordSetAsync<BankTransactionCode>(
+                predicate: x => true, pageNumber: pageNumber, pageSize: pageSize);
+
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<BankTransactionCodeDtoBase>>(items);
+
+            return Ok(dtoItems);
         }
 
         /// <inheritdoc/>
         [HttpGet("broker-transaction-codes")]
-        public Task<ActionResult<IEnumerable<BrokerTransactionCodeDtoBase>>> GetBrokerCodesAsync(
+        public async Task<ActionResult<IEnumerable<BrokerTransactionCodeDtoBase>>> GetBrokerCodesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
-            throw new NotImplementedException();
+            var (items, pagination) = await _queryService.GetRecordSetAsync<BrokerTransactionCode>(
+                predicate: x => true, pageNumber: pageNumber, pageSize: pageSize);
+
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<BrokerTransactionCodeDtoBase>>(items);
+
+            return Ok(dtoItems);
         }
 
         /// <inheritdoc/>
         [HttpGet("countries")]
-        public Task<ActionResult<IEnumerable<CountryDtoBase>>> GetCountriesAsync(
+        public async Task<ActionResult<IEnumerable<CountryDtoBase>>> GetCountriesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
-            throw new NotImplementedException();
+            var (items, pagination) = await _queryService.CreateQueryBuilder<Country>()
+                .WithDirectRelationship(a => a.AttributeMemberNavigation)
+                .Build()
+                .SelectAsync(
+                    predicate: x => true,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize);
+
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<CountryDtoBase>>(items);
+
+            return Ok(dtoItems);
         }
 
         /// <inheritdoc/>
-        [HttpGet("cryptocurrencies")]
-        public Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetCryptoCurrencySecuritiesAsync(
+        [HttpGet("crypto-currencies")]
+        public async Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetCryptoCurrencySecuritiesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
-            throw new NotImplementedException();
+            using var queryBuilder = _queryService.CreateQueryBuilder<Security>()
+                .WithDirectRelationship(x => x.SecurityType)
+                .WithIndirectRelationship<SecurityType, SecurityTypeGroup>(y => y.SecurityTypeGroup);
+
+            var (items, pagination) = await queryBuilder.Build().SelectAsync(
+                predicate: x => x.SecurityType.HeldInWallet == true,
+                pageNumber: pageNumber,
+                pageSize: pageSize);
+
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<SecurityDtoBase>>(items);
+
+            return Ok(dtoItems);
         }
 
         /// <inheritdoc/>
         [HttpGet("custodians")]
-        public Task<ActionResult<IEnumerable<AccountCustodianDto>>> GetCustodiansAsync(
+        public async Task<ActionResult<IEnumerable<AccountCustodianDto>>> GetCustodiansAsync(
             int pageNumber = 1, int pageSize = 20)
         {
-            throw new NotImplementedException();
+            var (items, pagination) = await _queryService.GetRecordSetAsync<AccountCustodian>(
+                predicate: x => true,
+                pageNumber: pageNumber,
+                pageSize: pageSize);
+
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<AccountCustodianDto>>(items);
+
+            return Ok(dtoItems);
         }
 
         /// <inheritdoc/>
         [HttpGet("deposit-securities")]
-        public Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetDepositSecuritiesAsync(
+        public async Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetDepositSecuritiesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
-            throw new NotImplementedException();
+            using var queryBuilder = _queryService.CreateQueryBuilder<Security>()
+                .WithDirectRelationship(x => x.SecurityType)
+                .WithIndirectRelationship<SecurityType, SecurityTypeGroup>(y => y.SecurityTypeGroup);
+
+            var (items, pagination) = await queryBuilder.Build().SelectAsync(
+                    predicate: x => x.SecurityType.SecurityTypeGroup.DepositSource == true,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize);
+
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<SecurityDtoBase>>(items);
+
+            return Ok(dtoItems);
         }
 
         /// <inheritdoc/>
         [HttpGet("security-type-groups")]
-        public Task<ActionResult<IEnumerable<SecurityTypeGroupDto>>> GetSecurityTypeGroupsAsync(
+        public async Task<ActionResult<IEnumerable<SecurityTypeGroupDto>>> GetSecurityTypeGroupsAsync(
             int pageNumber = 1, int pageSize = 20)
         {
-            throw new NotImplementedException();
+            var (items, pagination) = await _queryService.GetRecordSetAsync<SecurityTypeGroup>(
+                predicate: x => true,
+                pageNumber: pageNumber,
+                pageSize: pageSize);
+
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<SecurityTypeGroupDto>>(items);
+
+            return Ok(dtoItems);
         }
 
         /// <inheritdoc/>
         [HttpGet("security-types")]
-        public Task<ActionResult<IEnumerable<SecurityTypeDto>>> GetSecurityTypesAsync(
+        public async Task<ActionResult<IEnumerable<SecurityTypeDto>>> GetSecurityTypesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
-            throw new NotImplementedException();
+            var (items, pagination) = await _queryService.GetRecordSetAsync<SecurityType>(
+                predicate: x => true,
+                pageNumber: pageNumber,
+                pageSize: pageSize);
+
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<SecurityTypeDto>>(items);
+
+            return Ok(dtoItems);
         }
 
         /// <inheritdoc/>
         [HttpGet("transactable-securities")]
-        public Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetTransactableSecurities(
+        public async Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetTransactableSecurities(
             int pageNumber = 1, int pageSize = 20)
         {
-            throw new NotImplementedException();
+            using var queryBuilder = _queryService.CreateQueryBuilder<Security>()
+                .WithDirectRelationship(a => a.SecurityType)
+                .WithIndirectRelationship<SecurityType, SecurityTypeGroup>(x => x.SecurityTypeGroup);
+
+            var (items, pagination) = await queryBuilder
+                .Build()
+                .SelectAsync(
+                    predicate: x => x.SecurityType.SecurityTypeGroup.Transactable == true,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize);
+
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<SecurityDtoBase>>(items);
+
+            return Ok(dtoItems);
         }
     }
 }
