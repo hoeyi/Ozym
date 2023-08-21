@@ -132,12 +132,12 @@ namespace NjordinSight.EntityModelService.Abstractions
         {
             int limitPageSize = BusinessMath.Clamp(pageSize, 0, 100);
 
-                if (ParentExpression is not null)
-                    predicate = ParentExpression.AndAlso(predicate);
+            if (ParentExpression is not null)
+                predicate = ParentExpression.AndAlso(predicate);
 
-                using var context = await ContextFactory.CreateDbContextAsync();
+            using var context = await ContextFactory.CreateDbContextAsync();
 
-                return await ReadAsync(context, predicate, pageNumber, pageSize: limitPageSize);
+            return await ReadAsync(context, predicate, pageNumber, pageSize: limitPageSize);
         }
 
         private async Task<(IEnumerable<T>, PaginationData)> ReadAsync(

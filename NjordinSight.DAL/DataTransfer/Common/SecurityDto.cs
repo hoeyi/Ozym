@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public  class SecurityDto : DtoBase
+    public class SecurityDtoBase : DtoBase
     {
         private int _securityId;
         private int _securityTypeId;
@@ -16,13 +16,6 @@ namespace NjordinSight.DataTransfer.Common
         private string _issuer;
         private bool _hasPerpetualMarket;
         private bool _hasPerpetualPrice;
-
-        public SecurityDto()
-        {
-            Attributes = new List<SecurityAttributeDto>();
-            AttributeCollection = new(this);
-            Symbols = new List<SecuritySymbolDto>();
-        }
 
         [Display(
             Name = nameof(SecurityDto_SR.SecurityId_Name),
@@ -150,6 +143,16 @@ namespace NjordinSight.DataTransfer.Common
                     OnPropertyChanged(nameof(HasPerpetualPrice));
                 }
             }
+        }
+    }
+
+    public  class SecurityDto : SecurityDtoBase
+    {
+        public SecurityDto()
+        {
+            Attributes = new List<SecurityAttributeDto>();
+            AttributeCollection = new(this);
+            Symbols = new List<SecuritySymbolDto>();
         }
 
         public SecurityAttributeDtoCollection AttributeCollection { get; set; }

@@ -12,6 +12,7 @@ namespace NjordinSight.DataTransfer.Common
 {
     public class BrokerTransactionDto : DtoBase, INotifyPropertyChanged
     {
+        private int _accountId;
         private int _transactionId;
         private int _transactionCodeId;
         private DateTime _tradeDate;
@@ -22,8 +23,24 @@ namespace NjordinSight.DataTransfer.Common
         private decimal _amount;
         private decimal? _fee;
         private decimal? _withholding;
-        private int? _depSecurityId;
+        private int _depSecurityId;
         private int? _taxLotId;
+
+        public int AccountId
+        {
+            get
+            {
+                return _accountId;
+            }
+            set
+            {
+                if (_accountId != value)
+                {
+                    _accountId = value;
+                    OnPropertyChanged(nameof(AccountId));
+                }
+            }
+        }
 
         [Display(
             Name = nameof(BrokerTransactionDto_SR.TransactionId_Name),
@@ -199,7 +216,7 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(BrokerTransactionDto_SR.DepSecurityId_Name),
             Description = nameof(BrokerTransactionDto_SR.DepSecurityId_Description),
             ResourceType = typeof(BrokerTransactionDto_SR))]
-        public int? DepSecurityId
+        public int DepSecurityId
         {
             get { return _depSecurityId; }
             set

@@ -7,17 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public class BankTransactionCodeDto : DtoBase
+    public class BankTransactionCodeDtoBase : DtoBase
     {
         private int _transactionCodeId;
         private string _transactionCode;
         private string _displayName;
-
-        public BankTransactionCodeDto()
-        {
-            Attributes = new List<BankTransactionCodeAttributeDto>();
-            AttributeCollection = new(this);
-        }
 
         [Display(
             Name = nameof(BankTransactionCodeDto_SR.TransactionCodeId_Name),
@@ -80,6 +74,15 @@ namespace NjordinSight.DataTransfer.Common
                     OnPropertyChanged(nameof(DisplayName));
                 }
             }
+        }
+    }
+
+    public class BankTransactionCodeDto : BankTransactionCodeDtoBase
+    {
+        public BankTransactionCodeDto()
+        {
+            Attributes = new List<BankTransactionCodeAttributeDto>();
+            AttributeCollection = new(this);
         }
 
         public BankCodeAttributeDtoCollection AttributeCollection { get; set; }

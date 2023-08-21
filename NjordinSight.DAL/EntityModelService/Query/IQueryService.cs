@@ -7,6 +7,8 @@ using NjordinSight.EntityModel.Annotations;
 using System.Reflection;
 using System.Linq;
 using NjordinSight.DataTransfer.Generic;
+using NjordinSight.DataTransfer;
+using Microsoft.Data.SqlClient;
 
 namespace NjordinSight.EntityModelService.Query
 {
@@ -15,6 +17,40 @@ namespace NjordinSight.EntityModelService.Query
     /// </summary>
     public partial interface IQueryService
     {
+        /// <summary>
+        /// Gets the collection of <typeparamref name="T"/> models from the data store matching the 
+        /// predicate limited to the given page number and size.
+        /// </summary>
+        /// <param name="predicate">The <see cref="Expression{Func{T}}"/> used to determine results.</param>
+        /// <param name="pageNumber">Specifies the index of the page to return.</param>
+        /// <param name="pageSize">Specifies the maximum number of records per page.</param>
+        /// <returns>A <see cref="IEnumerable{T}"/> representing the records matching the predicate, 
+        /// limited to a maximum count.</returns>
+        Task<(IEnumerable<T>, PaginationData)> GetRecordSetAsync<T>(
+            Expression<Func<T, bool>> predicate,
+            int pageNumber = 1,
+            int pageSize = 20)
+            where T : class, new();
+
+        /// <summary>
+        /// Gets the collection of <typeparamref name="T"/> models from the data store matching the 
+        /// predicate limited to the given page number and size.
+        /// </summary>
+        /// <param name="predicate">The <see cref="Expression{Func{T}}"/> used to determine results.</param>
+        /// <param name="pageNumber">Specifies the index of the page to return.</param>
+        /// <param name="pageSize">Specifies the maximum number of records per page.</param>
+        /// <param name="sortBy">Optional expression defining the memeber to sort results by.</param>
+        /// <param name="sortOrder">Optional <see cref="SortOrder"/> defining the sort direction.</param>
+        /// <returns>A <see cref="IEnumerable{T}"/> representing the records matching the predicate, 
+        /// limited to a maximum count.</returns>
+        Task<(IEnumerable<T>, PaginationData)> GetRecordSetAsync<T, TKey>(
+            Expression<Func<T, bool>> predicate,
+            int pageNumber = 1,
+            int pageSize = 20,
+            Expression<Func<T, TKey>> sortBy = null,
+            SortOrder sortOrder = SortOrder.Unspecified)
+            where T : class, new();
+
         /// <summary>
         /// Returns a collection of <typeparamref name="T"/> models from the data store.
         /// </summary>

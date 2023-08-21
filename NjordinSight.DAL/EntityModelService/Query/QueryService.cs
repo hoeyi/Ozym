@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using NjordinSight.BusinessLogic.Functions;
+using NjordinSight.DataTransfer;
 using NjordinSight.EntityModel.Context;
 using System;
 using System.Collections.Generic;
@@ -8,6 +12,59 @@ using System.Threading.Tasks;
 
 namespace NjordinSight.EntityModelService.Query
 {
+    public partial class QueryService : IQueryService
+    {
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<T>, PaginationData)> GetRecordSetAsync<T, TKey>(
+            Expression<Func<T, bool>> predicate,
+            int pageNumber = 1,
+            int pageSize = 20,
+            Expression<Func<T, TKey>> sortBy = null,
+            SortOrder sortOrder = SortOrder.Unspecified)
+            where T : class, new()
+        {
+            int limitPageSize = BusinessMath.Clamp(pageSize, 0, 100);
+
+            using var context = await _contextFactory.CreateDbContextAsync();
+
+            var queryable = context.Set<T>().Where(predicate);
+
+            if (sortBy is not null)
+                queryable = sortOrder switch
+                {
+                    SortOrder.Unspecified => queryable,
+                    SortOrder.Ascending => queryable.OrderBy(sortBy),
+                    SortOrder.Descending => queryable.OrderByDescending(sortBy),
+                    _ => throw new InvalidOperationException($"{typeof(SortOrder)} = {nameof(sortOrder)}")
+                };
+
+            PaginationData pageData = new()
+            {
+                ItemCount = await queryable.CountAsync(),
+                PageIndex = pageNumber,
+                PageSize = pageSize
+            };
+
+            // TODO: This needs an ORDER BY clause in order to generate consistent results.
+            var result = await queryable
+                .Skip(limitPageSize * (pageNumber - 1))
+                .Take(limitPageSize)
+                .ToListAsync();
+
+            return (result, pageData);
+        }
+
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<T>, PaginationData)> GetRecordSetAsync<T>(
+            Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 20) 
+            where T : class, new()
+        {
+            return await GetRecordSetAsync<T, object>(
+                predicate, pageNumber, pageSize, null, SortOrder.Unspecified);
+        }
+    }
+
+
     /// <summary>
     /// Represents an implementation of <see cref="IQueryService"/>, providing features 
     /// for querying varying data stores and conversion to DTOs.

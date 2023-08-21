@@ -7,17 +7,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public class InvestmentModelDto : DtoBase
+    public class InvestmentModelDtoBase : DtoBase
     {
         private int _investmentModelId;
         private string _displayName;
         private string _notes;
-
-        public InvestmentModelDto()
-        {
-            Targets = new List<InvestmentModelTargetDto>();
-            TargetCollection = new(this);
-        }
 
         [Display(
             Name = nameof(InvestmentModelDto_SR.InvestmentModelId_Name),
@@ -74,6 +68,15 @@ namespace NjordinSight.DataTransfer.Common
                     OnPropertyChanged(nameof(Notes));
                 }
             }
+        }
+    }
+
+    public class InvestmentModelDto : InvestmentModelDtoBase
+    {
+        public InvestmentModelDto()
+        {
+            Targets = new List<InvestmentModelTargetDto>();
+            TargetCollection = new(this);
         }
 
         public InvestmentModelTargetDtoCollection TargetCollection { get; set; }
