@@ -127,6 +127,16 @@
 
 
 @code {
+    [Inject]
+    protected IHttpService<NjordinSight.DataTransfer.Common.AccountDto> HttpService { get; init; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var response = await HttpService.SelectAsync();
+    }
+
     private void Detail_OnClick(Account model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.AccountId));

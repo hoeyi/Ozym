@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
   </ItemGroup>
 
@@ -27,6 +28,186 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="ChangeTracking\TrackingEnumerable_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TrackingEnumerable_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\AccountBaseAttributeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AccountBaseAttributeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\AccountCompositeMemberDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AccountCompositeMemberDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\AccountCustodianDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AccountCustodianDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\AccountDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AccountDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\AccountWalletDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AccountWalletDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\BankTransactionCodeAttributeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BankTransactionCodeAttributeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\BankTransactionCodeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BankTransactionCodeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\BankTransactionDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BankTransactionDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\BrokerTransactionCodeAttributeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BrokerTransactionCodeAttributeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\BrokerTransactionCodeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BrokerTransactionCodeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\BrokerTransactionDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BrokerTransactionDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\CountryAttributeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CountryAttributeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\CountryDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CountryDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\InvestmentModelDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InvestmentModelDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\InvestmentModelTargetDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InvestmentModelTargetDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\InvestmentPerformanceAttributeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InvestmentPerformanceAttributeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\InvestmentPerformanceDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InvestmentPerformanceDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\MarketHolidayDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MarketHolidayDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\MarketHolidayObservanceDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MarketHolidayObservanceDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\MarketIndexDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MarketIndexDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\MarketIndexPriceDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MarketIndexPriceDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\ModelAttributeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModelAttributeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\ModelAttributeScopeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModelAttributeScopeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\ReportConfigurationDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ReportConfigurationDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\ReportStyleSheetDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ReportStyleSheetDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\ModelAttributeMemberDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ModelAttributeMemberDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\SecurityAttributeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SecurityAttributeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\SecurityDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SecurityDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\SecurityExchangeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SecurityExchangeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\SecurityPriceDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SecurityPriceDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\SecuritySymbolDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SecuritySymbolDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\SecuritySymbolMapDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SecuritySymbolMapDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\SecuritySymbolTypeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SecuritySymbolTypeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\SecurityTypeDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SecurityTypeDto_SR.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DataTransfer\Common\SecurityTypeGroupDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SecurityTypeGroupDto_SR.resx</DependentUpon>
+    </Compile>
     <Compile Update="DataTransfer\MethodParams\DisplayString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -37,7 +218,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Update="EntityModelService\ChangeTracking\ChangeTrackingStrings.Designer.cs">
+    <Compile Update="ChangeTracking\ChangeTrackingStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ChangeTrackingStrings.resx</DependentUpon>
@@ -98,6 +279,150 @@
       <LastGenOutput>ExceptionString.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="ChangeTracking\TrackingEnumerable_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TrackingEnumerable_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\AccountBaseAttributeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountBaseAttributeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\AccountCompositeMemberDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountCompositeMemberDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\AccountCustodianDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountCustodianDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\AccountDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\AccountWalletDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountWalletDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\BankTransactionCodeAttributeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BankTransactionCodeAttributeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\BankTransactionCodeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BankTransactionCodeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\BankTransactionDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BankTransactionDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\BrokerTransactionCodeAttributeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BrokerTransactionCodeAttributeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\BrokerTransactionCodeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BrokerTransactionCodeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\BrokerTransactionDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BrokerTransactionDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\CountryAttributeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CountryAttributeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\CountryDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CountryDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\InvestmentModelDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>InvestmentModelDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\InvestmentModelTargetDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>InvestmentModelTargetDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\InvestmentPerformanceAttributeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>InvestmentPerformanceAttributeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\InvestmentPerformanceDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>InvestmentPerformanceDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\MarketHolidayDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MarketHolidayDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\MarketHolidayObservanceDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MarketHolidayObservanceDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\MarketIndexDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MarketIndexDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\MarketIndexPriceDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MarketIndexPriceDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\ModelAttributeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModelAttributeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\ModelAttributeScopeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModelAttributeScopeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\ReportConfigurationDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ReportConfigurationDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\ReportStyleSheetDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ReportStyleSheetDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\ModelAttributeMemberDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ModelAttributeMemberDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\SecurityAttributeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SecurityAttributeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\SecurityDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SecurityDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\SecurityExchangeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SecurityExchangeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\SecurityPriceDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SecurityPriceDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\SecuritySymbolDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SecuritySymbolDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\SecuritySymbolMapDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SecuritySymbolMapDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\SecuritySymbolTypeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SecuritySymbolTypeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\SecurityTypeDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SecurityTypeDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\SecurityTypeGroupDto_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SecurityTypeGroupDto_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="DataTransfer\MethodParams\DisplayString.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>DisplayString.Designer.cs</LastGenOutput>
@@ -106,7 +431,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="EntityModelService\ChangeTracking\ChangeTrackingStrings.resx">
+    <EmbeddedResource Update="ChangeTracking\ChangeTrackingStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ChangeTrackingStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>

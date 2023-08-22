@@ -14,4 +14,10 @@ dotnet ef migrations add %migration% ^
 	--project NjordinSight.Web.csproj ^
 	--output-dir Migrations\Identity
 
+goto :finally
+
+:missingparameter
+echo "Required 1st positional argument was not provided."
+
+:finally
 cd ..\

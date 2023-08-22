@@ -6,8 +6,6 @@ namespace NjordinSight.DataTransfer.Generic
     public interface IAttributeEntryUnweightedCollection<
         TParentEntity, TChildEntity, TGroupModel>
         : IAttributeEntryCollection<TParentEntity, TChildEntity, TGroupModel>
-        where TParentEntity : class, new()
-        where TChildEntity : class, new()
         where TGroupModel : IAttributeEntryUnweightedGrouping<TParentEntity, TChildEntity>
     {
         /// <summary>

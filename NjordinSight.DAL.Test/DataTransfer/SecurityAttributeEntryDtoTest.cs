@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using NjordinSight.EntityModel;
+using NjordinSight.DataTransfer.Deprecated;
 
 namespace NjordinSight.Test.DataTransfer
 {

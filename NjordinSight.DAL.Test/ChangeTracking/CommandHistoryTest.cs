@@ -1,11 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NjordinSight.EntityModelService.ChangeTracking;
-using Microsoft.Extensions.Logging;
+using NjordinSight.ChangeTracking;
 
 namespace NjordinSight.Test.ChangeTracking
 {

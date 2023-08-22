@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.Extensions.Logging;
+using NjordinSight.BusinessLogic.Functions;
+using NjordinSight.DataTransfer;
 using NjordinSight.EntityModel.Context;
+using NjordinSight.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,7 +25,7 @@ namespace NjordinSight.EntityModelService.Query
         where TSource : class, new()
     {
         private readonly FinanceDbContext _context;
-        
+
         public QueryBuilder(FinanceDbContext context)
         {
             if (context is null)
@@ -182,5 +186,29 @@ namespace NjordinSight.EntityModelService.Query
                 display: display,
                 defaultKey: defaultKey,
                 defaultDisplay: defaultDisplay);
+
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<TSource>, PaginationData)> SelectAsync(
+            Expression<Func<TSource, bool>> predicate, int pageNumber = 1, int pageSize = 20)
+        {
+            int limitPageSize = BusinessMath.Clamp(pageSize, 0, 100);
+
+            Queryable = Queryable.Where(predicate);
+
+            PaginationData pageData = new()
+            {
+                ItemCount = await Queryable.CountAsync(),
+                PageIndex = pageNumber,
+                PageSize = pageSize
+            };
+
+            // TODO: This needs an ORDER BY clause in order to generate consistent results.
+            var items = await Queryable
+                .Skip(limitPageSize * (pageNumber - 1))
+                .Take(limitPageSize)
+                .ToListAsync();
+
+            return (items, pageData);
+        }
     }
 }

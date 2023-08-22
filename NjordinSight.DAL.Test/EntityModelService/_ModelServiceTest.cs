@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Ichosys.DataModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace NjordinSight.Test.EntityModelService
 {
@@ -54,11 +55,11 @@ namespace NjordinSight.Test.EntityModelService
 
         /// <inheritdoc/>
         [TestMethod]
-        public virtual async Task DeleteAsync_InvalidModel_ThrowsModelUpdateException()
+        public virtual async Task DeleteAsync_InvalidModel_ThrowsDbUpdateConcurrencyException()
         {
             var service = GetModelService();
 
-            await Assert.ThrowsExceptionAsync<ModelUpdateException>(async () =>
+            await Assert.ThrowsExceptionAsync<DbUpdateConcurrencyException>(async () =>
             {
                 await service.DeleteAsync(DeleteModelFailSample);
             });

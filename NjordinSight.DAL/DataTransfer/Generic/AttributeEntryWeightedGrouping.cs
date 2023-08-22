@@ -84,8 +84,6 @@ namespace NjordinSight.DataTransfer.Generic
     #region IAttributeEntryWeightedGrouping implementation
     public abstract partial class AttributeEntryWeightedGrouping<TParentEntity, TChildEntity> :
         IAttributeEntryWeightedGrouping<TParentEntity, TChildEntity>
-        where TParentEntity : class, new()
-        where TChildEntity : class, new()
     {
         private DateTime effectiveDate;
 

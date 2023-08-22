@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NjordinSight.DataTransfer;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -12,6 +13,18 @@ namespace NjordinSight.EntityModelService.Query
     public interface IQueryDataStore<TSource>
         where TSource : class, new()
     {
+        /// <summary>
+        /// Selects records matching the given predicate and page parameters.
+        /// </summary>
+        /// <param name="predicate">The predicate to filter returned records.</param>
+        /// <param name="pageNumber">The index of the page to return.</param>
+        /// <param name="pageSize">The record limit per page.</param>
+        /// <returns>A task representing an asynchronous query operation.</returns>
+        Task<(IEnumerable<TSource>, PaginationData)> SelectAsync(
+            Expression<Func<TSource, bool>> predicate,
+            int pageNumber = 1,
+            int pageSize = 20);
+
         /// <summary>
         /// Executes the select query and returns the data to the caller as an 
         /// <see cref="IEnumerable{T}"/> collection.

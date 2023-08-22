@@ -18,19 +18,6 @@ namespace NjordinSight.Test.EntityModelService
     {
         /// <inheritdoc/>
         [TestMethod]
-        public virtual void AddPendingSave_HasChanges_Is_True()
-        {
-            var service = GetModelService();
-
-            var model = GetModelService().GetDefaultAsync().Result;
-
-            service.AddPendingSave(model);
-
-            Assert.IsTrue(service.HasChanges);
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
         public virtual async Task GetDefault_Yields_Model_Instance()
         {
             var model = await GetModelService().GetDefaultAsync();
@@ -77,36 +64,6 @@ namespace NjordinSight.Test.EntityModelService
 
         /// <inheritdoc/>
         [TestMethod]
-        public virtual void DeletePendingAdd_HasChanges_Is_True()
-        {
-            var service = GetModelService();
-
-            var model = GetModelService().GetDefaultAsync().Result;
-
-            service.AddPendingSave(model);
-
-            service.DeletePendingSave(model);
-
-            Assert.IsTrue(service.HasChanges);
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public async virtual Task DeletePendingSave_HasChanges_Is_True()
-        {
-            var service = GetModelService();
-
-            var models = await service.SelectAsync(x => true);
-
-            var lastModel = models.Item1.LastOrDefault();
-
-            service.DeletePendingSave(lastModel);
-
-            Assert.IsTrue(service.HasChanges);
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
         public virtual async Task SelectAllAsync_Returns_Model_List()
         {
             var service = GetModelService();
@@ -116,7 +73,7 @@ namespace NjordinSight.Test.EntityModelService
             Assert.IsTrue(models.Count > 0);
             Assert.IsInstanceOfType(models, typeof(List<T>));
 
-            var count = models.Count();
+            var count = models.Count;
             var expcount = models.AsQueryable().Where(ParentExpression).Count();
 
             Assert.AreEqual(expcount, count);
@@ -146,10 +103,6 @@ namespace NjordinSight.Test.EntityModelService
 
             Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
         }
-
-        /// <inheritdoc/>
-        [TestMethod]
-        public abstract Task Update_PendingSave_HasChanges_IsFalse();
     }
 
     /// <summary>

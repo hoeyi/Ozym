@@ -29,7 +29,6 @@ namespace NjordinSight.DataTransfer.Generic
         /// </summary>
         /// <param name="parentObject"></param>
         /// <param name="parentAttribute"></param>
-        /// <param name="effectiveDate"></param>
         /// <exception cref="ArgumentNullException"></exception>
         protected AttributeEntryUnweightedGrouping(
             TParentEntity parentObject,
@@ -69,8 +68,6 @@ namespace NjordinSight.DataTransfer.Generic
     #region IAttributeGrouping implementation
     public abstract partial class AttributeEntryUnweightedGrouping<TParentEntity, TChildEntity> :
         IAttributeEntryUnweightedGrouping<TParentEntity, TChildEntity>
-        where TParentEntity : class, new()
-        where TChildEntity : class, new()
     {
         /// <inheritdoc/>
         public bool IsEmpty => !Entries.Any();

@@ -14,4 +14,10 @@ dotnet ef migrations add %migration% ^
 	--project ..\NjordinSight.EntityMigration\NjordinSight.EntityMigration.csproj ^
 	--output-dir FinanceApp
 
+goto :finally
+
+:missingparameter
+echo "Required 1st positional argument was not provided."
+
+:finally
 cd ..\
