@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using NjordinSight.DataTransfer.Common;
+using System.Linq;
 
 namespace NjordinSight.Web.Services
 {
@@ -65,7 +66,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageSize">Limit to records returned in a single page.</param>
         /// <returns>A task containing the <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> 
         /// matching the given predication and page parameters.</returns>
-        Task<IEnumerable<T>> SelectAsync(
+        Task<(IEnumerable<T>, PaginationData)> SelectAsync(
             ParameterDto<T> queryParameter = null, int pageNumber = 1, int pageSize = 20);
 
         [Obsolete("This interface member may be removed because it is not clear whether the " +
@@ -178,7 +179,7 @@ namespace NjordinSight.Web.Services
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<T>> SelectAsync(
+        public async Task<(IEnumerable<T>, PaginationData)> SelectAsync(
             ParameterDto<T> queryParameter, int pageNumber = 1, int pageSize = 20)
         {
             // Initialize a default invalid parameter to create a filter that returns all records.
@@ -198,7 +199,17 @@ namespace NjordinSight.Web.Services
 
             var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<T>>();
 
-            return deserializedResults;
+            PaginationData pageData = null!;
+
+            if(httpResponse.Content.Headers.TryGetValues("X-Pagination", out var stringValues))
+            {
+                if(stringValues?.Any() ?? false)
+                {
+                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
+                }
+            }
+
+            return (deserializedResults, pageData);
         }
 
         /// <inheritdoc/>
