@@ -125,6 +125,7 @@ namespace NjordinSight.Web
         {
             services.AddHttpClient();
             services.AddTransient(typeof(IHttpService<>), typeof(HttpService<>));
+            services.AddTransient(typeof(IReferenceDataService), typeof(ReferenceDataService));
 
             return services;
         }
