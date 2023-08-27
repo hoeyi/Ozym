@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<MarketIndex>
+﻿@inherits ModelCRUD<MarketIndexDto>
 
 @if(ModelDto is null)
 {
@@ -6,7 +6,7 @@
 }
 else
 {
-    <ModelForm TModelDto="MarketIndex">
+    <ModelForm TModelDto="MarketIndexDto">
         <ModelFormEntry ForMember="@(() => ModelDto.IndexCode)">
             @if (ReadOnly)
             {

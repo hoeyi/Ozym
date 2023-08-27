@@ -50,16 +50,16 @@ else
                 }
                 @if (ReadOnly)
                 {
-                    <DataGridColumn Property=@nameof(CountryAttributeMemberEntry.AttributeMemberId)
-                            Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.AttributeMemberId))>
+                    <DataGridColumn Property=@nameof(CountryAttributeDto.AttributeMemberId)
+                            Caption=@(ModelMetadata.NameFor<CountryAttributeDto>(x => x.AttributeMemberId))>
                         <CellTemplate Context="model">
                             @model.AttributeMember.DisplayName
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(CountryAttributeMemberEntry.Weight)
-                            Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.Weight))>
+                    <DataGridColumn Property=@nameof(CountryAttributeDto.PercentWeight)
+                            Caption=@(ModelMetadata.NameFor<CountryAttributeDto>(x => x.PercentWeight))>
                         <CellTemplate Context="model">
-                            @model.Weight
+                            @model.PercentWeight
                         </CellTemplate>
                     </DataGridColumn>
                 }
@@ -67,24 +67,24 @@ else
                 {
                     <DataGridColumn 
                         Type="DataGridCellType.Control"
-                        Property=@nameof(CountryAttributeMemberEntry.AttributeMemberId)
-                        Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.AttributeMemberId))>
+                        Property=@nameof(CountryAttributeDto.AttributeMemberId)
+                        Caption=@(ModelMetadata.NameFor<CountryAttributeDto>(x => x.AttributeMemberId))>
                         <CellEditTemplate Context="model">
                             <InputSelect class="form-control"
                                  @bind-Value="@model.AttributeMemberId">
                                 @foreach (var member in AttributeMemberLookup)
                                 {
-                                    <option value="@member.Key">@member.Display</option>
+                                    <option value="@member.AttributeMemberId">@member.DisplayName</option>
                                 }
                             </InputSelect>
                         </CellEditTemplate>
                     </DataGridColumn>
                     <DataGridColumn
                         Type="DataGridCellType.Control"
-                        Property=@nameof(CountryAttributeMemberEntry.Weight)
-                        Caption=@(ModelMetadata.NameFor<CountryAttributeMemberEntry>(x => x.Weight))>
+                        Property=@nameof(CountryAttributeDto.PercentWeight)
+                        Caption=@(ModelMetadata.NameFor<CountryAttributeDto>(x => x.PercentWeight))>
                         <CellEditTemplate Context="model">
-                            <InputNumber class="form-control" @bind-Value="@model.Weight" />
+                            <InputNumber class="form-control" @bind-Value="@model.PercentWeight" />
                         </CellEditTemplate>
                     </DataGridColumn>
                 }
@@ -95,7 +95,7 @@ else
 
 @code {
     [CascadingParameter]
-    public IEnumerable<LookupModel<int, string>> AttributeMemberLookup { get; set; }
+    public IEnumerable<ModelAttributeMemberDtoBase> AttributeMemberLookup { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -111,7 +111,7 @@ else
         ModelDto.AddNewEntry();
     }
 
-    private void RemoveExisting_OnClick(MouseEventArgs e, CountryAttributeMemberEntry entry)
+    private void RemoveExisting_OnClick(MouseEventArgs e, CountryAttributeDto entry)
     {
         // TODO: Do something with MouseEventArgs ?
 

@@ -6,7 +6,7 @@
 }
 else
 {
-    <CascadingValue Value="@ModelAttributeDto">
+    <CascadingValue Value="@AttributeDto">
         <Modal
             DialogOptions="DialogResult.OK | DialogResult.Cancel"
             OnClose="OnClose"
@@ -35,21 +35,21 @@ else
 
 @code{
     /// <summary>
-    /// Gets or sets the allowable <see cref="ModelAttribute" /> for this selector.
+    /// Invokes a delegate handling the selection of a <see cref="ModelAttributeDto" /> instance.
     /// </summary>
     [Parameter]
-    public EventCallback<ModalEventArgs<ModelAttribute>> OnClose { get; set; }
+    public EventCallback<ModalEventArgs<ModelAttributeDto>> OnClose { get; set; }
 
     /// <summary>
-    /// Gets or sets the allowable <see cref="ModelAttribute" /> for this selector.
+    /// Gets or sets the allowable <see cref="ModelAttributeDto" /> for this selector.
     /// </summary>
     [Parameter]
-    public IEnumerable<ModelAttribute> AllowableAttributes { get; set; }
+    public IEnumerable<ModelAttributeDto> AllowableAttributes { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="ModelAttribute" /> view model for this selector.
+    /// Gets or sets the <see cref="ModelAttributeDto" /> instance for this selector.
     /// </summary>
-    private ModelAttribute ModelAttributeDto { get; set; }
+    private ModelAttributeDto AttributeDto { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="int?"> identifier for the currently selected attribute.
@@ -61,17 +61,17 @@ else
     {
         await base.OnInitializedAsync();
 
-        ModelAttributeDto = AllowableAttributes.OrderBy(a => a.DisplayName).FirstOrDefault();
+        AttributeDto = AllowableAttributes.OrderBy(a => a.DisplayName).FirstOrDefault();
     }
 
 
     /// <summary>
-    /// Updates the current attribute id and <see cref="ModelAttributeDto" />.
+    /// Updates the current attribute id and <see cref="AttributeDto" />.
     /// </summary>
     private void AttributeSelect_OnChange(int? eventArgs)
     {
         SelectedAttributeId = eventArgs;
-        ModelAttributeDto = AllowableAttributes.FirstOrDefault(a => a.AttributeId == eventArgs);
+        AttributeDto = AllowableAttributes.FirstOrDefault(a => a.AttributeId == eventArgs);
 
         StateHasChanged();
     }

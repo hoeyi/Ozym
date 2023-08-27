@@ -40,16 +40,16 @@ else
                     @if (ReadOnly)
                     {
                         <DataGridColumn Property=@nameof(
-                                BrokerTransactionCodeAttributeMemberEntry.AttributeMemberId)
-                                Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
+                                BrokerTransactionCodeAttributeDto.AttributeMemberId)
+                                Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeDto>(
                                 x => x.AttributeMemberId))>
                             <CellTemplate Context="model">
                                 @model.AttributeMember.DisplayName
                             </CellTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property=@nameof(
-                                BrokerTransactionCodeAttributeMemberEntry.EffectiveDate)
-                                Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
+                                BrokerTransactionCodeAttributeDto.EffectiveDate)
+                                Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeDto>(
                                 x => x.EffectiveDate))>
                             <CellTemplate Context="model">
                                 @model.EffectiveDate.ToShortDateString()
@@ -59,10 +59,10 @@ else
                     else
                     {
                         <DataGridColumn 
-                            Property=@nameof(BrokerTransactionCodeAttributeMemberEntry
+                            Property=@nameof(BrokerTransactionCodeAttributeDto
                                 .AttributeMemberId)
                             Type="DataGridCellType.Control"
-                            Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
+                            Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeDto>(
                                 x => x.AttributeMemberId))>
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
@@ -74,9 +74,9 @@ else
                                 </InputSelect>
                             </CellEditTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property=@nameof(BrokerTransactionCodeAttributeMemberEntry.EffectiveDate)
+                        <DataGridColumn Property=@nameof(BrokerTransactionCodeAttributeDto.EffectiveDate)
                             Type="DataGridCellType.Control"
-                            Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
+                            Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeDto>(
                                 x => x.EffectiveDate))>
                             <CellEditTemplate Context="model">
                                 <InputDate class="form-control"
@@ -109,7 +109,7 @@ else
     }
 
     private void RemoveExisting_OnClick(
-        MouseEventArgs e, BrokerTransactionCodeAttributeMemberEntry model)
+        MouseEventArgs e, BrokerTransactionCodeAttributeDto model)
     {
         // TODO: Do something with MouseEventArgs ?
 

@@ -36,11 +36,11 @@ else
     public TModelDto ModelDto { get; set; }
 
     /// <summary>
-    /// Gets or sets the reference list for allowable <see cref="ModelAttributeMember" />
+    /// Gets or sets the reference list for allowable <see cref="ModelAttributeMemberDtoBase" />
     /// records for this form.
     /// </summary>
     [CascadingParameter]
-    public IEnumerable<LookupModel<int, string>> AttributeMemberLookup { get; set; }
+    public IEnumerable<ModelAttributeMemberDtoBase> AttributeMemberLookup { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

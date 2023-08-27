@@ -50,40 +50,40 @@ else
                     @if(ReadOnly)
                     {
                         <DataGridColumn 
-                            Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
-                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.AttributeMemberId))>
+                            Property=@nameof(InvestmentModelTargetDto.AttributeMemberId)
+                            Caption=@(ModelMetadata.NameFor<InvestmentModelTargetDto>(x => x.AttributeMemberId))>
                                     <CellTemplate Context="model">
                                         @model.AttributeMember.DisplayName
                                     </CellTemplate>
                         </DataGridColumn>
                         <DataGridColumn 
-                            Property=@nameof(InvestmentStrategyTarget.Weight)
-                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.Weight))>
+                            Property=@nameof(InvestmentModelTargetDto.PercentWeight)
+                            Caption=@(ModelMetadata.NameFor<InvestmentModelTargetDto>(x => x.PercentWeight))>
                                 <CellTemplate Context="model">
-                                    @model.Weight
+                                    @model.PercentWeight
                                 </CellTemplate>
                         </DataGridColumn>
                     }
                     else
                     {
                         <DataGridColumn Type="DataGridCellType.Control"
-                            Property=@nameof(InvestmentStrategyTarget.AttributeMemberId)
-                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.AttributeMemberId))>
+                            Property=@nameof(InvestmentModelTargetDto.AttributeMemberId)
+                            Caption=@(ModelMetadata.NameFor<InvestmentModelTargetDto>(x => x.AttributeMemberId))>
                                 <CellEditTemplate Context="model">
                                     <InputSelect class="form-control"
                                         @bind-Value="@model.AttributeMemberId">
                                         @foreach(var member in AttributeMemberLookup)
                                         {
-                                            <option value="@member.Key">@member.Display</option>
+                                            <option value="@member.AttributeMemberId">@member.DisplayName</option>
                                         }
                                     </InputSelect>
                                 </CellEditTemplate>
                         </DataGridColumn>
                         <DataGridColumn Type="DataGridCellType.Control"
-                            Property=@nameof(InvestmentStrategyTarget.Weight)
-                            Caption=@(ModelMetadata.NameFor<InvestmentStrategyTarget>(x => x.Weight))>
+                            Property=@nameof(InvestmentModelTargetDto.PercentWeight)
+                                    Caption=@(ModelMetadata.NameFor<InvestmentModelTargetDto>(x => x.PercentWeight))>
                                 <CellEditTemplate Context="model">
-                                    <InputNumber class="form-control" @bind-Value="@model.Weight" />
+                                <InputNumber class="form-control" @bind-Value="@model.PercentWeight" />
                                 </CellEditTemplate>
                         </DataGridColumn>
                     }
@@ -94,7 +94,7 @@ else
 
 @code{
     [CascadingParameter]
-    public IEnumerable<LookupModel<int, string>> AttributeMemberLookup { get; set; }
+    public IEnumerable<ModelAttributeMemberDtoBase> AttributeMemberLookup { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -110,7 +110,7 @@ else
         ModelDto.AddNewEntry();
     }
 
-    private void RemoveExisting_OnClick(MouseEventArgs e, InvestmentStrategyTarget target)
+    private void RemoveExisting_OnClick(MouseEventArgs e, InvestmentModelTargetDto target)
     {
         // TODO: Do something with MouseEventArgs ?
 
