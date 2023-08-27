@@ -53,7 +53,10 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> AccountDtos { get; set; }
+    [Inject]
+    protected IReferenceDataService ReferenceData { get; init;  }
+
+    private IEnumerable<AccountDto> AccountDtos { get; set; }
 
     private AccountCompositeDto ModelDto { get; set; }
 
@@ -64,12 +67,12 @@
         try
         {
             var compositeQuery = Controller.GetDefaultAsync();
-            var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
+            var accountsQuery = ReferenceData.GetAccountsAsync();
 
             var dataTask = Task.WhenAll(compositeQuery, accountsQuery);
 
             Model = (await compositeQuery).Value;
-            AccountDtos = (await accountsQuery).Value;
+            AccountDtos = (await accountsQuery).Item1;
 
             ModelDto = new(Model);
         }

@@ -184,6 +184,13 @@ namespace NjordinSight.Web.Components.Generic
 #nullable disable
 
         /// <summary>
+        /// Checks the current page state and returns true if all required properties have been 
+        /// set. Inheritors may override this method to handle additional initialization checks.
+        /// </summary>
+        /// <returns>True if the page is loading, else false.</returns>
+        protected virtual bool PageDataIsLoading() => false;
+
+        /// <summary>
         /// Runs an asynchronous operation catching <see cref="ModelUpdateException"/> throws 
         /// and handling via an update to <see cref="ErrorMessage"/>.
         /// </summary>

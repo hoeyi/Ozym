@@ -1,6 +1,6 @@
 ﻿@page "/accounts/{ModelId:int}/edit/wallets"
 
-@inherits ModelListPage<AccountWallet>
+@inherits ModelPagedIndexEditor<AccountWalletDto>
 
 <ThemedComponent>
     @if(ParentAccount is null)
@@ -9,9 +9,9 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.UpdateSingle(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.UpdateSingle(ParentAccount.ShortCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
+        <ModelPageHeader Header="@(PageTitle.UpdateMany(ParentAccount.ShortCode))" />
     }
 
     <CascadingValue Value="@ErrorMessage">
@@ -35,7 +35,7 @@
                     @onclick=@(async (args) => await AddNewAsync(args))>
                     @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                 </button>
-                <button class="form-control button" @onclick="Cancel_OnClick"
+                <button class="form-control button" @onclick="CancelEditor_OnClick"
                     @onclick:preventDefault>
                     @Strings.Caption_Button_Cancel
                 </button>
@@ -54,7 +54,7 @@
                             <CellEditTemplate Context="model">
                                 <ToolTip Text="@Strings.Caption_Button_Delete">
                                     <button class="form-control button icon" type="button"
-                                        @onclick="async (args) => await DeleteAsync(args, model)">
+                                        @onclick="(args) => DeleteRecord(args, model)">
                                         <IonIcon Name="close-circle" />
                                     </button>
                                 </ToolTip>
@@ -68,7 +68,7 @@
                                             @bind-Value="@model.DenominationSecurityId">
                                     @foreach (var security in DenominationSecurities)
                                     {
-                                        <option value=@security.Key>@security.Display</option>
+                                        <option value=@security.SecurityId>@security.SecurityDescription</option>
                                     }
                                 </InputSelect>
                                 <ValidationMessage For=@(()=> model.DenominationSecurityId) />
@@ -100,64 +100,62 @@
 
 @code {
     [Parameter]
-    public int ModelId { get; init; }
-
-    private IEnumerable<LookupModel<int, string>> DenominationSecurities { get; set; }
-
-    private Account ParentAccount { get; set; }
+    public override int ModelId { get; init; }
 
     [Inject]
-    protected new ICollectionController<AccountWallet, int> Controller { get; init; }
+    protected IReferenceDataService ReferenceData { get; init; }
 
-    protected override bool GetLoadingState() => 
+    private IEnumerable<SecurityDtoBase> DenominationSecurities { get; set; }
+
+    private AccountDto ParentAccount { get; set; }
+
+    protected override bool PageDataIsLoading() =>
         WorkingEntries is null || ParentAccount is null || DenominationSecurities is null;
 
-    protected override async Task OnInitializedAsync()
-    {
-        // Update the hidden reference to refer the same object to avoid null reference exception.
-        base.Controller = Controller;
-
-        CheckNullParameters();
-
-        IsLoading = true;
-
-        try
-        {
-            ParentAccount = (
-                await Controller.ReferenceQueries
-                    .GetSingleAsync<Account>(
-                        predicate: a => a.AccountId == ModelId,
-                        path: a => a.AccountNavigation)).Value;
-
-            var initResult = await Controller.ForParent(ParentAccount.AccountId);
-
-            if (initResult is not OkResult)
-                throw new InvalidOperationException();
-
-            var denominationDtosTask = Controller.ReferenceQueries
-                .GetCryptocurrencyDTOsAsync();
-            var walletsTask = Controller.SelectAsync(predicate: x => true);
-
-            await InitializationTasksAsync(denominationDtosTask, walletsTask);
-
-            var denominationDtoResult = await denominationDtosTask;
-            var walletsResult = await walletsTask;
-
-            WorkingEntries = walletsResult.Value.Item1.ToList();
-            DenominationSecurities = denominationDtoResult.Value;
-
-            Context = new(WorkingEntries);
-
-            PaginationHelper.TotalItemCount = (await walletsTask).Value.Item2.ItemCount;
-            PaginationHelper.ItemCount = WorkingEntries.Count;
-        }
-        finally
-        {
-            IsLoading = GetLoadingState();
-        }
-    }
-    
     /// <inheritdoc/>
-    protected override void Cancel_OnClick() => 
+    protected override async Task RefreshResultsAsync(
+        IQueryParameter<AccountWalletDto> parameter, int pageNumber, int pageSize)
+    {
+        if (WorkingEntries?.HasChanges ?? false)
+        {
+            var discardConfirmed = await ConfirmDiscardChangesAsync();
+
+            if (!discardConfirmed)
+                return;
+        }
+
+        ParentAccount = await HttpService.GetAsync<AccountDto>(id: ModelId);
+
+        LastSearchParameter = new ParameterDto<AccountWalletDto>()
+        {
+            MemberName = nameof(AccountWalletDto.AccountId),
+            Operator = ComparisonOperator.EqualTo,
+            Value = ParentAccount.Id.ToString()
+        };
+
+        var denominationDtosTask = ReferenceData
+                .GetCryptoCurrencySecuritiesAsync(pageNumber: 1, pageSize: int.MaxValue);
+
+        var walletsTask = HttpService.SelectAsync(
+            queryParameter: LastSearchParameter,
+            pageNumber: PaginationHelper.PageIndex,
+            pageSize: PaginationHelper.PageSize);
+
+        await InitializationTasksAsync(walletsTask, denominationDtosTask);
+
+        var walletsResult = await walletsTask;
+        var denominationDtosResult = await denominationDtosTask;
+
+        WorkingEntries = new TrackingEnumerable<AccountWalletDto>(walletsResult.Item1.ToList());
+        DenominationSecurities = denominationDtosResult.Item1;
+
+        Context = new(WorkingEntries);
+
+        PaginationHelper.TotalItemCount = walletsResult.Item2.ItemCount;
+        PaginationHelper.ItemCount = WorkingEntries.Count;
+    }
+
+    /// <inheritdoc/>
+    protected override void CancelEditor_OnClick() => 
         NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
 }

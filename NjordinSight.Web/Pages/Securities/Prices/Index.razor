@@ -1,6 +1,6 @@
 ﻿@page "/securities/prices"
 
-@inherits ModelListPage<SecurityPrice>
+@inherits ModelPagedIndexEditor<SecurityPriceDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -94,7 +94,7 @@
     private IDictionary<int, string> SecurityDtos { get; set; }
 
     [Inject]
-    protected new ICollectionController<SecurityPrice> Controller {get; init; }
+    public IReferenceDataService ReferenceData { get; init; }
 
     /// <inheritdoc/>
     protected override MenuRoot CreateSectionNavigationMenu() => new()
@@ -113,10 +113,44 @@
     };
 
     /// <inheritdoc />
-    protected override bool GetLoadingState() => 
+    protected override bool PageDataIsLoading() =>
         WorkingEntries is null 
         || SecurityDtos is null
         || Context  is null;
+
+    /// <inheritdoc/>
+    protected override async Task RefreshResultsAsync(
+        IQueryParameter<BankTransactionDto> parameter, int pageNumber, int pageSize)
+    {
+        if (WorkingEntries?.HasChanges ?? false)
+        {
+            var discardConfirmed = await ConfirmDiscardChangesAsync();
+
+            if (!discardConfirmed)
+                return;
+        }
+
+        var securityDtosTask = ReferenceData.GetAsync<SecurityDtoBase>("/securities")
+
+        var priceQueryTask = HttpService.SelectAsync(
+            queryParameter: LastSearchParameter,
+            pageNumber: PaginationHelper.PageIndex,
+            pageSize: PaginationHelper.PageSize);
+
+        await InitializationTasksAsync(priceQueryTask, securityDtosTask);
+
+        var priceResult = await priceQueryTask;
+        var transactionCodeDtoResult = await securityDtosTask;
+
+        WorkingEntries = new TrackingEnumerable<SecurityPriceDto>(
+            transactionResult.Item1.ToList());
+        TransactionCodes = transactionCodeDtoResult.Item1;
+
+        Context = new(WorkingEntries);
+
+        PaginationHelper.TotalItemCount = transactionResult.Item2.ItemCount;
+        PaginationHelper.ItemCount = WorkingEntries.Count;
+    }
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
@@ -158,11 +192,6 @@
         }
     }
 
-    private string GetSecurityDisplay(int securityId)
-    {
-        if (SecurityDtos.TryGetValue(securityId, out string display))
-            return display;
-        else
-            return string.Empty;
-    }
+    private string GetSecurityDisplay(int securityId) =>
+        SecurityDtos.TryGetValue(securityId, out string display) ? display : string.Empty;
 }

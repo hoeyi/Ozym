@@ -1,6 +1,6 @@
 ﻿@page "/market-indices/rates/edit"
 
-@inherits ModelListPage<MarketIndexPrice>
+@inherits ModelPagedIndexEditor<MarketIndexPrice>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -46,7 +46,7 @@
                     @onclick="(async (args) => await AddNewAsync(args))">
                     @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                 </button>
-                <button class="form-control button" @onclick="Cancel_OnClick"
+                <button class="form-control button" @onclick="CancelEditor_OnClick"
                     @onclick:preventDefault>
                     @Strings.Caption_Button_Cancel
                 </button>
@@ -69,7 +69,7 @@
                                 <CellEditTemplate Context="model">
                                     <ToolTip Text="@Strings.Caption_Button_Delete">
                                         <button class="form-control button icon" type="button"
-                                            @onclick="async (args) => await DeleteAsync(args, model)">
+                                            @onclick="async (args) => await DeleteRecord(args, model)">
                                             <IonIcon Name="close-circle" />
                                         </button>
                                     </ToolTip>
@@ -133,7 +133,7 @@
     protected new ICollectionController<MarketIndexPrice> Controller { get; init; }
 
     /// <inheritdoc />
-    protected override bool GetLoadingState() => 
+    protected override bool PageDataIsLoading() =>
         WorkingEntries is null
         || Context is null
         || MarketIndexLookup is null
@@ -191,6 +191,6 @@
     }
 
     /// <inheritdoc/>
-    protected override void Cancel_OnClick() => 
+    protected override void CancelEditor_OnClick() => 
         NavigationHelper.NavigateTo($"{IndexUriRelativePath}/rates");
 }
