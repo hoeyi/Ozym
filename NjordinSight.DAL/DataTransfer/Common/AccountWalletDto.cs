@@ -12,10 +12,24 @@ namespace NjordinSight.DataTransfer.Common
 {
     public class AccountWalletDto : DtoBase
     {
+        private int _accountId;
         private int _accountWalletId;
         private string _addressCode;
         private string _addressTag;
         private int _denominationSecurityId;
+
+        public int AccountId
+        {
+            get { return _accountId; }
+            set
+            {
+                if(_accountId != value )
+                {
+                    _accountId = value;
+                    OnPropertyChanged(nameof(AccountId));
+                }
+            }
+        }
 
         [Display(
             Name = nameof(AccountWalletDto_SR.AccountWalletId_Name),

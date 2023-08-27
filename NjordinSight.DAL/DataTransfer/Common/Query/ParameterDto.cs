@@ -7,13 +7,13 @@ namespace NjordinSight.DataTransfer.Common.Query
     public record ParameterDto<T> : IQueryParameter<T>
     {
         /// <inheritdoc/>
-        public string MemberName { get; init; }
+        public string MemberName { get; set; }
 
         /// <inheritdoc/>
-        public ComparisonOperator Operator { get; init; }
+        public ComparisonOperator Operator { get; set; }
 
         /// <inheritdoc/>
-        public string Value { get; init; }
+        public string Value { get; set; }
 
         /// <inheritdoc/>
         [JsonIgnore]
