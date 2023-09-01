@@ -70,11 +70,29 @@ namespace NjordinSight.Api.Controllers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inconsistent parent for collection entries..
+        /// </summary>
+        internal static string PatchCollection_ParentIdMismatch_BadRequest {
+            get {
+                return ResourceManager.GetString("PatchCollection_ParentIdMismatch_BadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid parameter given in request body..
         /// </summary>
-        internal static string PostSearch_InvalidParameter_BadRequestResponse {
+        internal static string PostSearch_InvalidBodyParameter_BadRequestResponse {
             get {
-                return ResourceManager.GetString("PostSearch_InvalidParameter_BadRequestResponse", resourceCulture);
+                return ResourceManager.GetString("PostSearch_InvalidBodyParameter_BadRequestResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; is not valid for &apos;{1}&apos; argument..
+        /// </summary>
+        internal static string PostSearch_InvalidUrlParameter_BadRequestResponse {
+            get {
+                return ResourceManager.GetString("PostSearch_InvalidUrlParameter_BadRequestResponse", resourceCulture);
             }
         }
     }
