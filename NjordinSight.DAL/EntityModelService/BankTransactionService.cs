@@ -28,6 +28,10 @@ namespace NjordinSight.EntityModelService
             : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<BankTransaction>(ContextFactory, ModelMetadata, Logger);
+            GetDefaultModelDelegate = () => new BankTransaction()
+            {
+                TransactionDate = DateTime.UtcNow.Date
+            };
         }
     }
 }

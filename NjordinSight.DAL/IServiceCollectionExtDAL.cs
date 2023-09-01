@@ -105,7 +105,6 @@ namespace NjordinSight
                 // Add single-entity services.
                 .AddScoped<IModelService<Account>, AccountService>()
                 .AddScoped<IModelService<AccountComposite>, AccountCompositeService>()
-                .AddScoped<IModelService<AccountCustodian>, AccountCustodianService>()
                 .AddScoped<IModelService<BankTransactionCode>, BankTransactionCodeService>()
                 .AddScoped<IModelService<BrokerTransactionCode>, BrokerTransactionCodeService>()
                 .AddScoped<IModelService<Country>, CountryService>()
@@ -116,27 +115,28 @@ namespace NjordinSight
                 .AddScoped<IModelService<ReportConfiguration>, ReportConfigurationService>()
                 .AddScoped<IModelService<ReportStyleSheet>, ReportStyleSheetService>()
                 .AddScoped<IModelService<ResourceImage>, ResourceImageService>()
-                .AddScoped<IModelService<SecurityExchange>, SecurityExchangeService>()
                 .AddScoped<IModelService<Security>, SecurityService>()
                 .AddScoped<IModelService<SecurityTypeGroup>, SecurityTypeGroupService>()
                 .AddScoped<IModelService<SecurityType>, SecurityTypeService>()
-                .AddScoped<IModelService<SecurityPrice>, SecurityPriceService>()
 
-                .AddScoped<IModelCollectionService<BankTransaction>, BankTransactionService>()
 
                 // Add entity-collection services.
-                .AddScoped<IModelCollectionService<AccountCustodian>, AccountCustodianCollectionService>()
-                .AddScoped<IModelCollectionService<AccountWallet, int>, AccountWalletService>()
-                //.AddScoped<IModelCollectionService<BankTransaction, int>, BankTransactionService>()
-                .AddScoped<IModelCollectionService<BrokerTransaction, int>, BrokerTransactionService>()
+                .AddScoped<IModelCollectionService<AccountCustodian>, AccountCustodianService>()
+                .AddScoped<IModelCollectionService<AccountWallet>, AccountWalletService>()
+                .AddScoped<IModelCollectionService<BankTransaction>, BankTransactionService>()
+                .AddScoped<IModelCollectionService<SecurityExchange>, SecurityExchangeService>()
+                .AddScoped<IModelCollectionService<SecurityPrice>, SecurityPriceService>()
+                .AddScoped<IModelCollectionService<BrokerTransaction>, BrokerTransactionService>()
+
                 .AddScoped<IModelCollectionService<
                     InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)>, 
                     InvestmentPerformanceAttributeService>()
-                .AddScoped<IModelCollectionService<InvestmentPerformanceEntry, int>, InvestmentPerformanceService>()
+
+                .AddScoped<IModelCollectionService<InvestmentPerformanceEntry>, InvestmentPerformanceService>()
                 .AddScoped<IModelCollectionService<MarketHolidayObservance>, MarketHolidayObservanceService>()
-                .AddScoped<IModelCollectionService<MarketIndexPrice>, MarketIndexPriceBatchService>()
-                .AddScoped<IModelCollectionService<SecurityExchange>, SecurityExchangeCollectionService>()
-                .AddScoped<IModelCollectionService<SecurityPrice>, SecurityPriceBatchService>();
+                .AddScoped<IModelCollectionService<MarketIndexPrice>, MarketIndexPriceService>()
+                .AddScoped<IModelCollectionService<SecurityExchange>, SecurityExchangeService>()
+                .AddScoped<IModelCollectionService<SecurityPrice>, SecurityPriceService>();
 
             return services;
         }
