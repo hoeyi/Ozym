@@ -1,4 +1,4 @@
-﻿using NjordinSight.EntityModel;
+﻿using NjordinSight.DataTransfer.Common;
 using System.Collections.Generic;
 using System;
 
@@ -7,16 +7,15 @@ namespace NjordinSight.BusinessLogic.Brokerage
     public interface IBrokerTransactionBLL
     {
         /// <summary>
-        /// Gets the read-only collection of <see cref="BrokerTransaction"/> entries 
-        /// for this instance.
+        /// Gets the collection of <see cref="BrokerTransactionDto"/> entries being modified.
         /// </summary>
-        IReadOnlyCollection<BrokerTransaction> Entries { get; }
+        IEnumerable<BrokerTransactionDto> Entries { get; }
 
         /// <summary>
         /// Adds a new transaction to the collection.
         /// </summary>
         /// <returns>A new instance of <see cref="BrokerTransaction"/>.</returns>
-        BrokerTransaction AddTransaction();
+        BrokerTransactionDto AddTransaction();
 
         /// <summary>
         /// Gets the collection of <see cref="BrokerTaxLot"/> for this instance, subject to the 
@@ -28,13 +27,13 @@ namespace NjordinSight.BusinessLogic.Brokerage
         /// <paramref name="taxLotStatus"/> is not valid for this method.</exception>
         IEnumerable<BrokerTaxLot> GetTaxLots(TaxLotStatus taxLotStatus);
 
-        void RemoveTransaction(BrokerTransaction model);
+        void RemoveTransaction(BrokerTransactionDto model);
 
-        void RevertRemoveTransaction(BrokerTransaction model);
+        void RevertRemoveTransaction(BrokerTransactionDto model);
 
-        ITransactionUpdateResponse UpdateTransactionCode(BrokerTransaction model, int newId);
+        ITransactionUpdateResponse UpdateTransactionCode(BrokerTransactionDto model, int newId);
 
-        ITransactionUpdateResponse<IEnumerable<BrokerTransaction>> PostAllocation(
+        ITransactionUpdateResponse<IEnumerable<BrokerTransactionDto>> PostAllocation(
             AllocationInstructionTable instructions);
     }
 }

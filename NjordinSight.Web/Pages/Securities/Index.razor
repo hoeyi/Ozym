@@ -108,7 +108,7 @@
     private IEnumerable<LookupModel<int, string>> SecurityTypes { get; set; }
 
     /// <inheritdoc/>
-    protected override bool GetLoadingState() => 
+    protected override bool PageDataIsLoading() => 
         Entries is null || Exchanges is null || SecurityTypes is null;
 
     protected override async Task OnInitializedAsync()
@@ -147,7 +147,7 @@
         }
         finally
         {
-            IsLoading = GetLoadingState();
+            IsLoading = PageDataIsLoading();
         }
     }
 

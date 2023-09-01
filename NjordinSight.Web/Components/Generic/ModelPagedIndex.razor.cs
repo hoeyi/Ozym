@@ -1,6 +1,8 @@
 ﻿using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using NjordinSight.ChangeTracking;
+using NjordinSight.DataTransfer.Common.Query;
 using NjordinSight.Web.Components.Common;
 using NjordinSight.Web.Services;
 using System;
@@ -19,12 +21,29 @@ namespace NjordinSight.Web.Components.Generic
     public partial class ModelPagedIndex<TModelDto> : ModelPage<TModelDto>
         where TModelDto : class
     {
+        [Inject]
+        protected IHttpService<TModelDto> HttpService { get; init; }
+
+        /// <summary>
+        /// Checks the <see cref="SearchService"/> and <see cref="Controller"/> properties are 
+        /// non-null, else throws an <see cref="ArgumentNullException" />.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
+        protected void CheckNullParameters()
+        {
+            if (HttpService is null)
+                throw new ArgumentNullException(paramName: nameof(HttpService));
+
+            if (SearchService is null)
+                throw new ArgumentNullException(paramName: nameof(SearchService));
+        }
+
         /// <summary>
         /// Checks the current page state and returns true if all required properties have been 
         /// set. Inheritors may override this method to handle additional initialization checks.
         /// </summary>
         /// <returns>True if the page is loaded, else false.</returns>
-        protected virtual bool GetLoadingState() => Entries is null;
+        protected override bool PageDataIsLoading() => Entries is null;
 
         /// <summary>
         /// Gets or sets the <see cref="ISearchService{T}"/> for this page.
@@ -42,6 +61,8 @@ namespace NjordinSight.Web.Components.Generic
         /// Gets the model collection that matches the search expression for this component.
         /// </summary>
         protected virtual IEnumerable<TModelDto> Entries { get; set; }
+
+        protected IQueryParameter<TModelDto>? LastSearchParameter { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="PagerModel" /> for this component.
@@ -74,42 +95,38 @@ namespace NjordinSight.Web.Components.Generic
         /// <summary>
         /// Delegate handler for <see cref="Paginator.IndexChanged"/> events.
         /// </summary>
-        /// <param name="args">The new <see cref="int"/> index value.</param>
         /// <returns>A task representing an asynchronous query and render operation.</returns>
-        protected async Task OnIndexChangedAsync() => await RefreshResultsAsync();
+        protected async Task OnIndexChangedAsync() => await RefreshResultsAsync(
+            parameter: LastSearchParameter,
+            pageNumber: PaginationHelper.PageIndex,
+            pageSize: PaginationHelper.PageSize);
 
         /// <summary>
         /// Delegate handler for <see cref="Paginator.PageSizeChanged"/> events.
         /// </summary>
-        /// <param name="args">The new <see cref="int"/> index value.</param>
         /// <returns>A task representing an asynchronous query and render operation.</returns>
-        protected async Task OnPageSizeChangedAsync() => await RefreshResultsAsync();
+        protected async Task OnPageSizeChangedAsync() => await RefreshResultsAsync(
+            parameter: LastSearchParameter,
+            pageNumber: PaginationHelper.PageIndex,
+            pageSize: PaginationHelper.PageSize);
 
-        /// <summary>
-        /// Refreshes the core result set according to the current search and page parameters. Lookup 
-        /// collections are not refreshed. Wrapper method for 
-        /// <see cref="RefreshResultsAsync(Expression{Func{TModelDto, bool}}, int, int, Func{bool})"/> 
-        /// using the current values of <see cref="SearchService"/> and <see cref="PaginationHelper"/> 
-        /// as parameters.
-        /// </summary>
-        /// <returns>A task representing the asynchronous action to query and render 
-        /// updated data.</returns>
-        protected async Task RefreshResultsAsync()
+        /// <inheritdoc/>
+        protected override async Task OnInitializedAsync()
         {
+            CheckNullParameters();
+
             IsLoading = true;
 
             try
             {
-                var refreshTask = RefreshResultsAsync(
-                    predicate: SearchService.CurrentExpression,
+                await RefreshResultsAsync(
+                    parameter: LastSearchParameter,
                     pageNumber: PaginationHelper.PageIndex,
                     pageSize: PaginationHelper.PageSize);
-
-                await refreshTask;
             }
             finally
             {
-                IsLoading = GetLoadingState();
+                IsLoading = PageDataIsLoading();
             }
         }
 
@@ -120,17 +137,24 @@ namespace NjordinSight.Web.Components.Generic
         /// <param name="predicate">The filter expression to apply.</param>
         /// <param name="pageNumber">The index of the page desired.</param>
         /// <param name="pageSize">The record limit per page.</param>
-        /// page should render as loading data.</param>
         /// <returns>A task representing the asynchronous action to query and render 
         /// updated data.</returns>
         /// <exception cref="NotImplementedException">The method has not been overriden in a 
         /// derived class.</exception>
-        protected virtual Task RefreshResultsAsync(
-            Expression<Func<TModelDto, bool>> predicate,
+        protected virtual async Task RefreshResultsAsync(
+            IQueryParameter<TModelDto> parameter,
             int pageNumber,
             int pageSize)
         {
-            throw new NotImplementedException();
+            var responseObject = await HttpService.SelectAsync(
+                queryParameter: parameter,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
+
+            Entries = responseObject.Item1;
+
+            PaginationHelper.TotalItemCount = responseObject.Item2.ItemCount;
+            PaginationHelper.ItemCount = Entries.Count();
         }
 
         /// <summary>
@@ -148,16 +172,17 @@ namespace NjordinSight.Web.Components.Generic
 
             try
             {
+                LastSearchParameter = args.Parameter;
+
                 await RefreshResultsAsync(
-                    predicate: args.SearchExpression,
+                    parameter: LastSearchParameter,
                     pageNumber: PaginationHelper.PageIndex,
                     pageSize: PaginationHelper.PageSize);
 
-                SearchService.CurrentExpression = args.SearchExpression;
             }
             finally
             {
-                IsLoading = GetLoadingState();
+                IsLoading = PageDataIsLoading();
             }
         }
     }

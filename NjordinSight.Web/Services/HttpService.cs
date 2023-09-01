@@ -15,6 +15,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using NjordinSight.DataTransfer.Common;
 using System.Linq;
+using NjordinSight.ChangeTracking;
+using Ichosys.DataModel.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace NjordinSight.Web.Services
 {
@@ -36,6 +39,16 @@ namespace NjordinSight.Web.Services
         /// <param name="id">The integer key to match.</param>
         /// <returns>The <typeparamref name="T"/> identified by <paramref name="id"/>.</returns>
         Task<T> GetAsync(int? id);
+
+        /// <summary>
+        /// Get the <typeparamref name="TKey"/> referenced as a parent record matching the given 
+        /// identifier.
+        /// </summary>
+        /// <typeparam name="TKey">The type of record that is parent to another.</typeparam>
+        /// <param name="id">The unique identifier for the record.</param>
+        /// <returns>An instance of <typeparamref name="TKey"/> matching the value of 
+        /// <paramref name="id"/>.</returns>
+        Task<TKey> GetAsync<TKey>(int id);
 
         /// <summary>
         /// Creates a default instance of <typeparamref name="T"/>.
@@ -61,13 +74,14 @@ namespace NjordinSight.Web.Services
         /// Selects records matching the given <paramref name="predicate"/>, limited to the given
         /// page index, and page size.
         /// </summary>
-        /// <param name="queryParameter"><see cref="ParameterDto{T}"/> to filter results.</param>
-        /// <param name="pageNumber">Number of the page of results to return.</param>
+        /// <param name="queryParameter"><see cref="IQueryParameter{T}"/> instance describing the 
+        /// query filter.</param>
+        /// <param name="pageNumber">Index of the page of results to return.</param>
         /// <param name="pageSize">Limit to records returned in a single page.</param>
         /// <returns>A task containing the <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> 
         /// matching the given predication and page parameters.</returns>
         Task<(IEnumerable<T>, PaginationData)> SelectAsync(
-            ParameterDto<T> queryParameter = null, int pageNumber = 1, int pageSize = 20);
+            IQueryParameter<T> queryParameter = null, int pageNumber = 1, int pageSize = 20);
 
         [Obsolete("This interface member may be removed because it is not clear whether the " +
             "Blazor component navigation should be bundled with the service repsonsible for " +
@@ -76,6 +90,14 @@ namespace NjordinSight.Web.Services
         /// Calls navigation to the index page for the <typeparamref name="T"/> resource store.
         /// </summary>
         void NavigateToIndex();
+
+        /// <summary>
+        /// Modifies the collection in the data store by applying the given inserts, updates, and 
+        /// deletes.
+        /// </summary>
+        /// <param name="changes">Enumerable collection of models being inserted, modified, or deleted.</param>
+        /// <returns>A <see cref="Uri"/> given the location of the udpated resource.</returns>
+        Task<Uri> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes);
     }
 
     /// <summary>
@@ -85,6 +107,7 @@ namespace NjordinSight.Web.Services
     /// <typeparam name="T"></typeparam>
     public class HttpService<T> : IHttpService<T>
     {
+        private readonly string _rootApiPath;
         private readonly IHttpClientFactory _httpFactory;
         private readonly NavigationManager _navigationManager;
         private readonly IReadOnlyDictionary<Type, string> _endPointMap = 
@@ -100,7 +123,9 @@ namespace NjordinSight.Web.Services
         /// <param name="navigationManager"></param>
         /// <param name="configuration"></param>
         public HttpService(
-            IHttpClientFactory httpFactory, NavigationManager navigationManager, IConfiguration configuration)
+            IHttpClientFactory httpFactory, 
+            NavigationManager navigationManager, 
+            IConfiguration configuration)
         {
             if (httpFactory is null)
                 throw new ArgumentNullException(paramName: nameof(httpFactory));
@@ -117,9 +142,8 @@ namespace NjordinSight.Web.Services
             var apiOptions = new ApiOptions();
             configuration.GetSection(ApiOptions.ApiService).Bind(apiOptions);
 
-            var apiUri = CombinePath(rootPath: apiOptions.Url, relativePath: _endPointMap[typeof(T)]);
-
-            ResourceIndexUri = apiUri;
+            _rootApiPath = apiOptions.Url;
+            ResourceIndexUri = CombinePath(rootPath: _rootApiPath, relativePath: _endPointMap[typeof(T)]);
         }
 
         /// <summary>
@@ -133,6 +157,19 @@ namespace NjordinSight.Web.Services
             using var client = _httpFactory.CreateClient();
 
             return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/{id}");
+        }
+
+        /// <inheritdoc/>
+        public async Task<TKey> GetAsync<TKey>(int id)
+        {
+            string relativePath = _endPointMap[typeof(TKey)];
+            string absolutePath = CombinePath(_rootApiPath, $"{relativePath}/{id}");
+
+            using var client = _httpFactory.CreateClient();
+
+            var response = await client.GetFromJsonAsync<TKey>(absolutePath);
+
+            return response;
         }
 
         /// <inheritdoc/>
@@ -152,7 +189,13 @@ namespace NjordinSight.Web.Services
 
             return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/init");
         }
-        
+
+        /// <inheritdoc/>
+        public Task<Uri> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <inheritdoc/>
         public async Task<Uri> PostAysnc(T model)
         {
@@ -180,20 +223,24 @@ namespace NjordinSight.Web.Services
 
         /// <inheritdoc/>
         public async Task<(IEnumerable<T>, PaginationData)> SelectAsync(
-            ParameterDto<T> queryParameter, int pageNumber = 1, int pageSize = 20)
+            IQueryParameter<T> queryParameter, int pageNumber = 1, int pageSize = 20)
         {
             // Initialize a default invalid parameter to create a filter that returns all records.
-            queryParameter ??= new()
-            {
-                MemberName = string.Empty
-            };
+            ParameterDto<T> parameterDto = queryParameter is null ?
+                new ParameterDto<T>() { MemberName = string.Empty } :
+                new ParameterDto<T>
+                {
+                    MemberName = queryParameter.MemberName,
+                    Operator = queryParameter.Operator,
+                    Value = queryParameter.Value
+                };
 
             // TODO: Convert methods to have query parameter be passed in the URI string. 
 
             using var client = _httpFactory.CreateClient();
 
             var httpResponse = await client.PostAsJsonAsync(
-                $"{ResourceIndexUri}/search?&pageNumber={pageNumber}&pageSize={pageSize}", queryParameter);
+                $"{ResourceIndexUri}/search?&pageNumber={pageNumber}&pageSize={pageSize}", parameterDto);
 
             httpResponse.EnsureSuccessStatusCode();
 

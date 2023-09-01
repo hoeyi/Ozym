@@ -1,6 +1,6 @@
 ﻿@page "/accounts/{ModelId:int}/detail/bank-transactions"
 
-@inherits ModelListPage<BankTransaction>
+@inherits ModelPagedIndexEditor<BankTransactionDto>
 
 <ThemedComponent>
     @if (ParentAccount is null)
@@ -9,9 +9,9 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.ReadMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.ReadMany(ParentAccount.ShortCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.ReadMany(ParentAccount.AccountCode))" 
+        <ModelPageHeader Header="@(PageTitle.ReadMany(ParentAccount.ShortCode))" 
             ActionMenu="@SectionNavigationMenu" />
     }
 
@@ -35,7 +35,7 @@
                     <DataGridColumn Property="@nameof(BankTransaction.TransactionCodeId)"
                                 Caption="@NameFor(x => x.TransactionCodeId)">
                         <CellTemplate Context="model">
-                            @GetLookupDisplayName(TransactionCodes, model.TransactionCodeId)
+                            @GetDisplayValue(TransactionCodes, model.TransactionCodeId)
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property="@nameof(BankTransaction.TransactionDate)"
@@ -64,14 +64,14 @@
 
 @code {
     [Parameter]
-    public int ModelId { get; init; }
+    public override int ModelId { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
-
-    private Account ParentAccount { get; set; }
+    private IEnumerable<BankTransactionCodeDtoBase> TransactionCodes { get; set; }
 
     [Inject]
-    public new ICollectionController<BankTransaction, int> Controller { get; init; }
+    protected IReferenceDataService ReferenceData { get; init; }
+
+    private AccountDto ParentAccount { get; set; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -96,62 +96,52 @@
     };
 
     /// <inheritdoc />
-    protected override bool GetLoadingState() => 
+    protected override bool PageDataIsLoading() =>
         WorkingEntries is null
         || ParentAccount is null
         || TransactionCodes is null;
 
-    protected override async Task OnInitializedAsync()
+    /// <inheritdoc/>
+    protected override async Task RefreshResultsAsync(
+        IQueryParameter<BankTransactionDto> parameter, int pageNumber, int pageSize)
     {
-        // Update the hidden reference to refer the same dobject to avoid null reference exception.
-        base.Controller = Controller;
-
-        CheckNullParameters();
-
-        IsLoading = true;
-
-        try
+        if (WorkingEntries?.HasChanges ?? false)
         {
-            var transactionCodeDTOsTask = Controller.ReferenceQueries.GetBankTransactionCodeDTOsAsync();
+            var discardConfirmed = await ConfirmDiscardChangesAsync();
 
-            ParentAccount = (
-                await Controller.ReferenceQueries
-                    .GetSingleAsync<Account>(
-                        predicate: a => a.AccountId == ModelId,
-                        path: a => a.AccountNavigation)).Value;
-
-            var initResult = await Controller.ForParent(ParentAccount.AccountId);
-
-            if (initResult is not OkResult)
-                throw new InvalidOperationException();
-
-            var transactionsQueryTask = Controller.SelectAsync(
-                predicate: SearchService.CurrentExpression,
-                pageNumber: PaginationHelper.PageIndex,
-                pageSize: PaginationHelper.PageSize);
-
-            await InitializationTasksAsync(transactionsQueryTask, transactionCodeDTOsTask);
-
-            var transactionResult = await transactionsQueryTask;
-            var transactionCodeDtoResult = await transactionCodeDTOsTask;
-
-            WorkingEntries = transactionResult.Value.Item1.ToList();
-            TransactionCodes = transactionCodeDtoResult.Value;
-
-            PaginationHelper.TotalItemCount = transactionResult.Value.Item2.ItemCount;
-            PaginationHelper.ItemCount = WorkingEntries.Count;
+            if (!discardConfirmed)
+                return;
         }
-        finally
-        {
-            IsLoading = GetLoadingState();
-        }
+
+        ParentAccount = await HttpService.GetAsync<AccountDto>(id: ModelId);
+
+        var transactionCodeDTOsTask = ReferenceData
+                .GetBankCodesAsync(pageNumber: 1, pageSize: int.MaxValue);
+
+        var transactionsQueryTask = HttpService.SelectAsync(
+            queryParameter: LastSearchParameter,
+            pageNumber: PaginationHelper.PageIndex,
+            pageSize: PaginationHelper.PageSize);
+
+        await InitializationTasksAsync(transactionsQueryTask, transactionCodeDTOsTask);
+
+        var transactionResult = await transactionsQueryTask;
+        var transactionCodeDtoResult = await transactionCodeDTOsTask;
+
+        WorkingEntries = new TrackingEnumerable<BankTransactionDto>(transactionResult.Item1.ToList());
+        TransactionCodes = transactionCodeDtoResult.Item1;
+
+        Context = new(WorkingEntries);
+
+        PaginationHelper.TotalItemCount = transactionResult.Item2.ItemCount;
+        PaginationHelper.ItemCount = WorkingEntries.Count;
     }
 
     /// <inheritdoc/>
-    protected override void Cancel_OnClick() => NavigationHelper
+    protected override void CancelEditor_OnClick() => NavigationHelper
         .NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
 
-    private string GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
-        lookupModels.FirstOrDefault(x => x.Key == id)?.Display ?? string.Empty;
+    private string GetDisplayValue(IEnumerable<BankTransactionCodeDtoBase> lookupModels, int id) =>
+        lookupModels.FirstOrDefault(x => x.TransactionCodeId == id).TransactionCode ?? string.Empty;
 
 }

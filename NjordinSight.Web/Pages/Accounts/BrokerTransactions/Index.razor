@@ -1,6 +1,6 @@
 ﻿@page "/accounts/{ModelId:int}/detail/broker-transactions"
 
-@inherits ModelListPage<BrokerTransaction>
+@inherits ModelPagedIndexEditor<BrokerTransaction>
 
 <ThemedComponent>
     @if(ParentAccount is null)
@@ -145,7 +145,7 @@
     };
 
     /// <inheritdoc />
-    protected override bool GetLoadingState() => 
+    protected override bool PageDataIsLoading() =>
         WorkingEntries is null
         || ParentAccount is null
         || DepositSecurities is null
@@ -210,6 +210,6 @@
     }
 
     /// <inheritdoc/>
-    protected override void Cancel_OnClick() => NavigationHelper
+    protected override void CancelEditor_OnClick() => NavigationHelper
         .NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
 }

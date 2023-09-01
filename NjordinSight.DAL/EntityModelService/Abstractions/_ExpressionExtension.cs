@@ -10,7 +10,7 @@ namespace NjordinSight.EntityModelService.Abstractions
     /// <summary>
     /// Container class for expression extensions.
     /// </summary>
-    internal static class ExpressionExtension
+    public static class ExpressionExtension
     {
         /// <summary>
         /// Joins the given expression with an AND operator.
