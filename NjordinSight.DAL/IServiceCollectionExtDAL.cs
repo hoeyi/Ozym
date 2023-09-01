@@ -122,10 +122,12 @@ namespace NjordinSight
                 .AddScoped<IModelService<SecurityType>, SecurityTypeService>()
                 .AddScoped<IModelService<SecurityPrice>, SecurityPriceService>()
 
+                .AddScoped<IModelCollectionService<BankTransaction>, BankTransactionService>()
+
                 // Add entity-collection services.
                 .AddScoped<IModelCollectionService<AccountCustodian>, AccountCustodianCollectionService>()
                 .AddScoped<IModelCollectionService<AccountWallet, int>, AccountWalletService>()
-                .AddScoped<IModelCollectionService<BankTransaction, int>, BankTransactionService>()
+                //.AddScoped<IModelCollectionService<BankTransaction, int>, BankTransactionService>()
                 .AddScoped<IModelCollectionService<BrokerTransaction, int>, BrokerTransactionService>()
                 .AddScoped<IModelCollectionService<
                     InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)>, 
