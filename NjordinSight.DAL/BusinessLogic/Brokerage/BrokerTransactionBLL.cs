@@ -265,25 +265,37 @@ namespace NjordinSight.BusinessLogic.Brokerage
             TransactionCodes = transactionCodes;
             ParentAccount = parentAccount;
         }
+        private static IEnumerable<(BrokerTransactionDto, BrokerTransactionCodeDtoBase)> MergeDatasets(
+            IEnumerable<BrokerTransactionDto> brokerTransactions, 
+            IEnumerable<BrokerTransactionCodeDtoBase> transactionCodes)
+        {
+            var query =
+                from bt in brokerTransactions
+                join tc in transactionCodes on bt.TransactionCodeId equals tc.TransactionCodeId
+                select (bt, tc);
+
+            return query;
+        }
+            
 
         /// <summary>
         /// Gets an enumeration of <see cref="BrokerTransactionDto"/> records that create tax lots.
         /// </summary>
         private IEnumerable<BrokerTransactionDto> OpeningTransactions =>
-            from bt in TrackingEntries
-            join tc in TransactionCodes on bt.TransactionCodeId equals tc.TransactionCodeId
-            where tc.QuantityEffect > 0D && bt.SecurityId != default
-            select bt;
+            from bt in MergeDatasets(TrackingEntries, TransactionCodes)
+            where bt.Item2.QuantityEffect > 0D && bt.Item1.SecurityId != default
+            select bt.Item1;
 
         /// <summary>
         /// Gets an enumeration of <see cref="BrokerTransactionDto"/> records that close against
         /// tax lots.
         /// </summary>
         private IEnumerable<BrokerTransactionDto> ClosingTransactions =>
-            from bt in TrackingEntries
-            join tc in TransactionCodes on bt.TransactionCodeId equals tc.TransactionCodeId
-            where tc.QuantityEffect < 0D && bt.SecurityId != default && bt.TaxLotId is not null
-            select bt;
+            from bt in MergeDatasets(TrackingEntries, TransactionCodes)
+            where bt.Item2.QuantityEffect < 0D && 
+                bt.Item1.SecurityId != default && 
+                bt.Item1.TaxLotId is not null
+            select bt.Item1;
 
         /// <summary>
         /// Gets the collection of <see cref="BrokerTaxLot"/> constructed from 
