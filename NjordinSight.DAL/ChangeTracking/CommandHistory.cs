@@ -42,7 +42,7 @@ namespace NjordinSight.ChangeTracking
                 throw new ArgumentNullException(paramName: nameof(command));
 
             // If the user has moved backward and is now adding commands, 
-            // we clear the difference between the current posiition and the 
+            // we clear the difference between the current position and the 
             // end of the collection.
             if (_index < _commands.Count - 1 && _commands.Count > 0)
                 _commands.RemoveRange(_index, _commands.Count - _index);
@@ -56,8 +56,9 @@ namespace NjordinSight.ChangeTracking
                 _commands.Add(commandEntry);
                 command.Execute();
             }
-            // If an exception is thrown, decrement the alterd index and re-throw. 
-            // If the caller recovers from the exception, 
+            // If an exception is thrown, decrement the altered index and re-throw. 
+            // If the caller recovers from the exception, the history will not reflect 
+            // the failed action.
             catch(Exception)
             {
                 // Check the command history and remove the last entry if it matches 
