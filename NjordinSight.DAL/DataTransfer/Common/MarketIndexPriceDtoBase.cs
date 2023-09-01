@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public class MarketIndexPriceDto : DtoBase
+    public class MarketIndexPriceDtoBase : DtoBase
     {
         private int _indexPriceId;
         private int _marketIndexId;
@@ -98,4 +98,8 @@ namespace NjordinSight.DataTransfer.Common
         }
     }
 
+    public class MarketIndexPriceDto : MarketIndexPriceDtoBase
+    {
+        public MarketIndexDto MarketIndex { get; set; }
+    }
 }
