@@ -54,6 +54,9 @@ namespace NjordinSight.DataTransfer.Profiles
                 .ForMember(a => a.DisplayName, b => b.MapFrom(x => x.AccountCompositeNavigation.ObjectDisplayName))
                 .ForMember(a => a.ObjectType, b => b.MapFrom(x => x.AccountCompositeNavigation.ObjectType))
                 .ForMember(a => a.AttributeCollection, b => b.Ignore());
+
+            CreateMap<AccountWallet, AccountWalletDto>();
+
             #endregion
 
             #region DTO-Entity
@@ -101,6 +104,10 @@ namespace NjordinSight.DataTransfer.Profiles
                 .ForPath(
                     a => a.AccountCompositeNavigation.AccountAttributeMemberEntries,
                     b => b.MapFrom(x => x.Attributes));
+
+            CreateMap<AccountWalletDto, AccountWallet>()
+                .ForMember(a => a.Account, b => b.Ignore())
+                .ForMember(a => a.DenominationSecurity, b => b.Ignore());
             #endregion
         }
     }
