@@ -13,8 +13,7 @@ namespace NjordinSight.EntityModelService
     /// <see cref="InvestmentPerformanceAttributeMemberEntry"/> data store.
     /// </summary>
     internal class InvestmentPerformanceAttributeService : 
-        ModelCollectionService<InvestmentPerformanceAttributeMemberEntry,
-            (AccountObject, ModelAttributeMember)>
+        ModelCollectionService<InvestmentPerformanceAttributeMemberEntry>
     {
         /// <summary>
         /// Creates a new <see cref="InvestmentPerformanceAttributeService"/> instance.
@@ -29,47 +28,18 @@ namespace NjordinSight.EntityModelService
                 ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
-        }
-
-        /// <inheritdoc/>
-        public override void SetParent((AccountObject, ModelAttributeMember) parent)
-        {
-
-            if (ParentCompositeKey is null)
-            {
-                ParentCompositeKey = new ParentKey
-                {
-                    AccountObjectId = parent.Item1.AccountObjectId,
-                    AttributeMemberId = parent.Item2.AttributeMemberId
-                };
-            }
-            else
-            {
-                throw new InvalidOperationException(
-                    message: ExceptionString.ModelService_ParentKeyAlreadySet);
-            }
-
             Reader = new ModelReaderService<InvestmentPerformanceAttributeMemberEntry>(
                 ContextFactory, ModelMetadata, Logger)
             {
-                ParentExpression = x => x.AccountObjectId == ParentCompositeKey.AccountObjectId
-                    && x.AttributeMemberId == ParentCompositeKey.AttributeMemberId
+                IncludeDelegate = (queryable) => queryable
+                    .Include(x => x.AttributeMember)
+                    .ThenInclude(y => y.Attribute)
             };
-
-            GetDefaultModelDelegate = () => new()
+            GetDefaultModelDelegate = () => new InvestmentPerformanceAttributeMemberEntry()
             {
-                AccountObjectId = ParentCompositeKey.AccountObjectId,
-                AttributeMemberId = ParentCompositeKey.AttributeMemberId
+                FromDate = DateTime.UtcNow.Date.AddDays(-1),
+                ToDate = DateTime.UtcNow.Date
             };
-        }
-
-        private ParentKey ParentCompositeKey { get; set; }
-
-        private record ParentKey
-        {
-            public int AccountObjectId { get; init; }
-
-            public int AttributeMemberId { get; init; }
         }
     }
 }

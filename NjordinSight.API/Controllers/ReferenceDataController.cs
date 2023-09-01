@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using NjordinSight.DataTransfer.Common;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModelService.Query;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;

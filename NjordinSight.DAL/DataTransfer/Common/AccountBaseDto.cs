@@ -2,11 +2,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text.Json.Serialization;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public abstract class AccountBaseDto : DtoBase
+    public class AccountBaseSimpleDto : DtoBase
     {
         private int _id;
         private string _shortCode;
@@ -14,12 +15,6 @@ namespace NjordinSight.DataTransfer.Common
         private DateTime? _closeDate;
         private string _displayName;
         private string _description;
-
-        public AccountBaseDto()
-        {
-            Attributes = new List<AccountBaseAttributeDto>();
-            AttributeCollection = new(this);
-        }
 
         public int Id
         {
@@ -74,7 +69,7 @@ namespace NjordinSight.DataTransfer.Common
         }
 
         public virtual string DisplayName
-    
+
         {
             get { return _displayName; }
             set
@@ -100,7 +95,15 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
-        public abstract string ObjectType { get; }
+        public virtual string ObjectType { get; } = string.Empty;
+    }
+    public class AccountBaseDto : AccountBaseSimpleDto
+    {
+        public AccountBaseDto()
+        {
+            Attributes = new List<AccountBaseAttributeDto>();
+            AttributeCollection = new(this);
+        }
 
         public ICollection<AccountBaseAttributeDto> Attributes { get; set; } 
 

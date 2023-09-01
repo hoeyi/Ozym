@@ -21,6 +21,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
         private static IConfigurationProvider TestConfiguration { get; } =
             new MapperConfiguration(x =>
             {
+                x.AddProfile<ModelAttributeProfile>();
                 x.AddProfile<InvestmentPerformanceProfile>();
             });
 

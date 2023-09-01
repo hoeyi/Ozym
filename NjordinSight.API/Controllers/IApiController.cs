@@ -1,10 +1,7 @@
-﻿using MathNet.Numerics.Statistics.Mcmc;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NjordinSight.DataTransfer.Common.Query;
-using NjordinSight.EntityModelService;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace NjordinSight.Api.Controllers

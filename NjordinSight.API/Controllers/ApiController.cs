@@ -12,7 +12,6 @@ using Ichosys.DataModel.Expressions;
 using NjordinSight.DataTransfer.Common.Query;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Filters;
 using System.Diagnostics.CodeAnalysis;
 
 namespace NjordinSight.Api.Controllers

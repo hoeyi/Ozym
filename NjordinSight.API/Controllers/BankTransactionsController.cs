@@ -5,9 +5,7 @@ using Microsoft.Extensions.Logging;
 using NjordinSight.ChangeTracking;
 using NjordinSight.DataTransfer;
 using NjordinSight.DataTransfer.Common;
-using NjordinSight.DataTransfer.Common.Query;
 using NjordinSight.EntityModel;
-using NjordinSight.EntityModelService;
 using NjordinSight.EntityModelService.Abstractions;
 using NjordinSight.EntityModelService.Query;
 using System;
@@ -22,16 +20,21 @@ namespace NjordinSight.Api.Controllers
     [ApiController]
     [Route("api/v{version:apiVersion}/bank-transactions")]
     [ApiVersion("1.0")]
-    public class BankTransactionController : ApiCollectionController<
+    public class BankTransactionsController : ApiCollectionController<
         BankTransactionDto, BankTransaction, AccountDto, Account>
     {
-        /// <inheritdoc/>
-        public BankTransactionController(
-            IExpressionBuilder expressionBuilder, 
+        /// <summary>
+        /// Creates a new instance of <see cref="BankTransactionsController"/>.
+        /// </summary>
+        /// <param name="mapper">The mapping service for this controller.</param>
+        /// <param name="modelService">The model service for this controller.</param>
+        /// <param name="queryService">The query service for this controller.</param>
+        /// <param name="logger">The logging service for this controller.</param>
+        public BankTransactionsController(
             IMapper mapper,
             IModelCollectionService<BankTransaction> modelService, 
             IQueryService queryService,
-            ILogger logger) : base(expressionBuilder, mapper, modelService, queryService, logger)
+            ILogger logger) : base(mapper, modelService, queryService, logger)
         {
         }
 

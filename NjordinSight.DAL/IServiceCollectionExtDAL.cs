@@ -129,11 +129,13 @@ namespace NjordinSight
                 .AddScoped<IModelCollectionService<BrokerTransaction>, BrokerTransactionService>()
 
                 .AddScoped<IModelCollectionService<
-                    InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)>, 
+                    InvestmentPerformanceAttributeMemberEntry>, 
                     InvestmentPerformanceAttributeService>()
 
-                .AddScoped<IModelCollectionService<InvestmentPerformanceEntry>, InvestmentPerformanceService>()
-                .AddScoped<IModelCollectionService<MarketHolidayObservance>, MarketHolidayObservanceService>()
+                .AddScoped<IModelCollectionService<
+                    InvestmentPerformanceEntry>, InvestmentPerformanceService>()
+                .AddScoped<IModelCollectionService<
+                    MarketHolidayObservance>, MarketHolidayObservanceService>()
                 .AddScoped<IModelCollectionService<MarketIndexPrice>, MarketIndexPriceService>()
                 .AddScoped<IModelCollectionService<SecurityExchange>, SecurityExchangeService>()
                 .AddScoped<IModelCollectionService<SecurityPrice>, SecurityPriceService>();
