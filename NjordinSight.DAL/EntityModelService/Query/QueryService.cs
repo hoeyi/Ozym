@@ -128,7 +128,7 @@ namespace NjordinSight.EntityModelService.Query
 
             if (include is null)
                 return await context.Set<T>()
-                                .SingleAsync();
+                                .SingleAsync(predicate);
             else
                 return await context.Set<T>()
                                 .Include(include)
