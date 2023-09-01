@@ -13,6 +13,8 @@ namespace NjordinSight.Test.EntityModelService
         : ModelCollectionServiceTest<InvestmentPerformanceEntry>
     {
         private const int _accountObjectId = -8;
+
+        /// <inheritdoc/>
         protected override Expression<Func<InvestmentPerformanceEntry, bool>> ParentExpression =>
                x => x.AccountObjectId == _accountObjectId;
 
@@ -25,6 +27,7 @@ namespace NjordinSight.Test.EntityModelService
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc/>
         [TestMethod]
         public override async Task SelectWhereAsync_Returns_Model_ExpectedCollection()
         {
@@ -40,7 +43,8 @@ namespace NjordinSight.Test.EntityModelService
             Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
         }
 
-        protected override IModelCollectionService<InvestmentPerformanceEntry, int> GetModelService() =>
-            BuildModelService<InvestmentPerformanceService, int>().WithParent(_accountObjectId);
+        /// <inheritdoc/>
+        protected override IModelCollectionService<InvestmentPerformanceEntry> GetModelService() =>
+            BuildModelService<InvestmentPerformanceService>();
     }
 }
