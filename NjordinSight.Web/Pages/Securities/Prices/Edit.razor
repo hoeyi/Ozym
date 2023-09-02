@@ -1,13 +1,13 @@
 ﻿@page "/securities/prices/edit"
 
-@inherits ModelPagedIndexEditor<SecurityPrice>
+@inherits ModelPagedIndexEditor<SecurityPriceDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
 <ThemedComponent>
     <ModelPageHeader Header="@(PageTitle.ReadMany())" />
 
-    @if(SearchFields is null)
+    @if (SearchService.SearchFields is null)
     {
         <LoadingSvg />
     }
@@ -15,11 +15,11 @@
     {
         <ContentTile>
             <Body>
-                <SearchInputTable TModel="SecurityPrice"
-                    ComparisonOperators=@ComparisonOperators
-                    ExpressionBuilder=@ExpressionBuilder
-                    SearchFields=@SearchFields
-                    OnSearchClick=@(async (args) => await SearchClicked(args))>
+                <SearchInputTable TModel="SecurityPriceDto"
+                                  ComparisonOperators=@SearchService.ComparisonOperators
+                                  ExpressionBuilder=@SearchService.ExpressionBuilder
+                                  SearchFields=@SearchService.SearchFields
+                                  OnSearchClick=@(async (args) => await SearchClicked(args))>
                 </SearchInputTable>
             </Body>
         </ContentTile>
@@ -69,7 +69,7 @@
                                     <CellEditTemplate Context="model">
                                         <ToolTip Text="@Strings.Caption_Button_Delete">
                                             <button class="form-control button icon" type="button"
-                                                @onclick="async (args) => await DeleteRecord(args, model)">
+                                                @onclick="(args) => DeleteRecord(args, model)">
                                                 <IonIcon Name="close-circle" />
                                             </button>
                                         </ToolTip>
@@ -82,7 +82,7 @@
                                         <InputSelect class="form-control" @bind-Value="@model.SecurityId">
                                             @foreach (var lookup in SecurityLookup)
                                             {
-                                                <option value=@lookup.Key>@lookup.Display</option>
+                                                <option value=@lookup.SecurityId>@lookup.SecurityDescription</option>
                                             }
                                         </InputSelect>
                                     </CellEditTemplate>
@@ -138,60 +138,37 @@
 </ThemedComponent>
 
 @code {
-    private IEnumerable<LookupModel<int, string>> SecurityLookup { get; set; }
-
-    [Inject]    
-    protected new ICollectionController<SecurityPrice> Controller { get; init; }
+    private IEnumerable<SecurityDtoBase> SecurityLookup { get; set; }
 
     /// <inheritdoc />
     protected override bool PageDataIsLoading() => SecurityLookup is null || WorkingEntries is null;
 
-    /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    /// <inheritdoc/>
+    protected override async Task RefreshResultsAsync(
+        IQueryParameter<SecurityPriceDto> parameter, int pageNumber, int pageSize)
     {
-        // Update the hidden reference to refer the same object to avoid null reference exception.
-        base.Controller = Controller;
-
-        CheckNullParameters();
-
-        IsLoading = true;
-
-        try
-        {
-            if (SearchService is null)
-                throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
-
-            if (Controller is null)
-                throw new ArgumentNullException(paramName: nameof(Controller));
-
-            var pricesTask = Controller.SelectAsync(
-                predicate: SearchService.CurrentExpression,
+        var pricesTask = HttpService.SelectAsync(
+                queryParameter: parameter,
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
 
-            var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
-                key: x => x.SecurityId,
-                display: x => x.SecurityDescription,
-                defaultKey: default,
-                defaultDisplay: Strings.Caption_InputSelect_Prompt);
+        var securityDtosTask = HttpService.SelectAsync<SecurityDtoBase>(
+            queryParameter: null,
+            pageNumber: 1,
+            pageSize: int.MaxValue);
 
-            await InitializationTasksAsync(pricesTask, securityDtosTask);
+        await InitializationTasksAsync(pricesTask, securityDtosTask);
 
-            var pricesResult = await pricesTask;
-            var securityDtosResult = await securityDtosTask;
+        var pricesResult = await pricesTask;
+        var securityDtosResult = await securityDtosTask;
 
-            SecurityLookup = securityDtosResult.Value;
-            WorkingEntries = pricesResult.Value.Item1.ToList();
+        SecurityLookup = securityDtosResult.Item1;
+        WorkingEntries = new TrackingEnumerable<SecurityPriceDto>(pricesResult.Item1.ToList());
 
-            Context = new(WorkingEntries);
+        Context = new(WorkingEntries);
 
-            PaginationHelper.TotalItemCount = pricesResult.Value.Item2.ItemCount;
-            PaginationHelper.ItemCount = WorkingEntries.Count;
-        }
-        finally
-        {
-            IsLoading = GetLoadingState();
-        }
+        PaginationHelper.TotalItemCount = pricesResult.Item2.ItemCount;
+        PaginationHelper.ItemCount = WorkingEntries.Count;
     }
 
     /// <inheritdoc/>

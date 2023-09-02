@@ -7,7 +7,7 @@
     <ThemedComponent>
         <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
-    @if(SearchFields is null)
+    @if(SearchService.SearchFields is null)
     {
         <LoadingSvg />
     }
@@ -15,10 +15,10 @@
     {
         <ContentTile>
             <Body>
-                <SearchInputTable TModel="SecurityPrice"
-                    ComparisonOperators=@ComparisonOperators
-                    ExpressionBuilder=@ExpressionBuilder
-                    SearchFields=@SearchFields
+                <SearchInputTable TModel="SecurityPriceDto"
+                    ComparisonOperators=@SearchService.ComparisonOperators
+                    ExpressionBuilder=@SearchService.ExpressionBuilder
+                    SearchFields=@SearchService.SearchFields
                     OnSearchClick=@(async (args) => await SearchClicked(args))>
                 </SearchInputTable>
             </Body>
@@ -120,7 +120,7 @@
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        IQueryParameter<BankTransactionDto> parameter, int pageNumber, int pageSize)
+        IQueryParameter<SecurityPriceDto> parameter, int pageNumber, int pageSize)
     {
         if (WorkingEntries?.HasChanges ?? false)
         {
@@ -130,7 +130,10 @@
                 return;
         }
 
-        var securityDtosTask = ReferenceData.GetAsync<SecurityDtoBase>("/securities")
+        var securityDtosTask = HttpService.SelectAsync<SecurityDtoBase>(
+            queryParameter: null,
+            pageNumber: 1,
+            pageSize: int.MaxValue);
 
         var priceQueryTask = HttpService.SelectAsync(
             queryParameter: LastSearchParameter,
@@ -140,56 +143,17 @@
         await InitializationTasksAsync(priceQueryTask, securityDtosTask);
 
         var priceResult = await priceQueryTask;
-        var transactionCodeDtoResult = await securityDtosTask;
+        var securityDtoResult = await securityDtosTask;
 
-        WorkingEntries = new TrackingEnumerable<SecurityPriceDto>(
-            transactionResult.Item1.ToList());
-        TransactionCodes = transactionCodeDtoResult.Item1;
+        WorkingEntries = new TrackingEnumerable<SecurityPriceDto>(priceResult.Item1.ToList());
+        SecurityDtos = securityDtoResult.Item1
+            .ToDictionary(k => k.SecurityId, v => v.SecurityDescription);
+
 
         Context = new(WorkingEntries);
 
-        PaginationHelper.TotalItemCount = transactionResult.Item2.ItemCount;
+        PaginationHelper.TotalItemCount = priceResult.Item2.ItemCount;
         PaginationHelper.ItemCount = WorkingEntries.Count;
-    }
-
-    /// <inheritdoc/>
-    protected override async Task OnInitializedAsync()
-    {
-        // Update the hidden reference to refer the same object to avoid null reference exception.
-        base.Controller = Controller;
-
-        CheckNullParameters();
-
-        IsLoading = true;
-
-        try
-        {
-            var pricesTask = Controller.SelectAsync(
-                predicate: SearchService.CurrentExpression,
-                pageNumber: PaginationHelper.PageIndex,
-                pageSize: PaginationHelper.PageSize);
-
-            var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
-                key: x => x.SecurityId,
-                display: x => x.SecurityDescription);
-
-            await InitializationTasksAsync(pricesTask, securityDtosTask);
-
-            var dtosTaskResult = await securityDtosTask;
-            var priceTaskResult = await pricesTask;
-
-            SecurityDtos = dtosTaskResult.Value.ToDictionary(k => k.Key, v => v.Display);
-            WorkingEntries = priceTaskResult.Value.Item1.ToList();
-
-            PaginationHelper.TotalItemCount = priceTaskResult.Value.Item2.ItemCount;
-            PaginationHelper.ItemCount = WorkingEntries.Count;
-
-            Context = new(WorkingEntries);
-        }
-        finally
-        {
-            IsLoading = GetLoadingState();
-        }
     }
 
     private string GetSecurityDisplay(int securityId) =>

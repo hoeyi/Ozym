@@ -179,11 +179,11 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> DepositSecurities { get; set; }
+    private IEnumerable<SecurityDtoBase> DepositSecurities { get; set; }
 
-    private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
+    private IEnumerable<BrokerTransactionCodeDtoBase> TransactionCodes { get; set; }
 
-    private IEnumerable<LookupModel<int, string>> TransactableSecurities { get; set; }
+    private IEnumerable<SecurityDtoBase> TransactableSecurities { get; set; }
 
     private Account ParentAccount { get; set; }
 
@@ -191,9 +191,14 @@
 
     private AllocationInstructionTable CurrentAllocationInstruction { get; set; }
 
+    /// <summary>
+    /// Gets of sets the <see cref="IBrokerTransactionBLL" /> helper class for this page.
+    /// </summary>
     [Inject]
-    /// <inheritdoc/>
-    protected new IBrokerTransactionController Controller { get; init; }
+    protected IBrokerTransactionBLL TransactionBLL { get; init; }
+
+    [Inject]
+    protected IReferenceDataService ReferenceData { get; init; }
 
     /// <inheritdoc/>
     protected override bool PageDataIsLoading() =>
@@ -203,10 +208,35 @@
         || TransactableSecurities is null;
 
     /// <inheritdoc/>
+        protected virtual async Task RefreshResultsAsync(
+            IQueryParameter<BrokerTransactionDto> parameter, int pageNumber, int pageSize)
+        {
+            if (WorkingEntries?.HasChanges ?? false)
+            {
+                var discardConfirmed = await ConfirmDiscardChangesAsync();
+
+                if (!discardConfirmed)
+                    return;
+            }
+
+            var responseObject = await HttpService.SelectAsync(
+                queryParameter: parameter,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
+
+            WorkingEntries = new TrackingEnumerable<TModelDto>(responseObject.Item1.ToList());
+
+            Context = new(WorkingEntries);
+
+            PaginationHelper.TotalItemCount = responseObject.Item2.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
+        }
+
+    /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
         // Update the hidden reference to refer the same object to avoid null reference exception.
-        base.Controller = Controller;
+        base.Controller = TransactionBLL;
 
         CheckNullParameters();
 
@@ -214,17 +244,26 @@
 
         try
         {
-            var securityDTOsTask = Controller.ReferenceQueries
-                .GetTransactableSecurityDTOsAsync();
-            var depositySecurityDTOsTask = Controller.ReferenceQueries
-                .GetCashOrExternalSecurityDTOsAsync();
-            var transactionCodeDTOsTask = Controller.ReferenceQueries
-                .GetBrokerTransactionCodeDTOsAsync();
-            var parentAccountTask = Controller.ReferenceQueries
-                .GetSingleAsync<Account>(
-                    predicate: x => x.AccountId == ModelId,
-                    path: x => x.AccountNavigation);
-            var loadRecordsTask = Controller.LoadRecordsAsync(parent: ModelId);
+            var securityDTOsTask = ReferenceData.GetTransactableSecurities(
+                pageNumber: 1, pageSize: int.MaxValue);
+
+            var depositySecurityDTOsTask = ReferenceData.GetDepositSecuritiesAsync(
+                pageNumber: 1, pageSize: int.MaxValue);
+
+            var transactionCodeDTOsTask = ReferenceData.GetBrokerCodesAsync(
+                pageNumber: 1, pageSize: int.MaxValue);
+
+            var parentAccountTask = HttpService.GetAsync<AccountDto>(id: ModelId);
+
+            var loadRecordsTask = HttpService.SelectAsync(
+                queryParameter: new ParameterDto<BrokerTransactionDto>()
+                    {
+                        MemberName = nameof(BrokerTransactionDto.AccountId),
+                        Operator = ComparisonOperator.EqualTo,
+                        Value = ModelId.ToString()
+                    },
+                pageNumber: 1,
+                pageSize: int.MaxValue);
 
             await InitializationTasksAsync(
                 securityDTOsTask,
@@ -254,7 +293,7 @@
     protected override async Task AddNewAsync(MouseEventArgs args)
     {
         // TODO: Do something with MouseEventArgs?
-        var result = await Controller.AddNewAsync();
+        var result = await TransactionBLL.AddNewAsync();
         if (result.Value is BrokerTransaction model)
         {
             WorkingEntries.Insert(0, model);
@@ -291,7 +330,7 @@
             }
         };
 
-        var actionResult = await Controller.UpdateTransactionCodeAsync(model, newId);
+        var actionResult = await TransactionBLL.UpdateTransactionCodeAsync(model, newId);
         if (actionResult is ObjectResult result &&
             result.Value is ITransactionUpdateResponse response)
             processResponse(response);
@@ -312,7 +351,7 @@
         // Handle valid submission event
         if(modalEventArgs.Result == DialogResult.OK)
         {
-            var postTask = Controller.PostAllocationInstructionAsync(modalEventArgs.Model);
+            var postTask = TransactionBLL.PostAllocationInstructionAsync(modalEventArgs.Model);
 
             await postTask;
 

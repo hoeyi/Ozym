@@ -199,7 +199,7 @@ namespace NjordinSight.Web.Components.Generic
             }
 
             var responseObject = await HttpService.SelectAsync(
-                queryParameter: LastSearchParameter,
+                queryParameter: parameter,
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
 
@@ -235,6 +235,35 @@ namespace NjordinSight.Web.Components.Generic
             await Task.Delay(300);
 
             return true;
+        }
+
+        /// <summary>
+        /// Handles search submission events that that contain 
+        /// <see cref="SearchSubmittedEventArgs{TModel}"/> data.
+        /// </summary>
+        /// <param name="args">The <see cref="SearchSubmittedEventArgs{TModel}"/> that 
+        /// containst the data for the invoked event.</param>
+        /// <returns>A task representing an asynchronous operation. Successful operation will 
+        /// cause <see cref="Entries"/> to updates to the collection matching the event arguments 
+        /// search expression.</returns>
+        protected async Task SearchClicked(SearchSubmittedEventArgs<TModelDto> args)
+        {
+            IsLoading = true;
+
+            try
+            {
+                LastSearchParameter = args.Parameter;
+
+                await RefreshResultsAsync(
+                    parameter: LastSearchParameter,
+                    pageNumber: PaginationHelper.PageIndex,
+                    pageSize: PaginationHelper.PageSize);
+
+            }
+            finally
+            {
+                IsLoading = PageDataIsLoading();
+            }
         }
     }
 }

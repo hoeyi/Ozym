@@ -41,10 +41,9 @@ namespace NjordinSight.Web.Services
         Task<T> GetAsync(int? id);
 
         /// <summary>
-        /// Get the <typeparamref name="TKey"/> referenced as a parent record matching the given 
-        /// identifier.
+        /// Get the <typeparamref name="TKey"/> instanced identified by the given id value.
         /// </summary>
-        /// <typeparam name="TKey">The type of record that is parent to another.</typeparam>
+        /// <typeparam name="TKey">The type of record.</typeparam>
         /// <param name="id">The unique identifier for the record.</param>
         /// <returns>An instance of <typeparamref name="TKey"/> matching the value of 
         /// <paramref name="id"/>.</returns>
@@ -71,7 +70,7 @@ namespace NjordinSight.Web.Services
         Task<Uri> PutAsync(int? id, T model);
 
         /// <summary>
-        /// Selects records matching the given <paramref name="predicate"/>, limited to the given
+        /// Selects records matching the given <paramref name="queryParameter"/>, limited to the given
         /// page index, and page size.
         /// </summary>
         /// <param name="queryParameter"><see cref="IQueryParameter{T}"/> instance describing the 
@@ -82,6 +81,20 @@ namespace NjordinSight.Web.Services
         /// matching the given predication and page parameters.</returns>
         Task<(IEnumerable<T>, PaginationData)> SelectAsync(
             IQueryParameter<T> queryParameter = null, int pageNumber = 1, int pageSize = 20);
+
+        /// <summary>
+        /// Selects the <typeparamref name="TRecord"/> records matching the given 
+        /// <paramref name="queryParameter"/>, limited to the given
+        /// page index, and page size.
+        /// </summary>
+        /// <param name="queryParameter"><see cref="IQueryParameter{T}"/> instance describing the 
+        /// query filter.</param>
+        /// <param name="pageNumber">Index of the page of results to return.</param>
+        /// <param name="pageSize">Limit to records returned in a single page.</param>
+        /// <returns>A task containing the <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> 
+        /// matching the given predication and page parameters.</returns>
+        Task<(IEnumerable<TRecord>, PaginationData)> SelectAsync<TRecord>(
+            IQueryParameter<TRecord> queryParameter, int pageNumber = 1, int pageSize = 20);
 
         [Obsolete("This interface member may be removed because it is not clear whether the " +
             "Blazor component navigation should be bundled with the service repsonsible for " +
@@ -160,14 +173,14 @@ namespace NjordinSight.Web.Services
         }
 
         /// <inheritdoc/>
-        public async Task<TKey> GetAsync<TKey>(int id)
+        public async Task<TRecord> GetAsync<TRecord>(int id)
         {
-            string relativePath = _endPointMap[typeof(TKey)];
+            string relativePath = _endPointMap[typeof(TRecord)];
             string absolutePath = CombinePath(_rootApiPath, $"{relativePath}/{id}");
 
             using var client = _httpFactory.CreateClient();
 
-            var response = await client.GetFromJsonAsync<TKey>(absolutePath);
+            var response = await client.GetFromJsonAsync<TRecord>(absolutePath);
 
             return response;
         }
@@ -251,6 +264,35 @@ namespace NjordinSight.Web.Services
             if(httpResponse.Content.Headers.TryGetValues("X-Pagination", out var stringValues))
             {
                 if(stringValues?.Any() ?? false)
+                {
+                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
+                }
+            }
+
+            return (deserializedResults, pageData);
+        }
+
+        public async Task<(IEnumerable<TRecord>, PaginationData)> SelectAsync<TRecord>(
+            IQueryParameter<TRecord> queryParameter, int pageNumber = 1, int pageSize = 20)
+        {
+
+            string endpoint = _endPointMap[typeof(TRecord)];
+            string relativePath = CombinePath(_rootApiPath, endpoint);
+
+            using var client = _httpFactory.CreateClient();
+
+            var httpResponse = await client.PostAsJsonAsync(
+                $"{relativePath}/search?&pageNumber={pageNumber}&pageSize={pageSize}", queryParameter);
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<TRecord>>();
+
+            PaginationData pageData = null!;
+
+            if (httpResponse.Content.Headers.TryGetValues("X-Pagination", out var stringValues))
+            {
+                if (stringValues?.Any() ?? false)
                 {
                     pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
                 }

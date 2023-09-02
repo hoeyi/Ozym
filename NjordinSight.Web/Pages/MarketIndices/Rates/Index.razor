@@ -1,13 +1,13 @@
 ﻿@page "/market-indices/rates"
 
-@inherits ModelPagedIndexEditor<MarketIndexPrice>
+@inherits ModelPagedIndex<MarketIndexPriceDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
 <ThemedComponent>
     <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
-    @if(SearchFields is null)
+    @if (SearchService.SearchFields is null)
     {
         <LoadingSvg />
     }
@@ -15,11 +15,11 @@
     {
         <ContentTile>
             <Body>
-                <SearchInputTable TModel="MarketIndexPrice"
-                    ComparisonOperators=@ComparisonOperators
-                    ExpressionBuilder=@ExpressionBuilder
-                    SearchFields=@SearchFields
-                    OnSearchClick=@(async (args) => await SearchClicked(args))>
+                <SearchInputTable TModel="MarketIndexPriceDtoBase"
+                                  ComparisonOperators=@SearchService.ComparisonOperators
+                                  ExpressionBuilder=@SearchService.ExpressionBuilder
+                                  SearchFields=@SearchService.SearchFields
+                                  OnSearchClick=@(async (args) => await SearchClicked(args))>
                 </SearchInputTable>
             </Body>
         </ContentTile>
@@ -41,26 +41,26 @@
             }
             else
             {
-                <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.MarketIndexId)
+                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                    <DataGridColumn Property=@nameof(MarketIndexPriceDto.MarketIndexId)
                                 Caption=@(NameFor(x => x.MarketIndexId))>
                         <CellTemplate Context="model">
                             @model.MarketIndex?.IndexCode
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.PriceCode)
+                    <DataGridColumn Property=@nameof(MarketIndexPriceDto.PriceCode)
                         Caption=@(NameFor(x => x.PriceCode))>
                         <CellTemplate Context="model">
-                            @GetPriceCodeDisplayValue(model.PriceCodeMember)
+                            @(GetPriceCodeDisplayValue(model.PriceCode))
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.PriceDate)
+                    <DataGridColumn Property=@nameof(MarketIndexPriceDto.PriceDate)
                         Caption=@(NameFor(x => x.PriceDate))>
                             <CellTemplate Context="model">
                             @model.PriceDate.ToShortDateString()
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPrice.Price)
+                    <DataGridColumn Property=@nameof(MarketIndexPriceDto.Price)
                         Caption=@(NameFor(x => x.Price))>
                         <CellTemplate Context="model">
                             @model.Price
@@ -74,7 +74,11 @@
 
 @code {
     [Inject]
-    protected new ICollectionController<MarketIndexPrice> Controller { get; set; }
+    public IReferenceDataService ReferenceData { get; init; }
+
+    private IDictionary<string, string> PriceCodeLookup { get; set; }
+
+    private IEnumerable<MarketIndexDto> MarketIndices { get; set; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -91,20 +95,40 @@
         }
     };
 
-    /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    /// <inheritdoc/>
+    protected override async Task RefreshResultsAsync(
+        IQueryParameter<MarketIndexPriceDto> parameter, int pageNumber, int pageSize)
     {
-        // Update the hidden reference to refer the same object to avoid null reference exception.
-        base.Controller = Controller;
+        var marketIndexDtosTask = HttpService.SelectAsync<MarketIndexDto>(
+            queryParameter: null,
+            pageNumber: 1,
+            pageSize: int.MaxValue);
 
-        await base.OnInitializedAsync();
+        var priceQueryTask = HttpService.SelectAsync(
+            queryParameter: parameter,
+            pageNumber: PaginationHelper.PageIndex,
+            pageSize: PaginationHelper.PageSize);
+
+        await InitializationTasksAsync(priceQueryTask, marketIndexDtosTask);
+
+        var priceResult = await priceQueryTask;
+        var marketIndexResult = await marketIndexDtosTask;
+
+        Entries = priceResult.Item1.ToList();
+        MarketIndices = marketIndexResult.Item1;
+        PriceCodeLookup = ReferenceData
+            .CreateEnumerableDisplayMap<MarketIndexPriceCode, string, string>(
+                predicate: x => true,
+                key: x => x.ConvertToStringCode(),
+                display: x => NameFor<MarketIndexPriceCode>(x),
+                placeHolderDelegate: () => new KeyValuePair<string, string>(
+                    key: string.Empty, 
+                    value: Resources.Strings.Caption_InputSelect_Placeholder));
+
+        PaginationHelper.TotalItemCount = priceResult.Item2.ItemCount;
+        PaginationHelper.ItemCount = Entries.Count();
     }
 
-    private string GetPriceCodeDisplayValue(MarketIndexPriceCode? priceCodeMember)
-    {
-        if(priceCodeMember is null)
-            return null;
-
-        return NameFor<MarketIndexPriceCode>((MarketIndexPriceCode)priceCodeMember);
-    }
+    private string GetPriceCodeDisplayValue(string priceCode) =>
+        PriceCodeLookup.TryGetValue(priceCode, out string value) ? value : string.Empty;
 }

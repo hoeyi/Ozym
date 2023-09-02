@@ -12,6 +12,8 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+using NjordinSight.EntityModelService;
+using System.Linq.Expressions;
 
 namespace NjordinSight.Web.Services
 {
@@ -119,6 +121,42 @@ namespace NjordinSight.Web.Services
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="ModelAttributeMemberDtoBase"/>.</returns>
         public Task<(IEnumerable<ModelAttributeMemberDtoBase>, PaginationData)> GetAttributeValuesAsync(
             int attributeId, int pageNumber = 1, int pageSize = 20);
+
+        /// <summary>
+        /// Converts the given <typeparamref name="TEnum"/> members to a key-value map 
+        /// for display values.
+        /// </summary>
+        /// <typeparam name="TEnum"></typeparam>
+        /// <typeparam name="TKey">The key type for the resulting map.</typeparam>
+        /// <typeparam name="TValue">The value type for the resulting map.</typeparam>
+        /// <param name="predicate">Predicate to filter the member results.</param>
+        /// <param name="key">Expression describing the method to assign the key value for each record.</param>
+        /// <param name="display">Expression describing the method to assign the display value for each record.</param>
+        /// <param name="placeHolderDelegate">Delegate for creating a placehold/defult entry.</param>
+        /// <returns>A collection of key-value assignments, where the value is the display value 
+        /// for the record.</returns>
+        public IDictionary<TKey, TValue> CreateEnumerableDisplayMap<TEnum, TKey, TValue>(
+            Func<TEnum, bool> predicate,
+            Expression<Func<TEnum, TKey>> key,
+            Expression<Func<TEnum, TValue>> display,
+            Func<KeyValuePair<TKey, TValue>> placeHolderDelegate = null)
+            where TEnum : struct, Enum
+        {
+            var keyDeleg = key.Compile();
+            var displayDeleg = display.Compile();
+
+            var results = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()
+                .Where(predicate)
+                .ToDictionary(x => keyDeleg(x), x => displayDeleg(x));
+
+            if (placeHolderDelegate is not null)
+            {
+                var placeHolder = placeHolderDelegate.Invoke();
+                results.Add(placeHolder.Key, placeHolder.Value);
+            }
+
+            return results;
+        }
     }
 
     public class ReferenceDataService : IReferenceDataService
@@ -267,6 +305,8 @@ namespace NjordinSight.Web.Services
             return await GetAsync<SecurityDtoBase>(
                 endPoint: "transactable-securities", pageNumber, pageSize);
         }
+
+        
 
         private static string CombinePath(string rootPath, string relativePath)
         {
