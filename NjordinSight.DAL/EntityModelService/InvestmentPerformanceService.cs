@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing single CRUD requests against the <see cref="InvestmentPerformanceEntry"/> 
     /// data store.
     /// </summary>
-    internal class InvestmentPerformanceService : ModelCollectionService<InvestmentPerformanceEntry, int>
+    internal class InvestmentPerformanceService : ModelCollectionService<InvestmentPerformanceEntry>
     {
         /// <summary>
         /// Creates a new <see cref="InvestmentPerformanceService"/> instance.
@@ -27,17 +27,13 @@ namespace NjordinSight.EntityModelService
                 ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
-        }
-
-        /// <inheritdoc/>
-        public override void SetParent(int parent)
-        {
             Reader = new ModelReaderService<InvestmentPerformanceEntry>(
-                ContextFactory, ModelMetadata, Logger)
+                ContextFactory, ModelMetadata, Logger);
+            GetDefaultModelDelegate = () => new InvestmentPerformanceEntry()
             {
-                ParentExpression = x => x.AccountObjectId == parent
+                FromDate = DateTime.UtcNow.Date.AddDays(-1),
+                ToDate = DateTime.UtcNow.Date
             };
-            GetDefaultModelDelegate = () => new() { AccountObjectId = parent };
         }
     }
 }

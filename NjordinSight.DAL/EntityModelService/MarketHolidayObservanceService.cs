@@ -9,7 +9,7 @@ using System;
 namespace NjordinSight.EntityModelService
 {
     /// <summary>
-    /// The class for servicing single CRUD requests against the <see cref="MarketHolidayObservance"/> 
+    /// The class for servicing CRUD requests against the <see cref="MarketHolidayObservance"/> 
     /// data store.
     /// </summary>
     internal class MarketHolidayObservanceService : ModelCollectionService<MarketHolidayObservance>

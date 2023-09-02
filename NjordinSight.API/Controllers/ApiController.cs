@@ -12,7 +12,6 @@ using Ichosys.DataModel.Expressions;
 using NjordinSight.DataTransfer.Common.Query;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Filters;
 using System.Diagnostics.CodeAnalysis;
 
 namespace NjordinSight.Api.Controllers
@@ -232,7 +231,7 @@ namespace NjordinSight.Api.Controllers
             // If query parameter is invalid use the default filter expression.
             if (!queryParameter.IsValid)
             {
-                return BadRequest(ResponseString.PostSearch_InvalidParameter_BadRequestResponse);
+                return BadRequest(ResponseString.PostSearch_InvalidBodyParameter_BadRequestResponse);
             }
             else
             {

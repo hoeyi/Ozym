@@ -2,7 +2,7 @@
 
 namespace NjordinSight.DataTransfer.Common
 {
-    internal class InvestmentPerformanceAttributeDto : InvestmentPerformanceDto
+    public class InvestmentPerformanceAttributeDto : InvestmentPerformanceDto
     {
         private int _attributeMemberId;
 
@@ -22,5 +22,7 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public ModelAttributeDto Attribute { get; set; } = new();
     }
 }

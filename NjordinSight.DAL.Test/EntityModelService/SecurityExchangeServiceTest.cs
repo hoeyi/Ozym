@@ -1,85 +1,21 @@
 ﻿using NjordinSight.EntityModel;
+using NjordinSight.EntityModelService.Abstractions;
+using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace NjordinSight.Test.EntityModelService
 {
     [TestClass]
     [TestCategory("Integration")]
-    public partial class SecurityExchangeServiceTest
+    public partial class SecurityExchangeServiceTest : ModelCollectionServiceTest<SecurityExchange>
     {
-        [TestMethod]
-        public override async Task DeleteAsync_ValidModel_Returns_True()
-        {
-            var service = GetModelService();
+        /// <inheritdoc/>
+        protected override Expression<Func<SecurityExchange, bool>> ParentExpression => x => true;
 
-            SecurityExchange deleted = (await service.SelectAsync(
-                predicate: x => x.ExchangeCode == DeleteModelSuccessSample.ExchangeCode,
-                pageSize: 1))
-                .Item1.First();
-
-            var result = await service.DeleteAsync(deleted);
-
-            using var context = CreateDbContext();
-
-            Assert.IsTrue(result && !context.SecurityExchanges
-                .Any(x => x.ExchangeId == deleted.ExchangeId));
-        }
-
-        [TestMethod]
-        public override async Task UpdateAsync_ValidModel_Returns_True()
-        {
-            var service = GetModelService();
-
-            SecurityExchange original = (await service.SelectAsync(
-                predicate: x => x.ExchangeCode == UpdateModelSuccessSample.ExchangeCode,
-                pageSize: 1))
-                .Item1.First();
-
-            original.ExchangeCode = $"{original.ExchangeCode}-u";
-            original.ExchangeDescription = $"{original.ExchangeDescription} - updated";
-
-            var result = await service.UpdateAsync(original);
-
-            using var context = CreateDbContext();
-
-            var updated = context.SecurityExchanges
-                .FirstOrDefault(a => a.ExchangeId == original.ExchangeId);
-
-            Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(updated, original));
-        }
-
-    }
-
-    public partial class SecurityExchangeServiceTest
-        : ModelServiceTest<SecurityExchange>
-    {
-        protected override SecurityExchange CreateModelSuccessSample => new()
-        {
-            ExchangeCode = "TestCreatePass",
-            ExchangeDescription = "Test create pass"
-        };
-
-        protected override SecurityExchange DeleteModelSuccessSample => new()
-        {
-            ExchangeCode = "TestDeletePass",
-            ExchangeDescription = "Test delete pass"
-        };
-
-        protected override SecurityExchange DeleteModelFailSample => new()
-        {
-            ExchangeId = -1000,
-            ExchangeCode = "TestDeleteFail",
-            ExchangeDescription = "Test delete fail"
-        };
-
-        protected override SecurityExchange UpdateModelSuccessSample => new()
-        {
-            ExchangeCode = "TestUpdatePass",
-            ExchangeDescription = "Test update pass"
-        };
-
-        protected override IModelService<SecurityExchange> GetModelService() =>
+        /// <inheritdoc/>
+        protected override IModelCollectionService<SecurityExchange> GetModelService() =>
             BuildModelService<SecurityExchangeService>();
     }
 }

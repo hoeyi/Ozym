@@ -44,14 +44,7 @@ namespace NjordinSight.Test.EntityModelService
             Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
         }
 
-        protected override IModelCollectionService<
-            InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)> 
-            GetModelService() => BuildModelService<
-                InvestmentPerformanceAttributeService,
-                (AccountObject, ModelAttributeMember)>()
-                .WithParent((
-                    new() { AccountObjectId = _accountObjectId, },
-                    new() { AttributeMemberId = _attributeMemberId }
-                ));
+        protected override IModelCollectionService<InvestmentPerformanceAttributeMemberEntry>
+            GetModelService() => BuildModelService<InvestmentPerformanceAttributeService>();
     }
 }
