@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a composite key passed as a URI routing parameter.
     /// </summary>
-    public record CompositeKeyParameter
+    public record struct CompositeKeyParameter
     {
         /// <summary>
         /// Gets the first positional key value.

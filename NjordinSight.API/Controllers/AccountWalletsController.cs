@@ -18,7 +18,7 @@ namespace NjordinSight.Api.Controllers
 {
     /// <inheritdoc/>
     [ApiController]
-    [Route("api/v{version:apiVersion}/account-wallets")]
+    [Route("api/v{version:apiVersion}/accounts/{id}/wallets")]
     [ApiVersion("1.0")]
     public class AccountWalletsController : ApiCollectionController<
         AccountWalletDto, AccountWallet, AccountDto, Account>
@@ -26,15 +26,17 @@ namespace NjordinSight.Api.Controllers
         /// <summary>
         /// Creates a new instance of <see cref="AccountWalletsController"/>.
         /// </summary>
+        /// <param name="expressionBuilder">The expression builder for this controller.</param>
         /// <param name="mapper">The mapping service for this controller.</param>
         /// <param name="modelService">The model service for this controller.</param>
         /// <param name="queryService">The query service for this controller.</param>
         /// <param name="logger">The logging service for this controller.</param>
         public AccountWalletsController(
+            IExpressionBuilder expressionBuilder,
             IMapper mapper,
             IModelCollectionService<AccountWallet> modelService,
             IQueryService queryService,
-            ILogger logger) : base(mapper, modelService, queryService, logger)
+            ILogger logger) : base(expressionBuilder, mapper, modelService, queryService, logger)
         {
         }
 

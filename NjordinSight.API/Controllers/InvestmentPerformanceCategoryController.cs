@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using NjordinSight.ChangeTracking;
 using NjordinSight.DataTransfer;
@@ -19,7 +20,8 @@ namespace NjordinSight.Api.Controllers
 {
     /// <inheritdoc/>
     [ApiController]
-    [Route("api/v{version:apiVersion}/investment-category-performance")]
+    [Route("api/v{version:apiVersion}/accounts/{id1}/performance/{id2}")]
+    [Route("api/v{version:apiVersion}/composites/{id1}/performance/{id2}")]
     [ApiVersion("1.0")]
     public class InvestmentPerformanceCategoryController : ApiCollectionController<
         InvestmentPerformanceAttributeDto, 
@@ -30,62 +32,23 @@ namespace NjordinSight.Api.Controllers
         /// <summary>
         /// Creates a new instance of <see cref="InvestmentPerformanceCategoryController"/>.
         /// </summary>
+        /// <param name="expressionBuilder">The expression builder for this controller.</param>
         /// <param name="mapper">The mapping service for this controller.</param>
         /// <param name="modelService">The model service for this controller.</param>
         /// <param name="queryService">The query service for this controller.</param>
         /// <param name="logger">The logging service for this controller.</param>
         public InvestmentPerformanceCategoryController(
+            IExpressionBuilder expressionBuilder,
             IMapper mapper,
             IModelCollectionService<InvestmentPerformanceAttributeMemberEntry> modelService,
             IQueryService queryService,
-            ILogger logger) : base(mapper, modelService, queryService, logger)
+            ILogger logger) : base(expressionBuilder, mapper, modelService, queryService, logger)
         {
         }
 
         /// <inheritdoc/>
-        [HttpPost("search")]
-        public async Task<ActionResult<(
-            IEnumerable<InvestmentPerformanceAttributeDto>, AccountBaseSimpleDto)>> PostSearchAsync(
-            int id1,
-            int id2,
-            int pageNumber,
-            int pageSize)
-        {
-            Expression<Func<InvestmentPerformanceAttributeMemberEntry, bool>> entityPredicate;
-
-            // TODO: Determine if its possible to conver URI parameters to a complex 
-            // property.
-            var parent = new CompositeKeyParameter() { Id1 = id1, Id2 =  id2 };
-
-            if (parent == default)
-                return BadRequest(
-                    string.Format(
-                        ResponseString.PostSearch_InvalidUrlParameter_BadRequestResponse,
-                        parent,
-                        nameof(parent)));
-
-            entityPredicate = ParentPredicate(parent);
-
-            var (items, parentEntity, pagination) = await SelectAsync(
-                                                entityPredicate, parent, pageNumber, pageSize);
-
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
-
-            var dtoItems = Mapper.Map<IEnumerable<InvestmentPerformanceAttributeDto>>(items);
-            var parentItem = Mapper.Map<AccountBaseSimpleDto>(parentEntity);
-
-            var responseObject = new
-            {
-                Entries = dtoItems,
-                Parent = parentItem
-            };
-
-            return Ok(responseObject);
-        }
-
-        /// <inheritdoc/>
-        protected override Expression<Func<InvestmentPerformanceAttributeMemberEntry, bool>> ParentPredicate(
-            CompositeKeyParameter id) => x => 
+        protected override Expression<Func<InvestmentPerformanceAttributeMemberEntry, bool>> 
+            ParentPredicate(CompositeKeyParameter id) => x => 
                 x.AccountObjectId == id.Id1 && x.AttributeMember.AttributeId == id.Id2;
 
         /// <inheritdoc/>
@@ -102,6 +65,24 @@ namespace NjordinSight.Api.Controllers
                 predicate: x => x.AccountObjectId == parentId.Id1);
 
             return (items, parent, pagination);
+        }
+
+        /// <inheritdoc/>
+        protected override bool TryParse(
+            IReadOnlyDictionary<string, object?> routeValues, out CompositeKeyParameter key)
+        {
+            if (routeValues.TryGetValue("id1", out object? value1) &&
+                routeValues.TryGetValue("id2", out object? value2) &&
+                value1 is not null && value2 is not null &&
+                int.TryParse(value1.ToString(), out int id1) &&
+                int.TryParse(value2.ToString(), out int id2))
+            {
+                key = new() { Id1 = id1, Id2 = id2 };
+                return true;
+            }
+
+            key = default;
+            return false;
         }
 
         /// <inheritdoc/>

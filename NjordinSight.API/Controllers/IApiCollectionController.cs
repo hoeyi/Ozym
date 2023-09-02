@@ -14,12 +14,20 @@ namespace NjordinSight.Api.Controllers
     public interface IApiCollectionController<TObject, TParent>
     {
         /// <summary>
+        /// Gets the <typeparamref name="TObject"/> records, limited to the page index and size, 
+        /// and a required integer route parameter 'id'.
+        /// </summary>
+        /// <param name="pageNumber">The index of page to retrieve.</param>
+        /// <param name="pageSize">The record limit for each page.</param>
+        /// <returns>An <see cref="ActionResult{TValue}"/> whose value is an enumerable collection 
+        /// of <typeparamref name="TObject"/> instances.</returns>
+        Task<ActionResult<IEnumerable<TObject>>> GetAsync(int pageNumber = 1, int pageSize = 20);
+
+        /// <summary>
         /// Posts the search expression in the request body and returns the <typeparamref name="TObject"/> 
         /// records matching the expression, limited to the page index and size.
         /// </summary>
-        /// <param name="queryParameter">The <see cref="ParameterDto{T}"/> describing the operation 
-        /// to filter results.</param>
-        /// <param name="parent">Value uniquely identifying the parent record for the modified collection.</param>
+        /// <param name="paramDto"></param>
         /// <param name="pageNumber">The index of page to retrieve.</param>
         /// <param name="pageSize">The record limit for each page.</param>
         /// <returns>An <see cref="ActionResult{TValue}"/> whose value is an enumerable collection 
@@ -28,18 +36,16 @@ namespace NjordinSight.Api.Controllers
         /// Use this method to pass search parameters to the endpoint [controller]/search, where the
         /// response content gives the filtered result set.</remarks>
         Task<ActionResult<(IEnumerable<TObject>, TParent)>> PostSearchAsync(
-            int parent, 
-            int pageNumber = 1, 
-            int pageSize = 20);
+            [FromBody] ParameterDto<TObject> paramDto,
+            int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
         /// Modifies the collection in the data store by applying the given inserts, updates, and 
         /// deletes.
         /// </summary>
         /// <param name="changes">Enumerable collection of models being inserted, modified, or deleted.</param>
-        /// <param name="parent">Value uniquely identifying the parent record for the modified collection.</param>
         /// <returns>An <see cref="ActionResult"/>.</returns>
-        Task<ActionResult> PatchCollectionAsync(IEnumerable<(TObject, TrackingState)> changes, int parent);
+        Task<ActionResult> PatchCollectionAsync(IEnumerable<(TObject, TrackingState)> changes);
     }
 
     /// <summary>
