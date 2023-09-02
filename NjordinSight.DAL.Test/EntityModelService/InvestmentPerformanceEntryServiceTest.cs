@@ -21,7 +21,6 @@ namespace NjordinSight.Test.EntityModelService
         /// <inheritdoc/>
         /// <remarks>Always passes because <see cref="ReadAsync_Returns_Single_Model"/> the 
         /// <see cref="InvestmentPerformanceEntry"/> entity does not have a single-integer key.</remarks>
-        [TestMethod]
         public override Task ReadAsync_Returns_Single_Model()
         {
             return Task.CompletedTask;
