@@ -147,12 +147,12 @@
     protected override async Task RefreshResultsAsync(
         IQueryParameter<SecurityPriceDto> parameter, int pageNumber, int pageSize)
     {
-        var pricesTask = HttpService.SelectAsync(
-                queryParameter: parameter,
+        var pricesTask = HttpService.SearchAsync(
+                parameter: parameter,
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
 
-        var securityDtosTask = HttpService.SelectAsync<SecurityDtoBase>(
+        var securityDtosTask = HttpService.SearchAsync<SecurityDtoBase>(
             queryParameter: null,
             pageNumber: 1,
             pageSize: int.MaxValue);

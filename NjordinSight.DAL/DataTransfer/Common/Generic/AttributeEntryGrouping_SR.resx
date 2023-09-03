@@ -117,52 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CurrentSymbol_Description" xml:space="preserve">
-    <value>The current primary identifier of the security.</value>
+  <data name="EffectiveDate_Description" xml:space="preserve">
+    <value>Effective date for this group of weights.</value>
   </data>
-  <data name="CurrentySymbol_Name" xml:space="preserve">
-    <value>Symbol</value>
+  <data name="EffectiveDate_Name" xml:space="preserve">
+    <value>Effective Date</value>
   </data>
-  <data name="HasPerpetualMarket_Description" xml:space="preserve">
-    <value>Flags whether the security trades on a perpetual marketplace.</value>
+  <data name="SumOfWeights_Description" xml:space="preserve">
+    <value>Sum of the weights in this group.</value>
   </data>
-  <data name="HasPerpetualMarket_Name" xml:space="preserve">
-    <value>Perpetual Market</value>
-  </data>
-  <data name="HasPerpetualPrice_Description" xml:space="preserve">
-    <value>Flags whether the seurity has a perpetual value.</value>
-  </data>
-  <data name="HasPerpetualPrice_Name" xml:space="preserve">
-    <value>Perpetual Price</value>
-  </data>
-  <data name="Issuer_Description" xml:space="preserve">
-    <value>The name of the company or entity underlying the security.</value>
-  </data>
-  <data name="Issuer_Name" xml:space="preserve">
-    <value>Issuer</value>
-  </data>
-  <data name="SecurityDescription_Description" xml:space="preserve">
-    <value>Name / short description of the security.</value>
-  </data>
-  <data name="SecurityDescription_Name" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="SecurityExchangeId_Description" xml:space="preserve">
-    <value>Primary exchange on which the security trades.</value>
-  </data>
-  <data name="SecurityExchangeId_Name" xml:space="preserve">
-    <value>Exchange</value>
-  </data>
-  <data name="SecurityId_Description" xml:space="preserve">
+  <data name="SumOfWeights_InvalidWeight" xml:space="preserve">
     <value />
   </data>
-  <data name="SecurityId_Name" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SecurityTypeId_Description" xml:space="preserve">
-    <value>Type of the security.</value>
-  </data>
-  <data name="SecurityTypeId_Name" xml:space="preserve">
-    <value>Type</value>
+  <data name="SumOfWeights_Name" xml:space="preserve">
+    <value>Sum of weights</value>
   </data>
 </root>

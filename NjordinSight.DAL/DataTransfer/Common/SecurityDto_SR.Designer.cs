@@ -61,7 +61,25 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to The current primary identifier of the security..
+        /// </summary>
+        internal static string CurrentSymbol_Description {
+            get {
+                return ResourceManager.GetString("CurrentSymbol_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Symbol.
+        /// </summary>
+        internal static string CurrentySymbol_Name {
+            get {
+                return ResourceManager.GetString("CurrentySymbol_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flags whether the security trades on a perpetual marketplace..
         /// </summary>
         internal static string HasPerpetualMarket_Description {
             get {
@@ -70,7 +88,7 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Perpetual Market.
         /// </summary>
         internal static string HasPerpetualMarket_Name {
             get {
@@ -79,7 +97,7 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Flags whether the seurity has a perpetual value..
         /// </summary>
         internal static string HasPerpetualPrice_Description {
             get {
@@ -88,7 +106,7 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Perpetual Price.
         /// </summary>
         internal static string HasPerpetualPrice_Name {
             get {
@@ -97,7 +115,7 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to The name of the company or entity underlying the security..
         /// </summary>
         internal static string Issuer_Description {
             get {
@@ -106,7 +124,7 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Issuer.
         /// </summary>
         internal static string Issuer_Name {
             get {
@@ -115,7 +133,7 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Name / short description of the security..
         /// </summary>
         internal static string SecurityDescription_Description {
             get {
@@ -124,7 +142,7 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string SecurityDescription_Name {
             get {
@@ -133,7 +151,7 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Primary exchange on which the security trades..
         /// </summary>
         internal static string SecurityExchangeId_Description {
             get {
@@ -142,7 +160,7 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Exchange.
         /// </summary>
         internal static string SecurityExchangeId_Name {
             get {
@@ -169,7 +187,7 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Type of the security..
         /// </summary>
         internal static string SecurityTypeId_Description {
             get {
@@ -178,7 +196,7 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Type.
         /// </summary>
         internal static string SecurityTypeId_Name {
             get {

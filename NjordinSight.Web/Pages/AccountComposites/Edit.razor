@@ -1,6 +1,6 @@
 ﻿@page "/composites/{ModelId:int}/edit"
 
-@inherits ModelDetail<AccountComposite>
+@inherits ModelDetail<AccountCompositeDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -9,23 +9,23 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.UpdateSingle(Model.AccountCompositeCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.UpdateSingle(Model.ShortCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.AccountCompositeCode))" />
+        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.ShortCode))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic"/>
         </CascadingValue>
 
-        <CascadingValue Value="@ModelDto">
-            <AttributeEntryEditor TViewModelParent="AccountAttributesDto"
+        <CascadingValue Value="@Model">
+            <AttributeEntryEditor TViewModelParent="AccountAttributeDtoCollection"
                 TViewModelChild="AccountAttributeGrouping"
-                TModel="AccountObject"
-                TModelChild="AccountAttributeMemberEntry"
+                TModel="AccountBaseDto"
+                TModelChild="AccountBaseAttributeDto"
                 OnCancelEditorClick="FormCancelClickHandler"
                 OnDeleteModelClick="FormDeleteClickHandler"
                 OnValidFormSubmit="ValidFormSubmitHandler"
-                ModelDto="@ModelDto.AttributeViewModel"
+                ModelDto="@Model.AttributeCollection"
                 Mode="EditorMode.Edit">
                 <ViewModelCRUD>
                     <AccountCompositeCRUD Disabled="false" ReadOnly="false" />
@@ -36,8 +36,8 @@
             </AttributeEntryEditor>
             <ContentTile>
                 <Body>
-                    <EditForm Model="@ModelDto">
-                        <AccountCompositeMembersCRUD Accounts="@Accounts" Disabled="false" ReadOnly="false" />
+                    <EditForm Model="@Model">
+                        <AccountCompositeMembersCRUD Accounts="@AccountDtos" Disabled="false" ReadOnly="false" />
                     </EditForm>
                 </Body>
             </ContentTile>
@@ -49,9 +49,10 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> Accounts { get; set; }
+    [Inject]
+    protected IReferenceDataService ReferenceData { get; init; }
 
-    private AccountCompositeDto ModelDto { get; set; }
+    private IEnumerable<AccountDto> AccountDtos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,19 +60,17 @@
 
         try
         {
-            var compositeQuery = Controller.ReadAsync(ModelId);
-            var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
+            var compositeQuery = HttpService.GetAsync(ModelId);
+            var accountsQuery = HttpService.GetAllAsync<AccountDto>();
 
             var dataTask = Task.WhenAll(compositeQuery, accountsQuery);
 
-            Model = (await compositeQuery).Value;
-            Accounts = (await accountsQuery).Value;
-
-            ModelDto = new(Model);
+            Model = await compositeQuery;
+            AccountDtos = await accountsQuery;
         }
         finally
         {
-            IsLoading = Model is null || Accounts is null || ModelDto is null;
+            IsLoading = Model is null || AccountDtos is null;
         }
     }
 
@@ -80,9 +79,11 @@
     /// </summary>
     private async Task FormDeleteClickHandler(MouseEventArgs args)
     {
-        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
+        var result = RunCatchingHttpRequestException(HttpService.DeleteAsync(Model.Id));
 
-        if (result is NoContentResult _)
+        await result;
+
+        if(result.Status == TaskStatus.RanToCompletion)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
@@ -91,16 +92,17 @@
     /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
+        var result = RunCatchingHttpRequestException(HttpService.PutAsync(ModelId, Model));
 
-        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
+        await result;
 
-        ProcessDetailAtAction(id);
+        if (result.Status  == TaskStatus.RanToCompletion)
+            NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
     }
 
     /// <summary>edit
     /// Handles the cancel editor event of this page.
     /// </summary>
     private void FormCancelClickHandler(MouseEventArgs args) =>
-        NavigationHelper.NavigateTo(FormatDetailUri(Model.AccountCompositeId));
+        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 }

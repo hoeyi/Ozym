@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NjordinSight.DataTransfer.Deprecated
+namespace NjordinSight.DataTransfer.Common
 {
     /// <summary>
     /// Extensions methods used by the Model.ViewModel namespace.

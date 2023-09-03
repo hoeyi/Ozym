@@ -15,22 +15,19 @@ else
                     @MemberDisplay(model.AccountId)
                 </CellTemplate>
             </DataGridColumn>
-            <DataGridColumn 
-                Property="@nameof(AccountCompositeMember.EntryDate)"
+            <DataGridColumn Property="@nameof(AccountCompositeMemberDto.EntryDate)"
                     Caption="@(ModelMetadata.NameFor<AccountCompositeMemberDto>(x => x.EntryDate))">
                 <CellTemplate Context="model">
                     @model.EntryDate.ToShortDateString()
                 </CellTemplate>
             </DataGridColumn>
-            <DataGridColumn 
-                Property="@nameof(AccountCompositeMember.ExitDate)"
+            <DataGridColumn Property="@nameof(AccountCompositeMemberDto.ExitDate)"
                     Caption="@(ModelMetadata.NameFor<AccountCompositeMemberDto>(x => x.ExitDate))">
                 <CellTemplate Context="model">
                     @model.ExitDate?.ToShortDateString()
                 </CellTemplate>
             </DataGridColumn>
-            <DataGridColumn 
-                Property="@nameof(AccountCompositeMember.Comment)"
+            <DataGridColumn Property="@nameof(AccountCompositeMemberDto.Comment)"
                     Caption="@(ModelMetadata.NameFor<AccountCompositeMemberDto>(x => x.Comment))">
                 <CellTemplate Context="model">
                     @model.Comment

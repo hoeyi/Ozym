@@ -14,6 +14,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using NjordinSight.EntityModelService;
 using System.Linq.Expressions;
+using NjordinSight.EntityModelService.Query;
 
 namespace NjordinSight.Web.Services
 {
@@ -85,6 +86,16 @@ namespace NjordinSight.Web.Services
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
+        /// Gets a subset of the currently defined issuers in the security information file.
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<string>> GetIssuersAsync(
+            string? pattern, int pageNumber = 1, int pageSize = 20);
+
+        /// <summary>
         /// Gets the defined <see cref="SecurityTypeDto"/> records from the data store.
         /// </summary>
         /// <param name="pageNumber">The index of the page to retrieve.</param>
@@ -115,7 +126,7 @@ namespace NjordinSight.Web.Services
         /// <summary>
         /// Gets the defined <see cref="ModelAttributeMemberDtoBase"/> records from the data store.
         /// </summary>
-        /// <param name="attributeId">Id of the parent <see cref="ModelAttributeDto"/> record.</param>
+        /// <param name="attributeId">Id of the parent <see cref="ModelAttributeDtoBase"/> record.</param>
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="ModelAttributeMemberDtoBase"/>.</returns>
@@ -162,6 +173,7 @@ namespace NjordinSight.Web.Services
     public class ReferenceDataService : IReferenceDataService
     {
         private readonly IHttpClientFactory _httpFactory;
+        private readonly IQueryService _queryService;
         private readonly string _baseApiUri;
 
         /// <summary>
@@ -170,7 +182,7 @@ namespace NjordinSight.Web.Services
         /// <param name="httpFactory"></param>
         /// <param name="configuration"></param>
         public ReferenceDataService(
-            IHttpClientFactory httpFactory, IConfiguration configuration)
+            IHttpClientFactory httpFactory, IQueryService queryService, IConfiguration configuration)
         {
             if (httpFactory is null)
                 throw new ArgumentNullException(paramName: nameof(httpFactory));
@@ -283,6 +295,12 @@ namespace NjordinSight.Web.Services
         {
             return await GetAsync<SecurityDtoBase>(
                 endPoint: "deposit-securities", pageNumber, pageSize);
+        }
+
+        public async Task<IEnumerable<string>> GetIssuersAsync(
+            string? pattern, int pageNumber = 1, int pageSize = 20)
+        {
+            return await _queryService.GetIssuersAsync(pattern, pageNumber, pageSize);
         }
 
         public async Task<(IEnumerable<SecurityTypeGroupDto>, PaginationData)> GetSecurityTypeGroupsAsync(

@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common.Collections
                         var attribute = g.First().AttributeMember.Attribute;
 
                         var group = new AttributeGrouping<
-                            ModelAttributeDto, AccountBaseAttributeDto>(
+                            ModelAttributeDtoBase, AccountBaseAttributeDto>(
                             key: attribute, collection: g);
 
                         return group;

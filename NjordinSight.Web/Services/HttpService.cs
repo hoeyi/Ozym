@@ -85,6 +85,19 @@ namespace NjordinSight.Web.Services
         }
 
         /// <inheritdoc/>
+        public async Task<IEnumerable<TRecord>> GetAllAsync<TRecord>()
+        {
+            string relativePath = _endPointMap[typeof(TRecord)];
+            string absolutePath = CombinePath(_rootApiPath, $"{relativePath}/all");
+
+            using var client = _httpFactory.CreateClient();
+
+            var response = await client.GetFromJsonAsync<IEnumerable<TRecord>>(absolutePath);
+
+            return response;
+        }
+
+        /// <inheritdoc/>
         public async Task<(IEnumerable<TRecord>, PaginationData)> SearchAsync<TRecord>(
             IQueryParameter<TRecord> queryParameter, int pageNumber = 1, int pageSize = 20)
         {

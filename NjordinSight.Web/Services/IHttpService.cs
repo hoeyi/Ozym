@@ -35,6 +35,13 @@ namespace NjordinSight.Web.Services
         /// <returns>An instance of <typeparamref name="TRecord"/> matching the value of 
         /// <paramref name="id"/>.</returns>
         Task<TRecord> GetAsync<TRecord>(int id);
+
+        /// <summary>
+        /// Retrieves all <typeparamref name="TRecord"/> records from the data store.
+        /// </summary>
+        /// <typeparam name="TRecord"></typeparam>
+        /// <returns>An <see cref="IEnumerable{T}"/> of <typeparamref name="TRecord"/>.</returns>
+        Task<IEnumerable<TRecord>> GetAllAsync<TRecord>();
     }
 
     /// <summary>
@@ -47,7 +54,7 @@ namespace NjordinSight.Web.Services
         /// Deletes the <typeparamref name="T"/> resource matching the given identifier.
         /// </summary>
         /// <param name="id">Identifer of the resource to delete.</param>
-        /// <returns>Task representing a completed deletion request.</returns>
+        /// <returns>A task representing the completed operation.</returns>
         Task DeleteAsync(int id);
 
         /// <summary>

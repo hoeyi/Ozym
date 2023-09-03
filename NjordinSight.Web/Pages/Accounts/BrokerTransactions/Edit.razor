@@ -219,7 +219,7 @@
                     return;
             }
 
-            var responseObject = await HttpService.SelectAsync(
+            var responseObject = await HttpService.SearchAsync(
                 queryParameter: parameter,
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
@@ -255,7 +255,7 @@
 
             var parentAccountTask = HttpService.GetAsync<AccountDto>(id: ModelId);
 
-            var loadRecordsTask = HttpService.SelectAsync(
+            var loadRecordsTask = HttpService.SearchAsync(
                 queryParameter: new ParameterDto<BrokerTransactionDto>()
                     {
                         MemberName = nameof(BrokerTransactionDto.AccountId),

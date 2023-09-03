@@ -128,7 +128,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private ModelAttributeDto ModelDto { get; set; }
+    private ModelAttributeDtoBase ModelDto { get; set; }
 
     private IEnumerable<LookupModel<string, string>> AttributeScopeDtos { get; set; }
 

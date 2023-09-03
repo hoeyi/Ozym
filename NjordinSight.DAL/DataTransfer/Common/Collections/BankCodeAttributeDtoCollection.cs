@@ -39,7 +39,7 @@ namespace NjordinSight.DataTransfer.Common.Collections
                             var attribute = g.First().AttributeMember.Attribute;
 
                             var group = new AttributeGrouping<
-                                ModelAttributeDto, BankTransactionCodeAttributeDto>(
+                                ModelAttributeDtoBase, BankTransactionCodeAttributeDto>(
                                 key: attribute, collection: g);
 
                             return group;

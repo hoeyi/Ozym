@@ -1,4 +1,6 @@
-﻿using NjordinSight.EntityModelService.Query;
+﻿using AutoMapper;
+using Moq;
+using NjordinSight.EntityModelService.Query;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +11,7 @@ namespace NjordinSight.Test.EntityModelService
     public class ReferenceDataServiceTest
     {
         private static readonly IQueryService _dataService = 
-            new QueryService(TestUtility.DbContextFactory);
+            new QueryService(TestUtility.DbContextFactory, new Mock<IMapper>().Object);
 
         [TestMethod]
         public async Task GetAccountCustodianDTOsAsync_ReturnsCollection()

@@ -1,6 +1,6 @@
 ﻿@page "/bank-transaction-codes"
 
-@inherits ModelIndex<BankTransactionCode>
+@inherits ModelIndex<BankTransactionCodeDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -24,8 +24,7 @@
             else
             {
                 <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn 
-                        Property=@nameof(BankTransactionCode.TransactionCode)
+                    <DataGridColumn Property=@nameof(BankTransactionCodeDto.TransactionCode)
                         Caption=@(NameFor(x => x.TransactionCode))
                         Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
@@ -37,7 +36,7 @@
                             </a>
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(BankTransactionCode.DisplayName)
+                    <DataGridColumn Property=@nameof(BankTransactionCodeDto.DisplayName)
                                 Caption=@(NameFor(x => x.DisplayName))>
                         <CellTemplate Context="model">
                             @model.DisplayName
@@ -51,7 +50,7 @@
 
 @code {
 
-    private void Detail_OnClick(BankTransactionCode model, MouseEventArgs args)
+    private void Detail_OnClick(BankTransactionCodeDto model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.TransactionCodeId));
     }

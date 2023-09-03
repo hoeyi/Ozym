@@ -136,8 +136,8 @@
         var denominationDtosTask = ReferenceData
                 .GetCryptoCurrencySecuritiesAsync(pageNumber: 1, pageSize: int.MaxValue);
 
-        var walletsTask = HttpService.SelectAsync(
-            queryParameter: LastSearchParameter,
+        var walletsTask = HttpService.SearchAsync(
+            parameter: LastSearchParameter,
             pageNumber: PaginationHelper.PageIndex,
             pageSize: PaginationHelper.PageSize);
 

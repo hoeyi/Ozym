@@ -70,7 +70,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private ModelAttributeDto ModelDto { get; set; }
+    private ModelAttributeDtoBase ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

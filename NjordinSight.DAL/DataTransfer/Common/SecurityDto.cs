@@ -144,6 +144,12 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        [Display(
+            Name = nameof(SecurityDto_SR.CurrentySymbol_Name),
+            Description = nameof(SecurityDto_SR.CurrentSymbol_Description),
+            ResourceType = typeof(SecurityDto_SR))]
+        public string? CurrentSymbol { get; set; }
     }
 
     public  class SecurityDto : SecurityDtoBase

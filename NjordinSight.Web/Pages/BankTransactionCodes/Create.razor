@@ -1,6 +1,6 @@
 ﻿@page "/bank-transaction-codes/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<BankTransactionCode>
+@inherits ModelDetail<BankTransactionCodeDto>
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
@@ -17,14 +17,14 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <AttributeEntryEditor TViewModelParent="BankTransactionCodeDto"
-                          TViewModelChild="BankTransactionCodeAttributeGrouping"
-                          TModel="BankTransactionCode"
-                          TModelChild="BankTransactionCodeAttributeMemberEntry"
-                          OnCancelEditorClick="CancelFormHandler"
-                          OnValidFormSubmit="ValidFormSubmitHandler"
-                          ModelDto="@ModelDto"
-                          Mode="EditorMode.Add">
+        <AttributeEntryEditor TViewModelParent="BankCodeAttributeDtoCollection"
+            TViewModelChild="BankTransactionCodeAttributeGrouping"
+            TModel="BankTransactionCodeDto"
+            TModelChild="BankTransactionCodeAttributeDto"
+            OnCancelEditorClick="FormCancelClickHandler"
+            OnValidFormSubmit="HandleValidSubmit"
+            ModelDto="@Model.AttributeCollection"
+            Mode="EditorMode.Add">
             <ViewModelCRUD>
                 <BankTransactionCodeCRUD Disabled="false" ReadOnly="false" />
             </ViewModelCRUD>
@@ -46,36 +46,21 @@
 
         try
         {
-            var modelQuery = await Controller.GetDefaultAsync();
-
-            if (modelQuery.Value is BankTransactionCode model)
-            {
-                Model = model;
-            }
-
-            ModelDto = new(Model);
+            Model = await HttpService.InitDefaultAsync();
         }
         finally
         {
-            IsLoading = Model is null || ModelDto is null;
+            IsLoading = Model is null;
         }
     }
 
-    /// <summary>
-    /// Handles the valid form submission event of this page.
-    /// </summary>
-    private async Task ValidFormSubmitHandler(EditContext args)
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
+
+    protected override async Task HandleValidSubmit()
     {
-        Model = ModelDto.ToEntity();
+        var response = await RunCatchingHttpRequestException(HttpService.PostAysnc(Model));
 
-        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
-
-        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
+        if (!string.IsNullOrEmpty(response.AbsoluteUri))
+            NavigationHelper.NavigateTo(response.AbsoluteUri);
     }
-
-    /// <summary>
-    /// Handles the cancel editor event of this page.
-    /// </summary>
-    private void CancelFormHandler(MouseEventArgs args) =>
-        NavigationHelper.NavigateTo(IndexUriRelativePath);
 }

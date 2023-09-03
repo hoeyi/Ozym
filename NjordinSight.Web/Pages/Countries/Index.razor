@@ -1,6 +1,6 @@
 ﻿@page "/countries"
 
-@inherits ModelIndex<Country>
+@inherits ModelIndex<CountryDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -15,7 +15,7 @@
     {
         <ContentTile>
             <Body>
-                <SearchInputTable TModel="Country"
+                <SearchInputTable TModel="CountryDtoBase"
                     ComparisonOperators=@ComparisonOperators
                     ExpressionBuilder=@ExpressionBuilder
                     SearchFields=@SearchFields
@@ -42,7 +42,7 @@
             else
             {
                 <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Type="DataGridCellType.Link" Property=@nameof(Country.DisplayName)
+                    <DataGridColumn Type="DataGridCellType.Link" Property=@nameof(CountryDtoBase.DisplayName)
                                 Caption=@(NameFor(x => x.DisplayName))>
                         <CellTemplate Context="model">
                             <a class="custom-nav-link" href=@(FormatDetailUri(model.CountryId)) 
@@ -52,7 +52,7 @@
                             </a>
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(Country.IsoCode3)
+                    <DataGridColumn Property=@nameof(CountryDtoBase.IsoCode3)
                                 Caption=@(NameFor(x => x.IsoCode3))>
                         <CellTemplate Context="model">
                             @model.IsoCode3
@@ -65,7 +65,7 @@
 </ThemedComponent>
 
 @code {
-    private void Detail_OnClick(Country model, MouseEventArgs args)
+    private void Detail_OnClick(CountryDtoBase model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.CountryId));
     }

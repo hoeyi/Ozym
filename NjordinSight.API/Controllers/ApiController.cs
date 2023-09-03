@@ -24,8 +24,7 @@ namespace NjordinSight.Api.Controllers
     /// </summary>
     /// <typeparam name="TObject">The type representing a business object record.</typeparam>
     /// <typeparam name="TEntity">The type representing a data store record.</typeparam>
-    public class ApiController<TObject, TEntity> : 
-        ControllerBase, IApiController<TObject> 
+    public class ApiController<TObject, TEntity> : ControllerBase, IApiController<TObject>
         where TEntity : class, new()
     {
         private readonly IExpressionBuilder _expressionBuilder;
@@ -247,6 +246,16 @@ namespace NjordinSight.Api.Controllers
             var dtoItems = _mapper.Map<IEnumerable<TObject>>(items);
 
             return Ok(dtoItems);
+        }
+
+        /// <inheritdoc/>
+        [HttpGet]
+        [Route("all")]
+        public async Task<ActionResult<IEnumerable<TObject>>> GetAllAsync()
+        {
+            var items = await _modelService.SelectAsync();
+
+            return Ok(items);
         }
     }
 }

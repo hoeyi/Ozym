@@ -106,7 +106,7 @@ namespace NjordinSight.Api.Controllers
         /// <summary>
         /// Gets the defined <see cref="ModelAttributeMemberDtoBase"/> records from the data store.
         /// </summary>
-        /// <param name="attributeId">Id of the parent <see cref="ModelAttributeDto"/> record.</param>
+        /// <param name="attributeId">Id of the parent <see cref="ModelAttributeDtoBase"/> record.</param>
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="ModelAttributeMemberDtoBase"/>.</returns>

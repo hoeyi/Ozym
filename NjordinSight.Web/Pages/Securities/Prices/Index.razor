@@ -130,13 +130,13 @@
                 return;
         }
 
-        var securityDtosTask = HttpService.SelectAsync<SecurityDtoBase>(
+        var securityDtosTask = HttpService.SearchAsync<SecurityDtoBase>(
             queryParameter: null,
             pageNumber: 1,
             pageSize: int.MaxValue);
 
-        var priceQueryTask = HttpService.SelectAsync(
-            queryParameter: LastSearchParameter,
+        var priceQueryTask = HttpService.SearchAsync(
+            parameter: LastSearchParameter,
             pageNumber: PaginationHelper.PageIndex,
             pageSize: PaginationHelper.PageSize);
 

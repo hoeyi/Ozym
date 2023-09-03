@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using NjordinSight.EntityModel.Annotations;
 using System.Reflection;
 using System.Linq;
-using NjordinSight.DataTransfer.Generic;
+using NjordinSight.DataTransfer.Common.Generic;
 using NjordinSight.DataTransfer;
 using Microsoft.Data.SqlClient;
+using NjordinSight.DataTransfer.Common;
+using NjordinSight.DataTransfer.Common.Query;
+using NjordinSight.EntityModel.ConstraintType;
 
 namespace NjordinSight.EntityModelService.Query
 {
@@ -77,10 +80,28 @@ namespace NjordinSight.EntityModelService.Query
         Task<T> GetSingleAsync<T>(
             Expression<Func<T, bool>> predicate, Expression<Func<T, object>> path = null)
             where T : class, new();
+
+        /// <summary>
+        /// Gets a subset of the currently defined issuers in the security information file.
+        /// </summary>
+        /// <param name="pattern"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        Task<IEnumerable<string>> GetIssuersAsync(string? pattern, int pageNumber = 1, int pageSize = 20);
     }
 
     public partial interface IQueryService
     {
+        /// <summary>
+        /// Gets <see cref="ModelAttributeDto"/> records that are applicabe for the given 
+        /// <typeparamref name="T"/> variant of <see cref="IAttributeEntryViewModel"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Task<IEnumerable<ModelAttributeDto>> GetSupportedAttributesAsync<T>()
+            where T : IAttributeEntryViewModel;
+
         /// <summary>
         /// Creates a new instance implementing <see cref="IQueryBuilder{TSource}"/> where 
         /// <typeparamref name="TSource"/> is the target object.
@@ -324,7 +345,7 @@ namespace NjordinSight.EntityModelService.Query
                     predicate: x => x.AttributeId == attributeId,
                     maxCount: 0,
                     key: x => x.AttributeMemberId,
-                    display: x => DisplayFor(x),
+                    display: x => x.DisplayName,
                     defaultDisplay: UserInterface.StringTemplate.Caption_InputSelect_Placeholder)
                 .OrderByWithDefaultFirstAsync();
         }
@@ -335,14 +356,6 @@ namespace NjordinSight.EntityModelService.Query
     #region Static helper methods
     public partial interface IQueryService
     {
-        public static string DisplayFor(ModelAttributeMember attributeMember)
-        {
-            if (attributeMember.Country is not null)
-                return $"{attributeMember.Country.DisplayName} ({attributeMember.Country.IsoCode3})";
-
-            return attributeMember.DisplayName;
-        }
-
         /// <summary>
         /// Gets the array of string codes representing the supported <see cref="ModelAttributeScope"/> 
         /// for this type.
@@ -355,6 +368,7 @@ namespace NjordinSight.EntityModelService.Query
             typeof(T).GetCustomAttribute<ModelAttributeSupportAttribute>()
             ?.SupportedScopes.ToStringArray() ?? Array.Empty<string>();
     }
+
     #endregion
     static class QueryServiceExtension
     {

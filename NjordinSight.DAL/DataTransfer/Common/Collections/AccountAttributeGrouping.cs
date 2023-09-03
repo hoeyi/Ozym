@@ -11,7 +11,7 @@ namespace NjordinSight.DataTransfer.Common.Collections
         IAttributeEntryUnweightedGrouping<AccountBaseDto, AccountBaseAttributeDto>
     {
         public AccountAttributeGrouping(
-            AccountBaseDto parentEntity, ModelAttributeDto modelAttribute)
+            AccountBaseDto parentEntity, ModelAttributeDtoBase modelAttribute)
             : base(parentEntity, modelAttribute)
         {
         }

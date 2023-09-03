@@ -151,13 +151,13 @@
                 return;
         }
 
-        var marketIndexDtosTask = HttpService.SelectAsync<MarketIndexDto>(
+        var marketIndexDtosTask = HttpService.SearchAsync<MarketIndexDto>(
             queryParameter: null,
             pageNumber: 1,
             pageSize: int.MaxValue);
 
-        var priceQueryTask = HttpService.SelectAsync(
-            queryParameter: parameter,
+        var priceQueryTask = HttpService.SearchAsync(
+            parameter: parameter,
             pageNumber: PaginationHelper.PageIndex,
             pageSize: PaginationHelper.PageSize);
 

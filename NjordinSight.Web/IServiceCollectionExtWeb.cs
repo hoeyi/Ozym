@@ -20,6 +20,8 @@ using Ichosys.Blazor.Ionicons;
 using System.Xml.Serialization;
 using System.Reflection;
 using System.Net.Http;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace NjordinSight.Web
 {
@@ -177,6 +179,28 @@ namespace NjordinSight.Web
                 else
                     throw new NotSupportedException();
             });
+        }
+
+        /// <summary>
+        /// Trys to extract the display string member accessor associated with the given key.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dict"></param>
+        /// <param name="key"></param>
+        /// <param name="displayMember"></param>
+        /// <returns></returns>
+        public static string TryGetDisplayString<TKey, TValue>(
+            this IDictionary<TKey, TValue> dict, TKey key, Func<TValue, string> displayMember)
+        {
+            if(dict.TryGetValue(key, out TValue value))
+            {
+                return displayMember(value);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
     }
 }

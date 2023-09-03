@@ -1,6 +1,6 @@
 ﻿@page "/broker-transaction-codes"
 
-@inherits ModelIndex<BrokerTransactionCode>
+@inherits ModelIndex<BrokerTransactionCodeDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -24,7 +24,7 @@
             else
             {
                 <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(BankTransactionCode.TransactionCode)
+                    <DataGridColumn Property=@nameof(BrokerTransactionCodeDto.TransactionCode)
                                 Caption=@(NameFor(x => x.TransactionCode))
                                 Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
@@ -37,28 +37,28 @@
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
-                        Property="@nameof(BrokerTransactionCode.DisplayName)"
+                        Property="@nameof(BrokerTransactionCodeDto.DisplayName)"
                                 Caption="@(NameFor(x => x.DisplayName))">
                         <CellTemplate Context="model">
                             @model.DisplayName
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
-                        Property="@nameof(BrokerTransactionCode.CashEffect)"
+                        Property="@nameof(BrokerTransactionCodeDto.CashEffect)"
                                 Caption="@(NameFor(x => x.CashEffect))">
                         <CellTemplate Context="model">
                             @model.CashEffect
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
-                        Property="@nameof(BrokerTransactionCode.ContributionWithdrawalEffect)"
+                        Property="@nameof(BrokerTransactionCodeDto.ContributionWithdrawalEffect)"
                                 Caption="@(NameFor(x => x.ContributionWithdrawalEffect))">
                         <CellTemplate Context="model">
                             @model.ContributionWithdrawalEffect
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn 
-                        Property="@nameof(BrokerTransactionCode.QuantityEffect)"
+                        Property="@nameof(BrokerTransactionCodeDto.QuantityEffect)"
                                 Caption="@(NameFor(x => x.QuantityEffect))">
                         <CellTemplate Context="model">
                             @model.QuantityEffect
@@ -71,7 +71,7 @@
 </ThemedComponent>
 
 @code {
-    private void Detail_OnClick(BrokerTransactionCode model, MouseEventArgs args)
+    private void Detail_OnClick(BrokerTransactionCodeDto model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.TransactionCodeId));
     }

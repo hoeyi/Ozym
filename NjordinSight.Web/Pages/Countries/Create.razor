@@ -1,6 +1,6 @@
 ﻿@page "/countries/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<Country>
+@inherits ModelDetail<CountryDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -17,15 +17,15 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ModelDto">
-            <EditForm class="model-editor" Model="@ModelDto" OnValidSubmit="HandleValidSubmit">
+        <CascadingValue Value="@Model">
+            <EditForm class="model-editor" Model="@Model" OnValidSubmit="HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <ActionButtonMenu>
                     <button type="submit" class="form-control button">
                         @Strings.Caption_Button_Save
                     </button>
                     <button type="button" class="form-control button"
-                        @onclick="Cancel_OnClick"
+                        @onclick="FormCancelClickHandler"
                         @onclick:preventDefault>
                         @Strings.Caption_Button_Cancel
                     </button>
@@ -45,7 +45,6 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private Country ModelDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -53,26 +52,21 @@
 
         try
         {
-            var modelQuery = Controller.GetDefaultAsync();
-
-            if ((await modelQuery).Value is Country model)
-            {
-                Model = model;
-                ModelDto = model;
-            }
+            Model = await HttpService.InitDefaultAsync();
         }
         finally
         {
-            IsLoading = Model is null || ModelDto is null;
+            IsLoading = Model is null;
         }
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 
     protected override async Task HandleValidSubmit()
     {
-        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
+        var response = await RunCatchingHttpRequestException(HttpService.PostAysnc(Model));
 
-        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
+        if (!string.IsNullOrEmpty(response.AbsoluteUri))
+            NavigationHelper.NavigateTo(response.AbsoluteUri);
     }
 }

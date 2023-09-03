@@ -117,10 +117,7 @@
 
     private IEnumerable<LookupModel<int, string>> TransactableSecurities { get; set; }
 
-    private Account ParentAccount { get; set; }
-
-    [Inject]
-    protected new IBrokerTransactionController Controller { get; init; }
+    private AccountDto ParentAccount { get; set; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {

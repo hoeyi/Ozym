@@ -198,8 +198,8 @@ namespace NjordinSight.Web.Components.Generic
                     return;
             }
 
-            var responseObject = await HttpService.SelectAsync(
-                queryParameter: parameter,
+            var responseObject = await HttpService.SearchAsync(
+                parameter: parameter,
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
 

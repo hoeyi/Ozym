@@ -4,11 +4,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using System.Linq;
 using System;
-using NjordinSight.DataTransfer.Generic;
+using NjordinSight.DataTransfer.Common.Generic;
 using NjordinSight.EntityModelService.Query;
 using NjordinSight.EntityModelService;
 using NjordinSight.EntityModel.ConstraintType;
 using NjordinSight.Web.Components.Common;
+using NjordinSight.DataTransfer.Common;
+using NjordinSight.DataTransfer.Common.Collections;
+using NjordinSight.Web.Services;
+using NjordinSight.DataTransfer.Common.Query;
 
 namespace NjordinSight.Web.Components.Generic
 {
@@ -37,14 +41,7 @@ namespace NjordinSight.Web.Components.Generic
         /// data for this component.
         /// </summary>
         [Inject]
-        IQueryService? QueryService { get; set; } 
-
-        /// <summary>
-        /// Gets the string codes representing the allowable <see cref="ModelAttribute"/> selections 
-        /// for the <typeparamref name="TViewModelParent"/> instance worked using this component.
-        /// </summary>
-        protected string[] SupportedModelAttributeScopes { get; } = 
-            IQueryService.GetSupportedAttributeScopeCodes<TViewModelParent>();
+        IQueryService QueryService { get; set; } 
 
         /// <summary>
         /// Gets or sets the current <typeparamref name="TViewModelChild"/> instance.
@@ -60,8 +57,8 @@ namespace NjordinSight.Web.Components.Generic
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
         /// </summary>
-        protected IEnumerable<ModelAttribute> AllowableModelAttributes { get; set; } =
-            new List<ModelAttribute>();
+        protected IEnumerable<ModelAttributeDto> AllowableModelAttributes { get; set; } =
+            new List<ModelAttributeDto>();
 
         /// <summary>
         /// Gets or sets whether the modal editor for the current <typeparamref name="TViewModelChild"/>  
@@ -71,49 +68,26 @@ namespace NjordinSight.Web.Components.Generic
 
         protected override async Task OnInitializedAsync()
         {
-            AllowableModelAttributes = await GetSupportedAttributesAsync();
+            IsLoading = true;
 
             if (QueryService is null)
                 throw new ArgumentNullException(paramName: nameof(QueryService));
+
+            AllowableModelAttributes = await QueryService
+                                                .GetSupportedAttributesAsync<TViewModelParent>();
 
             IsLoading = AllowableModelAttributes is null;
         }
 
         /// <summary>
-        /// Gets the collection of allowable <see cref="ModelAttribute"/> instances for describing 
-        /// the <typeparamref name="TModel"/> instance worked by this component.
-        /// </summary>
-        /// <returns></returns>
-        protected async Task<IEnumerable<ModelAttribute>> GetSupportedAttributesAsync()
-        {
-            int[] exclusions = new int[2]
-            {
-                (int)ModelAttributeEnum.SecurityType,
-                (int)ModelAttributeEnum.SecurityTypeGroup
-            }; 
-
-            using var queryBuilder = QueryService!
-                .CreateQueryBuilder<ModelAttribute>()
-                .WithDirectRelationship(a => a.ModelAttributeScopes);
-
-            var attributeQuery = queryBuilder.Build().SelectWhereAsync(
-                predicate: attr => !exclusions.Contains(attr.AttributeId) &&
-                    attr.ModelAttributeScopes.Any(
-                        msc => SupportedModelAttributeScopes.Contains(msc.ScopeCode)),
-                maxCount: 0);
-
-            return await attributeQuery;
-        }
-
-        /// <summary>
         /// Adds a new <typeparamref name="TViewModelChild"/> to the <typeparamref name="TViewModelParent"/> 
-        /// instance for this component for the given <see cref="ModelAttribute"/>.
+        /// instance for this component for the given <see cref="ModelAttributeDtoBase"/>.
         /// </summary>
         /// <param name="forModelAttribute"></param>
         /// <returns></returns>
-        protected async Task AddEntryForGrouping(ModelAttribute forModelAttribute)
+        protected async Task AddEntryForGrouping(ModelAttributeDtoBase forModelAttribute)
         {
-            await OnChildViewSelect(ModelDto.AddNew(forAttribute: forModelAttribute));
+            await OnChildViewSelect(ModelDto.AddNew(forModelAttribute));
         }
 
         /// <summary>
@@ -181,10 +155,10 @@ namespace NjordinSight.Web.Components.Generic
         private static DateTime GetGroupEffectiveDate(TViewModelChild group) => group.EffectiveDate;
 
         /// <summary>
-        /// Handles the close event of the modal form used to select a <see cref="ModelAttribute"/> 
+        /// Handles the close event of the modal form used to select a <see cref="ModelAttributeDto"/> 
         /// for adding a new <typeparamref name="TViewModelChild" />.
         /// </summary>
-        private async Task OnModalAttributeSelectorClosed(ModalEventArgs<ModelAttribute> modalEventArgs)
+        private async Task OnModalAttributeSelectorClosed(ModalEventArgs<ModelAttributeDto> modalEventArgs)
         {
             DrawAttributeSelectorDialog = false;
 

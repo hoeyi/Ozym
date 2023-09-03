@@ -6,7 +6,7 @@ namespace NjordinSight.Api.Test.Unit
     [TestClass]
     [TestCategory("Unit")]
     public class AttributesControllerTest
-        : ApiControllerTest<ModelAttributeDtoForEdit, ModelAttribute>
+        : ApiControllerTest<ModelAttributeDto, ModelAttribute>
     {
     }
 }

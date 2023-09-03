@@ -23,6 +23,6 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
-        public ModelAttributeDto Attribute { get; set; } = new();
+        public ModelAttributeDtoBase Attribute { get; set; } = new();
     }
 }

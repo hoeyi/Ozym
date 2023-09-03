@@ -4,6 +4,7 @@ using NjordinSight.EntityModel;
 using NjordinSight.UserInterface;
 using NjordinSight.Web.Components.Common;
 using NjordinSight.Web.Controllers;
+using NjordinSight.Web.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -17,15 +18,15 @@ namespace NjordinSight.Web.Components.Generic
         where TModel : class, new()
     {
         /// <summary>
+        /// Gets or sets the serivce for handling HTTP requests from this page.
+        /// </summary>
+        [Inject]
+        public IHttpService<TModel> HttpService { get; set; } = default!;
+
+        /// <summary>
         /// Gets or sets the model for which details are provided. 
         /// </summary>
         protected TModel Model { get; set; } = default!;
-
-        /// <summary>
-        /// Gets or sets the <see cref="IController{TModel}"/> for this component.
-        /// </summary>
-        [Inject]
-        protected IController<TModel> Controller { get; set; } = default!;
 
         /// <summary>
         /// Default implementation of a <see cref="EventCallback{TValue}"/> that returns

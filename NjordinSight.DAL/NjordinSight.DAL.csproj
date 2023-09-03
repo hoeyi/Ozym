@@ -98,6 +98,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CountryDto_SR.resx</DependentUpon>
     </Compile>
+    <Compile Update="DataTransfer\Common\Generic\AttributeEntryGrouping_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AttributeEntryGrouping_SR.resx</DependentUpon>
+    </Compile>
     <Compile Update="DataTransfer\Common\InvestmentModelDto_SR.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -335,6 +340,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CountryDto_SR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="DataTransfer\Common\Generic\AttributeEntryGrouping_SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AttributeEntryGrouping_SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="DataTransfer\Common\InvestmentModelDto_SR.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>InvestmentModelDto_SR.Designer.cs</LastGenOutput>
@@ -471,5 +480,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DataTransfer\Deprecated\" />
   </ItemGroup>
 </Project>

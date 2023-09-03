@@ -1,8 +1,13 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using AutoMapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordinSight.BusinessLogic.Functions;
 using NjordinSight.DataTransfer;
+using NjordinSight.DataTransfer.Common;
+using NjordinSight.DataTransfer.Common.Generic;
+using NjordinSight.EntityModel.ConstraintType;
+using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Context;
 using System;
 using System.Collections.Generic;
@@ -14,6 +19,21 @@ namespace NjordinSight.EntityModelService.Query
 {
     public partial class QueryService : IQueryService
     {
+        public async Task<IEnumerable<string>> GetIssuersAsync(string pattern, int pageNumber = 1, int pageSize = 20)
+        {
+            using var context = NewDbContext();
+
+            var issuers = await context.Set<Security>()
+                .Where(x => x.Issuer != null && x.Issuer != string.Empty)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .Select(x => x.Issuer)
+                .OrderBy(x => x)
+                .ToListAsync();
+
+            return issuers;
+        }
+
         /// <inheritdoc/>
         public async Task<(IEnumerable<T>, PaginationData)> GetRecordSetAsync<T, TKey>(
             Expression<Func<T, bool>> predicate,
@@ -62,6 +82,32 @@ namespace NjordinSight.EntityModelService.Query
             return await GetRecordSetAsync<T, object>(
                 predicate, pageNumber, pageSize, null, SortOrder.Unspecified);
         }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<ModelAttributeDto>> GetSupportedAttributesAsync<T>() 
+            where T : IAttributeEntryViewModel
+        {
+            int[] exclusions = new int[2]
+            {
+                (int)ModelAttributeEnum.SecurityType,
+                (int)ModelAttributeEnum.SecurityTypeGroup
+            };
+
+            var scopeCodes = IQueryService.GetSupportedAttributeScopeCodes<T>();
+
+            using var queryBuilder = CreateQueryBuilder<ModelAttribute>()
+                .WithDirectRelationship(x => x.ModelAttributeScopes)
+                .WithDirectRelationship(x => x.ModelAttributeMembers);
+
+            var query = queryBuilder.Build().SelectWhereAsync(
+                predicate: x => !exclusions.Contains(x.AttributeId) &&
+                    x.ModelAttributeScopes.Any(y => scopeCodes.Contains(y.ScopeCode)),
+                maxCount: 0);
+
+            var entities = await query;
+
+            return _mapper.Map<IEnumerable<ModelAttributeDto>>(entities);
+        }
     }
 
 
@@ -72,6 +118,7 @@ namespace NjordinSight.EntityModelService.Query
     public partial class QueryService : IQueryService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
+        private readonly IMapper _mapper;
         static readonly object _locker = new();
 
         /// <summary>
@@ -93,12 +140,16 @@ namespace NjordinSight.EntityModelService.Query
         /// <param name="contextFactory">An <see cref="IDbContextFactory{TContext}"/> to use for 
         /// generating data contexts.</param>
         /// <exception cref="ArgumentNullException"><paramref name="contextFactory"/> was null.</exception>
-        public QueryService(IDbContextFactory<FinanceDbContext> contextFactory)
+        public QueryService(IDbContextFactory<FinanceDbContext> contextFactory, IMapper mapper)
         {
             if (contextFactory is null)
                 throw new ArgumentNullException(paramName: nameof(contextFactory));
 
+            if (mapper is null)
+                throw new ArgumentNullException(paramName: nameof(mapper));
+
             _contextFactory = contextFactory;
+            _mapper = mapper;
         }
 
         /// <inheritdoc/> 

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public class ModelAttributeDto : DtoBase
+    public class ModelAttributeDtoBase : DtoBase
     {
         private int _attributeId;
         private string _displayName;
@@ -44,9 +44,9 @@ namespace NjordinSight.DataTransfer.Common
         }
     }
 
-    public class ModelAttributeDtoForEdit : ModelAttributeDto
+    public class ModelAttributeDto : ModelAttributeDtoBase
     {
-        public ModelAttributeDtoForEdit()
+        public ModelAttributeDto()
         {
             AttributeValues = new List<ModelAttributeMemberDto>();
             AttributeScopes = new List<ModelAttributeScopeDto>();

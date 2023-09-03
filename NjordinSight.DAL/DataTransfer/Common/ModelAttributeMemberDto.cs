@@ -62,7 +62,7 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(ModelAttributeMemberDto_SR.AttributeId_Name),
             Description = nameof(ModelAttributeMemberDto_SR.AttributeId_Description),
             ResourceType = typeof(ModelAttributeMemberDto_SR))]
-        public ModelAttributeDto Attribute { get; set; } = new();
+        public ModelAttributeDtoBase Attribute { get; set; } = new();
     }
 }
 

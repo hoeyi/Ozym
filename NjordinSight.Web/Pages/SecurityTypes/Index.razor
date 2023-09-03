@@ -1,6 +1,6 @@
 ﻿@page "/security-types"
 
-@inherits ModelIndex<SecurityType>
+@inherits ModelIndex<SecurityTypeDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -24,7 +24,7 @@
             else
             {
                 <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(SecurityType.SecurityTypeName)
+                    <DataGridColumn Property=@nameof(SecurityTypeDto.SecurityTypeName)
                                 Caption=@(NameFor(x => x.SecurityTypeName))
                                 Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
@@ -35,32 +35,25 @@
                             </a>
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn 
-                        Property=@nameof(SecurityType.SecurityTypeGroup)
-                        Caption=@(NameFor(x => x.SecurityTypeGroupId))>
-                        <CellTemplate Context="model">
-                            @model.SecurityTypeGroup?.SecurityTypeGroupName
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityType.CanHaveDerivative)
+                    <DataGridColumn Property=@nameof(SecurityTypeDto.CanHaveDerivative)
                                 Caption=@(NameFor(x => x.CanHaveDerivative))>
                         <CellTemplate Context="model">
                             @model.CanHaveDerivative
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityType.CanHavePosition)
+                    <DataGridColumn Property=@nameof(SecurityTypeDto.CanHavePosition)
                                 Caption=@(NameFor(x => x.CanHavePosition))>
                         <CellTemplate Context="model">
                             @model.CanHavePosition
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityType.HeldInWallet)
+                    <DataGridColumn Property=@nameof(SecurityTypeDto.HeldInWallet)
                                 Caption=@(NameFor(x => x.HeldInWallet))>
                         <CellTemplate Context="model">
                             @model.HeldInWallet
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityType.ValuationFactor)
+                    <DataGridColumn Property=@nameof(SecurityTypeDto.ValuationFactor)
                                 Caption=@(NameFor(x => x.ValuationFactor))>
                         <CellTemplate Context="model">
                             @model.ValuationFactor
@@ -74,7 +67,7 @@
 
 
 @code {
-    private void Detail_OnClick(SecurityType model, MouseEventArgs args)
+    private void Detail_OnClick(SecurityTypeDto model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.SecurityTypeId));
     }

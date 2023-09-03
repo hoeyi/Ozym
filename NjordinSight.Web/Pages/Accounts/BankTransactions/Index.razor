@@ -118,8 +118,8 @@
         var transactionCodeDTOsTask = ReferenceData
                 .GetBankCodesAsync(pageNumber: 1, pageSize: int.MaxValue);
 
-        var transactionsQueryTask = HttpService.SelectAsync(
-            queryParameter: LastSearchParameter,
+        var transactionsQueryTask = HttpService.SearchAsync(
+            parameter: LastSearchParameter,
             pageNumber: PaginationHelper.PageIndex,
             pageSize: PaginationHelper.PageSize);
 

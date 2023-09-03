@@ -29,6 +29,13 @@ namespace NjordinSight.Api.Controllers
         Task<ActionResult<TObject>> GetAsync(int id);
 
         /// <summary>
+        /// Retrieves all records from the data store.
+        /// </summary>
+        /// <returns>An <see cref="ActionResult"/> whose value the collection of 
+        /// <typeparamref name="TObject"/> records retrieved from the data store.</returns>
+        Task<ActionResult<IEnumerable<TObject>>> GetAllAsync();
+
+        /// <summary>
         /// Retrieves the collection matching the given page parameters.
         /// </summary>
         /// <param name="pageNumber">The index of page to retrieve.</param>

@@ -25,6 +25,12 @@ namespace NjordinSight.Web.Components.Generic
         protected IHttpService<TModelDto> HttpService { get; init; }
 
         /// <summary>
+        /// Gets or sets the <see cref="ISearchService{T}"/> for this page.
+        /// </summary>
+        [Inject]
+        protected ISearchService<TModelDto> SearchService { get; init; }
+
+        /// <summary>
         /// Checks the <see cref="SearchService"/> and <see cref="Controller"/> properties are 
         /// non-null, else throws an <see cref="ArgumentNullException" />.
         /// </summary>
@@ -44,12 +50,6 @@ namespace NjordinSight.Web.Components.Generic
         /// </summary>
         /// <returns>True if the page is loaded, else false.</returns>
         protected override bool PageDataIsLoading() => Entries is null;
-
-        /// <summary>
-        /// Gets or sets the <see cref="ISearchService{T}"/> for this page.
-        /// </summary>
-        [Inject]
-        protected ISearchService<TModelDto> SearchService { get; init; }
 
         protected IEnumerable<ComparisonOperator> ComparisonOperators => SearchService.ComparisonOperators;
 
@@ -146,8 +146,8 @@ namespace NjordinSight.Web.Components.Generic
             int pageNumber,
             int pageSize)
         {
-            var responseObject = await HttpService.SelectAsync(
-                queryParameter: parameter,
+            var responseObject = await HttpService.SearchAsync(
+                parameter: parameter,
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
 
