@@ -1,6 +1,6 @@
 ﻿@page "/attributes/{ModelId:int}/detail"
 
-@inherits ModelDetail<ModelAttribute>
+@inherits ModelDetail<ModelAttributeDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -19,24 +19,22 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ModelDto">
-                    <EditForm class="model-editor" Model="@ModelDto">
+                <CascadingValue Value="@Model">
+                    <EditForm class="model-editor" Model="@Model">
                         <ModelAttributeCRUD Disabled="false" ReadOnly="true" />
                     </EditForm>
                 </CascadingValue>
             </Body>
         </ContentTile>
-        <EditForm Model="@ModelDto">
+        <EditForm Model="@Model">
             <ContentTile>
                 <Body>
-                    <DataGrid Data="@ModelDto.AttributeScopes">
+                    <DataGrid Data="@Model.AttributeScopes">
                         <DataGridColumn Type="DataGridCellType.Text"
-                                    Property="@nameof(ModelAttributeScope.ScopeCode)"
-                                    Caption="@(ModelMetadata.NameFor<ModelAttributeScope>(x => x.ScopeCode))">
+                                    Property="@nameof(ModelAttributeScopeDto.ScopeCode)"
+                                        Caption="@(ModelMetadata.NameFor<ModelAttributeScopeDto>(x => x.ScopeCode))">
                             <CellTemplate Context="model">
-                                @(model.ScopeCode
-                                    .ConvertFromStringCode<ModelAttributeScopeCode>()
-                                    ?.GetDisplayName())
+                                @model.ScopeCode
                             </CellTemplate>
                         </DataGridColumn>
                     </DataGrid>
@@ -44,17 +42,17 @@
             </ContentTile>
             <ContentTile>
                 <Body>
-                    <DataGrid Data="@ModelDto.AttributeMembers">
+                    <DataGrid Data="@Model.AttributeValues">
                         <DataGridColumn Type="DataGridCellType.Text"
-                                    Property="@nameof(ModelAttributeMember.DisplayName)"
-                                    Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayName))">
+                                    Property="@nameof(ModelAttributeMemberDto.DisplayName)"
+                                    Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayName))">
                             <CellTemplate Context="model">
                                 @model.DisplayName
                             </CellTemplate>
                         </DataGridColumn>
                         <DataGridColumn Type="DataGridCellType.Text"
-                                    Property="@nameof(ModelAttributeMember.DisplayOrder)"
-                                    Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayOrder))">
+                                    Property="@nameof(ModelAttributeMemberDto.DisplayOrder)"
+                                    Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayOrder))">
                             <CellTemplate Context="model">
                                 @model.DisplayOrder
                             </CellTemplate>
@@ -70,8 +68,6 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private ModelAttributeDtoBase ModelDto { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
 
@@ -79,20 +75,11 @@
 
         try
         {
-            var modelQuery = await Controller.ReadAsync(ModelId);
-            Model = modelQuery.Value;
-
-            ModelDto = new(Model);
+            Model = await HttpService.GetAsync(ModelId);
         }
         finally
         {
-            IsLoading = Model is null || ModelDto is null;
+            IsLoading = Model is null;
         }
-
-        // TODO: Take corrective action here, accountQuery.Value should be Account
     }
-
-    private string GetDisplayName(ModelAttributeScope attributeScope) =>
-        attributeScope.ScopeCode.ConvertFromStringCode<ModelAttributeScopeCode>()?.GetDisplayName() ??
-        string.Empty;
 }

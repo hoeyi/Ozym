@@ -30,7 +30,6 @@ namespace NjordinSight.Web.Services
     public partial class HttpService<T>
     {
         private readonly string _rootApiPath;
-        private readonly IHttpClientFactory _httpFactory;
         private readonly IReadOnlyDictionary<Type, string> _endPointMap =
             new Dictionary<Type, string>()
             {
@@ -54,7 +53,7 @@ namespace NjordinSight.Web.Services
             if (configuration is null)
                 throw new ArgumentNullException(paramName: nameof(configuration));
 
-            _httpFactory = httpFactory;
+            HttpFactory = httpFactory;
 
             var apiOptions = new ApiOptions();
             configuration.GetSection(ApiOptions.ApiService).Bind(apiOptions);
@@ -62,6 +61,8 @@ namespace NjordinSight.Web.Services
             _rootApiPath = apiOptions.Url;
             ResourceIndexUri = CombinePath(rootPath: _rootApiPath, relativePath: _endPointMap[typeof(T)]);
         }
+
+        protected IHttpClientFactory HttpFactory { get; init; }
 
         /// <summary>
         /// Gets or sets the base URI for this web service.
@@ -77,7 +78,7 @@ namespace NjordinSight.Web.Services
             string relativePath = _endPointMap[typeof(TRecord)];
             string absolutePath = CombinePath(_rootApiPath, $"{relativePath}/{id}");
 
-            using var client = _httpFactory.CreateClient();
+            using var client = HttpFactory.CreateClient();
 
             var response = await client.GetFromJsonAsync<TRecord>(absolutePath);
 
@@ -90,7 +91,7 @@ namespace NjordinSight.Web.Services
             string relativePath = _endPointMap[typeof(TRecord)];
             string absolutePath = CombinePath(_rootApiPath, $"{relativePath}/all");
 
-            using var client = _httpFactory.CreateClient();
+            using var client = HttpFactory.CreateClient();
 
             var response = await client.GetFromJsonAsync<IEnumerable<TRecord>>(absolutePath);
 
@@ -105,7 +106,7 @@ namespace NjordinSight.Web.Services
             string endpoint = _endPointMap[typeof(TRecord)];
             string relativePath = CombinePath(_rootApiPath, endpoint);
 
-            using var client = _httpFactory.CreateClient();
+            using var client = HttpFactory.CreateClient();
 
             var httpResponse = await client.PostAsJsonAsync(
                 $"{relativePath}/search?&pageNumber={pageNumber}&pageSize={pageSize}", queryParameter);
@@ -127,19 +128,19 @@ namespace NjordinSight.Web.Services
             return (deserializedResults, pageData);
         }
 
-        protected async Task<(IEnumerable<T>, PaginationData)> SearchAsync(
+        protected async Task<(TRepsonse, PaginationData)> SearchAsync<TRepsonse>(
             string requestUri, IQueryParameter<T> parameter)
         {
             if (parameter is null)
                 throw new ArgumentNullException(paramName: nameof(parameter));
 
-            using var client = _httpFactory.CreateClient();
+            using var client = HttpFactory.CreateClient();
 
             var httpResponse = await client.PostAsJsonAsync(requestUri, parameter);
 
             httpResponse.EnsureSuccessStatusCode();
 
-            var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<T>>();
+            var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<TRepsonse>();
 
             PaginationData pageData = null!;
 
@@ -167,7 +168,7 @@ namespace NjordinSight.Web.Services
         /// <inheritdoc/>
         public async Task<T> GetAsync(int? id)
         {
-            using var client = _httpFactory.CreateClient();
+            using var client = HttpFactory.CreateClient();
 
             return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/{id}");
         }
@@ -175,7 +176,7 @@ namespace NjordinSight.Web.Services
         /// <inheritdoc/>
         public async Task DeleteAsync(int id)
         {
-            using var client = _httpFactory.CreateClient();
+            using var client = HttpFactory.CreateClient();
 
             var httpResponse =  await client.DeleteAsync($"{ResourceIndexUri}/{id}");
 
@@ -185,7 +186,7 @@ namespace NjordinSight.Web.Services
         /// <inheritdoc/>
         public async Task<T> InitDefaultAsync()
         {
-            using var client = _httpFactory.CreateClient();
+            using var client = HttpFactory.CreateClient();
 
             return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/init");
         }
@@ -193,7 +194,7 @@ namespace NjordinSight.Web.Services
         /// <inheritdoc/>
         public async Task<Uri> PostAysnc(T model)
         {
-            using var client = _httpFactory.CreateClient();
+            using var client = HttpFactory.CreateClient();
 
             var httpResponse = await client.PostAsJsonAsync(requestUri: $"{ResourceIndexUri}", model);
 
@@ -205,7 +206,7 @@ namespace NjordinSight.Web.Services
         /// <inheritdoc/>
         public async Task<Uri> PutAsync(int? id, T model)
         {
-            using var client = _httpFactory.CreateClient();
+            using var client = HttpFactory.CreateClient();
 
             var httpResponse = await client.PutAsJsonAsync(
                 requestUri: $"{ResourceIndexUri}", model, options: new(JsonSerializerDefaults.Web));
@@ -224,12 +225,22 @@ namespace NjordinSight.Web.Services
 
             string requestUri = $"{ResourceIndexUri}/search?&pageNumber={pageNumber}&pageSize={pageSize}";
 
-            return await SearchAsync(requestUri, parameter);
+            return await SearchAsync<IEnumerable<T>>(requestUri, parameter);
         }
     }
 
     public partial class HttpService<T> : IHttpCollectionService<T>
     {
+        /// <inheritdoc/>
+        public async Task<IEnumerable<T>> GetAsync(int pageNumber = 1, int pageSize = 20)
+        {
+            using var client = HttpFactory.CreateClient();
+
+            string requestUri = $"{ResourceIndexUri}?&pageNumber={pageNumber}&pageSize={pageSize}";
+
+            return await client.GetFromJsonAsync<IEnumerable<T>>(requestUri);
+        }
+
         /// <inheritdoc/>
         public Task<Uri> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes)
         {
@@ -252,6 +263,18 @@ namespace NjordinSight.Web.Services
         }
 
         /// <inheritdoc/>
+        public async Task<IEnumerable<T>> GetAsync(TParentKey parent, int pageNumber = 1, int pageSize = 20)
+        {
+            using var client = HttpFactory.CreateClient();
+
+            string requestUri = CombinePath(
+                rootPath: string.Format(ResourceIndexUri, parent),
+                relativePath: $"/search?&pageNumber={pageNumber}&pageSize={pageSize}");
+
+            return await client.GetFromJsonAsync<IEnumerable<T>>(requestUri);
+        }
+
+        /// <inheritdoc/>
         public Task<Uri> PatchCollectionAsync(
             IEnumerable<(T, TrackingState)> changes, TParentKey parent)
         {
@@ -259,7 +282,7 @@ namespace NjordinSight.Web.Services
         }
 
         /// <inheritdoc/>
-        public async Task<(IEnumerable<T>, PaginationData)> SearchAsync(
+        public async Task<(IEnumerable<T>, TParent, PaginationData)> SearchAsync<TParent>(
             TParentKey parent, IQueryParameter<T> parameter, int pageNumber = 1, int pageSize = 20)
         {
             if (parameter is null)
@@ -269,7 +292,9 @@ namespace NjordinSight.Web.Services
                 rootPath: string.Format(ResourceIndexUri, parent),
                 relativePath: $"/search?&pageNumber={pageNumber}&pageSize={pageSize}");
 
-            return await SearchAsync(requestUri, parameter);
+            var (response, pageData) = await SearchAsync<(IEnumerable<T>, TParent)>(requestUri, parameter);
+
+            return (response.Item1, response.Item2, pageData);
         }
     }
 }

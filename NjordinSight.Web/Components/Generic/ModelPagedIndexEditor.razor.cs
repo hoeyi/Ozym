@@ -29,10 +29,8 @@ namespace NjordinSight.Web.Components.Generic
     public partial class ModelPagedIndexEditor<TModelDto> : ModelPage<TModelDto>
         where TModelDto : class, INotifyPropertyChanged, new()
     {
-        public virtual int ModelId { get; init; }
-
         [Inject]
-        protected IHttpService<TModelDto> HttpService { get; init; }
+        protected IHttpCollectionService<TModelDto> HttpService { get; init; }
 
         /// <summary>
         /// Gets or sets the <see cref="ISearchService{T}"/> for this page.
@@ -70,11 +68,9 @@ namespace NjordinSight.Web.Components.Generic
         /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        protected virtual async Task AddNewAsync(MouseEventArgs args)
+        protected virtual void AddNew(MouseEventArgs args)
         {
-            var responseObject = await HttpService.InitDefaultAsync();
-
-            WorkingEntries.Add(responseObject);
+            WorkingEntries.Add(new());
         }
 
         /// <summary>

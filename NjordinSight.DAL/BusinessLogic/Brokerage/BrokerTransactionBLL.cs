@@ -244,6 +244,29 @@ namespace NjordinSight.BusinessLogic.Brokerage
         private AccountDto ParentAccount { get; init; }
 
         public BrokerTransactionBLL(
+            ITrackingEnumerable<BrokerTransactionDto> brokerTransactions,
+            IEnumerable<BrokerTransactionCodeDtoBase> transactionCodes,
+            AccountDto parentAccount)
+        {
+            if (brokerTransactions is null)
+                throw new ArgumentNullException(paramName: nameof(brokerTransactions));
+
+            if (transactionCodes is null)
+                throw new ArgumentNullException(paramName: nameof(transactionCodes));
+
+            if (parentAccount is null)
+                throw new ArgumentNullException(paramName: nameof(parentAccount));
+
+            if (brokerTransactions.Any(x => x.AccountId != parentAccount.Id))
+                throw new InvalidOperationException(
+                    message: ExceptionString.BrokerTransactionBLL_InvalidCollectionParent);
+
+            TrackingEntries = brokerTransactions;
+            TransactionCodes = transactionCodes;
+            ParentAccount = parentAccount;
+        }
+
+        public BrokerTransactionBLL(
             IList<BrokerTransactionDto> brokerTransactions,
             IEnumerable<BrokerTransactionCodeDtoBase> transactionCodes,
             AccountDto parentAccount)
@@ -265,6 +288,7 @@ namespace NjordinSight.BusinessLogic.Brokerage
             TransactionCodes = transactionCodes;
             ParentAccount = parentAccount;
         }
+
         private static IEnumerable<(BrokerTransactionDto, BrokerTransactionCodeDtoBase)> MergeDatasets(
             IEnumerable<BrokerTransactionDto> brokerTransactions, 
             IEnumerable<BrokerTransactionCodeDtoBase> transactionCodes)

@@ -32,7 +32,7 @@
                     @Strings.Caption_Button_Save
                 </button>
             <button class="form-control button" width="20%"
-                    @onclick=@(async (args) => await AddNewAsync(args))>
+                    @onclick=@((args) => AddNew(args))>
                     @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                 </button>
                 <button class="form-control button" width="20%"
@@ -111,7 +111,7 @@
 
 @code {
     [Parameter]
-    public override int ModelId { get; init; }
+    public int ModelId { get; init; }
 
     private IEnumerable<BankTransactionCodeDtoBase> TransactionCodes { get; set; }
 

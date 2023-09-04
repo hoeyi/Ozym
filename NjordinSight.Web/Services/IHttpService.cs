@@ -154,7 +154,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageSize">Limit to records returned in a single page.</param>
         /// <returns>A task containing the <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> 
         /// matching the given predication and page parameters.</returns>
-        Task<(IEnumerable<T>, PaginationData)> SearchAsync(
+        Task<(IEnumerable<T>, TParent, PaginationData)> SearchAsync<TParent>(
             TParentKey parent, IQueryParameter<T> parameter, int pageNumber = 1, int pageSize = 20);
     }
 }

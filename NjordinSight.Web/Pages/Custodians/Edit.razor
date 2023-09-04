@@ -25,7 +25,7 @@
                     @Strings.Caption_Button_Save
                 </button>
                 <button class="form-control button" 
-                    @onclick="(async (args) => await AddNewAsync(args))">
+                    @onclick="((args) => AddNew(args))">
                     @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                 </button>
                 <button class="form-control button" @onclick="CancelEditor_OnClick"
@@ -58,7 +58,7 @@
                             </DataGridColumn>
                             <DataGridColumn 
                                 Type="DataGridCellType.Control"
-                                Property=@nameof(AccountCustodian.CustodianCode)
+                                Property=@nameof(AccountCustodianDto.CustodianCode)
                                 Caption=@(NameFor(x => x.CustodianCode))>
                                 <CellEditTemplate Context="model">
                                     <InputText class="form-control" @bind-Value=model.CustodianCode />
@@ -67,7 +67,7 @@
                             </DataGridColumn>
                             <DataGridColumn 
                                 Type="DataGridCellType.Control" 
-                                Property=@nameof(AccountCustodian.DisplayName)
+                                Property=@nameof(AccountCustodianDto.DisplayName)
                                 Caption=@(NameFor(x => x.DisplayName))>
                                 <CellEditTemplate Context="model">
                                     <InputText class="form-control" @bind-Value=model.DisplayName />

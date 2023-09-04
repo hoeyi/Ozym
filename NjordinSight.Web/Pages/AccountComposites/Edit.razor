@@ -49,9 +49,6 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    [Inject]
-    protected IReferenceDataService ReferenceData { get; init; }
-
     private IEnumerable<AccountDto> AccountDtos { get; set; }
 
     protected override async Task OnInitializedAsync()

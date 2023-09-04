@@ -32,25 +32,25 @@
             else
             {
                 <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property="@nameof(BankTransaction.TransactionCodeId)"
+                    <DataGridColumn Property="@nameof(BankTransactionDto.TransactionCodeId)"
                                 Caption="@NameFor(x => x.TransactionCodeId)">
                         <CellTemplate Context="model">
                             @GetDisplayValue(TransactionCodes, model.TransactionCodeId)
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property="@nameof(BankTransaction.TransactionDate)"
+                    <DataGridColumn Property="@nameof(BankTransactionDto.TransactionDate)"
                                 Caption="@(NameFor(x => x.TransactionDate))">
                         <CellTemplate Context="model">
                             @model.TransactionDate.ToShortDateString()
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property="@nameof(BankTransaction.Amount)"
+                    <DataGridColumn Property="@nameof(BankTransactionDto.Amount)"
                                 Caption="@(NameFor(x => x.Amount))">
                         <CellTemplate Context="model">
                             @model.Amount
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property="@nameof(BankTransaction.Comment)"
+                    <DataGridColumn Property="@nameof(BankTransactionDto.Comment)"
                                 Caption="@(NameFor(x => x.Comment))">
                         <CellTemplate Context="model">
                             @model.Comment
@@ -64,7 +64,7 @@
 
 @code {
     [Parameter]
-    public override int ModelId { get; init; }
+    public int ModelId { get; init; }
 
     private IEnumerable<BankTransactionCodeDtoBase> TransactionCodes { get; set; }
 
@@ -82,14 +82,13 @@
                 IconKey = "caret-back-circle",
                 Caption = string.Format(
                         Strings.Caption_NavigateBackTo,
-                        ModelMetadata.GetAttribute<Account, NounAttribute>()?.GetSingular()),
+                        ModelMetadata.GetAttribute<AccountDto, NounAttribute>()?.GetSingular()),
                 UriRelativePath = $"{IndexUriRelativePath}/{ModelId}/detail"
             },
             new MenuItem()
             {
                 IconKey = "pencil",
-                Caption = string.Format(
-                                            Strings.Caption_EditMany, ModelNoun?.GetPlural()),
+                Caption = string.Format(Strings.Caption_EditMany, ModelNoun?.GetPlural()),
                 UriRelativePath = $"{IndexUriRelativePath}/{ModelId}/edit/bank-transactions"
             }
         }

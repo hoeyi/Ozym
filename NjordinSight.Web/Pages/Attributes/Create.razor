@@ -126,10 +126,10 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private IEnumerable<LookupModel<string, string>> AttributeScopeDtos { get; set; }
-
     [Inject]
-    public IQueryService QueryService { get; init;}
+    protected IQueryService QueryService { get; init; }
+
+    private IEnumerable<LookupModel<string, string>> AttributeScopeDtos { get; set; }
 
     private EditContext _attributeScopeContext;
     private EditContext _attributeMemberContext;
@@ -173,8 +173,6 @@
         {
             IsLoading = Model is null || !(AttributeScopeDtos?.Any() ?? false);
         }
-
-        // TODO: Take corrective action here, accountQuery.Value should be Account
     }
 
     private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);

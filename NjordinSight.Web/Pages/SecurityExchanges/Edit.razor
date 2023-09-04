@@ -26,7 +26,7 @@
                     @Strings.Caption_Button_Save
                 </button>
                 <button class="form-control button"
-                    @onclick="(async (args) => await AddNewAsync(args))">
+                    @onclick="((args) => AddNew(args))">
                     @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                 </button>
                 <button class="form-control button" @onclick="CancelEditor_OnClick"
