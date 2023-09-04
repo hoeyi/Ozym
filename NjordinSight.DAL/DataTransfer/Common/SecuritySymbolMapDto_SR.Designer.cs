@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SecuritySymbolMapDto_SR {
+    public class SecuritySymbolMapDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.SecuritySymbolMapDto_SR", typeof(SecuritySymbolMapDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Custodian to which the mapping applies..
         /// </summary>
-        internal static string AccountCustodianId_Description {
+        public static string AccountCustodianId_Description {
             get {
                 return ResourceManager.GetString("AccountCustodianId_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Custodian.
         /// </summary>
-        internal static string AccountCustodianId_Name {
+        public static string AccountCustodianId_Name {
             get {
                 return ResourceManager.GetString("AccountCustodianId_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Identifier used by the custodian..
         /// </summary>
-        internal static string CustodianSymbol_Description {
+        public static string CustodianSymbol_Description {
             get {
                 return ResourceManager.GetString("CustodianSymbol_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Symbol (Custodian).
         /// </summary>
-        internal static string CustodianSymbol_Name {
+        public static string CustodianSymbol_Name {
             get {
                 return ResourceManager.GetString("CustodianSymbol_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string SecuritySymbolId_Description {
+        public static string SecuritySymbolId_Description {
             get {
                 return ResourceManager.GetString("SecuritySymbolId_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string SecuritySymbolId_Name {
+        public static string SecuritySymbolId_Name {
             get {
                 return ResourceManager.GetString("SecuritySymbolId_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Identifier used by the app..
         /// </summary>
-        internal static string SymbolMapId_Description {
+        public static string SymbolMapId_Description {
             get {
                 return ResourceManager.GetString("SymbolMapId_Description", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Symbol (Application).
         /// </summary>
-        internal static string SymbolMapId_Name {
+        public static string SymbolMapId_Name {
             get {
                 return ResourceManager.GetString("SymbolMapId_Name", resourceCulture);
             }

@@ -15,7 +15,7 @@
     {
         <ContentTile>
             <Body>
-                <SearchInputTable TModel="MarketIndexPriceDtoBase"
+                <SearchInputTable TModel="MarketIndexPriceDto"
                                   ComparisonOperators=@SearchService.ComparisonOperators
                                   ExpressionBuilder=@SearchService.ExpressionBuilder
                                   SearchFields=@SearchService.SearchFields
@@ -74,7 +74,7 @@
 
 @code {
     [Inject]
-    public IReferenceDataService ReferenceData { get; init; }
+    protected IReferenceDataService ReferenceData { get; init; }
 
     private IDictionary<string, string> PriceCodeLookup { get; set; }
 
@@ -97,7 +97,7 @@
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        IQueryParameter<MarketIndexPriceDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<MarketIndexPriceDto> parameter, int pageNumber, int pageSize)
     {
         var marketIndexDtosTask = HttpService.SearchAsync<MarketIndexDto>(
             queryParameter: null,
@@ -116,14 +116,7 @@
 
         Entries = priceResult.Item1.ToList();
         MarketIndices = marketIndexResult.Item1;
-        PriceCodeLookup = ReferenceData
-            .CreateEnumerableDisplayMap<MarketIndexPriceCode, string, string>(
-                predicate: x => true,
-                key: x => x.ConvertToStringCode(),
-                display: x => NameFor<MarketIndexPriceCode>(x),
-                placeHolderDelegate: () => new KeyValuePair<string, string>(
-                    key: string.Empty, 
-                    value: Resources.Strings.Caption_InputSelect_Placeholder));
+        PriceCodeLookup = ReferenceData.GetMarketIndexPriceCodeDisplayMap();
 
         PaginationHelper.TotalItemCount = priceResult.Item2.ItemCount;
         PaginationHelper.ItemCount = Entries.Count();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NjordinSight.DataTransfer;
 using NjordinSight.DataTransfer.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="AccountDto"/>.</returns>
-        public Task<ActionResult<IEnumerable<AccountDto>>> GetAccountsAsync(
+        Task<ActionResult<IEnumerable<AccountDto>>> GetAccountsAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="AccountCustodianDto"/>.</returns>
-        public Task<ActionResult<IEnumerable<AccountCustodianDto>>> GetCustodiansAsync(
+        Task<ActionResult<IEnumerable<AccountCustodianDto>>> GetCustodiansAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BankTransactionCodeDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<BankTransactionCodeDtoBase>>> GetBankCodesAsync(
+        Task<ActionResult<IEnumerable<BankTransactionCodeDtoBase>>> GetBankCodesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTransactionCodeDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<BrokerTransactionCodeDtoBase>>> GetBrokerCodesAsync(
+        Task<ActionResult<IEnumerable<BrokerTransactionCodeDtoBase>>> GetBrokerCodesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="CountryDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<CountryDtoBase>>> GetCountriesAsync(
+        Task<ActionResult<IEnumerable<CountryDtoBase>>> GetCountriesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetDepositSecuritiesAsync(
+        Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetDepositSecuritiesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -72,7 +73,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetCryptoCurrencySecuritiesAsync(
+        Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetCryptoCurrencySecuritiesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -81,7 +82,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityTypeDto"/>.</returns>
-        public Task<ActionResult<IEnumerable<SecurityTypeDto>>> GetSecurityTypesAsync(
+        Task<ActionResult<IEnumerable<SecurityTypeDto>>> GetSecurityTypesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -90,7 +91,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityTypeGroupDto"/>.</returns>
-        public Task<ActionResult<IEnumerable<SecurityTypeGroupDto>>> GetSecurityTypeGroupsAsync(
+        Task<ActionResult<IEnumerable<SecurityTypeGroupDto>>> GetSecurityTypeGroupsAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetTransactableSecurities(
+        Task<ActionResult<IEnumerable<SecurityDtoBase>>> GetTransactableSecurities(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -110,7 +111,16 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="ModelAttributeMemberDtoBase"/>.</returns>
-        public Task<ActionResult<IEnumerable<ModelAttributeMemberDtoBase>>> GetAttributeValuesAsync(
+        Task<ActionResult<IEnumerable<ModelAttributeMemberDtoBase>>> GetAttributeValuesAsync(
             int attributeId, int pageNumber = 1, int pageSize = 20);
+
+        /// <summary>
+        /// Gets the defined <see cref="SecuritySymbolTypeDto"/> records from the data store.
+        /// </summary>
+        /// <param name="pageNumber">The index of the page to retrieve.</param>
+        /// <param name="pageSize">The record limit per page.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="ModelAttributeMemberDtoBase"/>.</returns>
+        Task<ActionResult<IEnumerable<SecuritySymbolTypeDto>>> GetSecuritySymbolTypesAsync(
+            int pageNumber = 1, int pageSize = 20);
     }
 }

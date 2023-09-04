@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NjordinSight.BusinessLogic.Functions;
 using NjordinSight.BusinessLogic.MarketFeed;
-using NjordinSight.EntityModel;
-using NjordinSight.EntityModel.Context;
-using NjordinSight.Web.Controllers;
-using NjordinSight.Web.Controllers.Abstractions;
+//using NjordinSight.EntityModel.Context;
 using NjordinSight.Web.Services;
 using NjordinSight.Web.Data;
 using System;
@@ -22,6 +19,7 @@ using System.Reflection;
 using System.Net.Http;
 using System.Collections;
 using System.Collections.Generic;
+using NjordinSight.DataTransfer.Common;
 
 namespace NjordinSight.Web
 {
@@ -48,71 +46,7 @@ namespace NjordinSight.Web
         /// </remarks>
         public static IServiceCollection AddBlazorPageServices(this IServiceCollection services)
         {
-            services
-                .AddModelControllers()
-                .AddRazorHelperServices();
-
-            return services;
-        }
-
-        /// <summary>
-        /// Adds the controllers to the collection.
-        /// </summary>
-        /// <param name="services"></param>
-        public static IServiceCollection AddModelControllers(this IServiceCollection services)
-        {
-            services
-                // Add single-entity controllers.
-                .AddScoped<IController<Account>, ModelController<Account>>()
-                .AddScoped<IController<AccountComposite>, ModelController<AccountComposite>>()
-                .AddScoped<IController<AccountCustodian>, ModelController<AccountCustodian>>()
-                .AddScoped<IController<BankTransactionCode>, ModelController<BankTransactionCode>>()
-                .AddScoped<IController<BrokerTransactionCode>, ModelController<BrokerTransactionCode>>()
-                .AddScoped<IController<Country>, ModelController<Country>>()
-                .AddScoped<IController<InvestmentStrategy>, ModelController<InvestmentStrategy>>()
-                .AddScoped<IController<MarketHoliday>, ModelController<MarketHoliday>>()
-                .AddScoped<IController<MarketIndex>, ModelController<MarketIndex>>()
-                .AddScoped<IController<ModelAttribute>, ModelController<ModelAttribute>>()
-                .AddScoped<IController<ReportConfiguration>, ModelController<ReportConfiguration>>()
-                .AddScoped<IController<ReportStyleSheet>, ModelController<ReportStyleSheet>>()
-                .AddScoped<IController<ResourceImage>, ModelController<ResourceImage>>()
-                .AddScoped<IController<SecurityExchange>, ModelController<SecurityExchange>>()
-                .AddScoped<IController<Security>, ModelController<Security>>()
-                .AddScoped<IController<SecurityTypeGroup>, ModelController<SecurityTypeGroup>>()
-                .AddScoped<IController<SecurityType>, ModelController<SecurityType>>()
-                .AddScoped<IController<SecurityPrice>, ModelController<SecurityPrice>>()
-
-                // Add entity-collection controllers.
-                .AddScoped<ICollectionController<
-                    AccountCustodian>, ModelCollectionController<AccountCustodian>>()
-                .AddScoped<
-                    ICollectionController<AccountWallet, int>, 
-                    ModelCollectionController<AccountWallet, int>>()
-                .AddScoped<
-                    ICollectionController<BankTransaction, int>, 
-                    ModelCollectionController<BankTransaction, int>>()
-                .AddScoped<
-                    IBrokerTransactionController, BrokerTransactionController>()
-                .AddScoped<
-                    ICollectionController<
-                        InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)>,
-                    ModelCollectionController<
-                        InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)>>()
-                .AddScoped<
-                    ICollectionController<InvestmentPerformanceEntry, int>, 
-                    ModelCollectionController<InvestmentPerformanceEntry, int>>()
-                .AddScoped<
-                    ICollectionController<MarketHolidayObservance>, 
-                    ModelCollectionController<MarketHolidayObservance>>()
-                .AddScoped<
-                    ICollectionController<MarketIndexPrice>, 
-                    ModelCollectionController<MarketIndexPrice>>()
-                .AddScoped<
-                    ICollectionController<SecurityExchange>, 
-                    ModelCollectionController<SecurityExchange>>()
-                .AddScoped<
-                    ICollectionController<SecurityPrice>, 
-                    ModelCollectionController<SecurityPrice>>();
+            services.AddRazorHelperServices();
 
             return services;
         }
@@ -126,8 +60,13 @@ namespace NjordinSight.Web
         public static IServiceCollection AddHttpServices(this IServiceCollection services)
         {
             services.AddHttpClient();
-            services.AddTransient(typeof(IHttpService<>), typeof(HttpService<>));
-            services.AddTransient(typeof(IReferenceDataService), typeof(ReferenceDataService));
+            services
+                .AddTransient(typeof(IHttpService<>), typeof(HttpService<>))
+                .AddTransient(typeof(IHttpCollectionService<>), typeof(HttpService<>))
+                .AddTransient(
+                    serviceType: typeof(IHttpCollectionService<AccountWalletDto, int>), 
+                    implementationType: typeof(HttpService<AccountWalletDto, int>))
+                .AddTransient(typeof(IReferenceDataService), typeof(ReferenceDataService));
 
             return services;
         }

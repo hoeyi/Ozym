@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using NjordinSight.ChangeTracking;
+using NjordinSight.DataTransfer;
 using NjordinSight.DataTransfer.Common.Query;
 using NjordinSight.Web.Components.Common;
 using NjordinSight.Web.Services;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace NjordinSight.Web.Components.Generic
@@ -62,7 +64,7 @@ namespace NjordinSight.Web.Components.Generic
         /// </summary>
         protected virtual IEnumerable<TModelDto> Entries { get; set; }
 
-        protected IQueryParameter<TModelDto>? LastSearchParameter { get; set; }
+        protected ParameterDto<TModelDto>? LastSearchParameter { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="PagerModel" /> for this component.
@@ -119,10 +121,14 @@ namespace NjordinSight.Web.Components.Generic
 
             try
             {
-                await RefreshResultsAsync(
-                    parameter: LastSearchParameter,
+                var responseObject = await HttpService.IndexAsync(
                     pageNumber: PaginationHelper.PageIndex,
                     pageSize: PaginationHelper.PageSize);
+
+                Entries = responseObject.Item1;
+
+                PaginationHelper.TotalItemCount = responseObject.Item2.ItemCount;
+                PaginationHelper.ItemCount = Entries.Count();
             }
             finally
             {
@@ -142,7 +148,7 @@ namespace NjordinSight.Web.Components.Generic
         /// <exception cref="NotImplementedException">The method has not been overriden in a 
         /// derived class.</exception>
         protected virtual async Task RefreshResultsAsync(
-            IQueryParameter<TModelDto> parameter,
+            ParameterDto<TModelDto> parameter,
             int pageNumber,
             int pageSize)
         {

@@ -26,7 +26,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="AccountDto"/>.</returns>
-        public Task<(IEnumerable<AccountDto>, PaginationData)> GetAccountsAsync(
+        Task<(IEnumerable<AccountDto>, PaginationData)> GetAccountsAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="AccountCustodianDto"/>.</returns>
-        public Task<(IEnumerable<AccountCustodianDto>, PaginationData)> GetCustodiansAsync(
+        Task<(IEnumerable<AccountCustodianDto>, PaginationData)> GetCustodiansAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BankTransactionCodeDtoBase"/>.</returns>
-        public Task<(IEnumerable<BankTransactionCodeDtoBase>, PaginationData)> GetBankCodesAsync(
+        Task<(IEnumerable<BankTransactionCodeDtoBase>, PaginationData)> GetBankCodesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTransactionCodeDtoBase"/>.</returns>
-        public Task<(IEnumerable<BrokerTransactionCodeDtoBase>, PaginationData)> GetBrokerCodesAsync(
+        Task<(IEnumerable<BrokerTransactionCodeDtoBase>, PaginationData)> GetBrokerCodesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="CountryDtoBase"/>.</returns>
-        public Task<(IEnumerable<CountryDtoBase>, PaginationData)> GetCountriesAsync(
+        Task<(IEnumerable<CountryDtoBase>, PaginationData)> GetCountriesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityDtoBase"/>.</returns>
-        public Task<(IEnumerable<SecurityDtoBase>, PaginationData)> GetDepositSecuritiesAsync(
+        Task<(IEnumerable<SecurityDtoBase>, PaginationData)> GetDepositSecuritiesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityDtoBase"/>.</returns>
-        public Task<(IEnumerable<SecurityDtoBase>, PaginationData)> GetCryptoCurrencySecuritiesAsync(
+        Task<(IEnumerable<SecurityDtoBase>, PaginationData)> GetCryptoCurrencySecuritiesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public Task<IEnumerable<string>> GetIssuersAsync(
+        Task<(IEnumerable<string>, PaginationData)> GetIssuersAsync(
             string? pattern, int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityTypeDto"/>.</returns>
-        public Task<(IEnumerable<SecurityTypeDto>, PaginationData)> GetSecurityTypesAsync(
+        Task<(IEnumerable<SecurityTypeDto>, PaginationData)> GetSecurityTypesAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityTypeGroupDto"/>.</returns>
-        public Task<(IEnumerable<SecurityTypeGroupDto>, PaginationData)>  GetSecurityTypeGroupsAsync(
+        Task<(IEnumerable<SecurityTypeGroupDto>, PaginationData)>  GetSecurityTypeGroupsAsync(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="SecurityDtoBase"/>.</returns>
-        public Task<(IEnumerable<SecurityDtoBase>, PaginationData)> GetTransactableSecurities(
+        Task<(IEnumerable<SecurityDtoBase>, PaginationData)> GetTransactableSecurities(
             int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
@@ -130,44 +130,20 @@ namespace NjordinSight.Web.Services
         /// <param name="pageNumber">The index of the page to retrieve.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="ModelAttributeMemberDtoBase"/>.</returns>
-        public Task<(IEnumerable<ModelAttributeMemberDtoBase>, PaginationData)> GetAttributeValuesAsync(
+        Task<(IEnumerable<ModelAttributeMemberDtoBase>, PaginationData)> GetAttributeValuesAsync(
             int attributeId, int pageNumber = 1, int pageSize = 20);
 
+        Task<(IEnumerable<SecuritySymbolTypeDto>, PaginationData)> GetSecuritySymbolTypesAsync(
+            int pageNumber = 1, int pageSize = 20);
+
         /// <summary>
-        /// Converts the given <typeparamref name="TEnum"/> members to a key-value map 
-        /// for display values.
+        /// Gets the display map for the <see cref="MarketIndexPriceDto"/> price code constraint.
         /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <typeparam name="TKey">The key type for the resulting map.</typeparam>
-        /// <typeparam name="TValue">The value type for the resulting map.</typeparam>
-        /// <param name="predicate">Predicate to filter the member results.</param>
-        /// <param name="key">Expression describing the method to assign the key value for each record.</param>
-        /// <param name="display">Expression describing the method to assign the display value for each record.</param>
-        /// <param name="placeHolderDelegate">Delegate for creating a placehold/defult entry.</param>
-        /// <returns>A collection of key-value assignments, where the value is the display value 
-        /// for the record.</returns>
-        public IDictionary<TKey, TValue> CreateEnumerableDisplayMap<TEnum, TKey, TValue>(
-            Func<TEnum, bool> predicate,
-            Expression<Func<TEnum, TKey>> key,
-            Expression<Func<TEnum, TValue>> display,
-            Func<KeyValuePair<TKey, TValue>> placeHolderDelegate = null)
-            where TEnum : struct, Enum
-        {
-            var keyDeleg = key.Compile();
-            var displayDeleg = display.Compile();
-
-            var results = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()
-                .Where(predicate)
-                .ToDictionary(x => keyDeleg(x), x => displayDeleg(x));
-
-            if (placeHolderDelegate is not null)
-            {
-                var placeHolder = placeHolderDelegate.Invoke();
-                results.Add(placeHolder.Key, placeHolder.Value);
-            }
-
-            return results;
-        }
+        /// <param name="placeHolderDelegate"></param>
+        /// <returns>An <see cref="IDictionary{TKey, TValue}"/> where the key is the bound 
+        /// string and the value is the display string.</returns>
+        IDictionary<string, string> GetMarketIndexPriceCodeDisplayMap(
+            Func<KeyValuePair<string, string>> placeHolderDelegate = null);
     }
 
     public class ReferenceDataService : IReferenceDataService
@@ -225,12 +201,14 @@ namespace NjordinSight.Web.Services
             return (deserializedResults, pageData);
         }
 
+        /// <inheritdoc/>
         public async Task<(IEnumerable<AccountDto>, PaginationData)> GetAccountsAsync(
             int pageNumber = 1, int pageSize = 20)
         {
             return await GetAsync<AccountDto>(endPoint: "accounts", pageNumber, pageSize);
         }
 
+        /// <inheritdoc/>
         public async Task<(IEnumerable<ModelAttributeMemberDtoBase>, PaginationData)> GetAttributeValuesAsync(
             int attributeId, int pageNumber = 1, int pageSize = 20)
         {
@@ -257,6 +235,7 @@ namespace NjordinSight.Web.Services
             return (deserializedResults, pageData);
         }
 
+        /// <inheritdoc/>
         public async Task<(IEnumerable<BankTransactionCodeDtoBase>, PaginationData)> GetBankCodesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
@@ -264,6 +243,7 @@ namespace NjordinSight.Web.Services
                 endPoint: "bank-transaction-codes", pageNumber, pageSize);
         }
 
+        /// <inheritdoc/>
         public async Task<(IEnumerable<BrokerTransactionCodeDtoBase>, PaginationData)> GetBrokerCodesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
@@ -271,12 +251,14 @@ namespace NjordinSight.Web.Services
                 endPoint: "broker-transaction-codes", pageNumber, pageSize);
         }
 
+        /// <inheritdoc/>
         public async Task<(IEnumerable<CountryDtoBase>, PaginationData)> GetCountriesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
             return await GetAsync<CountryDtoBase>(endPoint: "countries", pageNumber, pageSize);
         }
 
+        /// <inheritdoc/>
         public async Task<(IEnumerable<SecurityDtoBase>, PaginationData)> GetCryptoCurrencySecuritiesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
@@ -284,12 +266,14 @@ namespace NjordinSight.Web.Services
                 endPoint: "crypto-currencies", pageNumber, pageSize);
         }
 
+        /// <inheritdoc/>
         public async Task<(IEnumerable<AccountCustodianDto>, PaginationData)> GetCustodiansAsync(
             int pageNumber = 1, int pageSize = 20)
         {
             return await GetAsync<AccountCustodianDto>(endPoint: "custodians", pageNumber, pageSize);
         }
 
+        /// <inheritdoc/>
         public async Task<(IEnumerable<SecurityDtoBase>, PaginationData)> GetDepositSecuritiesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
@@ -297,12 +281,14 @@ namespace NjordinSight.Web.Services
                 endPoint: "deposit-securities", pageNumber, pageSize);
         }
 
-        public async Task<IEnumerable<string>> GetIssuersAsync(
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<string>, PaginationData)> GetIssuersAsync(
             string? pattern, int pageNumber = 1, int pageSize = 20)
         {
             return await _queryService.GetIssuersAsync(pattern, pageNumber, pageSize);
         }
 
+        /// <inheritdoc/>
         public async Task<(IEnumerable<SecurityTypeGroupDto>, PaginationData)> GetSecurityTypeGroupsAsync(
             int pageNumber = 1, int pageSize = 20)
         {
@@ -310,6 +296,7 @@ namespace NjordinSight.Web.Services
                 endPoint: "security-type-groups", pageNumber, pageSize);
         }
 
+        /// <inheritdoc/>
         public async Task<(IEnumerable<SecurityTypeDto>, PaginationData)> GetSecurityTypesAsync(
             int pageNumber = 1, int pageSize = 20)
         {
@@ -317,6 +304,7 @@ namespace NjordinSight.Web.Services
                 endPoint: "security-types", pageNumber, pageSize);
         }
 
+        /// <inheritdoc/>
         public async Task<(IEnumerable<SecurityDtoBase>, PaginationData)> GetTransactableSecurities(
             int pageNumber = 1, int pageSize = 20)
         {
@@ -324,7 +312,19 @@ namespace NjordinSight.Web.Services
                 endPoint: "transactable-securities", pageNumber, pageSize);
         }
 
-        
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<SecuritySymbolTypeDto>, PaginationData)> GetSecuritySymbolTypesAsync(
+            int pageNumber = 1, int pageSize = 20)
+        {
+            return await GetAsync<SecuritySymbolTypeDto>(endPoint: "symbol-types", pageNumber, pageSize);
+        }
+
+        /// <inheritdoc/>
+        public IDictionary<string, string> GetMarketIndexPriceCodeDisplayMap(
+            Func<KeyValuePair<string, string>> placeHolderDelegate = null)
+        {
+            return _queryService.GetMarketIndexPriceCodeDisplayMap(placeHolderDelegate);
+        }
 
         private static string CombinePath(string rootPath, string relativePath)
         {
@@ -332,5 +332,6 @@ namespace NjordinSight.Web.Services
 
             return combinedString;
         }
+
     }
 }

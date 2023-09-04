@@ -7,9 +7,18 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Ichosys.DataModel.Annotations;
+using NjordinSight.EntityModel.Metadata;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(ModelNoun.AccountWallet_Plural),
+        PluralArticle = nameof(ModelNoun.AccountWallet_PluralArticle),
+        Singular = nameof(ModelNoun.AccountWallet_Singular),
+        SingularArticle = nameof(ModelNoun.AccountWallet_SingularArticle),
+        ResourceType = typeof(ModelNoun)
+    )]
     public class AccountWalletDto : DtoBase
     {
         private int _accountId;

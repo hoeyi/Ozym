@@ -1,6 +1,6 @@
 ﻿@page "/broker-transaction-codes/{ModelId:int}/edit"
 
-@inherits ModelDetail<BrokerTransactionCode>
+@inherits ModelDetail<BrokerTransactionCodeDto>
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
@@ -18,14 +18,14 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <AttributeEntryEditor TViewModelParent="BrokerTransactionCodeDto"
+        <AttributeEntryEditor TViewModelParent="BrokerCodeAttributeDtoCollection"
                         TViewModelChild="BrokerTransactionCodeAttributeGrouping"
-                        TModel="BrokerTransactionCode"
-                        TModelChild="BrokerTransactionCodeAttributeMemberEntry"
+                        TModel="BrokerTransactionCodeDto"
+                        TModelChild="BrokerTransactionCodeAttributeDto"
                         OnCancelEditorClick="FormCancelClickHandler"
                         OnDeleteModelClick="FormDeleteClickHandler"
                         OnValidFormSubmit="ValidFormSubmitHandler"
-                        ModelDto="@ModelDto"
+                        ModelDto="@Model.AttributeCollection"
                         Mode="EditorMode.Edit">
             <ViewModelCRUD>
                 <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="false" />
@@ -41,29 +41,17 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    /// <summary>
-    /// Gets or sets the <see cref="BrokerTransactionCodeDto" /> worked by this page.
-    /// </summary>
-    private BrokerTransactionCodeDto ModelDto { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
 
         try
         {
-            var modelQuery = await Controller.ReadAsync(ModelId);
-
-            if (modelQuery.Value is BrokerTransactionCode model)
-            {
-                Model = model;
-            }
-
-            ModelDto = new(Model);
+            Model = await HttpService.GetAsync(ModelId);
         }
         finally
         {
-            IsLoading = Model is null || ModelDto is null;
+            IsLoading = Model is null;
         }
     }
 
@@ -72,9 +60,11 @@
     /// </summary>
     private async Task FormDeleteClickHandler(MouseEventArgs args)
     {
-        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
+        var result = RunCatchingHttpRequestException(HttpService.DeleteAsync(Model.TransactionCodeId));
 
-        if (result is NoContentResult _)
+        await result;
+
+        if (result.Status == TaskStatus.RanToCompletion)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
@@ -83,16 +73,17 @@
     /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
+        var result = RunCatchingHttpRequestException(HttpService.PutAsync(ModelId, Model));
 
-        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
+        await result;
 
-        ProcessDetailAtAction(id);
+        if (result.Status == TaskStatus.RanToCompletion)
+            NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
     }
 
     /// <summary>edit
     /// Handles the cancel editor event of this page.
     /// </summary>
     private void FormCancelClickHandler(MouseEventArgs args) =>
-        NavigationHelper.NavigateTo(FormatDetailUri(Model.TransactionCodeId));
+        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 }

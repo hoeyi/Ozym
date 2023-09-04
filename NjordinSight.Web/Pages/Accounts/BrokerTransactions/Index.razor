@@ -161,7 +161,7 @@
         || TransactableSecurities is null;
 
     protected override async Task RefreshResultsAsync(
-        IQueryParameter<BrokerTransactionDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<BrokerTransactionDto> parameter, int pageNumber, int pageSize)
     {
         IsLoading = true;
 

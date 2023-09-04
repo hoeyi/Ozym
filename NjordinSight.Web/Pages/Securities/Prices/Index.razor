@@ -42,43 +42,43 @@
             else
             {
                 <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property="@nameof(SecurityPrice.SecurityId)"
+                    <DataGridColumn Property="@nameof(SecurityPriceDto.SecurityId)"
                         Caption="@(NameFor(x => x.SecurityId))">
                         <CellTemplate Context="model">
                             @GetSecurityDisplay(model.SecurityId)
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.PriceDate)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.PriceDate)
                         Caption=@(NameFor(x => x.PriceDate))>
                         <CellTemplate Context="model">
                             @model.PriceDate.ToShortDateString()
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.PriceClose)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.PriceClose)
                         Caption=@(NameFor(x => x.PriceClose))>
                         <CellTemplate Context="model">
                             @model.PriceClose
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.PriceOpen)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.PriceOpen)
                         Caption=@(NameFor(x => x.PriceOpen))>
                         <CellTemplate Context="model">
                             @model.PriceOpen
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.PriceHigh)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.PriceHigh)
                         Caption=@(NameFor(x => x.PriceHigh))>
                         <CellTemplate Context="model">
                             @model.PriceHigh
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.PriceLow)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.PriceLow)
                         Caption=@(NameFor(x => x.PriceLow))>
                         <CellTemplate Context="model">
                             @model.PriceLow
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.Volume)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.Volume)
                                 Caption=@(NameFor(x => x.Volume))>
                         <CellTemplate Context="model">
                             @model.Volume
@@ -94,7 +94,7 @@
     private IDictionary<int, string> SecurityDtos { get; set; }
 
     [Inject]
-    public IReferenceDataService ReferenceData { get; init; }
+    protected IReferenceDataService ReferenceData { get; init; }
 
     /// <inheritdoc/>
     protected override MenuRoot CreateSectionNavigationMenu() => new()
@@ -120,7 +120,7 @@
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        IQueryParameter<SecurityPriceDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<SecurityPriceDto> parameter, int pageNumber, int pageSize)
     {
         if (WorkingEntries?.HasChanges ?? false)
         {

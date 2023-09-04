@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class BrokerTransactionDto_SR {
+    public class BrokerTransactionDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.BrokerTransactionDto_SR", typeof(BrokerTransactionDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Date the position was originally acquired..
         /// </summary>
-        internal static string AcquisitionDate_Description {
+        public static string AcquisitionDate_Description {
             get {
                 return ResourceManager.GetString("AcquisitionDate_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Acq. Date.
         /// </summary>
-        internal static string AcquisitionDate_Name {
+        public static string AcquisitionDate_Name {
             get {
                 return ResourceManager.GetString("AcquisitionDate_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Value of the transaction net of fees and withholding..
         /// </summary>
-        internal static string Amount_Description {
+        public static string Amount_Description {
             get {
                 return ResourceManager.GetString("Amount_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Net Amount.
         /// </summary>
-        internal static string Amount_Name {
+        public static string Amount_Name {
             get {
                 return ResourceManager.GetString("Amount_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Deposit/source of funds for the transaction..
         /// </summary>
-        internal static string DepSecurityId_Description {
+        public static string DepSecurityId_Description {
             get {
                 return ResourceManager.GetString("DepSecurityId_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Deposit / Source.
         /// </summary>
-        internal static string DepSecurityId_Name {
+        public static string DepSecurityId_Name {
             get {
                 return ResourceManager.GetString("DepSecurityId_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Transaction fee deducted from the trade amount..
         /// </summary>
-        internal static string Fee_Description {
+        public static string Fee_Description {
             get {
                 return ResourceManager.GetString("Fee_Description", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Fee.
         /// </summary>
-        internal static string Fee_Name {
+        public static string Fee_Name {
             get {
                 return ResourceManager.GetString("Fee_Name", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Quantity / shares transacted..
         /// </summary>
-        internal static string Quantity_Description {
+        public static string Quantity_Description {
             get {
                 return ResourceManager.GetString("Quantity_Description", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Quantity.
         /// </summary>
-        internal static string Quantity_Name {
+        public static string Quantity_Name {
             get {
                 return ResourceManager.GetString("Quantity_Name", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Security transacted or source of income..
         /// </summary>
-        internal static string SecurityId_Description {
+        public static string SecurityId_Description {
             get {
                 return ResourceManager.GetString("SecurityId_Description", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Security.
         /// </summary>
-        internal static string SecurityId_Name {
+        public static string SecurityId_Name {
             get {
                 return ResourceManager.GetString("SecurityId_Name", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Settlement date of the transaction..
         /// </summary>
-        internal static string SettleDate_Description {
+        public static string SettleDate_Description {
             get {
                 return ResourceManager.GetString("SettleDate_Description", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Settle Date.
         /// </summary>
-        internal static string SettleDate_Name {
+        public static string SettleDate_Name {
             get {
                 return ResourceManager.GetString("SettleDate_Name", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Lot the transaction closes against..
         /// </summary>
-        internal static string TaxLotId_Description {
+        public static string TaxLotId_Description {
             get {
                 return ResourceManager.GetString("TaxLotId_Description", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Tax Lot.
         /// </summary>
-        internal static string TaxLotId_Name {
+        public static string TaxLotId_Name {
             get {
                 return ResourceManager.GetString("TaxLotId_Name", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Trade date of the transaction..
         /// </summary>
-        internal static string TradeDate_Description {
+        public static string TradeDate_Description {
             get {
                 return ResourceManager.GetString("TradeDate_Description", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Trade Date.
         /// </summary>
-        internal static string TradeDate_Name {
+        public static string TradeDate_Name {
             get {
                 return ResourceManager.GetString("TradeDate_Name", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to The transaction type..
         /// </summary>
-        internal static string TransactionCodeId_Description {
+        public static string TransactionCodeId_Description {
             get {
                 return ResourceManager.GetString("TransactionCodeId_Description", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Tran. Code.
         /// </summary>
-        internal static string TransactionCodeId_Name {
+        public static string TransactionCodeId_Name {
             get {
                 return ResourceManager.GetString("TransactionCodeId_Name", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string TransactionId_Description {
+        public static string TransactionId_Description {
             get {
                 return ResourceManager.GetString("TransactionId_Description", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string TransactionId_Name {
+        public static string TransactionId_Name {
             get {
                 return ResourceManager.GetString("TransactionId_Name", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Taxes withheld from the trade amount..
         /// </summary>
-        internal static string Withholding_Description {
+        public static string Withholding_Description {
             get {
                 return ResourceManager.GetString("Withholding_Description", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Withholding.
         /// </summary>
-        internal static string Withholding_Name {
+        public static string Withholding_Name {
             get {
                 return ResourceManager.GetString("Withholding_Name", resourceCulture);
             }

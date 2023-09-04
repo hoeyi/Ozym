@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NjordinSight.ChangeTracking;
 using Ichosys.DataModel.Expressions;
 using AutoMapper.Configuration.Conventions;
+using NjordinSight.DataTransfer.Common.Query;
 
 namespace NjordinSight.Web.Services
 {
@@ -25,7 +26,7 @@ namespace NjordinSight.Web.Services
         /// <returns>A task containing the <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> 
         /// matching the given predication and page parameters.</returns>
         Task<(IEnumerable<TRecord>, PaginationData)> SearchAsync<TRecord>(
-            IQueryParameter<TRecord> queryParameter, int pageNumber = 1, int pageSize = 20);
+            ParameterDto<TRecord> queryParameter, int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
         /// Get the <typeparamref name="TRecord"/> instanced identified by the given id value.
@@ -65,6 +66,14 @@ namespace NjordinSight.Web.Services
         Task<T> GetAsync(int? id);
 
         /// <summary>
+        /// Gets the <typeparamref name="T"/> items limited to the page and count provided.
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        Task<(IEnumerable<T>, PaginationData)> IndexAsync(int pageNumber = 1, int pageSize = 20);
+
+        /// <summary>
         /// Creates a default instance of <typeparamref name="T"/>.
         /// </summary>
         /// <returns>An instance of <typeparamref name="T"/>.
@@ -82,7 +91,7 @@ namespace NjordinSight.Web.Services
         /// </summary>
         /// <param name="model">The <typeparamref name="T"/> model to update.</param>
         /// <returns>A task containing the <see cref="Uri"/> for the created resource.</returns>
-        Task<Uri> PutAsync(int? id, T model);
+        Task<Uri> PutAsync(int id, T model);
 
         /// <summary>
         /// Selects records matching the given <paramref name="parameter"/>, limited to the given
@@ -95,7 +104,7 @@ namespace NjordinSight.Web.Services
         /// <returns>A task containing the <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> 
         /// matching the given predication and page parameters.</returns>
         Task<(IEnumerable<T>, PaginationData)> SearchAsync(
-            IQueryParameter<T> parameter, int pageNumber = 1, int pageSize = 20);
+            ParameterDto<T> parameter, int pageNumber = 1, int pageSize = 20);
     }
 
     /// <summary>
@@ -104,6 +113,14 @@ namespace NjordinSight.Web.Services
     /// <typeparam name="T">Is the class interacted with via this service.</typeparam>
     public interface IHttpCollectionService<T> : IHttpService
     {
+        /// <summary>
+        /// Gets the <typeparamref name="T"/> items limited to the page and count provided.
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        Task<(IEnumerable<T>, PaginationData)> IndexAsync(int pageNumber = 1, int pageSize = 20);
+
         /// <summary>
         /// Modifies the collection in the data store by applying the given inserts, updates, and 
         /// deletes.
@@ -123,7 +140,7 @@ namespace NjordinSight.Web.Services
         /// <returns>A task containing the <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> 
         /// matching the given predication and page parameters.</returns>
         Task<(IEnumerable<T>, PaginationData)> SearchAsync(
-            IQueryParameter<T> parameter, int pageNumber = 1, int pageSize = 20);
+            ParameterDto<T> parameter, int pageNumber = 1, int pageSize = 20);
     }
 
     /// <summary>
@@ -133,6 +150,17 @@ namespace NjordinSight.Web.Services
     /// <typeparam name="TParentKey">Is the type of the parent key value.</typeparam>
     public interface IHttpCollectionService<T, TParentKey> : IHttpService
     {
+        /// <summary>
+        /// Gets the <typeparamref name="T"/> items limited to the page and count provided.
+        /// </summary>
+        /// <typeparam name="TParent"></typeparam>
+        /// <param name="parent"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        Task<(IEnumerable<T>, TParent, PaginationData)> IndexAsync<TParent>(
+            TParentKey parent, int pageNumber = 1, int pageSize = 20);
+
         /// <summary>
         /// Modifies the collection in the data store by applying the given inserts, updates, and 
         /// deletes.
@@ -155,6 +183,6 @@ namespace NjordinSight.Web.Services
         /// <returns>A task containing the <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> 
         /// matching the given predication and page parameters.</returns>
         Task<(IEnumerable<T>, TParent, PaginationData)> SearchAsync<TParent>(
-            TParentKey parent, IQueryParameter<T> parameter, int pageNumber = 1, int pageSize = 20);
+            TParentKey parent, ParameterDto<T> parameter, int pageNumber = 1, int pageSize = 20);
     }
 }

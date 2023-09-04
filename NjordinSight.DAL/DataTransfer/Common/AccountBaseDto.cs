@@ -1,7 +1,10 @@
-﻿using NjordinSight.DataTransfer.Common.Collections;
+﻿using Ichosys.DataModel.Annotations;
+using NjordinSight.DataTransfer.Common.Collections;
+using NjordinSight.EntityModel.Metadata;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text.Json.Serialization;
 
@@ -16,6 +19,7 @@ namespace NjordinSight.DataTransfer.Common
         private string _displayName;
         private string _description;
 
+        [Key]
         public int Id
         {
             get { return _id; }
@@ -29,6 +33,17 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
+        [Display(
+            Name = nameof(AccountCompositeDto_SR.ShortCode_Name),
+            Description = nameof(AccountCompositeDto_SR.ShortCode_Description),
+            ResourceType = typeof(AccountCompositeDto_SR))]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(12,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [Searchable]
         public virtual string ShortCode
         {
             get { return _shortCode; }
@@ -42,6 +57,11 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
+        [Display(
+            Name = nameof(AccountCompositeDto_SR.StartDate_Name),
+            Description = nameof(AccountCompositeDto_SR.StartDate_Description),
+            ResourceType = typeof(AccountCompositeDto_SR))]
+        [Searchable]
         public virtual DateTime StartDate
         {
             get { return _startDate; }
@@ -55,6 +75,11 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
+        [Display(
+            Name = nameof(AccountCompositeDto_SR.CloseDate_Name),
+            Description = nameof(AccountCompositeDto_SR.CloseDate_Description),
+            ResourceType = typeof(AccountCompositeDto_SR))]
+        [Searchable]
         public virtual DateTime? CloseDate
         {
             get { return _closeDate; }
@@ -68,6 +93,17 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
+        [Display(
+            Name = nameof(AccountCompositeDto_SR.DisplayName_Name),
+            Description = nameof(AccountCompositeDto_SR.DisplayName_Description),
+            ResourceType = typeof(AccountCompositeDto_SR))]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [Searchable]
         public virtual string DisplayName
 
         {
@@ -81,7 +117,15 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
-
+        
+        [Display(
+            Name = nameof(AccountCompositeDto_SR.Description_Name),
+            Description = nameof(AccountCompositeDto_SR.Description_Description),
+            ResourceType = typeof(AccountCompositeDto_SR))]
+        [StringLength(128,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [Searchable]
         public virtual string Description
         {
             get { return _description; }

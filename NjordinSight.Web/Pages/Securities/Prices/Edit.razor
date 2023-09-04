@@ -43,7 +43,7 @@
                         @Strings.Caption_Button_Save
                     </button>
                     <button class="form-control button"
-                        @onclick="(async (args) => await AddNewAsync(args))">
+                        @onclick="((args) => AddNew(args))">
                         @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                     </button>
                     <button class="form-control button" @onclick="CancelEditor_OnClick"
@@ -75,7 +75,7 @@
                                         </ToolTip>
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.SecurityId)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.SecurityId)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.SecurityId))>
                                     <CellEditTemplate Context="model">
@@ -87,42 +87,42 @@
                                         </InputSelect>
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.PriceDate)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.PriceDate)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.PriceDate))>
                                     <CellEditTemplate Context="model">
                                         <InputDate class="form-control" @bind-Value="model.PriceDate" />
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.PriceClose)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.PriceClose)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.PriceClose))>
                                     <CellEditTemplate Context="model">
                                         <InputNumber class="form-control" @bind-Value="model.PriceClose" />
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.PriceOpen)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.PriceOpen)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.PriceOpen))>
                                     <CellEditTemplate Context="model">
                                         <InputNumber class="form-control" @bind-Value="model.PriceOpen" />
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.PriceHigh)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.PriceHigh)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.PriceHigh))>
                                     <CellEditTemplate Context="model">
                                         <InputNumber class="form-control" @bind-Value="model.PriceHigh" />
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.PriceLow)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.PriceLow)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.PriceLow))>
                                     <CellEditTemplate Context="model">
                                         <InputNumber class="form-control" @bind-Value="model.PriceLow" />
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.Volume)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.Volume)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.Volume))>
                                     <CellEditTemplate Context="model">
@@ -145,7 +145,7 @@
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        IQueryParameter<SecurityPriceDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<SecurityPriceDto> parameter, int pageNumber, int pageSize)
     {
         var pricesTask = HttpService.SearchAsync(
                 parameter: parameter,

@@ -88,7 +88,37 @@ namespace NjordinSight.EntityModelService.Query
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<IEnumerable<string>> GetIssuersAsync(string? pattern, int pageNumber = 1, int pageSize = 20);
+        Task<(IEnumerable<string>, PaginationData)> GetIssuersAsync(
+            string? pattern, int pageNumber = 1, int pageSize = 20);
+
+        /// <summary>
+        /// Gets the display map for the <see cref="MarketIndexPriceDto"/> price code constraint.
+        /// </summary>
+        /// <param name="placeHolderDelegate"></param>
+        /// <returns>An <see cref="IDictionary{TKey, TValue}"/> where the key is the bound 
+        /// string and the value is the display string.</returns>
+        IDictionary<string, string> GetMarketIndexPriceCodeDisplayMap(
+            Func<KeyValuePair<string, string>> placeHolderDelegate = null);
+
+        /// <summary>
+        /// Converts the given <typeparamref name="TEnum"/> members to a key-value map 
+        /// for display values.
+        /// </summary>
+        /// <typeparam name="TEnum"></typeparam>
+        /// <typeparam name="TKey">The key type for the resulting map.</typeparam>
+        /// <typeparam name="TValue">The value type for the resulting map.</typeparam>
+        /// <param name="predicate">Predicate to filter the member results.</param>
+        /// <param name="key">Expression describing the method to assign the key value for each record.</param>
+        /// <param name="display">Expression describing the method to assign the display value for each record.</param>
+        /// <param name="placeHolderDelegate">Delegate for creating a placehold/defult entry.</param>
+        /// <returns>A collection of key-value assignments, where the value is the display value 
+        /// for the record.</returns>
+        IDictionary<TKey, TValue> CreateEnumerableDisplayMap<TEnum, TKey, TValue>(
+            Func<TEnum, bool> predicate,
+            Expression<Func<TEnum, TKey>> key,
+            Expression<Func<TEnum, TValue>> display,
+            Func<KeyValuePair<TKey, TValue>> placeHolderDelegate = null)
+            where TEnum : struct, Enum;
     }
 
     public partial interface IQueryService

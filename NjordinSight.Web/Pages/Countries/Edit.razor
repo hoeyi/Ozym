@@ -1,6 +1,6 @@
 ﻿@page "/countries/{ModelId:int}/edit"
 
-@inherits ModelDetail<Country>
+@inherits ModelDetail<CountryDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -18,18 +18,18 @@
         </CascadingValue>
 
         <AttributeEntryCollectionEditor 
-            TViewModelParent="CountryDto"
+            TViewModelParent="CountryAttributeDtoCollection"
             TViewModelChild="CountryAttributeGrouping"
-            TModel="Country"
-            TModelChild="CountryAttributeMemberEntry"
+            TModel="CountryDto"
+            TModelChild="CountryAttributeDto"
             OnCancelEditorClick="FormCancelClickHandler"
             OnDeleteModelClick="FormDeleteClickHandler"
             OnValidFormSubmit="ValidFormSubmitHandler"
             EffectiveDatePath="@(x => x.EffectiveDate)"
-            ModelDto="@ModelDto"
+            ModelDto="@Model.AttributeCollection"
             Mode="EditorMode.Edit">
             <ViewModelCRUD>
-                <CountryViewModelCRUD Disabled="false" ReadOnly="false" />
+                <CountryCRUD Disabled="false" ReadOnly="false" />
             </ViewModelCRUD>
             <ViewModelChildCRUD>
                 <CountryAttributesCRUD Disabled="false" ReadOnly="false" />
@@ -42,24 +42,17 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private CountryDto ModelDto { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
 
         try
         {
-            var modelQuery = Controller.ReadAsync(ModelId);
-
-            if ((await modelQuery).Value is Country model)
-                Model = model;
-
-            ModelDto = new(Model);
+            Model = await HttpService.GetAsync(ModelId);
         }
         finally
         {
-            IsLoading = Model is null || ModelDto is null;
+            IsLoading = Model is null;
         }
     }
 
@@ -68,9 +61,11 @@
     /// </summary>
     private async Task FormDeleteClickHandler(MouseEventArgs args)
     {
-        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
+        var result = RunCatchingHttpRequestException(HttpService.DeleteAsync(Model.CountryId));
 
-        if (result is NoContentResult _)
+        await result;
+
+        if (result.Status == TaskStatus.RanToCompletion)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
@@ -79,16 +74,17 @@
     /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
+        var result = RunCatchingHttpRequestException(HttpService.PutAsync(ModelId, Model));
 
-        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
+        await result;
 
-        ProcessDetailAtAction(id);
+        if (result.Status == TaskStatus.RanToCompletion)
+            NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
     }
 
-    /// <summary>
+    /// <summary>edit
     /// Handles the cancel editor event of this page.
     /// </summary>
     private void FormCancelClickHandler(MouseEventArgs args) =>
-        NavigationHelper.NavigateTo(FormatDetailUri(Model.CountryId));
+        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 }

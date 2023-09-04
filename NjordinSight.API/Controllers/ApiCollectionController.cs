@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Identity;
 using NjordinSight.DataTransfer.Common.Query;
 using AutoMapper.Extensions.ExpressionMapping;
 using Ichosys.DataModel.Exceptions;
+using NjordinSight.EntityModelService;
 
 namespace NjordinSight.Api.Controllers
 {
@@ -127,6 +128,16 @@ namespace NjordinSight.Api.Controllers
 
             return Ok(dtoItems);
         }
+
+        /// <inheritdoc/>
+        [HttpGet]
+        [Route("all")]
+        public async Task<ActionResult<IEnumerable<TObject>>> GetAllAsync()
+        {
+            var items = await _modelService.SelectAsync();
+
+            return Ok(items);
+        }
     }
 
     /// <summary>
@@ -160,7 +171,7 @@ namespace NjordinSight.Api.Controllers
             ILogger logger) : base(expressionBuilder, mapper, modelService, queryService, logger)
         {
         }
-        
+
         /// <inheritdoc/>
         protected override bool TryParse(
             IReadOnlyDictionary<string, object?> routeValues, out int key)
@@ -235,7 +246,7 @@ namespace NjordinSight.Api.Controllers
 
         /// <inheritdoc/>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TObject>>> GetAsync(
+        public async Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(
             int pageNumber = 1, int pageSize = 20)
         {
             if (!TryParse(RouteData.Values, out TParentKey parent))
@@ -262,6 +273,16 @@ namespace NjordinSight.Api.Controllers
 
                 return Ok(responseObject);
             }
+        }
+
+        /// <inheritdoc/>
+        [HttpGet]
+        [Route("all")]
+        public async Task<ActionResult<IEnumerable<TObject>>> GetAllAsync()
+        {
+            var items = await ModelService.SelectAsync();
+
+            return Ok(items);
         }
 
         /// <inheritdoc/>
@@ -348,6 +369,11 @@ namespace NjordinSight.Api.Controllers
             return Ok(new{ Entries = dtoItems, Parent = parentItem });
         }
 
+    }
+
+    public abstract partial class ApiCollectionController<
+        TObject, TEntity, TParent, TParentEntity, TParentKey>
+    {
         /// <summary>
         /// Gets the <see cref="IExpressionBuilder"/> for this controller instance.
         /// </summary>

@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NjordinSight.Web.Components.Common;
 using NjordinSight.UserInterface;
-using NjordinSight.Web.Controllers;
 using Ichosys.DataModel;
 using Microsoft.AspNetCore.Http;
 using NjordinSight.EntityModelService.Abstractions;

@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AccountWalletDto_SR {
+    public class AccountWalletDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.AccountWalletDto_SR", typeof(AccountWalletDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string AccountWalletId_Description {
+        public static string AccountWalletId_Description {
             get {
                 return ResourceManager.GetString("AccountWalletId_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string AccountWalletId_Name {
+        public static string AccountWalletId_Name {
             get {
                 return ResourceManager.GetString("AccountWalletId_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Key representign the wallet..
         /// </summary>
-        internal static string AddressCode_Description {
+        public static string AddressCode_Description {
             get {
                 return ResourceManager.GetString("AddressCode_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Wallet Code.
         /// </summary>
-        internal static string AddressCode_Name {
+        public static string AddressCode_Name {
             get {
                 return ResourceManager.GetString("AddressCode_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Tag of the wallet. Not applicable to all denominations..
         /// </summary>
-        internal static string AddressTag_Description {
+        public static string AddressTag_Description {
             get {
                 return ResourceManager.GetString("AddressTag_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Tag.
         /// </summary>
-        internal static string AddressTag_Name {
+        public static string AddressTag_Name {
             get {
                 return ResourceManager.GetString("AddressTag_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Denomination of digital currency held in the wallet..
         /// </summary>
-        internal static string DenominationSecurityId_Description {
+        public static string DenominationSecurityId_Description {
             get {
                 return ResourceManager.GetString("DenominationSecurityId_Description", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Denomination.
         /// </summary>
-        internal static string DenominationSecurityId_Name {
+        public static string DenominationSecurityId_Name {
             get {
                 return ResourceManager.GetString("DenominationSecurityId_Name", resourceCulture);
             }

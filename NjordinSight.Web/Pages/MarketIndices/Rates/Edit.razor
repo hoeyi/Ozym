@@ -43,7 +43,7 @@
                     @Strings.Caption_Button_Save
                 </button>
                 <button class="form-control button"
-                    @onclick="(async (args) => await AddNewAsync(args))">
+                    @onclick="((args) => AddNew(args))">
                     @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                 </button>
                 <button class="form-control button" @onclick="CancelEditor_OnClick"
@@ -126,7 +126,7 @@
 @code {
 
     [Inject]
-    public IReferenceDataService ReferenceData { get; init; }
+    protected IReferenceDataService ReferenceData { get; init; }
 
     private IDictionary<string, string> PriceCodeLookup { get; set; }
 
@@ -141,7 +141,7 @@
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        IQueryParameter<MarketIndexPriceDtoBase> parameter, int pageNumber, int pageSize)
+        ParameterDto<MarketIndexPriceDtoBase> parameter, int pageNumber, int pageSize)
     {
         if (WorkingEntries?.HasChanges ?? false)
         {
@@ -151,33 +151,20 @@
                 return;
         }
 
-        var marketIndexDtosTask = HttpService.SearchAsync<MarketIndexDto>(
-            queryParameter: null,
-            pageNumber: 1,
-            pageSize: int.MaxValue);
+        var marketIndicesQuery = HttpService.GetAllAsync<MarketIndexDto>();
 
-        var priceQueryTask = HttpService.SearchAsync(
+        var pricesQuery = HttpService.SearchAsync(
             parameter: parameter,
             pageNumber: PaginationHelper.PageIndex,
             pageSize: PaginationHelper.PageSize);
 
-        await InitializationTasksAsync(priceQueryTask, marketIndexDtosTask);
+        await InitializationTasksAsync(pricesQuery, marketIndicesQuery);
 
-        var priceResult = await priceQueryTask;
-        var marketIndexResult = await marketIndexDtosTask;
+        var priceResult = await pricesQuery;
 
         WorkingEntries = new TrackingEnumerable<MarketIndexPriceDtoBase>(priceResult.Item1.ToList());
-        MarketIndices = marketIndexResult.Item1;
-        PriceCodeLookup = ReferenceData
-            .CreateEnumerableDisplayMap<MarketIndexPriceCode, string, string>(
-                predicate: x => true,
-                key: x => x.ConvertToStringCode(),
-                display: x => NameFor<MarketIndexPriceCode>(x),
-                placeHolderDelegate: () => new KeyValuePair<string, string>(
-                    key: string.Empty, 
-                    value: Resources.Strings.Caption_InputSelect_Placeholder));
-
-        Context = new(WorkingEntries);
+        MarketIndices = await marketIndicesQuery;
+        PriceCodeLookup = ReferenceData.GetMarketIndexPriceCodeDisplayMap();
 
         PaginationHelper.TotalItemCount = priceResult.Item2.ItemCount;
         PaginationHelper.ItemCount = WorkingEntries.Count;

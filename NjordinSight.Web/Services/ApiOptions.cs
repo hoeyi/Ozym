@@ -2,7 +2,7 @@
 {
     public class ApiOptions
     {
-        public const string ApiService = nameof(ApiService);
+        public const string ApiService = "ApiService";
 
         public string Name { get; init; }
 

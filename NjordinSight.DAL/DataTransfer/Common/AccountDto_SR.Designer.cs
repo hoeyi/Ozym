@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AccountDto_SR {
+    public class AccountDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.AccountDto_SR", typeof(AccountDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Institution that holds the account..
         /// </summary>
-        internal static string AccountCustodianId_Description {
+        public static string AccountCustodianId_Description {
             get {
                 return ResourceManager.GetString("AccountCustodianId_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Custodian.
         /// </summary>
-        internal static string AccountCustodianId_Name {
+        public static string AccountCustodianId_Name {
             get {
                 return ResourceManager.GetString("AccountCustodianId_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Custodian identifier for the account..
         /// </summary>
-        internal static string AccountNumber_Description {
+        public static string AccountNumber_Description {
             get {
                 return ResourceManager.GetString("AccountNumber_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Account Number.
         /// </summary>
-        internal static string AccountNumber_Name {
+        public static string AccountNumber_Name {
             get {
                 return ResourceManager.GetString("AccountNumber_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Date on and before which transaction edits are restricted..
         /// </summary>
-        internal static string BooksClosedDate_Description {
+        public static string BooksClosedDate_Description {
             get {
                 return ResourceManager.GetString("BooksClosedDate_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Books Closed.
         /// </summary>
-        internal static string BooksClosedDate_Name {
+        public static string BooksClosedDate_Name {
             get {
                 return ResourceManager.GetString("BooksClosedDate_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Date account closed..
         /// </summary>
-        internal static string CloseDate_Description {
+        public static string CloseDate_Description {
             get {
                 return ResourceManager.GetString("CloseDate_Description", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Close Date.
         /// </summary>
-        internal static string CloseDate_Name {
+        public static string CloseDate_Name {
             get {
                 return ResourceManager.GetString("CloseDate_Name", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Description / purpose of the account..
         /// </summary>
-        internal static string Description_Description {
+        public static string Description_Description {
             get {
                 return ResourceManager.GetString("Description_Description", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
-        internal static string Description_Name {
+        public static string Description_Name {
             get {
                 return ResourceManager.GetString("Description_Name", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display name of the account..
         /// </summary>
-        internal static string DisplayName_Description {
+        public static string DisplayName_Description {
             get {
                 return ResourceManager.GetString("DisplayName_Description", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
-        internal static string DisplayName_Name {
+        public static string DisplayName_Name {
             get {
                 return ResourceManager.GetString("DisplayName_Name", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Flag indicating whether  the account has bank transactions..
         /// </summary>
-        internal static string HasBankTransaction_Description {
+        public static string HasBankTransaction_Description {
             get {
                 return ResourceManager.GetString("HasBankTransaction_Description", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Is Bank.
         /// </summary>
-        internal static string HasBankTransaction_Name {
+        public static string HasBankTransaction_Name {
             get {
                 return ResourceManager.GetString("HasBankTransaction_Name", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Flag indicating whether  the account has broker transactions..
         /// </summary>
-        internal static string HasBrokerTransaction_Description {
+        public static string HasBrokerTransaction_Description {
             get {
                 return ResourceManager.GetString("HasBrokerTransaction_Description", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Is Brokerage.
         /// </summary>
-        internal static string HasBrokerTransaction_Name {
+        public static string HasBrokerTransaction_Name {
             get {
                 return ResourceManager.GetString("HasBrokerTransaction_Name", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Flag indiciating whether the account has associated digital wallets..
         /// </summary>
-        internal static string HasWallet_Description {
+        public static string HasWallet_Description {
             get {
                 return ResourceManager.GetString("HasWallet_Description", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Has Wallets.
         /// </summary>
-        internal static string HasWallet_Name {
+        public static string HasWallet_Name {
             get {
                 return ResourceManager.GetString("HasWallet_Name", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string Id_Description {
+        public static string Id_Description {
             get {
                 return ResourceManager.GetString("Id_Description", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string Id_Name {
+        public static string Id_Name {
             get {
                 return ResourceManager.GetString("Id_Name", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Short text identifier of the account..
         /// </summary>
-        internal static string ShortCode_Description {
+        public static string ShortCode_Description {
             get {
                 return ResourceManager.GetString("ShortCode_Description", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Account Code.
         /// </summary>
-        internal static string ShortCode_Name {
+        public static string ShortCode_Name {
             get {
                 return ResourceManager.GetString("ShortCode_Name", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Date the account started..
         /// </summary>
-        internal static string StartDate_Description {
+        public static string StartDate_Description {
             get {
                 return ResourceManager.GetString("StartDate_Description", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Start Date.
         /// </summary>
-        internal static string StartDate_Name {
+        public static string StartDate_Name {
             get {
                 return ResourceManager.GetString("StartDate_Name", resourceCulture);
             }

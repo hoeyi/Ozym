@@ -17,7 +17,6 @@ using Ichosys.DataModel.Exceptions;
 
 namespace NjordinSight.Api.Controllers
 {
-
     /// <summary>
     /// Represents a RESTful API controller for <typeparamref name="TObject"/> classes 
     /// that are mapped to <typeparamref name="TEntity"/> classes.

@@ -114,8 +114,46 @@
         WorkingEntries is null || ParentAccount is null || DenominationSecurities is null;
 
     /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        CheckNullParameters();
+
+        IsLoading = true;
+
+        try
+        {
+            var walletsTask = HttpService.IndexAsync<AccountDto>(
+                parent: ModelId,
+                pageNumber: PaginationHelper.PageIndex, 
+                pageSize: PaginationHelper.PageSize);
+
+            var denominationDtosTask = ReferenceData
+                .GetCryptoCurrencySecuritiesAsync(pageNumber: 1, pageSize: int.MaxValue);
+
+            await InitializationTasksAsync(walletsTask, denominationDtosTask);
+
+            var walletsResult = await walletsTask;
+            var denominationDtosResult = await denominationDtosTask;
+
+            WorkingEntries = new TrackingEnumerable<AccountWalletDto>(walletsResult.Item1.ToList());
+            Context = new(WorkingEntries);
+
+            ParentAccount = walletsResult.Item2;
+
+            DenominationSecurities = denominationDtosResult.Item1;
+
+            PaginationHelper.TotalItemCount = walletsResult.Item3.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
+        }
+        finally
+        {
+            IsLoading = PageDataIsLoading();
+        }
+    }
+
+    /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        IQueryParameter<AccountWalletDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<AccountWalletDto> parameter, int pageNumber, int pageSize)
     {
         if (WorkingEntries?.HasChanges ?? false)
         {
@@ -124,15 +162,6 @@
             if (!discardConfirmed)
                 return;
         }
-
-        ParentAccount = await HttpService.GetAsync<AccountDto>(id: ModelId);
-
-        LastSearchParameter = new ParameterDto<AccountWalletDto>()
-        {
-            MemberName = nameof(AccountWalletDto.AccountId),
-            Operator = ComparisonOperator.EqualTo,
-            Value = ParentAccount.Id.ToString()
-        };
 
         var denominationDtosTask = ReferenceData
                 .GetCryptoCurrencySecuritiesAsync(pageNumber: 1, pageSize: int.MaxValue);

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
-using NjordinSight.Web.Controllers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
@@ -50,7 +49,7 @@ namespace NjordinSight.Web.Components.Generic
             PageSize = 20
         };
 
-        protected IQueryParameter<TModelDto>? LastSearchParameter { get; set; }
+        protected ParameterDto<TModelDto>? LastSearchParameter { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of entries worked via this page.
@@ -171,10 +170,12 @@ namespace NjordinSight.Web.Components.Generic
 
             try
             {
-                await RefreshResultsAsync(
-                    parameter: LastSearchParameter, 
+                var response = await HttpService.IndexAsync(
                     pageNumber: PaginationHelper.PageIndex, 
                     pageSize: PaginationHelper.PageSize);
+
+                WorkingEntries = new TrackingEnumerable<TModelDto>(response.Item1.ToList());
+                Context = new(WorkingEntries);
             }
             finally
             {
@@ -184,7 +185,7 @@ namespace NjordinSight.Web.Components.Generic
 
         /// <inheritdoc/>
         protected virtual async Task RefreshResultsAsync(
-            IQueryParameter<TModelDto> parameter, int pageNumber, int pageSize)
+            ParameterDto<TModelDto> parameter, int pageNumber, int pageSize)
         {
             if (WorkingEntries?.HasChanges ?? false)
             {

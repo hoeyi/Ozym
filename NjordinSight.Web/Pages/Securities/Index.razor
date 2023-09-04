@@ -120,7 +120,7 @@
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        IQueryParameter<SecurityDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<SecurityDto> parameter, int pageNumber, int pageSize)
     {
         var securityQuery = HttpService.SearchAsync(
                 parameter: parameter,

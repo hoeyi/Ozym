@@ -21,7 +21,14 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageSize">The record limit for each page.</param>
         /// <returns>An <see cref="ActionResult{TValue}"/> whose value is an enumerable collection 
         /// of <typeparamref name="TObject"/> instances.</returns>
-        Task<ActionResult<IEnumerable<TObject>>> GetAsync(int pageNumber = 1, int pageSize = 20);
+        Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(int pageNumber = 1, int pageSize = 20);
+
+        /// <summary>
+        /// Retrieves all records from the data store.
+        /// </summary>
+        /// <returns>An <see cref="ActionResult"/> whose value the collection of 
+        /// <typeparamref name="TObject"/> records retrieved from the data store.</returns>
+        Task<ActionResult<IEnumerable<TObject>>> GetAllAsync();
 
         /// <summary>
         /// Posts the search expression in the request body and returns the <typeparamref name="TObject"/> 
@@ -62,6 +69,13 @@ namespace NjordinSight.Api.Controllers
         /// <returns>An <see cref="ActionResult{TValue}"/> whose value is an enumerable collection 
         /// of <typeparamref name="TObject"/> instances.</returns>
         Task<ActionResult<IEnumerable<TObject>>> GetAsync(int pageNumber = 1, int pageSize = 20);
+
+        /// <summary>
+        /// Retrieves all records from the data store.
+        /// </summary>
+        /// <returns>An <see cref="ActionResult"/> whose value the collection of 
+        /// <typeparamref name="TObject"/> records retrieved from the data store.</returns>
+        Task<ActionResult<IEnumerable<TObject>>> GetAllAsync();
 
         /// <summary>
         /// Modifies the collection in the data store by applying the given inserts, updates, and 

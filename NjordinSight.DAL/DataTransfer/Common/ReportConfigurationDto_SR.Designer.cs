@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ReportConfigurationDto_SR {
+    public class ReportConfigurationDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.ReportConfigurationDto_SR", typeof(ReportConfigurationDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Short identifier of the configuration..
         /// </summary>
-        internal static string ConfigurationCode_Description {
+        public static string ConfigurationCode_Description {
             get {
                 return ResourceManager.GetString("ConfigurationCode_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Short Name.
         /// </summary>
-        internal static string ConfigurationCode_Name {
+        public static string ConfigurationCode_Name {
             get {
                 return ResourceManager.GetString("ConfigurationCode_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Long name of the configuration..
         /// </summary>
-        internal static string ConfigurationDescription_Description {
+        public static string ConfigurationDescription_Description {
             get {
                 return ResourceManager.GetString("ConfigurationDescription_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display Name.
         /// </summary>
-        internal static string ConfigurationDescription_Name {
+        public static string ConfigurationDescription_Name {
             get {
                 return ResourceManager.GetString("ConfigurationDescription_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string ConfigurationId_Description {
+        public static string ConfigurationId_Description {
             get {
                 return ResourceManager.GetString("ConfigurationId_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string ConfigurationId_Name {
+        public static string ConfigurationId_Name {
             get {
                 return ResourceManager.GetString("ConfigurationId_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to XML definition of the configuration..
         /// </summary>
-        internal static string XmlDefinition_Description {
+        public static string XmlDefinition_Description {
             get {
                 return ResourceManager.GetString("XmlDefinition_Description", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to XML.
         /// </summary>
-        internal static string XmlDefinition_Name {
+        public static string XmlDefinition_Name {
             get {
                 return ResourceManager.GetString("XmlDefinition_Name", resourceCulture);
             }

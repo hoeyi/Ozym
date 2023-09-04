@@ -128,7 +128,7 @@
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        IQueryParameter<BankTransactionDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<BankTransactionDto> parameter, int pageNumber, int pageSize)
     {
         if (WorkingEntries?.HasChanges ?? false)
         {

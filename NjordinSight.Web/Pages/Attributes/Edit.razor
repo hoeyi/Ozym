@@ -142,7 +142,7 @@
 
         try
         {
-            var modelQuery = HttpService.InitDefaultAsync();
+            var modelQuery = HttpService.GetAsync(ModelId);
             var scopesQuery = HttpService.GetAllAsync<ModelAttributeScopeDto>();
 
             var dataTasks = Task.WhenAll(modelQuery, scopesQuery);

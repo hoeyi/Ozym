@@ -1,6 +1,6 @@
 ﻿@page "/countries/{ModelId:int}/detail"
 
-@inherits ModelDetail<Country>
+@inherits ModelDetail<CountryDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -21,15 +21,15 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ModelDto">
-                    <EditForm class="model-editor" Model="@ModelDto">
-                        <CountryViewModelCRUD Disabled="false" ReadOnly="true" />
+                <CascadingValue Value="@Model">
+                    <EditForm class="model-editor" Model="@Model">
+                        <CountryCRUD Disabled="false" ReadOnly="true" />
                     </EditForm>
                 </CascadingValue>
             </Body>
         </ContentTile>
-        @foreach (var group in ModelDto.CurrentEntryCollectionGroups.OrderBy(g =>
-            g.ParentAttribute.DisplayName))
+        @foreach (var group in Model.AttributeCollection.CurrentEntryCollectionGroups
+            .OrderBy(g => g.ParentAttribute.DisplayName))
         {
             <CascadingValue Value="@group">
                 <EditForm class="model-editor" Model="@group">
@@ -46,24 +46,17 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private CountryDto ModelDto { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
 
         try
         {
-            var modelQuery = Controller.ReadAsync(ModelId);
-
-            if ((await modelQuery).Value is Country model)
-                Model = model;
-
-            ModelDto = new(Model);
+            Model = await HttpService.GetAsync(ModelId);
         }
         finally
         {
-            IsLoading = Model is null || ModelDto is null;
+            IsLoading = Model is null;
         }
     }
 }

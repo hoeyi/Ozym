@@ -70,27 +70,12 @@ namespace NjordinSight.Web.Components.Common
             }
         }
 
-        /// <summary>
-        /// Gets or sets the current member to be used as a parameter when a search is submitted.
-        /// </summary>
-        private string? QualifiedMemberName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current operator used when a search is submitted.
-        /// </summary>
-        private ComparisonOperator SearchOperator { get; set; }
-
-        /// <summary>
-        /// Gets or sets the string representation of the value used when this index is searched.
-        /// </summary>
-        private string? SearchValue { get; set; }
-
         private ParameterDto<TModel> Parameter { get; set; } = default!;
 
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            if (SearchFields is null || !SearchFields.Any())
+            if (SearchFields is null)
                 throw new ArgumentNullException(paramName: nameof(SearchFields));
 
             if (ComparisonOperators is null || !ComparisonOperators.Any())
@@ -101,11 +86,15 @@ namespace NjordinSight.Web.Components.Common
 
             Parameter = new ParameterDto<TModel>()
             {
-                MemberName = SearchFields.First().QualifiedMemberName,
+                MemberName = SearchFields.FirstOrDefault()?.QualifiedMemberName ?? string.Empty,
                 Operator = ComparisonOperators.First()
             };
 
-            IsLoading = SearchFields is null || ComparisonOperators is null || Parameter is null;
+            IsLoading = 
+                SearchFields is null || 
+                !SearchFields.Any() || 
+                ComparisonOperators is null || 
+                Parameter is null;
         }
 
         /// <summary>

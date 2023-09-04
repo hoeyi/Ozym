@@ -1,24 +1,18 @@
-﻿using Microsoft.AspNetCore.Components;
-using NjordinSight.DataTransfer;
+﻿using NjordinSight.DataTransfer;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Net.Mime;
 using System.Text.Json;
-using System.Text;
 using System.Threading.Tasks;
 using NjordinSight.DataTransfer.Common.Query;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Mvc;
 using NjordinSight.DataTransfer.Common;
 using System.Linq;
 using NjordinSight.ChangeTracking;
-using Ichosys.DataModel.Expressions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
-using System.Drawing.Printing;
 
 namespace NjordinSight.Web.Services
 {
@@ -34,7 +28,26 @@ namespace NjordinSight.Web.Services
             new Dictionary<Type, string>()
             {
                 { typeof(AccountDto), "/accounts" },
-                { typeof(BankTransactionDto), "/accounts/{0}/bank-transactions" }
+                { typeof(AccountCompositeDto), "/composites" },
+                { typeof(AccountCustodianDto), "/custodians" },
+                { typeof(AccountWalletDto), "/accounts/{0}/wallets" },
+                { typeof(BankTransactionCodeDto), "/bank-transaction-codes" },
+                { typeof(BankTransactionDto), "/accounts/{0}/bank-transactions" },
+                { typeof(BrokerTransactionCodeDto), "/broker-transaction-codes" },
+                { typeof(BrokerTransactionDto), "/accounts/{0}/broker-transactions" },
+                { typeof(CountryDto), "/countries" },
+                { typeof(InvestmentModelDto), "/investment-models" },
+                { typeof(MarketHolidayObservanceDto), "/holidays/observances" },
+                { typeof(MarketIndexPriceDto), "/market-indices/{0}/rates" },
+                { typeof(MarketIndexDto), "/market-indices" },
+                { typeof(ModelAttributeDto), "/attributes" },
+                { typeof(ReportConfigurationDto), "/report-configurations" },
+                { typeof(ReportStyleSheetDto), "/style-sheets" },
+                { typeof(SecurityDto), "/securities" },
+                { typeof(SecurityExchangeDto), "/exchanges" },
+                { typeof(SecurityPriceDto), "/prices" },
+                { typeof(SecurityTypeDto), "/security-types" },
+                { typeof(SecurityTypeGroupDto), "/security-type-groups" }
             };
 
         /// <summary>
@@ -100,7 +113,7 @@ namespace NjordinSight.Web.Services
 
         /// <inheritdoc/>
         public async Task<(IEnumerable<TRecord>, PaginationData)> SearchAsync<TRecord>(
-            IQueryParameter<TRecord> queryParameter, int pageNumber = 1, int pageSize = 20)
+            ParameterDto<TRecord> queryParameter, int pageNumber = 1, int pageSize = 20)
         {
 
             string endpoint = _endPointMap[typeof(TRecord)];
@@ -129,7 +142,7 @@ namespace NjordinSight.Web.Services
         }
 
         protected async Task<(TRepsonse, PaginationData)> SearchAsync<TRepsonse>(
-            string requestUri, IQueryParameter<T> parameter)
+            string requestUri, ParameterDto<T> parameter)
         {
             if (parameter is null)
                 throw new ArgumentNullException(paramName: nameof(parameter));
@@ -144,7 +157,7 @@ namespace NjordinSight.Web.Services
 
             PaginationData pageData = null!;
 
-            if (httpResponse.Content.Headers.TryGetValues("X-Pagination", out var stringValues))
+            if (httpResponse.Headers.TryGetValues("X-Pagination", out var stringValues))
             {
                 if (stringValues?.Any() ?? false)
                 {
@@ -157,6 +170,9 @@ namespace NjordinSight.Web.Services
 
         protected static string CombinePath(string rootPath, string relativePath)
         {
+            if (string.IsNullOrEmpty(rootPath))
+                return relativePath;
+
             var combinedString = string.Join("/", rootPath.TrimEnd('/'), relativePath.TrimStart('/'));
 
             return combinedString;
@@ -170,7 +186,38 @@ namespace NjordinSight.Web.Services
         {
             using var client = HttpFactory.CreateClient();
 
-            return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/{id}");
+            var response = await client.GetAsync($"{ResourceIndexUri}/{id}");
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<T>();
+        }
+
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<T>, PaginationData)> IndexAsync(
+            int pageNumber = 1, int pageSize = 20)
+        {
+            using var client = HttpFactory.CreateClient();
+
+            var httpResponse = await client.GetAsync(
+                $"{ResourceIndexUri}?&pageNumber={pageNumber}&pageSize={pageSize}");
+
+            httpResponse.EnsureSuccessStatusCode();
+
+
+            var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<T>>();
+
+            PaginationData pageData = null!;
+
+            if (httpResponse.Headers.TryGetValues("X-Pagination", out var stringValues))
+            {
+                if (stringValues?.Any() ?? false)
+                {
+                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
+                }
+            }
+
+            return (deserializedResults, pageData);
         }
 
         /// <inheritdoc/>
@@ -204,12 +251,12 @@ namespace NjordinSight.Web.Services
         }
 
         /// <inheritdoc/>
-        public async Task<Uri> PutAsync(int? id, T model)
+        public async Task<Uri> PutAsync(int id, T model)
         {
             using var client = HttpFactory.CreateClient();
 
             var httpResponse = await client.PutAsJsonAsync(
-                requestUri: $"{ResourceIndexUri}", model, options: new(JsonSerializerDefaults.Web));
+                requestUri: $"{ResourceIndexUri}/{id}", model, options: new(JsonSerializerDefaults.Web));
 
             httpResponse.EnsureSuccessStatusCode();
 
@@ -218,7 +265,7 @@ namespace NjordinSight.Web.Services
 
         /// <inheritdoc/>
         public async Task<(IEnumerable<T>, PaginationData)> SearchAsync(
-            IQueryParameter<T> parameter, int pageNumber = 1, int pageSize = 20)
+            ParameterDto<T> parameter, int pageNumber = 1, int pageSize = 20)
         {
             if(parameter is null)
                 throw new ArgumentNullException(paramName: nameof(parameter));
@@ -231,16 +278,6 @@ namespace NjordinSight.Web.Services
 
     public partial class HttpService<T> : IHttpCollectionService<T>
     {
-        /// <inheritdoc/>
-        public async Task<IEnumerable<T>> GetAsync(int pageNumber = 1, int pageSize = 20)
-        {
-            using var client = HttpFactory.CreateClient();
-
-            string requestUri = $"{ResourceIndexUri}?&pageNumber={pageNumber}&pageSize={pageSize}";
-
-            return await client.GetFromJsonAsync<IEnumerable<T>>(requestUri);
-        }
-
         /// <inheritdoc/>
         public Task<Uri> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes)
         {
@@ -263,15 +300,31 @@ namespace NjordinSight.Web.Services
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<T>> GetAsync(TParentKey parent, int pageNumber = 1, int pageSize = 20)
+        public async Task<(IEnumerable<T>, TParent, PaginationData)> IndexAsync<TParent>(
+            TParentKey parent, int pageNumber = 1, int pageSize = 20)
         {
             using var client = HttpFactory.CreateClient();
 
-            string requestUri = CombinePath(
-                rootPath: string.Format(ResourceIndexUri, parent),
-                relativePath: $"/search?&pageNumber={pageNumber}&pageSize={pageSize}");
+            var httpResponse = await client.GetAsync(
+                $"{string.Format(ResourceIndexUri, parent)}?&pageNumber={pageNumber}&pageSize={pageSize}");
 
-            return await client.GetFromJsonAsync<IEnumerable<T>>(requestUri);
+            httpResponse.EnsureSuccessStatusCode();
+
+
+            var deserializedResults = await httpResponse.Content
+                                            .ReadFromJsonAsync<IndexWithParentResponse<TParent>>();
+
+            PaginationData pageData = null!;
+
+            if (httpResponse.Headers.TryGetValues("X-Pagination", out var stringValues))
+            {
+                if (stringValues?.Any() ?? false)
+                {
+                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
+                }
+            }
+
+            return (deserializedResults.Entries, deserializedResults.Parent, pageData);
         }
 
         /// <inheritdoc/>
@@ -283,7 +336,7 @@ namespace NjordinSight.Web.Services
 
         /// <inheritdoc/>
         public async Task<(IEnumerable<T>, TParent, PaginationData)> SearchAsync<TParent>(
-            TParentKey parent, IQueryParameter<T> parameter, int pageNumber = 1, int pageSize = 20)
+            TParentKey parent, ParameterDto<T> parameter, int pageNumber = 1, int pageSize = 20)
         {
             if (parameter is null)
                 throw new ArgumentNullException(paramName: nameof(parameter));
@@ -295,6 +348,13 @@ namespace NjordinSight.Web.Services
             var (response, pageData) = await SearchAsync<(IEnumerable<T>, TParent)>(requestUri, parameter);
 
             return (response.Item1, response.Item2, pageData);
+        }
+
+        private class IndexWithParentResponse<TParent>
+        {
+            public IEnumerable<T> Entries { get; init; } = new List<T>();
+
+            public TParent Parent { get; init; }
         }
     }
 }

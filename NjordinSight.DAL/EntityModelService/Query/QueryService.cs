@@ -14,24 +14,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Reflection;
+using Ichosys.DataModel;
 
 namespace NjordinSight.EntityModelService.Query
 {
     public partial class QueryService : IQueryService
     {
-        public async Task<IEnumerable<string>> GetIssuersAsync(string pattern, int pageNumber = 1, int pageSize = 20)
+        public async Task<(IEnumerable<string>, PaginationData)> GetIssuersAsync(
+            string pattern, int pageNumber = 1, int pageSize = 20)
         {
             using var context = NewDbContext();
 
-            var issuers = await context.Set<Security>()
+            var issuerQueryable = context.Set<Security>()
                 .Where(x => x.Issuer != null && x.Issuer != string.Empty)
-                .Skip(pageSize * (pageNumber - 1))
-                .Take(pageSize)
+                .OrderBy(x => x.Issuer)
                 .Select(x => x.Issuer)
-                .OrderBy(x => x)
-                .ToListAsync();
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize);
 
-            return issuers;
+            PaginationData pageData = new()
+            {
+                ItemCount = await issuerQueryable.CountAsync(),
+                PageIndex = pageNumber,
+                PageSize = pageSize
+            };
+
+            var result = await issuerQueryable.ToListAsync();
+
+            return (result, pageData);
         }
 
         /// <inheritdoc/>
@@ -108,6 +119,45 @@ namespace NjordinSight.EntityModelService.Query
 
             return _mapper.Map<IEnumerable<ModelAttributeDto>>(entities);
         }
+
+        /// <inheritdoc/>
+        public IDictionary<string, string> GetMarketIndexPriceCodeDisplayMap(
+            Func<KeyValuePair<string, string>> placeHolderDelegate = null)
+        {
+            var result = CreateEnumerableDisplayMap<MarketIndexPriceCode, string, string>(
+                predicate: x => true,
+                key: x => x.ConvertToStringCode(),
+                display: x => _metadataService.NameFor<MarketIndexPriceCode>(x => x),
+                placeHolderDelegate: placeHolderDelegate);
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public IDictionary<TKey, TValue> CreateEnumerableDisplayMap<TEnum, TKey, TValue>(
+            Func<TEnum, bool> predicate,
+            Expression<Func<TEnum, TKey>> key,
+            Expression<Func<TEnum, TValue>> display,
+            Func<KeyValuePair<TKey, TValue>> placeHolderDelegate = null)
+            where TEnum : struct, Enum
+        {
+            var keyDeleg = key.Compile();
+            var displayDeleg = display.Compile();
+
+            var results = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()
+                .Where(predicate)
+                .ToDictionary(x => keyDeleg(x), x => displayDeleg(x));
+
+            if (placeHolderDelegate is not null)
+            {
+                var placeHolder = placeHolderDelegate.Invoke();
+                results.Add(placeHolder.Key, placeHolder.Value);
+            }
+
+            return results;
+        }
+
+
     }
 
 
@@ -118,6 +168,7 @@ namespace NjordinSight.EntityModelService.Query
     public partial class QueryService : IQueryService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
+        private readonly IModelMetadataService _metadataService;
         private readonly IMapper _mapper;
         static readonly object _locker = new();
 

@@ -1,10 +1,18 @@
-﻿using NjordinSight.EntityModel;
+﻿using Ichosys.DataModel.Annotations;
+using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Metadata;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(ModelNoun.Account_Plural),
+        PluralArticle = nameof(ModelNoun.Account_PluralArticle),
+        Singular = nameof(ModelNoun.Account_Singular),
+        SingularArticle = nameof(ModelNoun.Account_SingularArticle),
+        ResourceType = typeof(ModelNoun)
+        )]
     public class AccountDto : AccountBaseDto
     {
         private string _accountNumber;
@@ -24,18 +32,21 @@ namespace NjordinSight.DataTransfer.Common
         [StringLength(12,
             ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]
+        [Searchable]
         public override string ShortCode { get => base.ShortCode; set => base.ShortCode = value; }
 
         [Display(
             Name = nameof(AccountCompositeDto_SR.StartDate_Name),
             Description = nameof(AccountCompositeDto_SR.StartDate_Description),
             ResourceType = typeof(AccountCompositeDto_SR))]
+        [Searchable]
         public override DateTime StartDate { get => base.StartDate; set => base.StartDate = value; }
 
         [Display(
             Name = nameof(AccountCompositeDto_SR.CloseDate_Name),
             Description = nameof(AccountCompositeDto_SR.CloseDate_Description),
             ResourceType = typeof(AccountCompositeDto_SR))]
+        [Searchable]
         public override DateTime? CloseDate { get => base.CloseDate; set => base.CloseDate = value; }
 
         [Display(
@@ -45,6 +56,7 @@ namespace NjordinSight.DataTransfer.Common
         [StringLength(128,
             ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]
+        [Searchable]
         public override string Description { get => base.Description; set => base.Description = value; }
 
         [Display(
@@ -57,8 +69,8 @@ namespace NjordinSight.DataTransfer.Common
         [StringLength(72,
             ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]
+        [Searchable]
         public override string DisplayName { get => base.DisplayName; set => base.DisplayName = value; }
-
 
         [Display(
             Name = nameof(AccountDto_SR.AccountNumber_Name),

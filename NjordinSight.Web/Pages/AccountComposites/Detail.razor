@@ -75,13 +75,13 @@
         try
         {
             var compositeQuery = HttpService.GetAsync(ModelId);
-            var accountsQuery = ReferenceData.GetAccountsAsync();
+            var accountsQuery = HttpService.GetAllAsync<AccountDto>();
 
             var dataTasks = Task.WhenAll(compositeQuery, accountsQuery);
             await dataTasks;
 
             Model = await compositeQuery;
-            AccountDtos = (await accountsQuery).Item1;
+            AccountDtos = await accountsQuery;
         }
         finally
         {

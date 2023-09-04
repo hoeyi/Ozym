@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components;
 using NjordinSight.EntityModel;
 using NjordinSight.UserInterface;
 using NjordinSight.Web.Components.Common;
-using NjordinSight.Web.Controllers;
 using NjordinSight.Web.Services;
 using System;
 using System.Threading.Tasks;

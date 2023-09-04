@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class MarketIndexPriceDto_SR {
+    public class MarketIndexPriceDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.MarketIndexPriceDto_SR", typeof(MarketIndexPriceDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string IndexPriceId_Description {
+        public static string IndexPriceId_Description {
             get {
                 return ResourceManager.GetString("IndexPriceId_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string IndexPriceId_Name {
+        public static string IndexPriceId_Name {
             get {
                 return ResourceManager.GetString("IndexPriceId_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to The index valued by the record..
         /// </summary>
-        internal static string MarketIndexId_Description {
+        public static string MarketIndexId_Description {
             get {
                 return ResourceManager.GetString("MarketIndexId_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Index.
         /// </summary>
-        internal static string MarketIndexId_Name {
+        public static string MarketIndexId_Name {
             get {
                 return ResourceManager.GetString("MarketIndexId_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to The indexed value..
         /// </summary>
-        internal static string Price_Description {
+        public static string Price_Description {
             get {
                 return ResourceManager.GetString("Price_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
-        internal static string Price_Name {
+        public static string Price_Name {
             get {
                 return ResourceManager.GetString("Price_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Type of return measured by the record (e.g., price or total)..
         /// </summary>
-        internal static string PriceCode_Description {
+        public static string PriceCode_Description {
             get {
                 return ResourceManager.GetString("PriceCode_Description", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Return Type.
         /// </summary>
-        internal static string PriceCode_Name {
+        public static string PriceCode_Name {
             get {
                 return ResourceManager.GetString("PriceCode_Name", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Date of the index price record..
         /// </summary>
-        internal static string PriceDate_Description {
+        public static string PriceDate_Description {
             get {
                 return ResourceManager.GetString("PriceDate_Description", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
-        internal static string PriceDate_Name {
+        public static string PriceDate_Name {
             get {
                 return ResourceManager.GetString("PriceDate_Name", resourceCulture);
             }
