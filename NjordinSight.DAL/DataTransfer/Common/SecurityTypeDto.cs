@@ -1,8 +1,16 @@
-﻿using System.ComponentModel;
+﻿using Ichosys.DataModel.Annotations;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(SecurityTypeDto_SR.Noun_Plural),
+        PluralArticle = nameof(SecurityTypeDto_SR.Noun_Plural_Article),
+        Singular = nameof(SecurityTypeDto_SR.Noun_Singular),
+        SingularArticle = nameof(SecurityTypeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(SecurityTypeDto_SR)
+        )]
     public class SecurityTypeDto : DtoBase
     {
         private int _securityTypeId;
@@ -13,10 +21,7 @@ namespace NjordinSight.DataTransfer.Common
         private bool _canHavePosition;
         private bool _heldInWallet;
 
-        [Display(
-            Name = nameof(SecurityTypeDto_SR.SecurityTypeId_Name),
-            Description = nameof(SecurityTypeDto_SR.SecurityTypeId_Description),
-            ResourceType = typeof(SecurityTypeDto_SR))]
+        [Key]
         public int SecurityTypeId
         {
             get { return _securityTypeId; }

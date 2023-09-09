@@ -17,24 +17,26 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <AttributeEntryCollectionEditor 
-            TViewModelParent="CountryAttributeDtoCollection"
-            TViewModelChild="CountryAttributeGrouping"
-            TModel="CountryDto"
-            TModelChild="CountryAttributeDto"
-            OnCancelEditorClick="FormCancelClickHandler"
-            OnDeleteModelClick="FormDeleteClickHandler"
-            OnValidFormSubmit="ValidFormSubmitHandler"
-            EffectiveDatePath="@(x => x.EffectiveDate)"
-            ModelDto="@Model.AttributeCollection"
-            Mode="EditorMode.Edit">
-            <ViewModelCRUD>
-                <CountryCRUD Disabled="false" ReadOnly="false" />
-            </ViewModelCRUD>
-            <ViewModelChildCRUD>
-                <CountryAttributesCRUD Disabled="false" ReadOnly="false" />
-            </ViewModelChildCRUD>
-        </AttributeEntryCollectionEditor>
+        <CascadingValue Value="@Model">
+            <AttributeEntryCollectionEditor 
+                TViewModelParent="CountryAttributeDtoCollection"
+                TViewModelChild="CountryAttributeGrouping"
+                TModel="CountryDto"
+                TModelChild="CountryAttributeDto"
+                OnCancelEditorClick="FormCancelClickHandler"
+                OnDeleteModelClick="FormDeleteClickHandler"
+                OnValidFormSubmit="ValidFormSubmitHandler"
+                EffectiveDatePath="@(x => x.EffectiveDate)"
+                ModelDto="@Model.AttributeCollection"
+                Mode="EditorMode.Edit">
+                <ViewModelCRUD>
+                    <CountryCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelCRUD>
+                <ViewModelChildCRUD>
+                    <CountryAttributesCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelChildCRUD>
+            </AttributeEntryCollectionEditor>
+        </CascadingValue>
     }
 </ThemedComponent>
 

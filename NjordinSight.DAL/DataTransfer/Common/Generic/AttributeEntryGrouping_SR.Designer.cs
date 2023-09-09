@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common.Generic {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AttributeEntryGrouping_SR {
+    public class AttributeEntryGrouping_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common.Generic {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.Generic.AttributeEntryGrouping_SR", typeof(AttributeEntryGrouping_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common.Generic {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common.Generic {
         /// <summary>
         ///   Looks up a localized string similar to Effective date for this group of weights..
         /// </summary>
-        internal static string EffectiveDate_Description {
+        public static string EffectiveDate_Description {
             get {
                 return ResourceManager.GetString("EffectiveDate_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common.Generic {
         /// <summary>
         ///   Looks up a localized string similar to Effective Date.
         /// </summary>
-        internal static string EffectiveDate_Name {
+        public static string EffectiveDate_Name {
             get {
                 return ResourceManager.GetString("EffectiveDate_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common.Generic {
         /// <summary>
         ///   Looks up a localized string similar to Sum of the weights in this group..
         /// </summary>
-        internal static string SumOfWeights_Description {
+        public static string SumOfWeights_Description {
             get {
                 return ResourceManager.GetString("SumOfWeights_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common.Generic {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string SumOfWeights_InvalidWeight {
+        public static string SumOfWeights_InvalidWeight {
             get {
                 return ResourceManager.GetString("SumOfWeights_InvalidWeight", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common.Generic {
         /// <summary>
         ///   Looks up a localized string similar to Sum of weights.
         /// </summary>
-        internal static string SumOfWeights_Name {
+        public static string SumOfWeights_Name {
             get {
                 return ResourceManager.GetString("SumOfWeights_Name", resourceCulture);
             }

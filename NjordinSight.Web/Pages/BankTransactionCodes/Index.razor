@@ -29,7 +29,7 @@
                         Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
                             <a class="custom-nav-link" 
-                                href=@(FormatDetailUri(GetKeyValueOrDefault<int>(model))) 
+                                href=@(FormatDetailUri(model.TransactionCodeId))
                                 @onclick:preventDefault
                                 @onclick="@(args => Detail_OnClick(model, args))">
                                 @model.TransactionCode.ToLower()

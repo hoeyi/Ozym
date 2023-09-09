@@ -99,27 +99,18 @@
     protected override async Task RefreshResultsAsync(
         ParameterDto<MarketIndexPriceDto> parameter, int pageNumber, int pageSize)
     {
-        var marketIndexDtosTask = HttpService.SearchAsync<MarketIndexDto>(
-            queryParameter: null,
-            pageNumber: 1,
-            pageSize: int.MaxValue);
+        var marketIndexDtosTask = HttpService.GetAllAsync<MarketIndexDto>();
 
-        var priceQueryTask = HttpService.SearchAsync(
-            parameter: parameter,
-            pageNumber: PaginationHelper.PageIndex,
-            pageSize: PaginationHelper.PageSize);
+        var priceQueryTask = base.RefreshResultsAsync(parameter, pageNumber, pageSize);
 
         await InitializationTasksAsync(priceQueryTask, marketIndexDtosTask);
 
-        var priceResult = await priceQueryTask;
         var marketIndexResult = await marketIndexDtosTask;
 
-        Entries = priceResult.Item1.ToList();
-        MarketIndices = marketIndexResult.Item1;
-        PriceCodeLookup = ReferenceData.GetMarketIndexPriceCodeDisplayMap();
-
-        PaginationHelper.TotalItemCount = priceResult.Item2.ItemCount;
-        PaginationHelper.ItemCount = Entries.Count();
+        MarketIndices = marketIndexResult;
+        PriceCodeLookup = ReferenceData.GetMarketIndexPriceCodeDisplayMap(
+            placeHolderDelegate: () => 
+                new KeyValuePair<string, string>(string.Empty, Strings.Caption_InputSelect_Prompt));
     }
 
     private string GetPriceCodeDisplayValue(string priceCode) =>

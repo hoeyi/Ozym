@@ -121,19 +121,24 @@ namespace NjordinSight.Web.Components.Generic
 
             try
             {
-                var responseObject = await HttpService.IndexAsync(
+                await RefreshResultsAsync(
+                    parameter: LastSearchParameter,
                     pageNumber: PaginationHelper.PageIndex,
                     pageSize: PaginationHelper.PageSize);
-
-                Entries = responseObject.Item1;
-
-                PaginationHelper.TotalItemCount = responseObject.Item2.ItemCount;
-                PaginationHelper.ItemCount = Entries.Count();
             }
             finally
             {
                 IsLoading = PageDataIsLoading();
             }
+        }
+
+        protected Task<(IEnumerable<TModelDto>, PaginationData)> ConvertToRecordsTask(
+            ParameterDto<TModelDto> parameter, int pageNumber = 1, int pageSize = 20)
+        {
+            if (parameter is null || !parameter.IsValid)
+                return HttpService.IndexAsync(pageNumber, pageSize);
+            else
+                return HttpService.SearchAsync(parameter, pageNumber, pageSize);
         }
 
         /// <summary>
@@ -152,14 +157,17 @@ namespace NjordinSight.Web.Components.Generic
             int pageNumber,
             int pageSize)
         {
-            var responseObject = await HttpService.SearchAsync(
-                parameter: parameter,
-                pageNumber: PaginationHelper.PageIndex,
-                pageSize: PaginationHelper.PageSize);
+            Task<(IEnumerable<TModelDto>, PaginationData)> responseObject;
+            if (parameter is null)
+                responseObject = HttpService.IndexAsync(pageNumber, pageSize);
+            else
+                responseObject = HttpService.SearchAsync(parameter, pageNumber, pageSize);
 
-            Entries = responseObject.Item1;
+            var result = await responseObject.ConfigureAwait(false);
 
-            PaginationHelper.TotalItemCount = responseObject.Item2.ItemCount;
+            Entries = result.Item1;
+
+            PaginationHelper.TotalItemCount = result.Item2.ItemCount;
             PaginationHelper.ItemCount = Entries.Count();
         }
 

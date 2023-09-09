@@ -53,7 +53,7 @@ namespace NjordinSight.EntityModelService.Query
         /// <param name="defaultDisplay">Default display value to use for the placeholder record.</param>
         /// <returns>A task representing an asynchronous query and DTO-mapping. The task result is an
         /// <see cref="IEnumerable{T}"/> containing key-value records represent a foregin key reference.</returns>
-        Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
+        Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
             Expression<Func<TSource, bool>> predicate,
             int maxCount,
             Expression<Func<TSource, TKey>> key,
@@ -75,7 +75,7 @@ namespace NjordinSight.EntityModelService.Query
         /// <param name="defaultDisplay">Default display value to use for the placeholder record.</param>
         /// <returns>A task representing an asynchronous query and DTO-mapping. The task result is an
         /// <see cref="IEnumerable{T}"/> containing key-value records represent a foregin key reference.</returns>
-        Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
+        Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
             Expression<Func<TSource, TKey>> key,
             Expression<Func<TSource, TValue>> display,
             TKey defaultKey = default,

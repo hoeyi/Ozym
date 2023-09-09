@@ -17,24 +17,26 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <AttributeEntryCollectionEditor 
-            TViewModelParent="InvestmentModelTargetDtoCollection"
-            TViewModelChild="InvestmentModelTargetGrouping"
-            TModel="InvestmentModelDto"
-            TModelChild="InvestmentModelTargetDto"
-            OnCancelEditorClick="FormCancelClickHandler"
-            OnDeleteModelClick="FormDeleteClickHandler"
-            OnValidFormSubmit="ValidFormSubmitHandler"
-            EffectiveDatePath="@(x => x.EffectiveDate)"
-            ModelDto="@Model.TargetCollection"
-            Mode="EditorMode.Edit">
-            <ViewModelCRUD>
-                <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
-            </ViewModelCRUD>
-            <ViewModelChildCRUD>
-                <InvestmentModelTargetCRUD Disabled="false" ReadOnly="false" />
-            </ViewModelChildCRUD>
-        </AttributeEntryCollectionEditor>
+        <CascadingValue Value="@Model">
+            <AttributeEntryCollectionEditor 
+                TViewModelParent="InvestmentModelTargetDtoCollection"
+                TViewModelChild="InvestmentModelTargetGrouping"
+                TModel="InvestmentModelDto"
+                TModelChild="InvestmentModelTargetDto"
+                OnCancelEditorClick="FormCancelClickHandler"
+                OnDeleteModelClick="FormDeleteClickHandler"
+                OnValidFormSubmit="ValidFormSubmitHandler"
+                EffectiveDatePath="@(x => x.EffectiveDate)"
+                ModelDto="@Model.TargetCollection"
+                Mode="EditorMode.Edit">
+                <ViewModelCRUD>
+                    <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelCRUD>
+                <ViewModelChildCRUD>
+                    <InvestmentModelTargetCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelChildCRUD>
+            </AttributeEntryCollectionEditor>
+        </CascadingValue>
     }
 </ThemedComponent>
 

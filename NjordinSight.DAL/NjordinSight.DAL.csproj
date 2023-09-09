@@ -213,6 +213,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SecurityTypeDto_SR.resx</DependentUpon>
     </Compile>
+    <Compile Update="DataTransfer\Common\SecurityTypeGroupDto_SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SecurityTypeGroupDto_SR.resx</DependentUpon>
+    </Compile>
     <Compile Update="DataTransfer\MethodParams\DisplayString.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -345,7 +350,7 @@
       <LastGenOutput>CountryDto_SR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="DataTransfer\Common\Generic\AttributeEntryGrouping_SR.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AttributeEntryGrouping_SR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="DataTransfer\Common\InvestmentModelDto_SR.resx">
@@ -433,7 +438,8 @@
       <LastGenOutput>SecurityTypeDto_SR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="DataTransfer\Common\SecurityTypeGroupDto_SR.resx">
-      <Generator></Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SecurityTypeGroupDto_SR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="DataTransfer\MethodParams\DisplayString.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

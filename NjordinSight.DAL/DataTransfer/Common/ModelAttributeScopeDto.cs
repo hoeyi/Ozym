@@ -1,8 +1,16 @@
-﻿using System.ComponentModel;
+﻿using Ichosys.DataModel.Annotations;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(ModelAttributeScopeDto_SR.Noun_Plural),
+        PluralArticle = nameof(ModelAttributeScopeDto_SR.Noun_Plural_Article),
+        Singular = nameof(ModelAttributeScopeDto_SR.Noun_Singular),
+        SingularArticle = nameof(ModelAttributeScopeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(ModelAttributeScopeDto_SR)
+        )]
     public class ModelAttributeScopeDto : DtoBase
     {
         private int _attributeId;

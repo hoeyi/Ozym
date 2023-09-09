@@ -113,7 +113,7 @@ namespace NjordinSight.EntityModelService.Query
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
+        public async Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
             Expression<Func<TSource, bool>> predicate, 
             int maxCount, 
             Expression<Func<TSource, TKey>> key, 
@@ -130,36 +130,26 @@ namespace NjordinSight.EntityModelService.Query
             var keyDeleg = key.Compile();
             var displayDeleg = display.Compile();
 
-            IQueryable<LookupModel<TKey, TValue>> query;
-            List<LookupModel<TKey, TValue>> resultList;
+            IQueryable<KeyValuePair<TKey, TValue>> query;
+            List<KeyValuePair<TKey, TValue>> resultList;
 
             try
             {
                 if(maxCount == 0)
                 {
                     query = Queryable.Where(predicate)
-                        .Select(x => new LookupModel<TKey, TValue>()
-                        {
-                            Key = keyDeleg(x),
-                            Display = displayDeleg(x)
-                        });
+                        .Select(x => new KeyValuePair<TKey, TValue>(keyDeleg(x), displayDeleg(x)));
                 }
                 else
                 {
                     query = Queryable.Where(predicate)
-                        .Select(x => new LookupModel<TKey, TValue>()
-                        {
-                            Key = keyDeleg(x),
-                            Display = displayDeleg(x)
-                        })
+                        .Select(x => new KeyValuePair<TKey, TValue>(keyDeleg(x), displayDeleg(x)))
                         .Take(maxCount);
                 }
 
                 resultList = await query.ToListAsync();
 
-                resultList.Insert(0, LookupModel<TKey, TValue>.GetPlaceHolder(
-                    key: defaultKey,
-                    display: defaultDisplay));
+                resultList.Insert(0, new KeyValuePair<TKey, TValue>(defaultKey, defaultDisplay));
             }
             catch(Exception e)
             {
@@ -175,7 +165,7 @@ namespace NjordinSight.EntityModelService.Query
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
+        public async Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
             Expression<Func<TSource, TKey>> key,
             Expression<Func<TSource, TValue>> display,
             TKey defaultKey = default, TValue

@@ -10,7 +10,7 @@ namespace NjordinSight.Api.Controllers
 {
     /// <inheritdoc/>
     [ApiController]
-    [Route("api/v{version:apiVersion}/prices")]
+    [Route("api/v{version:apiVersion}/securities/prices")]
     [ApiVersion("1.0")]
     public class SecurityPricesController
         : ApiCollectionController<SecurityPriceDto, SecurityPrice>

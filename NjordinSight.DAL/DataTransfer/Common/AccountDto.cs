@@ -7,11 +7,11 @@ using System.ComponentModel.DataAnnotations;
 namespace NjordinSight.DataTransfer.Common
 {
     [Noun(
-        Plural = nameof(ModelNoun.Account_Plural),
-        PluralArticle = nameof(ModelNoun.Account_PluralArticle),
-        Singular = nameof(ModelNoun.Account_Singular),
-        SingularArticle = nameof(ModelNoun.Account_SingularArticle),
-        ResourceType = typeof(ModelNoun)
+        Plural = nameof(AccountDto_SR.Noun_Plural),
+        PluralArticle = nameof(AccountDto_SR.Noun_Plural_Article),
+        Singular = nameof(AccountDto_SR.Noun_Singular),
+        SingularArticle = nameof(AccountDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(AccountDto_SR)
         )]
     public class AccountDto : AccountBaseDto
     {
@@ -23,9 +23,9 @@ namespace NjordinSight.DataTransfer.Common
         private bool _hasBrokerTransaction;
 
         [Display(
-            Name = nameof(AccountCompositeDto_SR.ShortCode_Name),
-            Description = nameof(AccountCompositeDto_SR.ShortCode_Description),
-            ResourceType = typeof(AccountCompositeDto_SR))]
+            Name = nameof(AccountDto_SR.ShortCode_Name),
+            Description = nameof(AccountDto_SR.ShortCode_Description),
+            ResourceType = typeof(AccountDto_SR))]
         [Required(
             ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]
@@ -36,23 +36,23 @@ namespace NjordinSight.DataTransfer.Common
         public override string ShortCode { get => base.ShortCode; set => base.ShortCode = value; }
 
         [Display(
-            Name = nameof(AccountCompositeDto_SR.StartDate_Name),
-            Description = nameof(AccountCompositeDto_SR.StartDate_Description),
-            ResourceType = typeof(AccountCompositeDto_SR))]
+            Name = nameof(AccountDto_SR.StartDate_Name),
+            Description = nameof(AccountDto_SR.StartDate_Description),
+            ResourceType = typeof(AccountDto_SR))]
         [Searchable]
         public override DateTime StartDate { get => base.StartDate; set => base.StartDate = value; }
 
         [Display(
-            Name = nameof(AccountCompositeDto_SR.CloseDate_Name),
-            Description = nameof(AccountCompositeDto_SR.CloseDate_Description),
-            ResourceType = typeof(AccountCompositeDto_SR))]
+            Name = nameof(AccountDto_SR.CloseDate_Name),
+            Description = nameof(AccountDto_SR.CloseDate_Description),
+            ResourceType = typeof(AccountDto_SR))]
         [Searchable]
         public override DateTime? CloseDate { get => base.CloseDate; set => base.CloseDate = value; }
 
         [Display(
-            Name = nameof(AccountCompositeDto_SR.Description_Name),
-            Description = nameof(AccountCompositeDto_SR.Description_Description),
-            ResourceType = typeof(AccountCompositeDto_SR))]
+            Name = nameof(AccountDto_SR.Description_Name),
+            Description = nameof(AccountDto_SR.Description_Description),
+            ResourceType = typeof(AccountDto_SR))]
         [StringLength(128,
             ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]
@@ -60,9 +60,9 @@ namespace NjordinSight.DataTransfer.Common
         public override string Description { get => base.Description; set => base.Description = value; }
 
         [Display(
-            Name = nameof(AccountCompositeDto_SR.DisplayName_Name),
-            Description = nameof(AccountCompositeDto_SR.DisplayName_Description),
-            ResourceType = typeof(AccountCompositeDto_SR))]
+            Name = nameof(AccountDto_SR.DisplayName_Name),
+            Description = nameof(AccountDto_SR.DisplayName_Description),
+            ResourceType = typeof(AccountDto_SR))]
         [Required(
             ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
             ErrorMessageResourceType = typeof(ModelValidation))]

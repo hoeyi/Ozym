@@ -1,8 +1,16 @@
-﻿using System.ComponentModel;
+﻿using Ichosys.DataModel.Annotations;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(ReportStyleSheetDto_SR.Noun_Plural),
+        PluralArticle = nameof(ReportStyleSheetDto_SR.Noun_Plural_Article),
+        Singular = nameof(ReportStyleSheetDto_SR.Noun_Singular),
+        SingularArticle = nameof(ReportStyleSheetDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(ReportStyleSheetDto_SR)
+        )]
     public class ReportStyleSheetDto : DtoBase
     {
         private int _styleSheetId;
@@ -10,10 +18,7 @@ namespace NjordinSight.DataTransfer.Common
         private string _styleSheetDescription;
         private string _xmlDefinition;
 
-        [Display(
-            Name = nameof(ReportStyleSheetDto_SR.StyleSheetId_Name),
-            Description = nameof(ReportStyleSheetDto_SR.StyleSheetId_Description),
-            ResourceType = typeof(ReportStyleSheetDto_SR))]
+        [Key]
         public int StyleSheetId
         {
             get { return _styleSheetId; }

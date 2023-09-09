@@ -38,14 +38,14 @@ namespace NjordinSight.Web.Services
                 { typeof(CountryDto), "/countries" },
                 { typeof(InvestmentModelDto), "/investment-models" },
                 { typeof(MarketHolidayObservanceDto), "/holidays/observances" },
-                { typeof(MarketIndexPriceDto), "/market-indices/{0}/rates" },
+                { typeof(MarketIndexPriceDto), "/market-indices/rates" },
                 { typeof(MarketIndexDto), "/market-indices" },
                 { typeof(ModelAttributeDto), "/attributes" },
                 { typeof(ReportConfigurationDto), "/report-configurations" },
                 { typeof(ReportStyleSheetDto), "/style-sheets" },
                 { typeof(SecurityDto), "/securities" },
                 { typeof(SecurityExchangeDto), "/exchanges" },
-                { typeof(SecurityPriceDto), "/prices" },
+                { typeof(SecurityPriceDto), "/securities/prices" },
                 { typeof(SecurityTypeDto), "/security-types" },
                 { typeof(SecurityTypeGroupDto), "/security-type-groups" }
             };

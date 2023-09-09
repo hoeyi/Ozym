@@ -7,19 +7,24 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(AccountCustodianDto_SR.Noun_Plural),
+        PluralArticle = nameof(AccountCustodianDto_SR.Noun_Plural_Article),
+        Singular = nameof(AccountCustodianDto_SR.Noun_Singular),
+        SingularArticle = nameof(AccountCustodianDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(AccountCustodianDto_SR)
+        )]
     public class AccountCustodianDto : DtoBase
     {
         private int _accountCustodianId;
         private string _custodianCode;
         private string _displayName;
 
-        [Display(
-            Name = nameof(AccountCustodianDto_SR.AccountCustodianId_Name),
-            Description = nameof(AccountCustodianDto_SR.AccountCustodianId_Description),
-            ResourceType = typeof(AccountCustodianDto_SR))]
+        [Key]
         public int AccountCustodianId
         {
             get { return _accountCustodianId; }

@@ -13,6 +13,7 @@ using NjordinSight.DataTransfer.Common;
 using NjordinSight.DataTransfer.Common.Collections;
 using NjordinSight.Web.Services;
 using NjordinSight.DataTransfer.Common.Query;
+using System.Net.Http;
 
 namespace NjordinSight.Web.Components.Generic
 {
@@ -41,7 +42,7 @@ namespace NjordinSight.Web.Components.Generic
         /// data for this component.
         /// </summary>
         [Inject]
-        IQueryService QueryService { get; set; } 
+        IQueryService QueryService { get; set; }
 
         /// <summary>
         /// Gets or sets the current <typeparamref name="TViewModelChild"/> instance.
@@ -51,8 +52,8 @@ namespace NjordinSight.Web.Components.Generic
         /// <summary>
         /// Gets or sets the valid entries to the currently selected attribute.
         /// </summary>
-        protected IEnumerable<LookupModel<int, string>> CurrentAttributeMemberLookup { get; set; }
-            = new List<LookupModel<int, string>>();
+        protected IEnumerable<ModelAttributeMemberDto> CurrentAttributeMemberLookup { get; set; }
+            = new List<ModelAttributeMemberDto>();
 
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
@@ -83,11 +84,18 @@ namespace NjordinSight.Web.Components.Generic
         /// Adds a new <typeparamref name="TViewModelChild"/> to the <typeparamref name="TViewModelParent"/> 
         /// instance for this component for the given <see cref="ModelAttributeDtoBase"/>.
         /// </summary>
-        /// <param name="forModelAttribute"></param>
+        /// <param name="attributeId"></param>
         /// <returns></returns>
-        protected async Task AddEntryForGrouping(ModelAttributeDtoBase forModelAttribute)
+        private void AddEntryForGrouping(int attributeId)
         {
-            await OnChildViewSelect(ModelDto.AddNew(forModelAttribute));
+            var forModelAttribute = AllowableModelAttributes.First(x => x.AttributeId == attributeId);
+
+            CurrentViewModelChild = ModelDto.AddNew(forModelAttribute);
+
+            CurrentAttributeMemberLookup = forModelAttribute.AttributeValues;
+
+            DrawViewModelChildModelEditor = 
+                CurrentViewModelChild is not null && CurrentAttributeMemberLookup is not null;
         }
 
         /// <summary>
@@ -96,24 +104,24 @@ namespace NjordinSight.Web.Components.Generic
         /// </summary>
         /// <param name="childViewModel"></param>
         /// <returns></returns>
-        protected async Task OnChildViewSelect(TViewModelChild childViewModel)
+        private void OnChildViewSelect(TViewModelChild childViewModel)
         {
             CurrentViewModelChild = childViewModel;
-            CurrentAttributeMemberLookup = await QueryService!
-                .GetModelAttributeMemberDTOsAsync(
-                    attributeId: childViewModel.ParentAttribute.AttributeId);
+            CurrentAttributeMemberLookup = AllowableModelAttributes
+                .First(x => x.AttributeId == childViewModel.ParentAttribute.AttributeId)
+                .AttributeValues;
 
-            DrawViewModelChildModelEditor = 
+            DrawViewModelChildModelEditor =
                 CurrentViewModelChild is not null && CurrentAttributeMemberLookup is not null;
         }
-                
+
         /// <summary>
         /// Handles the close event of the modal editor form for a 
         /// <typeparamref name="TViewModelChild"/> instance.
         /// </summary>
         /// <param name="modalEventArgs">The event arguments.</param>
         /// <exception cref="NotSupportedException"></exception>
-        protected void OnModalEditor_ForChildView_Close(
+        private void OnModalEditor_ForChildView_Close(
             ModalEventArgs<TViewModelChild> modalEventArgs)
         {
             DrawViewModelChildModelEditor = false;
@@ -149,24 +157,18 @@ namespace NjordinSight.Web.Components.Generic
         private Guid FormGuid { get; } = Guid.NewGuid();
 
         /// <summary>
-        /// Gets the <see cref="DateTime"/> value of <see cref="EffectiveDate" /> 
-        /// from the given <see cref="TViewModelChild" />.
-        /// </summary>
-        private static DateTime GetGroupEffectiveDate(TViewModelChild group) => group.EffectiveDate;
-
-        /// <summary>
         /// Handles the close event of the modal form used to select a <see cref="ModelAttributeDto"/> 
         /// for adding a new <typeparamref name="TViewModelChild" />.
         /// </summary>
-        private async Task OnModalAttributeSelectorClosed(ModalEventArgs<ModelAttributeDto> modalEventArgs)
+        private void OnModalAttributeSelectorClosed(ModalEventArgs<ModelAttributeDto> modalEventArgs)
         {
             DrawAttributeSelectorDialog = false;
 
             switch (modalEventArgs.Result)
             {
                 case DialogResult.OK:
-                    if (modalEventArgs.Model is not null)
-                        await AddEntryForGrouping(modalEventArgs.Model);
+                    if (modalEventArgs.Model != default)
+                        AddEntryForGrouping(modalEventArgs.Model.AttributeId);
                     break;
                 case DialogResult.Cancel:
                     break;

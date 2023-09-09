@@ -163,42 +163,19 @@ namespace NjordinSight.Web.Services
             if (httpFactory is null)
                 throw new ArgumentNullException(paramName: nameof(httpFactory));
 
+            if (queryService is null)
+                throw new ArgumentNullException(paramName: nameof(queryService));
+
             if (configuration is null)
                 throw new ArgumentNullException(paramName: nameof(configuration));
 
             _httpFactory = httpFactory;
+            _queryService = queryService;
 
             var apiOptions = new ApiOptions();
             configuration.GetSection(ApiOptions.ApiService).Bind(apiOptions);
 
             _baseApiUri = CombinePath(rootPath: apiOptions.Url, relativePath: "/reference");
-        }
-        private async Task<(IEnumerable<T>, PaginationData)> GetAsync<T>(
-            string endPoint, int pageNumber = 1, int pageSize = 20)
-        {
-            if (string.IsNullOrEmpty(endPoint))
-                throw new ArgumentNullException(paramName: nameof(endPoint));
-
-            using var client = _httpFactory.CreateClient();
-
-            var httpResponse = await client.GetAsync(
-                $"{_baseApiUri}/{endPoint}?&pageNumber={pageNumber}&pageSize={pageSize}");
-
-            httpResponse.EnsureSuccessStatusCode();
-
-            var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<T>>();
-
-            PaginationData pageData = null!;
-
-            if (httpResponse.Content.Headers.TryGetValues("X-Pagination", out var stringValues))
-            {
-                if (stringValues?.Any() ?? false)
-                {
-                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
-                }
-            }
-
-            return (deserializedResults, pageData);
         }
 
         /// <inheritdoc/>
@@ -333,5 +310,32 @@ namespace NjordinSight.Web.Services
             return combinedString;
         }
 
+        private async Task<(IEnumerable<T>, PaginationData)> GetAsync<T>(
+            string endPoint, int pageNumber = 1, int pageSize = 20)
+        {
+            if (string.IsNullOrEmpty(endPoint))
+                throw new ArgumentNullException(paramName: nameof(endPoint));
+
+            using var client = _httpFactory.CreateClient();
+
+            var httpResponse = await client.GetAsync(
+                $"{_baseApiUri}/{endPoint}?&pageNumber={pageNumber}&pageSize={pageSize}");
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<T>>();
+
+            PaginationData pageData = null!;
+
+            if (httpResponse.Content.Headers.TryGetValues("X-Pagination", out var stringValues))
+            {
+                if (stringValues?.Any() ?? false)
+                {
+                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
+                }
+            }
+
+            return (deserializedResults, pageData);
+        }
     }
 }

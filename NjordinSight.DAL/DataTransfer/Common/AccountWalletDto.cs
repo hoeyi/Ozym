@@ -13,12 +13,12 @@ using NjordinSight.EntityModel.Metadata;
 namespace NjordinSight.DataTransfer.Common
 {
     [Noun(
-        Plural = nameof(ModelNoun.AccountWallet_Plural),
-        PluralArticle = nameof(ModelNoun.AccountWallet_PluralArticle),
-        Singular = nameof(ModelNoun.AccountWallet_Singular),
-        SingularArticle = nameof(ModelNoun.AccountWallet_SingularArticle),
-        ResourceType = typeof(ModelNoun)
-    )]
+        Plural = nameof(AccountWalletDto_SR.Noun_Plural),
+        PluralArticle = nameof(AccountWalletDto_SR.Noun_Plural_Article),
+        Singular = nameof(AccountWalletDto_SR.Noun_Singular),
+        SingularArticle = nameof(AccountWalletDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(AccountWalletDto_SR)
+        )]
     public class AccountWalletDto : DtoBase
     {
         private int _accountId;
@@ -40,10 +40,7 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
-        [Display(
-            Name = nameof(AccountWalletDto_SR.AccountWalletId_Name),
-            Description = nameof(AccountWalletDto_SR.AccountWalletId_Description),
-            ResourceType = typeof(AccountWalletDto_SR))]
+        [Key]
         public int AccountWalletId
         {
             get { return _accountWalletId; }

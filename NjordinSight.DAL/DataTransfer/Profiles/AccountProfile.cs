@@ -68,7 +68,7 @@ namespace NjordinSight.DataTransfer.Profiles
 
             #region DTO-Entity
             CreateMap<AccountBaseAttributeDto, AccountAttributeMemberEntry>()
-                .ForMember(a => a.AttributeMemberId, b => b.MapFrom(x => x.AttributeMember.AttributeMemberId))
+                .ForMember(a => a.AttributeMemberId, b => b.MapFrom(x => x.AttributeMemberId))
                 .ForMember(a => a.Weight, b => b.MapFrom(x => x.PercentWeight))
                 .ForMember(a => a.AttributeMember, b => b.Ignore())
                 .ForMember(a => a.AccountObject, b => b.Ignore());

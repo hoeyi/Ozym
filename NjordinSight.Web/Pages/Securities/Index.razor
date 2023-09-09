@@ -49,7 +49,7 @@
                             <a class="custom-nav-link" href=@(FormatDetailUri(model.SecurityId)) 
                                 @onclick:preventDefault
                                 @onclick="@(args => Detail_OnClick(model, args))">
-                                @model.SecurityDescription
+                                    @model.SecurityDescription
                             </a>
                         </CellTemplate>
                     </DataGridColumn>
@@ -64,8 +64,7 @@
                                 Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityTypeId))
                                 Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
-                            @(TypeLookup
-                                .TryGetDisplayString<int, SecurityTypeDto>(
+                            @(TypeLookup.TryGetDisplayString<int, SecurityTypeDto>(
                                 model.SecurityTypeId, x => x.SecurityTypeName))
                         </CellTemplate>
                     </DataGridColumn>
@@ -80,8 +79,7 @@
                             Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityExchangeId))
                             Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
-                            @(ExchangeLookup
-                                .TryGetDisplayString<int, SecurityExchangeDto>(
+                            @(ExchangeLookup.TryGetDisplayString<int, SecurityExchangeDto>(
                                 model.SecurityExchangeId ?? default, x => x.ExchangeCode))
                         </CellTemplate>
                     </DataGridColumn>
@@ -122,8 +120,15 @@
     protected override async Task RefreshResultsAsync(
         ParameterDto<SecurityDto> parameter, int pageNumber, int pageSize)
     {
-        var securityQuery = HttpService.SearchAsync(
+        Task<(IEnumerable<SecurityDto>, NjordinSight.DataTransfer.PaginationData)> securityQuery;
+
+        if (parameter is null)
+            securityQuery = HttpService.SearchAsync(
                 parameter: parameter,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
+        else
+            securityQuery = HttpService.IndexAsync(
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
 

@@ -156,10 +156,7 @@ namespace NjordinSight.EntityModelService.Query
 
             return results;
         }
-
-
     }
-
 
     /// <summary>
     /// Represents an implementation of <see cref="IQueryService"/>, providing features 
@@ -173,33 +170,27 @@ namespace NjordinSight.EntityModelService.Query
         static readonly object _locker = new();
 
         /// <summary>
-        /// Initializes a new instance of <see cref="FinanceDbContext"/> from the factory instance
-        /// assigned to <see cref="_contextFactory"/>.
-        /// </summary>
-        /// <returns></returns>
-        private FinanceDbContext NewDbContext()
-        {
-            lock (_locker)
-            {
-                return _contextFactory.CreateDbContext();
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="QueryService"/> class.
         /// </summary>
         /// <param name="contextFactory">An <see cref="IDbContextFactory{TContext}"/> to use for 
         /// generating data contexts.</param>
         /// <exception cref="ArgumentNullException"><paramref name="contextFactory"/> was null.</exception>
-        public QueryService(IDbContextFactory<FinanceDbContext> contextFactory, IMapper mapper)
+        public QueryService(
+            IDbContextFactory<FinanceDbContext> contextFactory, 
+            IModelMetadataService metadataService,
+            IMapper mapper)
         {
             if (contextFactory is null)
                 throw new ArgumentNullException(paramName: nameof(contextFactory));
+
+            if (metadataService is null)
+                throw new ArgumentNullException(paramName: nameof(metadataService));
 
             if (mapper is null)
                 throw new ArgumentNullException(paramName: nameof(mapper));
 
             _contextFactory = contextFactory;
+            _metadataService = metadataService;
             _mapper = mapper;
         }
 
@@ -235,6 +226,19 @@ namespace NjordinSight.EntityModelService.Query
                 return await context.Set<T>()
                                 .Include(include)
                                 .SingleAsync(predicate);
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of <see cref="FinanceDbContext"/> from the factory instance
+        /// assigned to <see cref="_contextFactory"/>.
+        /// </summary>
+        /// <returns></returns>
+        private FinanceDbContext NewDbContext()
+        {
+            lock (_locker)
+            {
+                return _contextFactory.CreateDbContext();
+            }
         }
     }
 

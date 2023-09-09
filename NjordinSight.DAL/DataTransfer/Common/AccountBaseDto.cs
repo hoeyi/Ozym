@@ -143,15 +143,27 @@ namespace NjordinSight.DataTransfer.Common
     }
     public class AccountBaseDto : AccountBaseSimpleDto
     {
+        private ICollection<AccountBaseAttributeDto> _attributes;
+
         public AccountBaseDto()
         {
-            Attributes = new List<AccountBaseAttributeDto>();
-            AttributeCollection = new(this);
+            Attributes = new HashSet<AccountBaseAttributeDto>();
         }
 
-        public ICollection<AccountBaseAttributeDto> Attributes { get; set; } 
+        public ICollection<AccountBaseAttributeDto> Attributes
+        {
+            get { return _attributes; }
+            set
+            {
+                if(_attributes != value)
+                {
+                    _attributes = value;
+                    AttributeCollection = new(this);
+                }
+            }
+        }
 
         [JsonIgnore]
-        public AccountAttributeDtoCollection AttributeCollection { get; set; }
+        public AccountAttributeDtoCollection AttributeCollection { get; private set; }
     }
 }

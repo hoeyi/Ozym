@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SecurityTypeGroupDto_SR {
+    public class SecurityTypeGroupDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.SecurityTypeGroupDto_SR", typeof(SecurityTypeGroupDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Indicates whether securities in this type group can be external deposit sources to brokerage accounts..
         /// </summary>
-        internal static string DepositSource_Description {
+        public static string DepositSource_Description {
             get {
                 return ResourceManager.GetString("DepositSource_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Is Deposit Source.
         /// </summary>
-        internal static string DepositSource_Name {
+        public static string DepositSource_Name {
             get {
                 return ResourceManager.GetString("DepositSource_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Order in which the type group is displayed in reports..
         /// </summary>
-        internal static string DisplayOrder_Description {
+        public static string DisplayOrder_Description {
             get {
                 return ResourceManager.GetString("DisplayOrder_Description", resourceCulture);
             }
@@ -90,16 +90,52 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display Order.
         /// </summary>
-        internal static string DisplayOrder_Name {
+        public static string DisplayOrder_Name {
             get {
                 return ResourceManager.GetString("DisplayOrder_Name", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to type groups.
+        /// </summary>
+        public static string Noun_Plural {
+            get {
+                return ResourceManager.GetString("Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Plural_Article {
+            get {
+                return ResourceManager.GetString("Noun_Plural_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to type group.
+        /// </summary>
+        public static string Noun_Singular {
+            get {
+                return ResourceManager.GetString("Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Singular_Article {
+            get {
+                return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string SecurityTypeGroupId_Description {
+        public static string SecurityTypeGroupId_Description {
             get {
                 return ResourceManager.GetString("SecurityTypeGroupId_Description", resourceCulture);
             }
@@ -108,7 +144,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string SecurityTypeGroupId_Name {
+        public static string SecurityTypeGroupId_Name {
             get {
                 return ResourceManager.GetString("SecurityTypeGroupId_Name", resourceCulture);
             }
@@ -117,7 +153,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display name of the group..
         /// </summary>
-        internal static string SecurityTypeGroupName_Description {
+        public static string SecurityTypeGroupName_Description {
             get {
                 return ResourceManager.GetString("SecurityTypeGroupName_Description", resourceCulture);
             }
@@ -126,7 +162,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Group Name.
         /// </summary>
-        internal static string SecurityTypeGroupName_Name {
+        public static string SecurityTypeGroupName_Name {
             get {
                 return ResourceManager.GetString("SecurityTypeGroupName_Name", resourceCulture);
             }
@@ -135,7 +171,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Indicates whether securities in this type group can be the source of broker transactions..
         /// </summary>
-        internal static string Transactable_Description {
+        public static string Transactable_Description {
             get {
                 return ResourceManager.GetString("Transactable_Description", resourceCulture);
             }
@@ -144,7 +180,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Transactable.
         /// </summary>
-        internal static string Transactable_Name {
+        public static string Transactable_Name {
             get {
                 return ResourceManager.GetString("Transactable_Name", resourceCulture);
             }

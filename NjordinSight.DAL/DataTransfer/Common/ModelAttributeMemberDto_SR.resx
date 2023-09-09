@@ -135,4 +135,16 @@
   <data name="DisplayOrder_Name" xml:space="preserve">
     <value>Display Order</value>
   </data>
+  <data name="Noun_Plural" xml:space="preserve">
+    <value>attribute values</value>
+  </data>
+  <data name="Noun_Plural_Article" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Noun_Singular" xml:space="preserve">
+    <value>attribute value</value>
+  </data>
+  <data name="Noun_Singular_Article" xml:space="preserve">
+    <value>the</value>
+  </data>
 </root>

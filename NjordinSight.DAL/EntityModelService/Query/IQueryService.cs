@@ -101,6 +101,15 @@ namespace NjordinSight.EntityModelService.Query
             Func<KeyValuePair<string, string>> placeHolderDelegate = null);
 
         /// <summary>
+        /// Gets <see cref="ModelAttributeDto"/> records that are applicabe for the given 
+        /// <typeparamref name="T"/> variant of <see cref="IAttributeEntryViewModel"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Task<IEnumerable<ModelAttributeDto>> GetSupportedAttributesAsync<T>()
+            where T : IAttributeEntryViewModel;
+
+        /// <summary>
         /// Converts the given <typeparamref name="TEnum"/> members to a key-value map 
         /// for display values.
         /// </summary>
@@ -123,14 +132,6 @@ namespace NjordinSight.EntityModelService.Query
 
     public partial interface IQueryService
     {
-        /// <summary>
-        /// Gets <see cref="ModelAttributeDto"/> records that are applicabe for the given 
-        /// <typeparamref name="T"/> variant of <see cref="IAttributeEntryViewModel"/>.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public Task<IEnumerable<ModelAttributeDto>> GetSupportedAttributesAsync<T>()
-            where T : IAttributeEntryViewModel;
 
         /// <summary>
         /// Creates a new instance implementing <see cref="IQueryBuilder{TSource}"/> where 
@@ -196,7 +197,7 @@ namespace NjordinSight.EntityModelService.Query
         /// <param name="defaultDisplay">Default display value to use for the placeholder record.</param>
         /// <returns>A task representing an asynchronous query and DTO-mapping. The task result is an
         /// <see cref="IEnumerable{T}"/> containing key-value records represent a foregin key reference.</returns>
-        async Task<IEnumerable<LookupModel<TKey, TValue>>> SelectDTOsAsync<TSource, TKey, TValue>(
+        async Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TSource, TKey, TValue>(
             Expression<Func<TSource, TKey>> key,
             Expression<Func<TSource, TValue>> display,
             TKey defaultKey = default,
@@ -221,7 +222,7 @@ namespace NjordinSight.EntityModelService.Query
         /// <param name="defaultDisplay">Default display value to use for the placeholder record.</param>
         /// <returns>A task representing an asynchronous query and DTO-mapping. The task result is an
         /// <see cref="IEnumerable{T}"/> containing key-value records represent a foregin key reference.</returns>
-        async Task<IEnumerable<LookupModel<int, string>>> SelectDTOsAsync<TSource>(
+        async Task<IEnumerable<KeyValuePair<int, string>>> SelectDTOsAsync<TSource>(
             Expression<Func<TSource, int>> key,
             Expression<Func<TSource, string>> display,
             int defaultKey = default,
@@ -237,7 +238,7 @@ namespace NjordinSight.EntityModelService.Query
     #region Built-in queries
     public partial interface IQueryService
     {
-        async Task<IEnumerable<LookupModel<int, string>>> GetAccountCustodianDTOsAsync()
+        async Task<IEnumerable<KeyValuePair<int, string>>> GetAccountCustodianDTOsAsync()
         {
             using var queryBuilder = CreateQueryBuilder<AccountCustodian>();
 
@@ -250,7 +251,7 @@ namespace NjordinSight.EntityModelService.Query
                 .OrderByWithDefaultFirstAsync();
         }
         
-        async Task<IEnumerable<LookupModel<int, string>>> GetAccountDTOsAsync()
+        async Task<IEnumerable<KeyValuePair<int, string>>> GetAccountDTOsAsync()
         {
             using var queryBuilder = CreateQueryBuilder<Account>()
                 .WithDirectRelationship(x => x.AccountNavigation);
@@ -264,7 +265,7 @@ namespace NjordinSight.EntityModelService.Query
                 .OrderByWithDefaultFirstAsync();
         }
 
-        async Task<IEnumerable<LookupModel<int, string>>> GetBankTransactionCodeDTOsAsync()
+        async Task<IEnumerable<KeyValuePair<int, string>>> GetBankTransactionCodeDTOsAsync()
         {
             return await SelectDTOsAsync<BankTransactionCode>(
                     key: x => x.TransactionCodeId,
@@ -273,7 +274,7 @@ namespace NjordinSight.EntityModelService.Query
                 .OrderByWithDefaultFirstAsync();
         }
 
-        async Task<IEnumerable<LookupModel<int, string>>> GetBrokerTransactionCodeDTOsAsync()
+        async Task<IEnumerable<KeyValuePair<int, string>>> GetBrokerTransactionCodeDTOsAsync()
         {
             return await SelectDTOsAsync<BrokerTransactionCode>(
                     key: x => x.TransactionCodeId,
@@ -282,7 +283,7 @@ namespace NjordinSight.EntityModelService.Query
                 .OrderByWithDefaultFirstAsync();
         }
 
-        async Task<IEnumerable<LookupModel<int, string>>> GetCashOrExternalSecurityDTOsAsync()
+        async Task<IEnumerable<KeyValuePair<int, string>>> GetCashOrExternalSecurityDTOsAsync()
         {
             using var queryBuilder = CreateQueryBuilder<Security>()
                 .WithDirectRelationship(x => x.SecuritySymbols)
@@ -300,7 +301,7 @@ namespace NjordinSight.EntityModelService.Query
                 .OrderByWithDefaultFirstAsync();
         }
 
-        async Task<IEnumerable<LookupModel<int, string>>> GetCryptocurrencyDTOsAsync()
+        async Task<IEnumerable<KeyValuePair<int, string>>> GetCryptocurrencyDTOsAsync()
         {
             using var queryBuilder = CreateQueryBuilder<Security>()
                 .WithDirectRelationship(x => x.SecuritySymbols)
@@ -317,7 +318,7 @@ namespace NjordinSight.EntityModelService.Query
                 .OrderByWithDefaultFirstAsync();
         }
 
-        async Task<IEnumerable<LookupModel<int, string>>> GetMarketIndexDTOsAsync()
+        async Task<IEnumerable<KeyValuePair<int, string>>> GetMarketIndexDTOsAsync()
         {
             return await SelectDTOsAsync<MarketIndex>(
                     key: x => x.IndexId,
@@ -326,7 +327,7 @@ namespace NjordinSight.EntityModelService.Query
                 .OrderByWithDefaultFirstAsync();
         }
 
-        async Task<IEnumerable<LookupModel<int, string>>> GetSecurityTypeDTOsAsync()
+        async Task<IEnumerable<KeyValuePair<int, string>>> GetSecurityTypeDTOsAsync()
         {
             return await SelectDTOsAsync<SecurityType>(
                     key: x => x.SecurityTypeId,
@@ -335,7 +336,7 @@ namespace NjordinSight.EntityModelService.Query
                 .OrderByWithDefaultFirstAsync();
         }
 
-        async Task<IEnumerable<LookupModel<int, string>>> GetSecurityTypeGroupDTOsAsync()
+        async Task<IEnumerable<KeyValuePair<int, string>>> GetSecurityTypeGroupDTOsAsync()
         {
             return await SelectDTOsAsync<SecurityTypeGroup>(
                     key: x => x.SecurityTypeGroupId,
@@ -344,7 +345,7 @@ namespace NjordinSight.EntityModelService.Query
                 .OrderByWithDefaultFirstAsync();
         }
 
-        async Task<IEnumerable<LookupModel<int, string>>> GetTransactableSecurityDTOsAsync()
+        async Task<IEnumerable<KeyValuePair<int, string>>> GetTransactableSecurityDTOsAsync()
         {
             using var queryBuilder = CreateQueryBuilder<Security>()
                 .WithDirectRelationship(x => x.SecuritySymbols)
@@ -362,7 +363,7 @@ namespace NjordinSight.EntityModelService.Query
                 .OrderByWithDefaultFirstAsync();
         }
 
-        async Task<IEnumerable<LookupModel<int, string>>> GetModelAttributeMemberDTOsAsync(
+        async Task<IEnumerable<KeyValuePair<int, string>>> GetModelAttributeMemberDTOsAsync(
             int attributeId)
         {
             using var queryBuilder = CreateQueryBuilder<ModelAttributeMember>()
@@ -411,12 +412,12 @@ namespace NjordinSight.EntityModelService.Query
         /// <param name="lookupModelQueryTask"></param>
         /// <returns>A <see cref="Task"/> representing an asynchronous query call and subsequent re-ordering of 
         /// the returned results.</returns>
-        public static async Task<IEnumerable<LookupModel<TKey, TDisplay>>>
+        public static async Task<IEnumerable<KeyValuePair<TKey, TDisplay>>>
             OrderByWithDefaultFirstAsync<TKey, TDisplay>(
-                this Task<IEnumerable<LookupModel<TKey, TDisplay>>> lookupModelQueryTask)
+                this Task<IEnumerable<KeyValuePair<TKey, TDisplay>>> lookupModelQueryTask)
             => (await lookupModelQueryTask)
                 .OrderByDescending(x => x.Key.Equals(default(TKey)))
-                .ThenBy(x => x.Display)
+                .ThenBy(x => x.Value)
                 .ToList();
     }
 }

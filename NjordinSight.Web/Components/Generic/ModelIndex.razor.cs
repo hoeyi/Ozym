@@ -32,7 +32,7 @@ namespace NjordinSight.Web.Components.Generic
                 new MenuItem()
                 {
                     IconKey = "create",
-                    Caption = Strings.Caption_CreateNew.Format(ModelNoun.GetSingular()),
+                    Caption = Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular() ?? typeof(TModelDto).Name),
                     UriRelativePath = FormatCreateUri(Guid.NewGuid())
                 }
             }

@@ -7,9 +7,17 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(BankTransactionCodeAttributeDto_SR.Noun_Plural),
+        PluralArticle = nameof(BankTransactionCodeAttributeDto_SR.Noun_Plural_Article),
+        Singular = nameof(BankTransactionCodeAttributeDto_SR.Noun_Singular),
+        SingularArticle = nameof(BankTransactionCodeAttributeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(BankTransactionCodeAttributeDto_SR)
+        )]
     public class BankTransactionCodeAttributeDto : DtoBase
     {
         private int _attributeMemberId;

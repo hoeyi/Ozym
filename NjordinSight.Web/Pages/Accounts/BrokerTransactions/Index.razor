@@ -163,6 +163,9 @@
     protected override async Task RefreshResultsAsync(
         ParameterDto<BrokerTransactionDto> parameter, int pageNumber, int pageSize)
     {
+        // TODO:'parameter' argument is intentionally ignored here. Review for an 
+        // alternative. Method arguments should have an affect on behavior, else be omitted.
+
         IsLoading = true;
 
         try

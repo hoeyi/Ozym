@@ -1,15 +1,24 @@
-﻿using NjordinSight.EntityModel.Metadata;
+﻿using Ichosys.DataModel.Annotations;
+using NjordinSight.EntityModel.Metadata;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(ModelAttributeDto_SR.Noun_Plural),
+        PluralArticle = nameof(ModelAttributeDto_SR.Noun_Plural_Article),
+        Singular = nameof(ModelAttributeDto_SR.Noun_Singular),
+        SingularArticle = nameof(ModelAttributeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(ModelAttributeDto_SR)
+        )]
     public class ModelAttributeDtoBase : DtoBase
     {
         private int _attributeId;
         private string _displayName;
 
+        [Key]
         public int AttributeId
         {
             get { return _attributeId; }
@@ -44,17 +53,23 @@ namespace NjordinSight.DataTransfer.Common
         }
     }
 
+    [Noun(
+        Plural = nameof(ModelAttributeDto_SR.Noun_Plural),
+        PluralArticle = nameof(ModelAttributeDto_SR.Noun_Plural_Article),
+        Singular = nameof(ModelAttributeDto_SR.Noun_Singular),
+        SingularArticle = nameof(ModelAttributeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(ModelAttributeDto_SR)
+        )]
     public class ModelAttributeDto : ModelAttributeDtoBase
     {
         public ModelAttributeDto()
         {
-            AttributeValues = new List<ModelAttributeMemberDto>();
-            AttributeScopes = new List<ModelAttributeScopeDto>();
+            AttributeValues = new HashSet<ModelAttributeMemberDto>();
+            AttributeScopes = new HashSet<ModelAttributeScopeDto>();
         }
+        
         public ICollection<ModelAttributeMemberDto> AttributeValues { get; set; }
-            = new List<ModelAttributeMemberDto>();
 
         public ICollection<ModelAttributeScopeDto> AttributeScopes { get; set; }
-            = new List<ModelAttributeScopeDto>();
     }
 }
