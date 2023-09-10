@@ -1,4 +1,5 @@
-﻿using NjordinSight.DataTransfer;
+﻿using Microsoft.Data.SqlClient;
+using NjordinSight.DataTransfer;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -25,6 +26,7 @@ namespace NjordinSight.EntityModelService.Query
             int pageNumber = 1,
             int pageSize = 20);
 
+        [Obsolete($"Superseded by '{nameof(SelectAsync)}'.")]
         /// <summary>
         /// Executes the select query and returns the data to the caller as an 
         /// <see cref="IEnumerable{T}"/> collection.
@@ -37,6 +39,7 @@ namespace NjordinSight.EntityModelService.Query
         Task<IEnumerable<TSource>> SelectWhereAsync(
             Expression<Func<TSource, bool>> predicate, int maxCount = 0);
 
+        [Obsolete("Marked for removal in favor of paginated query method.")]
         /// <summary>
         /// Executes a select query returning a key-value representation of <typeparamref name="TSource"/> 
         /// records.. Only the fields matching the <paramref name="key"/> and <paramref name="display"/> parameters 

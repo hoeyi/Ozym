@@ -116,7 +116,7 @@
     private IEnumerable<BankTransactionCodeDtoBase> TransactionCodes { get; set; }
 
     [Inject]
-    protected IReferenceDataService ReferenceData { get; init; }
+    protected IQueryService QueryService { get; init; }
 
     private AccountDto ParentAccount { get; set; }
 
@@ -140,8 +140,8 @@
 
         ParentAccount = await HttpService.GetAsync<AccountDto>(id: ModelId);
 
-        var transactionCodeDTOsTask = ReferenceData
-                .GetBankCodesAsync(pageNumber: 1, pageSize: int.MaxValue);
+        var transactionCodeDTOsTask = QueryService.BuiltIn
+                .GetBankTransactionCodeDTOsAsync(pageSize: int.MaxValue);
 
         var transactionsQueryTask = HttpService.SearchAsync(
             parameter: LastSearchParameter,

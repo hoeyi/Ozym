@@ -49,7 +49,10 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<AccountDto> AccountDtos { get; set; }
+    [Inject]
+    protected IQueryService QueryService { get; init; }
+
+    private IEnumerable<AccountSimpleDto> AccountDtos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -58,12 +61,12 @@
         try
         {
             var compositeQuery = HttpService.GetAsync(ModelId);
-            var accountsQuery = HttpService.GetAllAsync<AccountDto>();
+            var accountsQuery = QueryService.BuiltIn.GetAccountDTOsAsync(pageSize: int.MaxValue);
 
             var dataTask = Task.WhenAll(compositeQuery, accountsQuery);
 
             Model = await compositeQuery;
-            AccountDtos = await accountsQuery;
+            AccountDtos = (await accountsQuery).Item1;
         }
         finally
         {

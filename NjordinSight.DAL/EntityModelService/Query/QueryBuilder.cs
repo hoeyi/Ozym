@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using NjordinSight.BusinessLogic.Functions;
@@ -21,7 +22,7 @@ namespace NjordinSight.EntityModelService.Query
     /// <remarks>
     /// Reltionship inclusions must be expressed in terms of <typeparamref name="TSource"/>.
     /// </remarks>
-    internal partial class QueryBuilder<TSource> : IQueryBuilder<TSource>
+    internal partial class QueryBuilder<TSource> : IQueryBuilder<TSource>, IDisposable
         where TSource : class, new()
     {
         private readonly FinanceDbContext _context;
@@ -33,8 +34,6 @@ namespace NjordinSight.EntityModelService.Query
 
             _context = context;
             Queryable = _context.Set<TSource>();
-
-            QueryCompleted += QueryBuilder_QueryCompleted;
         }
 
         ~QueryBuilder() => Dispose();
@@ -52,11 +51,6 @@ namespace NjordinSight.EntityModelService.Query
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        /// Gets or sets the <see cref="IQueryable{T}"/> instance sensitive to requests to 
-        /// include direct and indirect relationships.
-        /// </summary>
-        private IQueryable<TSource> Queryable { get; set; }
 
         /// <inheritdoc/>
         public IQueryBuilder<TSource> WithDirectRelationship<TProperty>(
@@ -81,16 +75,20 @@ namespace NjordinSight.EntityModelService.Query
             return this;
         }
 
-        private event EventHandler QueryCompleted;
-
-        private void QueryBuilder_QueryCompleted(object sender, EventArgs e) => _ = e;
+        /// <summary>
+        /// Gets or sets the <see cref="IQueryable{T}"/> instance representing the constructed 
+        /// query.
+        /// </summary>
+        private IQueryable<TSource> Queryable { get; set; }
     }
 
+    #region IQueryDataStore<TSource> implementation
     internal partial class QueryBuilder<TSource> : IQueryDataStore<TSource>
     {
         /// <inheritdoc/>
         public IQueryDataStore<TSource> Build() => this;
 
+        [Obsolete($"Superseded by '{nameof(SelectAsync)}'.")]
         /// <inheritdoc/>
         public async Task<IEnumerable<TSource>> SelectWhereAsync(
             Expression<Func<TSource, bool>> predicate, int maxCount = 0)
@@ -112,6 +110,7 @@ namespace NjordinSight.EntityModelService.Query
             return result;
         }
 
+        // TODO: Clean this method up. Should use pagination instead of max count parameter.
         /// <inheritdoc/>
         public async Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
             Expression<Func<TSource, bool>> predicate, 
@@ -156,10 +155,6 @@ namespace NjordinSight.EntityModelService.Query
                 Debug.Write(e);
                 throw;
             }
-            finally
-            {
-                QueryCompleted?.Invoke(this, EventArgs.Empty);
-            }
 
             return resultList;
         }
@@ -181,7 +176,7 @@ namespace NjordinSight.EntityModelService.Query
         public async Task<(IEnumerable<TSource>, PaginationData)> SelectAsync(
             Expression<Func<TSource, bool>> predicate, int pageNumber = 1, int pageSize = 20)
         {
-            int limitPageSize = BusinessMath.Clamp(pageSize, 0, 100);
+            int limitPageSize = BusinessMath.Clamp(pageSize, 0, 1000);
 
             Queryable = Queryable.Where(predicate);
 
@@ -201,4 +196,5 @@ namespace NjordinSight.EntityModelService.Query
             return (items, pageData);
         }
     }
+    #endregion
 }

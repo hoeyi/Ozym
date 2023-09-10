@@ -200,7 +200,7 @@
     protected IBrokerTransactionBLL TransactionBLL { get; set; }
 
     [Inject]
-    protected IReferenceDataService ReferenceData { get; init; }
+    protected IQueryService QueryService { get; init; }
 
     /// <inheritdoc/>
     protected override bool PageDataIsLoading() =>
@@ -227,10 +227,11 @@
         {
             var recordsTask = HttpService
                 .SearchAsync<AccountDto>(parent: ModelId, parameter, pageNumber, pageSize);
+            var securityDTOsTask = QueryService.BuiltIn
+                .GetTransactableSecurityDTOsAsync(pageSize: int.MaxValue);
+            var depositySecurityDTOsTask = QueryService.BuiltIn
+                .GetCashOrExternalSecurityDTOsAsync(pageSize: int.MaxValue);
 
-            var securityDTOsTask = ReferenceData.GetTransactableSecurities();
-
-            var depositySecurityDTOsTask = ReferenceData.GetDepositSecuritiesAsync();
             var transactionCodeDTOsTask = HttpService.GetAllAsync<BrokerTransactionCodeDtoBase>();
 
             await InitializationTasksAsync(

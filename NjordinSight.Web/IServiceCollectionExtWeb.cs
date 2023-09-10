@@ -64,9 +64,8 @@ namespace NjordinSight.Web
                 .AddTransient(typeof(IHttpService<>), typeof(HttpService<>))
                 .AddTransient(typeof(IHttpCollectionService<>), typeof(HttpService<>))
                 .AddTransient(
-                    serviceType: typeof(IHttpCollectionService<AccountWalletDto, int>), 
-                    implementationType: typeof(HttpService<AccountWalletDto, int>))
-                .AddTransient(typeof(IReferenceDataService), typeof(ReferenceDataService));
+                    serviceType: typeof(IHttpCollectionService<AccountWalletDto, int>),
+                    implementationType: typeof(HttpService<AccountWalletDto, int>));
 
             return services;
         }

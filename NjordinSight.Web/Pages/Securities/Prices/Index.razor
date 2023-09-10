@@ -94,7 +94,7 @@
     private IDictionary<int, string> SecurityDtos { get; set; }
 
     [Inject]
-    protected IReferenceDataService ReferenceData { get; init; }
+    protected IQueryService QueryService { get; init;  }
 
     /// <inheritdoc/>
     protected override MenuRoot CreateSectionNavigationMenu() => new()
@@ -130,10 +130,7 @@
                 return;
         }
 
-        var securityDtosTask = HttpService.SearchAsync<SecurityDtoBase>(
-            queryParameter: null,
-            pageNumber: 1,
-            pageSize: int.MaxValue);
+        var securityDtosTask = HttpService.GetAllAsync<SecurityDtoBase>();
 
         var priceQueryTask = HttpService.SearchAsync(
             parameter: LastSearchParameter,
@@ -146,8 +143,7 @@
         var securityDtoResult = await securityDtosTask;
 
         WorkingEntries = new TrackingEnumerable<SecurityPriceDto>(priceResult.Item1.ToList());
-        SecurityDtos = securityDtoResult.Item1
-            .ToDictionary(k => k.SecurityId, v => v.SecurityDescription);
+        SecurityDtos = securityDtoResult.ToDictionary(k => k.SecurityId, v => v.SecurityDescription);
 
 
         Context = new(WorkingEntries);

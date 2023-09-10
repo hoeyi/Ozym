@@ -126,7 +126,7 @@
 @code {
 
     [Inject]
-    protected IReferenceDataService ReferenceData { get; init; }
+    protected IQueryService QueryService { get; init; }
 
     private IDictionary<string, string> PriceCodeLookup { get; set; }
 
@@ -164,7 +164,7 @@
 
         WorkingEntries = new TrackingEnumerable<MarketIndexPriceDtoBase>(priceResult.Item1.ToList());
         MarketIndices = await marketIndicesQuery;
-        PriceCodeLookup = ReferenceData.GetMarketIndexPriceCodeDisplayMap();
+        PriceCodeLookup = QueryService.BuiltIn.GetMarketIndexPriceCodeDisplayMap();
 
         PaginationHelper.TotalItemCount = priceResult.Item2.ItemCount;
         PaginationHelper.ItemCount = WorkingEntries.Count;

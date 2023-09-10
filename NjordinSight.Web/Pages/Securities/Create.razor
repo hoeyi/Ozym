@@ -49,7 +49,7 @@
     public Guid RequestGuid { get; init; }
 
     [Inject]
-    protected IReferenceDataService ReferenceData { get; init; }
+    protected IQueryService QueryService { get; init; }
 
     private IEnumerable<SecurityExchangeDto> Exchanges { get; set; }
 
@@ -64,11 +64,8 @@
         try
         {
             var exchangesQuery = HttpService.GetAllAsync<SecurityExchangeDto>();
-
-            var securityTypesQuery = HttpService.GetAllAsync<SecurityTypeDto>();
-
-            var issuersQuery = ReferenceData.GetIssuersAsync(
-                pattern: string.Empty, pageNumber: 1, pageSize: int.MaxValue);
+            var securityTypesQuery = QueryService.BuiltIn.GetSecurityTypeDTOsAsync(pageSize: int.MaxValue);
+            var issuersQuery = QueryService.BuiltIn.GetIssuersAsync(pageSize: int.MaxValue);
 
             var securityQuery = HttpService.InitDefaultAsync();
 
@@ -76,7 +73,7 @@
 
             Model = await securityQuery;
             Exchanges = await exchangesQuery;
-            SecurityTypes = await securityTypesQuery;
+            SecurityTypes = (await securityTypesQuery).Item1;
             Issuers = (await issuersQuery).Item1;
         }
         finally

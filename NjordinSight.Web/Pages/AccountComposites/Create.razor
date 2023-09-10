@@ -54,9 +54,9 @@
     public Guid RequestGuid { get; init; }
 
     [Inject]
-    protected IReferenceDataService ReferenceData { get; init;  }
+    protected IQueryService QueryService { get; init; }
 
-    private IEnumerable<AccountDto> AccountDtos { get; set; }
+    private IEnumerable<AccountSimpleDto> AccountDtos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -65,12 +65,12 @@
         try
         {
             var compositeQuery = HttpService.InitDefaultAsync();
-            var accountsQuery = HttpService.GetAllAsync<AccountDto>();
+            var accountsQuery = QueryService.BuiltIn.GetAccountDTOsAsync(pageSize: int.MaxValue);
 
             await Task.WhenAll(compositeQuery, accountsQuery);
 
             Model = await compositeQuery;
-            AccountDtos = await accountsQuery;
+            AccountDtos = (await accountsQuery).Item1;
         }
         finally
         {
