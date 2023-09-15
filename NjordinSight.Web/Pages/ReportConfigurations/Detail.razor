@@ -1,6 +1,6 @@
 ﻿@page "/report-configurations/{ModelId:int}/detail"
 
-@inherits ModelDetail<ReportConfiguration>
+@inherits ModelDetail<ReportConfigurationDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -41,10 +41,7 @@
 
         try
         {
-            var modelQuery = Controller.ReadAsync(ModelId);
-
-            if ((await modelQuery).Value is ReportConfiguration model)
-                Model = model;
+            Model = await HttpService.GetAsync(ModelId);
         }
         finally
         {

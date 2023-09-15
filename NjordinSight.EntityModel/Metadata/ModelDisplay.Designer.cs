@@ -2194,7 +2194,7 @@ namespace NjordinSight.EntityModel.Metadata {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to none.
+        ///   Looks up a localized string similar to ----.
         /// </summary>
         public static string Security_CurrentSecuritySymbol_Empty {
             get {

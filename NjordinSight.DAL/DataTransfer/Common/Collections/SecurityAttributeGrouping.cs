@@ -11,14 +11,14 @@ namespace NjordinSight.DataTransfer.Common.Collections
             SupportedScopes = ModelAttributeScopeCode.Country | ModelAttributeScopeCode.Security)]
     /// <summary>
     /// Represents a collection of <see cref="SecurityAttributeDtoCollection"/> instances with the same 
-    /// <see cref="SecurityDto" />, <see cref="ModelAttributeDto"/>, and effective date.
+    /// <see cref="SecurityDto" />, <see cref="ModelAttributeDtoBase"/>, and effective date.
     /// </summary>
     public class SecurityAttributeGrouping :
         AttributeEntryWeightedGrouping<SecurityDto, SecurityAttributeDto>
     {
         public SecurityAttributeGrouping(
             SecurityDto parentEntity,
-            ModelAttributeDto modelAttribute,
+            ModelAttributeDtoBase modelAttribute,
             DateTime effectiveDate) : base(parentEntity, modelAttribute, effectiveDate)
         {
         }

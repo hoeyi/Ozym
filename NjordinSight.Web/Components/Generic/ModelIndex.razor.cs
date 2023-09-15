@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NjordinSight.Web.Components.Common;
 using NjordinSight.UserInterface;
-using NjordinSight.Web.Controllers;
 using Ichosys.DataModel;
 using Microsoft.AspNetCore.Http;
 using NjordinSight.EntityModelService.Abstractions;
@@ -33,7 +32,7 @@ namespace NjordinSight.Web.Components.Generic
                 new MenuItem()
                 {
                     IconKey = "create",
-                    Caption = Strings.Caption_CreateNew.Format(ModelNoun.GetSingular()),
+                    Caption = Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular() ?? typeof(TModelDto).Name),
                     UriRelativePath = FormatCreateUri(Guid.NewGuid())
                 }
             }

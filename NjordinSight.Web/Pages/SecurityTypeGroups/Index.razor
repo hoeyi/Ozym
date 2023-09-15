@@ -1,6 +1,6 @@
 ﻿@page "/security-type-groups"
 
-@inherits ModelIndex<SecurityTypeGroup>
+@inherits ModelIndex<SecurityTypeGroupDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -24,7 +24,7 @@
             else
             {
                 <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(SecurityTypeGroup.SecurityTypeGroupName)
+                    <DataGridColumn Property=@nameof(SecurityTypeGroupDto.SecurityTypeGroupName)
                                 Caption=@(NameFor(x => x.SecurityTypeGroupName))
                                 Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
@@ -35,13 +35,13 @@
                             </a>
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityTypeGroup.DepositSource)
+                    <DataGridColumn Property=@nameof(SecurityTypeGroupDto.DepositSource)
                                 Caption=@(NameFor(x => x.DepositSource))>
                         <CellTemplate Context="model">
                             @model.DepositSource
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityTypeGroup.Transactable)
+                    <DataGridColumn Property=@nameof(SecurityTypeGroupDto.Transactable)
                                 Caption=@(NameFor(x => x.Transactable))>
                         <CellTemplate Context="model">
                             @model.Transactable
@@ -55,7 +55,7 @@
 
 
 @code {
-    private void Detail_OnClick(SecurityTypeGroup model, MouseEventArgs args)
+    private void Detail_OnClick(SecurityTypeGroupDto model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.SecurityTypeGroupId));
     }

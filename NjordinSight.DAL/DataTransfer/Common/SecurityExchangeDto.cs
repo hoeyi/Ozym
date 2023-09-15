@@ -1,18 +1,23 @@
-﻿using System.ComponentModel;
+﻿using Ichosys.DataModel.Annotations;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(SecurityExchangeDto_SR.Noun_Plural),
+        PluralArticle = nameof(SecurityExchangeDto_SR.Noun_Plural_Article),
+        Singular = nameof(SecurityExchangeDto_SR.Noun_Singular),
+        SingularArticle = nameof(SecurityExchangeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(SecurityExchangeDto_SR)
+        )]
     public class SecurityExchangeDto : DtoBase
     {
         private int _exchangeId;
         private string _exchangeCode;
         private string _exchangeDescription;
 
-        [Display(
-            Name = nameof(SecurityExchangeDto_SR.ExchangeId_Name),
-            Description = nameof(SecurityExchangeDto_SR.ExchangeId_Description),
-            ResourceType = typeof(SecurityExchangeDto_SR))]
+        [Key]
         public int ExchangeId
         {
             get { return _exchangeId; }

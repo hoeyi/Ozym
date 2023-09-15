@@ -1,6 +1,6 @@
 ﻿@page "/style-sheets"
 
-@inherits ModelIndex<ReportStyleSheet>
+@inherits ModelIndex<ReportStyleSheetDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -24,7 +24,7 @@
             else
             {
                 <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(ReportStyleSheet.StyleSheetCode)
+                    <DataGridColumn Property=@nameof(ReportStyleSheetDto.StyleSheetCode)
                                 Caption=@(NameFor(x => x.StyleSheetCode))
                                 Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
@@ -35,7 +35,7 @@
                             </a>
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(ReportStyleSheet.StyleSheetDescription)
+                    <DataGridColumn Property=@nameof(ReportStyleSheetDto.StyleSheetDescription)
                                 Caption=@(NameFor(x => x.StyleSheetDescription))>
                         <CellTemplate Context="model">
                             @model.StyleSheetDescription
@@ -49,7 +49,7 @@
 
 
 @code {
-    private void Detail_OnClick(ReportStyleSheet model, MouseEventArgs args)
+    private void Detail_OnClick(ReportStyleSheetDto model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.StyleSheetId));
     }

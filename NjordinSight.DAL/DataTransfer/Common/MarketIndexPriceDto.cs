@@ -1,9 +1,17 @@
-﻿using System;
+﻿using Ichosys.DataModel.Annotations;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(MarketIndexPriceDto_SR.Noun_Plural),
+        PluralArticle = nameof(MarketIndexPriceDto_SR.Noun_Plural_Article),
+        Singular = nameof(MarketIndexPriceDto_SR.Noun_Singular),
+        SingularArticle = nameof(MarketIndexPriceDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(MarketIndexPriceDto_SR)
+        )]
     public class MarketIndexPriceDtoBase : DtoBase
     {
         private int _indexPriceId;
@@ -12,10 +20,7 @@ namespace NjordinSight.DataTransfer.Common
         private string _priceCode;
         private decimal _price;
 
-        [Display(
-            Name = nameof(MarketIndexPriceDto_SR.IndexPriceId_Name),
-            Description = nameof(MarketIndexPriceDto_SR.IndexPriceId_Description),
-            ResourceType = typeof(MarketIndexPriceDto_SR))]
+        [Key]
         public int IndexPriceId
         {
             get { return _indexPriceId; }
@@ -98,6 +103,13 @@ namespace NjordinSight.DataTransfer.Common
         }
     }
 
+    [Noun(
+        Plural = nameof(MarketIndexPriceDto_SR.Noun_Plural),
+        PluralArticle = nameof(MarketIndexPriceDto_SR.Noun_Plural_Article),
+        Singular = nameof(MarketIndexPriceDto_SR.Noun_Singular),
+        SingularArticle = nameof(MarketIndexPriceDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(MarketIndexPriceDto_SR)
+        )]
     public class MarketIndexPriceDto : MarketIndexPriceDtoBase
     {
         public MarketIndexDto MarketIndex { get; set; }

@@ -71,7 +71,7 @@ else
                                  @bind-Value="@model.AttributeMemberId">
                                 @foreach (var member in AttributeMemberLookup)
                                 {
-                                    <option value="@member.Key">@member.Display</option>
+                                    <option value="@member.AttributeMemberId">@member.DisplayName</option>
                                 }
                             </InputSelect>
                         </CellEditTemplate>

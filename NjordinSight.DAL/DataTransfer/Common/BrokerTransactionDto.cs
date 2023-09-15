@@ -7,9 +7,17 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(BrokerTransactionDto_SR.Noun_Plural),
+        PluralArticle = nameof(BrokerTransactionDto_SR.Noun_Plural_Article),
+        Singular = nameof(BrokerTransactionDto_SR.Noun_Singular),
+        SingularArticle = nameof(BrokerTransactionDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(BrokerTransactionDto_SR)
+        )]
     public class BrokerTransactionDto : DtoBase, INotifyPropertyChanged
     {
         private int _accountId;
@@ -42,10 +50,7 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
-        [Display(
-            Name = nameof(BrokerTransactionDto_SR.TransactionId_Name),
-            Description = nameof(BrokerTransactionDto_SR.TransactionId_Description),
-            ResourceType = typeof(BrokerTransactionDto_SR))]
+        [Key]
         public int TransactionId
         {
             get { return _transactionId; }

@@ -16,8 +16,8 @@ namespace NjordinSight.DataTransfer.Profiles
     /// <list type="bullet">
     /// <item><see cref="ModelAttributeMember"/> - <see cref="ModelAttributeMemberDto"/></item>
     /// <item><see cref="ModelAttributeScope"/> - <see cref="ModelAttributeScopeDto"/></item>
+    /// <item><see cref="ModelAttribute"/> - <see cref="ModelAttributeDtoBase"/></item>
     /// <item><see cref="ModelAttribute"/> - <see cref="ModelAttributeDto"/></item>
-    /// <item><see cref="ModelAttribute"/> - <see cref="ModelAttributeDtoForEdit"/></item>
     /// </list>
     /// </remarks>
     public class ModelAttributeProfile : Profile
@@ -30,9 +30,9 @@ namespace NjordinSight.DataTransfer.Profiles
 
             CreateMap<ModelAttributeScope, ModelAttributeScopeDto>();
 
-            CreateMap<ModelAttribute, ModelAttributeDto>();
+            CreateMap<ModelAttribute, ModelAttributeDtoBase>();
 
-            CreateMap<ModelAttribute, ModelAttributeDtoForEdit>()
+            CreateMap<ModelAttribute, ModelAttributeDto>()
                 .ForMember(
                     a => a.AttributeValues,
                     b => b.MapFrom(x => x.ModelAttributeMembers))
@@ -59,11 +59,11 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<ModelAttributeScopeDto, ModelAttributeScope>()
                 .ForMember(a => a.Attribute, b => b.Ignore());
 
-            CreateMap<ModelAttributeDto, ModelAttribute>()
+            CreateMap<ModelAttributeDtoBase, ModelAttribute>()
                 .ForMember(a => a.ModelAttributeMembers, b => b.Ignore())
                 .ForMember(a => a.ModelAttributeScopes, b => b.Ignore());
 
-            CreateMap<ModelAttributeDtoForEdit, ModelAttribute>()
+            CreateMap<ModelAttributeDto, ModelAttribute>()
                 .ForMember(
                     a => a.ModelAttributeMembers,
                     b => b.MapFrom(x => x.AttributeValues))

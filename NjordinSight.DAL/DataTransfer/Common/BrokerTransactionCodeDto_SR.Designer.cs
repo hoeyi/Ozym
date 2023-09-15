@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class BrokerTransactionCodeDto_SR {
+    public class BrokerTransactionCodeDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.BrokerTransactionCodeDto_SR", typeof(BrokerTransactionCodeDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to The effect transactions of this type have on cash held..
         /// </summary>
-        internal static string CashEffect_Description {
+        public static string CashEffect_Description {
             get {
                 return ResourceManager.GetString("CashEffect_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Cash Effect.
         /// </summary>
-        internal static string CashEffect_Name {
+        public static string CashEffect_Name {
             get {
                 return ResourceManager.GetString("CashEffect_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to The effect transactions of this type have on performance contributions/withdrawals..
         /// </summary>
-        internal static string ContributionWithdrawalEffect_Description {
+        public static string ContributionWithdrawalEffect_Description {
             get {
                 return ResourceManager.GetString("ContributionWithdrawalEffect_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Contribution Effect.
         /// </summary>
-        internal static string ContributionWithdrawalEffect_Name {
+        public static string ContributionWithdrawalEffect_Name {
             get {
                 return ResourceManager.GetString("ContributionWithdrawalEffect_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to The transaction code display name..
         /// </summary>
-        internal static string DisplayName_Description {
+        public static string DisplayName_Description {
             get {
                 return ResourceManager.GetString("DisplayName_Description", resourceCulture);
             }
@@ -108,16 +108,52 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display Name.
         /// </summary>
-        internal static string DisplayName_Name {
+        public static string DisplayName_Name {
             get {
                 return ResourceManager.GetString("DisplayName_Name", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to broker transaction codes.
+        /// </summary>
+        public static string Noun_Plural {
+            get {
+                return ResourceManager.GetString("Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Plural_Article {
+            get {
+                return ResourceManager.GetString("Noun_Plural_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to broker transaction code.
+        /// </summary>
+        public static string Noun_Singular {
+            get {
+                return ResourceManager.GetString("Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Singular_Article {
+            get {
+                return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The effect transactions of this type have on quantity held..
         /// </summary>
-        internal static string QuantityEffect_Description {
+        public static string QuantityEffect_Description {
             get {
                 return ResourceManager.GetString("QuantityEffect_Description", resourceCulture);
             }
@@ -126,7 +162,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Quantity Effect.
         /// </summary>
-        internal static string QuantityEffect_Name {
+        public static string QuantityEffect_Name {
             get {
                 return ResourceManager.GetString("QuantityEffect_Name", resourceCulture);
             }
@@ -135,7 +171,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Short code that identifies the transaction code..
         /// </summary>
-        internal static string TransactionCode_Description {
+        public static string TransactionCode_Description {
             get {
                 return ResourceManager.GetString("TransactionCode_Description", resourceCulture);
             }
@@ -144,7 +180,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Code.
         /// </summary>
-        internal static string TransactionCode_Name {
+        public static string TransactionCode_Name {
             get {
                 return ResourceManager.GetString("TransactionCode_Name", resourceCulture);
             }
@@ -153,7 +189,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string TransactionCodeId_Description {
+        public static string TransactionCodeId_Description {
             get {
                 return ResourceManager.GetString("TransactionCodeId_Description", resourceCulture);
             }
@@ -162,7 +198,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string TransactionCodeId_Name {
+        public static string TransactionCodeId_Name {
             get {
                 return ResourceManager.GetString("TransactionCodeId_Name", resourceCulture);
             }

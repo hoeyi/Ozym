@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SecurityPriceDto_SR {
+    public class SecurityPriceDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.SecurityPriceDto_SR", typeof(SecurityPriceDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,45 @@ namespace NjordinSight.DataTransfer.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to prices.
+        /// </summary>
+        public static string Noun_Plural {
+            get {
+                return ResourceManager.GetString("Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Plural_Article {
+            get {
+                return ResourceManager.GetString("Noun_Plural_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to price.
+        /// </summary>
+        public static string Noun_Singular {
+            get {
+                return ResourceManager.GetString("Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Singular_Article {
+            get {
+                return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cosing price on the price date..
         /// </summary>
-        internal static string PriceClose_Description {
+        public static string PriceClose_Description {
             get {
                 return ResourceManager.GetString("PriceClose_Description", resourceCulture);
             }
@@ -72,7 +108,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
-        internal static string PriceClose_Name {
+        public static string PriceClose_Name {
             get {
                 return ResourceManager.GetString("PriceClose_Name", resourceCulture);
             }
@@ -81,7 +117,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Date of the price record..
         /// </summary>
-        internal static string PriceDate_Description {
+        public static string PriceDate_Description {
             get {
                 return ResourceManager.GetString("PriceDate_Description", resourceCulture);
             }
@@ -90,7 +126,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
-        internal static string PriceDate_Name {
+        public static string PriceDate_Name {
             get {
                 return ResourceManager.GetString("PriceDate_Name", resourceCulture);
             }
@@ -99,7 +135,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to High price on the price date..
         /// </summary>
-        internal static string PriceHigh_Description {
+        public static string PriceHigh_Description {
             get {
                 return ResourceManager.GetString("PriceHigh_Description", resourceCulture);
             }
@@ -108,7 +144,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to High.
         /// </summary>
-        internal static string PriceHigh_Name {
+        public static string PriceHigh_Name {
             get {
                 return ResourceManager.GetString("PriceHigh_Name", resourceCulture);
             }
@@ -117,7 +153,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string PriceId_Description {
+        public static string PriceId_Description {
             get {
                 return ResourceManager.GetString("PriceId_Description", resourceCulture);
             }
@@ -126,7 +162,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string PriceId_Name {
+        public static string PriceId_Name {
             get {
                 return ResourceManager.GetString("PriceId_Name", resourceCulture);
             }
@@ -135,7 +171,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Low price on the price date..
         /// </summary>
-        internal static string PriceLow_Description {
+        public static string PriceLow_Description {
             get {
                 return ResourceManager.GetString("PriceLow_Description", resourceCulture);
             }
@@ -144,7 +180,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Low.
         /// </summary>
-        internal static string PriceLow_Name {
+        public static string PriceLow_Name {
             get {
                 return ResourceManager.GetString("PriceLow_Name", resourceCulture);
             }
@@ -153,7 +189,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Opening price on the price date..
         /// </summary>
-        internal static string PriceOpen_Description {
+        public static string PriceOpen_Description {
             get {
                 return ResourceManager.GetString("PriceOpen_Description", resourceCulture);
             }
@@ -162,7 +198,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
-        internal static string PriceOpen_Name {
+        public static string PriceOpen_Name {
             get {
                 return ResourceManager.GetString("PriceOpen_Name", resourceCulture);
             }
@@ -171,7 +207,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to The security priced..
         /// </summary>
-        internal static string SecurityId_Description {
+        public static string SecurityId_Description {
             get {
                 return ResourceManager.GetString("SecurityId_Description", resourceCulture);
             }
@@ -180,7 +216,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Security.
         /// </summary>
-        internal static string SecurityId_Name {
+        public static string SecurityId_Name {
             get {
                 return ResourceManager.GetString("SecurityId_Name", resourceCulture);
             }
@@ -189,7 +225,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Trade volume of the security and date..
         /// </summary>
-        internal static string Volume_Description {
+        public static string Volume_Description {
             get {
                 return ResourceManager.GetString("Volume_Description", resourceCulture);
             }
@@ -198,7 +234,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Volume.
         /// </summary>
-        internal static string Volume_Name {
+        public static string Volume_Name {
             get {
                 return ResourceManager.GetString("Volume_Name", resourceCulture);
             }

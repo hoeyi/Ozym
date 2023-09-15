@@ -32,7 +32,7 @@
                     @Strings.Caption_Button_Save
                 </button>
                 <button class="form-control button" 
-                    @onclick=@(async (args) => await AddNewAsync(args))>
+                    @onclick=@((args) => AddNew(args))>
                     @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                 </button>
                 <button class="form-control button" @onclick="CancelEditor_OnClick"
@@ -60,8 +60,8 @@
                                 </ToolTip>
                             </CellEditTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property=@nameof(AccountWallet.DenominationSecurityId)
-                                    Caption=@(ModelMetadata.NameFor<AccountWallet>(x => x.DenominationSecurityId))
+                        <DataGridColumn Property=@nameof(AccountWalletDto.DenominationSecurityId)
+                                            Caption=@(ModelMetadata.NameFor<AccountWalletDto>(x => x.DenominationSecurityId))
                                         width="20%">
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
@@ -74,17 +74,15 @@
                                 <ValidationMessage For=@(()=> model.DenominationSecurityId) />
                             </CellEditTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property=@nameof(AccountWallet.AddressCode)
-                                    Caption=@(ModelMetadata.NameFor<AccountWallet>(x => x.AddressCode))
-                                        width="45%">
+                        <DataGridColumn Property=@nameof(AccountWalletDto.AddressCode)
+                            Caption=@(ModelMetadata.NameFor<AccountWalletDto>(x => x.AddressCode)) width="45%">
                             <CellEditTemplate Context="model">
                                 <InputText class="form-control" @bind-Value="@model.AddressCode" />
                                 <ValidationMessage For=@(()=> model.AddressCode) />
                             </CellEditTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property=@nameof(AccountWallet.AddressTag)
-                                    Caption=@(ModelMetadata.NameFor<AccountWallet>(x => x.AddressTag))
-                                        width="35%">
+                        <DataGridColumn Property=@nameof(AccountWalletDto.AddressTag)
+                            Caption=@(ModelMetadata.NameFor<AccountWalletDto>(x => x.AddressTag)) width="35%">
                             <CellEditTemplate Context="model">
                                 <InputText class="form-control" @bind-Value="@model.AddressTag" />
                                 <ValidationMessage For=@(()=> model.AddressTag) />
@@ -100,10 +98,13 @@
 
 @code {
     [Parameter]
-    public override int ModelId { get; init; }
+    public int ModelId { get; init; }
 
     [Inject]
-    protected IReferenceDataService ReferenceData { get; init; }
+    protected IQueryService QueryService { get; init; }
+
+    [Inject]
+    protected new IHttpCollectionService<AccountWalletDto, int> HttpService { get; init; }
 
     private IEnumerable<SecurityDtoBase> DenominationSecurities { get; set; }
 
@@ -113,8 +114,46 @@
         WorkingEntries is null || ParentAccount is null || DenominationSecurities is null;
 
     /// <inheritdoc/>
+    protected override async Task OnInitializedAsync()
+    {
+        CheckNullParameters();
+
+        IsLoading = true;
+
+        try
+        {
+            var walletsTask = HttpService.IndexAsync<AccountDto>(
+                parent: ModelId,
+                pageNumber: PaginationHelper.PageIndex, 
+                pageSize: PaginationHelper.PageSize);
+
+            var denominationDtosTask = QueryService.BuiltIn
+                .GetCryptocurrencyDTOsAsync(pageSize: int.MaxValue);
+
+            await InitializationTasksAsync(walletsTask, denominationDtosTask);
+
+            var walletsResult = await walletsTask;
+            var denominationDtosResult = await denominationDtosTask;
+
+            WorkingEntries = new TrackingEnumerable<AccountWalletDto>(walletsResult.Item1.ToList());
+            Context = new(WorkingEntries);
+
+            ParentAccount = walletsResult.Item2;
+
+            DenominationSecurities = denominationDtosResult.Item1;
+
+            PaginationHelper.TotalItemCount = walletsResult.Item3.ItemCount;
+            PaginationHelper.ItemCount = WorkingEntries.Count;
+        }
+        finally
+        {
+            IsLoading = PageDataIsLoading();
+        }
+    }
+
+    /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        IQueryParameter<AccountWalletDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<AccountWalletDto> parameter, int pageNumber, int pageSize)
     {
         if (WorkingEntries?.HasChanges ?? false)
         {
@@ -124,20 +163,12 @@
                 return;
         }
 
-        ParentAccount = await HttpService.GetAsync<AccountDto>(id: ModelId);
+        var denominationDtosTask = QueryService.BuiltIn
+                .GetCryptocurrencyDTOsAsync(pageSize: int.MaxValue);
 
-        LastSearchParameter = new ParameterDto<AccountWalletDto>()
-        {
-            MemberName = nameof(AccountWalletDto.AccountId),
-            Operator = ComparisonOperator.EqualTo,
-            Value = ParentAccount.Id.ToString()
-        };
-
-        var denominationDtosTask = ReferenceData
-                .GetCryptoCurrencySecuritiesAsync(pageNumber: 1, pageSize: int.MaxValue);
-
-        var walletsTask = HttpService.SelectAsync(
-            queryParameter: LastSearchParameter,
+        var walletsTask = HttpService.SearchAsync<AccountDto>(
+            parent: ModelId,
+            parameter: LastSearchParameter,
             pageNumber: PaginationHelper.PageIndex,
             pageSize: PaginationHelper.PageSize);
 
@@ -147,11 +178,13 @@
         var denominationDtosResult = await denominationDtosTask;
 
         WorkingEntries = new TrackingEnumerable<AccountWalletDto>(walletsResult.Item1.ToList());
-        DenominationSecurities = denominationDtosResult.Item1;
-
         Context = new(WorkingEntries);
 
-        PaginationHelper.TotalItemCount = walletsResult.Item2.ItemCount;
+        ParentAccount = walletsResult.Item2;
+
+        DenominationSecurities = denominationDtosResult.Item1;
+
+        PaginationHelper.TotalItemCount = walletsResult.Item3.ItemCount;
         PaginationHelper.ItemCount = WorkingEntries.Count;
     }
 

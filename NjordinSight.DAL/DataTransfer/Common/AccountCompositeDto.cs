@@ -1,4 +1,5 @@
-﻿using NjordinSight.EntityModel;
+﻿using Ichosys.DataModel.Annotations;
+using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Metadata;
 using System;
 using System.Collections;
@@ -7,6 +8,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(AccountCompositeDto_SR.Noun_Plural),
+        PluralArticle = nameof(AccountCompositeDto_SR.Noun_Plural_Article),
+        Singular = nameof(AccountCompositeDto_SR.Noun_Singular),
+        SingularArticle = nameof(AccountCompositeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(AccountCompositeDto_SR)
+        )]
     public class AccountCompositeDto : AccountBaseDto
     {
         [Display(
@@ -56,7 +64,6 @@ namespace NjordinSight.DataTransfer.Common
 
         public override string ObjectType { get; } = AccountObjectType.Composite.ConvertToStringCode();
 
-        public ICollection<AccountCompositeMemberDto> AccountMembers { get; set; }
-            = new List<AccountCompositeMemberDto>();
+        public ICollection<AccountCompositeMemberDto> AccountMembers = new HashSet<AccountCompositeMemberDto>();
     }
 }

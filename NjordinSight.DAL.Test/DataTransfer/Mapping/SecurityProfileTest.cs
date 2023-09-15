@@ -278,6 +278,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                     SecurityId = 1,
                     EffectiveDate = DateTime.UtcNow.Date,
                     PercentWeight = 1M,
+                    AttributeMemberId = 20,
                     AttributeMember = new()
                     {
                         Attribute = new()

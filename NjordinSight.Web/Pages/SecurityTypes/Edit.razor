@@ -1,6 +1,6 @@
 ﻿@page "/security-types/{ModelId:int}/edit"
 
-@inherits ModelDetail<SecurityType>
+@inherits ModelDetail<SecurityTypeDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -21,19 +21,19 @@
             <Body>
                 <CascadingValue Value="@Model">
                     <EditForm class="model-editor" Model="@Model"
-                        OnValidSubmit="HandleValidSubmit">
+                        OnValidSubmit="ValidFormSubmitHandler">
                         <DataAnnotationsValidator />
                         <ActionButtonMenu>
                             <button type="submit" class="form-control button">
                                 @Strings.Caption_Button_Save
                             </button>
                             <button type="button" class="form-control button"
-                                @onclick="Delete_OnClick"
+                                @onclick="FormDeleteClickHandler"
                                 @onclick:preventDefault>
                                 @Strings.Caption_Button_Delete
                             </button>
                             <button type="button" class="form-control button"
-                                @onclick="Cancel_OnClick"
+                                @onclick="FormCancelClickHandler"
                                 @onclick:preventDefault>
                                 @Strings.Caption_Button_Cancel
                             </button>
@@ -52,7 +52,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> SecurityTypeGroups { get; set; }
+    private IEnumerable<SecurityTypeGroupDto> SecurityTypeGroups { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -60,16 +60,13 @@
 
         try
         {
-            var modelQuery = Controller.ReadAsync(ModelId);
-            var typeGroupsQuery = Controller.ReferenceQueries.GetSecurityTypeGroupDTOsAsync();
+            var modelQuery = HttpService.GetAsync(ModelId);
+            var typeGroupsQuery = HttpService.GetAllAsync<SecurityTypeGroupDto>();
 
-            var dataTasks = Task.WhenAll(modelQuery, typeGroupsQuery);
-            await dataTasks;
+            await Task.WhenAll(modelQuery, typeGroupsQuery);
 
-            SecurityTypeGroups = (await typeGroupsQuery).Value;
-
-            if ((await modelQuery).Value is SecurityType model)
-                Model = model;
+            Model = await modelQuery;
+            SecurityTypeGroups = await typeGroupsQuery;
         }
         finally
         {
@@ -77,22 +74,35 @@
         }
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
-
-    private async Task Delete_OnClick()
+    /// <summary>
+    /// Handles the delete click event of this page.
+    /// </summary>
+    private async Task FormDeleteClickHandler(MouseEventArgs args)
     {
-        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
+        var result = RunCatchingHttpRequestException(HttpService.DeleteAsync(Model.SecurityTypeId));
 
-        if (result is NoContentResult _)
+        await result;
+
+        if (result.Status == TaskStatus.RanToCompletion)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
-    protected override async Task HandleValidSubmit()
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
     {
-        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
+        var result = RunCatchingHttpRequestException(HttpService.PutAsync(ModelId, Model));
 
-        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
+        await result;
 
-        ProcessDetailAtAction(id);
+        if (result.Status == TaskStatus.RanToCompletion)
+            NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
     }
+
+    /// <summary>edit
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
+        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 }

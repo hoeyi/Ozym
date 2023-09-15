@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using NjordinSight.ChangeTracking;
+using NjordinSight.DataTransfer;
 using NjordinSight.DataTransfer.Common.Query;
 using NjordinSight.Web.Components.Common;
 using NjordinSight.Web.Services;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace NjordinSight.Web.Components.Generic
@@ -23,6 +25,12 @@ namespace NjordinSight.Web.Components.Generic
     {
         [Inject]
         protected IHttpService<TModelDto> HttpService { get; init; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="ISearchService{T}"/> for this page.
+        /// </summary>
+        [Inject]
+        protected ISearchService<TModelDto> SearchService { get; init; }
 
         /// <summary>
         /// Checks the <see cref="SearchService"/> and <see cref="Controller"/> properties are 
@@ -45,12 +53,6 @@ namespace NjordinSight.Web.Components.Generic
         /// <returns>True if the page is loaded, else false.</returns>
         protected override bool PageDataIsLoading() => Entries is null;
 
-        /// <summary>
-        /// Gets or sets the <see cref="ISearchService{T}"/> for this page.
-        /// </summary>
-        [Inject]
-        protected ISearchService<TModelDto> SearchService { get; init; }
-
         protected IEnumerable<ComparisonOperator> ComparisonOperators => SearchService.ComparisonOperators;
 
         protected IEnumerable<ISearchableMemberMetadata> SearchFields => SearchService.SearchFields;
@@ -62,7 +64,7 @@ namespace NjordinSight.Web.Components.Generic
         /// </summary>
         protected virtual IEnumerable<TModelDto> Entries { get; set; }
 
-        protected IQueryParameter<TModelDto>? LastSearchParameter { get; set; }
+        protected ParameterDto<TModelDto>? LastSearchParameter { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="PagerModel" /> for this component.
@@ -130,6 +132,15 @@ namespace NjordinSight.Web.Components.Generic
             }
         }
 
+        protected Task<(IEnumerable<TModelDto>, PaginationData)> ConvertToRecordsTask(
+            ParameterDto<TModelDto> parameter, int pageNumber = 1, int pageSize = 20)
+        {
+            if (parameter is null || !parameter.IsValid)
+                return HttpService.IndexAsync(pageNumber, pageSize);
+            else
+                return HttpService.SearchAsync(parameter, pageNumber, pageSize);
+        }
+
         /// <summary>
         /// Refreshes the core result set according to the current search and page parameters. Lookup 
         /// collections are not refreshed.
@@ -142,18 +153,21 @@ namespace NjordinSight.Web.Components.Generic
         /// <exception cref="NotImplementedException">The method has not been overriden in a 
         /// derived class.</exception>
         protected virtual async Task RefreshResultsAsync(
-            IQueryParameter<TModelDto> parameter,
+            ParameterDto<TModelDto> parameter,
             int pageNumber,
             int pageSize)
         {
-            var responseObject = await HttpService.SelectAsync(
-                queryParameter: parameter,
-                pageNumber: PaginationHelper.PageIndex,
-                pageSize: PaginationHelper.PageSize);
+            Task<(IEnumerable<TModelDto>, PaginationData)> responseObject;
+            if (parameter is null)
+                responseObject = HttpService.IndexAsync(pageNumber, pageSize);
+            else
+                responseObject = HttpService.SearchAsync(parameter, pageNumber, pageSize);
 
-            Entries = responseObject.Item1;
+            var result = await responseObject.ConfigureAwait(false);
 
-            PaginationHelper.TotalItemCount = responseObject.Item2.ItemCount;
+            Entries = result.Item1;
+
+            PaginationHelper.TotalItemCount = result.Item2.ItemCount;
             PaginationHelper.ItemCount = Entries.Count();
         }
 

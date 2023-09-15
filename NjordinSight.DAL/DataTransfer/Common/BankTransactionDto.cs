@@ -7,9 +7,17 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(BankTransactionDto_SR.Noun_Plural),
+        PluralArticle = nameof(BankTransactionDto_SR.Noun_Plural_Article),
+        Singular = nameof(BankTransactionDto_SR.Noun_Singular),
+        SingularArticle = nameof(BankTransactionDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(BankTransactionDto_SR)
+        )]
     public class BankTransactionDto : DtoBase
     {
         private int _accountId;
@@ -35,10 +43,7 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
-        [Display(
-            Name = nameof(BankTransactionDto_SR.TransactionId_Name),
-            Description = nameof(BankTransactionDto_SR.TransactionId_Description),
-            ResourceType = typeof(BankTransactionDto_SR))]
+        [Key]
         public int TransactionId
         {
             get { return _transactionId; }

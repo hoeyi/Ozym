@@ -1,143 +1,72 @@
-﻿using Microsoft.AspNetCore.Components;
-using NjordinSight.DataTransfer;
+﻿using NjordinSight.DataTransfer;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Net.Mime;
 using System.Text.Json;
-using System.Text;
 using System.Threading.Tasks;
 using NjordinSight.DataTransfer.Common.Query;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Mvc;
 using NjordinSight.DataTransfer.Common;
 using System.Linq;
 using NjordinSight.ChangeTracking;
-using Ichosys.DataModel.Expressions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
 
 namespace NjordinSight.Web.Services
 {
     /// <summary>
-    /// Interface representing methods for interacting with a RESTful web api.
-    /// </summary>
-    public interface IHttpService<T>
-    {
-        /// <summary>
-        /// Deletes the <typeparamref name="T"/> resource matching the given identifier.
-        /// </summary>
-        /// <param name="id">Identifer of the resource to delete.</param>
-        /// <returns>Task representing a completed deletion request.</returns>
-        Task DeleteAsync(int id);
-
-        /// <summary>
-        /// Gets the <typeparamref name="T"/> resource matching the given identifier.
-        /// </summary>
-        /// <param name="id">The integer key to match.</param>
-        /// <returns>The <typeparamref name="T"/> identified by <paramref name="id"/>.</returns>
-        Task<T> GetAsync(int? id);
-
-        /// <summary>
-        /// Get the <typeparamref name="TKey"/> referenced as a parent record matching the given 
-        /// identifier.
-        /// </summary>
-        /// <typeparam name="TKey">The type of record that is parent to another.</typeparam>
-        /// <param name="id">The unique identifier for the record.</param>
-        /// <returns>An instance of <typeparamref name="TKey"/> matching the value of 
-        /// <paramref name="id"/>.</returns>
-        Task<TKey> GetAsync<TKey>(int id);
-
-        /// <summary>
-        /// Creates a default instance of <typeparamref name="T"/>.
-        /// </summary>
-        /// <returns>An instance of <typeparamref name="T"/>.
-        Task<T> InitDefaultAsync();
-
-        /// <summary>
-        /// Posts the given <typeparamref name="T"/> resource to the data store.
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns>A task containing the <see cref="Uri"/> for the created resource.</returns>
-        Task<Uri> PostAysnc(T model);
-
-        /// <summary>
-        /// Replaces the <typeparamref name="T"/> resource matching the given identifier.
-        /// </summary>
-        /// <param name="model">The <typeparamref name="T"/> model to update.</param>
-        /// <returns>A task containing the <see cref="Uri"/> for the created resource.</returns>
-        Task<Uri> PutAsync(int? id, T model);
-
-        /// <summary>
-        /// Selects records matching the given <paramref name="predicate"/>, limited to the given
-        /// page index, and page size.
-        /// </summary>
-        /// <param name="queryParameter"><see cref="IQueryParameter{T}"/> instance describing the 
-        /// query filter.</param>
-        /// <param name="pageNumber">Index of the page of results to return.</param>
-        /// <param name="pageSize">Limit to records returned in a single page.</param>
-        /// <returns>A task containing the <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> 
-        /// matching the given predication and page parameters.</returns>
-        Task<(IEnumerable<T>, PaginationData)> SelectAsync(
-            IQueryParameter<T> queryParameter = null, int pageNumber = 1, int pageSize = 20);
-
-        [Obsolete("This interface member may be removed because it is not clear whether the " +
-            "Blazor component navigation should be bundled with the service repsonsible for " +
-            "sending/receiving HTTP requests to get or edit data.")]
-        /// <summary>
-        /// Calls navigation to the index page for the <typeparamref name="T"/> resource store.
-        /// </summary>
-        void NavigateToIndex();
-
-        /// <summary>
-        /// Modifies the collection in the data store by applying the given inserts, updates, and 
-        /// deletes.
-        /// </summary>
-        /// <param name="changes">Enumerable collection of models being inserted, modified, or deleted.</param>
-        /// <returns>A <see cref="Uri"/> given the location of the udpated resource.</returns>
-        Task<Uri> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes);
-    }
-
-    /// <summary>
     /// Service class responsible for managing HTTP requests via a web API service and navigation 
     /// via URI.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class HttpService<T> : IHttpService<T>
+    /// <typeparam name="T">The type of resource this service interacts with.</typeparam>
+    public partial class HttpService<T>
     {
         private readonly string _rootApiPath;
-        private readonly IHttpClientFactory _httpFactory;
-        private readonly NavigationManager _navigationManager;
-        private readonly IReadOnlyDictionary<Type, string> _endPointMap = 
+        private readonly IReadOnlyDictionary<Type, string> _endPointMap =
             new Dictionary<Type, string>()
             {
-                { typeof(AccountDto), "/accounts" }
+                { typeof(AccountDto), "/accounts" },
+                { typeof(AccountCompositeDto), "/composites" },
+                { typeof(AccountCustodianDto), "/custodians" },
+                { typeof(AccountWalletDto), "/accounts/{0}/wallets" },
+                { typeof(BankTransactionCodeDto), "/bank-transaction-codes" },
+                { typeof(BankTransactionDto), "/accounts/{0}/bank-transactions" },
+                { typeof(BrokerTransactionCodeDto), "/broker-transaction-codes" },
+                { typeof(BrokerTransactionDto), "/accounts/{0}/broker-transactions" },
+                { typeof(CountryDto), "/countries" },
+                { typeof(InvestmentModelDto), "/investment-models" },
+                { typeof(MarketHolidayObservanceDto), "/holidays/observances" },
+                { typeof(MarketIndexPriceDto), "/market-indices/rates" },
+                { typeof(MarketIndexDto), "/market-indices" },
+                { typeof(ModelAttributeDto), "/attributes" },
+                { typeof(ReportConfigurationDto), "/report-configurations" },
+                { typeof(ReportStyleSheetDto), "/style-sheets" },
+                { typeof(SecurityDto), "/securities" },
+                { typeof(SecurityExchangeDto), "/exchanges" },
+                { typeof(SecurityPriceDto), "/securities/prices" },
+                { typeof(SecurityTypeDto), "/security-types" },
+                { typeof(SecurityTypeGroupDto), "/security-type-groups" }
             };
 
         /// <summary>
-        /// Initializes a new instance of <see cref="IHttpService{T}"/>.
+        /// Initializes a new instance of <see cref="HttpService{T}"/>.
         /// </summary>
         /// <param name="httpFactory"></param>
         /// <param name="navigationManager"></param>
         /// <param name="configuration"></param>
         public HttpService(
-            IHttpClientFactory httpFactory, 
-            NavigationManager navigationManager, 
+            IHttpClientFactory httpFactory,
             IConfiguration configuration)
         {
             if (httpFactory is null)
                 throw new ArgumentNullException(paramName: nameof(httpFactory));
 
-            if (navigationManager is null)
-                throw new ArgumentNullException(paramName: nameof(navigationManager));
-
             if (configuration is null)
                 throw new ArgumentNullException(paramName: nameof(configuration));
 
-            _httpFactory = httpFactory;
-            _navigationManager = navigationManager;
+            HttpFactory = httpFactory;
 
             var apiOptions = new ApiOptions();
             configuration.GetSection(ApiOptions.ApiService).Bind(apiOptions);
@@ -146,111 +75,143 @@ namespace NjordinSight.Web.Services
             ResourceIndexUri = CombinePath(rootPath: _rootApiPath, relativePath: _endPointMap[typeof(T)]);
         }
 
+        protected IHttpClientFactory HttpFactory { get; init; }
+
         /// <summary>
         /// Gets or sets the base URI for this web service.
         /// </summary>
-        private string ResourceIndexUri { get; init; }
+        protected string ResourceIndexUri { get; init; }
+    }
 
+    public partial class HttpService<T> : IHttpService
+    {
         /// <inheritdoc/>
-        public async Task<T> GetAsync(int? id)
+        public async Task<TRecord> GetAsync<TRecord>(int id)
         {
-            using var client = _httpFactory.CreateClient();
-
-            return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/{id}");
-        }
-
-        /// <inheritdoc/>
-        public async Task<TKey> GetAsync<TKey>(int id)
-        {
-            string relativePath = _endPointMap[typeof(TKey)];
+            string relativePath = _endPointMap[typeof(TRecord)];
             string absolutePath = CombinePath(_rootApiPath, $"{relativePath}/{id}");
 
-            using var client = _httpFactory.CreateClient();
+            using var client = HttpFactory.CreateClient();
 
-            var response = await client.GetFromJsonAsync<TKey>(absolutePath);
+            var response = await client.GetFromJsonAsync<TRecord>(absolutePath);
 
             return response;
         }
 
         /// <inheritdoc/>
-        public async Task DeleteAsync(int id)
+        public async Task<IEnumerable<TRecord>> GetAllAsync<TRecord>()
         {
-            using var client = _httpFactory.CreateClient();
+            string relativePath = _endPointMap[typeof(TRecord)];
+            string absolutePath = CombinePath(_rootApiPath, $"{relativePath}/all");
 
-            var httpResponse =  await client.DeleteAsync($"{ResourceIndexUri}/{id}");
+            using var client = HttpFactory.CreateClient();
 
-            httpResponse.EnsureSuccessStatusCode();
+            var response = await client.GetFromJsonAsync<IEnumerable<TRecord>>(absolutePath);
+
+            return response;
         }
 
         /// <inheritdoc/>
-        public async Task<T> InitDefaultAsync()
+        public async Task<(IEnumerable<TRecord>, PaginationData)> SearchAsync<TRecord>(
+            ParameterDto<TRecord> queryParameter, int pageNumber = 1, int pageSize = 20)
         {
-            using var client = _httpFactory.CreateClient();
 
-            return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/init");
-        }
+            string endpoint = _endPointMap[typeof(TRecord)];
+            string relativePath = CombinePath(_rootApiPath, endpoint);
 
-        /// <inheritdoc/>
-        public Task<Uri> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public async Task<Uri> PostAysnc(T model)
-        {
-            using var client = _httpFactory.CreateClient();
-
-            var httpResponse = await client.PostAsJsonAsync(requestUri: $"{ResourceIndexUri}", model);
-
-            httpResponse.EnsureSuccessStatusCode();
-
-            return httpResponse.Headers.Location;
-        }
-
-        /// <inheritdoc/>
-        public async Task<Uri> PutAsync(int? id, T model)
-        {
-            using var client = _httpFactory.CreateClient();
-
-            var httpResponse = await client.PutAsJsonAsync(
-                requestUri: $"{ResourceIndexUri}", model, options: new(JsonSerializerDefaults.Web));
-
-            httpResponse.EnsureSuccessStatusCode();
-
-            return httpResponse.Headers.Location;
-        }
-
-        /// <inheritdoc/>
-        public async Task<(IEnumerable<T>, PaginationData)> SelectAsync(
-            IQueryParameter<T> queryParameter, int pageNumber = 1, int pageSize = 20)
-        {
-            // Initialize a default invalid parameter to create a filter that returns all records.
-            ParameterDto<T> parameterDto = queryParameter is null ?
-                new ParameterDto<T>() { MemberName = string.Empty } :
-                new ParameterDto<T>
-                {
-                    MemberName = queryParameter.MemberName,
-                    Operator = queryParameter.Operator,
-                    Value = queryParameter.Value
-                };
-
-            // TODO: Convert methods to have query parameter be passed in the URI string. 
-
-            using var client = _httpFactory.CreateClient();
+            using var client = HttpFactory.CreateClient();
 
             var httpResponse = await client.PostAsJsonAsync(
-                $"{ResourceIndexUri}/search?&pageNumber={pageNumber}&pageSize={pageSize}", parameterDto);
+                $"{relativePath}/search?&pageNumber={pageNumber}&pageSize={pageSize}", queryParameter);
 
             httpResponse.EnsureSuccessStatusCode();
+
+            var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<TRecord>>();
+
+            PaginationData pageData = null!;
+
+            if (httpResponse.Content.Headers.TryGetValues("X-Pagination", out var stringValues))
+            {
+                if (stringValues?.Any() ?? false)
+                {
+                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
+                }
+            }
+
+            return (deserializedResults, pageData);
+        }
+
+        protected async Task<(TRepsonse, PaginationData)> SearchAsync<TRepsonse>(
+            string requestUri, ParameterDto<T> parameter)
+        {
+            if (parameter is null)
+                throw new ArgumentNullException(paramName: nameof(parameter));
+
+            using var client = HttpFactory.CreateClient();
+
+            var httpResponse = await client.PostAsJsonAsync(requestUri, parameter);
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<TRepsonse>();
+
+            PaginationData pageData = null!;
+
+            if (httpResponse.Headers.TryGetValues("X-Pagination", out var stringValues))
+            {
+                if (stringValues?.Any() ?? false)
+                {
+                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
+                }
+            }
+
+            return (deserializedResults, pageData);
+        }
+
+        protected static string CombinePath(string rootPath, string relativePath)
+        {
+            if (string.IsNullOrEmpty(rootPath))
+                return relativePath;
+
+            var combinedString = string.Join("/", rootPath.TrimEnd('/'), relativePath.TrimStart('/'));
+
+            return combinedString;
+        }
+    }
+    
+    public partial class HttpService<T> : IHttpService<T>
+    {
+        /// <inheritdoc/>
+        public async Task<T> GetAsync(int? id)
+        {
+            using var client = HttpFactory.CreateClient();
+
+            var response = await client.GetAsync($"{ResourceIndexUri}/{id}");
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<T>();
+        }
+
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<T>, PaginationData)> IndexAsync(
+            int pageNumber = 1, int pageSize = 20)
+        {
+            using var client = HttpFactory.CreateClient();
+
+            var httpResponse = await client.GetAsync(
+                $"{ResourceIndexUri}?&pageNumber={pageNumber}&pageSize={pageSize}");
+
+            httpResponse.EnsureSuccessStatusCode();
+
 
             var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<T>>();
 
             PaginationData pageData = null!;
 
-            if(httpResponse.Content.Headers.TryGetValues("X-Pagination", out var stringValues))
+            if (httpResponse.Headers.TryGetValues("X-Pagination", out var stringValues))
             {
-                if(stringValues?.Any() ?? false)
+                if (stringValues?.Any() ?? false)
                 {
                     pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
                 }
@@ -260,13 +221,140 @@ namespace NjordinSight.Web.Services
         }
 
         /// <inheritdoc/>
-        public void NavigateToIndex() => _navigationManager.NavigateTo(ResourceIndexUri, replace: true);
-
-        private static string CombinePath(string rootPath, string relativePath)
+        public async Task DeleteAsync(int id)
         {
-            var combinedString = string.Join("/", rootPath.TrimEnd('/'), relativePath.TrimStart('/'));
+            using var client = HttpFactory.CreateClient();
 
-            return combinedString;
+            var httpResponse =  await client.DeleteAsync($"{ResourceIndexUri}/{id}");
+
+            httpResponse.EnsureSuccessStatusCode();
+        }
+
+        /// <inheritdoc/>
+        public async Task<T> InitDefaultAsync()
+        {
+            using var client = HttpFactory.CreateClient();
+
+            return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/init");
+        }
+
+        /// <inheritdoc/>
+        public async Task<Uri> PostAysnc(T model)
+        {
+            using var client = HttpFactory.CreateClient();
+
+            var httpResponse = await client.PostAsJsonAsync(requestUri: $"{ResourceIndexUri}", model);
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            return httpResponse.Headers.Location;
+        }
+
+        /// <inheritdoc/>
+        public async Task<Uri> PutAsync(int id, T model)
+        {
+            using var client = HttpFactory.CreateClient();
+
+            var httpResponse = await client.PutAsJsonAsync(
+                requestUri: $"{ResourceIndexUri}/{id}", model, options: new(JsonSerializerDefaults.Web));
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            return httpResponse.Headers.Location;
+        }
+
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<T>, PaginationData)> SearchAsync(
+            ParameterDto<T> parameter, int pageNumber = 1, int pageSize = 20)
+        {
+            if(parameter is null)
+                throw new ArgumentNullException(paramName: nameof(parameter));
+
+            string requestUri = $"{ResourceIndexUri}/search?&pageNumber={pageNumber}&pageSize={pageSize}";
+
+            return await SearchAsync<IEnumerable<T>>(requestUri, parameter);
+        }
+    }
+
+    public partial class HttpService<T> : IHttpCollectionService<T>
+    {
+        /// <inheritdoc/>
+        public Task<Uri> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class HttpService<T, TParentKey> : HttpService<T>, IHttpCollectionService<T, TParentKey>
+    {
+        /// <summary>
+        /// Initializes a new instance of <see cref="HttpService{T, TParentKey}"/>.
+        /// </summary>
+        /// <param name="httpFactory"></param>
+        /// <param name="navigationManager"></param>
+        /// <param name="configuration"></param>
+        public HttpService(
+            IHttpClientFactory httpFactory,
+            IConfiguration configuration) : base(httpFactory, configuration)
+        {
+        }
+
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<T>, TParent, PaginationData)> IndexAsync<TParent>(
+            TParentKey parent, int pageNumber = 1, int pageSize = 20)
+        {
+            using var client = HttpFactory.CreateClient();
+
+            var httpResponse = await client.GetAsync(
+                $"{string.Format(ResourceIndexUri, parent)}?&pageNumber={pageNumber}&pageSize={pageSize}");
+
+            httpResponse.EnsureSuccessStatusCode();
+
+
+            var deserializedResults = await httpResponse.Content
+                                            .ReadFromJsonAsync<IndexWithParentResponse<TParent>>();
+
+            PaginationData pageData = null!;
+
+            if (httpResponse.Headers.TryGetValues("X-Pagination", out var stringValues))
+            {
+                if (stringValues?.Any() ?? false)
+                {
+                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
+                }
+            }
+
+            return (deserializedResults.Entries, deserializedResults.Parent, pageData);
+        }
+
+        /// <inheritdoc/>
+        public Task<Uri> PatchCollectionAsync(
+            IEnumerable<(T, TrackingState)> changes, TParentKey parent)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<T>, TParent, PaginationData)> SearchAsync<TParent>(
+            TParentKey parent, ParameterDto<T> parameter, int pageNumber = 1, int pageSize = 20)
+        {
+            if (parameter is null)
+                throw new ArgumentNullException(paramName: nameof(parameter));
+
+            string requestUri = CombinePath(
+                rootPath: string.Format(ResourceIndexUri, parent),
+                relativePath: $"/search?&pageNumber={pageNumber}&pageSize={pageSize}");
+
+            var (response, pageData) = await SearchAsync<(IEnumerable<T>, TParent)>(requestUri, parameter);
+
+            return (response.Item1, response.Item2, pageData);
+        }
+
+        private class IndexWithParentResponse<TParent>
+        {
+            public IEnumerable<T> Entries { get; init; } = new List<T>();
+
+            public TParent Parent { get; init; }
         }
     }
 }

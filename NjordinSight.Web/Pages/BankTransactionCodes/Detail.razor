@@ -1,6 +1,6 @@
 ﻿@page "/bank-transaction-codes/{ModelId:int}/detail"
 
-@inherits ModelDetail<BankTransactionCode>
+@inherits ModelDetail<BankTransactionCodeDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -21,20 +21,20 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ModelDto">
-                    <EditForm class="model-editor" Model="@ModelDto">
+                <CascadingValue Value="@Model">
+                    <EditForm class="model-editor" Model="@Model">
                         <BankTransactionCodeCRUD Disabled="false" ReadOnly="true" />
                     </EditForm>
                 </CascadingValue>
             </Body>
         </ContentTile>
-        @foreach (var entry in ModelDto.CurrentEntries.OrderBy(g => 
-            g.AttributeMember.Attribute.DisplayName))
+        @foreach (var entry in Model.AttributeCollection.CurrentEntries
+            .OrderBy(g => g.AttributeMember.Attribute.DisplayName))
         {
             <ContentTile>
                 <Body>
                     <EditForm Model="@entry">
-                        <ModelForm TModelDto="BankTransactionCodeAttributeMemberEntry">
+                        <ModelForm TModelDto="BankTransactionCodeAttributeDto">
                             <ModelFormEntry 
                                 LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
                                        ForMember="@(() => entry.AttributeMember.DisplayName)">
@@ -59,24 +59,17 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private BankTransactionCodeDto ModelDto { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
 
         try
         {
-            var modelQuery = Controller.ReadAsync(ModelId);
-
-            if ((await modelQuery).Value is BankTransactionCode model)
-                Model = model;
-
-            ModelDto = new(Model);
+            Model = await HttpService.GetAsync(ModelId);
         }
         finally
         {
-            IsLoading = Model is null || ModelDto is null;
+            IsLoading = Model is null;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@page "/accounts/{ModelId:int}/edit"
 
-@inherits ModelDetail<Account>
+@inherits ModelDetail<AccountDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -9,26 +9,26 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.UpdateSingle(Model.AccountCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.UpdateSingle(Model.ShortCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.AccountCode))" />
+        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.ShortCode))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ModelDto">
-            <AttributeEntryEditor TViewModelParent="AccountAttributesDto"
+        <CascadingValue Value="@Model">
+            <AttributeEntryEditor TViewModelParent="AccountAttributeDtoCollection"
                 TViewModelChild="AccountAttributeGrouping"
-                TModel="AccountObject"
-                TModelChild="AccountAttributeMemberEntry"
+                TModel="AccountBaseDto"
+                TModelChild="AccountBaseAttributeDto"
                 OnCancelEditorClick="FormCancelClickHandler"
                 OnDeleteModelClick="FormDeleteClickHandler"
                 OnValidFormSubmit="ValidFormSubmitHandler"
-                ModelDto="@ModelDto.AttributeViewModel"
+                ModelDto="@Model.AttributeCollection"
                 Mode="EditorMode.Edit">
                 <ViewModelCRUD>
-                    <AccountCRUD AccountCustodians="@Custodians" Disabled="false" ReadOnly="false" />
+                    <AccountCRUD AccountCustodians="@CustodianDtos" Disabled="false" ReadOnly="false" />
                 </ViewModelCRUD>
                 <ViewModelChildCRUD>
                     <AccountAttributesCRUD Disabled="false" ReadOnly="false" />
@@ -42,36 +42,25 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
+    private IEnumerable<AccountCustodianDto> CustodianDtos { get; set; }
 
-    private AccountDto ModelDto { get; set; }
-    
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
 
         try
         {
-            var accountQuery = Controller.ReadAsync(ModelId);
-            var custodiansQuery = Controller.ReferenceQueries.GetAccountCustodianDTOsAsync();
+            var accountQuery = HttpService.GetAsync(ModelId);
+            var custodiansQuery = HttpService.GetAllAsync<AccountCustodianDto>();
 
-            var dataTasks = Task.WhenAll(accountQuery, custodiansQuery);
-            await dataTasks;
+            await Task.WhenAll(accountQuery, custodiansQuery);
 
-            if(dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                Model = (await accountQuery).Value;
-                Custodians = (await custodiansQuery).Value;
-                ModelDto = new(Model);
-            }
-            else
-            {
-                throw dataTasks.Exception.Flatten();
-            }
+            Model = await accountQuery;
+            CustodianDtos = await custodiansQuery;
         }
         finally
         {
-            IsLoading = Model is null || Custodians is null;
+            IsLoading = Model is null || CustodianDtos is null;
         }
     }
 
@@ -80,9 +69,11 @@
     /// </summary>
     private async Task FormDeleteClickHandler(MouseEventArgs args)
     {
-        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
+        var result = RunCatchingHttpRequestException(HttpService.DeleteAsync(Model.Id));
 
-        if (result is NoContentResult _)
+        await result;
+
+        if (result.Status == TaskStatus.RanToCompletion)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
@@ -91,16 +82,17 @@
     /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
+        var result = RunCatchingHttpRequestException(HttpService.PutAsync(ModelId, Model));
 
-        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
+        await result;
 
-        ProcessDetailAtAction(id);
+        if (result.Status == TaskStatus.RanToCompletion)
+            NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
     }
 
     /// <summary>edit
     /// Handles the cancel editor event of this page.
     /// </summary>
     private void FormCancelClickHandler(MouseEventArgs args) =>
-        NavigationHelper.NavigateTo(FormatDetailUri(Model.AccountId));
+        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 }

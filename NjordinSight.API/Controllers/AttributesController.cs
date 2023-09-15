@@ -12,7 +12,7 @@ namespace NjordinSight.Api.Controllers
     [ApiController]
     [Route("api/v{version:apiVersion}/attributes")]
     [ApiVersion("1.0")]
-    public class AttributesController : ApiController<ModelAttributeDtoForEdit, ModelAttribute>
+    public class AttributesController : ApiController<ModelAttributeDto, ModelAttribute>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AttributesController"/> class.

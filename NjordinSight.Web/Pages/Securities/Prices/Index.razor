@@ -7,7 +7,7 @@
     <ThemedComponent>
         <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
-    @if(SearchFields is null)
+    @if(SearchService.SearchFields is null)
     {
         <LoadingSvg />
     }
@@ -15,10 +15,10 @@
     {
         <ContentTile>
             <Body>
-                <SearchInputTable TModel="SecurityPrice"
-                    ComparisonOperators=@ComparisonOperators
-                    ExpressionBuilder=@ExpressionBuilder
-                    SearchFields=@SearchFields
+                <SearchInputTable TModel="SecurityPriceDto"
+                    ComparisonOperators=@SearchService.ComparisonOperators
+                    ExpressionBuilder=@SearchService.ExpressionBuilder
+                    SearchFields=@SearchService.SearchFields
                     OnSearchClick=@(async (args) => await SearchClicked(args))>
                 </SearchInputTable>
             </Body>
@@ -42,43 +42,43 @@
             else
             {
                 <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property="@nameof(SecurityPrice.SecurityId)"
+                    <DataGridColumn Property="@nameof(SecurityPriceDto.SecurityId)"
                         Caption="@(NameFor(x => x.SecurityId))">
                         <CellTemplate Context="model">
                             @GetSecurityDisplay(model.SecurityId)
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.PriceDate)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.PriceDate)
                         Caption=@(NameFor(x => x.PriceDate))>
                         <CellTemplate Context="model">
                             @model.PriceDate.ToShortDateString()
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.PriceClose)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.PriceClose)
                         Caption=@(NameFor(x => x.PriceClose))>
                         <CellTemplate Context="model">
                             @model.PriceClose
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.PriceOpen)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.PriceOpen)
                         Caption=@(NameFor(x => x.PriceOpen))>
                         <CellTemplate Context="model">
                             @model.PriceOpen
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.PriceHigh)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.PriceHigh)
                         Caption=@(NameFor(x => x.PriceHigh))>
                         <CellTemplate Context="model">
                             @model.PriceHigh
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.PriceLow)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.PriceLow)
                         Caption=@(NameFor(x => x.PriceLow))>
                         <CellTemplate Context="model">
                             @model.PriceLow
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityPrice.Volume)
+                    <DataGridColumn Property=@nameof(SecurityPriceDto.Volume)
                                 Caption=@(NameFor(x => x.Volume))>
                         <CellTemplate Context="model">
                             @model.Volume
@@ -94,7 +94,7 @@
     private IDictionary<int, string> SecurityDtos { get; set; }
 
     [Inject]
-    public IReferenceDataService ReferenceData { get; init; }
+    protected IQueryService QueryService { get; init;  }
 
     /// <inheritdoc/>
     protected override MenuRoot CreateSectionNavigationMenu() => new()
@@ -120,7 +120,7 @@
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        IQueryParameter<BankTransactionDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<SecurityPriceDto> parameter, int pageNumber, int pageSize)
     {
         if (WorkingEntries?.HasChanges ?? false)
         {
@@ -130,66 +130,26 @@
                 return;
         }
 
-        var securityDtosTask = ReferenceData.GetAsync<SecurityDtoBase>("/securities")
+        var securityDtosTask = HttpService.GetAllAsync<SecurityDtoBase>();
 
-        var priceQueryTask = HttpService.SelectAsync(
-            queryParameter: LastSearchParameter,
+        var priceQueryTask = HttpService.SearchAsync(
+            parameter: LastSearchParameter,
             pageNumber: PaginationHelper.PageIndex,
             pageSize: PaginationHelper.PageSize);
 
         await InitializationTasksAsync(priceQueryTask, securityDtosTask);
 
         var priceResult = await priceQueryTask;
-        var transactionCodeDtoResult = await securityDtosTask;
+        var securityDtoResult = await securityDtosTask;
 
-        WorkingEntries = new TrackingEnumerable<SecurityPriceDto>(
-            transactionResult.Item1.ToList());
-        TransactionCodes = transactionCodeDtoResult.Item1;
+        WorkingEntries = new TrackingEnumerable<SecurityPriceDto>(priceResult.Item1.ToList());
+        SecurityDtos = securityDtoResult.ToDictionary(k => k.SecurityId, v => v.SecurityDescription);
+
 
         Context = new(WorkingEntries);
 
-        PaginationHelper.TotalItemCount = transactionResult.Item2.ItemCount;
+        PaginationHelper.TotalItemCount = priceResult.Item2.ItemCount;
         PaginationHelper.ItemCount = WorkingEntries.Count;
-    }
-
-    /// <inheritdoc/>
-    protected override async Task OnInitializedAsync()
-    {
-        // Update the hidden reference to refer the same object to avoid null reference exception.
-        base.Controller = Controller;
-
-        CheckNullParameters();
-
-        IsLoading = true;
-
-        try
-        {
-            var pricesTask = Controller.SelectAsync(
-                predicate: SearchService.CurrentExpression,
-                pageNumber: PaginationHelper.PageIndex,
-                pageSize: PaginationHelper.PageSize);
-
-            var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
-                key: x => x.SecurityId,
-                display: x => x.SecurityDescription);
-
-            await InitializationTasksAsync(pricesTask, securityDtosTask);
-
-            var dtosTaskResult = await securityDtosTask;
-            var priceTaskResult = await pricesTask;
-
-            SecurityDtos = dtosTaskResult.Value.ToDictionary(k => k.Key, v => v.Display);
-            WorkingEntries = priceTaskResult.Value.Item1.ToList();
-
-            PaginationHelper.TotalItemCount = priceTaskResult.Value.Item2.ItemCount;
-            PaginationHelper.ItemCount = WorkingEntries.Count;
-
-            Context = new(WorkingEntries);
-        }
-        finally
-        {
-            IsLoading = GetLoadingState();
-        }
     }
 
     private string GetSecurityDisplay(int securityId) =>

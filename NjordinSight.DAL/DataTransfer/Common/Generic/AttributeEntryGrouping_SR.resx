@@ -117,7 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateModel_Generic" xml:space="preserve">
+  <data name="EffectiveDate_Description" xml:space="preserve">
+    <value>Effective date for this group of weights.</value>
+  </data>
+  <data name="EffectiveDate_Name" xml:space="preserve">
+    <value>Effective Date</value>
+  </data>
+  <data name="SumOfWeights_Description" xml:space="preserve">
+    <value>Sum of the weights in this group.</value>
+  </data>
+  <data name="SumOfWeights_InvalidWeight" xml:space="preserve">
     <value />
+  </data>
+  <data name="SumOfWeights_Name" xml:space="preserve">
+    <value>Sum of weights</value>
   </data>
 </root>

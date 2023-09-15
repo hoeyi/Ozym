@@ -1,12 +1,21 @@
-﻿using NjordinSight.DataTransfer.Common.Collections;
+﻿using Ichosys.DataModel.Annotations;
+using NjordinSight.DataTransfer.Common.Collections;
 using NjordinSight.EntityModel.Metadata;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(SecurityDto_SR.Noun_Plural),
+        PluralArticle = nameof(SecurityDto_SR.Noun_Plural_Article),
+        Singular = nameof(SecurityDto_SR.Noun_Singular),
+        SingularArticle = nameof(SecurityDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(SecurityDto_SR)
+        )]
     public class SecurityDtoBase : DtoBase
     {
         private int _securityId;
@@ -17,10 +26,7 @@ namespace NjordinSight.DataTransfer.Common
         private bool _hasPerpetualMarket;
         private bool _hasPerpetualPrice;
 
-        [Display(
-            Name = nameof(SecurityDto_SR.SecurityId_Name),
-            Description = nameof(SecurityDto_SR.SecurityId_Description),
-            ResourceType = typeof(SecurityDto_SR))]
+        [Key]
         public int SecurityId
         {
             get { return _securityId; }
@@ -144,21 +150,47 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        [Display(
+            Name = nameof(SecurityDto_SR.CurrentySymbol_Name),
+            Description = nameof(SecurityDto_SR.CurrentSymbol_Description),
+            ResourceType = typeof(SecurityDto_SR))]
+        public string? CurrentSymbol { get; set; }
     }
 
+    [Noun(
+        Plural = nameof(SecurityDto_SR.Noun_Plural),
+        PluralArticle = nameof(SecurityDto_SR.Noun_Plural_Article),
+        Singular = nameof(SecurityDto_SR.Noun_Singular),
+        SingularArticle = nameof(SecurityDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(SecurityDto_SR)
+        )]
     public  class SecurityDto : SecurityDtoBase
     {
+        private ICollection<SecurityAttributeDto> _attributes;
+
         public SecurityDto()
         {
-            Attributes = new List<SecurityAttributeDto>();
-            AttributeCollection = new(this);
-            Symbols = new List<SecuritySymbolDto>();
+            Attributes = new HashSet<SecurityAttributeDto>();
+            Symbols = new HashSet<SecuritySymbolDto>();
         }
 
-        public SecurityAttributeDtoCollection AttributeCollection { get; set; }
-
-        public ICollection<SecurityAttributeDto> Attributes { get; set; }
+        public ICollection<SecurityAttributeDto> Attributes
+        {
+            get { return _attributes; }
+            set
+            {
+                if (_attributes != value)
+                {
+                    _attributes = value;
+                    AttributeCollection = new(this);
+                }
+            }
+        }
 
         public ICollection<SecuritySymbolDto> Symbols { get; set; }
+
+        [JsonIgnore]
+        public SecurityAttributeDtoCollection AttributeCollection { get; private set; }
     }
 }

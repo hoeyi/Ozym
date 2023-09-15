@@ -1,6 +1,6 @@
 ﻿@page "/security-type-groups/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<SecurityTypeGroup>
+@inherits ModelDetail<SecurityTypeGroupDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -25,7 +25,7 @@
                         @Strings.Caption_Button_Save
                     </button>
                     <button type="button" class="form-control button"
-                        @onclick="Cancel_OnClick"
+                        @onclick="FormCancelClickHandler"
                         @onclick:preventDefault>
                         @Strings.Caption_Button_Cancel
                     </button>
@@ -51,10 +51,7 @@
 
         try
         {
-            var modelQuery = Controller.GetDefaultAsync();
-
-            if ((await modelQuery).Value is SecurityTypeGroup model)
-                Model = model;
+            Model = await HttpService.InitDefaultAsync();
         }
         finally
         {
@@ -62,12 +59,13 @@
         }
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 
     protected override async Task HandleValidSubmit()
     {
-        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
+        var response = await RunCatchingHttpRequestException(HttpService.PostAysnc(Model));
 
-        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
+        if (!string.IsNullOrEmpty(response.AbsoluteUri))
+            NavigationHelper.NavigateTo(response.AbsoluteUri);
     }
 }

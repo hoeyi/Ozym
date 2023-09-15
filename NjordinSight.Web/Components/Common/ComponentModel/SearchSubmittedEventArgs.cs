@@ -1,5 +1,6 @@
 ﻿using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Components.Web;
+using NjordinSight.DataTransfer.Common.Query;
 using System;
 using System.Linq.Expressions;
 
@@ -23,7 +24,7 @@ namespace NjordinSight.Web.Components.Common
 
         public SearchSubmittedEventArgs(
             MouseEventArgs mouseEventArgs,
-            IQueryParameter<TModel> parameter)
+            ParameterDto<TModel> parameter)
         {
             MouseEventArgs = mouseEventArgs;
             Parameter = parameter;
@@ -31,7 +32,7 @@ namespace NjordinSight.Web.Components.Common
 
         public MouseEventArgs MouseEventArgs { get; init; }
 
-        public IQueryParameter<TModel> Parameter { get; init; }
+        public ParameterDto<TModel> Parameter { get; init; }
 
     }
 }

@@ -10,7 +10,7 @@ namespace NjordinSight.Api.Controllers
 {
     /// <inheritdoc/>
     [ApiController]
-    [Route("api/v{version:apiVersion}/holidays")]
+    [Route("api/v{version:apiVersion}/holidays/observances")]
     [ApiVersion("1.0")]
     public class MarketHolidaysController 
         : ApiCollectionController<MarketHolidayObservanceDto, MarketHolidayObservance>

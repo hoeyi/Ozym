@@ -27,11 +27,13 @@ namespace NjordinSight.DataTransfer.Profiles
         public SecurityProfile()
         {
             #region Entity-DTO
-            CreateMap<Security, SecurityDtoBase>();
+            CreateMap<Security, SecurityDtoBase>()
+                .ForMember(a => a.CurrentSymbol, b => b.MapFrom(x => x.SecuritySymbol));
 
             CreateMap<Security, SecurityDto>()
                 .ForMember(a => a.Attributes, b => b.MapFrom(x => x.SecurityAttributeMemberEntries))
                 .ForMember(a => a.Symbols, b => b.MapFrom(x => x.SecuritySymbols))
+                .ForMember(a => a.CurrentSymbol, b => b.MapFrom(x => x.SecuritySymbol))
                 .ForMember(a => a.AttributeCollection, b => b.Ignore());
 
             CreateMap<SecurityAttributeMemberEntry, SecurityAttributeDto>()
@@ -59,7 +61,7 @@ namespace NjordinSight.DataTransfer.Profiles
                 .ForMember(a => a.SecuritySymbols, b => b.MapFrom(x => x.Symbols));
 
             CreateMap<SecurityAttributeDto, SecurityAttributeMemberEntry>()
-                .ForMember(a => a.AttributeMemberId, b => b.MapFrom(x => x.AttributeMember.AttributeMemberId))
+                .ForMember(a => a.AttributeMemberId, b => b.MapFrom(x => x.AttributeMemberId))
                 .ForMember(a => a.Security, b => b.Ignore())
                 .ForMember(a => a.Weight, b => b.MapFrom(x => x.PercentWeight));
 

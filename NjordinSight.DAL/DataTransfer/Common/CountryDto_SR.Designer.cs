@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CountryDto_SR {
+    public class CountryDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.CountryDto_SR", typeof(CountryDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string CountryId_Description {
+        public static string CountryId_Description {
             get {
                 return ResourceManager.GetString("CountryId_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string CountryId_Name {
+        public static string CountryId_Name {
             get {
                 return ResourceManager.GetString("CountryId_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display name of the country / territory..
         /// </summary>
-        internal static string DisplayName_Description {
+        public static string DisplayName_Description {
             get {
                 return ResourceManager.GetString("DisplayName_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
-        internal static string DisplayName_Name {
+        public static string DisplayName_Name {
             get {
                 return ResourceManager.GetString("DisplayName_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Order in which the country is displayed in reports..
         /// </summary>
-        internal static string DisplayOrder_Description {
+        public static string DisplayOrder_Description {
             get {
                 return ResourceManager.GetString("DisplayOrder_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display Order.
         /// </summary>
-        internal static string DisplayOrder_Name {
+        public static string DisplayOrder_Name {
             get {
                 return ResourceManager.GetString("DisplayOrder_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to ISO-3 code identifiying the country / territory..
         /// </summary>
-        internal static string IsoCode3_Description {
+        public static string IsoCode3_Description {
             get {
                 return ResourceManager.GetString("IsoCode3_Description", resourceCulture);
             }
@@ -126,9 +126,45 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to ISO-3 Code.
         /// </summary>
-        internal static string IsoCode3_Name {
+        public static string IsoCode3_Name {
             get {
                 return ResourceManager.GetString("IsoCode3_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to countries.
+        /// </summary>
+        public static string Noun_Plural {
+            get {
+                return ResourceManager.GetString("Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Plural_Article {
+            get {
+                return ResourceManager.GetString("Noun_Plural_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to country.
+        /// </summary>
+        public static string Noun_Singular {
+            get {
+                return ResourceManager.GetString("Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Singular_Article {
+            get {
+                return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
             }
         }
     }

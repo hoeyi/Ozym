@@ -24,7 +24,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
     {
         /// <summary>
         /// Gets the <em>current</em> <typeparamref name="TGroupModel"/> entries in this model grouped
-        /// by their parent <see cref="ModelAttributeDto"/>.
+        /// by their parent <see cref="ModelAttributeDtoBase"/>.
         /// </summary>
         IEnumerable<TGroupModel> CurrentEntryCollectionGroups { get; }
 
@@ -32,10 +32,10 @@ namespace NjordinSight.DataTransfer.Common.Generic
         /// Adds a new <typeparamref name="TGroupModel"/> entry to this collection and returns 
         /// the added instance.
         /// </summary>
-        /// <param name="forAttribute">The parent <see cref="ModelAttributeDto"/> for the new 
+        /// <param name="forAttribute">The parent <see cref="ModelAttributeDtoBase"/> for the new 
         /// sub-collection.</param>
         /// <returns>A <typeparamref name="TGroupModel"/> instance.</returns>
-        TGroupModel AddNew(ModelAttributeDto forAttribute);
+        TGroupModel AddNew(ModelAttributeDtoBase forAttribute);
 
         /// <summary>
         /// Removes an existing <typeparamref name="TGroupModel"/> from the children of this view 

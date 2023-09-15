@@ -32,7 +32,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
         /// <exception cref="ArgumentNullException"></exception>
         protected AttributeEntryUnweightedGrouping(
             TParentEntity parentObject,
-            ModelAttributeDto parentAttribute)
+            ModelAttributeDtoBase parentAttribute)
         {
             if (parentObject is null)
                 throw new ArgumentNullException(paramName: nameof(parentObject));
@@ -76,15 +76,15 @@ namespace NjordinSight.DataTransfer.Common.Generic
         public IEnumerable<TChildEntity> Entries => ParentEntryCollection.Where(EntrySelector);
 
         /// <inheritdoc/>
-        public ModelAttributeDto ParentAttribute { get; init; }
+        public ModelAttributeDtoBase ParentAttribute { get; init; }
 
         /// <inheritdoc/>
         public TParentEntity ParentObject { get; private set; }
 
         /// <inheritdoc/>
         [ExactValue(true,
-            ErrorMessageResourceName = nameof(Strings.AttributeEntryGroupUnweighted_InvalidWeight),
-            ErrorMessageResourceType = typeof(Strings))]
+            ErrorMessageResourceName = nameof(AttributeEntryGrouping_SR.SumOfWeights_InvalidWeight),
+            ErrorMessageResourceType = typeof(AttributeEntryGrouping_SR))]
         [Display(
             Name = nameof(ModelDisplay.AttributeEntryCollectionViewModel_SumOfWeights_Name),
             ResourceType = typeof(ModelDisplay))]

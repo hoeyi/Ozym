@@ -1,6 +1,6 @@
 ﻿@page "/accounts/{ModelId:int}/detail"
 
-@inherits ModelDetail<Account>
+@inherits ModelDetail<AccountDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -9,9 +9,9 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.ReadSingle(Model.AccountCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.ReadSingle(Model.ShortCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadSingle(Model.AccountCode))" />
+        <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadSingle(Model.ShortCode))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
@@ -19,22 +19,21 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue 
-                    Value="@ModelDto" >
-                    <EditForm class="model-editor" Model="@ModelDto">
-                        <AccountCRUD AccountCustodians="@Custodians" 
+                <CascadingValue Value="@Model">
+                    <EditForm class="model-editor" Model="@Model">
+                        <AccountCRUD AccountCustodians="@CustodianDtos" 
                             Disabled="false" ReadOnly="true" />
                     </EditForm>
                 </CascadingValue>
             </Body>
         </ContentTile>
-        @foreach (var entry in ModelDto.AttributeViewModel.CurrentEntries.OrderBy(g =>
-            g.AttributeMember.Attribute.DisplayName))
+        @foreach (var entry in Model.AttributeCollection.CurrentEntries
+            .OrderBy(g => g.AttributeMember.Attribute.DisplayName))
         {
             <ContentTile>
                 <Body>
                     <EditForm class="model-editor" Model="@entry">
-                        <ModelForm TModelDto="AccountAttributeMemberEntry">
+                        <ModelForm TModelDto="AccountBaseAttributeDto">
                             <ModelFormEntry LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
                                         ForMember="@(() => entry.AttributeMember.DisplayName)">
                                 <div class="form-control">
@@ -58,19 +57,21 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
-
-    private AccountDto ModelDto { get; set; }
+    private IEnumerable<AccountCustodianDto> CustodianDtos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-
         IsLoading = true;
 
         try
         {
-            var accountQuery = await Controller.ReadAsync(ModelId);
-            Model = accountQuery.Value;
+            var accountQuery = HttpService.GetAsync(ModelId);
+            var custodiansQuery = HttpService.GetAllAsync<AccountCustodianDto>();
+
+            await Task.WhenAll(accountQuery, custodiansQuery);
+
+            Model = await accountQuery;
+            CustodianDtos = await custodiansQuery;
 
             // Add view bank transactions menu item.
             if (Model.HasBankTransaction)
@@ -78,20 +79,20 @@
                     {
                         IconKey = "journal",
                         Caption = string.Format(
-                                Strings.Caption_ViewMany,
-                                ModelMetadata.GetAttribute<BankTransaction, NounAttribute>()?.GetPlural()),
+                                    Strings.Caption_ViewMany,
+                                    ModelMetadata.GetAttribute<BankTransactionDto, NounAttribute>()?.GetPlural()),
                         UriRelativePath = $"{FormatDetailUri(ModelId)}/bank-transactions"
                     });
 
             // Add view broker transactions menu item.
-            if(Model.HasBrokerTransaction)
+            if (Model.HasBrokerTransaction)
                 SectionNavigationMenu.Children.Add(new MenuItem()
                     {
                         IconKey = "journal",
                         Caption = string.Format(
-                            Strings.Caption_ViewMany,
-                            ModelMetadata.GetAttribute<BrokerTransaction, NounAttribute>()?.GetPlural()),
-                        UriRelativePath = $"{FormatDetailUri(Model.AccountId)}/broker-transactions"
+                                Strings.Caption_ViewMany,
+                                ModelMetadata.GetAttribute<BrokerTransactionDto, NounAttribute>()?.GetPlural()),
+                        UriRelativePath = $"{FormatDetailUri(Model.Id)}/broker-transactions"
                     });
 
             // Add view wallets menu item.
@@ -100,20 +101,14 @@
                     {
                         IconKey = "wallet",
                         Caption = string.Format(
-                            Strings.Caption_EditMany, 
-                                ModelMetadata.GetAttribute<AccountWallet, NounAttribute>()?.GetPlural()),
-                        UriRelativePath = $"{FormatEditUri(Model.AccountId)}/wallets"
+                                Strings.Caption_EditMany,
+                                    ModelMetadata.GetAttribute<AccountWalletDto, NounAttribute>()?.GetPlural()),
+                        UriRelativePath = $"{FormatEditUri(Model.Id)}/wallets"
                     });
-
-            Custodians = (await Controller.ReferenceQueries.GetAccountCustodianDTOsAsync()).Value;
-
-            ModelDto = new(Model);
         }
         finally
         {
-            IsLoading = Custodians is null || Model is null || ModelDto is null;
+            IsLoading = Model is null || CustodianDtos is null;
         }
-
-        // TODO: Take corrective action here, accountQuery.Value should be Account
     }
 }

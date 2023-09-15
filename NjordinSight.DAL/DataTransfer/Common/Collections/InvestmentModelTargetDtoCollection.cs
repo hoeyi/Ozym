@@ -49,7 +49,7 @@ namespace NjordinSight.DataTransfer.Common.Collections
                             var forDate = g.Key.EffectiveDate;
 
                             var group = new AttributeGrouping<
-                                (ModelAttributeDto, DateTime),
+                                (ModelAttributeDtoBase, DateTime),
                                 InvestmentModelTargetDto>(
                                 key: (attribute, forDate), collection: g);
 

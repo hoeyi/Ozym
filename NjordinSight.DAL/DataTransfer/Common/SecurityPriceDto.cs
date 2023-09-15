@@ -1,9 +1,17 @@
-﻿using System;
+﻿using Ichosys.DataModel.Annotations;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(SecurityPriceDto_SR.Noun_Plural),
+        PluralArticle = nameof(SecurityPriceDto_SR.Noun_Plural_Article),
+        Singular = nameof(SecurityPriceDto_SR.Noun_Singular),
+        SingularArticle = nameof(SecurityPriceDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(SecurityPriceDto_SR)
+        )]
     public class SecurityPriceDto : DtoBase
     {
         private int _priceId;
@@ -15,10 +23,7 @@ namespace NjordinSight.DataTransfer.Common
         private decimal _priceLow;
         private int _volume;
 
-        [Display(
-            Name = nameof(SecurityPriceDto_SR.PriceId_Name),
-            Description = nameof(SecurityPriceDto_SR.PriceId_Description),
-            ResourceType = typeof(SecurityPriceDto_SR))]
+        [Key]
         public int PriceId
         {
             get { return _priceId; }

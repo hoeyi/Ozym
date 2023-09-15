@@ -1,8 +1,16 @@
-﻿using System.ComponentModel;
+﻿using Ichosys.DataModel.Annotations;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(ReportConfigurationDto_SR.Noun_Plural),
+        PluralArticle = nameof(ReportConfigurationDto_SR.Noun_Plural_Article),
+        Singular = nameof(ReportConfigurationDto_SR.Noun_Singular),
+        SingularArticle = nameof(ReportConfigurationDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(ReportConfigurationDto_SR)
+        )]
     public class ReportConfigurationDto : DtoBase
     {
         private int _configurationId;
@@ -10,10 +18,7 @@ namespace NjordinSight.DataTransfer.Common
         private string _configurationDescription;
         private string _xmlDefinition;
 
-        [Display(
-            Name = nameof(ReportConfigurationDto_SR.ConfigurationId_Name),
-            Description = nameof(ReportConfigurationDto_SR.ConfigurationId_Description),
-            ResourceType = typeof(ReportConfigurationDto_SR))]
+        [Key]
         public int ConfigurationId
         {
             get { return _configurationId; }

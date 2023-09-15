@@ -1,6 +1,6 @@
 ﻿@page "/securities/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<Security>
+@inherits ModelDetail<SecurityDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -19,16 +19,16 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ModelDto">
+        <CascadingValue Value="@Model">
             <AttributeEntryCollectionEditor 
-                TViewModelParent="SecurityAttributeDto"
+                TViewModelParent="SecurityAttributeDtoCollection"
                 TViewModelChild="SecurityAttributeGrouping"
-                TModel="Security"
-                TModelChild="SecurityAttributeMemberEntry"
-                OnCancelEditorClick="CancelFormHandler"
-                OnValidFormSubmit="ValidFormSubmitHandler"
+                TModel="SecurityDto"
+                TModelChild="SecurityAttributeDto"
+                OnCancelEditorClick="FormCancelClickHandler"
+                OnValidFormSubmit="HandleValidSubmit"
                 EffectiveDatePath="@(x => x.EffectiveDate)"
-                ModelDto="@ModelDto.AttributeViewModel"
+                ModelDto="@Model.AttributeCollection"
                 Mode="EditorMode.Add">
                 <ViewModelCRUD>
                     <SecurityCRUD SecurityTypes="SecurityTypes"
@@ -48,82 +48,47 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> Exchanges { get; set; }
+    [Inject]
+    protected IQueryService QueryService { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> SecurityTypes { get; set; }
+    private IEnumerable<SecurityExchangeDto> Exchanges { get; set; }
+
+    private IEnumerable<SecurityTypeDto> SecurityTypes { get; set; }
 
     private IEnumerable<string> Issuers { get; set; }
 
-    private SecurityDto ModelDto { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
-
         IsLoading = true;
 
         try
         {
-            var exchangesDtoQuery = Controller.ReferenceQueries
-                .GetDtosAsync<SecurityExchange, int, string>(
-                    key: x => x.ExchangeId,
-                    display: x => x.ExchangeCode);
+            var exchangesQuery = HttpService.GetAllAsync<SecurityExchangeDto>();
+            var securityTypesQuery = QueryService.BuiltIn.GetSecurityTypeDTOsAsync(pageSize: int.MaxValue);
+            var issuersQuery = QueryService.BuiltIn.GetIssuersAsync(pageSize: int.MaxValue);
 
-            var securityTypesQuery = Controller.ReferenceQueries
-                .GetDtosAsync<SecurityType, int, string>(
-                    key: x => x.SecurityTypeId,
-                    display: x => x.SecurityTypeName);
+            var securityQuery = HttpService.InitDefaultAsync();
 
-            var issuersQuery = Controller.ReferenceQueries
-                .GetManyAsync<Security>(x => (x.Issuer ?? string.Empty) != string.Empty);
+            await Task.WhenAll(exchangesQuery, securityTypesQuery, issuersQuery, securityQuery);
 
-            var securityQuery = Controller.GetDefaultAsync();
-
-
-            var dataTasks = Task.WhenAll(
-                exchangesDtoQuery,
-                securityTypesQuery,
-                issuersQuery,
-                securityQuery);
-
-            await dataTasks;
-
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                Model = (await securityQuery).Value;
-                Exchanges = (await exchangesDtoQuery).Value;
-                SecurityTypes = (await securityTypesQuery).Value;
-                Issuers = (await issuersQuery).Value.Select(x => x.Issuer).Distinct();
-                
-                ModelDto = new(Model);
-            }
-            else
-            {
-                throw dataTasks.Exception.Flatten();
-            }
+            Model = await securityQuery;
+            Exchanges = await exchangesQuery;
+            SecurityTypes = (await securityTypesQuery).Item1;
+            Issuers = (await issuersQuery).Item1;
         }
         finally
         {
-            IsLoading = Exchanges is null ||
-                SecurityTypes is null ||
-                Issuers is null || Model is null || ModelDto is null;
+            IsLoading = Exchanges is null || SecurityTypes is null || Issuers is null || Model is null;
         }
     }
 
-    /// <summary>
-    /// Handles the valid form submission event of this page.
-    /// </summary>
-    private async Task ValidFormSubmitHandler(EditContext args)
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
+
+    protected override async Task HandleValidSubmit()
     {
-        Model = ModelDto.ToEntity();
+        var response = await RunCatchingHttpRequestException(HttpService.PostAysnc(Model));
 
-        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
-
-        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
+        if (!string.IsNullOrEmpty(response.AbsoluteUri))
+            NavigationHelper.NavigateTo(response.AbsoluteUri);
     }
-
-    /// <summary>
-    /// Handles the cancel editor event of this page.
-    /// </summary>
-    private void CancelFormHandler(MouseEventArgs args) =>
-        NavigationHelper.NavigateTo(IndexUriRelativePath);
 }

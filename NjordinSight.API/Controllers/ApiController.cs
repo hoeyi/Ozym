@@ -13,18 +13,17 @@ using NjordinSight.DataTransfer.Common.Query;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics.CodeAnalysis;
+using Ichosys.DataModel.Exceptions;
 
 namespace NjordinSight.Api.Controllers
 {
-
     /// <summary>
     /// Represents a RESTful API controller for <typeparamref name="TObject"/> classes 
     /// that are mapped to <typeparamref name="TEntity"/> classes.
     /// </summary>
     /// <typeparam name="TObject">The type representing a business object record.</typeparam>
     /// <typeparam name="TEntity">The type representing a data store record.</typeparam>
-    public class ApiController<TObject, TEntity> : 
-        ControllerBase, IApiController<TObject> 
+    public class ApiController<TObject, TEntity> : ControllerBase, IApiController<TObject>
         where TEntity : class, new()
     {
         private readonly IExpressionBuilder _expressionBuilder;
@@ -109,29 +108,11 @@ namespace NjordinSight.Api.Controllers
         }
 
         /// <inheritdoc/>
-        [Obsolete("Retained for backwards compatability. Use PostSearchAsync instead.")]
-        [ExcludeFromCodeCoverage]
         [HttpGet]
         public virtual async Task<ActionResult<IEnumerable<TObject>>> GetAsync(
-            [FromBody] ParameterDto<TObject> queryParameter, int pageNumber = 1, int pageSize = 20)
+            int pageNumber = 1, int pageSize = 20)
         {
-            Expression<Func<TEntity, bool>> entityPredicate;
-
-            // If query parameter is invalid use the default filter expression.
-            if (!(queryParameter?.IsValid ?? false))
-            {
-                entityPredicate = x => true;
-            }
-            else
-            {
-                var dtoPredicate = _expressionBuilder.GetExpression(queryParameter);
-
-                entityPredicate = _mapper
-                    .MapExpression<Expression<Func<TEntity, bool>>>(dtoPredicate);
-            }
-
-            var (items, pagination) = await _modelService
-                .SelectAsync(entityPredicate, pageNumber, pageSize);
+            var (items, pagination) = await _modelService.SelectAsync(x => true, pageNumber, pageSize);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
 
@@ -139,7 +120,6 @@ namespace NjordinSight.Api.Controllers
 
             return Ok(dtoItems);
         }
-
 
         /// <inheritdoc/>
         [HttpGet]
@@ -224,32 +204,57 @@ namespace NjordinSight.Api.Controllers
         [HttpPost]
         [Route("search")]
         public virtual async Task<ActionResult<IEnumerable<TObject>>> PostSearchAsync(
-            [FromBody] ParameterDto<TObject> queryParameter, int pageNumber = 1, int pageSize = 20)
+            [FromBody] ParameterDto<TObject> paramDto, int pageNumber = 1, int pageSize = 20)
         {
-            Expression<Func<TEntity, bool>> entityPredicate;
-
-            // If query parameter is invalid use the default filter expression.
-            if (!queryParameter.IsValid)
+            if (!paramDto.IsValid)
             {
                 return BadRequest(ResponseString.PostSearch_InvalidBodyParameter_BadRequestResponse);
             }
-            else
-            {
-                var dtoPredicate = _expressionBuilder.GetExpression(queryParameter);
 
-                entityPredicate = _mapper
-                    .MapExpression<Expression<Func<TEntity, bool>>>(dtoPredicate);
+            Expression<Func<TObject, bool>> dtoPredicate = x => false;
+            bool invalidParameter = false;
+
+            // TODO: Open a ticket to have the null reference bug in IExpressionBuilder.GetExpression
+            // resolved.
+            try
+            {
+                dtoPredicate = _expressionBuilder.GetExpression(paramDto);
             }
+            catch (NullReferenceException)
+            {
+                invalidParameter = true;
+            }
+            catch(ParseException)
+            {
+                invalidParameter = true;
+            }
+            
+            if(invalidParameter)
+            {
+                return BadRequest(ResponseString.PostSearch_InvalidBodyParameter_BadRequestResponse);
+            }
+
+            var entityPredicate = _mapper
+                .MapExpression<Expression<Func<TEntity, bool>>>(dtoPredicate);
 
             var (items, pagination) = await _modelService
                 .SelectAsync(entityPredicate, pageNumber, pageSize);
 
-            Response.Headers.Add("X-Pagination",
-                JsonSerializer.Serialize(pagination));
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
 
             var dtoItems = _mapper.Map<IEnumerable<TObject>>(items);
 
             return Ok(dtoItems);
+        }
+
+        /// <inheritdoc/>
+        [HttpGet]
+        [Route("all")]
+        public async Task<ActionResult<IEnumerable<TObject>>> GetAllAsync()
+        {
+            var items = await _modelService.SelectAsync();
+
+            return Ok(items);
         }
     }
 }

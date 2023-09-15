@@ -7,9 +7,17 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(AccountBaseAttributeDto_SR.Noun_Plural),
+        PluralArticle = nameof(AccountBaseAttributeDto_SR.Noun_Plural_Article),
+        Singular = nameof(AccountBaseAttributeDto_SR.Noun_Singular),
+        SingularArticle = nameof(AccountBaseAttributeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(AccountBaseAttributeDto_SR)
+        )]
     public class AccountBaseAttributeDto : DtoBase
     {
         private int _attributeMemberId;

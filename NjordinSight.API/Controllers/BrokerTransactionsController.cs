@@ -18,7 +18,7 @@ namespace NjordinSight.Api.Controllers
 {
     /// <inheritdoc/>
     [ApiController]
-    [Route("api/v{version:apiVersion}/broker-transactions")]
+    [Route("api/v{version:apiVersion}/accounts/{id}/broker-transactions")]
     [ApiVersion("1.0")]
     public class BrokerTransactionsController : ApiCollectionController<
         BrokerTransactionDto, BrokerTransaction, AccountDto, Account>
@@ -26,15 +26,17 @@ namespace NjordinSight.Api.Controllers
         /// <summary>
         /// Creates a new instance of <see cref="BrokerTransactionsController"/>.
         /// </summary>
+        /// <param name="expressionBuilder">The expression builder for this controller.</param>
         /// <param name="mapper">The mapping service for this controller.</param>
         /// <param name="modelService">The model service for this controller.</param>
         /// <param name="queryService">The query service for this controller.</param>
         /// <param name="logger">The logging service for this controller.</param>
         public BrokerTransactionsController(
+            IExpressionBuilder expressionBuilder,
             IMapper mapper,
-            IModelCollectionService<BrokerTransaction> modelService,
-            IQueryService queryService,
-            ILogger logger) : base(mapper, modelService, queryService, logger)
+            IModelCollectionService<BrokerTransaction> modelService, 
+            IQueryService queryService, 
+            ILogger logger) : base(expressionBuilder, mapper, modelService, queryService, logger)
         {
         }
 

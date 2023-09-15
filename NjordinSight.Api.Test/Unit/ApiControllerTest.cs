@@ -156,7 +156,6 @@ namespace NjordinSight.Api.Test.Unit
 
         /// <inheritdoc/>
         [TestMethod]
-        [Obsolete("Retained for backwards compatability. Use PostSearchAsync instead.")]
         public async Task Get_With_Valid_QueryParams_In_Body_Return_ActionResult()
         {
             // Arrange
@@ -166,7 +165,7 @@ namespace NjordinSight.Api.Test.Unit
             var apiController = InitTestController(mocks);
 
             // Act
-            var result = await apiController.GetAsync(queryParameter: new(), 1, 20);
+            var result = await apiController.GetAsync(pageNumber: 1, pageSize: 20);
 
             var okResult = result.Result as OkObjectResult;
 
@@ -209,7 +208,7 @@ namespace NjordinSight.Api.Test.Unit
             
             // Act
             var result = await apiController.PostSearchAsync(
-                queryParameter: parameter, pageNumber: It.IsAny<int>(), pageSize: It.IsAny<int>());
+                paramDto: parameter, pageNumber: It.IsAny<int>(), pageSize: It.IsAny<int>());
 
             var badRequest = result.Result as BadRequestObjectResult;
 
