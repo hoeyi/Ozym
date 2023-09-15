@@ -87,10 +87,7 @@ namespace NjordinSight.EntityModelService.Query
         Task<T> GetSingleAsync<T>(
             Expression<Func<T, bool>> predicate, Expression<Func<T, object>> path = null)
             where T : class, new();
-    }
-
-    public partial interface IQueryService
-    {
+        
         /// <summary>
         /// Creates a new instance implementing <see cref="IQueryBuilder{TSource}"/> where 
         /// <typeparamref name="TSource"/> is the target object.
@@ -106,72 +103,8 @@ namespace NjordinSight.EntityModelService.Query
         /// Gets the collection of built-in query methods.
         /// </summary>
         IBuiltInQuery BuiltIn { get; }
-
-        /// <summary>
-        /// Returns a key-value representation of a record. Only the 
-        /// fields matching the <paramref name="key"/> and <paramref name="display"/> parameters 
-        /// are included in the query.
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="predicate"></param>
-        /// <param name="key"></param>
-        /// <param name="display"></param>
-        /// <returns></returns>
-        IEnumerable<LookupModel<TKey, TValue>> SelectDTOsFromEnum<TEnum, TKey, TValue>(
-            Func<TEnum, bool> predicate,
-            Expression<Func<TEnum, TKey>> key,
-            Expression<Func<TEnum, TValue>> display,
-            Func<LookupModel<TKey, TValue>> placeHolderDelegate = null)
-            where TEnum : struct, Enum
-        {
-            var keyDeleg = key.Compile();
-            var displayDeleg = display.Compile();
-
-            var results = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()
-                .Where(predicate)
-                .Select(x => new LookupModel<TKey, TValue>()
-                {
-                    Key = keyDeleg(x),
-                    Display = displayDeleg(x)
-                })
-                .ToList();
-
-            if(placeHolderDelegate is not null)
-            {
-                var placeHolder = placeHolderDelegate.Invoke();
-                results.Insert(0, placeHolder);
-            }
-
-            return results;
-        }
-
-        /// <summary>
-        /// Executes a select query returning a key-value representation of <typeparamref name="TSource"/> 
-        /// records. Only the fields matching the <paramref name="key"/> and <paramref name="display"/> parameters 
-        /// are included in the query.
-        /// </summary>
-        /// <typeparamref name="TSource"/>
-        /// <typeparam name="TKey">The key type for the lookup record.</typeparam>
-        /// <typeparam name="TValue">Teh display type for the lookup record.</typeparam>
-        /// <param name="key">Expression indicating the attribute to use as the key.</param>
-        /// <param name="display">Expression indicating the attribute to use for display.</param>
-        /// <param name="defaultKey">Default key value to use for placeholder record.</param>
-        /// <param name="defaultDisplay">Default display value to use for the placeholder record.</param>
-        /// <returns>A task representing an asynchronous query and DTO-mapping. The task result is an
-        /// <see cref="IEnumerable{T}"/> containing key-value records represent a foregin key reference.</returns>
-        async Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TSource, TKey, TValue>(
-            Expression<Func<TSource, TKey>> key,
-            Expression<Func<TSource, TValue>> display,
-            TKey defaultKey = default,
-            TValue defaultDisplay = default)
-            where TSource : class, new()
-        {
-            using var queryBuilder = CreateQueryBuilder<TSource>();
-
-            return await queryBuilder.Build().SelectDTOsAsync(key, display, defaultKey, defaultDisplay);
-        }
     }
+
     static class QueryServiceExtension
     {
         /// <summary>

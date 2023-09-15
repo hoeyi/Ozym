@@ -88,95 +88,15 @@ namespace NjordinSight.EntityModelService.Query
         /// <inheritdoc/>
         public IQueryDataStore<TSource> Build() => this;
 
-        [Obsolete($"Superseded by '{nameof(SelectAsync)}'.")]
-        /// <inheritdoc/>
-        public async Task<IEnumerable<TSource>> SelectWhereAsync(
-            Expression<Func<TSource, bool>> predicate, int maxCount = 0)
-        {
-            if (maxCount < 0)
-                throw new InvalidOperationException(
-                    message: string.Format(
-                        Strings.QueryBuilder_Execute_InvalidCount, maxCount.ToString()));
-
-            IEnumerable<TSource> result;
-
-            if (maxCount == 0)
-                result = await Queryable.Where(predicate).ToListAsync();
-            else
-                result = await Queryable.Where(predicate).Take(maxCount).ToListAsync();
-
-            //QueryCompleted?.Invoke(this, EventArgs.Empty);
-
-            return result;
-        }
-
-        // TODO: Clean this method up. Should use pagination instead of max count parameter.
-        /// <inheritdoc/>
-        public async Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
-            Expression<Func<TSource, bool>> predicate, 
-            int maxCount, 
-            Expression<Func<TSource, TKey>> key, 
-            Expression<Func<TSource, TValue>> display,
-            TKey defaultKey = default,
-            TValue defaultDisplay = default
-            )
-        {
-            if (maxCount < 0)
-                throw new InvalidOperationException(
-                    message: string.Format(
-                        Strings.QueryBuilder_Execute_InvalidCount, maxCount.ToString()));
-
-            var keyDeleg = key.Compile();
-            var displayDeleg = display.Compile();
-
-            IQueryable<KeyValuePair<TKey, TValue>> query;
-            List<KeyValuePair<TKey, TValue>> resultList;
-
-            try
-            {
-                if(maxCount == 0)
-                {
-                    query = Queryable.Where(predicate)
-                        .Select(x => new KeyValuePair<TKey, TValue>(keyDeleg(x), displayDeleg(x)));
-                }
-                else
-                {
-                    query = Queryable.Where(predicate)
-                        .Select(x => new KeyValuePair<TKey, TValue>(keyDeleg(x), displayDeleg(x)))
-                        .Take(maxCount);
-                }
-
-                resultList = await query.ToListAsync();
-
-                resultList.Insert(0, new KeyValuePair<TKey, TValue>(defaultKey, defaultDisplay));
-            }
-            catch(Exception e)
-            {
-                Debug.Write(e);
-                throw;
-            }
-
-            return resultList;
-        }
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
-            Expression<Func<TSource, TKey>> key,
-            Expression<Func<TSource, TValue>> display,
-            TKey defaultKey = default, TValue
-            defaultDisplay = default) => await SelectDTOsAsync(
-                predicate: x => true,
-                maxCount: 0,
-                key: key,
-                display: display,
-                defaultKey: defaultKey,
-                defaultDisplay: defaultDisplay);
-
         /// <inheritdoc/>
         public async Task<(IEnumerable<TSource>, PaginationData)> SelectAsync(
-            Expression<Func<TSource, bool>> predicate, int pageNumber = 1, int pageSize = 20)
+            Expression<Func<TSource, bool>> predicate, 
+            int pageNumber = 1, 
+            int pageSize = 20)
         {
-            int limitPageSize = BusinessMath.Clamp(pageSize, 0, 1000);
+            // TODO: Determine a better way to limit results such that performance impacts 
+            //       are mitigated.
+            int limitPageSize = BusinessMath.Clamp(pageSize, 0, 10000);
 
             Queryable = Queryable.Where(predicate);
 
@@ -194,6 +114,43 @@ namespace NjordinSight.EntityModelService.Query
                 .ToListAsync();
 
             return (items, pageData);
+        }
+
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<KeyValuePair<TKey, TValue>>, PaginationData)> SelectDTOsAsync<TKey, TValue>(
+            Expression<Func<TSource, bool>> predicate, 
+            Expression<Func<TSource, TKey>> key, 
+            Expression<Func<TSource, TValue>> display, 
+            TKey defaultKey = default, 
+            TValue defaultDisplay = default, 
+            int pageNumber = 1, 
+            int pageSize = 20)
+        {
+            var (items, pageData) = await SelectAsync(predicate, pageNumber, pageSize);
+
+            var keyDeleg = key.Compile();
+            var displayDeleg = display.Compile();
+
+            return (items.ToDictionary(x => keyDeleg(x), x => displayDeleg(x)), pageData);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
+            Expression<Func<TSource, TKey>> key,
+            Expression<Func<TSource, TValue>> display,
+            TKey defaultKey = default,
+            TValue defaultDisplay = default) 
+        {
+            var (items, _) = await SelectDTOsAsync(
+                    predicate: x => true,
+                    key: key,
+                    display: display,
+                    defaultKey: defaultKey,
+                    defaultDisplay: defaultDisplay,
+                    pageNumber: 1,
+                    pageSize: int.MaxValue);
+
+            return items;
         }
     }
     #endregion

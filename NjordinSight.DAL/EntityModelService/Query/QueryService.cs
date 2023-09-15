@@ -50,6 +50,11 @@ namespace NjordinSight.EntityModelService.Query
             return results;
         }
 
+        /// <inheritdoc/> 
+        public IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
+            where TSource : class, new() =>
+            new QueryBuilder<TSource>(context: NewDbContext());
+
         /// <inheritdoc/>
         public async Task<T> GetSingleAsync<T>(
             Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null)
@@ -116,11 +121,7 @@ namespace NjordinSight.EntityModelService.Query
         }
     }
 
-    /// <summary>
-    /// Represents an implementation of <see cref="IQueryService"/>, providing features 
-    /// for querying varying data stores and conversion to DTOs.
-    /// </summary>
-    public partial class QueryService : IQueryService
+    public partial class QueryService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
         private readonly IModelMetadataService _metadataService;
@@ -152,10 +153,6 @@ namespace NjordinSight.EntityModelService.Query
             _mapper = mapper;
         }
 
-        /// <inheritdoc/> 
-        public IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
-        where TSource : class, new() =>
-            new QueryBuilder<TSource>(context: NewDbContext());
 
         /// <summary>
         /// Initializes a new instance of <see cref="FinanceDbContext"/> from the factory instance
@@ -171,6 +168,7 @@ namespace NjordinSight.EntityModelService.Query
         }
     }
 
+    #region IBuiltInQuery implementation
     public partial class QueryService : IBuiltInQuery
     {
         /// <inheritdoc/>
@@ -377,14 +375,18 @@ namespace NjordinSight.EntityModelService.Query
                 .WithDirectRelationship(x => x.SecurityType)
                 .WithDirectRelationship(x => x.SecurityTypeGroup);
 
-            return await queryBuilder.Build()
+            // Select items and discard pagination data. We do not need it for now.
+            var (items, _) = await queryBuilder.Build()
                 .SelectDTOsAsync(
                     predicate: entityPredicate,
-                    maxCount: 0,
                     key: x => x.AttributeMemberId,
                     display: x => x.DisplayName,
-                    defaultDisplay: UserInterface.StringTemplate.Caption_InputSelect_Placeholder)
-                .OrderByWithDefaultFirstAsync();
+                    defaultDisplay: UserInterface.StringTemplate.Caption_InputSelect_Placeholder,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize);
+
+            return items.OrderByDescending(x => x.Key == default)
+                    .ThenBy(x => x.Value);
         }
 
         /// <inheritdoc/>
@@ -512,4 +514,5 @@ namespace NjordinSight.EntityModelService.Query
                 return (items, pageData);
         }
     }
+    #endregion
 }
