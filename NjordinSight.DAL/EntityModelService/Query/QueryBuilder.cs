@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using NjordinSight.BusinessLogic.Functions;
@@ -21,7 +22,7 @@ namespace NjordinSight.EntityModelService.Query
     /// <remarks>
     /// Reltionship inclusions must be expressed in terms of <typeparamref name="TSource"/>.
     /// </remarks>
-    internal partial class QueryBuilder<TSource> : IQueryBuilder<TSource>
+    internal partial class QueryBuilder<TSource> : IQueryBuilder<TSource>, IDisposable
         where TSource : class, new()
     {
         private readonly FinanceDbContext _context;
@@ -33,8 +34,6 @@ namespace NjordinSight.EntityModelService.Query
 
             _context = context;
             Queryable = _context.Set<TSource>();
-
-            QueryCompleted += QueryBuilder_QueryCompleted;
         }
 
         ~QueryBuilder() => Dispose();
@@ -52,11 +51,6 @@ namespace NjordinSight.EntityModelService.Query
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        /// Gets or sets the <see cref="IQueryable{T}"/> instance sensitive to requests to 
-        /// include direct and indirect relationships.
-        /// </summary>
-        private IQueryable<TSource> Queryable { get; set; }
 
         /// <inheritdoc/>
         public IQueryBuilder<TSource> WithDirectRelationship<TProperty>(
@@ -81,107 +75,28 @@ namespace NjordinSight.EntityModelService.Query
             return this;
         }
 
-        private event EventHandler QueryCompleted;
-
-        private void QueryBuilder_QueryCompleted(object sender, EventArgs e) => _ = e;
+        /// <summary>
+        /// Gets or sets the <see cref="IQueryable{T}"/> instance representing the constructed 
+        /// query.
+        /// </summary>
+        private IQueryable<TSource> Queryable { get; set; }
     }
 
+    #region IQueryDataStore<TSource> implementation
     internal partial class QueryBuilder<TSource> : IQueryDataStore<TSource>
     {
         /// <inheritdoc/>
         public IQueryDataStore<TSource> Build() => this;
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<TSource>> SelectWhereAsync(
-            Expression<Func<TSource, bool>> predicate, int maxCount = 0)
-        {
-            if (maxCount < 0)
-                throw new InvalidOperationException(
-                    message: string.Format(
-                        Strings.QueryBuilder_Execute_InvalidCount, maxCount.ToString()));
-
-            IEnumerable<TSource> result;
-
-            if (maxCount == 0)
-                result = await Queryable.Where(predicate).ToListAsync();
-            else
-                result = await Queryable.Where(predicate).Take(maxCount).ToListAsync();
-
-            //QueryCompleted?.Invoke(this, EventArgs.Empty);
-
-            return result;
-        }
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
-            Expression<Func<TSource, bool>> predicate, 
-            int maxCount, 
-            Expression<Func<TSource, TKey>> key, 
-            Expression<Func<TSource, TValue>> display,
-            TKey defaultKey = default,
-            TValue defaultDisplay = default
-            )
-        {
-            if (maxCount < 0)
-                throw new InvalidOperationException(
-                    message: string.Format(
-                        Strings.QueryBuilder_Execute_InvalidCount, maxCount.ToString()));
-
-            var keyDeleg = key.Compile();
-            var displayDeleg = display.Compile();
-
-            IQueryable<KeyValuePair<TKey, TValue>> query;
-            List<KeyValuePair<TKey, TValue>> resultList;
-
-            try
-            {
-                if(maxCount == 0)
-                {
-                    query = Queryable.Where(predicate)
-                        .Select(x => new KeyValuePair<TKey, TValue>(keyDeleg(x), displayDeleg(x)));
-                }
-                else
-                {
-                    query = Queryable.Where(predicate)
-                        .Select(x => new KeyValuePair<TKey, TValue>(keyDeleg(x), displayDeleg(x)))
-                        .Take(maxCount);
-                }
-
-                resultList = await query.ToListAsync();
-
-                resultList.Insert(0, new KeyValuePair<TKey, TValue>(defaultKey, defaultDisplay));
-            }
-            catch(Exception e)
-            {
-                Debug.Write(e);
-                throw;
-            }
-            finally
-            {
-                QueryCompleted?.Invoke(this, EventArgs.Empty);
-            }
-
-            return resultList;
-        }
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
-            Expression<Func<TSource, TKey>> key,
-            Expression<Func<TSource, TValue>> display,
-            TKey defaultKey = default, TValue
-            defaultDisplay = default) => await SelectDTOsAsync(
-                predicate: x => true,
-                maxCount: 0,
-                key: key,
-                display: display,
-                defaultKey: defaultKey,
-                defaultDisplay: defaultDisplay);
-
-        /// <inheritdoc/>
         public async Task<(IEnumerable<TSource>, PaginationData)> SelectAsync(
-            Expression<Func<TSource, bool>> predicate, int pageNumber = 1, int pageSize = 20)
+            Expression<Func<TSource, bool>> predicate, 
+            int pageNumber = 1, 
+            int pageSize = 20)
         {
-            int limitPageSize = BusinessMath.Clamp(pageSize, 0, 100);
+            // TODO: Determine a better way to limit results such that performance impacts 
+            //       are mitigated.
+            int limitPageSize = BusinessMath.Clamp(pageSize, 0, 10000);
 
             Queryable = Queryable.Where(predicate);
 
@@ -200,5 +115,43 @@ namespace NjordinSight.EntityModelService.Query
 
             return (items, pageData);
         }
+
+        /// <inheritdoc/>
+        public async Task<(IEnumerable<KeyValuePair<TKey, TValue>>, PaginationData)> SelectDTOsAsync<TKey, TValue>(
+            Expression<Func<TSource, bool>> predicate, 
+            Expression<Func<TSource, TKey>> key, 
+            Expression<Func<TSource, TValue>> display, 
+            TKey defaultKey = default, 
+            TValue defaultDisplay = default, 
+            int pageNumber = 1, 
+            int pageSize = 20)
+        {
+            var (items, pageData) = await SelectAsync(predicate, pageNumber, pageSize);
+
+            var keyDeleg = key.Compile();
+            var displayDeleg = display.Compile();
+
+            return (items.ToDictionary(x => keyDeleg(x), x => displayDeleg(x)), pageData);
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<KeyValuePair<TKey, TValue>>> SelectDTOsAsync<TKey, TValue>(
+            Expression<Func<TSource, TKey>> key,
+            Expression<Func<TSource, TValue>> display,
+            TKey defaultKey = default,
+            TValue defaultDisplay = default) 
+        {
+            var (items, _) = await SelectDTOsAsync(
+                    predicate: x => true,
+                    key: key,
+                    display: display,
+                    defaultKey: defaultKey,
+                    defaultDisplay: defaultDisplay,
+                    pageNumber: 1,
+                    pageSize: int.MaxValue);
+
+            return items;
+        }
     }
+    #endregion
 }

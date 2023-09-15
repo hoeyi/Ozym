@@ -31,6 +31,15 @@ namespace NjordinSight.DataTransfer.Profiles
                 .ForMember(a => a.DisplayName, b => b.MapFrom(x => x.ObjectDisplayName))
                 .ForMember(a => a.Description, b => b.MapFrom(x => x.ObjectDescription));
 
+            CreateMap<Account, AccountSimpleDto>()
+                .ForMember(a => a.Id, b => b.MapFrom(x => x.AccountNavigation.AccountObjectId))
+                .ForMember(a => a.ShortCode, b => b.MapFrom(x => x.AccountNavigation.AccountObjectCode))
+                .ForMember(a => a.StartDate, b => b.MapFrom(x => x.AccountNavigation.StartDate))
+                .ForMember(a => a.CloseDate, b => b.MapFrom(x => x.AccountNavigation.CloseDate))
+                .ForMember(a => a.Description, b => b.MapFrom(x => x.AccountNavigation.ObjectDescription))
+                .ForMember(a => a.DisplayName, b => b.MapFrom(x => x.AccountNavigation.ObjectDisplayName))
+                .ForMember(a => a.ObjectType, b => b.MapFrom(x => x.AccountNavigation.ObjectType));
+
             CreateMap<Account, AccountDto>()
                 .ForMember(
                     a => a.Attributes,

@@ -39,7 +39,7 @@ namespace NjordinSight.Web.Components.Generic
             if (QueryService is null)
                 throw new ArgumentNullException(paramName: nameof(QueryService));
 
-            AllowableModelAttributes = await QueryService
+            AllowableModelAttributes = await QueryService.BuiltIn
                                                 .GetSupportedAttributesAsync<TViewModelParent>();
 
             IsLoading = AllowableModelAttributes is null || !AllowableModelAttributes.Any();

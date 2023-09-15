@@ -105,7 +105,7 @@ else
 
 @code {
     [Parameter, EditorRequired]
-    public IEnumerable<AccountDto> Accounts { get; set; } = default!;
+    public IEnumerable<AccountSimpleDto> Accounts { get; set; } = default!;
 
     private void AddMember() => 
         ModelDto.AccountMembers.Add(new() { AccountCompositeId = ModelDto.Id });

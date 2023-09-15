@@ -137,7 +137,7 @@
     public int ModelId { get; init; }
 
     [Inject]
-    protected IReferenceDataService ReferenceData { get; init; }
+    protected IQueryService QueryService { get; init; }
 
     private IEnumerable<SecurityExchangeDto> Exchanges { get; set; }
 
@@ -154,12 +154,9 @@
         try
         {
             var exchangesQuery = HttpService.GetAllAsync<SecurityExchangeDto>();
-            var securityTypesQuery = HttpService.GetAllAsync<SecurityTypeDto>();
-
-            var issuersQuery = ReferenceData.GetIssuersAsync(
-                pattern: string.Empty, pageNumber: 1, pageSize: int.MaxValue);
-
-            var symbolTypesQuery = ReferenceData.GetSecuritySymbolTypesAsync();
+            var issuersQuery = QueryService.BuiltIn.GetIssuersAsync(pageSize: int.MaxValue);
+            var securityTypesQuery = QueryService.BuiltIn.GetSecurityTypeDTOsAsync(pageSize: int.MaxValue);
+            var symbolTypesQuery = QueryService.BuiltIn.GetSecuritySymbolTypesAsync(pageSize: int.MaxValue);
 
             var securityQuery = HttpService.GetAsync(ModelId);
 
@@ -168,7 +165,7 @@
 
             Model = await securityQuery;
             Exchanges = await exchangesQuery;
-            SecurityTypes = await securityTypesQuery;
+            SecurityTypes = (await securityTypesQuery).Item1;
             SymbolTypes = (await symbolTypesQuery).Item1;
             Issuers = (await issuersQuery).Item1;
         }

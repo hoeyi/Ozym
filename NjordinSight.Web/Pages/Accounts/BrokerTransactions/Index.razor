@@ -127,7 +127,7 @@
     protected new IHttpCollectionService<BrokerTransactionDto, int> HttpService {get; init; }
 
     [Inject]
-    protected IReferenceDataService ReferenceData { get; init; }
+    protected IQueryService QueryService { get; init; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -173,9 +173,11 @@
             var recordsTask = HttpService
                 .SearchAsync<AccountDto>(parent: ModelId, parameter, pageNumber, pageSize);
 
-            var securityDTOsTask = ReferenceData.GetTransactableSecurities();
+            var securityDTOsTask = QueryService.BuiltIn
+                .GetTransactableSecurityDTOsAsync(pageSize: int.MaxValue);
 
-            var depositySecurityDTOsTask = ReferenceData.GetDepositSecuritiesAsync();
+            var depositySecurityDTOsTask = QueryService.BuiltIn
+                .GetCashOrExternalSecurityDTOsAsync(pageSize: int.MaxValue);
             var transactionCodeDTOsTask = HttpService.GetAllAsync<BrokerTransactionCodeDtoBase>();
 
             await InitializationTasksAsync(

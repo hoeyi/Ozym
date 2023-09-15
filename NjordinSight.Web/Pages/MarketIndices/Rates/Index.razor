@@ -74,7 +74,7 @@
 
 @code {
     [Inject]
-    protected IReferenceDataService ReferenceData { get; init; }
+    protected IQueryService QueryService { get; init; }
 
     private IDictionary<string, string> PriceCodeLookup { get; set; }
 
@@ -108,7 +108,7 @@
         var marketIndexResult = await marketIndexDtosTask;
 
         MarketIndices = marketIndexResult;
-        PriceCodeLookup = ReferenceData.GetMarketIndexPriceCodeDisplayMap(
+        PriceCodeLookup = QueryService.BuiltIn.GetMarketIndexPriceCodeDisplayMap(
             placeHolderDelegate: () => 
                 new KeyValuePair<string, string>(string.Empty, Strings.Caption_InputSelect_Prompt));
     }

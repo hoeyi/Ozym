@@ -101,7 +101,7 @@
     public int ModelId { get; init; }
 
     [Inject]
-    protected IReferenceDataService ReferenceData { get; init; }
+    protected IQueryService QueryService { get; init; }
 
     [Inject]
     protected new IHttpCollectionService<AccountWalletDto, int> HttpService { get; init; }
@@ -127,8 +127,8 @@
                 pageNumber: PaginationHelper.PageIndex, 
                 pageSize: PaginationHelper.PageSize);
 
-            var denominationDtosTask = ReferenceData
-                .GetCryptoCurrencySecuritiesAsync(pageNumber: 1, pageSize: int.MaxValue);
+            var denominationDtosTask = QueryService.BuiltIn
+                .GetCryptocurrencyDTOsAsync(pageSize: int.MaxValue);
 
             await InitializationTasksAsync(walletsTask, denominationDtosTask);
 
@@ -163,8 +163,8 @@
                 return;
         }
 
-        var denominationDtosTask = ReferenceData
-                .GetCryptoCurrencySecuritiesAsync(pageNumber: 1, pageSize: int.MaxValue);
+        var denominationDtosTask = QueryService.BuiltIn
+                .GetCryptocurrencyDTOsAsync(pageSize: int.MaxValue);
 
         var walletsTask = HttpService.SearchAsync<AccountDto>(
             parent: ModelId,

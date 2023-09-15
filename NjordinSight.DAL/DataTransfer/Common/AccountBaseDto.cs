@@ -141,6 +141,7 @@ namespace NjordinSight.DataTransfer.Common
 
         public virtual string ObjectType { get; } = string.Empty;
     }
+
     public class AccountBaseDto : AccountBaseSimpleDto
     {
         private ICollection<AccountBaseAttributeDto> _attributes;

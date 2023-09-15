@@ -16,33 +16,59 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Reflection;
 using Ichosys.DataModel;
+using AutoMapper.Extensions.ExpressionMapping;
+using NjordinSight.EntityModel.Annotations;
 
 namespace NjordinSight.EntityModelService.Query
 {
     public partial class QueryService : IQueryService
     {
-        public async Task<(IEnumerable<string>, PaginationData)> GetIssuersAsync(
-            string pattern, int pageNumber = 1, int pageSize = 20)
+        /// <inheritdoc/>
+        public IBuiltInQuery BuiltIn => this;
+
+        /// <inheritdoc/>
+        public IDictionary<TKey, TValue> CreateEnumerableDisplayMap<TEnum, TKey, TValue>(
+            Func<TEnum, bool> predicate,
+            Expression<Func<TEnum, TKey>> key,
+            Expression<Func<TEnum, TValue>> display,
+            Func<KeyValuePair<TKey, TValue>> placeHolderDelegate = null)
+            where TEnum : struct, Enum
         {
-            using var context = NewDbContext();
+            var keyDeleg = key.Compile();
+            var displayDeleg = display.Compile();
 
-            var issuerQueryable = context.Set<Security>()
-                .Where(x => x.Issuer != null && x.Issuer != string.Empty)
-                .OrderBy(x => x.Issuer)
-                .Select(x => x.Issuer)
-                .Skip(pageSize * (pageNumber - 1))
-                .Take(pageSize);
+            var results = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()
+                .Where(predicate)
+                .ToDictionary(x => keyDeleg(x), x => displayDeleg(x));
 
-            PaginationData pageData = new()
+            if (placeHolderDelegate is not null)
             {
-                ItemCount = await issuerQueryable.CountAsync(),
-                PageIndex = pageNumber,
-                PageSize = pageSize
-            };
+                var placeHolder = placeHolderDelegate.Invoke();
+                results.Add(placeHolder.Key, placeHolder.Value);
+            }
 
-            var result = await issuerQueryable.ToListAsync();
+            return results;
+        }
 
-            return (result, pageData);
+        /// <inheritdoc/> 
+        public IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
+            where TSource : class, new() =>
+            new QueryBuilder<TSource>(context: NewDbContext());
+
+        /// <inheritdoc/>
+        public async Task<T> GetSingleAsync<T>(
+            Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null)
+            where T : class, new()
+        {
+            using var context = _contextFactory.CreateDbContext();
+
+            if (include is null)
+                return await context.Set<T>()
+                                .SingleAsync(predicate);
+            else
+                return await context.Set<T>()
+                                .Include(include)
+                                .SingleAsync(predicate);
         }
 
         /// <inheritdoc/>
@@ -93,76 +119,9 @@ namespace NjordinSight.EntityModelService.Query
             return await GetRecordSetAsync<T, object>(
                 predicate, pageNumber, pageSize, null, SortOrder.Unspecified);
         }
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<ModelAttributeDto>> GetSupportedAttributesAsync<T>() 
-            where T : IAttributeEntryViewModel
-        {
-            int[] exclusions = new int[2]
-            {
-                (int)ModelAttributeEnum.SecurityType,
-                (int)ModelAttributeEnum.SecurityTypeGroup
-            };
-
-            var scopeCodes = IQueryService.GetSupportedAttributeScopeCodes<T>();
-
-            using var queryBuilder = CreateQueryBuilder<ModelAttribute>()
-                .WithDirectRelationship(x => x.ModelAttributeScopes)
-                .WithDirectRelationship(x => x.ModelAttributeMembers);
-
-            var query = queryBuilder.Build().SelectWhereAsync(
-                predicate: x => !exclusions.Contains(x.AttributeId) &&
-                    x.ModelAttributeScopes.Any(y => scopeCodes.Contains(y.ScopeCode)),
-                maxCount: 0);
-
-            var entities = await query;
-
-            return _mapper.Map<IEnumerable<ModelAttributeDto>>(entities);
-        }
-
-        /// <inheritdoc/>
-        public IDictionary<string, string> GetMarketIndexPriceCodeDisplayMap(
-            Func<KeyValuePair<string, string>> placeHolderDelegate = null)
-        {
-            var result = CreateEnumerableDisplayMap<MarketIndexPriceCode, string, string>(
-                predicate: x => true,
-                key: x => x.ConvertToStringCode(),
-                display: x => _metadataService.NameFor<MarketIndexPriceCode>(x => x),
-                placeHolderDelegate: placeHolderDelegate);
-
-            return result;
-        }
-
-        /// <inheritdoc/>
-        public IDictionary<TKey, TValue> CreateEnumerableDisplayMap<TEnum, TKey, TValue>(
-            Func<TEnum, bool> predicate,
-            Expression<Func<TEnum, TKey>> key,
-            Expression<Func<TEnum, TValue>> display,
-            Func<KeyValuePair<TKey, TValue>> placeHolderDelegate = null)
-            where TEnum : struct, Enum
-        {
-            var keyDeleg = key.Compile();
-            var displayDeleg = display.Compile();
-
-            var results = Enum.GetValues(typeof(TEnum)).Cast<TEnum>()
-                .Where(predicate)
-                .ToDictionary(x => keyDeleg(x), x => displayDeleg(x));
-
-            if (placeHolderDelegate is not null)
-            {
-                var placeHolder = placeHolderDelegate.Invoke();
-                results.Add(placeHolder.Key, placeHolder.Value);
-            }
-
-            return results;
-        }
     }
 
-    /// <summary>
-    /// Represents an implementation of <see cref="IQueryService"/>, providing features 
-    /// for querying varying data stores and conversion to DTOs.
-    /// </summary>
-    public partial class QueryService : IQueryService
+    public partial class QueryService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
         private readonly IModelMetadataService _metadataService;
@@ -194,40 +153,7 @@ namespace NjordinSight.EntityModelService.Query
             _mapper = mapper;
         }
 
-        /// <inheritdoc/> 
-        public IQueryBuilder<TSource> CreateQueryBuilder<TSource>()
-        where TSource : class, new() =>
-            new QueryBuilder<TSource>(context: NewDbContext());
 
-        /// <inheritdoc/>
-        public async Task<IEnumerable<T>> GetManyAsync<T>(
-            Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null)
-            where T : class, new()
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            if (include is null)
-                return await context.Set<T>().Where(predicate).ToListAsync();
-            else
-                return await context.Set<T>().Where(predicate).Include(include).ToListAsync();
-        }
-
-        /// <inheritdoc/>
-        public async Task<T> GetSingleAsync<T>(
-            Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null)
-            where T : class, new()
-        {
-            using var context = _contextFactory.CreateDbContext();
-
-            if (include is null)
-                return await context.Set<T>()
-                                .SingleAsync(predicate);
-            else
-                return await context.Set<T>()
-                                .Include(include)
-                                .SingleAsync(predicate);
-        }
-        
         /// <summary>
         /// Initializes a new instance of <see cref="FinanceDbContext"/> from the factory instance
         /// assigned to <see cref="_contextFactory"/>.
@@ -242,37 +168,351 @@ namespace NjordinSight.EntityModelService.Query
         }
     }
 
-    /// <summary>
-    /// Extension method class for collections of <see cref="LookupModel{TKey, TDisplay}"/>.
-    /// </summary>
-    public static partial class ReferenceDataServiceHelper
+    #region IBuiltInQuery implementation
+    public partial class QueryService : IBuiltInQuery
     {
-        /// <summary>
-        /// Gets the display <typeparamref name="TValue"/> value for the first DTO in the 
-        /// collection matching the given <typeparamref name="TKey"/> key.
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="dtos"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
-#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-        public static TValue? GetDisplayName<TKey, TValue>(
-#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-            this IEnumerable<LookupModel<TKey, TValue>> dtos,
-            TKey key)
+        /// <inheritdoc/>
+        async Task<(IEnumerable<AccountCustodianDto>, PaginationData)> IBuiltInQuery
+            .GetAccountCustodianDTOsAsync(
+                Expression<Func<AccountCustodianDto, bool>> predicate, 
+                int pageNumber, 
+                int pageSize)
         {
-            if (dtos is null || key is null)
-                return default;
+            var entityPredicate = predicate is null ? x => true : 
+                _mapper.MapExpression<Expression<Func<AccountCustodian, bool>>>(predicate);
 
-            // Match the first or default result. Use of object.Equals could be problematic, 
-            // but need more information. May be fine since TKey will almost always be an integer.
-            var firstMatchDTO = dtos?.FirstOrDefault(x => x.Key.Equals(key));
+            using var queryBuilder = CreateQueryBuilder<AccountCustodian>();
 
-            if (firstMatchDTO is null)
-                return default;
+            var (entities, pageData) = await queryBuilder.Build()
+                .SelectAsync(entityPredicate, pageNumber, pageSize);
+
+            var items = _mapper.Map<IEnumerable<AccountCustodianDto>>(entities)
+                .OrderBy(x => x.DisplayName);
+
+            return (items, pageData);
+        }
+
+        /// <inheritdoc/>
+        async Task<(IEnumerable<AccountSimpleDto>, PaginationData)> IBuiltInQuery
+            .GetAccountDTOsAsync(
+                Expression<Func<AccountSimpleDto, bool>> predicate, 
+                int pageNumber, 
+                int pageSize)
+        {
+            var entityPredicate = predicate is null ? x => true :
+                _mapper.MapExpression<Expression<Func<Account, bool>>>(predicate);
+
+            using var queryBuilder = CreateQueryBuilder<Account>()
+                .WithDirectRelationship(x => x.AccountNavigation);
+
+            var (entities, pageData) = await queryBuilder.Build()
+                .SelectAsync(entityPredicate, pageNumber, pageSize);
+
+            var items = _mapper.Map<IEnumerable<AccountSimpleDto>>(entities)
+                .OrderBy(x => x.ShortCode);
+
+            return (items, pageData);
+        }
+
+        /// <inheritdoc/>
+        async Task<(IEnumerable<BankTransactionCodeDtoBase>, PaginationData)> IBuiltInQuery
+            .GetBankTransactionCodeDTOsAsync(
+                Expression<Func<BankTransactionCodeDtoBase, bool>> predicate, 
+                int pageNumber, 
+                int pageSize)
+        {
+            var entityPredicate = predicate is null ? x => true :
+                _mapper.MapExpression<Expression<Func<BankTransactionCode, bool>>>(predicate);
+
+            using var queryBuilder = CreateQueryBuilder<BankTransactionCode>();
+
+            var (entities, pageData) = await queryBuilder.Build()
+                .SelectAsync(entityPredicate, pageNumber, pageSize);
+
+            var items = _mapper.Map<IEnumerable<BankTransactionCodeDtoBase>>(entities)
+                .OrderBy(x => x.TransactionCode);
+
+            return (items, pageData);
+        }
+
+        /// <inheritdoc/>
+        async Task<(IEnumerable<BrokerTransactionCodeDtoBase>, PaginationData)> IBuiltInQuery
+            .GetBrokerTransactionCodeDTOsAsync(
+                Expression<Func<BrokerTransactionCodeDtoBase, bool>> predicate, 
+                int pageNumber, 
+                int pageSize)
+        {
+            var entityPredicate = predicate is null ? x => true :
+                _mapper.MapExpression<Expression<Func<BrokerTransactionCode, bool>>>(predicate);
+
+            using var queryBuilder = CreateQueryBuilder<BrokerTransactionCode>();
+
+            var (entities, pageData) = await queryBuilder.Build()
+                .SelectAsync(entityPredicate, pageNumber, pageSize);
+
+            var items = _mapper.Map<IEnumerable<BrokerTransactionCodeDtoBase>>(entities)
+                .OrderBy(x => x.TransactionCode);
+
+            return (items, pageData);
+        }
+
+        /// <inheritdoc/>
+        async Task<(IEnumerable<SecurityDtoBase>, PaginationData)> IBuiltInQuery
+            .GetCashOrExternalSecurityDTOsAsync(int pageNumber, int pageSize)
+        {
+            using var queryBuilder = CreateQueryBuilder<Security>()
+                .WithDirectRelationship(x => x.SecuritySymbols)
+                .WithDirectRelationship(x => x.SecurityType)
+                .WithIndirectRelationship<SecurityType, SecurityTypeGroup>(x => x.SecurityTypeGroup);
+
+            var (entities, pageData) = await queryBuilder.Build()
+                    .SelectAsync(x => true, pageNumber, pageSize);
+
+            var items = _mapper.Map<IEnumerable<SecurityDtoBase>>(entities)
+                .OrderBy(x => x.CurrentSymbol);
+
+            return (items, pageData);
+        }
+
+        /// <inheritdoc/>
+        async Task<(IEnumerable<SecurityDtoBase>, PaginationData)> IBuiltInQuery
+            .GetCryptocurrencyDTOsAsync(int pageNumber, int pageSize)
+        {
+            using var queryBuilder = CreateQueryBuilder<Security>()
+                .WithDirectRelationship(x => x.SecuritySymbols)
+                .WithDirectRelationship(x => x.SecurityType);
+
+            var (entities, pageData) = await queryBuilder.Build()
+                    .SelectAsync(x => true, pageNumber, pageSize);
+
+            var items = _mapper.Map<IEnumerable<SecurityDtoBase>>(entities)
+                .OrderBy(x => x.CurrentSymbol);
+
+            return (items, pageData);
+        }
+
+        /// <inheritdoc/>
+        async Task<(IEnumerable<string>, PaginationData)> IBuiltInQuery
+            .GetIssuersAsync(string pattern, int pageNumber, int pageSize)
+        {
+            using var context = NewDbContext();
+
+            IQueryable<string> issuerQueryable;
+
+            if (string.IsNullOrEmpty(pattern))
+                issuerQueryable = context.Set<Security>()
+                    .Where(x => x.Issuer.Contains(pattern))
+                    .Select(x => x.Issuer);
             else
-                return firstMatchDTO.Display;
+                issuerQueryable = context.Set<Security>()
+                    .Select(x => x.Issuer);
+
+
+            issuerQueryable = issuerQueryable
+                .OrderBy(x => x)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize);
+
+            var (records, count) = (
+                await issuerQueryable.ToListAsync(),
+                await issuerQueryable.CountAsync());
+
+            PaginationData pageData = new()
+            {
+                ItemCount = count,
+                PageIndex = pageNumber,
+                PageSize = pageSize
+            };
+
+            return (records, pageData);
+        }
+
+        /// <inheritdoc/>
+        async Task<IEnumerable<KeyValuePair<int, string>>> IBuiltInQuery
+            .GetMarketIndexDTOsAsync(
+                Expression<Func<MarketIndexDto, bool>> predicate, 
+                int pageNumber, 
+                int pageSize)
+        {
+            var entityPredicate = predicate is null ? x => true :
+                _mapper.MapExpression<Expression<Func<MarketIndex, bool>>>(predicate);
+
+            using var queryBuilder = CreateQueryBuilder<MarketIndex>();
+
+            return await queryBuilder.Build()
+                .SelectDTOsAsync(
+                    key: x => x.IndexId,
+                    display: x => x.IndexCode,
+                    defaultDisplay: UserInterface.StringTemplate.Caption_InputSelect_Placeholder)
+                .OrderByWithDefaultFirstAsync();
+        }
+
+        /// <inheritdoc/>
+        IDictionary<string, string> IBuiltInQuery.GetMarketIndexPriceCodeDisplayMap(
+            Func<KeyValuePair<string, string>> placeHolderDelegate)
+        {
+            var result = CreateEnumerableDisplayMap<MarketIndexPriceCode, string, string>(
+                predicate: x => true,
+                key: x => x.ConvertToStringCode(),
+                display: x => _metadataService.NameFor<MarketIndexPriceCode>(x => x),
+                placeHolderDelegate: placeHolderDelegate);
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        async Task<IEnumerable<KeyValuePair<int, string>>> IBuiltInQuery
+            .GetModelAttributeMemberDTOsAsync(
+                Expression<Func<ModelAttributeMemberDtoBase, bool>> predicate, 
+                int pageNumber, 
+                int pageSize)
+        {
+            var entityPredicate = predicate is null ? x => true :
+                _mapper.MapExpression<Expression<Func<ModelAttributeMember, bool>>>(predicate);
+
+            using var queryBuilder = CreateQueryBuilder<ModelAttributeMember>()
+                .WithDirectRelationship(x => x.Country)
+                .WithDirectRelationship(x => x.SecurityType)
+                .WithDirectRelationship(x => x.SecurityTypeGroup);
+
+            // Select items and discard pagination data. We do not need it for now.
+            var (items, _) = await queryBuilder.Build()
+                .SelectDTOsAsync(
+                    predicate: entityPredicate,
+                    key: x => x.AttributeMemberId,
+                    display: x => x.DisplayName,
+                    defaultDisplay: UserInterface.StringTemplate.Caption_InputSelect_Placeholder,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize);
+
+            return items.OrderByDescending(x => x.Key == default)
+                    .ThenBy(x => x.Value);
+        }
+
+        /// <inheritdoc/>
+        async Task<IEnumerable<KeyValuePair<int, string>>> IBuiltInQuery.GetSecurityDTOsAsync(
+            Expression<Func<SecurityDtoBase, bool>> predicate, 
+            int pageNumber, 
+            int pageSize)
+        {
+            var entityPredicate = predicate is null ? x => true :
+                _mapper.MapExpression<Expression<Func<Security, bool>>>(predicate);
+
+            using var queryBuilder = CreateQueryBuilder<Security>();
+
+            return await queryBuilder.Build()
+                .SelectDTOsAsync(
+                    key: x => x.SecurityId,
+                    display: x => $"[{x.SecuritySymbol}] {x.SecurityDescription}",
+                    defaultDisplay: UserInterface.StringTemplate.Caption_InputSelect_Placeholder)
+                .OrderByWithDefaultFirstAsync();
+        }
+
+        /// <inheritdoc/>
+        async Task<(IEnumerable<SecuritySymbolTypeDto>, PaginationData)> IBuiltInQuery
+            .GetSecuritySymbolTypesAsync(
+            int pageNumber, 
+            int pageSize)
+        {
+            using var queryBuilder = CreateQueryBuilder<SecuritySymbolType>();
+
+            var (entities, pageData) = await queryBuilder.Build()
+                .SelectAsync(x => true, pageNumber, pageSize);
+
+            var items = _mapper.Map<IEnumerable<SecuritySymbolTypeDto>>(entities)
+                .OrderBy(x => x.SymbolTypeName);
+
+            return (items, pageData);
+        }
+
+        /// <inheritdoc/>
+        async Task<(IEnumerable<SecurityTypeDto>, PaginationData)> IBuiltInQuery
+            .GetSecurityTypeDTOsAsync(
+                Expression<Func<SecurityTypeDto, bool>> predicate, 
+                int pageNumber, 
+                int pageSize)
+        {
+            var entityPredicate = predicate is null ? x => true :
+                _mapper.MapExpression<Expression<Func<SecurityType, bool>>>(predicate);
+
+            using var queryBuilder = CreateQueryBuilder<SecurityType>();
+
+            var (entities, pageData) = await queryBuilder.Build()
+                .SelectAsync(entityPredicate, pageNumber, pageSize);
+
+            var items = _mapper.Map<IEnumerable<SecurityTypeDto>>(entities)
+                .OrderBy(x => x.SecurityTypeName);
+
+            return (items, pageData);
+        }
+
+        /// <inheritdoc/>
+        async Task<(IEnumerable<SecurityTypeGroupDto>, PaginationData)> IBuiltInQuery
+            .GetSecurityTypeGroupDTOsAsync(
+                Expression<Func<SecurityTypeGroupDto, bool>> predicate, 
+                int pageNumber, 
+                int pageSize)
+        {
+            var entityPredicate = predicate is null ? x => true :
+                _mapper.MapExpression<Expression<Func<SecurityTypeGroup, bool>>>(predicate);
+
+            using var queryBuilder = CreateQueryBuilder<SecurityTypeGroup>();
+
+            var (entities, pageData) = await queryBuilder.Build()
+                .SelectAsync(entityPredicate, pageNumber, pageSize);
+
+            var items = _mapper.Map<IEnumerable<SecurityTypeGroupDto>>(entities)
+                .OrderBy(x => x.SecurityTypeGroupName);
+
+            return (items, pageData);
+        }
+
+        /// <inheritdoc/>
+        async Task<IEnumerable<ModelAttributeDto>> IBuiltInQuery.GetSupportedAttributesAsync<T>()
+        {
+            int[] exclusions = new int[2]
+            {
+                (int)ModelAttributeEnum.SecurityType,
+                (int)ModelAttributeEnum.SecurityTypeGroup
+            };
+
+            var scopeCodes = IBuiltInQuery.GetSupportedAttributeScopeCodes<T>();
+
+            using var queryBuilder = CreateQueryBuilder<ModelAttribute>()
+                .WithDirectRelationship(x => x.ModelAttributeScopes)
+                .WithDirectRelationship(x => x.ModelAttributeMembers);
+
+            var query = queryBuilder.Build().SelectAsync(
+                predicate: x => !exclusions.Contains(x.AttributeId) &&
+                    x.ModelAttributeScopes.Any(y => scopeCodes.Contains(y.ScopeCode)),
+                pageSize: int.MaxValue);
+
+            var (entities, _) = await query;
+
+            var items = _mapper.Map<IEnumerable<ModelAttributeDto>>(entities);
+
+            return items;
+        }
+
+        /// <inheritdoc/>
+        async Task<(IEnumerable<SecurityDtoBase>, PaginationData)> IBuiltInQuery
+            .GetTransactableSecurityDTOsAsync(
+                int pageNumber, 
+                int pageSize)
+            {
+                using var queryBuilder = CreateQueryBuilder<Security>()
+                    .WithDirectRelationship(x => x.SecuritySymbols)
+                    .WithDirectRelationship(x => x.SecurityType)
+                    .WithIndirectRelationship<SecurityType, SecurityTypeGroup>(x => x.SecurityTypeGroup);
+
+                var (entities, pageData) = await queryBuilder.Build()
+                    .SelectAsync(x => true, pageNumber, pageSize);
+
+                var items = _mapper.Map<IEnumerable<SecurityDtoBase>>(entities)
+                    .OrderBy(x => x.CurrentSymbol);
+
+                return (items, pageData);
         }
     }
+    #endregion
 }
