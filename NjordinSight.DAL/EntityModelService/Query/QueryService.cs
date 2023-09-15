@@ -485,9 +485,11 @@ namespace NjordinSight.EntityModelService.Query
                     x.ModelAttributeScopes.Any(y => scopeCodes.Contains(y.ScopeCode)),
                 pageSize: int.MaxValue);
 
-            var entities = await query;
+            var (entities, _) = await query;
 
-            return _mapper.Map<IEnumerable<ModelAttributeDto>>(entities);
+            var items = _mapper.Map<IEnumerable<ModelAttributeDto>>(entities);
+
+            return items;
         }
 
         /// <inheritdoc/>
