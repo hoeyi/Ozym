@@ -79,7 +79,7 @@ The following scripts may be used for creating and applying migrations.
 
 | Script | Usage |
 |:--- |:--- |
-| **AddNjordWorksMigration** | Adds a new migration using `EntityModel.Context.FinanceDbContext`. Requies a positional parameter 'tagging' the migration. |
-**AddNjordIdentityMigration** | Adds a new migration using `Web.Data.IdentityDbContext`. Requies a positional parameter 'tagging' the migration. |
+| **AddNjordWorksMigration** | Adds a new migration using `EntityModel.Context.FinanceDbContext`. Requires a positional parameter 'tagging' the migration. |
+**AddNjordIdentityMigration** | Adds a new migration using `Web.Data.IdentityDbContext`. Requires a positional parameter 'tagging' the migration. |
 | **UpdateNjordWorksDatabase** | Updates the target database for `NjordinSight.EntityModel` to the most recent migration using `EntityModel.Context.FinanceDbContext`. |
 | **UpdateNjordWorksDatabase** | Updates the target database for `NjordinSight.Web` to the most recent migration using `Web.Data.IdentityDbContext`. |
