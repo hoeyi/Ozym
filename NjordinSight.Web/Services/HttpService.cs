@@ -41,6 +41,7 @@ namespace NjordinSight.Web.Services
                 { typeof(MarketIndexPriceDto), "/market-indices/rates" },
                 { typeof(MarketIndexDto), "/market-indices" },
                 { typeof(ModelAttributeDto), "/attributes" },
+                { typeof(ModelAttributeDtoBase), "/attributes" },
                 { typeof(ReportConfigurationDto), "/report-configurations" },
                 { typeof(ReportStyleSheetDto), "/style-sheets" },
                 { typeof(SecurityDto), "/securities" },
@@ -309,7 +310,6 @@ namespace NjordinSight.Web.Services
                 $"{string.Format(ResourceIndexUri, parent)}?&pageNumber={pageNumber}&pageSize={pageSize}");
 
             httpResponse.EnsureSuccessStatusCode();
-
 
             var deserializedResults = await httpResponse.Content
                                             .ReadFromJsonAsync<IndexWithParentResponse<TParent>>();
