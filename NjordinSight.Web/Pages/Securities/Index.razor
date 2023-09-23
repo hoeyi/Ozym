@@ -122,7 +122,7 @@
     {
         Task<(IEnumerable<SecurityDto>, NjordinSight.DataTransfer.PaginationData)> securityQuery;
 
-        if (parameter is null)
+        if (parameter is not null)
             securityQuery = HttpService.SearchAsync(
                 parameter: parameter,
                 pageNumber: PaginationHelper.PageIndex,
