@@ -28,7 +28,7 @@ else
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @(GetItem(SecurityTypes, x => x.SecurityTypeId == ModelDto.SecurityTypeId))
+                    @(GetItem(SecurityTypes, x => x.SecurityTypeId == ModelDto.SecurityTypeId).SecurityTypeName)
                 </div>
             }
             else
