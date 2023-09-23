@@ -50,7 +50,7 @@ $ dotnet restore "NjordinSight.Web/NjordinSight.Web.csproj"
 
 **3. Update the current launch profile**
 
-There are a few different launch profiles. I recommend using `NjordinSight.Web.InMemory` as it is easy to reproduce. The primary data storage method intended for the application is SQL Server, which profile `NjordinSight.Web` is intended to support.
+There are a few different launch profiles. I recommend using `NjordinSight.Web.InMemory` as it is easy to reproduce. The data persistance for the application is SQL Server, defined in profile `NjordinSight.Web`.
 
 <br/>
 
