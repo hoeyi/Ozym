@@ -13,7 +13,6 @@ Commit messages should follow the format:
 Must be one of the following:
 
 * **build**: Changes that affect the build system or external dependencies
-* **design**: CSS changes that affect only the style/presentation of the app.
 * **docs**: Changes to documentation or code comments
 * **feat**: A new feature / ehancement
 * **fix**: A bug fix
