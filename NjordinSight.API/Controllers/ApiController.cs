@@ -254,7 +254,9 @@ namespace NjordinSight.Api.Controllers
         {
             var items = await _modelService.SelectAsync();
 
-            return Ok(items);
+            var dtoItems = _mapper.Map<IEnumerable<TObject>>(items);
+
+            return Ok(dtoItems);
         }
     }
 }
