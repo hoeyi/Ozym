@@ -26,13 +26,13 @@ Must be one of the following:
 
 ### Scope ###
 The scope is the domain affected. Choose one of the following:
-* **Blazor**: Blazor pages or components.
+* **Blazor**: Blazor pages, components, or helper services.
 * **Controller**: Web controllers.
-* **DAL**: Model repository services and data-transfer objects.
+* **DAL**: Entity repository services, data-transfer objects, external API integration.
 * **EntityModel**: Entity classes and/or ORM.
 * **EntityMigration**: Entity data migrations
 * **Logic**: Business logic.
-* **API-{Name}**: API support where {Name} is the API project (e.g., NjordinSight, or a vendor).
+* **API**: Project API only. Use **DAL** for noting API integrations.
 
 Example: 
 ```
