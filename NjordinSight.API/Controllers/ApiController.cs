@@ -10,6 +10,7 @@ using AutoMapper;
 using AutoMapper.Extensions.ExpressionMapping;
 using Ichosys.DataModel.Expressions;
 using NjordinSight.DataTransfer.Common.Query;
+using NjordinSight.DataTransfer;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics.CodeAnalysis;
@@ -95,6 +96,7 @@ namespace NjordinSight.Api.Controllers
 
         /// <inheritdoc/>
         [HttpGet("{id}")]
+        [ActionName(nameof(GetAsync))]
         public virtual async Task<ActionResult<TObject>> GetAsync(int id)
         {
             var entity = await _modelService.ReadAsync(id);
@@ -151,7 +153,9 @@ namespace NjordinSight.Api.Controllers
                 int id = _modelService.GetKey<int>(entity);
 
                 return CreatedAtAction(
-                    actionName: nameof(GetAsync), routeValues: new { id }, value: createdDto);
+                    actionName: nameof(GetAsync), 
+                    routeValues: new { id }, 
+                    value: new CreationRecord<int, TObject>(){ Id = id });
             }
             catch(ModelUpdateException mue)
             {
