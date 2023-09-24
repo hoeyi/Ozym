@@ -17,6 +17,11 @@ namespace NjordinSight.DataTransfer.Common
         )]
     public class AccountCompositeDto : AccountBaseDto
     {
+        public AccountCompositeDto()
+        {
+            AccountMembers = new HashSet<AccountCompositeMemberDto>();
+        }
+
         [Display(
             Name = nameof(AccountCompositeDto_SR.ShortCode_Name),
             Description = nameof(AccountCompositeDto_SR.ShortCode_Description),
@@ -64,6 +69,6 @@ namespace NjordinSight.DataTransfer.Common
 
         public override string ObjectType { get; } = AccountObjectType.Composite.ConvertToStringCode();
 
-        public ICollection<AccountCompositeMemberDto> AccountMembers = new HashSet<AccountCompositeMemberDto>();
+        public ICollection<AccountCompositeMemberDto> AccountMembers { get; set; }
     }
 }
