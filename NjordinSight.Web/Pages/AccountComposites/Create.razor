@@ -79,12 +79,4 @@
     }
 
     private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-    protected override async Task HandleValidSubmit()
-    {
-        var response = await RunCatchingHttpRequestException(HttpService.PostAysnc(Model));
-
-        if(!string.IsNullOrEmpty(response.AbsoluteUri))
-            NavigationHelper.NavigateTo(response.AbsoluteUri);
-    }
 }

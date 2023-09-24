@@ -84,7 +84,7 @@ namespace NjordinSight.Web.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns>A task containing the <see cref="Uri"/> for the created resource.</returns>
-        Task<Uri> PostAysnc(T model);
+        Task<CreationRecord<TKey, T>> PostAysnc<TKey>(T model);
 
         /// <summary>
         /// Replaces the <typeparamref name="T"/> resource matching the given identifier.

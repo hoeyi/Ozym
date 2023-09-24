@@ -1,5 +1,6 @@
 ﻿using Ichosys.DataModel.Annotations;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using NjordinSight.EntityModel;
 using NjordinSight.UserInterface;
 using NjordinSight.Web.Components.Common;
@@ -32,7 +33,13 @@ namespace NjordinSight.Web.Components.Generic
         /// a completed <see cref="Task"/>.
         /// </summary>
         /// <returns>A completed <see cref="Task"/>.</returns>
-        protected virtual Task HandleValidSubmit() => Task.CompletedTask;
+        protected virtual async Task HandleValidSubmit()
+        {
+            var response = await RunCatchingHttpRequestException(HttpService.PostAysnc<int>(Model));
+
+            if (response is not null)
+                NavigationHelper.NavigateTo(FormatDetailUri(response.Id));
+        }
 
         /// <inheritdoc/>
         protected override MenuRoot CreateSectionNavigationMenu() 
@@ -67,6 +74,5 @@ namespace NjordinSight.Web.Components.Generic
                 }
             };
         }
-
     }
 }

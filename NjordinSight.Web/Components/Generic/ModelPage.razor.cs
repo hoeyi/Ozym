@@ -249,7 +249,6 @@ namespace NjordinSight.Web.Components.Generic
                 if (x.Status == TaskStatus.Faulted && x.Exception.InnerException is TException)
                 {
                     InvokeAsync(() => ErrorMessage = x.Exception.Message);
-                    throw x.Exception;
                 }
                 return task.Result;
             });

@@ -36,6 +36,7 @@ namespace NjordinSight.Web.Services
                 { typeof(BrokerTransactionCodeDto), "/broker-transaction-codes" },
                 { typeof(BrokerTransactionDto), "/accounts/{0}/broker-transactions" },
                 { typeof(CountryDto), "/countries" },
+                { typeof(CountryDtoBase), "/countries" },
                 { typeof(InvestmentModelDto), "/investment-models" },
                 { typeof(MarketHolidayObservanceDto), "/holidays/observances" },
                 { typeof(MarketIndexPriceDto), "/market-indices/rates" },
@@ -240,7 +241,7 @@ namespace NjordinSight.Web.Services
         }
 
         /// <inheritdoc/>
-        public async Task<Uri> PostAysnc(T model)
+        public async Task<CreationRecord<TKey, T>> PostAysnc<TKey>(T model)
         {
             using var client = HttpFactory.CreateClient();
 
@@ -248,7 +249,10 @@ namespace NjordinSight.Web.Services
 
             httpResponse.EnsureSuccessStatusCode();
 
-            return httpResponse.Headers.Location;
+            var creationRecord = await httpResponse.Content
+                                        .ReadFromJsonAsync<CreationRecord<TKey, T>>();
+
+            return creationRecord;
         }
 
         /// <inheritdoc/>
