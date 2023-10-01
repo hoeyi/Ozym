@@ -170,12 +170,7 @@ namespace NjordinSight.Web.Components.Generic
 
             try
             {
-                var response = await HttpService.IndexAsync(
-                    pageNumber: PaginationHelper.PageIndex, 
-                    pageSize: PaginationHelper.PageSize);
-
-                WorkingEntries = new TrackingEnumerable<TModelDto>(response.Item1.ToList());
-                Context = new(WorkingEntries);
+                await RefreshResultsAsync(null, PaginationHelper.PageIndex, PaginationHelper.PageSize);
             }
             finally
             {
@@ -195,10 +190,14 @@ namespace NjordinSight.Web.Components.Generic
                     return;
             }
 
-            var responseObject = await HttpService.SearchAsync(
-                parameter: parameter,
-                pageNumber: PaginationHelper.PageIndex,
-                pageSize: PaginationHelper.PageSize);
+            var responseObject = await (parameter is null ?
+                HttpService.IndexAsync(
+                    pageNumber: PaginationHelper.PageIndex,
+                    pageSize: PaginationHelper.PageSize) :
+                HttpService.SearchAsync(
+                    parameter: parameter,
+                    pageNumber: PaginationHelper.PageIndex,
+                    pageSize: PaginationHelper.PageSize));
 
             WorkingEntries = new TrackingEnumerable<TModelDto>(responseObject.Item1.ToList());
 

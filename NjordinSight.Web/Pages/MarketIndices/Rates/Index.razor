@@ -16,10 +16,10 @@
         <ContentTile>
             <Body>
                 <SearchInputTable TModel="MarketIndexPriceDto"
-                                  ComparisonOperators=@SearchService.ComparisonOperators
-                                  ExpressionBuilder=@SearchService.ExpressionBuilder
-                                  SearchFields=@SearchService.SearchFields
-                                  OnSearchClick=@(async (args) => await SearchClicked(args))>
+                                    ComparisonOperators=@SearchService.ComparisonOperators
+                                    ExpressionBuilder=@SearchService.ExpressionBuilder
+                                    SearchFields=@SearchService.SearchFields
+                                    OnSearchClick=@(async (args) => await SearchClicked(args))>
                 </SearchInputTable>
             </Body>
         </ContentTile>

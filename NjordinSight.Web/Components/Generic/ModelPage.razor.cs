@@ -79,7 +79,7 @@ namespace NjordinSight.Web.Components.Generic
         /// Model pages use the index page as the base relative path for other model pages.
         /// Ex. /Accounts
         /// </summary>
-        protected string IndexUriRelativePath
+        protected virtual string IndexUriRelativePath
         {
             get
             {

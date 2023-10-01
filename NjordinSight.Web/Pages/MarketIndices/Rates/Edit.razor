@@ -29,7 +29,7 @@
         <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
     </CascadingValue>
 
-    @if(Context is null)
+    @if(IsLoading)
     {
         <LoadingSvg />
     }
@@ -132,12 +132,8 @@
 
     private IEnumerable<MarketIndexDto> MarketIndices {get; set;}
 
-    /// <inheritdoc />
     protected override bool PageDataIsLoading() =>
-        WorkingEntries is null
-        || Context is null
-        || MarketIndices is null
-        || PriceCodeLookup is null;
+        Context is null | WorkingEntries is null || MarketIndices is null || PriceCodeLookup is null;
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
@@ -153,16 +149,21 @@
 
         var marketIndicesQuery = HttpService.GetAllAsync<MarketIndexDto>();
 
-        var pricesQuery = HttpService.SearchAsync(
-            parameter: parameter,
-            pageNumber: PaginationHelper.PageIndex,
-            pageSize: PaginationHelper.PageSize);
+        var pricesQuery = parameter is null ? 
+            HttpService.IndexAsync(
+                    pageNumber: PaginationHelper.PageIndex,
+                    pageSize: PaginationHelper.PageSize) :
+            HttpService.SearchAsync(
+                parameter: parameter,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
 
         await InitializationTasksAsync(pricesQuery, marketIndicesQuery);
 
         var priceResult = await pricesQuery;
 
         WorkingEntries = new TrackingEnumerable<MarketIndexPriceDtoBase>(priceResult.Item1.ToList());
+        Context = new(WorkingEntries);
         MarketIndices = await marketIndicesQuery;
         PriceCodeLookup = QueryService.BuiltIn.GetMarketIndexPriceCodeDisplayMap();
 

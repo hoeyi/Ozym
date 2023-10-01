@@ -114,44 +114,6 @@
         WorkingEntries is null || ParentAccount is null || DenominationSecurities is null;
 
     /// <inheritdoc/>
-    protected override async Task OnInitializedAsync()
-    {
-        CheckNullParameters();
-
-        IsLoading = true;
-
-        try
-        {
-            var walletsTask = HttpService.IndexAsync<AccountDto>(
-                parent: ModelId,
-                pageNumber: PaginationHelper.PageIndex, 
-                pageSize: PaginationHelper.PageSize);
-
-            var denominationDtosTask = QueryService.BuiltIn
-                .GetCryptocurrencyDTOsAsync(pageSize: int.MaxValue);
-
-            await InitializationTasksAsync(walletsTask, denominationDtosTask);
-
-            var walletsResult = await walletsTask;
-            var denominationDtosResult = await denominationDtosTask;
-
-            WorkingEntries = new TrackingEnumerable<AccountWalletDto>(walletsResult.Item1.ToList());
-            Context = new(WorkingEntries);
-
-            ParentAccount = walletsResult.Item2;
-
-            DenominationSecurities = denominationDtosResult.Item1;
-
-            PaginationHelper.TotalItemCount = walletsResult.Item3.ItemCount;
-            PaginationHelper.ItemCount = WorkingEntries.Count;
-        }
-        finally
-        {
-            IsLoading = PageDataIsLoading();
-        }
-    }
-
-    /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
         ParameterDto<AccountWalletDto> parameter, int pageNumber, int pageSize)
     {
@@ -166,11 +128,21 @@
         var denominationDtosTask = QueryService.BuiltIn
                 .GetCryptocurrencyDTOsAsync(pageSize: int.MaxValue);
 
-        var walletsTask = HttpService.SearchAsync<AccountDto>(
-            parent: ModelId,
-            parameter: LastSearchParameter,
-            pageNumber: PaginationHelper.PageIndex,
-            pageSize: PaginationHelper.PageSize);
+        var walletsTask = parameter is null ?
+            HttpService.SearchAsync<AccountDto>(
+                parent: ModelId,
+                parameter: new ParameterDto<AccountWalletDto>()
+                    {
+                        MemberName = nameof(AccountWalletDto.AddressCode),
+                        Operator = ComparisonOperator.IsNotNull
+                    },
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize) :
+            HttpService.SearchAsync<AccountDto>(
+                parent: ModelId,
+                parameter: LastSearchParameter,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
 
         await InitializationTasksAsync(walletsTask, denominationDtosTask);
 
@@ -187,6 +159,36 @@
         PaginationHelper.TotalItemCount = walletsResult.Item3.ItemCount;
         PaginationHelper.ItemCount = WorkingEntries.Count;
     }
+
+    protected override async Task Submit_OnClick(EditContext context, MouseEventArgs args)
+        {
+            // Clear error message, if present.
+            ErrorMessage = null;
+
+            if(!WorkingEntries.HasChanges)
+                ReturnToIndex();
+
+            bool isValid = context.Validate();
+            if (isValid)
+            {
+                var changes = WorkingEntries.GetChanges();
+
+                try
+                {
+                    var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount.Id);
+                    
+                    ReturnToIndex();
+                }
+                catch(HttpRequestException e)
+                {
+                    ErrorMessage = e?.Message;
+                }
+            }
+            else
+            {
+                ErrorMessage = string.Join("\n", context.GetValidationMessages());
+            }
+        }
 
     /// <inheritdoc/>
     protected override void CancelEditor_OnClick() => 

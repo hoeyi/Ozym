@@ -132,10 +132,14 @@
 
         var securityDtosTask = HttpService.GetAllAsync<SecurityDtoBase>();
 
-        var priceQueryTask = HttpService.SearchAsync(
-            parameter: LastSearchParameter,
-            pageNumber: PaginationHelper.PageIndex,
-            pageSize: PaginationHelper.PageSize);
+        var priceQueryTask = parameter is null ?
+            HttpService.IndexAsync(
+                    pageNumber: PaginationHelper.PageIndex,
+                    pageSize: PaginationHelper.PageSize) :
+            HttpService.SearchAsync(
+                parameter: parameter,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
 
         await InitializationTasksAsync(priceQueryTask, securityDtosTask);
 

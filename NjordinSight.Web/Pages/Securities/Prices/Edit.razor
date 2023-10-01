@@ -143,26 +143,30 @@
     /// <inheritdoc />
     protected override bool PageDataIsLoading() => SecurityLookup is null || WorkingEntries is null;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    protected override string IndexUriRelativePath => $"{base.IndexUriRelativePath}/prices";
+
+    /// <inheritdoc />
     protected override async Task RefreshResultsAsync(
-        ParameterDto<SecurityPriceDto> parameter, int pageNumber, int pageSize)
+    ParameterDto<SecurityPriceDto> parameter, int pageNumber, int pageSize)
     {
-        var pricesTask = HttpService.SearchAsync(
+        var pricesTask = parameter is null ?
+            HttpService.IndexAsync(
+                    pageNumber: PaginationHelper.PageIndex,
+                    pageSize: PaginationHelper.PageSize) :
+            HttpService.SearchAsync(
                 parameter: parameter,
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
 
-        var securityDtosTask = HttpService.SearchAsync<SecurityDtoBase>(
-            queryParameter: null,
-            pageNumber: 1,
-            pageSize: int.MaxValue);
+        var securityDtosTask = HttpService.GetAllAsync<SecurityDtoBase>();
 
         await InitializationTasksAsync(pricesTask, securityDtosTask);
 
         var pricesResult = await pricesTask;
         var securityDtosResult = await securityDtosTask;
 
-        SecurityLookup = securityDtosResult.Item1;
+        SecurityLookup = securityDtosResult;
         WorkingEntries = new TrackingEnumerable<SecurityPriceDto>(pricesResult.Item1.ToList());
 
         Context = new(WorkingEntries);
@@ -170,8 +174,4 @@
         PaginationHelper.TotalItemCount = pricesResult.Item2.ItemCount;
         PaginationHelper.ItemCount = WorkingEntries.Count;
     }
-
-    /// <inheritdoc/>
-    protected override void CancelEditor_OnClick() => 
-        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/prices");
 }
