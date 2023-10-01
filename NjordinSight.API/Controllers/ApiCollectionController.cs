@@ -19,6 +19,10 @@ using NjordinSight.DataTransfer.Common.Query;
 using AutoMapper.Extensions.ExpressionMapping;
 using Ichosys.DataModel.Exceptions;
 using NjordinSight.EntityModelService;
+using NjordinSight.DataTransfer.Common.Collections;
+using System.Diagnostics;
+using System.IO;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace NjordinSight.Api.Controllers
 {
@@ -69,13 +73,32 @@ namespace NjordinSight.Api.Controllers
         }
 
         /// <inheritdoc/>
-        [HttpPatch]
-        public async Task<ActionResult> PatchCollectionAsync(
-            IEnumerable<(TObject, TrackingState)> changes)
+        [HttpPost]
+        public async Task<ActionResult> PostChangesAsync(
+            [FromBody] CollectionChangesDocument<TObject> changeDocument)
         {
-            var itemsAdded = changes.Where(x => x.Item2 == TrackingState.Added).ToList();
-            var itemsModified = changes.Where(x => x.Item2 == TrackingState.Updated).ToList();
-            var itemsRemoved = changes.Where(x => x.Item2 == TrackingState.Removed).ToList();
+            IEnumerable<TObject> itemsAdded = Array.Empty<TObject>();
+            IEnumerable<TObject> itemsModified = Array.Empty<TObject>();
+            IEnumerable<TObject> itemsRemoved = Array.Empty<TObject>();
+
+            foreach (var key in changeDocument.Changes.Keys)
+            {
+                switch (key)
+                {
+                    case TrackingState.Added:
+                        itemsAdded = changeDocument.Changes[key];
+                        break;
+                    case TrackingState.Updated:
+                        itemsModified = changeDocument.Changes[key];
+                        break;
+                    case TrackingState.Removed:
+                        itemsRemoved = changeDocument.Changes[key];
+                        break;
+                    default:
+                        throw new InvalidOperationException(
+                            $"Field {typeof(TrackingState).Name}.{key} is not valid for this method.");
+                }
+            }
 
             var entitiesAdded = _mapper.Map<IEnumerable<TEntity>>(itemsAdded);
             var entitiesModified = _mapper.Map<IEnumerable<TEntity>>(itemsModified);
@@ -265,13 +288,7 @@ namespace NjordinSight.Api.Controllers
                 var dtoItems = Mapper.Map<IEnumerable<TObject>>(items);
                 var parentItem = Mapper.Map<TParent>(parentEntity);
 
-                var responseObject = new
-                {
-                    Entries = dtoItems,
-                    Parent = parentItem
-                };
-
-                return Ok(responseObject);
+                return Ok(new { Entries = dtoItems, Parent = parentItem });
             }
         }
 
@@ -286,23 +303,43 @@ namespace NjordinSight.Api.Controllers
         }
 
         /// <inheritdoc/>
-        [HttpPatch]
-        public async Task<ActionResult> PatchCollectionAsync(IEnumerable<(TObject, TrackingState)> changes)
+        [HttpPost]
+        public async Task<ActionResult> PostChangesAsync(
+            [FromBody] CollectionChangesDocument<TObject> changeDocument)
         {
             if (!TryParse(RouteData.Values, out TParentKey parent))
             {
                 return NotFound();
             }
 
-            if (!VerifyParent(changes, parent))
+            if (!VerifyParent(changeDocument.Changes.Values.SelectMany(x => x), parent))
                 return BadRequest(new
                 {
                     ErrorMessage = ResponseString.PatchCollection_ParentIdMismatch_BadRequest
                 });
 
-            var itemsAdded = changes.Where(x => x.Item2 == TrackingState.Added).ToList();
-            var itemsModified = changes.Where(x => x.Item2 == TrackingState.Updated).ToList();
-            var itemsRemoved = changes.Where(x => x.Item2 == TrackingState.Removed).ToList();
+            IEnumerable<TObject> itemsAdded = Array.Empty<TObject>();
+            IEnumerable<TObject> itemsModified = Array.Empty<TObject>();
+            IEnumerable<TObject> itemsRemoved = Array.Empty<TObject>();
+
+            foreach (var key in changeDocument.Changes.Keys)
+            {
+                switch (key)
+                {
+                    case TrackingState.Added:
+                        itemsAdded = changeDocument.Changes[key];
+                        break;
+                    case TrackingState.Updated:
+                        itemsModified = changeDocument.Changes[key];
+                        break;
+                    case TrackingState.Removed:
+                        itemsRemoved = changeDocument.Changes[key];
+                        break;
+                    default:
+                        throw new InvalidOperationException(
+                            $"Field {typeof(TrackingState).Name}.{key} is not valid for this method.");
+                }
+            }
 
             var entitiesAdded = Mapper.Map<IEnumerable<TEntity>>(itemsAdded);
             var entitiesModified = Mapper.Map<IEnumerable<TEntity>>(itemsModified);
@@ -366,7 +403,7 @@ namespace NjordinSight.Api.Controllers
             var dtoItems = Mapper.Map<IEnumerable<TObject>>(items);
             var parentItem = Mapper.Map<TParent>(parentEntity);
 
-            return Ok(new{ Entries = dtoItems, Parent = parentItem });
+            return Ok(new { Entries = dtoItems, Parent = parentItem });
         }
 
     }
@@ -405,8 +442,7 @@ namespace NjordinSight.Api.Controllers
         /// <param name="changes"></param>
         /// <param name="parent"></param>
         /// <returns>True if the proposed changes are valid, else false.</returns>
-        protected abstract bool VerifyParent(
-            IEnumerable<(TObject, TrackingState)> changes, TParentKey parent);
+        protected abstract bool VerifyParent(IEnumerable<TObject> changes, TParentKey parent);
 
         /// <summary>
         /// Returns the required parent expression for the given id.

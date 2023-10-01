@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NjordinSight.DataTransfer.Common.Query;
 using NjordinSight.ChangeTracking;
+using NjordinSight.DataTransfer.Common.Collections;
 
 namespace NjordinSight.Api.Controllers
 {
@@ -50,9 +51,9 @@ namespace NjordinSight.Api.Controllers
         /// Modifies the collection in the data store by applying the given inserts, updates, and 
         /// deletes.
         /// </summary>
-        /// <param name="changes">Enumerable collection of models being inserted, modified, or deleted.</param>
+        /// <param name="changes">Object containing the entries to be added, modified, or deleted.</param>
         /// <returns>An <see cref="ActionResult"/>.</returns>
-        Task<ActionResult> PatchCollectionAsync(IEnumerable<(TObject, TrackingState)> changes);
+        Task<ActionResult> PostChangesAsync(CollectionChangesDocument<TObject> changes);
     }
 
     /// <summary>
@@ -81,8 +82,8 @@ namespace NjordinSight.Api.Controllers
         /// Modifies the collection in the data store by applying the given inserts, updates, and 
         /// deletes.
         /// </summary>
-        /// <param name="changes">Enumerable collection of models being inserted, modified, or deleted.</param>
+        /// <param name="changes">Object containing the entries to be added, modified, or deleted.</param>
         /// <returns>An <see cref="ActionResult"/>.</returns>
-        Task<ActionResult> PatchCollectionAsync(IEnumerable<(TObject, TrackingState)> changes);
+        Task<ActionResult> PostChangesAsync(CollectionChangesDocument<TObject> changes);
     }
 }
