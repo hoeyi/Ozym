@@ -13,16 +13,19 @@
     }
     else
     {
-        <ContentTile>
-            <Body>
-                <SearchInputTable TModel="SecurityPriceDto"
-                                  ComparisonOperators=@SearchService.ComparisonOperators
-                                  ExpressionBuilder=@SearchService.ExpressionBuilder
-                                  SearchFields=@SearchService.SearchFields
-                                  OnSearchClick=@(async (args) => await SearchClicked(args))>
-                </SearchInputTable>
-            </Body>
-        </ContentTile>
+        @if (SearchService.SearchFields.Any())
+        {
+            <ContentTile>
+                <Body>
+                    <SearchInputTable TModel="SecurityPriceDto"
+                                      ComparisonOperators=@SearchService.ComparisonOperators
+                                      ExpressionBuilder=@SearchService.ExpressionBuilder
+                                      SearchFields=@SearchService.SearchFields
+                                      OnSearchClick=@(async (args) => await SearchClicked(args))>
+                    </SearchInputTable>
+                </Body>
+            </ContentTile>
+        }
     }
 
     <CascadingValue Value="@ErrorMessage">

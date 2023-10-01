@@ -13,16 +13,19 @@
     }
     else
     {
-        <ContentTile>
-            <Body>
-                <SearchInputTable TModel="MarketIndexPriceDtoBase"
-                    ComparisonOperators=@SearchService.ComparisonOperators
-                    ExpressionBuilder=@SearchService.ExpressionBuilder
-                    SearchFields=@SearchService.SearchFields
-                    OnSearchClick=@(async (args) => await SearchClicked(args))>
-                </SearchInputTable>
-            </Body>
-        </ContentTile>
+        @if (SearchService.SearchFields.Any())
+        {
+            <ContentTile>
+                <Body>
+                    <SearchInputTable TModel="MarketIndexPriceDtoBase"
+                        ComparisonOperators=@SearchService.ComparisonOperators
+                        ExpressionBuilder=@SearchService.ExpressionBuilder
+                        SearchFields=@SearchService.SearchFields
+                        OnSearchClick=@(async (args) => await SearchClicked(args))>
+                    </SearchInputTable>
+                </Body>
+            </ContentTile>
+        }
     }
 
     <CascadingValue Value="@ErrorMessage">
@@ -132,8 +135,11 @@
 
     private IEnumerable<MarketIndexDto> MarketIndices {get; set;}
 
+    /// <inheritdoc/>
+    protected override string IndexUriRelativePath => $"{base.IndexUriRelativePath}/rates";
+
     protected override bool PageDataIsLoading() =>
-        Context is null | WorkingEntries is null || MarketIndices is null || PriceCodeLookup is null;
+    Context is null | WorkingEntries is null || MarketIndices is null || PriceCodeLookup is null;
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
@@ -170,8 +176,4 @@
         PaginationHelper.TotalItemCount = priceResult.Item2.ItemCount;
         PaginationHelper.ItemCount = WorkingEntries.Count;
     }
-
-    /// <inheritdoc/>
-    protected override void CancelEditor_OnClick() => 
-        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/rates");
 }
