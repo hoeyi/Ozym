@@ -13,6 +13,8 @@ using NjordinSight.ChangeTracking;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
+using NjordinSight.DataTransfer.Common.Collections;
+using System.Net.Http.Headers;
 
 namespace NjordinSight.Web.Services
 {
@@ -40,12 +42,14 @@ namespace NjordinSight.Web.Services
                 { typeof(InvestmentModelDto), "/investment-models" },
                 { typeof(MarketHolidayObservanceDto), "/holidays/observances" },
                 { typeof(MarketIndexPriceDto), "/market-indices/rates" },
+                { typeof(MarketIndexPriceDtoBase), "/market-indices/rates" },
                 { typeof(MarketIndexDto), "/market-indices" },
                 { typeof(ModelAttributeDto), "/attributes" },
                 { typeof(ModelAttributeDtoBase), "/attributes" },
                 { typeof(ReportConfigurationDto), "/report-configurations" },
                 { typeof(ReportStyleSheetDto), "/style-sheets" },
                 { typeof(SecurityDto), "/securities" },
+                { typeof(SecurityDtoBase), "/securities" },
                 { typeof(SecurityExchangeDto), "/exchanges" },
                 { typeof(SecurityPriceDto), "/securities/prices" },
                 { typeof(SecurityTypeDto), "/security-types" },
@@ -204,7 +208,14 @@ namespace NjordinSight.Web.Services
             var httpResponse = await client.GetAsync(
                 $"{ResourceIndexUri}?&pageNumber={pageNumber}&pageSize={pageSize}");
 
-            httpResponse.EnsureSuccessStatusCode();
+            try
+            {
+                httpResponse.EnsureSuccessStatusCode();
+            }
+            catch(HttpRequestException hre)
+            {
+                System.Diagnostics.Debug.WriteLine(hre);
+            }
 
 
             var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<T>>();
@@ -284,9 +295,18 @@ namespace NjordinSight.Web.Services
     public partial class HttpService<T> : IHttpCollectionService<T>
     {
         /// <inheritdoc/>
-        public Task<Uri> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes)
+        public async Task<int> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes)
         {
-            throw new NotImplementedException();
+            using var client = HttpFactory.CreateClient();
+
+            var httpResponse = await client.PostAsJsonAsync(
+                requestUri: $"{ResourceIndexUri}",
+                value: new CollectionChangesDocument<T>(changes),
+                options: new JsonSerializerOptions(JsonSerializerDefaults.Web) { IncludeFields = true });
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            return await httpResponse.Content.ReadFromJsonAsync<int>();
         }
     }
 
@@ -332,10 +352,20 @@ namespace NjordinSight.Web.Services
         }
 
         /// <inheritdoc/>
-        public Task<Uri> PatchCollectionAsync(
+        public async Task<int> PatchCollectionAsync(
             IEnumerable<(T, TrackingState)> changes, TParentKey parent)
         {
-            throw new NotImplementedException();
+            using var client = HttpFactory.CreateClient();
+
+            var requestContent = new StringContent(JsonSerializer.Serialize(changes));
+            requestContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+
+            var httpResponse = await client.PatchAsync(
+                $"{string.Format(ResourceIndexUri, parent)}", requestContent);
+
+            httpResponse.EnsureSuccessStatusCode();
+
+            return await httpResponse.Content.ReadFromJsonAsync<int>();
         }
 
         /// <inheritdoc/>
@@ -349,9 +379,10 @@ namespace NjordinSight.Web.Services
                 rootPath: string.Format(ResourceIndexUri, parent),
                 relativePath: $"/search?&pageNumber={pageNumber}&pageSize={pageSize}");
 
-            var (response, pageData) = await SearchAsync<(IEnumerable<T>, TParent)>(requestUri, parameter);
+            var (response, pageData) = 
+                await SearchAsync<IndexWithParentResponse<TParent>>(requestUri, parameter);
 
-            return (response.Item1, response.Item2, pageData);
+            return (response.Entries, response.Parent, pageData);
         }
 
         private class IndexWithParentResponse<TParent>

@@ -126,8 +126,9 @@ namespace NjordinSight.Web.Services
         /// deletes.
         /// </summary>
         /// <param name="changes">Enumerable collection of models being inserted, modified, or deleted.</param>
-        /// <returns>A <see cref="Uri"/> given the location of the udpated resource.</returns>
-        Task<Uri> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes);
+        /// <returns>A completed task containing the <see cref="int"/> count of records updated,
+        /// if successful.
+        Task<int> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes);
 
         /// <summary>
         /// Selects records matching the given <paramref name="parameter"/>, limited to the given
@@ -167,8 +168,9 @@ namespace NjordinSight.Web.Services
         /// </summary>
         /// <param name="changes">Enumerable collection of models being inserted, modified, or deleted.</param>
         /// <param name="parent"><typeparamref name="TParentKey"/> value identifying the parent record.</param>
-        /// <returns>A <see cref="Uri"/> given the location of the udpated resource.</returns>
-        public Task<Uri> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes, TParentKey parent);
+        /// <returns>A completed task containing the <see cref="int"/> count of records updated,
+        /// if successful.
+        public Task<int> PatchCollectionAsync(IEnumerable<(T, TrackingState)> changes, TParentKey parent);
 
         /// <summary>
         /// Selects records matching children of the parent record identified by the given id,
