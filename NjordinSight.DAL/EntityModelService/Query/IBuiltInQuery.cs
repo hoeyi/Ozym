@@ -17,6 +17,7 @@ using NjordinSight.EntityModel.ConstraintType;
 using Microsoft.EntityFrameworkCore;
 using NjordinSight.EntityModel.Context;
 using Ichosys.DataModel;
+using AutoMapper.Configuration.Conventions;
 
 namespace NjordinSight.EntityModelService.Query
 {
@@ -36,7 +37,7 @@ namespace NjordinSight.EntityModelService.Query
             Expression<Func<BankTransactionCodeDtoBase, bool>> predicate = null, 
             int pageNumber = 1, 
             int pageSize = 20);
-        
+
         Task<(IEnumerable<BrokerTransactionCodeDtoBase>, PaginationData)> GetBrokerTransactionCodeDTOsAsync(
             Expression<Func<BrokerTransactionCodeDtoBase, bool>> predicate = null, 
             int pageNumber = 1, 
@@ -108,6 +109,9 @@ namespace NjordinSight.EntityModelService.Query
         /// <returns>An <see cref="IDictionary{TKey, TValue}"/> where the key is the bound 
         /// string and the value is the display string.</returns>
         IDictionary<string, string> GetMarketIndexPriceCodeDisplayMap(
+            Func<KeyValuePair<string, string>> placeHolderDelegate = null);
+
+        IDictionary<string, string> GetModelAttributeScopeDisplayMap(
             Func<KeyValuePair<string, string>> placeHolderDelegate = null);
 
         /// <summary>

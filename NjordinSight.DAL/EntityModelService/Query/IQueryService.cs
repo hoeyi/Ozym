@@ -12,6 +12,7 @@ using Microsoft.Data.SqlClient;
 using NjordinSight.DataTransfer.Common;
 using NjordinSight.DataTransfer.Common.Query;
 using NjordinSight.EntityModel.ConstraintType;
+using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.EntityModelService.Query
 {

@@ -18,6 +18,8 @@ using System.Reflection;
 using Ichosys.DataModel;
 using AutoMapper.Extensions.ExpressionMapping;
 using NjordinSight.EntityModel.Annotations;
+using NjordinSight.UserInterface;
+using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.EntityModelService.Query
 {
@@ -166,6 +168,8 @@ namespace NjordinSight.EntityModelService.Query
                 return _contextFactory.CreateDbContext();
             }
         }
+
+       
     }
 
     #region IBuiltInQuery implementation
@@ -354,7 +358,20 @@ namespace NjordinSight.EntityModelService.Query
             var result = CreateEnumerableDisplayMap<MarketIndexPriceCode, string, string>(
                 predicate: x => true,
                 key: x => x.ConvertToStringCode(),
-                display: x => _metadataService.NameFor<MarketIndexPriceCode>(x => x),
+                display: x => x.GetAttribute<MarketIndexPriceCode, DisplayAttribute>().GetName(),
+                placeHolderDelegate: placeHolderDelegate);
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        IDictionary<string, string> IBuiltInQuery.GetModelAttributeScopeDisplayMap(
+            Func<KeyValuePair<string, string>> placeHolderDelegate)
+        {
+            var result = CreateEnumerableDisplayMap<ModelAttributeScopeCode, string, string>(
+                predicate: x => true,
+                key: x => x.ConvertToStringCode(),
+                display: x => x.GetAttribute<ModelAttributeScopeCode, DisplayAttribute>().GetName(),
                 placeHolderDelegate: placeHolderDelegate);
 
             return result;
@@ -513,6 +530,8 @@ namespace NjordinSight.EntityModelService.Query
 
                 return (items, pageData);
         }
+
+        
     }
     #endregion
 }

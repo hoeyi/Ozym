@@ -1,9 +1,23 @@
 ﻿using Ichosys.DataModel;
 using System;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace NjordinSight.UserInterface
 {
+    public static class MetadataServiceExtension
+    {
+        public static TAttribute GetAttribute<TEnum, TAttribute>(this TEnum @enum)
+            where TAttribute : Attribute
+        {
+            var enumType = typeof(TEnum);
+            var fieldName = Enum.GetName(enumType, @enum);
+
+            return enumType.GetField(fieldName).GetCustomAttribute<TAttribute>();
+        }
+    }
+
     /// <summary>
     /// Helpers class for simplifying calls to metadata get methods on a given type.
     /// </summary>
