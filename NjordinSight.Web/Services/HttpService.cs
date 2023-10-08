@@ -299,9 +299,13 @@ namespace NjordinSight.Web.Services
         {
             using var client = HttpFactory.CreateClient();
 
+            IDictionary<TrackingState, IEnumerable<T>> changeDocument = 
+                changes.GroupBy(x => x.Item2, y => y.Item1)
+                    .ToDictionary(x => x.Key, y => y.AsEnumerable());
+
             var httpResponse = await client.PostAsJsonAsync(
                 requestUri: $"{ResourceIndexUri}",
-                value: new CollectionChangesDocument<T>(changes),
+                value: changeDocument,
                 options: new JsonSerializerOptions(JsonSerializerDefaults.Web) { IncludeFields = true });
 
             httpResponse.EnsureSuccessStatusCode();
@@ -357,11 +361,14 @@ namespace NjordinSight.Web.Services
         {
             using var client = HttpFactory.CreateClient();
 
-            var requestContent = new StringContent(JsonSerializer.Serialize(changes));
-            requestContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            IDictionary<TrackingState, IEnumerable<T>> changeDocument =
+                changes.GroupBy(x => x.Item2, y => y.Item1)
+                    .ToDictionary(x => x.Key, y => y.AsEnumerable());
 
-            var httpResponse = await client.PatchAsync(
-                $"{string.Format(ResourceIndexUri, parent)}", requestContent);
+            var httpResponse = await client.PostAsJsonAsync(
+                requestUri: $"{string.Format(ResourceIndexUri, parent)}",
+                value: changeDocument,
+                options: new JsonSerializerOptions(JsonSerializerDefaults.Web) { IncludeFields = true });
 
             httpResponse.EnsureSuccessStatusCode();
 
