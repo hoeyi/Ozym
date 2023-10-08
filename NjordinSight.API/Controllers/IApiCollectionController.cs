@@ -12,7 +12,7 @@ namespace NjordinSight.Api.Controllers
     /// </summary>
     /// <typeparam name="TObject">Record type for the collection.</typeparam>
     /// <typeparam name="TParent">Record type for the parent.</typeparam>
-    public interface IApiCollectionController<TObject, TParent>
+    public interface IApiCollectionController<TObject, TParent, TParentKey>
     {
         /// <summary>
         /// Gets the <typeparamref name="TObject"/> records, limited to the page index and size, 
@@ -22,7 +22,8 @@ namespace NjordinSight.Api.Controllers
         /// <param name="pageSize">The record limit for each page.</param>
         /// <returns>An <see cref="ActionResult{TValue}"/> whose value is an enumerable collection 
         /// of <typeparamref name="TObject"/> instances.</returns>
-        Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(int pageNumber = 1, int pageSize = 20);
+        Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(
+            TParentKey parentKey, int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
         /// Retrieves all records from the data store.
@@ -51,9 +52,10 @@ namespace NjordinSight.Api.Controllers
         /// Modifies the collection in the data store by applying the given inserts, updates, and 
         /// deletes.
         /// </summary>
-        /// <param name="changes">Object containing the entries to be added, modified, or deleted.</param>
+        /// <param name="changes"><see cref="IDictionary{TKey, TValue}"/> containing the entries 
+        /// to be added, modified, or deleted.</param>
         /// <returns>An <see cref="ActionResult"/>.</returns>
-        Task<ActionResult> PostChangesAsync(CollectionChangesDocument<TObject> changes);
+        Task<ActionResult> PostChangesAsync(IDictionary<TrackingState, IEnumerable<TObject>> changes);
     }
 
     /// <summary>
@@ -82,8 +84,9 @@ namespace NjordinSight.Api.Controllers
         /// Modifies the collection in the data store by applying the given inserts, updates, and 
         /// deletes.
         /// </summary>
-        /// <param name="changes">Object containing the entries to be added, modified, or deleted.</param>
+        /// <param name="changes"><see cref="IDictionary{TKey, TValue}"/> containing the entries 
+        /// to be added, modified, or deleted.</param>
         /// <returns>An <see cref="ActionResult"/>.</returns>
-        Task<ActionResult> PostChangesAsync(CollectionChangesDocument<TObject> changes);
+        Task<ActionResult> PostChangesAsync(IDictionary<TrackingState, IEnumerable<TObject>> changes);
     }
 }

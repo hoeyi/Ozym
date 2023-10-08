@@ -26,6 +26,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace NjordinSight.Api.Controllers
 {
+    #region IApiCollectionController{Object}
     /// <summary>
     /// Implements <see cref="IApiCollectionController{TObject}"/>.
     /// </summary>
@@ -75,24 +76,24 @@ namespace NjordinSight.Api.Controllers
         /// <inheritdoc/>
         [HttpPost]
         public async Task<ActionResult> PostChangesAsync(
-            [FromBody] CollectionChangesDocument<TObject> changeDocument)
+            [FromBody] IDictionary<TrackingState, IEnumerable<TObject>> changeDocument)
         {
             IEnumerable<TObject> itemsAdded = Array.Empty<TObject>();
             IEnumerable<TObject> itemsModified = Array.Empty<TObject>();
             IEnumerable<TObject> itemsRemoved = Array.Empty<TObject>();
 
-            foreach (var key in changeDocument.Changes.Keys)
+            foreach (var key in changeDocument.Keys)
             {
                 switch (key)
                 {
                     case TrackingState.Added:
-                        itemsAdded = changeDocument.Changes[key];
+                        itemsAdded = changeDocument[key];
                         break;
                     case TrackingState.Updated:
-                        itemsModified = changeDocument.Changes[key];
+                        itemsModified = changeDocument[key];
                         break;
                     case TrackingState.Removed:
-                        itemsRemoved = changeDocument.Changes[key];
+                        itemsRemoved = changeDocument[key];
                         break;
                     default:
                         throw new InvalidOperationException(
@@ -162,17 +163,21 @@ namespace NjordinSight.Api.Controllers
             return Ok(items);
         }
     }
+    #endregion
 
+    #region IApiCollectionController{TObject, TParent, int}
     /// <summary>
-    /// Implements <see cref="IApiCollectionController{TObject, TParent}"/>.
+    /// Implements <see cref="IApiCollectionController{TObject, TParent}"/> where the parent is 
+    /// uniquely identifier by an <see cref="int"/> value.
     /// </summary>
-    /// <typeparam name="TObject">The DTO type.</typeparam>
-    /// <typeparam name="TEntity">The entity type.</typeparam>
-    /// <typeparam name="TParent">The parent DTO type to <typeparamref name="TObject"/>.</typeparam>
-    /// <typeparam name="TParentEntity">The parent entity type to <typeparamref name="TEntity"/>.</typeparam>
+    /// <typeparam name="TObject">The DTO to/from which entities are mapped.</typeparam>
+    /// <typeparam name="TEntity">The entity type used by the databse/ORM.</typeparam>
+    /// <typeparam name="TParent">The DTO to/from which the parent entity is mapped.</typeparam>
+    /// <typeparam name="TParentEntity">The entity type that is the parent to 
+    /// <typeparamref name="TEntity"/>.</typeparam>
     public abstract partial class ApiCollectionController<TObject, TEntity, TParent, TParentEntity>
-        : ApiCollectionController<TObject, TEntity, TParent, TParentEntity, int>,
-        IApiCollectionController<TObject, TParent>
+        : ApiCollectionController<TObject, TEntity, TParent, TParentEntity, int>
+        
         where TEntity : class, new()
         where TParentEntity : class, new()
     {
@@ -211,19 +216,21 @@ namespace NjordinSight.Api.Controllers
             return false;
         }
     }
+    #endregion
 
     /// <summary>
-    /// Abstract generic class definign commmon behavior for 
-    /// <see cref="IApiCollectionController{TObject, TParent}"/> implementations.
+    /// Base class for implementations of <see cref="IApiCollectionController{TObject, TParent}"/>.
     /// </summary>
-    /// <typeparam name="TObject"></typeparam>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TParent"></typeparam>
-    /// <typeparam name="TParentEntity"></typeparam>
-    /// <typeparam name="TParentKey"></typeparam>
+    /// <typeparam name="TObject">The DTO to/from which entities are mapped.</typeparam>
+    /// <typeparam name="TEntity">The entity type used by the databse/ORM.</typeparam>
+    /// <typeparam name="TParent">The DTO to/from which the parent entity is mapped.</typeparam>
+    /// <typeparam name="TParentEntity">The entity type that is the parent to 
+    /// <typeparamref name="TEntity"/>.</typeparam>
+    /// <typeparam name="TParentKey">The type for the <typeparamref name="TParentEntity"/> member 
+    /// that uniquely identifies a record.</typeparam>
     public abstract partial class ApiCollectionController<
         TObject, TEntity, TParent, TParentEntity, TParentKey>
-        : ControllerBase
+        : ControllerBase, IApiCollectionController<TObject, TParent, TParentKey>
         where TEntity : class, new()
         where TParentEntity : class, new()
         where TParentKey : struct
@@ -267,10 +274,11 @@ namespace NjordinSight.Api.Controllers
             Logger = logger;
         }
 
+        #region IApiCollectionController<TObject, TParent> implementation
         /// <inheritdoc/>
         [HttpGet]
         public async Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(
-            int pageNumber = 1, int pageSize = 20)
+            TParentKey parentKey, int pageNumber = 1, int pageSize = 20)
         {
             if (!TryParse(RouteData.Values, out TParentKey parent))
             {
@@ -305,14 +313,14 @@ namespace NjordinSight.Api.Controllers
         /// <inheritdoc/>
         [HttpPost]
         public async Task<ActionResult> PostChangesAsync(
-            [FromBody] CollectionChangesDocument<TObject> changeDocument)
+            [FromBody] IDictionary<TrackingState, IEnumerable<TObject>> changeDocument)
         {
             if (!TryParse(RouteData.Values, out TParentKey parent))
             {
                 return NotFound();
             }
 
-            if (!VerifyParent(changeDocument.Changes.Values.SelectMany(x => x), parent))
+            if (!VerifyParent(changeDocument.Values.SelectMany(x => x), parent))
                 return BadRequest(new
                 {
                     ErrorMessage = ResponseString.PatchCollection_ParentIdMismatch_BadRequest
@@ -322,18 +330,18 @@ namespace NjordinSight.Api.Controllers
             IEnumerable<TObject> itemsModified = Array.Empty<TObject>();
             IEnumerable<TObject> itemsRemoved = Array.Empty<TObject>();
 
-            foreach (var key in changeDocument.Changes.Keys)
+            foreach (var key in changeDocument.Keys)
             {
                 switch (key)
                 {
                     case TrackingState.Added:
-                        itemsAdded = changeDocument.Changes[key];
+                        itemsAdded = changeDocument[key];
                         break;
                     case TrackingState.Updated:
-                        itemsModified = changeDocument.Changes[key];
+                        itemsModified = changeDocument[key];
                         break;
                     case TrackingState.Removed:
-                        itemsRemoved = changeDocument.Changes[key];
+                        itemsRemoved = changeDocument[key];
                         break;
                     default:
                         throw new InvalidOperationException(
@@ -405,12 +413,8 @@ namespace NjordinSight.Api.Controllers
 
             return Ok(new { Entries = dtoItems, Parent = parentItem });
         }
+        #endregion
 
-    }
-
-    public abstract partial class ApiCollectionController<
-        TObject, TEntity, TParent, TParentEntity, TParentKey>
-    {
         /// <summary>
         /// Gets the <see cref="IExpressionBuilder"/> for this controller instance.
         /// </summary>
