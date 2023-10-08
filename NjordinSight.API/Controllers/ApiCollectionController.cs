@@ -303,6 +303,7 @@ namespace NjordinSight.Api.Controllers
         /// <inheritdoc/>
         [HttpGet]
         [Route("all")]
+        [Obsolete($"Superseded by method: {nameof(IndexAsync)}.")]
         public async Task<ActionResult<IEnumerable<TObject>>> GetAllAsync()
         {
             var items = await ModelService.SelectAsync();
@@ -320,7 +321,8 @@ namespace NjordinSight.Api.Controllers
                 return NotFound();
             }
 
-            if (!VerifyParent(changeDocument.Values.SelectMany(x => x), parent))
+            bool parentIsValid = VerifyParent(changeDocument.Values.SelectMany(x => x), parent);
+            if (!parentIsValid)
                 return BadRequest(new
                 {
                     ErrorMessage = ResponseString.PatchCollection_ParentIdMismatch_BadRequest

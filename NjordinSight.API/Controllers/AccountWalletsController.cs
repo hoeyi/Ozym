@@ -61,6 +61,6 @@ namespace NjordinSight.Api.Controllers
 
         /// <inheritdoc/>
         protected override bool VerifyParent(IEnumerable<AccountWalletDto> changes, int parent)
-            => changes.Any(x => x.AccountId != parent);
+            => changes.All(x => x.AccountId == parent);
     }
 }
