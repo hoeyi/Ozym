@@ -144,10 +144,10 @@
     private IEnumerable<SecurityDtoBase> SecurityLookup { get; set; }
 
     /// <inheritdoc />
-    protected override bool PageDataIsLoading() => SecurityLookup is null || WorkingEntries is null;
+    protected override string IndexUriRelativePath => $"{base.IndexUriRelativePath}/prices";
 
     /// <inheritdoc />
-    protected override string IndexUriRelativePath => $"{base.IndexUriRelativePath}/prices";
+    protected override bool PageDataIsLoading() => SecurityLookup is null || WorkingEntries is null;
 
     /// <inheritdoc />
     protected override async Task RefreshResultsAsync(

@@ -176,10 +176,13 @@
 
 @code {
     [Parameter]
-    public virtual int ModelId { get; init; }
+    public int ModelId { get; init; }
 
     [Inject]
     protected new IHttpCollectionService<BrokerTransactionDto, int> HttpService {get; init; }
+
+    [Inject]
+    protected IQueryService QueryService { get; init; }
 
     private IEnumerable<SecurityDtoBase> DepositSecurities { get; set; }
 
@@ -193,14 +196,14 @@
 
     private AllocationInstructionTable CurrentAllocationInstruction { get; set; }
 
-    /// <summary>
-    /// Gets of sets the <see cref="IBrokerTransactionBLL" /> helper class for this page.
-    /// </summary>
-    [Inject]
-    protected IBrokerTransactionBLL TransactionBLL { get; set; }
+    private IBrokerTransactionBLL TransactionBLL { get; set; }
 
-    [Inject]
-    protected IQueryService QueryService { get; init; }
+    /// <inheritdoc/>
+    protected override void AddNew(MouseEventArgs args)
+    {
+        // TODO: Do something with MouseEventArgs?
+        _ = TransactionBLL.AddTransaction();
+    }
 
     /// <inheritdoc/>
     protected override bool PageDataIsLoading() =>
@@ -266,17 +269,43 @@
         }
     }
 
-    /// <inheritdoc/>
-    protected override void AddNew(MouseEventArgs args)
-    {
-        // TODO: Do something with MouseEventArgs?
-        _ = TransactionBLL.AddTransaction();
-    }
-
     /// <inheritdoc />
     protected override void ReturnToIndex() =>
         NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail/broker-transactions");
 
+    /// <inheritdoc/>
+    protected override async Task Submit_OnClick(EditContext context, MouseEventArgs args)
+    {
+        // Clear error message, if present.
+        ErrorMessage = null;
+
+        if(!WorkingEntries.HasChanges)
+            ReturnToIndex();
+
+        bool isValid = context.Validate();
+        if (isValid)
+        {
+            var changes = WorkingEntries.GetChanges();
+
+            try
+            {
+                var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount.Id);
+
+                ReturnToIndex();
+            }
+            catch(HttpRequestException e)
+            {
+                ErrorMessage = e?.Message;
+            }
+        }
+        else
+        {
+            ErrorMessage = string.Join("\n", context.GetValidationMessages());
+        }
+    }
+
+    // TODO: Incorporate this method into the business logic. This should happen when the 
+    // PropertyChanged event is fired from an entry in a tracking enumerable.
     private void TransactionCode_OnValueChanged(BrokerTransactionDto model, int newId)
     {
         ErrorMessage = null;

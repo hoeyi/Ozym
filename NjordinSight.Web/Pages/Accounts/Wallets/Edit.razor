@@ -110,6 +110,7 @@
 
     private AccountDto ParentAccount { get; set; }
 
+    /// <inheritdoc/>
     protected override bool PageDataIsLoading() =>
         WorkingEntries is null || ParentAccount is null || DenominationSecurities is null;
 
@@ -156,37 +157,37 @@
     }
 
     /// <inheritdoc/>
-    protected override async Task Submit_OnClick(EditContext context, MouseEventArgs args)
-        {
-            // Clear error message, if present.
-            ErrorMessage = null;
-
-            if(!WorkingEntries.HasChanges)
-                ReturnToIndex();
-
-            bool isValid = context.Validate();
-            if (isValid)
-            {
-                var changes = WorkingEntries.GetChanges();
-
-                try
-                {
-                    var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount.Id);
-                    
-                    ReturnToIndex();
-                }
-                catch(HttpRequestException e)
-                {
-                    ErrorMessage = e?.Message;
-                }
-            }
-            else
-            {
-                ErrorMessage = string.Join("\n", context.GetValidationMessages());
-            }
-        }
-
-    /// <inheritdoc/>
     protected override void ReturnToIndex() => 
         NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
+
+    /// <inheritdoc/>
+    protected override async Task Submit_OnClick(EditContext context, MouseEventArgs args)
+    {
+        // Clear error message, if present.
+        ErrorMessage = null;
+
+        if(!WorkingEntries.HasChanges)
+            ReturnToIndex();
+
+        bool isValid = context.Validate();
+        if (isValid)
+        {
+            var changes = WorkingEntries.GetChanges();
+
+            try
+            {
+                var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount.Id);
+                    
+                ReturnToIndex();
+            }
+            catch(HttpRequestException e)
+            {
+                ErrorMessage = e?.Message;
+            }
+        }
+        else
+        {
+            ErrorMessage = string.Join("\n", context.GetValidationMessages());
+        }
+    }
 }
