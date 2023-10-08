@@ -181,8 +181,8 @@
             var depositySecurityDTOsTask = QueryService.BuiltIn
                 .GetCashOrExternalSecurityDTOsAsync(pageSize: int.MaxValue);
 
-            var transactionCodeDTOsTask = QueryService.BuiltIn.GetBrokerTransactionCodeDTOsAsync(
-                predicate: null, pageNumber: 0, pageSize: 0);
+            var transactionCodeDTOsTask = QueryService.BuiltIn
+                .GetBrokerTransactionCodeDTOsAsync(pageSize: int.MaxValue);
 
             await InitializationTasksAsync(
                 transactionsQueryTask,
