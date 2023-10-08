@@ -225,17 +225,19 @@
 
         try
         {
-            var recordsTask = HttpService
-                .SearchAsync<AccountDto>(parent: ModelId, parameter, pageNumber, pageSize);
+            var transactionsQueryTask = parameter is null ?
+                HttpService.IndexAsync<AccountDto>(ModelId, pageNumber, pageSize) :
+                HttpService.SearchAsync<AccountDto>(ModelId, parameter, pageNumber, pageSize);
+
             var securityDTOsTask = QueryService.BuiltIn
                 .GetTransactableSecurityDTOsAsync(pageSize: int.MaxValue);
             var depositySecurityDTOsTask = QueryService.BuiltIn
                 .GetCashOrExternalSecurityDTOsAsync(pageSize: int.MaxValue);
-
-            var transactionCodeDTOsTask = HttpService.GetAllAsync<BrokerTransactionCodeDtoBase>();
+            var transactionCodeDTOsTask = QueryService.BuiltIn
+                .GetBrokerTransactionCodeDTOsAsync(pageSize: int.MaxValue);
 
             await InitializationTasksAsync(
-                recordsTask,
+                transactionsQueryTask,
                 securityDTOsTask,
                 depositySecurityDTOsTask,
                 transactionCodeDTOsTask);
@@ -243,11 +245,10 @@
             var securityDtoResult = await securityDTOsTask;
             var depSecurityDtoResult = await depositySecurityDTOsTask;
             var transactionCodeDtoResult = await transactionCodeDTOsTask;
-            var recordsResult = await recordsTask;
+            var recordsResult = await transactionsQueryTask;
 
             WorkingEntries = new TrackingEnumerable<BrokerTransactionDto>(recordsResult.Item1.ToList());
-            TransactionCodes = transactionCodeDtoResult;
-
+            TransactionCodes = transactionCodeDtoResult.Item1;
             ParentAccount = recordsResult.Item2;
 
             TransactionBLL = new BrokerTransactionBLL(WorkingEntries, TransactionCodes, ParentAccount);
@@ -265,15 +266,16 @@
         }
     }
 
+    /// <inheritdoc/>
     protected override void AddNew(MouseEventArgs args)
     {
         // TODO: Do something with MouseEventArgs?
         _ = TransactionBLL.AddTransaction();
     }
 
-    protected override void CancelEditor_OnClick() => 
-        NavigationHelper.NavigateTo(
-            $"{IndexUriRelativePath}/{ModelId}/detail/broker-transactions");
+    /// <inheritdoc />
+    protected override void ReturnToIndex() =>
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail/broker-transactions");
 
     private void TransactionCode_OnValueChanged(BrokerTransactionDto model, int newId)
     {
@@ -300,7 +302,6 @@
     /// Handles an event representing successful submission of an allocation instruction object.
     /// </summary>
     /// <param name="modalEventArgs"></param>
-    /// <returns></returns>
     private void PostAllocationInstruction(
         ModalEventArgs<AllocationInstructionTable> modalEventArgs)
     {

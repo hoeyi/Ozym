@@ -103,9 +103,20 @@ namespace NjordinSight.Web.Components.Generic
         /// Cancels the operation on this page and returns to <typeparamref name="TModelDto"/> 
         /// index URI.
         /// </summary>
-        protected virtual void CancelEditor_OnClick() => ReturnToIndex();
+        protected async Task CancelEditor_OnClick()
+        {
+            if (WorkingEntries?.HasChanges ?? false)
+            {
+                var discardConfirmed = await ConfirmDiscardChangesAsync();
 
-        protected void ReturnToIndex() => NavigationHelper.NavigateTo(IndexUriRelativePath);
+                if (!discardConfirmed)
+                    return;
+            }
+
+            ReturnToIndex();
+        }
+
+        protected virtual void ReturnToIndex() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 
         /// <summary>
         /// Delegate handler for <see cref="Paginator.IndexChanged"/> events.
@@ -178,7 +189,17 @@ namespace NjordinSight.Web.Components.Generic
             }
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Refreshes the core result set according to the current search and page parameters. Lookup 
+        /// collections are not refreshed.
+        /// </summary>
+        /// <param name="predicate">The filter expression to apply.</param>
+        /// <param name="pageNumber">The index of the page desired.</param>
+        /// <param name="pageSize">The record limit per page.</param>
+        /// <returns>A task representing the asynchronous action to query and render 
+        /// updated data.</returns>
+        /// <exception cref="NotImplementedException">The method has not been overriden in a 
+        /// derived class.</exception>
         protected virtual async Task RefreshResultsAsync(
             ParameterDto<TModelDto> parameter, int pageNumber, int pageSize)
         {
@@ -228,7 +249,7 @@ namespace NjordinSight.Web.Components.Generic
 
         protected static async Task<bool> ConfirmDiscardChangesAsync()
         {
-            await Task.Delay(300);
+            await Task.Delay(2000);
 
             return true;
         }

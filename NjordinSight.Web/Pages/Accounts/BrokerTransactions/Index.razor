@@ -115,6 +115,12 @@
     [Parameter]
     public int ModelId { get; init; }
 
+    [Inject]
+    protected new IHttpCollectionService<BrokerTransactionDto, int> HttpService {get; init; }
+
+    [Inject]
+    protected IQueryService QueryService { get; init; }
+
     private IEnumerable<SecurityDtoBase> DepositSecurities { get; set; }
 
     private IEnumerable<BrokerTransactionCodeDtoBase> TransactionCodes { get; set; }
@@ -122,12 +128,6 @@
     private IEnumerable<SecurityDtoBase> TransactableSecurities { get; set; }
 
     private AccountDto ParentAccount { get; set; }
-
-    [Inject]
-    protected new IHttpCollectionService<BrokerTransactionDto, int> HttpService {get; init; }
-
-    [Inject]
-    protected IQueryService QueryService { get; init; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -160,6 +160,7 @@
         || TransactionCodes is null
         || TransactableSecurities is null;
 
+    /// <inheritdoc />
     protected override async Task RefreshResultsAsync(
         ParameterDto<BrokerTransactionDto> parameter, int pageNumber, int pageSize)
     {
@@ -170,18 +171,21 @@
 
         try
         {
-            var recordsTask = HttpService
-                .SearchAsync<AccountDto>(parent: ModelId, parameter, pageNumber, pageSize);
+            var transactionsQueryTask = parameter is null ?
+                HttpService.IndexAsync<AccountDto>(ModelId, pageNumber, pageSize) :
+                HttpService.SearchAsync<AccountDto>(ModelId, parameter, pageNumber, pageSize);
 
             var securityDTOsTask = QueryService.BuiltIn
                 .GetTransactableSecurityDTOsAsync(pageSize: int.MaxValue);
 
             var depositySecurityDTOsTask = QueryService.BuiltIn
                 .GetCashOrExternalSecurityDTOsAsync(pageSize: int.MaxValue);
-            var transactionCodeDTOsTask = HttpService.GetAllAsync<BrokerTransactionCodeDtoBase>();
+
+            var transactionCodeDTOsTask = QueryService.BuiltIn.GetBrokerTransactionCodeDTOsAsync(
+                predicate: null, pageNumber: 0, pageSize: 0);
 
             await InitializationTasksAsync(
-                recordsTask,
+                transactionsQueryTask,
                 securityDTOsTask,
                 depositySecurityDTOsTask,
                 transactionCodeDTOsTask);
@@ -189,7 +193,7 @@
             var securityDtoResult = await securityDTOsTask;
             var depSecurityDtoResult = await depositySecurityDTOsTask;
             var transactionCodeDtoResult = await transactionCodeDTOsTask;
-            var recordsResult = await recordsTask;
+            var recordsResult = await transactionsQueryTask;
 
             Entries = recordsResult.Item1;
             ParentAccount = recordsResult.Item2;
@@ -199,7 +203,7 @@
 
             TransactableSecurities = securityDtoResult.Item1;
             DepositSecurities = depSecurityDtoResult.Item1;
-            TransactionCodes = transactionCodeDtoResult;
+            TransactionCodes = transactionCodeDtoResult.Item1;
         }
         finally
         {

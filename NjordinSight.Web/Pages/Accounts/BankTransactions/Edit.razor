@@ -113,10 +113,13 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<BankTransactionCodeDtoBase> TransactionCodes { get; set; }
-
     [Inject]
     protected IQueryService QueryService { get; init; }
+
+    [Inject]
+    protected new IHttpCollectionService<BankTransactionDto, int> HttpService { get; init; }
+
+    private IEnumerable<BankTransactionCodeDtoBase> TransactionCodes { get; set; }
 
     private AccountDto ParentAccount { get; set; }
 
@@ -141,12 +144,11 @@
         ParentAccount = await HttpService.GetAsync<AccountDto>(id: ModelId);
 
         var transactionCodeDTOsTask = QueryService.BuiltIn
-                .GetBankTransactionCodeDTOsAsync(pageSize: int.MaxValue);
+            .GetBankTransactionCodeDTOsAsync(pageSize: int.MaxValue);
 
-        var transactionsQueryTask = HttpService.SearchAsync(
-            parameter: LastSearchParameter,
-            pageNumber: PaginationHelper.PageIndex,
-            pageSize: PaginationHelper.PageSize);
+        var transactionsQueryTask = parameter is null ?
+            HttpService.IndexAsync<AccountDto>(ModelId, pageNumber, pageSize) :
+            HttpService.SearchAsync<AccountDto>(ModelId, parameter, pageNumber, pageSize);
 
         await InitializationTasksAsync(transactionsQueryTask, transactionCodeDTOsTask);
 
@@ -159,10 +161,11 @@
 
         Context = new(WorkingEntries);
 
-        PaginationHelper.TotalItemCount = transactionResult.Item2.ItemCount;
+        PaginationHelper.TotalItemCount = transactionResult.Item3.ItemCount;
         PaginationHelper.ItemCount = WorkingEntries.Count;
     }
 
-    protected override void CancelEditor_OnClick() => 
+    /// <inheritdoc/>
+    protected override void ReturnToIndex() =>
         NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail/bank-transactions");
 }
