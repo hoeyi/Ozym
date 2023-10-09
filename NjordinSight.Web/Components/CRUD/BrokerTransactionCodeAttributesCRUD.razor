@@ -21,8 +21,6 @@ else
                 </button>
             }
         </TitleAlignLeft>
-        @*<TitleAlignRight>
-        </TitleAlignRight>*@
         <Body>
             <EditForm class="model-editor" Model="@ModelDto">
                 <DataGrid Data="@ModelDto.Entries">
@@ -69,7 +67,7 @@ else
                                      @bind-Value="@model.AttributeMemberId">
                                     @foreach (var member in AttributeMemberLookup)
                                     {
-                                        <option value="@member.Key">@member.Display</option>
+                                        <option value="@member.Key">@member.Value</option>
                                     }
                                 </InputSelect>
                             </CellEditTemplate>
@@ -91,12 +89,16 @@ else
 }
 
 @code {
-    [CascadingParameter(Name = nameof(AttributeMemberLookup))]
-    public IEnumerable<LookupModel<int, string>> AttributeMemberLookup { get; set; }
+    [CascadingParameter(Name = nameof(AttributeMembers))]
+    public IEnumerable<ModelAttributeMemberDtoBase> AttributeMembers { get; set; }
+
+    private IDictionary<int, string> AttributeMemberLookup { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
+        AttributeMemberLookup = AttributeMembers?.ToDictionary(x => x.AttributeMemberId, y => y.DisplayName);
 
         IsLoading = ModelDto is null || (ReadOnly ^ (AttributeMemberLookup is null));
     }
