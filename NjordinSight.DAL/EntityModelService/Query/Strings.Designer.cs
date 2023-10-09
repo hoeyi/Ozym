@@ -61,6 +61,15 @@ namespace NjordinSight.EntityModelService.Query {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt; select &gt;.
+        /// </summary>
+        internal static string Caption_InputSelect_Placeholder {
+            get {
+                return ResourceManager.GetString("Caption_InputSelect_Placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The requested join could not be completed because a requesite intermediary join was not specified..
         /// </summary>
         internal static string QueryBuilder_Exception_InvalidJoin {

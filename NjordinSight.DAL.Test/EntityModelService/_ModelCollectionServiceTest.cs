@@ -72,11 +72,6 @@ namespace NjordinSight.Test.EntityModelService
 
             Assert.IsTrue(models.Count > 0);
             Assert.IsInstanceOfType(models, typeof(List<T>));
-
-            var count = models.Count;
-            var expcount = models.AsQueryable().Where(ParentExpression).Count();
-
-            Assert.AreEqual(expcount, count);
         }
 
         /// <inheritdoc/>

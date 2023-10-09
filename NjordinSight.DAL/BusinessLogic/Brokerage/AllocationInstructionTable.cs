@@ -1,5 +1,5 @@
 ﻿using Ichosys.DataModel.Annotations;
-using NjordinSight.EntityModel;
+using NjordinSight.DataTransfer.Common;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,10 +15,10 @@ namespace NjordinSight.BusinessLogic.Brokerage
     public class AllocationInstructionTable
     {
         /// <summary>
-        /// Gets the <see cref="BrokerTransaction" /> record representing the closing action for 
+        /// Gets the <see cref="BrokerTransactionDto" /> record representing the closing action for 
         /// which instruction is needed.
         /// </summary>
-        public BrokerTransaction Transaction { get; init; }
+        public BrokerTransactionDto Transaction { get; init; }
 
         /// <summary>
         /// Gets the collection of <see cref="BrokerTaxLot" /> records to close against.

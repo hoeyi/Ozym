@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
+using NjordinSight.DataTransfer;
 using NjordinSight.DataTransfer.Common;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModelService.Query;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -258,6 +256,27 @@ namespace NjordinSight.Api.Controllers
             Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
 
             var dtoItems = _mapper.Map<IEnumerable<SecurityDtoBase>>(items);
+
+            return Ok(dtoItems);
+        }
+
+        /// <inheritdoc/>
+        [HttpGet("symbol-types")]
+        public async Task<ActionResult<IEnumerable<SecuritySymbolTypeDto>>> GetSecuritySymbolTypesAsync(
+            int pageNumber = 1, int pageSize = 20)
+        {
+            using var queryBuilder = _queryService.CreateQueryBuilder<SecuritySymbolType>();
+
+            var (items, pagination) = await queryBuilder
+                .Build()
+                .SelectAsync(
+                    predicate: x => true,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize);
+
+            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+
+            var dtoItems = _mapper.Map<IEnumerable<SecuritySymbolTypeDto>>(items);
 
             return Ok(dtoItems);
         }

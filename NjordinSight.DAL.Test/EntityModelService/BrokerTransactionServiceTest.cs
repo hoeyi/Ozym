@@ -10,10 +10,13 @@ namespace NjordinSight.Test.EntityModelService
     public class BrokerTransactionServiceTest : ModelCollectionServiceTest<BrokerTransaction>
     {
         private const int _accountId = -5;
+
+        /// <inheritdoc/>
         protected override Expression<Func<BrokerTransaction, bool>> ParentExpression =>
                x => x.AccountId == _accountId;
 
-        protected override IModelCollectionService<BrokerTransaction, int> GetModelService() => 
-            BuildModelService<BrokerTransactionService, int>().WithParent(_accountId);
+        /// <inheritdoc/>
+        protected override IModelCollectionService<BrokerTransaction> GetModelService() =>
+            BuildModelService<BrokerTransactionService>();
     }
 }

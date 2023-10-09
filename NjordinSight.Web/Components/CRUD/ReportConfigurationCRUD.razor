@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<ReportConfiguration>
+﻿@inherits ModelCRUD<ReportConfigurationDto>
 
 @if(ModelDto is null)
 {
@@ -6,7 +6,7 @@
 }
 else
 {
-    <ModelForm TModelDto="ReportConfiguration">
+    <ModelForm TModelDto="ReportConfigurationDto">
         <ModelFormEntry ForMember="@(() => ModelDto.ConfigurationCode)">
             @if (ReadOnly)
             {

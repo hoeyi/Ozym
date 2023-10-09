@@ -64,11 +64,11 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 };
 
                 // Act
-                var dto = Mapper.Map<ModelAttributeDto>(entity);
+                var dto = Mapper.Map<ModelAttributeDtoBase>(entity);
 
                 // Assert
                 // Fact: Instance is created.
-                Assert.IsInstanceOfType(dto, typeof(ModelAttributeDto));
+                Assert.IsInstanceOfType(dto, typeof(ModelAttributeDtoBase));
 
                 // Fact: All property values match.
                 Assert.AreEqual(entity.AttributeId, dto.AttributeId);
@@ -80,7 +80,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
             {
                 // Arrange
-                var dto = new ModelAttributeDto()
+                var dto = new ModelAttributeDtoBase()
                 {
                     AttributeId = 1,
                     DisplayName = "Attribute"
@@ -154,11 +154,11 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 };
 
                 // Act
-                var dto = Mapper.Map<ModelAttributeDtoForEdit>(entity);
+                var dto = Mapper.Map<ModelAttributeDto>(entity);
 
                 // Assert
                 // Fact: Instance is created.
-                Assert.IsInstanceOfType(dto, typeof(ModelAttributeDto));
+                Assert.IsInstanceOfType(dto, typeof(ModelAttributeDtoBase));
 
                 // Fact: AttributeValues property is non-empty collection with count matching source.
                 Assert.IsTrue(dto.AttributeValues.Count > 0);
@@ -188,7 +188,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             public void Entity_MapFrom_DtoForEdit_MappedProperties_AreEqual()
             {
                 // Arrange
-                var dto = new ModelAttributeDtoForEdit()
+                var dto = new ModelAttributeDto()
                 {
                     AttributeId = 1,
                     DisplayName = "Attribute",

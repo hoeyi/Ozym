@@ -44,8 +44,6 @@ namespace NjordinSight.EntityModelService
             {
                 CreateDelegate = async(context, model) =>
                 {
-                    model.AttributeMemberNavigation.DisplayName = model.IsoCode3;
-
                     var result = await context.MarkForCreation(model).SaveChangesAsync() > 0;
 
                     return new DbActionResult<Country>(model, result);

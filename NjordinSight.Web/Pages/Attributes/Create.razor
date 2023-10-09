@@ -1,6 +1,6 @@
 ﻿@page "/attributes/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<ModelAttribute>
+@inherits ModelDetail<ModelAttributeDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -17,15 +17,15 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ModelDto">
-            <EditForm class="model-editor" Model="@ModelDto" OnValidSubmit="HandleValidSubmit">
+        <CascadingValue Value="@Model">
+            <EditForm class="model-editor" Model="@Model" OnValidSubmit="HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <ActionButtonMenu>
                     <button type="submit" class="form-control button">
                         @Strings.Caption_Button_Save
                     </button>
                     <button type="button" class="form-control button"
-                        @onclick="Cancel_OnClick"
+                        @onclick="FormCancelClickHandler"
                         @onclick:preventDefault>
                         @Strings.Caption_Button_Cancel
                     </button>
@@ -42,18 +42,19 @@
                     <Body>
                         <ActionButtonMenu>
                             <button class="form-control button"
-                                @onclick="(args) => ModelDto.AddNewAttributeScope()">
+                                @onclick="(args) => Model.AttributeScopes.Add(new())">
                                 @Strings.Caption_CreateNew.Format(ModelMetadata
-                                    .GetAttribute<ModelAttributeScope, NounAttribute>()?.GetSingular())
+                                    .GetAttribute<ModelAttributeScopeDto, NounAttribute>()
+                                    ?.GetSingular())
                             </button>
                         </ActionButtonMenu>
                         <ValidationSummary />
-                        <DataGrid Data="@ModelDto.AttributeScopes">
+                        <DataGrid Data="@Model.AttributeScopes">
                             <DataGridColumn Type="DataGridCellType.Button">
                                 <CellEditTemplate Context="model">
                                     <ToolTip Text="@Strings.Caption_Button_Delete">
                                         <button class="form-control button icon" type="button"
-                                            @onclick="async (args) => ModelDto.RemoveScope(model)">
+                                            @onclick="async (args) => Model.AttributeScopes.Remove(model)">
                                             <IonIcon Name="close-circle" />
                                         </button>
                                     </ToolTip>
@@ -61,8 +62,8 @@
                             </DataGridColumn>
                             <DataGridColumn 
                                 Type="DataGridCellType.Control"
-                                Property="@nameof(ModelAttributeScope.ScopeCode)"
-                                Caption="@(ModelMetadata.NameFor<ModelAttributeScope>(x => x.ScopeCode))">
+                                            Property="@nameof(ModelAttributeScopeDto.ScopeCode)"
+                                Caption="@(ModelMetadata.NameFor<ModelAttributeScopeDto>(x => x.ScopeCode))">
                                 <CellEditTemplate Context="model">
                                     <InputSelect class="form-control" @bind-Value="@model.ScopeCode">
                                         @foreach (var scopeLookup in AttributeScopeDtos)
@@ -82,33 +83,33 @@
                     <Body>
                         <ActionButtonMenu>
                             <button class="form-control button"
-                                @onclick="(args) => ModelDto.AddAttributeMember()">
+                                @onclick="(args) => Model.AttributeValues.Add(new())">
                                 @Strings.Caption_CreateNew.Format(ModelMetadata
-                                    .GetAttribute<ModelAttributeMember, NounAttribute>()?.GetSingular())
+                                    .GetAttribute<ModelAttributeMemberDto, NounAttribute>()?.GetSingular())
                             </button>
                         </ActionButtonMenu>
                         <ValidationSummary />
-                        <DataGrid Data="@ModelDto.AttributeMembers">
+                        <DataGrid Data="@Model.AttributeValues">
                             <DataGridColumn Type="DataGridCellType.Button">
                                 <CellEditTemplate Context="model">
                                     <ToolTip Text="@Strings.Caption_Button_Delete">
                                         <button class="form-control button icon" type="button"
-                                            @onclick="async (args) => ModelDto.RemoveAttributeMember(model)">
+                                            @onclick="async (args) =>  Model.AttributeValues.Remove(model)">
                                             <IonIcon Name="close-circle" />
                                         </button>
                                     </ToolTip>
                                 </CellEditTemplate>
                             </DataGridColumn>
                             <DataGridColumn Type="DataGridCellType.Control"
-                                        Property="@nameof(ModelAttributeMember.DisplayName)"
-                                        Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayName))">
+                                        Property="@nameof(ModelAttributeMemberDto.DisplayName)"
+                                            Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayName))">
                                 <CellEditTemplate Context="model">
                                     <InputText class="form-control" @bind-Value="model.DisplayName" />
                                 </CellEditTemplate>
                             </DataGridColumn>
                             <DataGridColumn Type="DataGridCellType.Control"
-                                        Property="@nameof(ModelAttributeMember.DisplayOrder)"
-                                        Caption="@(ModelMetadata.NameFor<ModelAttributeMember>(x => x.DisplayOrder))">
+                                        Property="@nameof(ModelAttributeMemberDto.DisplayOrder)"
+                                            Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayOrder))">
                                 <CellEditTemplate Context="model">
                                     <InputNumber class="form-control" @bind-Value="@model.DisplayOrder" />
                                 </CellEditTemplate>
@@ -125,7 +126,8 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private ModelAttributeDto ModelDto { get; set; }
+    [Inject]
+    protected IQueryService QueryService { get; init; }
 
     private IEnumerable<LookupModel<string, string>> AttributeScopeDtos { get; set; }
 
@@ -138,53 +140,40 @@
 
         try
         {
-            var modelQuery = Controller.GetDefaultAsync();
-            var scopesQuery = Controller.ReferenceQueries
-                .SelectDTOsFromEnum<ModelAttributeScopeCode, string, string>(
-                    predicate: x => true,
-                    key: x => x.ConvertToStringCode(),
-                    display: x => NameFor<ModelAttributeScopeCode>(x),
-                    placeHolderDelegate: () => new LookupModel<string, string>()
-                        {
-                            Key = string.Empty,
-                            Display = Resources.Strings.Caption_InputSelect_Placeholder
-                        });
+            var modelQuery = HttpService.InitDefaultAsync();
+            var scopesQuery = HttpService.GetAllAsync<ModelAttributeScopeDto>();
+
             var dataTasks = Task.WhenAll(modelQuery, scopesQuery);
             await dataTasks;
 
             if (dataTasks.Status == TaskStatus.RanToCompletion)
             {
-                Model = (await modelQuery).Value;
-                ModelDto = new(Model);
-                AttributeScopeDtos = (await scopesQuery).Value;
-                _attributeScopeContext = new(ModelDto.AttributeScopes);
-                _attributeMemberContext = new(ModelDto.AttributeMembers);
+                Model = await modelQuery;
+                var scopesResult = (await scopesQuery)
+                                    .Select(x => new LookupModel<string, string>()
+                                        {
+                                            Key = x.ScopeCode,
+                                            Display = x.ScopeCode
+                                        })
+                                    .ToList();
+
+                scopesResult.Insert(0, new LookupModel<string, string>()
+                    {
+                        Key = string.Empty,
+                        Display = Resources.Strings.Caption_InputSelect_Placeholder
+                    });
+
+                AttributeScopeDtos = scopesResult;
+
+                _attributeScopeContext = new(Model.AttributeScopes);
+                _attributeMemberContext = new(Model.AttributeValues);
             }
         }
         finally
         {
-            IsLoading = Model is null ||
-                ModelDto is null || 
-                !(AttributeScopeDtos?.Any() ?? false);
-        }
-
-        // TODO: Take corrective action here, accountQuery.Value should be Account
-    }
-
-
-    protected override async Task HandleValidSubmit()
-    {
-        if(_attributeMemberContext.Validate() && _attributeScopeContext.Validate())
-        {
-            Model = ModelDto.ToEntity();
-
-            var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
-
-            ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
+            IsLoading = Model is null || !(AttributeScopeDtos?.Any() ?? false);
         }
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-    private void DeleteScope(ModelAttributeScope attributeScope) => ModelDto.RemoveScope(attributeScope);
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 }

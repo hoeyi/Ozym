@@ -37,15 +37,15 @@ else
                     }
                     @if (ReadOnly)
                     {
-                        <DataGridColumn Property=@nameof(AccountAttributeMemberEntry.AttributeMemberId)
-                                Caption=@(ModelMetadata.NameFor<AccountAttributeMemberEntry>(
+                        <DataGridColumn Property=@nameof(AccountBaseAttributeDto.AttributeMemberId)
+                                Caption=@(ModelMetadata.NameFor<AccountBaseAttributeDto>(
                                 x => x.AttributeMemberId))>
                             <CellTemplate Context="model">
                                 @model.AttributeMember.DisplayName
                             </CellTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property=@nameof(AccountAttributeMemberEntry.EffectiveDate)
-                                Caption=@(ModelMetadata.NameFor<AccountAttributeMemberEntry>(
+                        <DataGridColumn Property=@nameof(AccountBaseAttributeDto.EffectiveDate)
+                                Caption=@(ModelMetadata.NameFor<AccountBaseAttributeDto>(
                                 x => x.EffectiveDate))>
                             <CellTemplate Context="model">
                                 @model.EffectiveDate.ToShortDateString()
@@ -54,23 +54,23 @@ else
                     }
                     else
                     {
-                        <DataGridColumn Property=@nameof(AccountAttributeMemberEntry.AttributeMemberId)
+                        <DataGridColumn Property=@nameof(AccountBaseAttributeDto.AttributeMemberId)
                             Type="DataGridCellType.Control"
-                            Caption=@(ModelMetadata.NameFor<AccountAttributeMemberEntry>(
+                            Caption=@(ModelMetadata.NameFor<AccountBaseAttributeDto>(
                                 x => x.AttributeMemberId))>
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
                                      @bind-Value="@model.AttributeMemberId">
                                     @foreach (var member in AttributeMemberLookup)
                                     {
-                                        <option value="@member.Key">@member.Display</option>
+                                        <option value="@member.AttributeMemberId">@member.DisplayName</option>
                                     }
                                 </InputSelect>
                             </CellEditTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property=@nameof(AccountAttributeMemberEntry.EffectiveDate)
+                        <DataGridColumn Property=@nameof(AccountBaseAttributeDto.EffectiveDate)
                             Type="DataGridCellType.Control"
-                            Caption=@(ModelMetadata.NameFor<AccountAttributeMemberEntry>(
+                            Caption=@(ModelMetadata.NameFor<AccountBaseAttributeDto>(
                             x => x.EffectiveDate))>
                             <CellEditTemplate Context="model">
                                 <InputDate class="form-control"
@@ -86,7 +86,7 @@ else
 
 @code {
     [CascadingParameter(Name = nameof(AttributeMemberLookup))]
-    public IEnumerable<LookupModel<int, string>> AttributeMemberLookup { get; set; }
+    public IEnumerable<ModelAttributeMemberDtoBase> AttributeMemberLookup { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -103,7 +103,7 @@ else
     }
 
     private void RemoveExisting_OnClick(
-        MouseEventArgs e, AccountAttributeMemberEntry model)
+        MouseEventArgs e, AccountBaseAttributeDto model)
     {
         // TODO: Do something with MouseEventArgs ?
 

@@ -1,6 +1,6 @@
 ﻿@page "/market-indices"
 
-@inherits ModelIndex<MarketIndex>
+@inherits ModelIndex<MarketIndexDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -24,8 +24,7 @@
             else
             {
                 <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn 
-                        Property=@nameof(MarketIndex.IndexCode)
+                    <DataGridColumn Property=@nameof(MarketIndexDto.IndexCode)
                         Caption=@(NameFor(x => x.IndexCode))
                         Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
@@ -36,8 +35,7 @@
                             </a>
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn 
-                        Property=@nameof(MarketIndex.IndexDescription)
+                    <DataGridColumn Property=@nameof(MarketIndexDto.IndexDescription)
                         Caption=@(NameFor(x => x.IndexDescription))>
                         <CellTemplate Context="model">
                             @model.IndexDescription
@@ -51,7 +49,7 @@
 
 
 @code {
-    private void Detail_OnClick(MarketIndex model, MouseEventArgs args)
+    private void Detail_OnClick(MarketIndexDto model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.IndexId));
     }

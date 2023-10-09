@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SecurityTypeDto_SR {
+    public class SecurityTypeDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.SecurityTypeDto_SR", typeof(SecurityTypeDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Whether securities of the type can underly derivative securities..
         /// </summary>
-        internal static string CanHaveDerivative_Description {
+        public static string CanHaveDerivative_Description {
             get {
                 return ResourceManager.GetString("CanHaveDerivative_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Enable Derivatives.
         /// </summary>
-        internal static string CanHaveDerivative_Name {
+        public static string CanHaveDerivative_Name {
             get {
                 return ResourceManager.GetString("CanHaveDerivative_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Whether securities of the type can have account positions..
         /// </summary>
-        internal static string CanHavePosition_Description {
+        public static string CanHavePosition_Description {
             get {
                 return ResourceManager.GetString("CanHavePosition_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Enable Positions.
         /// </summary>
-        internal static string CanHavePosition_Name {
+        public static string CanHavePosition_Name {
             get {
                 return ResourceManager.GetString("CanHavePosition_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Order in which the security type is displayed in reports..
         /// </summary>
-        internal static string DisplayOrder_Description {
+        public static string DisplayOrder_Description {
             get {
                 return ResourceManager.GetString("DisplayOrder_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display Order.
         /// </summary>
-        internal static string DisplayOrder_Name {
+        public static string DisplayOrder_Name {
             get {
                 return ResourceManager.GetString("DisplayOrder_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Indicates whether securities of the type are held in a digital wallet..
         /// </summary>
-        internal static string HeldInWallet_Description {
+        public static string HeldInWallet_Description {
             get {
                 return ResourceManager.GetString("HeldInWallet_Description", resourceCulture);
             }
@@ -126,16 +126,52 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Held in Wallet.
         /// </summary>
-        internal static string HeldInWallet_Name {
+        public static string HeldInWallet_Name {
             get {
                 return ResourceManager.GetString("HeldInWallet_Name", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to security types.
+        /// </summary>
+        public static string Noun_Plural {
+            get {
+                return ResourceManager.GetString("Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Plural_Article {
+            get {
+                return ResourceManager.GetString("Noun_Plural_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to security type.
+        /// </summary>
+        public static string Noun_Singular {
+            get {
+                return ResourceManager.GetString("Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Singular_Article {
+            get {
+                return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parent security type group of the type..
         /// </summary>
-        internal static string SecurityTypeGroupId_Description {
+        public static string SecurityTypeGroupId_Description {
             get {
                 return ResourceManager.GetString("SecurityTypeGroupId_Description", resourceCulture);
             }
@@ -144,7 +180,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Type Group.
         /// </summary>
-        internal static string SecurityTypeGroupId_Name {
+        public static string SecurityTypeGroupId_Name {
             get {
                 return ResourceManager.GetString("SecurityTypeGroupId_Name", resourceCulture);
             }
@@ -153,7 +189,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string SecurityTypeId_Description {
+        public static string SecurityTypeId_Description {
             get {
                 return ResourceManager.GetString("SecurityTypeId_Description", resourceCulture);
             }
@@ -162,7 +198,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string SecurityTypeId_Name {
+        public static string SecurityTypeId_Name {
             get {
                 return ResourceManager.GetString("SecurityTypeId_Name", resourceCulture);
             }
@@ -171,7 +207,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display name of the security type..
         /// </summary>
-        internal static string SecurityTypeName_Description {
+        public static string SecurityTypeName_Description {
             get {
                 return ResourceManager.GetString("SecurityTypeName_Description", resourceCulture);
             }
@@ -180,7 +216,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
-        internal static string SecurityTypeName_Name {
+        public static string SecurityTypeName_Name {
             get {
                 return ResourceManager.GetString("SecurityTypeName_Name", resourceCulture);
             }
@@ -189,7 +225,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Factor to be applied to prices for securities of the security type..
         /// </summary>
-        internal static string ValuationFactor_Description {
+        public static string ValuationFactor_Description {
             get {
                 return ResourceManager.GetString("ValuationFactor_Description", resourceCulture);
             }
@@ -198,7 +234,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Valuation Factor.
         /// </summary>
-        internal static string ValuationFactor_Name {
+        public static string ValuationFactor_Name {
             get {
                 return ResourceManager.GetString("ValuationFactor_Name", resourceCulture);
             }

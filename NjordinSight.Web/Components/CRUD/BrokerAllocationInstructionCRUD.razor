@@ -15,7 +15,7 @@ else
         </TitleAlignLeft>
         <TitleAlignRight>
             <label>
-                @(ModelMetadata.NameFor<BrokerTransaction>(x => x.Quantity))
+                @(ModelMetadata.NameFor<BrokerTransactionDto>(x => x.Quantity))
             </label>
             <div class="form-control">
                 @(string.Format("{0:0.######}", InstructionTable.Transaction.Quantity))

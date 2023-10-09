@@ -123,6 +123,18 @@
   <data name="MarketHolidayId_Name" xml:space="preserve">
     <value>Holiday</value>
   </data>
+  <data name="Noun_Plural" xml:space="preserve">
+    <value>holiday observances</value>
+  </data>
+  <data name="Noun_Plural_Article" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Noun_Singular" xml:space="preserve">
+    <value>holiday observance</value>
+  </data>
+  <data name="Noun_Singular_Article" xml:space="preserve">
+    <value>the</value>
+  </data>
   <data name="ObservanceDate_Description" xml:space="preserve">
     <value>The date the holiday is observed.</value>
   </data>

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components.Web;
+﻿using Ichosys.DataModel.Expressions;
+using Microsoft.AspNetCore.Components.Web;
+using NjordinSight.DataTransfer.Common.Query;
 using System;
 using System.Linq.Expressions;
 
@@ -12,8 +14,6 @@ namespace NjordinSight.Web.Components.Common
     {
         public readonly Expression<Func<TModel, bool>> SearchExpression;
 
-        public readonly MouseEventArgs MouseEventArgs;
-
         public SearchSubmittedEventArgs(
             MouseEventArgs mouseEventArgs,
             Expression<Func<TModel, bool>> searchExpression)
@@ -21,5 +21,18 @@ namespace NjordinSight.Web.Components.Common
             SearchExpression = searchExpression;
             MouseEventArgs = mouseEventArgs;
         }
+
+        public SearchSubmittedEventArgs(
+            MouseEventArgs mouseEventArgs,
+            ParameterDto<TModel> parameter)
+        {
+            MouseEventArgs = mouseEventArgs;
+            Parameter = parameter;
+        }
+
+        public MouseEventArgs MouseEventArgs { get; init; }
+
+        public ParameterDto<TModel> Parameter { get; init; }
+
     }
 }

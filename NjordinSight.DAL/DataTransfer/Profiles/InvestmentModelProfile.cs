@@ -40,7 +40,7 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<InvestmentModelTargetDto, InvestmentStrategyTarget>()
                 .ForMember(
                     a => a.AttributeMemberId,
-                    b => b.MapFrom(x => x.AttributeMember.AttributeMemberId))
+                    b => b.MapFrom(x => x.AttributeMemberId))
                 .ForMember(a => a.InvestmentStrategyId, b => b.MapFrom(x => x.InvestmentModelId))
                 .ForMember(a => a.Weight, b => b.MapFrom(x => x.PercentWeight))
                 .ForMember(a => a.AttributeMember, b => b.Ignore())

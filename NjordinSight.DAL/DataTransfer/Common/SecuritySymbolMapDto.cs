@@ -1,8 +1,16 @@
-﻿using System.ComponentModel;
+﻿using Ichosys.DataModel.Annotations;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(SecuritySymbolMapDto_SR.Noun_Plural),
+        PluralArticle = nameof(SecuritySymbolMapDto_SR.Noun_Plural_Article),
+        Singular = nameof(SecuritySymbolMapDto_SR.Noun_Singular),
+        SingularArticle = nameof(SecuritySymbolMapDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(SecuritySymbolMapDto_SR)
+        )]
     public class SecuritySymbolMapDto : DtoBase
     {
         private int _symbolMapId;
@@ -10,10 +18,7 @@ namespace NjordinSight.DataTransfer.Common
         private string _custodianSymbol;
         private int _securitySymbolId;
 
-        [Display(
-            Name = nameof(SecuritySymbolMapDto_SR.SymbolMapId_Name),
-            Description = nameof(SecuritySymbolMapDto_SR.SymbolMapId_Description),
-            ResourceType = typeof(SecuritySymbolMapDto_SR))]
+        [Key]
         public int SymbolMapId
         {
             get { return _symbolMapId; }

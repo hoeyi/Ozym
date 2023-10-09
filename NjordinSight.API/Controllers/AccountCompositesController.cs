@@ -10,7 +10,7 @@ namespace NjordinSight.Api.Controllers
 {
     /// <inheritdoc/>
     [ApiController]
-    [Route("api/v{version:apiVersion}/account-composites")]
+    [Route("api/v{version:apiVersion}/composites")]
     [ApiVersion("1.0")]
     public class AccountCompositesController : ApiController<AccountCompositeDto, AccountComposite>
     {

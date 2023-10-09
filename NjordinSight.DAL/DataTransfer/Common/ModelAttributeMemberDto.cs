@@ -1,7 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Ichosys.DataModel.Annotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(ModelAttributeMemberDto_SR.Noun_Plural),
+        PluralArticle = nameof(ModelAttributeMemberDto_SR.Noun_Plural_Article),
+        Singular = nameof(ModelAttributeMemberDto_SR.Noun_Singular),
+        SingularArticle = nameof(ModelAttributeMemberDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(ModelAttributeMemberDto_SR)
+        )]
     public class ModelAttributeMemberDtoBase : DtoBase
     {
         private int _attributeMemberId;
@@ -56,13 +64,20 @@ namespace NjordinSight.DataTransfer.Common
         }
     }
 
+    [Noun(
+        Plural = nameof(ModelAttributeMemberDto_SR.Noun_Plural),
+        PluralArticle = nameof(ModelAttributeMemberDto_SR.Noun_Plural_Article),
+        Singular = nameof(ModelAttributeMemberDto_SR.Noun_Singular),
+        SingularArticle = nameof(ModelAttributeMemberDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(ModelAttributeMemberDto_SR)
+        )]
     public class ModelAttributeMemberDto : ModelAttributeMemberDtoBase
     {
         [Display(
             Name = nameof(ModelAttributeMemberDto_SR.AttributeId_Name),
             Description = nameof(ModelAttributeMemberDto_SR.AttributeId_Description),
             ResourceType = typeof(ModelAttributeMemberDto_SR))]
-        public ModelAttributeDto Attribute { get; set; } = new();
+        public ModelAttributeDtoBase Attribute { get; set; } = new();
     }
 }
 

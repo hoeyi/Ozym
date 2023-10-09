@@ -13,18 +13,20 @@ namespace NjordinSight.Test.EntityModelService
         : ModelCollectionServiceTest<InvestmentPerformanceEntry>
     {
         private const int _accountObjectId = -8;
+
+        /// <inheritdoc/>
         protected override Expression<Func<InvestmentPerformanceEntry, bool>> ParentExpression =>
                x => x.AccountObjectId == _accountObjectId;
 
         /// <inheritdoc/>
         /// <remarks>Always passes because <see cref="ReadAsync_Returns_Single_Model"/> the 
         /// <see cref="InvestmentPerformanceEntry"/> entity does not have a single-integer key.</remarks>
-        [TestMethod]
         public override Task ReadAsync_Returns_Single_Model()
         {
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc/>
         [TestMethod]
         public override async Task SelectWhereAsync_Returns_Model_ExpectedCollection()
         {
@@ -40,7 +42,8 @@ namespace NjordinSight.Test.EntityModelService
             Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
         }
 
-        protected override IModelCollectionService<InvestmentPerformanceEntry, int> GetModelService() =>
-            BuildModelService<InvestmentPerformanceService, int>().WithParent(_accountObjectId);
+        /// <inheritdoc/>
+        protected override IModelCollectionService<InvestmentPerformanceEntry> GetModelService() =>
+            BuildModelService<InvestmentPerformanceService>();
     }
 }

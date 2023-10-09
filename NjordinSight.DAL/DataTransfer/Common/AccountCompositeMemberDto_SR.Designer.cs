@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AccountCompositeMemberDto_SR {
+    public class AccountCompositeMemberDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.AccountCompositeMemberDto_SR", typeof(AccountCompositeMemberDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string AccountCompositeId_Description {
+        public static string AccountCompositeId_Description {
             get {
                 return ResourceManager.GetString("AccountCompositeId_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string AccountCompositeId_Name {
+        public static string AccountCompositeId_Name {
             get {
                 return ResourceManager.GetString("AccountCompositeId_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Member account entry..
         /// </summary>
-        internal static string AccountId_Description {
+        public static string AccountId_Description {
             get {
                 return ResourceManager.GetString("AccountId_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Account.
         /// </summary>
-        internal static string AccountId_Name {
+        public static string AccountId_Name {
             get {
                 return ResourceManager.GetString("AccountId_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Notes related to entry and/or exit..
         /// </summary>
-        internal static string Comment_Description {
+        public static string Comment_Description {
             get {
                 return ResourceManager.GetString("Comment_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
-        internal static string Comment_Name {
+        public static string Comment_Name {
             get {
                 return ResourceManager.GetString("Comment_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Order of members displayed in reports..
         /// </summary>
-        internal static string DisplayOrder_Description {
+        public static string DisplayOrder_Description {
             get {
                 return ResourceManager.GetString("DisplayOrder_Description", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display Order.
         /// </summary>
-        internal static string DisplayOrder_Name {
+        public static string DisplayOrder_Name {
             get {
                 return ResourceManager.GetString("DisplayOrder_Name", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Date member entered the composite..
         /// </summary>
-        internal static string EntryDate_Description {
+        public static string EntryDate_Description {
             get {
                 return ResourceManager.GetString("EntryDate_Description", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Entry Date.
         /// </summary>
-        internal static string EntryDate_Name {
+        public static string EntryDate_Name {
             get {
                 return ResourceManager.GetString("EntryDate_Name", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Date member exited the composite..
         /// </summary>
-        internal static string ExitDate_Description {
+        public static string ExitDate_Description {
             get {
                 return ResourceManager.GetString("ExitDate_Description", resourceCulture);
             }
@@ -162,9 +162,45 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Exit Date.
         /// </summary>
-        internal static string ExitDate_Name {
+        public static string ExitDate_Name {
             get {
                 return ResourceManager.GetString("ExitDate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to composite members.
+        /// </summary>
+        public static string Noun_Plural {
+            get {
+                return ResourceManager.GetString("Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Plural_Article {
+            get {
+                return ResourceManager.GetString("Noun_Plural_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to composite member.
+        /// </summary>
+        public static string Noun_Singular {
+            get {
+                return ResourceManager.GetString("Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Singular_Article {
+            get {
+                return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
             }
         }
     }

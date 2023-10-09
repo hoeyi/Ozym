@@ -1,6 +1,6 @@
 ﻿@page "/accounts/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<Account>
+@inherits ModelDetail<AccountDto>
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
@@ -17,22 +17,22 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ModelDto">
-            <EditForm class="model-editor" Model="@ModelDto" OnValidSubmit="HandleValidSubmit" >
+        <CascadingValue Value="@Model">
+            <EditForm class="model-editor" Model="@Model" OnValidSubmit="HandleValidSubmit" >
                 <DataAnnotationsValidator />
                 <ActionButtonMenu>
                     <button type="submit" class="form-control button">
                         @Strings.Caption_Button_Save
                     </button>
-                    <button class="form-control button" @onclick="Cancel_OnClick"
+                    <button class="form-control button" @onclick="FormCancelClickHandler"
                         @onclick:preventDefault >
                         @Strings.Caption_Button_Cancel
                     </button>
                 </ActionButtonMenu>
                 <ContentTile>
                     <Body>
-                        <AccountCRUD AccountCustodians="@Custodians" 
-                            Disabled="false" ReadOnly="false" />
+                        <AccountCRUD AccountCustodians="@CustodianDtos"
+                                     Disabled="false" ReadOnly="false" />
                     </Body>
                 </ContentTile>
             </EditForm>
@@ -44,9 +44,7 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> Custodians { get; set; }
-
-    private AccountDto ModelDto { get; set; }
+    private IEnumerable<AccountCustodianDto> CustodianDtos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -54,37 +52,19 @@
 
         try
         {
-            var defaultModelTask = Controller.GetDefaultAsync();
-            var custodiansQuery = Controller.ReferenceQueries.GetAccountCustodianDTOsAsync();
+            var accountQuery = HttpService.InitDefaultAsync();
+            var custodiansQuery = HttpService.GetAllAsync<AccountCustodianDto>();
 
-            var dataTasks = Task.WhenAll(defaultModelTask, custodiansQuery);
-            await dataTasks;
+            await Task.WhenAll(accountQuery, custodiansQuery);
 
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                Model = (await defaultModelTask).Value;
-                Custodians = (await custodiansQuery).Value;
-                ModelDto = new(Model);
-            }
-            else
-            {
-                throw dataTasks.Exception.Flatten();
-            }
+            Model = await accountQuery;
+            CustodianDtos = await custodiansQuery;
         }
         finally
         {
-            IsLoading = Model is null || Custodians is null;
+            IsLoading = Model is null || CustodianDtos is null;
         }
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-    protected override async Task HandleValidSubmit()
-    {
-        Model = ModelDto.ToEntity();
-
-        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
-
-        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
-    }
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 }

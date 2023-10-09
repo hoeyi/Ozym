@@ -7,7 +7,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
 {
     public abstract partial class AttributeEntryUnweightedCollection<
         TParentEntity, TChildEntity, TGroupViewModel> :
-        AttributeEntryCollection<TParentEntity, TChildEntity, TGroupViewModel, ModelAttributeDto>,
+        AttributeEntryCollection<TParentEntity, TChildEntity, TGroupViewModel, ModelAttributeDtoBase>,
         IAttributeEntryUnweightedCollection<TParentEntity, TChildEntity, TGroupViewModel>
         where TGroupViewModel : IAttributeEntryUnweightedGrouping<TParentEntity, TChildEntity>
     {
@@ -15,9 +15,9 @@ namespace NjordinSight.DataTransfer.Common.Generic
 
         protected AttributeEntryUnweightedCollection(
             TParentEntity parentEntity,
-            Func<TParentEntity, ModelAttributeDto, TGroupViewModel> groupConstructor,
-            Func<IGrouping<ModelAttributeDto, TChildEntity>, TParentEntity, TGroupViewModel> groupConverter,
-            Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<ModelAttributeDto, TChildEntity>>> groupingFunc,
+            Func<TParentEntity, ModelAttributeDtoBase, TGroupViewModel> groupConstructor,
+            Func<IGrouping<ModelAttributeDtoBase, TChildEntity>, TParentEntity, TGroupViewModel> groupConverter,
+            Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<ModelAttributeDtoBase, TChildEntity>>> groupingFunc,
             Func<TParentEntity, IEnumerable<TChildEntity>> entryMemberSelector,
             Func<TChildEntity, DateTime> entryDateSelector)
             : base(parentEntity, groupConstructor, groupConverter, groupingFunc, entryMemberSelector)
@@ -41,7 +41,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
             });
 
         /// <inheritdoc/>
-        public TGroupViewModel AddEntryForGrouping(ModelAttributeDto forAttribute)
+        public TGroupViewModel AddEntryForGrouping(ModelAttributeDtoBase forAttribute)
         {
             var viewModel = CreateGroupViewModel(ParentEntity, forAttribute);
 

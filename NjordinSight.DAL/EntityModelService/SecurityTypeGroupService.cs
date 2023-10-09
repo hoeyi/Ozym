@@ -38,8 +38,6 @@ namespace NjordinSight.EntityModelService
             {
                 CreateDelegate = async (context, model) =>
                 {
-                    model.AttributeMemberNavigation.DisplayName = model.SecurityTypeGroupName;
-
                     var result = await context
                         .MarkForCreation(model)
                         .SaveChangesAsync() > 0;
@@ -74,8 +72,6 @@ namespace NjordinSight.EntityModelService
                 },
                 UpdateDelegate = async (context, model) =>
                 {
-                    model.AttributeMemberNavigation.DisplayName = model.SecurityTypeGroupName;
-
                     var result = await context
                         .MarkForUpdate(model)
                         .SaveChangesAsync() > 0;

@@ -1,6 +1,6 @@
 ﻿@page "/securities/{ModelId:int}/detail"
 
-@inherits ModelDetail<Security>
+@inherits ModelDetail<SecurityDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -9,7 +9,7 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.ReadSingle($"{Model.SecuritySymbol} {Model.SecurityDescription}").AsPageTitle())
+        <PageTitle>@(PageTitle.ReadSingle($"{Model.CurrentSymbol} {Model.SecurityDescription}").AsPageTitle())
         </PageTitle>
 
         <ModelPageHeader 
@@ -22,8 +22,8 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ModelDto">
-                    <EditForm class="model-editor" Model="@ModelDto"> 
+                <CascadingValue Value="@Model">
+                    <EditForm class="model-editor" Model="@Model">
                         <SecurityCRUD
                             SecurityTypes="SecurityTypes"
                             SecurityExchanges="Exchanges"
@@ -33,8 +33,8 @@
                 </CascadingValue>
             </Body>
         </ContentTile>
-        @foreach(var group in ModelDto.AttributeViewModel.CurrentEntryCollectionGroups.OrderBy(g => 
-            g.ParentAttribute.DisplayName))
+        @foreach (var group in Model.AttributeCollection.CurrentEntryCollectionGroups
+            .OrderBy(g => g.ParentAttribute.DisplayName))
         {
             <CascadingValue Value="@group">
                 <EditForm class="model-editor" Model="@group">
@@ -47,52 +47,47 @@
         <ContentTile>
             <TitleAlignLeft>
                 @(ModelMetadata
-                    .GetAttribute<SecuritySymbol, NounAttribute>()
+                    .GetAttribute<SecuritySymbolDto, NounAttribute>()
                     .GetPlural().ToTitleCase())
             </TitleAlignLeft>
             <Body>
-                <EditForm width="100%" Model="@ModelDto.SecuritySymbols">
+                <EditForm width="100%" Model="@Model.Symbols">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <DataGrid Data="@ModelDto.SecuritySymbols">
-                        <DataGridColumn Property="@nameof(SecuritySymbol.SymbolTypeId)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.SymbolTypeId))">
+                    <DataGrid Data="@Model.Symbols">
+                        <DataGridColumn Property="@nameof(SecuritySymbolDto.SymbolTypeId)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(
+                                        x => x.SymbolTypeId))">
                             <CellTemplate Context="model">
-                                @GetLookupDisplayName(SymbolTypes, model.SymbolTypeId)
+                                @(SymbolTypes.FirstOrDefault(x => x.SymbolTypeId == model.SymbolTypeId)?.SymbolTypeName)
                             </CellTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property="@nameof(SecuritySymbol.SymbolCode)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.SymbolCode))">
-                            <CellTemplate Context="model">
-                                @model.SymbolCode
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property="@nameof(SecuritySymbol.EffectiveDate)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.EffectiveDate))">
+                        <DataGridColumn Property="@nameof(SecuritySymbolDto.EffectiveDate)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.EffectiveDate))">
                             <CellTemplate Context="model">
                                 @model.EffectiveDate.ToShortDateString()
                             </CellTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property="@nameof(SecuritySymbol.Ticker)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.Ticker))">
+                        <DataGridColumn Property="@nameof(SecuritySymbolDto.Ticker)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.Ticker))">
                             <CellTemplate Context="model">
                                 @model.Ticker
                             </CellTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property="@nameof(SecuritySymbol.Cusip)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.Cusip))">
+                        <DataGridColumn Property="@nameof(SecuritySymbolDto.Cusip)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.Cusip))">
                             <CellTemplate Context="model">
                                 @model.Cusip
                             </CellTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property="@nameof(SecuritySymbol.CustomSymbol)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.CustomSymbol))">
+                        <DataGridColumn Property="@nameof(SecuritySymbolDto.CustomSymbol)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.CustomSymbol))">
                             <CellTemplate Context="model">
                                 @model.CustomSymbol
                             </CellTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property="@nameof(SecuritySymbol.OptionTicker)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbol>(x => x.OptionTicker))">
+                        <DataGridColumn Property="@nameof(SecuritySymbolDto.OptionTicker)"
+                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.OptionTicker))">
                             <CellTemplate Context="model">
                                 @model.OptionTicker
                             </CellTemplate>
@@ -108,81 +103,47 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> Exchanges { get; set; }
+    [Inject]
+    protected IQueryService QueryService { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> SecurityTypes { get; set; }
+    private IEnumerable<SecurityExchangeDto> Exchanges { get; set; }
 
-    private IEnumerable<LookupModel<int, string>> SymbolTypes { get; set; }
+    private IEnumerable<SecurityTypeDto> SecurityTypes { get; set; }
+
+    private IEnumerable<SecuritySymbolTypeDto> SymbolTypes { get; set; }
 
     private IEnumerable<string> Issuers { get; set; }
 
-    private SecurityDto ModelDto { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
-
         IsLoading = true;
 
         try
         {
-            var exchangesDtoQuery = Controller.ReferenceQueries
-                .GetDtosAsync<SecurityExchange, int, string>(
-                    key: x => x.ExchangeId,
-                    display: x => x.ExchangeCode);
+            var exchangesQuery = HttpService.GetAllAsync<SecurityExchangeDto>();
+            var issuersQuery = QueryService.BuiltIn.GetIssuersAsync(pageSize: int.MaxValue);
+            var securityTypesQuery = QueryService.BuiltIn.GetSecurityTypeDTOsAsync(pageSize: int.MaxValue);
+            var symbolTypesQuery = QueryService.BuiltIn.GetSecuritySymbolTypesAsync(pageSize: int.MaxValue);
 
-            var securityTypesQuery = Controller.ReferenceQueries
-                .GetDtosAsync<SecurityType, int, string>(
-                    key: x => x.SecurityTypeId,
-                    display: x => x.SecurityTypeName);
+            var securityQuery = HttpService.GetAsync(ModelId);
 
-            var issuersQuery = Controller.ReferenceQueries
-                .GetManyAsync<Security>(x => (x.Issuer ?? string.Empty) != string.Empty);
+            await Task.WhenAll(
+                exchangesQuery, securityTypesQuery, issuersQuery, securityQuery, symbolTypesQuery);
 
-            var securityQuery = Controller.ReadAsync(ModelId);
-
-            var symbolTypesQuery = Controller.ReferenceQueries
-                .GetDtosAsync<SecuritySymbolType, int, string>(
-                    key: x => x.SymbolTypeId,
-                    display: x => x.SymbolTypeName);
-
-            var dataTasks = Task.WhenAll(
-                exchangesDtoQuery,
-                securityTypesQuery,
-                issuersQuery,
-                securityQuery,
-                symbolTypesQuery);
-
-            await dataTasks;
-
-            if(dataTasks.Status == TaskStatus.RanToCompletion)
-            {
-                Model = (await securityQuery).Value;
-                Exchanges = (await exchangesDtoQuery).Value;
-                SecurityTypes  = (await securityTypesQuery).Value;
-                Issuers = (await issuersQuery).Value.Select(x => x.Issuer).Distinct();
-                SymbolTypes = (await symbolTypesQuery).Value;
-            }
-
-            else
-            {
-                throw dataTasks.Exception.Flatten();
-            }
-
-            ModelDto = new(Model);
+            Model = await securityQuery;
+            Exchanges = await exchangesQuery;
+            SecurityTypes = (await securityTypesQuery).Item1;
+            SymbolTypes = (await symbolTypesQuery).Item1;
+            Issuers = (await issuersQuery).Item1;
         }
         finally
         {
-            IsLoading = Exchanges is null ||
-                SecurityTypes is null ||
-                Issuers is null ||
-                Model is null ||
-                ModelDto is null ||
-                SymbolTypes is null;
+            IsLoading = 
+                Exchanges is null || 
+                SecurityTypes is null || 
+                Issuers is null || 
+                SymbolTypes is null || 
+                Model is null;
         }
-
-        // TODO: Take corrective action here, accountQuery.Value should be Account
     }
-
-    private string GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
-        lookupModels.FirstOrDefault(x => x.Key == id)?.Display ?? string.Empty;
 }

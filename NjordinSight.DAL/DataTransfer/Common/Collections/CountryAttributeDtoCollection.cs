@@ -48,7 +48,7 @@ namespace NjordinSight.DataTransfer.Common.Collections
                             var forDate = g.Key.EffectiveDate;
 
                             var group = new AttributeGrouping<
-                                (ModelAttributeDto, DateTime), CountryAttributeDto>(
+                                (ModelAttributeDtoBase, DateTime), CountryAttributeDto>(
                                     key: (attribute, forDate), collection: g);
 
                             return group;

@@ -1,6 +1,6 @@
 ﻿@page "/composites/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<AccountComposite>
+@inherits ModelDetail<AccountCompositeDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -17,9 +17,9 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic"/>
         </CascadingValue>
 
-        <CascadingValue Value="@ModelDto">
+        <CascadingValue Value="@Model">
             <EditForm class="model-editor"
-                  Model="@ModelDto"
+                      Model="@Model"
                   OnValidSubmit="HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <ActionButtonMenu>
@@ -27,7 +27,7 @@
                         @Strings.Caption_Button_Save
                     </button>
                     <button type="button" class="form-control button"
-                        @onclick="Cancel_OnClick"
+                        @onclick="FormCancelClickHandler"
                         @onclick:preventDefault>
                         @Strings.Caption_Button_Cancel
                     </button>
@@ -38,7 +38,7 @@
                     </Body>
                 </ContentTile>
             </EditForm>
-            <EditForm Model="@ModelDto">
+            <EditForm Model="@Model">
                 <ContentTile>
                     <Body>
                         <AccountCompositeMembersCRUD Accounts="@AccountDtos" Disabled="false" ReadOnly="false" />
@@ -53,9 +53,10 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> AccountDtos { get; set; }
+    [Inject]
+    protected IQueryService QueryService { get; init; }
 
-    private AccountCompositeDto ModelDto { get; set; }
+    private IEnumerable<AccountSimpleDto> AccountDtos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,30 +64,19 @@
 
         try
         {
-            var compositeQuery = Controller.GetDefaultAsync();
-            var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
+            var compositeQuery = HttpService.InitDefaultAsync();
+            var accountsQuery = QueryService.BuiltIn.GetAccountDTOsAsync(pageSize: int.MaxValue);
 
-            var dataTask = Task.WhenAll(compositeQuery, accountsQuery);
+            await Task.WhenAll(compositeQuery, accountsQuery);
 
-            Model = (await compositeQuery).Value;
-            AccountDtos = (await accountsQuery).Value;
-
-            ModelDto = new(Model);
+            Model = await compositeQuery;
+            AccountDtos = (await accountsQuery).Item1;
         }
         finally
         {
-            IsLoading = Model is null || AccountDtos is null || ModelDto is null;
+            IsLoading = Model is null || AccountDtos is null;
         }
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-    protected override async Task HandleValidSubmit()
-    {
-        Model = ModelDto.ToEntity();
-
-        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
-
-        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
-    }
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 }

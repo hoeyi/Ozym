@@ -21,8 +21,6 @@ else
                 </button>
             }
         </TitleAlignLeft>
-        @*<TitleAlignRight>
-        </TitleAlignRight>*@
         <Body>
             <EditForm class="model-editor" Model="@ModelDto">
                 <DataGrid Data="@ModelDto.Entries">
@@ -40,16 +38,16 @@ else
                     @if (ReadOnly)
                     {
                         <DataGridColumn Property=@nameof(
-                                BrokerTransactionCodeAttributeMemberEntry.AttributeMemberId)
-                                Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
+                                BrokerTransactionCodeAttributeDto.AttributeMemberId)
+                                Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeDto>(
                                 x => x.AttributeMemberId))>
                             <CellTemplate Context="model">
                                 @model.AttributeMember.DisplayName
                             </CellTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property=@nameof(
-                                BrokerTransactionCodeAttributeMemberEntry.EffectiveDate)
-                                Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
+                                BrokerTransactionCodeAttributeDto.EffectiveDate)
+                                Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeDto>(
                                 x => x.EffectiveDate))>
                             <CellTemplate Context="model">
                                 @model.EffectiveDate.ToShortDateString()
@@ -59,24 +57,24 @@ else
                     else
                     {
                         <DataGridColumn 
-                            Property=@nameof(BrokerTransactionCodeAttributeMemberEntry
+                            Property=@nameof(BrokerTransactionCodeAttributeDto
                                 .AttributeMemberId)
                             Type="DataGridCellType.Control"
-                            Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
+                            Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeDto>(
                                 x => x.AttributeMemberId))>
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
                                      @bind-Value="@model.AttributeMemberId">
                                     @foreach (var member in AttributeMemberLookup)
                                     {
-                                        <option value="@member.Key">@member.Display</option>
+                                        <option value="@member.Key">@member.Value</option>
                                     }
                                 </InputSelect>
                             </CellEditTemplate>
                         </DataGridColumn>
-                        <DataGridColumn Property=@nameof(BrokerTransactionCodeAttributeMemberEntry.EffectiveDate)
+                        <DataGridColumn Property=@nameof(BrokerTransactionCodeAttributeDto.EffectiveDate)
                             Type="DataGridCellType.Control"
-                            Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeMemberEntry>(
+                            Caption=@(ModelMetadata.NameFor<BrokerTransactionCodeAttributeDto>(
                                 x => x.EffectiveDate))>
                             <CellEditTemplate Context="model">
                                 <InputDate class="form-control"
@@ -91,12 +89,16 @@ else
 }
 
 @code {
-    [CascadingParameter(Name = nameof(AttributeMemberLookup))]
-    public IEnumerable<LookupModel<int, string>> AttributeMemberLookup { get; set; }
+    [CascadingParameter(Name = nameof(AttributeMembers))]
+    public IEnumerable<ModelAttributeMemberDtoBase> AttributeMembers { get; set; }
+
+    private IDictionary<int, string> AttributeMemberLookup { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
+        AttributeMemberLookup = AttributeMembers?.ToDictionary(x => x.AttributeMemberId, y => y.DisplayName);
 
         IsLoading = ModelDto is null || (ReadOnly ^ (AttributeMemberLookup is null));
     }
@@ -109,7 +111,7 @@ else
     }
 
     private void RemoveExisting_OnClick(
-        MouseEventArgs e, BrokerTransactionCodeAttributeMemberEntry model)
+        MouseEventArgs e, BrokerTransactionCodeAttributeDto model)
     {
         // TODO: Do something with MouseEventArgs ?
 

@@ -1,6 +1,6 @@
 ﻿@page "/investment-models/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<InvestmentStrategy>
+@inherits ModelDetail<InvestmentModelDto>
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
@@ -18,14 +18,14 @@
         </CascadingValue>
 
         <AttributeEntryCollectionEditor 
-            TViewModelParent="InvestmentModelDto"
+            TViewModelParent="InvestmentModelTargetDtoCollection"
             TViewModelChild="InvestmentModelTargetGrouping"
-            TModel="InvestmentStrategy"
-            TModelChild="InvestmentStrategyTarget"
-            OnCancelEditorClick="CancelFormHandler"
-            OnValidFormSubmit="ValidFormSubmitHandler"
+            TModel="InvestmentModelDto"
+            TModelChild="InvestmentModelTargetDto"
+            OnCancelEditorClick="FormCancelClickHandler"
+            OnValidFormSubmit="HandleValidSubmit"
             EffectiveDatePath="@(x => x.EffectiveDate)"
-            ModelDto="@ModelDto"
+            ModelDto="@Model.TargetCollection"
             Mode="EditorMode.Add">
             <ViewModelCRUD>
                 <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
@@ -40,38 +40,19 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private InvestmentModelDto ModelDto { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
 
         try
         {
-            var modelQuery = await Controller.GetDefaultAsync();
-
-            if (modelQuery.Value is InvestmentStrategy model)
-            {
-                Model = model;
-            }
-
-            ModelDto = new(Model);
+            Model = await HttpService.InitDefaultAsync();
         }
         finally
         {
-            IsLoading = Model is null || ModelDto is null;
+            IsLoading = Model is null;
         }
     }
 
-    private async Task ValidFormSubmitHandler(EditContext args)
-    {
-        Model = ModelDto.ToEntity();
-
-        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
-
-        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
-    }
-
-    private void CancelFormHandler(MouseEventArgs args) =>
-        NavigationHelper.NavigateTo(IndexUriRelativePath);
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 }

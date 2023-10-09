@@ -123,10 +123,22 @@
   <data name="AttributeId_Name" xml:space="preserve">
     <value>Attribute</value>
   </data>
+  <data name="Noun_Plural" xml:space="preserve">
+    <value>attribute scopes</value>
+  </data>
+  <data name="Noun_Plural_Article" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Noun_Singular" xml:space="preserve">
+    <value>attribute scopes</value>
+  </data>
+  <data name="Noun_Singular_Article" xml:space="preserve">
+    <value>the</value>
+  </data>
   <data name="ScopeCode_Description" xml:space="preserve">
     <value>Denotes the attribute applies to the objec type.</value>
   </data>
   <data name="ScopeCode_Name" xml:space="preserve">
-    <value>Scope</value>
+    <value>Scope(s)</value>
   </data>
 </root>

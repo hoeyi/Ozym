@@ -129,6 +129,18 @@
   <data name="MarketIndexId_Name" xml:space="preserve">
     <value>Index</value>
   </data>
+  <data name="Noun_Plural" xml:space="preserve">
+    <value>index rates</value>
+  </data>
+  <data name="Noun_Plural_Article" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Noun_Singular" xml:space="preserve">
+    <value>index rate</value>
+  </data>
+  <data name="Noun_Singular_Article" xml:space="preserve">
+    <value>the</value>
+  </data>
   <data name="PriceCode_Description" xml:space="preserve">
     <value>Type of return measured by the record (e.g., price or total).</value>
   </data>

@@ -1,6 +1,6 @@
 ﻿@page "/accounts/{ModelId:int}/edit/wallets"
 
-@inherits ModelListPage<AccountWallet>
+@inherits ModelPagedIndexEditor<AccountWalletDto>
 
 <ThemedComponent>
     @if(ParentAccount is null)
@@ -9,9 +9,9 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.UpdateSingle(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.UpdateSingle(ParentAccount.ShortCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.UpdateMany(ParentAccount.AccountCode))" />
+        <ModelPageHeader Header="@(PageTitle.UpdateMany(ParentAccount.ShortCode))" />
     }
 
     <CascadingValue Value="@ErrorMessage">
@@ -32,65 +32,69 @@
                     @Strings.Caption_Button_Save
                 </button>
                 <button class="form-control button" 
-                    @onclick=@(async (args) => await AddNewAsync(args))>
+                    @onclick=@((args) => AddNew(args))>
                     @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                 </button>
-                <button class="form-control button" @onclick="Cancel_OnClick"
+                <button class="form-control button" @onclick="CancelEditor_OnClick"
                     @onclick:preventDefault>
                     @Strings.Caption_Button_Cancel
                 </button>
             </ActionButtonMenu>
             <ContentTile>
                 <Body>
-                @if (IsLoading)
-                {
-                    <LoadingSvg />
-                }
-                else
-                {   
-                    <ValidationSummary />
-                        <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
-                        <DataGridColumn Type="DataGridCellType.Button">
-                            <CellEditTemplate Context="model">
-                                <ToolTip Text="@Strings.Caption_Button_Delete">
-                                    <button class="form-control button icon" type="button"
-                                        @onclick="async (args) => await DeleteAsync(args, model)">
-                                        <IonIcon Name="close-circle" />
-                                    </button>
-                                </ToolTip>
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(AccountWallet.DenominationSecurityId)
-                                    Caption=@(ModelMetadata.NameFor<AccountWallet>(x => x.DenominationSecurityId))
-                                        width="20%">
-                            <CellEditTemplate Context="model">
-                                <InputSelect class="form-control"
-                                            @bind-Value="@model.DenominationSecurityId">
-                                    @foreach (var security in DenominationSecurities)
-                                    {
-                                        <option value=@security.Key>@security.Display</option>
-                                    }
-                                </InputSelect>
-                                <ValidationMessage For=@(()=> model.DenominationSecurityId) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(AccountWallet.AddressCode)
-                                    Caption=@(ModelMetadata.NameFor<AccountWallet>(x => x.AddressCode))
-                                        width="45%">
-                            <CellEditTemplate Context="model">
-                                <InputText class="form-control" @bind-Value="@model.AddressCode" />
-                                <ValidationMessage For=@(()=> model.AddressCode) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property=@nameof(AccountWallet.AddressTag)
-                                    Caption=@(ModelMetadata.NameFor<AccountWallet>(x => x.AddressTag))
-                                        width="35%">
-                            <CellEditTemplate Context="model">
-                                <InputText class="form-control" @bind-Value="@model.AddressTag" />
-                                <ValidationMessage For=@(()=> model.AddressTag) />
-                            </CellEditTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
+                    @if (IsLoading)
+                    {
+                        <LoadingSvg />
+                    }
+                    else
+                    {   
+                        <ValidationSummary />
+                            <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
+                            <DataGridColumn Type="DataGridCellType.Button">
+                                <CellEditTemplate Context="model">
+                                    <ToolTip Text="@Strings.Caption_Button_Delete">
+                                        <button class="form-control button icon" type="button"
+                                            @onclick="(args) => DeleteRecord(args, model)">
+                                            <IonIcon Name="close-circle" />
+                                        </button>
+                                    </ToolTip>
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn Type="DataGridCellType.Control"
+                                Property=@nameof(AccountWalletDto.DenominationSecurityId)
+                                Caption=@(ModelMetadata.NameFor<AccountWalletDto>(x => x.DenominationSecurityId))
+                                width="20%">
+                                <CellEditTemplate Context="model">
+                                    <InputSelect class="form-control"
+                                                @bind-Value="@model.DenominationSecurityId">
+                                        @foreach (var security in DenominationSecurities)
+                                        {
+                                            <option value=@security.SecurityId>@security.SecurityDescription</option>
+                                        }
+                                    </InputSelect>
+                                    <ValidationMessage For=@(()=> model.DenominationSecurityId) />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn 
+                                Type="DataGridCellType.Control"
+                                Property=@nameof(AccountWalletDto.AddressCode)
+                                Caption=@(ModelMetadata.NameFor<AccountWalletDto>(x => x.AddressCode)) 
+                                width="45%">
+                                <CellEditTemplate Context="model">
+                                    <InputText class="form-control" @bind-Value="@model.AddressCode" />
+                                    <ValidationMessage For=@(()=> model.AddressCode) />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                            <DataGridColumn Type="DataGridCellType.Control"
+                                Property=@nameof(AccountWalletDto.AddressTag)
+                                Caption=@(ModelMetadata.NameFor<AccountWalletDto>(x => x.AddressTag)) 
+                                width="35%">
+                                <CellEditTemplate Context="model">
+                                    <InputText class="form-control" @bind-Value="@model.AddressTag" />
+                                    <ValidationMessage For=@(()=> model.AddressTag) />
+                                </CellEditTemplate>
+                            </DataGridColumn>
+                        </DataGrid>
                     }
                 </Body>
             </ContentTile>
@@ -102,62 +106,94 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> DenominationSecurities { get; set; }
-
-    private Account ParentAccount { get; set; }
+    [Inject]
+    protected IQueryService QueryService { get; init; }
 
     [Inject]
-    protected new ICollectionController<AccountWallet, int> Controller { get; init; }
+    protected new IHttpCollectionService<AccountWalletDto, int> HttpService { get; init; }
 
-    protected override bool GetLoadingState() => 
+    private IEnumerable<SecurityDtoBase> DenominationSecurities { get; set; }
+
+    private AccountDto ParentAccount { get; set; }
+
+    /// <inheritdoc/>
+    protected override bool PageDataIsLoading() =>
         WorkingEntries is null || ParentAccount is null || DenominationSecurities is null;
 
-    protected override async Task OnInitializedAsync()
+    /// <inheritdoc/>
+    protected override async Task RefreshResultsAsync(
+        ParameterDto<AccountWalletDto> parameter, int pageNumber, int pageSize)
     {
-        // Update the hidden reference to refer the same object to avoid null reference exception.
-        base.Controller = Controller;
-
-        CheckNullParameters();
-
-        IsLoading = true;
-
-        try
+        if (WorkingEntries?.HasChanges ?? false)
         {
-            ParentAccount = (
-                await Controller.ReferenceQueries
-                    .GetSingleAsync<Account>(
-                        predicate: a => a.AccountId == ModelId,
-                        path: a => a.AccountNavigation)).Value;
+            var discardConfirmed = await ConfirmDiscardChangesAsync();
 
-            var initResult = await Controller.ForParent(ParentAccount.AccountId);
-
-            if (initResult is not OkResult)
-                throw new InvalidOperationException();
-
-            var denominationDtosTask = Controller.ReferenceQueries
-                .GetCryptocurrencyDTOsAsync();
-            var walletsTask = Controller.SelectAsync(predicate: x => true);
-
-            await InitializationTasksAsync(denominationDtosTask, walletsTask);
-
-            var denominationDtoResult = await denominationDtosTask;
-            var walletsResult = await walletsTask;
-
-            WorkingEntries = walletsResult.Value.Item1.ToList();
-            DenominationSecurities = denominationDtoResult.Value;
-
-            Context = new(WorkingEntries);
-
-            PaginationHelper.TotalItemCount = (await walletsTask).Value.Item2.ItemCount;
-            PaginationHelper.ItemCount = WorkingEntries.Count;
+            if (!discardConfirmed)
+                return;
         }
-        finally
+
+        var denominationDtosTask = QueryService.BuiltIn
+                .GetCryptocurrencyDTOsAsync(pageSize: int.MaxValue);
+
+        var walletsTask = parameter is null ?
+            HttpService.IndexAsync<AccountDto>(
+                parent: ModelId,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize) :
+            HttpService.SearchAsync<AccountDto>(
+                parent: ModelId,
+                parameter: parameter,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
+
+        await InitializationTasksAsync(walletsTask, denominationDtosTask);
+
+        var walletsResult = await walletsTask;
+        var denominationDtosResult = await denominationDtosTask;
+
+        WorkingEntries = new TrackingEnumerable<AccountWalletDto>(walletsResult.Item1.ToList());
+        Context = new(WorkingEntries);
+
+        ParentAccount = walletsResult.Item2;
+
+        DenominationSecurities = denominationDtosResult.Item1;
+
+        PaginationHelper.TotalItemCount = walletsResult.Item3.ItemCount;
+        PaginationHelper.ItemCount = WorkingEntries.Count;
+    }
+
+    /// <inheritdoc/>
+    protected override void ReturnToIndex() => 
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
+
+    /// <inheritdoc/>
+    protected override async Task Submit_OnClick(EditContext context, MouseEventArgs args)
+    {
+        // Clear error message, if present.
+        ErrorMessage = null;
+
+        if(!WorkingEntries.HasChanges)
+            ReturnToIndex();
+
+        bool isValid = context.Validate();
+        if (isValid)
         {
-            IsLoading = GetLoadingState();
+            var changes = WorkingEntries.GetChanges();
+
+            try
+            {
+                var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount.Id);
+                    
+                ReturnToIndex();
+            }
+            catch(HttpRequestException e)
+            {
+                ErrorMessage = e?.Message;
+            }
+        }
+        else
+        {
+            ErrorMessage = string.Join("\n", context.GetValidationMessages());
         }
     }
-    
-    /// <inheritdoc/>
-    protected override void Cancel_OnClick() => 
-        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
 }

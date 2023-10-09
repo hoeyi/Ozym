@@ -1,9 +1,10 @@
 ﻿using Ichosys.DataModel.Annotations;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using NjordinSight.EntityModel;
 using NjordinSight.UserInterface;
 using NjordinSight.Web.Components.Common;
-using NjordinSight.Web.Controllers;
+using NjordinSight.Web.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -17,22 +18,28 @@ namespace NjordinSight.Web.Components.Generic
         where TModel : class, new()
     {
         /// <summary>
+        /// Gets or sets the serivce for handling HTTP requests from this page.
+        /// </summary>
+        [Inject]
+        public IHttpService<TModel> HttpService { get; set; } = default!;
+
+        /// <summary>
         /// Gets or sets the model for which details are provided. 
         /// </summary>
         protected TModel Model { get; set; } = default!;
-
-        /// <summary>
-        /// Gets or sets the <see cref="IController{TModel}"/> for this component.
-        /// </summary>
-        [Inject]
-        protected IController<TModel> Controller { get; set; } = default!;
 
         /// <summary>
         /// Default implementation of a <see cref="EventCallback{TValue}"/> that returns
         /// a completed <see cref="Task"/>.
         /// </summary>
         /// <returns>A completed <see cref="Task"/>.</returns>
-        protected virtual Task HandleValidSubmit() => Task.CompletedTask;
+        protected virtual async Task HandleValidSubmit()
+        {
+            var response = await RunCatchingHttpRequestException(HttpService.PostAysnc<int>(Model));
+
+            if (response is not null)
+                NavigationHelper.NavigateTo(FormatDetailUri(response.Id));
+        }
 
         /// <inheritdoc/>
         protected override MenuRoot CreateSectionNavigationMenu() 
@@ -67,6 +74,5 @@ namespace NjordinSight.Web.Components.Generic
                 }
             };
         }
-
     }
 }

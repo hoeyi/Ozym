@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class InvestmentPerformanceDto_SR {
+    public class InvestmentPerformanceDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.InvestmentPerformanceDto_SR", typeof(InvestmentPerformanceDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string AccountBaseId_Description {
+        public static string AccountBaseId_Description {
             get {
                 return ResourceManager.GetString("AccountBaseId_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string AccountBaseId_Name {
+        public static string AccountBaseId_Name {
             get {
                 return ResourceManager.GetString("AccountBaseId_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Beginning value plus weighted flows measured over the period..
         /// </summary>
-        internal static string AverageCapital_Description {
+        public static string AverageCapital_Description {
             get {
                 return ResourceManager.GetString("AverageCapital_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Average Capital.
         /// </summary>
-        internal static string AverageCapital_Name {
+        public static string AverageCapital_Name {
             get {
                 return ResourceManager.GetString("AverageCapital_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Date measurement period begins (exclusive)..
         /// </summary>
-        internal static string FromDate_Description {
+        public static string FromDate_Description {
             get {
                 return ResourceManager.GetString("FromDate_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to From Date.
         /// </summary>
-        internal static string FromDate_Name {
+        public static string FromDate_Name {
             get {
                 return ResourceManager.GetString("FromDate_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Value gained over the period..
         /// </summary>
-        internal static string Gain_Description {
+        public static string Gain_Description {
             get {
                 return ResourceManager.GetString("Gain_Description", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Gain.
         /// </summary>
-        internal static string Gain_Name {
+        public static string Gain_Name {
             get {
                 return ResourceManager.GetString("Gain_Name", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Rate of return for the period..
         /// </summary>
-        internal static string Irr_Description {
+        public static string Irr_Description {
             get {
                 return ResourceManager.GetString("Irr_Description", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Return.
         /// </summary>
-        internal static string Irr_Name {
+        public static string Irr_Name {
             get {
                 return ResourceManager.GetString("Irr_Name", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Market value at the end of the period..
         /// </summary>
-        internal static string MarketValue_Description {
+        public static string MarketValue_Description {
             get {
                 return ResourceManager.GetString("MarketValue_Description", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Market Value.
         /// </summary>
-        internal static string MarketValue_Name {
+        public static string MarketValue_Name {
             get {
                 return ResourceManager.GetString("MarketValue_Name", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Net contribution value over the period..
         /// </summary>
-        internal static string NetContribution_Description {
+        public static string NetContribution_Description {
             get {
                 return ResourceManager.GetString("NetContribution_Description", resourceCulture);
             }
@@ -180,16 +180,52 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Net Contribution.
         /// </summary>
-        internal static string NetContribution_Name {
+        public static string NetContribution_Name {
             get {
                 return ResourceManager.GetString("NetContribution_Name", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to performance records.
+        /// </summary>
+        public static string Noun_Plural {
+            get {
+                return ResourceManager.GetString("Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Plural_Article {
+            get {
+                return ResourceManager.GetString("Noun_Plural_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to performance record.
+        /// </summary>
+        public static string Noun_Singular {
+            get {
+                return ResourceManager.GetString("Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Singular_Article {
+            get {
+                return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End date of the measurement period..
         /// </summary>
-        internal static string ToDate_Description {
+        public static string ToDate_Description {
             get {
                 return ResourceManager.GetString("ToDate_Description", resourceCulture);
             }
@@ -198,7 +234,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Thru Date.
         /// </summary>
-        internal static string ToDate_Name {
+        public static string ToDate_Name {
             get {
                 return ResourceManager.GetString("ToDate_Name", resourceCulture);
             }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NjordinSight.DataTransfer.Deprecated;
 using NjordinSight.EntityModel;
 
 namespace NjordinSight.DataTransfer.Common.Generic
@@ -16,7 +15,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
     /// that manages sub-groupings of entries in thsi model.</typeparam>
     public abstract partial class AttributeEntryWeightedCollection<
         TParentEntity, TChildEntity, TGroupViewModel>
-        : AttributeEntryCollection<TParentEntity, TChildEntity, TGroupViewModel, (ModelAttributeDto, DateTime)>,
+        : AttributeEntryCollection<TParentEntity, TChildEntity, TGroupViewModel, (ModelAttributeDtoBase, DateTime)>,
         IAttributeEntryWeightedCollection<TParentEntity, TChildEntity, TGroupViewModel>
         where TGroupViewModel : IAttributeEntryWeightedGrouping<TParentEntity, TChildEntity>
     {
@@ -27,7 +26,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
                 .SelectMany(grp => grp.OrderByDescending(a => a.EffectiveDate).Take(1));
         
         /// <inheritdoc/>
-        public TGroupViewModel AddNew(ModelAttributeDto forAttribute)
+        public TGroupViewModel AddNew(ModelAttributeDtoBase forAttribute)
         {
             var forDate = GetDateTimeForNew(forAttribute);
 
@@ -54,9 +53,9 @@ namespace NjordinSight.DataTransfer.Common.Generic
         /// <exception cref="ArgumentNullException">A required argument was a null reference.</exception>
         protected AttributeEntryWeightedCollection(
             TParentEntity parentEntity,
-            Func<TParentEntity, (ModelAttributeDto, DateTime), TGroupViewModel> groupConstructor,
-            Func<IGrouping<(ModelAttributeDto, DateTime), TChildEntity>, TParentEntity, TGroupViewModel> groupingConverterFunc,
-            Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<(ModelAttributeDto, DateTime), TChildEntity>>> groupingFunc,
+            Func<TParentEntity, (ModelAttributeDtoBase, DateTime), TGroupViewModel> groupConstructor,
+            Func<IGrouping<(ModelAttributeDtoBase, DateTime), TChildEntity>, TParentEntity, TGroupViewModel> groupingConverterFunc,
+            Func<IEnumerable<TChildEntity>, IEnumerable<IGrouping<(ModelAttributeDtoBase, DateTime), TChildEntity>>> groupingFunc,
             Func<TParentEntity, IEnumerable<TChildEntity>> entryMemberSelector
             )
             : base(
@@ -69,7 +68,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
         }
 
 
-        protected virtual DateTime GetDateTimeForNew(ModelAttributeDto forAttribute)
+        protected virtual DateTime GetDateTimeForNew(ModelAttributeDtoBase forAttribute)
         {
             var lastEntryDateUtc = EntryCollection
                             .Where(x => x.ParentAttribute.AttributeId == forAttribute.AttributeId)

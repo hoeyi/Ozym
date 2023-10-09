@@ -8,18 +8,18 @@ else
 {   
     <ModelForm TModelDto="AccountDto">
         @*AccountObject inputs*@
-        <ModelFormEntry ForMember="@(() => ModelDto.AccountObjectCode)">
+        <ModelFormEntry ForMember="@(() => ModelDto.ShortCode)">
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @ModelDto.AccountObjectCode
+                    @ModelDto.ShortCode
                 </div>
             }
             else
             {
-                <InputText class="form-control" @bind-Value=ModelDto.AccountObjectCode
+                <InputText class="form-control" @bind-Value=ModelDto.ShortCode
                     disable="@Disabled"
-                    DisplayName=@(NameFor(x => x.AccountObjectCode)) />
+                    DisplayName=@(NameFor(x => x.ShortCode)) />
             }
         </ModelFormEntry>
         <ModelFormEntry ForMember="@(() => ModelDto.DisplayName)">
@@ -109,7 +109,7 @@ else
                     disabled="@Disabled">
                     @foreach (var custodian in AccountCustodians)
                     {
-                        <option value=@custodian.Key>@custodian.Display</option>
+                        <option value=@custodian.AccountCustodianId>@custodian.CustodianCode</option>
                     }
                 </InputSelect>
             }
@@ -126,18 +126,6 @@ else
                 <InputDate class="form-control" @bind-Value=ModelDto.BooksClosedDate
                         disabled="@Disabled"
                         DisplayName=@(NameFor(x => x.BooksClosedDate))/>
-            }
-        </ModelFormEntry>
-        <ModelFormEntry ForMember="@(() => ModelDto.IsComplianceTradable)">
-            @if (ReadOnly)
-            {
-                <div class="form-control">
-                    @ModelDto.IsComplianceTradable
-                </div>
-            }
-            else
-            {
-                <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.IsComplianceTradable disabled="@Disabled" />
             }
         </ModelFormEntry>
         <ModelFormEntry ForMember="@(() => ModelDto.HasWallet)">
@@ -182,8 +170,8 @@ else
 }
 @code {
     [Parameter]
-    public IEnumerable<LookupModel<int, string>> AccountCustodians { get; set; }
+    public IEnumerable<AccountCustodianDto> AccountCustodians { get; set; }
 
     private string CustodianDisplayName(int? id) =>
-         AccountCustodians.FirstOrDefault(a => a.Key == id)?.Display ?? string.Empty;
+         AccountCustodians.FirstOrDefault(a => a.AccountCustodianId == id)?.CustodianCode ?? string.Empty;
 }

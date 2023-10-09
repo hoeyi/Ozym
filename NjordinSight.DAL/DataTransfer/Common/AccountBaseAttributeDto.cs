@@ -7,17 +7,39 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(AccountBaseAttributeDto_SR.Noun_Plural),
+        PluralArticle = nameof(AccountBaseAttributeDto_SR.Noun_Plural_Article),
+        Singular = nameof(AccountBaseAttributeDto_SR.Noun_Singular),
+        SingularArticle = nameof(AccountBaseAttributeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(AccountBaseAttributeDto_SR)
+        )]
     public class AccountBaseAttributeDto : DtoBase
     {
+        private int _attributeMemberId;
         private int _accountObjectId;
         private DateTime _effectiveDate;
         private decimal _percentWeight;
 
-        public AccountBaseAttributeDto()
+        [Display(
+            Name = nameof(AccountBaseAttributeDto_SR.AttributeMemberId_Name),
+            Description = nameof(AccountBaseAttributeDto_SR.AttributeMemberId_Description),
+            ResourceType = typeof(AccountBaseAttributeDto_SR))]
+        public int AttributeMemberId
         {
+            get { return _attributeMemberId; }
+            set
+            {
+                if (_attributeMemberId != value)
+                {
+                    _attributeMemberId = value;
+                    OnPropertyChanged(nameof(AttributeMemberId));
+                }
+            }
         }
 
         [Display(

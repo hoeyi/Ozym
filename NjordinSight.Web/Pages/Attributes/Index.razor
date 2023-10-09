@@ -1,6 +1,6 @@
 ﻿@page "/attributes"
 
-@inherits ModelIndex<ModelAttribute>
+@inherits ModelIndex<ModelAttributeDtoBase>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -24,8 +24,8 @@
             else
             {
                 <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property="@nameof(ModelAttribute.DisplayName)"
-                         Caption="@(ModelMetadata.NameFor<ModelAttribute>(x => x.DisplayName))"
+                    <DataGridColumn Property="@nameof(ModelAttributeDtoBase.DisplayName)"
+                                    Caption="@(ModelMetadata.NameFor<ModelAttributeDtoBase>(x => x.DisplayName))"
                          Type="DataGridCellType.Link" >
                          <CellTemplate Context="model">
                             <a class="custom-nav-link" href="@(FormatDetailUri(model.AttributeId))" 
@@ -35,13 +35,6 @@
                             </a>
                          </CellTemplate>
                      </DataGridColumn>
-                     <DataGridColumn Property="@nameof(ModelAttribute.ModelAttributeScopes)"
-                        Caption=@(ModelMetadata.NameFor<ModelAttribute>(x => x.ModelAttributeScopes))
-                        Type="DataGridCellType.Text">
-                        <CellTemplate Context="model">
-                            @GetAttributeScopeDisplayString(model)
-                        </CellTemplate>
-                     </DataGridColumn>
                 </DataGrid>
             }
         </Body>
@@ -49,18 +42,8 @@
 </ThemedComponent>
 
 @code {
-    private void Detail_OnClick(ModelAttribute model, MouseEventArgs args)
+    private void Detail_OnClick(ModelAttributeDtoBase model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.AttributeId));
-    }
-
-    private string GetAttributeScopeDisplayString(ModelAttribute model)
-    {
-        if (model.ModelAttributeScopes is null)
-            throw new InvalidOperationException();
-
-        return string.Join(", ",
-            model.ModelAttributeScopes.Select(a => 
-                a.ScopeCode.ConvertFromStringCode<ModelAttributeScopeCode>()?.GetDisplayName()));
     }
 }

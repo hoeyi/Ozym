@@ -1,22 +1,28 @@
-﻿using NjordinSight.DataTransfer.Common.Collections;
+﻿using Ichosys.DataModel.Annotations;
+using NjordinSight.DataTransfer.Common.Collections;
 using NjordinSight.EntityModel.Metadata;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(BankTransactionCodeDto_SR.Noun_Plural),
+        PluralArticle = nameof(BankTransactionCodeDto_SR.Noun_Plural_Article),
+        Singular = nameof(BankTransactionCodeDto_SR.Noun_Singular),
+        SingularArticle = nameof(BankTransactionCodeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(BankTransactionCodeDto_SR)
+        )]
     public class BankTransactionCodeDtoBase : DtoBase
     {
         private int _transactionCodeId;
         private string _transactionCode;
         private string _displayName;
 
-        [Display(
-            Name = nameof(BankTransactionCodeDto_SR.TransactionCodeId_Name),
-            Description = nameof(BankTransactionCodeDto_SR.TransactionCodeId_Description),
-            ResourceType = typeof(BankTransactionCodeDto_SR))]
+        [Key]
         public int TransactionCodeId
         {
             get { return _transactionCodeId; }
@@ -77,17 +83,36 @@ namespace NjordinSight.DataTransfer.Common
         }
     }
 
+    [Noun(
+        Plural = nameof(BankTransactionCodeDto_SR.Noun_Plural),
+        PluralArticle = nameof(BankTransactionCodeDto_SR.Noun_Plural_Article),
+        Singular = nameof(BankTransactionCodeDto_SR.Noun_Singular),
+        SingularArticle = nameof(BankTransactionCodeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(BankTransactionCodeDto_SR)
+        )]
     public class BankTransactionCodeDto : BankTransactionCodeDtoBase
     {
+        private ICollection<BankTransactionCodeAttributeDto> _attributes;
         public BankTransactionCodeDto()
         {
-            Attributes = new List<BankTransactionCodeAttributeDto>();
-            AttributeCollection = new(this);
+            Attributes = new HashSet<BankTransactionCodeAttributeDto>();
         }
 
-        public BankCodeAttributeDtoCollection AttributeCollection { get; set; }
+        public ICollection<BankTransactionCodeAttributeDto> Attributes
+        {
+            get { return _attributes; }
+            set
+            {
+                if (_attributes != value)
+                {
+                    _attributes = value;
+                    AttributeCollection = new(this);
+                }
+            }
+        }
 
-        public ICollection<BankTransactionCodeAttributeDto> Attributes { get; set; }
+        [JsonIgnore]
+        public BankCodeAttributeDtoCollection AttributeCollection { get; private set; }
     }
 
 }

@@ -52,15 +52,4 @@ namespace NjordinSight.EntityModel
         [InverseProperty("MarketIndexPrices")]
         public virtual MarketIndex MarketIndex { get; set; }
     }
-
-    public partial class MarketIndexPrice
-    {
-        /// <summary>
-        /// Gets the <see cref="MarketIndexPriceCode"/> member matching the current value of 
-        /// <see cref="PriceCode"/>.
-        /// </summary>
-        [NotMapped]
-        public MarketIndexPriceCode? PriceCodeMember => 
-            PriceCode.ConvertFromStringCode<MarketIndexPriceCode>();
-    }
 }

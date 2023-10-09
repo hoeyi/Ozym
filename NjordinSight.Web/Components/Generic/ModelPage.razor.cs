@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 using Ichosys.DataModel;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
+using NjordinSight.Web.Services;
+using System.Net.Http;
+using Radzen;
 
 namespace NjordinSight.Web.Components.Generic
 {
@@ -21,6 +24,8 @@ namespace NjordinSight.Web.Components.Generic
         private MenuRoot? _sectionNavigationMenu;
         private NounAttribute? _modelNoun;
         private string? _indexUriRelativePath;
+
+        
 
         /// <summary>
         /// Gets or sets the <see cref="ILogger"/> used by this component.
@@ -74,7 +79,7 @@ namespace NjordinSight.Web.Components.Generic
         /// Model pages use the index page as the base relative path for other model pages.
         /// Ex. /Accounts
         /// </summary>
-        protected string IndexUriRelativePath
+        protected virtual string IndexUriRelativePath
         {
             get
             {
@@ -184,15 +189,47 @@ namespace NjordinSight.Web.Components.Generic
 #nullable disable
 
         /// <summary>
-        /// Runs an asynchronous operation catching <see cref="ModelUpdateException"/> throws 
-        /// and handling via an update to <see cref="ErrorMessage"/>.
+        /// Checks the current page state and returns true if all required properties have been 
+        /// set. Inheritors may override this method to handle additional initialization checks.
+        /// </summary>
+        /// <returns>True if the page is loading, else false.</returns>
+        protected virtual bool PageDataIsLoading() => false;
+
+        /// <summary>
+        /// Runs the given task catching exceptions of type <see cref="HttpRequestException"/>.
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="task"></param>
-        /// <returns>A <see cref="Task{TResult}"/> representing an asychronous operation, else
-        /// null if the specified exception is caused a status of faulted.</returns>
-        protected async Task<TResult> RunCatchingModelUpdateException<TResult>(
-            Task<TResult> task) => await RunCatchingException<TResult, ModelUpdateException>(task);
+        /// <returns>A <see cref="Task{TResult}"/> from the </returns>
+        protected async Task<TResult> RunCatchingHttpRequestException<TResult>(Task<TResult> task)
+            => await RunCatchingException<TResult, HttpRequestException>(task);
+
+        /// <summary>
+        /// Runs the given task catching exceptions of type <see cref="HttpRequestException"/>.
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="task"></param>
+        /// <returns>A <see cref="Task"/> from the </returns>
+        protected async Task RunCatchingHttpRequestException(Task task)
+            => await RunCatchingException<HttpRequestException>(task);
+
+        /// <summary>
+        /// Runs the given <see cref="Task"/> and handles 
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        private async Task RunCatchingException<TException>(Task task)
+            where TException : Exception
+        {
+            await task.ContinueWith(x =>
+            {
+                if (x.Status == TaskStatus.Faulted && x.Exception is not null)
+                {
+                    InvokeAsync(() => ErrorMessage = x.Exception.Message);
+                    throw x.Exception;
+                }
+            });
+        }
 
         // TODO: Expand use of this function to other Exception types.
         /// <summary>
@@ -204,16 +241,14 @@ namespace NjordinSight.Web.Components.Generic
         /// <param name="task">The task that for which <typeparamref name="TException"/> handling 
         /// is applied.</param>
         /// <returns>A <see cref="Task{TResult}"/> represesnting an asynchronous operation.</returns>
-        private async Task<TResult> RunCatchingException<TResult, TException>(
-            Task<TResult> task)
-            where TException : ModelUpdateException
+        private async Task<TResult> RunCatchingException<TResult, TException>(Task<TResult> task)
+            where TException : Exception
         {
             return await task.ContinueWith(x =>
             {
                 if (x.Status == TaskStatus.Faulted && x.Exception.InnerException is TException)
                 {
                     InvokeAsync(() => ErrorMessage = x.Exception.Message);
-                    return default;
                 }
                 return task.Result;
             });

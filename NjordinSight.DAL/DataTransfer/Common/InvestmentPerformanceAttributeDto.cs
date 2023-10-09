@@ -1,8 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Ichosys.DataModel.Annotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    internal class InvestmentPerformanceAttributeDto : InvestmentPerformanceDto
+    [Noun(
+        Plural = nameof(InvestmentPerformanceAttributeDto_SR.Noun_Plural),
+        PluralArticle = nameof(InvestmentPerformanceAttributeDto_SR.Noun_Plural_Article),
+        Singular = nameof(InvestmentPerformanceAttributeDto_SR.Noun_Singular),
+        SingularArticle = nameof(InvestmentPerformanceAttributeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(InvestmentPerformanceAttributeDto_SR)
+        )]
+    public class InvestmentPerformanceAttributeDto : InvestmentPerformanceDto
     {
         private int _attributeMemberId;
 
@@ -22,5 +30,7 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
+
+        public ModelAttributeDtoBase Attribute { get; set; } = new();
     }
 }

@@ -1,6 +1,6 @@
 ﻿@page "/composites/{ModelId:int}/detail"
 
-@inherits ModelDetail<AccountComposite>
+@inherits ModelDetail<AccountCompositeDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -9,29 +9,29 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.ReadSingle(Model.AccountCompositeCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.ReadSingle(Model.ShortCode).AsPageTitle())</PageTitle>
 
         <ModelPageHeader 
             ActionMenu="@SectionNavigationMenu" 
-            Header="@(PageTitle.ReadSingle(Model.AccountCompositeCode))" />
+            Header="@(PageTitle.ReadSingle(Model.ShortCode))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <CascadingValue Value="@ModelDto">
-            <EditForm class="model-editor" Model="@ModelDto">
+        <CascadingValue Value="@Model">
+            <EditForm class="model-editor" Model="@Model">
                 <ContentTile>
                     <Body>
                         <AccountCompositeCRUD Disabled="false" ReadOnly="true" />
                     </Body>
                 </ContentTile>
-                @foreach (var entry in ModelDto.AttributeViewModel.CurrentEntries
+                @foreach (var entry in Model.AttributeCollection.CurrentEntries
                     .OrderBy(g => g.AttributeMember.Attribute.DisplayName))
                     {
                         <ContentTile>
                             <Body>
-                                <ModelForm TModelDto="AccountAttributeMemberEntry">
+                                <ModelForm TModelDto="AccountBaseAttributeDto">
                                     <ModelFormEntry LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
                                                 ForMember="@(() => entry.AttributeMember.DisplayName)">
                                         <div class="form-control">
@@ -50,7 +50,7 @@
                 <ContentTile>
                     <Body>
                         <AccountCompositeMembersCRUD 
-                            Accounts="@Accounts" Disabled="false" ReadOnly="true" />
+                            Accounts="@AccountDtos" Disabled="false" ReadOnly="true" />
                     </Body>
                 </ContentTile>
             </EditForm>
@@ -62,9 +62,10 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> Accounts { get; set; }
+    [Inject]
+    protected IQueryService QueryService { get; init; }
 
-    private AccountCompositeDto ModelDto { get; set; }
+    private IEnumerable<AccountSimpleDto> AccountDtos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -73,21 +74,18 @@
 
         try
         {
-            var compositeQuery = Controller.ReadAsync(ModelId);
-            var accountsQuery = Controller.ReferenceQueries.GetAccountDTOsAsync();
+            var compositeQuery = HttpService.GetAsync(ModelId);
+            var accountsQuery = QueryService.BuiltIn.GetAccountDTOsAsync(pageSize: int.MaxValue);
 
             var dataTasks = Task.WhenAll(compositeQuery, accountsQuery);
             await dataTasks;
 
-            if ((await compositeQuery).Value is AccountComposite composite)
-                Model = composite;
-
-            Accounts = (await accountsQuery).Value;
-            ModelDto = new(Model);
+            Model = await compositeQuery;
+            AccountDtos = (await accountsQuery).Item1;
         }
         finally
         {
-            IsLoading = Accounts is null || Model is null;
+            IsLoading = AccountDtos is null || Model is null;
         }
     }
 }

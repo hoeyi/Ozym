@@ -6,7 +6,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
 {
     /// <summary>
     /// Represents a collection of <typeparamref name="TElement"/> records grouped by 
-    /// a related <see cref="ModelAttributeDto"/> record.
+    /// a related <see cref="ModelAttributeDtoBase"/> record.
     /// </summary>
     /// <typeparam name="TElement"></typeparam>
     public class AttributeGrouping<TKey, TElement> : List<TElement>, IGrouping<TKey, TElement>

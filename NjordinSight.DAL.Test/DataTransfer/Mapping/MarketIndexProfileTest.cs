@@ -127,11 +127,11 @@ namespace NjordinSight.Test.DataTransfer.Mapping
                 };
 
                 // Act
-                var dto = Mapper.Map<MarketIndexPriceDto>(entity);
+                var dto = Mapper.Map<MarketIndexPriceDtoBase>(entity);
 
                 // Assert
                 // Fact: Instance is created 
-                Assert.IsInstanceOfType(dto, typeof(MarketIndexPriceDto));
+                Assert.IsInstanceOfType(dto, typeof(MarketIndexPriceDtoBase));
 
                 // Fact: All property values match.
                 Assert.AreEqual(entity.MarketIndexId, dto.MarketIndexId);
@@ -145,7 +145,7 @@ namespace NjordinSight.Test.DataTransfer.Mapping
             public override void Entity_MapFrom_Dto_MappedProperties_AreEqual()
             {
                 // Arrange
-                var dto = new MarketIndexPriceDto()
+                var dto = new MarketIndexPriceDtoBase()
                 {
                     MarketIndexId = 1,
                     Price = new Random().Next() / 100M,

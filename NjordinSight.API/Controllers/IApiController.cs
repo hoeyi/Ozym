@@ -1,10 +1,8 @@
-﻿using MathNet.Numerics.Statistics.Mcmc;
+﻿using AutoMapper.Configuration.Conventions;
 using Microsoft.AspNetCore.Mvc;
 using NjordinSight.DataTransfer.Common.Query;
-using NjordinSight.EntityModelService;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace NjordinSight.Api.Controllers
@@ -31,20 +29,20 @@ namespace NjordinSight.Api.Controllers
         Task<ActionResult<TObject>> GetAsync(int id);
 
         /// <summary>
-        /// Retrieves the collection matching the given query parameter, limited to the given 
-        /// page index and size parameters.
+        /// Retrieves all records from the data store.
         /// </summary>
-        /// <param name="queryParameter">The <see cref="ParameterDto{T}"/> describing the operation 
-        /// to filter results.</param>
+        /// <returns>An <see cref="ActionResult"/> whose value the collection of 
+        /// <typeparamref name="TObject"/> records retrieved from the data store.</returns>
+        Task<ActionResult<IEnumerable<TObject>>> GetAllAsync();
+
+        /// <summary>
+        /// Retrieves the collection matching the given page parameters.
+        /// </summary>
         /// <param name="pageNumber">The index of page to retrieve.</param>
         /// <param name="pageSize">The record limit for each page.</param>
         /// <returns>An <see cref="ActionResult{TValue}"/> whose value is an enumerable collection 
         /// of <typeparamref name="TObject"/> instances.</returns>
-        [Obsolete("Retained for backwards compatability. Use PostSearchAsync instead.")]
-        Task<ActionResult<IEnumerable<TObject>>> GetAsync(
-            [FromBody] ParameterDto<TObject> queryParameter, 
-            int pageNumber = 1, 
-            int pageSize = 20);
+        Task<ActionResult<IEnumerable<TObject>>> GetAsync(int pageNumber = 1, int pageSize = 20);
 
         /// <summary>
         /// Initializes a default instance for use in a post action.

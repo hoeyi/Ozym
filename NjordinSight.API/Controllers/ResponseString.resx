@@ -120,7 +120,15 @@
   <data name="DeleteResource_FailedResult_InternalErrorResponse" xml:space="preserve">
     <value>Could not delete the identified resource.</value>
   </data>
-  <data name="PostSearch_InvalidParameter_BadRequestResponse" xml:space="preserve">
+  <data name="PatchCollection_ParentIdMismatch_BadRequest" xml:space="preserve">
+    <value>Inconsistent parent for collection entries.</value>
+  </data>
+  <data name="PostSearch_InvalidBodyParameter_BadRequestResponse" xml:space="preserve">
     <value>Invalid parameter given in request body.</value>
+  </data>
+  <data name="PostSearch_InvalidUrlParameter_BadRequestResponse" xml:space="preserve">
+    <value>'{0}' is not valid for '{1}' argument.</value>
+    <comment>{0} is the given value that is invalid
+{1} is the name of the argument</comment>
   </data>
 </root>

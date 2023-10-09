@@ -1,7 +1,8 @@
 ﻿@typeparam TModelDto where TModelDto : class
+
 @attribute [CascadingTypeParameter(nameof(TModelDto))] 
 
-@inherits ModelComponent<TModelDto> 
+@inherits ModelComponent<TModelDto>
 
 @code {
     /// <summary>

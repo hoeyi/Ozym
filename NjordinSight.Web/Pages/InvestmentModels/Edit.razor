@@ -1,6 +1,6 @@
 ﻿@page "/investment-models/{ModelId:int}/edit"
 
-@inherits ModelDetail<InvestmentStrategy>
+@inherits ModelDetail<InvestmentModelDto>
 
 <ThemedComponent>
     @if(IsLoading)
@@ -9,32 +9,34 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.UpdateSingle(ModelDto.DisplayName).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.UpdateSingle(ModelDto.DisplayName))" />
+        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
 
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <AttributeEntryCollectionEditor 
-            TViewModelParent="InvestmentModelDto"
-            TViewModelChild="InvestmentModelTargetGrouping"
-            TModel="InvestmentStrategy"
-            TModelChild="InvestmentStrategyTarget"
-            OnCancelEditorClick="FormCancelClickHandler"
-            OnDeleteModelClick="FormDeleteClickHandler"
-            OnValidFormSubmit="ValidFormSubmitHandler"
-            EffectiveDatePath="@(x => x.EffectiveDate)"
-            ModelDto="@ModelDto"
-            Mode="EditorMode.Edit">
-            <ViewModelCRUD>
-                <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
-            </ViewModelCRUD>
-            <ViewModelChildCRUD>
-                <InvestmentModelTargetCRUD Disabled="false" ReadOnly="false" />
-            </ViewModelChildCRUD>
-        </AttributeEntryCollectionEditor>
+        <CascadingValue Value="@Model">
+            <AttributeEntryCollectionEditor 
+                TViewModelParent="InvestmentModelTargetDtoCollection"
+                TViewModelChild="InvestmentModelTargetGrouping"
+                TModel="InvestmentModelDto"
+                TModelChild="InvestmentModelTargetDto"
+                OnCancelEditorClick="FormCancelClickHandler"
+                OnDeleteModelClick="FormDeleteClickHandler"
+                OnValidFormSubmit="ValidFormSubmitHandler"
+                EffectiveDatePath="@(x => x.EffectiveDate)"
+                ModelDto="@Model.TargetCollection"
+                Mode="EditorMode.Edit">
+                <ViewModelCRUD>
+                    <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelCRUD>
+                <ViewModelChildCRUD>
+                    <InvestmentModelTargetCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelChildCRUD>
+            </AttributeEntryCollectionEditor>
+        </CascadingValue>
     }
 </ThemedComponent>
 
@@ -42,57 +44,49 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private InvestmentModelDto ModelDto { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
 
         try
         {
-            var modelQuery = Controller.ReadAsync(ModelId);
-
-            if ((await modelQuery).Value is InvestmentStrategy model)
-            {
-                Model = model;
-            }
-
-            ModelDto = new(Model);
+            Model = await HttpService.GetAsync(ModelId);
         }
         finally
         {
-            IsLoading = Model is null || ModelDto is null;
+            IsLoading = Model is null;
         }
     }
 
     /// <summary>
     /// Handles the delete click event of this page.
     /// </summary>
-    protected virtual async Task FormDeleteClickHandler(MouseEventArgs args)
+    private async Task FormDeleteClickHandler(MouseEventArgs args)
     {
-        var result = await RunCatchingModelUpdateException(Controller.DeleteAsync(Model));
+        var result = RunCatchingHttpRequestException(HttpService.DeleteAsync(Model.InvestmentModelId));
 
-        if (result is NoContentResult _)
+        await result;
+
+        if (result.Status == TaskStatus.RanToCompletion)
             NavigationHelper.NavigateTo(IndexUriRelativePath);
     }
 
     /// <summary>
     /// Handles the valid form submission event of this page.
     /// </summary>
-    protected virtual async Task ValidFormSubmitHandler(EditContext args)
+    private async Task ValidFormSubmitHandler(EditContext args)
     {
-        Model = ModelDto.ToEntity();
+        var result = RunCatchingHttpRequestException(HttpService.PutAsync(ModelId, Model));
 
-        var result = await RunCatchingModelUpdateException(Controller.UpdateAsync(ModelId, Model));
+        await result;
 
-        int? id = result?.Value is null ? null : GetKeyValueOrDefault<int>(result.Value);
-
-        ProcessDetailAtAction(id);
+        if (result.Status == TaskStatus.RanToCompletion)
+            NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
     }
 
-    /// <summary>
+    /// <summary>edit
     /// Handles the cancel editor event of this page.
     /// </summary>
-    protected virtual void FormCancelClickHandler(MouseEventArgs args) => 
+    private void FormCancelClickHandler(MouseEventArgs args) =>
         NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
 }

@@ -1,6 +1,6 @@
 ﻿.content-tile {
     display: block;
-    overflow: auto;
+    /*overflow: auto;*/
     margin-bottom: 1rem;
 }
 

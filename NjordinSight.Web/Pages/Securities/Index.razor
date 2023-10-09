@@ -1,6 +1,6 @@
 ﻿@page "/securities"
 
-@inherits ModelIndex<Security>
+@inherits ModelIndex<SecurityDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -13,16 +13,19 @@
     }
     else
     {
-        <ContentTile>
-            <Body>
-                <SearchInputTable TModel="Security"
-                    ComparisonOperators=@ComparisonOperators
-                    ExpressionBuilder=@ExpressionBuilder
-                    SearchFields=@SearchFields
-                    OnSearchClick=@(async (args) => await SearchClicked(args))>
-                </SearchInputTable>
-            </Body>
-        </ContentTile>
+        @if(SearchFields.Any())
+        {
+            <ContentTile>
+                <Body>
+                    <SearchInputTable TModel="SecurityDto"
+                        ComparisonOperators=@ComparisonOperators
+                        ExpressionBuilder=@ExpressionBuilder
+                        SearchFields=@SearchFields
+                        OnSearchClick=@(async (args) => await SearchClicked(args))>
+                    </SearchInputTable>
+                </Body>
+            </ContentTile>
+        }
     }
 
     <CascadingValue Value="@ErrorMessage">
@@ -42,54 +45,56 @@
             else
             {
                 <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(Security.SecurityDescription)
-                                Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityDescription))
+                    <DataGridColumn Property=@nameof(SecurityDto.SecurityDescription)
+                                Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityDescription))
                                 Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
                             <a class="custom-nav-link" href=@(FormatDetailUri(model.SecurityId)) 
                                 @onclick:preventDefault
                                 @onclick="@(args => Detail_OnClick(model, args))">
-                                @model.SecurityDescription
+                                    @model.SecurityDescription
                             </a>
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(Security.SecuritySymbol)
-                                Caption=@(ModelMetadata.NameFor<Security>(x => x.SecuritySymbol))
+                    <DataGridColumn Property=@nameof(SecurityDto.CurrentSymbol)
+                                    Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.CurrentSymbol))
                                 Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
-                                @model.SecuritySymbol
+                            @model.CurrentSymbol
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(Security.SecurityTypeId)
-                                Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityTypeId))
+                    <DataGridColumn Property=@nameof(SecurityDto.SecurityTypeId)
+                                Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityTypeId))
                                 Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
-                            @GetLookupDisplayName(SecurityTypes, model.SecurityTypeId)
+                            @(TypeLookup.TryGetDisplayString<int, SecurityTypeDto>(
+                                model.SecurityTypeId, x => x.SecurityTypeName))
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(Security.Issuer)
-                            Caption=@(ModelMetadata.NameFor<Security>(x => x.Issuer))
+                    <DataGridColumn Property=@nameof(SecurityDto.Issuer)
+                            Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.Issuer))
                             Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
                             @model.Issuer
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(Security.SecurityExchangeId)
-                            Caption=@(ModelMetadata.NameFor<Security>(x => x.SecurityExchangeId))
+                    <DataGridColumn Property=@nameof(SecurityDto.SecurityExchangeId)
+                            Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityExchangeId))
                             Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
-                            @GetLookupDisplayName(Exchanges, model.SecurityExchangeId ?? default)
+                            @(ExchangeLookup.TryGetDisplayString<int, SecurityExchangeDto>(
+                                model.SecurityExchangeId ?? default, x => x.ExchangeCode))
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(Security.HasPerpetualMarket)
-                            Caption=@(ModelMetadata.NameFor<Security>(x => x.HasPerpetualMarket))
+                    <DataGridColumn Property=@nameof(SecurityDto.HasPerpetualMarket)
+                            Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.HasPerpetualMarket))
                             Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
                             @model.HasPerpetualMarket
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(Security.HasPerpetualPrice)
-                                Caption=@(ModelMetadata.NameFor<Security>(x => x.HasPerpetualPrice))
+                    <DataGridColumn Property=@nameof(SecurityDto.HasPerpetualPrice)
+                                Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.HasPerpetualPrice))
                             Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
                             @model.HasPerpetualPrice
@@ -103,55 +108,51 @@
 
 
 @code {
-    private IEnumerable<LookupModel<int, string>> Exchanges { get; set; }
+    private IEnumerable<SecurityExchangeDto> Exchanges => ExchangeLookup.Values;
 
-    private IEnumerable<LookupModel<int, string>> SecurityTypes { get; set; }
+    private IEnumerable<SecurityTypeDto> SecurityTypes => TypeLookup.Values;
+
+    private IDictionary<int, SecurityExchangeDto> ExchangeLookup { get; set; }
+    private IDictionary<int, SecurityTypeDto> TypeLookup { get; set; }
 
     /// <inheritdoc/>
-    protected override bool GetLoadingState() => 
+    protected override bool PageDataIsLoading() => 
         Entries is null || Exchanges is null || SecurityTypes is null;
 
-    protected override async Task OnInitializedAsync()
+    /// <inheritdoc/>
+    protected override async Task RefreshResultsAsync(
+        ParameterDto<SecurityDto> parameter, int pageNumber, int pageSize)
     {
-        IsLoading = true;
+        Task<(IEnumerable<SecurityDto>, NjordinSight.DataTransfer.PaginationData)> securityQuery;
 
-        try
-        {
-            var securitiesTask = Controller.SelectAsync(
-                predicate: SearchService.CurrentExpression,
+        if (parameter is not null)
+            securityQuery = HttpService.SearchAsync(
+                parameter: parameter,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
+        else
+            securityQuery = HttpService.IndexAsync(
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
 
-            var exchangesTask = Controller.ReferenceQueries
-                .GetDtosAsync<SecurityExchange, int, string>(
-                    key: x => x.ExchangeId,
-                    display: x => x.ExchangeCode);
+        var exchangeQuery = HttpService.GetAllAsync<SecurityExchangeDto>();
+        var securityTypeQuery = HttpService.GetAllAsync<SecurityTypeDto>();
 
-            var secTypesTask = Controller.ReferenceQueries
-                .GetDtosAsync<SecurityType, int, string>(
-                    key: x => x.SecurityTypeId,
-                    display: x => x.SecurityTypeName);
+        await InitializationTasksAsync(securityQuery, exchangeQuery, securityTypeQuery);
 
-            await InitializationTasksAsync(securitiesTask, exchangesTask, secTypesTask);
+        var securityTaskResult = await securityQuery;
+        var exchangeTaskResult = await exchangeQuery;
+        var secTypeTaskResult = await securityTypeQuery;
 
-            var securityTaskResult = await securitiesTask;
-            var exchangeTaskResult = await exchangesTask;
-            var secTypeTaskResult = await secTypesTask;
+        Entries = securityTaskResult.Item1;
+        ExchangeLookup = exchangeTaskResult.ToDictionary(x => x.ExchangeId, x => x);
+        TypeLookup = secTypeTaskResult.ToDictionary(x => x.SecurityTypeId, x => x);
 
-            Entries = securityTaskResult.Value.Item1;
-            Exchanges = exchangeTaskResult.Value;
-            SecurityTypes = secTypeTaskResult.Value;
-
-            PaginationHelper.TotalItemCount = securityTaskResult.Value.Item2.ItemCount;
-            PaginationHelper.ItemCount = Entries.Count();
-        }
-        finally
-        {
-            IsLoading = GetLoadingState();
-        }
+        PaginationHelper.TotalItemCount = securityTaskResult.Item2.ItemCount;
+        PaginationHelper.ItemCount = Entries.Count();
     }
 
-    private void Detail_OnClick(Security model, MouseEventArgs args)
+    private void Detail_OnClick(SecurityDto model, MouseEventArgs args)
     {
         NavigationHelper.NavigateTo(FormatDetailUri(model.SecurityId));
     }

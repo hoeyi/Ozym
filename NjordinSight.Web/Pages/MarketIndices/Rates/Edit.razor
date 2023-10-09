@@ -1,35 +1,38 @@
 ﻿@page "/market-indices/rates/edit"
 
-@inherits ModelListPage<MarketIndexPrice>
+@inherits ModelPagedIndexEditor<MarketIndexPriceDtoBase>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
 <ThemedComponent>
     <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
-    @if(SearchFields is null)
+    @if(SearchService.SearchFields is null)
     {
         <LoadingSvg />
     }
     else
     {
-        <ContentTile>
-            <Body>
-                <SearchInputTable TModel="MarketIndexPrice"
-                    ComparisonOperators=@ComparisonOperators
-                    ExpressionBuilder=@ExpressionBuilder
-                    SearchFields=@SearchFields
-                    OnSearchClick=@(async (args) => await SearchClicked(args))>
-                </SearchInputTable>
-            </Body>
-        </ContentTile>
+        @if (SearchService.SearchFields.Any())
+        {
+            <ContentTile>
+                <Body>
+                    <SearchInputTable TModel="MarketIndexPriceDtoBase"
+                        ComparisonOperators=@SearchService.ComparisonOperators
+                        ExpressionBuilder=@SearchService.ExpressionBuilder
+                        SearchFields=@SearchService.SearchFields
+                        OnSearchClick=@(async (args) => await SearchClicked(args))>
+                    </SearchInputTable>
+                </Body>
+            </ContentTile>
+        }
     }
 
     <CascadingValue Value="@ErrorMessage">
         <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
     </CascadingValue>
 
-    @if(Context is null)
+    @if(IsLoading)
     {
         <LoadingSvg />
     }
@@ -43,10 +46,10 @@
                     @Strings.Caption_Button_Save
                 </button>
                 <button class="form-control button"
-                    @onclick="(async (args) => await AddNewAsync(args))">
+                    @onclick="((args) => AddNew(args))">
                     @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                 </button>
-                <button class="form-control button" @onclick="Cancel_OnClick"
+                <button class="form-control button" @onclick="CancelEditor_OnClick"
                     @onclick:preventDefault>
                     @Strings.Caption_Button_Cancel
                 </button>
@@ -69,26 +72,26 @@
                                 <CellEditTemplate Context="model">
                                     <ToolTip Text="@Strings.Caption_Button_Delete">
                                         <button class="form-control button icon" type="button"
-                                            @onclick="async (args) => await DeleteAsync(args, model)">
+                                            @onclick="(args) => DeleteRecord(args, model)">
                                             <IonIcon Name="close-circle" />
                                         </button>
                                     </ToolTip>
                                 </CellEditTemplate>
                             </DataGridColumn>
-                            <DataGridColumn Property=@nameof(MarketIndexPrice.MarketIndexId)
+                            <DataGridColumn Property=@nameof(MarketIndexPriceDtoBase.MarketIndexId)
                                         Type="DataGridCellType.Control"
                                         Caption=@(NameFor(x => x.MarketIndexId))>
                                 <CellEditTemplate Context="model">
                                     <InputSelect class="form-control"
                                         @bind-Value="@model.MarketIndexId">
-                                        @foreach (var lookup in MarketIndexLookup)
+                                        @foreach (var lookup in MarketIndices)
                                         {
-                                            <option value=@lookup.Key>@lookup.Display</option>
+                                            <option value=@lookup.IndexId>@lookup.IndexCode</option>
                                         }
                                     </InputSelect>
                                 </CellEditTemplate>
                             </DataGridColumn>
-                            <DataGridColumn Property=@nameof(MarketIndexPrice.PriceCode)
+                            <DataGridColumn Property=@nameof(MarketIndexPriceDtoBase.PriceCode)
                                         Type="DataGridCellType.Control"
                                         Caption=@(NameFor(x => x.PriceCode))>
                                 <CellEditTemplate Context="model">
@@ -96,19 +99,19 @@
                                         @bind-Value="@model.PriceCode">
                                         @foreach (var lookup in PriceCodeLookup)
                                         {
-                                            <option value=@lookup.Key>@lookup.Display</option>
+                                            <option value=@lookup.Key>@lookup.Value</option>
                                         }
                                     </InputSelect>
                                 </CellEditTemplate>
                             </DataGridColumn>
-                            <DataGridColumn Property=@nameof(MarketIndexPrice.PriceDate)
+                            <DataGridColumn Property=@nameof(MarketIndexPriceDtoBase.PriceDate)
                                         Type="DataGridCellType.Control"
                                         Caption=@(NameFor(x => x.PriceDate))>
                                 <CellEditTemplate Context="model">
                                     <InputDate class="form-control" @bind-Value="@model.PriceDate" />
                                 </CellEditTemplate>
                             </DataGridColumn>
-                            <DataGridColumn Property=@nameof(MarketIndexPrice.Price)
+                            <DataGridColumn Property=@nameof(MarketIndexPriceDtoBase.Price)
                                         Type="DataGridCellType.Control"
                                         Caption=@(NameFor(x => x.Price))>
                                 <CellEditTemplate Context="model">
@@ -125,72 +128,52 @@
 
 @code {
 
-    private IEnumerable<LookupModel<string, string>> PriceCodeLookup { get; set; }
-
-    private IEnumerable<LookupModel<int, string>> MarketIndexLookup {get; set;}
-
     [Inject]
-    protected new ICollectionController<MarketIndexPrice> Controller { get; init; }
+    protected IQueryService QueryService { get; init; }
 
-    /// <inheritdoc />
-    protected override bool GetLoadingState() => 
-        WorkingEntries is null
-        || Context is null
-        || MarketIndexLookup is null
-        || PriceCodeLookup is null;
+    private IDictionary<string, string> PriceCodeLookup { get; set; }
 
-    /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    private IEnumerable<MarketIndexDto> MarketIndices {get; set;}
+
+    /// <inheritdoc/>
+    protected override string IndexUriRelativePath => $"{base.IndexUriRelativePath}/rates";
+
+    protected override bool PageDataIsLoading() =>
+    Context is null | WorkingEntries is null || MarketIndices is null || PriceCodeLookup is null;
+
+    /// <inheritdoc/>
+    protected override async Task RefreshResultsAsync(
+        ParameterDto<MarketIndexPriceDtoBase> parameter, int pageNumber, int pageSize)
     {
-        // Update the hidden reference to refer the same object to avoid null reference exception.
-        base.Controller = Controller;
-        
-        CheckNullParameters();
-
-        IsLoading = true;
-
-        try
+        if (WorkingEntries?.HasChanges ?? false)
         {
-            var marketPriceTask = Controller.SelectAsync(
-                predicate: SearchService.CurrentExpression,
+            var discardConfirmed = await ConfirmDiscardChangesAsync();
+
+            if (!discardConfirmed)
+                return;
+        }
+
+        var marketIndicesQuery = HttpService.GetAllAsync<MarketIndexDto>();
+
+        var pricesQuery = parameter is null ? 
+            HttpService.IndexAsync(
+                    pageNumber: PaginationHelper.PageIndex,
+                    pageSize: PaginationHelper.PageSize) :
+            HttpService.SearchAsync(
+                parameter: parameter,
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
 
-            var indexDtosTask = Controller.ReferenceQueries.GetMarketIndexDTOsAsync();
+        await InitializationTasksAsync(pricesQuery, marketIndicesQuery);
 
-            var priceCodeDtoTask = Controller.ReferenceQueries
-                .SelectDTOsFromEnum<MarketIndexPriceCode, string, string>(
-                    predicate: x => true,
-                    key: x => x.ConvertToStringCode(),
-                    display: x => NameFor<MarketIndexPriceCode>(x),
-                    placeHolderDelegate: () => new LookupModel<string, string>()
-                    {
-                        Key = string.Empty,
-                        Display = Resources.Strings.Caption_InputSelect_Placeholder
-                    });
+        var priceResult = await pricesQuery;
 
-            await InitializationTasksAsync(marketPriceTask, indexDtosTask, priceCodeDtoTask);
+        WorkingEntries = new TrackingEnumerable<MarketIndexPriceDtoBase>(priceResult.Item1.ToList());
+        Context = new(WorkingEntries);
+        MarketIndices = await marketIndicesQuery;
+        PriceCodeLookup = QueryService.BuiltIn.GetMarketIndexPriceCodeDisplayMap();
 
-            var marketPriceResult = await marketPriceTask;
-            var indexDtoResult = await indexDtosTask;
-            var priceCodeDtoResult = await priceCodeDtoTask;
-
-            WorkingEntries = marketPriceResult.Value.Item1.ToList();
-            MarketIndexLookup = indexDtoResult.Value;
-            PriceCodeLookup = priceCodeDtoResult.Value;
-
-            Context = new(WorkingEntries);
-
-            PaginationHelper.TotalItemCount = marketPriceResult.Value.Item2.ItemCount;
-            PaginationHelper.ItemCount = WorkingEntries.Count;
-        }
-        finally
-        {
-            IsLoading = GetLoadingState();
-        }
+        PaginationHelper.TotalItemCount = priceResult.Item2.ItemCount;
+        PaginationHelper.ItemCount = WorkingEntries.Count;
     }
-
-    /// <inheritdoc/>
-    protected override void Cancel_OnClick() => 
-        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/rates");
 }

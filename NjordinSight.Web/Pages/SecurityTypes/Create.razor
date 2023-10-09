@@ -1,6 +1,6 @@
 ﻿@page "/security-types/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<SecurityType>
+@inherits ModelDetail<SecurityTypeDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -25,7 +25,7 @@
                         @Strings.Caption_Button_Save
                     </button>
                     <button type="button" class="form-control button"
-                        @onclick="Cancel_OnClick"
+                        @onclick="FormCancelClickHandler"
                         @onclick:preventDefault>
                         @Strings.Caption_Button_Cancel
                     </button>
@@ -46,7 +46,7 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> SecurityTypeGroups { get; set; }
+    private IEnumerable<SecurityTypeGroupDto> SecurityTypeGroups { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -54,16 +54,13 @@
 
         try
         {
-            var modelQuery = Controller.GetDefaultAsync();
-            var typeGroupsQuery = Controller.ReferenceQueries.GetSecurityTypeGroupDTOsAsync();
+            var modelQuery = HttpService.InitDefaultAsync();
+            var typeGroupsQuery = HttpService.GetAllAsync<SecurityTypeGroupDto>();
 
-            var dataTasks = Task.WhenAll(modelQuery, typeGroupsQuery);
-            await dataTasks;
+            await Task.WhenAll(modelQuery, typeGroupsQuery);
 
-            SecurityTypeGroups = (await typeGroupsQuery).Value;
-
-            if ((await modelQuery).Value is SecurityType model)
-                Model = model;
+            Model = await modelQuery;
+            SecurityTypeGroups = await typeGroupsQuery;
         }
         finally
         {
@@ -71,12 +68,5 @@
         }
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-    protected override async Task HandleValidSubmit()
-    {
-        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
-
-        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
-    }
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 }

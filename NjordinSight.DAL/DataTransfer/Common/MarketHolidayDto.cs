@@ -1,17 +1,22 @@
-﻿using System.ComponentModel;
+﻿using Ichosys.DataModel.Annotations;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(MarketHolidayDto_SR.Noun_Plural),
+        PluralArticle = nameof(MarketHolidayDto_SR.Noun_Plural_Article),
+        Singular = nameof(MarketHolidayDto_SR.Noun_Singular),
+        SingularArticle = nameof(MarketHolidayDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(MarketHolidayDto_SR)
+        )]
     public class MarketHolidayDto : DtoBase
     {
         private int _marketHolidayId;
         private string _marketHolidayName;
 
-        [Display(
-            Name = nameof(MarketHolidayDto_SR.MarketHolidayId_Name),
-            Description = nameof(MarketHolidayDto_SR.MarketHolidayId_Description),
-            ResourceType = typeof(MarketHolidayDto_SR))]
+        [Key]
         public int MarketHolidayId
         {
             get { return _marketHolidayId; }

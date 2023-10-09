@@ -1,6 +1,6 @@
 ﻿@page "/investment-models"
 
-@inherits ModelIndex<InvestmentStrategy>
+@inherits ModelIndex<InvestmentModelDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -25,11 +25,11 @@
             {
 
                 <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(InvestmentStrategy.DisplayName)
+                    <DataGridColumn Property=@nameof(InvestmentModelDtoBase.DisplayName)
                                 Caption=@(NameFor(x => x.DisplayName))
                                 Type=@DataGridCellType.Link>
                         <CellTemplate Context="model">
-                            <a href=@(FormatDetailUri(model.InvestmentStrategyId)) 
+                            <a href=@(FormatDetailUri(model.InvestmentModelId)) 
                                 @onclick:preventDefault 
                                 @onclick="@(args => Detail_OnClick(model, args))">
                                 @model.DisplayName
@@ -43,8 +43,8 @@
 </ThemedComponent>
 
 @code {
-    private void Detail_OnClick(InvestmentStrategy model, MouseEventArgs args)
+    private void Detail_OnClick(InvestmentModelDtoBase model, MouseEventArgs args)
     {
-        NavigationHelper.NavigateTo(FormatDetailUri(model.InvestmentStrategyId));
+        NavigationHelper.NavigateTo(FormatDetailUri(model.InvestmentModelId));
     }
 }

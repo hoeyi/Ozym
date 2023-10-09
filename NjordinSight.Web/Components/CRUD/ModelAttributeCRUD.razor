@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<ModelAttributeDto>
+﻿@inherits ModelCRUD<ModelAttributeDtoBase>
 
 @if(ModelDto is null)
 {
@@ -6,7 +6,7 @@
 }
 else
 {
-    <ModelForm TModelDto="ModelAttribute">
+    <ModelForm TModelDto="ModelAttributeDtoBase">
         <ModelFormEntry ForMember="@(() => ModelDto.DisplayName)">
             @if(ReadOnly)
             {
