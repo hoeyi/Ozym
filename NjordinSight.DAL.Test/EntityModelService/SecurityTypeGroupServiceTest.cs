@@ -60,7 +60,8 @@ namespace NjordinSight.Test.EntityModelService
             AttributeMemberNavigation = new()
             {
                 AttributeId = -2,
-                DisplayOrder = 0
+                DisplayName = "Test create pass",
+                DisplayOrder = 0,
             },
             SecurityTypeGroupName = "Test create pass"
         };
