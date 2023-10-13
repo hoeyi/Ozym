@@ -149,7 +149,22 @@ namespace NjordinSight.DataTransfer.Common.Generic
         public bool RemoveEntry(TChildEntity entry) => ParentEntryCollection.Remove(entry);
 
         /// <inheritdoc/>
-        public bool RemoveAll() => Entries.All(x => RemoveEntry(x));
+        public bool RemoveAll()
+        {
+            // If empty or undefined, return false.
+            if (!Entries?.Any() ?? false)
+                return false;
+
+            // Define items to be removed from parent collection.
+            var groupEntries = Entries.ToList();
+
+            bool result = false;
+
+            foreach(var entry in groupEntries)
+                result = RemoveEntry(entry);
+
+            return result;
+        }
     }
     #endregion
 }

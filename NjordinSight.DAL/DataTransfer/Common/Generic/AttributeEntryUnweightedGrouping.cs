@@ -110,12 +110,19 @@ namespace NjordinSight.DataTransfer.Common.Generic
         /// <inheritdoc/>
         public bool RemoveAll()
         {
-            if(ParentEntryCollection?.Any() ?? false)
-                ParentEntryCollection.Clear();
-            else
+            // If empty or undefined, return false.
+            if (!Entries?.Any() ?? false)
                 return false;
 
-            return true;
+            // Define items to be removed from parent collection.
+            var groupEntries = Entries.ToList();
+
+            bool result = false;
+
+            foreach (var entry in groupEntries)
+                result = RemoveEntry(entry);
+
+            return result;
         }
     }
     #endregion
