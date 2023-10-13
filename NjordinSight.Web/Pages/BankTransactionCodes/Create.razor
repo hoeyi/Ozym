@@ -17,20 +17,22 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <AttributeEntryEditor TViewModelParent="BankCodeAttributeDtoCollection"
-            TViewModelChild="BankTransactionCodeAttributeGrouping"
-            TModel="BankTransactionCodeDto"
-            TModelChild="BankTransactionCodeAttributeDto"
-            OnCancelEditorClick="FormCancelClickHandler"
-            OnValidFormSubmit="HandleValidSubmit"
-            ModelDto="@Model.AttributeCollection"
-            Mode="EditorMode.Add">
-            <ViewModelCRUD>
-                <BankTransactionCodeCRUD Disabled="false" ReadOnly="false" />
-            </ViewModelCRUD>
-            <ViewModelChildCRUD>
-            </ViewModelChildCRUD>
-        </AttributeEntryEditor>
+        <CascadingValue Value="@Model">
+            <AttributeEntryEditor TViewModelParent="BankCodeAttributeDtoCollection"
+                TViewModelChild="BankTransactionCodeAttributeGrouping"
+                TModel="BankTransactionCodeDto"
+                TModelChild="BankTransactionCodeAttributeDto"
+                OnCancelEditorClick="FormCancelClickHandler"
+                OnValidFormSubmit="HandleValidSubmit"
+                ModelDto="@Model.AttributeCollection"
+                Mode="EditorMode.Add">
+                <ViewModelCRUD>
+                    <BankTransactionCodeCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelCRUD>
+                <ViewModelChildCRUD>
+                </ViewModelChildCRUD>
+            </AttributeEntryEditor>
+        </CascadingValue>
     }
 </ThemedComponent>
 

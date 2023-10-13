@@ -52,14 +52,14 @@ namespace NjordinSight.Web.Components.Generic
         /// <summary>
         /// Gets or sets the valid entries to the currently selected attribute.
         /// </summary>
-        protected IEnumerable<ModelAttributeMemberDto> CurrentAttributeMemberLookup { get; set; }
-            = new List<ModelAttributeMemberDto>();
+        protected IEnumerable<ModelAttributeMemberDto> CurrentAttributeMembers { get; set; }
+            = Array.Empty<ModelAttributeMemberDto>();
 
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
         /// </summary>
-        protected IEnumerable<ModelAttributeDto> AllowableModelAttributes { get; set; } =
-            new List<ModelAttributeDto>();
+        protected IEnumerable<ModelAttributeDto> AllowableModelAttributes { get; set; }
+            = Array.Empty<ModelAttributeDto>();
 
         /// <summary>
         /// Gets or sets whether the modal editor for the current <typeparamref name="TViewModelChild"/>  
@@ -92,10 +92,10 @@ namespace NjordinSight.Web.Components.Generic
 
             CurrentViewModelChild = ModelDto.AddNew(forModelAttribute);
 
-            CurrentAttributeMemberLookup = forModelAttribute.AttributeValues;
+            CurrentAttributeMembers = forModelAttribute.AttributeValues;
 
             DrawViewModelChildModelEditor = 
-                CurrentViewModelChild is not null && CurrentAttributeMemberLookup is not null;
+                CurrentViewModelChild is not null && CurrentAttributeMembers is not null;
         }
 
         /// <summary>
@@ -107,12 +107,12 @@ namespace NjordinSight.Web.Components.Generic
         private void OnChildViewSelect(TViewModelChild childViewModel)
         {
             CurrentViewModelChild = childViewModel;
-            CurrentAttributeMemberLookup = AllowableModelAttributes
+            CurrentAttributeMembers = AllowableModelAttributes
                 .First(x => x.AttributeId == childViewModel.ParentAttribute.AttributeId)
                 .AttributeValues;
 
             DrawViewModelChildModelEditor =
-                CurrentViewModelChild is not null && CurrentAttributeMemberLookup is not null;
+                CurrentViewModelChild is not null && CurrentAttributeMembers is not null;
         }
 
         /// <summary>

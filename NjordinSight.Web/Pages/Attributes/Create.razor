@@ -68,7 +68,7 @@
                                     <InputSelect class="form-control" @bind-Value="@model.ScopeCode">
                                         @foreach (var scopeLookup in AttributeScopeDtos)
                                         {
-                                            <option value=@scopeLookup.Key>@scopeLookup.Display</option>
+                                            <option value=@scopeLookup.Key>@scopeLookup.Value</option>
                                         }
                                     </InputSelect>
                                 </CellEditTemplate>
@@ -129,7 +129,7 @@
     [Inject]
     protected IQueryService QueryService { get; init; }
 
-    private IEnumerable<LookupModel<string, string>> AttributeScopeDtos { get; set; }
+    private IEnumerable<KeyValuePair<string, string>> AttributeScopeDtos { get; set; }
 
     private EditContext _attributeScopeContext;
     private EditContext _attributeMemberContext;
@@ -141,29 +141,17 @@
         try
         {
             var modelQuery = HttpService.InitDefaultAsync();
-            var scopesQuery = HttpService.GetAllAsync<ModelAttributeScopeDto>();
+            var attributeScopeCodes = QueryService.BuiltIn.GetModelAttributeScopeDisplayMap(
+                placeHolderDelegate: () =>
+                    new KeyValuePair<string, string>(string.Empty, Strings.Caption_InputSelect_Prompt));
 
-            var dataTasks = Task.WhenAll(modelQuery, scopesQuery);
-            await dataTasks;
+            await modelQuery;
 
-            if (dataTasks.Status == TaskStatus.RanToCompletion)
+            if (modelQuery.Status == TaskStatus.RanToCompletion)
             {
                 Model = await modelQuery;
-                var scopesResult = (await scopesQuery)
-                                    .Select(x => new LookupModel<string, string>()
-                                        {
-                                            Key = x.ScopeCode,
-                                            Display = x.ScopeCode
-                                        })
-                                    .ToList();
-
-                scopesResult.Insert(0, new LookupModel<string, string>()
-                    {
-                        Key = string.Empty,
-                        Display = Resources.Strings.Caption_InputSelect_Placeholder
-                    });
-
-                AttributeScopeDtos = scopesResult;
+                AttributeScopeDtos = attributeScopeCodes
+                    .OrderByDescending(k => k.Key == string.Empty).ThenBy(k => k.Value);
 
                 _attributeScopeContext = new(Model.AttributeScopes);
                 _attributeMemberContext = new(Model.AttributeValues);

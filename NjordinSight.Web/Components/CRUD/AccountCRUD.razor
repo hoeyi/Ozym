@@ -129,42 +129,13 @@ else
             }
         </ModelFormEntry>
         <ModelFormEntry ForMember="@(() => ModelDto.HasWallet)">
-            @if (ReadOnly)
-            {
-                <div class="form-control">
-                    @ModelDto.HasWallet
-                </div>
-            }
-            else
-            {
-                <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasWallet disabled="@Disabled" />
-                <ValidationMessage For="@(() => ModelDto.HasWallet)" />
-            }
+            <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasWallet disabled="@ReadOnly" />
         </ModelFormEntry>
         <ModelFormEntry ForMember="@(() => ModelDto.HasBankTransaction)">
-            @if (ReadOnly)
-            {
-                <div class="form-control">
-                    @ModelDto.HasBankTransaction
-                </div>
-            }
-            else
-            {
-                <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasBankTransaction disabled="@Disabled" />
-                <ValidationMessage For="@(() => ModelDto.HasBankTransaction)" />
-            }
+            <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasBankTransaction disabled="@ReadOnly" />
         </ModelFormEntry>
         <ModelFormEntry ForMember="@(() => ModelDto.HasBrokerTransaction)">
-            @if (ReadOnly)
-            {
-                <div class="form-control">
-                    @ModelDto.HasBrokerTransaction
-                </div>
-            }
-            else
-            {
-                <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasBrokerTransaction disabled="@Disabled" />
-            }
+            <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.HasBrokerTransaction disabled="@ReadOnly" />
         </ModelFormEntry>
     </ModelForm>
 }

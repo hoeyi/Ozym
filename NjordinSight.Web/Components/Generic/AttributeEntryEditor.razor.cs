@@ -29,8 +29,8 @@ namespace NjordinSight.Web.Components.Generic
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
         /// </summary>
-        protected IEnumerable<ModelAttributeDto> AllowableModelAttributes { get; set; } =
-            new List<ModelAttributeDto>();
+        protected IEnumerable<ModelAttributeDto> AllowableModelAttributes { get; set; }
+            = Array.Empty<ModelAttributeDto>();
 
         protected override async Task OnInitializedAsync()
         {

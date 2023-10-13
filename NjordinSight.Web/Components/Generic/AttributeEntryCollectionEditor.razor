@@ -86,7 +86,7 @@ else
     @if (DrawViewModelChildModelEditor)
     {
         <CascadingValue Value="@CurrentViewModelChild">
-            <CascadingValue Value="@CurrentAttributeMemberLookup">
+            <CascadingValue Value="@CurrentAttributeMembers" Name="AttributeMembers">
                 <AttributeTargetModalCRUD 
                     TModelDto="TViewModelChild"
                     OnClose="OnModalEditor_ForChildView_Close">

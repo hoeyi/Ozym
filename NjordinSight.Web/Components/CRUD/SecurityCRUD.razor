@@ -37,6 +37,7 @@ else
                      DisplayName=@(NameFor(x => x.SecurityTypeId))
                      @bind-Value="ModelDto.SecurityTypeId"
                      disabled="@Disabled">
+                <option value="0">@Strings.Caption_InputSelect_Prompt</option>
                 @foreach (var lookup in SecurityTypes)
                 {
                     <option value=@lookup.SecurityTypeId>@lookup.SecurityTypeName</option>
@@ -102,6 +103,7 @@ else
                      DisplayName=@(NameFor(x => x.SecurityExchangeId))
                      @bind-Value="ModelDto.SecurityExchangeId"
                      disabled="@Disabled">
+                    <option value="">@Strings.Caption_InputSelect_Prompt</option>
                     @foreach (var lookup in SecurityExchanges)
                     {
                         <option value=@lookup.ExchangeId>@lookup.ExchangeCode</option>
