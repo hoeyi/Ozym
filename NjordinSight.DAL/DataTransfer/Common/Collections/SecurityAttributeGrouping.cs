@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Annotations;
 using NjordinSight.DataTransfer.Common.Generic;
-using NjordinSight.DataTransfer.Common;
 
 namespace NjordinSight.DataTransfer.Common.Collections
 {

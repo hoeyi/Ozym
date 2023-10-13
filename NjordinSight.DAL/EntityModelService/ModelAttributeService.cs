@@ -5,7 +5,6 @@ using NjordinSight.EntityModel.Context;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModelService.Abstractions;
 using System.Threading.Tasks;
-using System;
 using System.Linq;
 
 namespace NjordinSight.EntityModelService

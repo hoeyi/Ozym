@@ -3,7 +3,6 @@ using NjordinSight.DataTransfer.Common;
 using NjordinSight.EntityModel;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 
 namespace NjordinSight.BusinessLogic.Brokerage

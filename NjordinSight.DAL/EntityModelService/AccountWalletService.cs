@@ -4,7 +4,6 @@ using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordinSight.EntityModelService.Abstractions;
-using System;
 
 namespace NjordinSight.EntityModelService
 {

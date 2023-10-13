@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModelService.Abstractions;
-using System;
 
 namespace NjordinSight.EntityModelService
 {

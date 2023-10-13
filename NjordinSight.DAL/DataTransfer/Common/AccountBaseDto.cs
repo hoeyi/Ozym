@@ -2,10 +2,8 @@
 using NjordinSight.DataTransfer.Common.Collections;
 using NjordinSight.EntityModel.Metadata;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography;
 using System.Text.Json.Serialization;
 
 namespace NjordinSight.DataTransfer.Common

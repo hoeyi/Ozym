@@ -1,23 +1,13 @@
-﻿using AutoMapper;
-using AutoMapper.Extensions.ExpressionMapping;
-using Microsoft.Extensions.Logging;
-using NjordinSight.DataTransfer.Common;
+﻿using NjordinSight.DataTransfer.Common;
 using NjordinSight.EntityModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using NjordinSight.DataTransfer;
 using NjordinSight.DataTransfer.Common.Generic;
 using NjordinSight.EntityModel.Annotations;
 using System.Reflection;
-using NjordinSight.EntityModel.ConstraintType;
-using Microsoft.EntityFrameworkCore;
-using NjordinSight.EntityModel.Context;
-using Ichosys.DataModel;
-using AutoMapper.Configuration.Conventions;
 
 namespace NjordinSight.EntityModelService.Query
 {

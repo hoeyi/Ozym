@@ -1,6 +1,5 @@
 ﻿using Ichosys.DataModel.Annotations;
 using NjordinSight.EntityModel.Metadata;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

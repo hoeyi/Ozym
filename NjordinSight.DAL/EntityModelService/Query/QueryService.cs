@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using NjordinSight.BusinessLogic.Functions;
 using NjordinSight.DataTransfer;
 using NjordinSight.DataTransfer.Common;
-using NjordinSight.DataTransfer.Common.Generic;
 using NjordinSight.EntityModel.ConstraintType;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Context;
@@ -14,10 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Reflection;
 using Ichosys.DataModel;
 using AutoMapper.Extensions.ExpressionMapping;
-using NjordinSight.EntityModel.Annotations;
 using NjordinSight.UserInterface;
 using System.ComponentModel.DataAnnotations;
 

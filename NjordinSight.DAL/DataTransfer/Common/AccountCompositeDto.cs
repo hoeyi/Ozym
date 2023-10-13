@@ -2,7 +2,6 @@
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Metadata;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

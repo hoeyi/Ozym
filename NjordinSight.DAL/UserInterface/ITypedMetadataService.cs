@@ -1,8 +1,6 @@
-﻿using Ichosys.DataModel;
-using System;
+﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace NjordinSight.UserInterface
 {

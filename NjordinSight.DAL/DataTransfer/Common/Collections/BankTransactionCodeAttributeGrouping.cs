@@ -1,5 +1,4 @@
-﻿using NjordinSight.EntityModel;
-using NjordinSight.DataTransfer.Common.Generic;
+﻿using NjordinSight.DataTransfer.Common.Generic;
 using System;
 using System.Collections.Generic;
 

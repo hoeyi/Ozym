@@ -1,5 +1,4 @@
 ﻿using Ichosys.DataModel.Annotations;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common

@@ -1,9 +1,7 @@
 ﻿using Ichosys.DataModel.Annotations;
 using NjordinSight.DataTransfer.Common.Collections;
 using NjordinSight.EntityModel.Metadata;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 

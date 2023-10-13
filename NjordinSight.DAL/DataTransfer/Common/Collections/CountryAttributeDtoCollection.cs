@@ -1,6 +1,4 @@
-﻿using NjordinSight.EntityModel.Metadata;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
 using System.Linq;
 using NjordinSight.DataTransfer.Common.Generic;
 using NjordinSight.EntityModel.Annotations;
