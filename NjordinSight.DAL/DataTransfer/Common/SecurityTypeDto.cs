@@ -20,6 +20,7 @@ namespace NjordinSight.DataTransfer.Common
         private bool _canHaveDerivative;
         private bool _canHavePosition;
         private bool _heldInWallet;
+        private int _displayOrder;
 
         [Key]
         public int SecurityTypeId
@@ -141,7 +142,18 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(SecurityTypeDto_SR.DisplayOrder_Name),
             Description = nameof(SecurityTypeDto_SR.DisplayOrder_Description),
             ResourceType = typeof(SecurityTypeDto_SR))]
-        public int DisplayOrder { get; set; }
+        public int DisplayOrder
+        {
+            get { return _displayOrder; }
+            set
+            {
+                if(_displayOrder != value)
+                {
+                    _displayOrder = value;
+                    OnPropertyChanged(nameof(DisplayOrder));
+                }
+            }
+        }
     }
 
 }

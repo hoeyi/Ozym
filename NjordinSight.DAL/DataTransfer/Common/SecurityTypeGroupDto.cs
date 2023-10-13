@@ -17,6 +17,7 @@ namespace NjordinSight.DataTransfer.Common
         private string _securityTypeGroupName;
         private bool _transactable;
         private bool _depositSource;
+        private int _displayOrder;
 
         [Key]
         public int SecurityTypeGroupId
@@ -87,7 +88,18 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(SecurityTypeGroupDto_SR.DisplayOrder_Name),
             Description = nameof(SecurityTypeGroupDto_SR.DisplayOrder_Description),
             ResourceType = typeof(SecurityTypeGroupDto_SR))]
-        public int DisplayOrder { get; set; }
+        public int DisplayOrder
+        {
+            get { return _displayOrder; }
+            set
+            {
+                if (_displayOrder != value)
+                {
+                    _displayOrder = value;
+                    OnPropertyChanged(nameof(DisplayOrder));
+                }
+            }
+        }
     }
 
 }

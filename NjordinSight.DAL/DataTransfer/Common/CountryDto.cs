@@ -26,6 +26,7 @@ namespace NjordinSight.DataTransfer.Common
         private int _countryId;
         private string _displayName;
         private string _isoCode3;
+        private int _displayOrder;
 
         [Key]
         public int CountryId
@@ -85,7 +86,18 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(CountryDto_SR.DisplayOrder_Name),
             Description = nameof(CountryDto_SR.DisplayOrder_Description),
             ResourceType = typeof(CountryDto_SR))]
-        public int DisplayOrder { get; set; }
+        public int DisplayOrder
+        {
+            get { return _displayOrder; }
+            set
+            {
+                if(_displayOrder != value)
+                {
+                    _displayOrder = value;
+                    OnPropertyChanged(nameof(DisplayOrder));
+                }
+            }
+        }
     }
 
     [Noun(
