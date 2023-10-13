@@ -42,7 +42,7 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<BrokerTransactionCodeAttributeDto, BrokerTransactionCodeAttributeMemberEntry>()
                 .ForMember(
                     a => a.AttributeMemberId,
-                    b => b.MapFrom(x => x.AttributeMember.AttributeMemberId))
+                    b => b.MapFrom(x => x.AttributeMemberId))
                 .ForMember(a => a.Weight, b => b.MapFrom(x => x.PercentWeight))
                 .ForMember(a => a.AttributeMember, b => b.Ignore())
                 .ForMember(a => a.TransactionCode, b => b.Ignore());

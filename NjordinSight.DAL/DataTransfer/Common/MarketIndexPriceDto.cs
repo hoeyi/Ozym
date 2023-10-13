@@ -72,6 +72,7 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(MarketIndexPriceDto_SR.PriceCode_Name),
             Description = nameof(MarketIndexPriceDto_SR.PriceCode_Description),
             ResourceType = typeof(MarketIndexPriceDto_SR))]
+        [Required]
         public string PriceCode
         {
             get { return _priceCode; }
