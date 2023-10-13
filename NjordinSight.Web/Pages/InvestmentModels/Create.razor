@@ -17,22 +17,24 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <AttributeEntryCollectionEditor 
-            TViewModelParent="InvestmentModelTargetDtoCollection"
-            TViewModelChild="InvestmentModelTargetGrouping"
-            TModel="InvestmentModelDto"
-            TModelChild="InvestmentModelTargetDto"
-            OnCancelEditorClick="FormCancelClickHandler"
-            OnValidFormSubmit="HandleValidSubmit"
-            EffectiveDatePath="@(x => x.EffectiveDate)"
-            ModelDto="@Model.TargetCollection"
-            Mode="EditorMode.Add">
-            <ViewModelCRUD>
-                <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
-            </ViewModelCRUD>
-            <ViewModelChildCRUD>
-            </ViewModelChildCRUD>
-        </AttributeEntryCollectionEditor>
+        <CascadingValue Value="@Model">
+            <AttributeEntryCollectionEditor 
+                TViewModelParent="InvestmentModelTargetDtoCollection"
+                TViewModelChild="InvestmentModelTargetGrouping"
+                TModel="InvestmentModelDto"
+                TModelChild="InvestmentModelTargetDto"
+                OnCancelEditorClick="FormCancelClickHandler"
+                OnValidFormSubmit="HandleValidSubmit"
+                EffectiveDatePath="@(x => x.EffectiveDate)"
+                ModelDto="@Model.TargetCollection"
+                Mode="EditorMode.Add">
+                <ViewModelCRUD>
+                    <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelCRUD>
+                <ViewModelChildCRUD>
+                </ViewModelChildCRUD>
+            </AttributeEntryCollectionEditor>
+        </CascadingValue>
     }
 </ThemedComponent>
 
