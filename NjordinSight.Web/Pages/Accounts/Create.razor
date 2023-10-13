@@ -18,24 +18,21 @@
         </CascadingValue>
 
         <CascadingValue Value="@Model">
-            <EditForm class="model-editor" Model="@Model" OnValidSubmit="HandleValidSubmit" >
-                <DataAnnotationsValidator />
-                <ActionButtonMenu>
-                    <button type="submit" class="form-control button">
-                        @Strings.Caption_Button_Save
-                    </button>
-                    <button class="form-control button" @onclick="FormCancelClickHandler"
-                        @onclick:preventDefault >
-                        @Strings.Caption_Button_Cancel
-                    </button>
-                </ActionButtonMenu>
-                <ContentTile>
-                    <Body>
-                        <AccountCRUD AccountCustodians="@CustodianDtos"
-                                     Disabled="false" ReadOnly="false" />
-                    </Body>
-                </ContentTile>
-            </EditForm>
+            <AttributeEntryEditor TViewModelParent="AccountAttributeDtoCollection"
+                TViewModelChild="AccountAttributeGrouping"
+                TModel="AccountBaseDto"
+                TModelChild="AccountBaseAttributeDto"
+                OnCancelEditorClick="FormCancelClickHandler"
+                OnValidFormSubmit="HandleValidSubmit"
+                ModelDto="@Model.AttributeCollection"
+                Mode="EditorMode.Add">
+                <ViewModelCRUD>
+                    <AccountCRUD AccountCustodians="@CustodianDtos" Disabled="false" ReadOnly="false" />
+                </ViewModelCRUD>
+                <ViewModelChildCRUD>
+                    <AccountAttributesCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelChildCRUD>
+            </AttributeEntryEditor>
         </CascadingValue>
     }
 </ThemedComponent>
