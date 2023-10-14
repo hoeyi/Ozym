@@ -12,12 +12,15 @@ namespace NjordinSight.Api.Controllers
     /// </summary>
     /// <typeparam name="TObject">Record type for the collection.</typeparam>
     /// <typeparam name="TParent">Record type for the parent.</typeparam>
+    /// <typeparam name="TParentKey">Type for the primary key member of <typeparamref name="TParent"/>.
+    /// </typeparam>
     public interface IApiCollectionController<TObject, TParent, TParentKey>
     {
         /// <summary>
         /// Gets the <typeparamref name="TObject"/> records, limited to the page index and size, 
         /// and a required integer route parameter 'id'.
         /// </summary>
+        /// <param name="parentKey">Key value for the parent record.</param>
         /// <param name="pageNumber">The index of page to retrieve.</param>
         /// <param name="pageSize">The record limit for each page.</param>
         /// <returns>An <see cref="ActionResult{TValue}"/> whose value is an enumerable collection 

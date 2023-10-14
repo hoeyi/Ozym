@@ -167,7 +167,7 @@ namespace NjordinSight.Api.Controllers
 
     #region IApiCollectionController{TObject, TParent, int}
     /// <summary>
-    /// Implements <see cref="IApiCollectionController{TObject, TParent}"/> where the parent is 
+    /// Implements <see cref="IApiCollectionController{TObject, TParent, TParentKey}"/> where the parent is 
     /// uniquely identifier by an <see cref="int"/> value.
     /// </summary>
     /// <typeparam name="TObject">The DTO to/from which entities are mapped.</typeparam>
@@ -219,7 +219,8 @@ namespace NjordinSight.Api.Controllers
     #endregion
 
     /// <summary>
-    /// Base class for implementations of <see cref="IApiCollectionController{TObject, TParent}"/>.
+    /// Base class for implementations of 
+    /// <see cref="IApiCollectionController{TObject, TParent, TParentKey}"/>.
     /// </summary>
     /// <typeparam name="TObject">The DTO to/from which entities are mapped.</typeparam>
     /// <typeparam name="TEntity">The entity type used by the databse/ORM.</typeparam>
