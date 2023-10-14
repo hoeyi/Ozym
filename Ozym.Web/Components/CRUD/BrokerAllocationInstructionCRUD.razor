@@ -1,0 +1,93 @@
+﻿@using System.ComponentModel.DataAnnotations;
+@using Ozym.BusinessLogic.Brokerage;
+
+@inherits ModelCRUD<AllocationInstructionTable>
+
+@if(IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ContentTile>
+        <TitleAlignLeft>
+            @Caption
+        </TitleAlignLeft>
+        <TitleAlignRight>
+            <label>
+                @(ModelMetadata.NameFor<BrokerTransactionDto>(x => x.Quantity))
+            </label>
+            <div class="form-control">
+                @(string.Format("{0:0.######}", InstructionTable.Transaction.Quantity))
+            </div>
+            <label>
+                @(NameFor(x => x.RemainingTransactionQuantity))
+            </label>
+            <div class="form-control">
+                @(string.Format("{0:0.######}", InstructionTable.RemainingTransactionQuantity))
+            </div>
+        </TitleAlignRight>
+        <Body>
+            <ValidationMessage For=@(() => InstructionTable.RemainingTransactionQuantity) />
+            <DataGrid Data="@InstructionTable.Instructions">
+                <DataGridColumn
+                    Type="DataGridCellType.Control"
+                    Property="@nameof(AllocationInstructionRow.ClosingQuantity)"
+                    Caption="@(ModelMetadata.NameFor<AllocationInstructionRow>(x => x.ClosingQuantity))">
+                    <CellEditTemplate Context="model">
+                        <InputNumber class="form-control" @bind-Value="model.ClosingQuantity" />
+                    </CellEditTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Type="DataGridCellType.Control"
+                    Property="@nameof(BrokerTaxLot.AcquisitionDate)"
+                    Caption="@(ModelMetadata.NameFor<BrokerTaxLot>(x => x.AcquisitionDate))">
+                    <CellTemplate Context="model">
+                        <div class="form-control">
+                            @model.TaxLot.AcquisitionDate.ToShortDateString()
+                        </div>
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Type="DataGridCellType.Control"
+                    Property="@nameof(BrokerTaxLot.UnclosedQuantity)"
+                    Caption="@(ModelMetadata.NameFor<BrokerTaxLot>(x => x.UnclosedQuantity))">
+                    <CellTemplate Context="model">
+                        <div class="form-control">
+                            @model.TaxLot.UnclosedQuantity
+                        </div>
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Type="DataGridCellType.Control"
+                    Property="@nameof(BrokerTaxLot.UnitCostBasis)"
+                    Caption="@(ModelMetadata.NameFor<BrokerTaxLot>(x => x.UnitCostBasis))">
+                    <CellTemplate Context="model">
+                        <div class="form-control">
+                            @model.TaxLot.UnitCostBasis
+                        </div>
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        </Body>
+    </ContentTile>
+}
+
+@code {
+    /// <summary>
+    /// The <see cref="AllocationInstructionTable" /> to hold the user input.
+    /// </summary>
+    [CascadingParameter]
+    public AllocationInstructionTable InstructionTable { get; set; }
+
+    private string Caption { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Caption = ModelMetadata
+            .GetAttribute<AllocationInstructionTable, DisplayAttribute>()?.GetName() 
+            ?? nameof(AllocationInstructionTable);
+        
+        IsLoading = InstructionTable is null;
+    }
+}
