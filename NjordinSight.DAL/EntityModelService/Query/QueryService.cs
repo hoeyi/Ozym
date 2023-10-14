@@ -122,7 +122,6 @@ namespace NjordinSight.EntityModelService.Query
     public partial class QueryService
     {
         private readonly IDbContextFactory<FinanceDbContext> _contextFactory;
-        private readonly IModelMetadataService _metadataService;
         private readonly IMapper _mapper;
         static readonly object _locker = new();
 
@@ -131,23 +130,20 @@ namespace NjordinSight.EntityModelService.Query
         /// </summary>
         /// <param name="contextFactory">An <see cref="IDbContextFactory{TContext}"/> to use for 
         /// generating data contexts.</param>
+        /// <param name="mapper">An <see cref="IMapper"/> instance for translating data store 
+        /// entities to DTOs.</param>
         /// <exception cref="ArgumentNullException"><paramref name="contextFactory"/> was null.</exception>
         public QueryService(
             IDbContextFactory<FinanceDbContext> contextFactory, 
-            IModelMetadataService metadataService,
             IMapper mapper)
         {
             if (contextFactory is null)
                 throw new ArgumentNullException(paramName: nameof(contextFactory));
 
-            if (metadataService is null)
-                throw new ArgumentNullException(paramName: nameof(metadataService));
-
             if (mapper is null)
                 throw new ArgumentNullException(paramName: nameof(mapper));
 
             _contextFactory = contextFactory;
-            _metadataService = metadataService;
             _mapper = mapper;
         }
 

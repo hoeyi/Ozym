@@ -28,7 +28,6 @@ namespace NjordinSight.Test.EntityModelService.Query
             var mocks = new Mocks();
             var queryService = new QueryService(
                 contextFactory: mocks.ContextFactory.Object,
-                metadataService: mocks.ModelMetadataService.Object, 
                 mapper: mocks.Mapper.Object);
 
             // Act
@@ -36,14 +35,12 @@ namespace NjordinSight.Test.EntityModelService.Query
                 .GetMarketIndexPriceCodeDisplayMap(null);
 
             // Assert
-            Assert.AreEqual(2, enumResults.Count());
+            Assert.AreEqual(2, enumResults.Count);
         }
 
         private record Mocks
         {
             public Mock<IDbContextFactory<FinanceDbContext>> ContextFactory { get; init; } = new();
-
-            public Mock<IModelMetadataService> ModelMetadataService { get; init; } = new();
 
             public Mock<IMapper> Mapper { get; init; } = new();
         }
