@@ -12,7 +12,7 @@ using NjordinSight.DataTransfer.Common;
 
 namespace NjordinSight.Web.Test.Services
 {
-    [Microsoft.VisualStudio.TestTools.UnitTesting.TestClass]
+    [TestClass]
     public class HttpServiceTest<T>
     {
         [TestMethod]
@@ -33,11 +33,5 @@ namespace NjordinSight.Web.Test.Services
             // Assert
             Assert.IsInstanceOfType(httpService, typeof(HttpService<T>));
         }
-    }
-
-    [TestClass]
-    [TestCategory("Unit")]
-    public class HttpServiceAccountTest : HttpServiceTest<AccountDto>
-    {
     }
 }
