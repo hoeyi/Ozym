@@ -1,28 +1,31 @@
 ﻿@page "/securities/prices/edit"
 
-@inherits ModelListPage<SecurityPrice>
+@inherits ModelPagedIndexEditor<SecurityPriceDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
 <ThemedComponent>
     <ModelPageHeader Header="@(PageTitle.ReadMany())" />
 
-    @if(SearchFields is null)
+    @if (SearchService.SearchFields is null)
     {
         <LoadingSvg />
     }
     else
     {
-        <ContentTile>
-            <Body>
-                <SearchInputTable TModel="SecurityPrice"
-                    ComparisonOperators=@ComparisonOperators
-                    ExpressionBuilder=@ExpressionBuilder
-                    SearchFields=@SearchFields
-                    OnSearchClick=@(async (args) => await SearchClicked(args))>
-                </SearchInputTable>
-            </Body>
-        </ContentTile>
+        @if (SearchService.SearchFields.Any())
+        {
+            <ContentTile>
+                <Body>
+                    <SearchInputTable TModel="SecurityPriceDto"
+                                      ComparisonOperators=@SearchService.ComparisonOperators
+                                      ExpressionBuilder=@SearchService.ExpressionBuilder
+                                      SearchFields=@SearchService.SearchFields
+                                      OnSearchClick=@(async (args) => await SearchClicked(args))>
+                    </SearchInputTable>
+                </Body>
+            </ContentTile>
+        }
     }
 
     <CascadingValue Value="@ErrorMessage">
@@ -43,10 +46,10 @@
                         @Strings.Caption_Button_Save
                     </button>
                     <button class="form-control button"
-                        @onclick="(async (args) => await AddNewAsync(args))">
+                        @onclick="((args) => AddNew(args))">
                         @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                     </button>
-                    <button class="form-control button" @onclick="Cancel_OnClick"
+                    <button class="form-control button" @onclick="CancelEditor_OnClick"
                         @onclick:preventDefault>
                         @Strings.Caption_Button_Cancel
                     </button>
@@ -69,60 +72,60 @@
                                     <CellEditTemplate Context="model">
                                         <ToolTip Text="@Strings.Caption_Button_Delete">
                                             <button class="form-control button icon" type="button"
-                                                @onclick="async (args) => await DeleteAsync(args, model)">
+                                                @onclick="(args) => DeleteRecord(args, model)">
                                                 <IonIcon Name="close-circle" />
                                             </button>
                                         </ToolTip>
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.SecurityId)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.SecurityId)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.SecurityId))>
                                     <CellEditTemplate Context="model">
                                         <InputSelect class="form-control" @bind-Value="@model.SecurityId">
                                             @foreach (var lookup in SecurityLookup)
                                             {
-                                                <option value=@lookup.Key>@lookup.Display</option>
+                                                <option value=@lookup.SecurityId>@lookup.SecurityDescription</option>
                                             }
                                         </InputSelect>
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.PriceDate)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.PriceDate)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.PriceDate))>
                                     <CellEditTemplate Context="model">
                                         <InputDate class="form-control" @bind-Value="model.PriceDate" />
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.PriceClose)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.PriceClose)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.PriceClose))>
                                     <CellEditTemplate Context="model">
                                         <InputNumber class="form-control" @bind-Value="model.PriceClose" />
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.PriceOpen)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.PriceOpen)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.PriceOpen))>
                                     <CellEditTemplate Context="model">
                                         <InputNumber class="form-control" @bind-Value="model.PriceOpen" />
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.PriceHigh)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.PriceHigh)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.PriceHigh))>
                                     <CellEditTemplate Context="model">
                                         <InputNumber class="form-control" @bind-Value="model.PriceHigh" />
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.PriceLow)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.PriceLow)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.PriceLow))>
                                     <CellEditTemplate Context="model">
                                         <InputNumber class="form-control" @bind-Value="model.PriceLow" />
                                     </CellEditTemplate>
                                 </DataGridColumn>
-                                <DataGridColumn Property=@nameof(SecurityPrice.Volume)
+                                <DataGridColumn Property=@nameof(SecurityPriceDto.Volume)
                                     Type="DataGridCellType.Control"
                                     Caption=@(NameFor(x => x.Volume))>
                                     <CellEditTemplate Context="model">
@@ -138,63 +141,40 @@
 </ThemedComponent>
 
 @code {
-    private IEnumerable<LookupModel<int, string>> SecurityLookup { get; set; }
-
-    [Inject]    
-    protected new ICollectionController<SecurityPrice> Controller { get; init; }
+    private IEnumerable<SecurityDtoBase> SecurityLookup { get; set; }
 
     /// <inheritdoc />
-    protected override bool GetLoadingState() => SecurityLookup is null || WorkingEntries is null;
+    protected override string IndexUriRelativePath => $"{base.IndexUriRelativePath}/prices";
 
     /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
+    protected override bool PageDataIsLoading() => SecurityLookup is null || WorkingEntries is null;
+
+    /// <inheritdoc />
+    protected override async Task RefreshResultsAsync(
+    ParameterDto<SecurityPriceDto> parameter, int pageNumber, int pageSize)
     {
-        // Update the hidden reference to refer the same object to avoid null reference exception.
-        base.Controller = Controller;
-
-        CheckNullParameters();
-
-        IsLoading = true;
-
-        try
-        {
-            if (SearchService is null)
-                throw new ArgumentNullException(paramName: nameof(ExpressionBuilder));
-
-            if (Controller is null)
-                throw new ArgumentNullException(paramName: nameof(Controller));
-
-            var pricesTask = Controller.SelectAsync(
-                predicate: SearchService.CurrentExpression,
+        var pricesTask = parameter is null ?
+            HttpService.IndexAsync(
+                    pageNumber: PaginationHelper.PageIndex,
+                    pageSize: PaginationHelper.PageSize) :
+            HttpService.SearchAsync(
+                parameter: parameter,
                 pageNumber: PaginationHelper.PageIndex,
                 pageSize: PaginationHelper.PageSize);
 
-            var securityDtosTask = Controller.ReferenceQueries.GetDtosAsync<Security, int, string>(
-                key: x => x.SecurityId,
-                display: x => x.SecurityDescription,
-                defaultKey: default,
-                defaultDisplay: Strings.Caption_InputSelect_Prompt);
+        var securityDtosTask = HttpService.GetAllAsync<SecurityDtoBase>();
 
-            await InitializationTasksAsync(pricesTask, securityDtosTask);
+        await InitializationTasksAsync(pricesTask, securityDtosTask);
 
-            var pricesResult = await pricesTask;
-            var securityDtosResult = await securityDtosTask;
+        var pricesResult = await pricesTask;
+        var securityDtosResult = await securityDtosTask;
 
-            SecurityLookup = securityDtosResult.Value;
-            WorkingEntries = pricesResult.Value.Item1.ToList();
+        SecurityLookup = securityDtosResult;
+        WorkingEntries = new TrackingEnumerable<SecurityPriceDto>(pricesResult.Item1.ToList());
 
-            Context = new(WorkingEntries);
+        Context = new(WorkingEntries);
 
-            PaginationHelper.TotalItemCount = pricesResult.Value.Item2.ItemCount;
-            PaginationHelper.ItemCount = WorkingEntries.Count;
-        }
-        finally
-        {
-            IsLoading = GetLoadingState();
-        }
+        PaginationHelper.TotalItemCount = pricesResult.Item2.ItemCount;
+        PaginationHelper.ItemCount = WorkingEntries.Count;
     }
-
-    /// <inheritdoc/>
-    protected override void Cancel_OnClick() => 
-        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/prices");
 }

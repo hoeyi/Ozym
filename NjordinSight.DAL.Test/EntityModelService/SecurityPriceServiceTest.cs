@@ -14,7 +14,7 @@ namespace NjordinSight.Test.EntityModelService
             x => true;
 
         protected override IModelCollectionService<SecurityPrice> GetModelService() =>
-            BuildModelService<SecurityPriceBatchService>();
+            BuildModelService<SecurityPriceService>();
 
     }
 }

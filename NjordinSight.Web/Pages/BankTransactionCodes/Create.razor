@@ -1,6 +1,6 @@
 ﻿@page "/bank-transaction-codes/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<BankTransactionCode>
+@inherits ModelDetail<BankTransactionCodeDto>
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
@@ -17,20 +17,22 @@
             <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
         </CascadingValue>
 
-        <AttributeEntryEditor TViewModelParent="BankTransactionCodeDto"
-                          TViewModelChild="BankTransactionCodeAttributeGrouping"
-                          TModel="BankTransactionCode"
-                          TModelChild="BankTransactionCodeAttributeMemberEntry"
-                          OnCancelEditorClick="CancelFormHandler"
-                          OnValidFormSubmit="ValidFormSubmitHandler"
-                          ModelDto="@ModelDto"
-                          Mode="EditorMode.Add">
-            <ViewModelCRUD>
-                <BankTransactionCodeCRUD Disabled="false" ReadOnly="false" />
-            </ViewModelCRUD>
-            <ViewModelChildCRUD>
-            </ViewModelChildCRUD>
-        </AttributeEntryEditor>
+        <CascadingValue Value="@Model">
+            <AttributeEntryEditor TViewModelParent="BankCodeAttributeDtoCollection"
+                TViewModelChild="BankTransactionCodeAttributeGrouping"
+                TModel="BankTransactionCodeDto"
+                TModelChild="BankTransactionCodeAttributeDto"
+                OnCancelEditorClick="FormCancelClickHandler"
+                OnValidFormSubmit="HandleValidSubmit"
+                ModelDto="@Model.AttributeCollection"
+                Mode="EditorMode.Add">
+                <ViewModelCRUD>
+                    <BankTransactionCodeCRUD Disabled="false" ReadOnly="false" />
+                </ViewModelCRUD>
+                <ViewModelChildCRUD>
+                </ViewModelChildCRUD>
+            </AttributeEntryEditor>
+        </CascadingValue>
     }
 </ThemedComponent>
 
@@ -46,36 +48,13 @@
 
         try
         {
-            var modelQuery = await Controller.GetDefaultAsync();
-
-            if (modelQuery.Value is BankTransactionCode model)
-            {
-                Model = model;
-            }
-
-            ModelDto = new(Model);
+            Model = await HttpService.InitDefaultAsync();
         }
         finally
         {
-            IsLoading = Model is null || ModelDto is null;
+            IsLoading = Model is null;
         }
     }
 
-    /// <summary>
-    /// Handles the valid form submission event of this page.
-    /// </summary>
-    private async Task ValidFormSubmitHandler(EditContext args)
-    {
-        Model = ModelDto.ToEntity();
-
-        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
-
-        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
-    }
-
-    /// <summary>
-    /// Handles the cancel editor event of this page.
-    /// </summary>
-    private void CancelFormHandler(MouseEventArgs args) =>
-        NavigationHelper.NavigateTo(IndexUriRelativePath);
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 }

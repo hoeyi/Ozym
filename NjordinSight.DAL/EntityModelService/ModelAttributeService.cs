@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModelService.Abstractions;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace NjordinSight.EntityModelService
 {
@@ -36,8 +38,75 @@ namespace NjordinSight.EntityModelService
             Writer = new ModelWriterService<ModelAttribute>(
                 ContextFactory, modelMetadata, logger)
             {
-                GetDefaultDelegate = () => new ModelAttribute()
+                GetDefaultDelegate = () => new ModelAttribute(),
+                UpdateDelegate = async (context, model) =>
+                {
+                    var result = await UpdateGraphAsync(context, model);
+
+                    return new DbActionResult<bool>(result, result);
+                }
             };
+        }
+
+        public static async Task<bool> UpdateGraphAsync(FinanceDbContext context, ModelAttribute model)
+        {
+            using var transaction = await context.Database.BeginTransactionIfSupportedAsync();
+
+            var entity = await context.ModelAttributes
+                                .Include(x => x.ModelAttributeMembers)
+                                .Include(x => x.ModelAttributeScopes)
+                                .FirstAsync(x => x.AttributeId == model.AttributeId);
+
+            
+            // Set attributes except for navigation properties.
+            context.Entry(entity).CurrentValues.SetValues(model);
+
+            // Determine which items in the scope collection are removed.
+            context.ModelAttributeScopes.RemoveRange(
+                entity.ModelAttributeScopes.Where(a => !model.ModelAttributeScopes.Any(
+                    b => b.ScopeCode == a.ScopeCode)));
+
+            // Determine which items in the scope collection are added.
+            context.ModelAttributeScopes.AddRange(
+                model.ModelAttributeScopes.Where(a => !entity.ModelAttributeScopes.Any(
+                    b => b.ScopeCode == a.ScopeCode)));
+
+            // Determine which items in the value collection are removed.
+            context.ModelAttributeMembers.RemoveRange(
+                entity.ModelAttributeMembers.Where(a => !model.ModelAttributeMembers.Any(
+                    b => b.AttributeMemberId == a.AttributeMemberId)));
+
+            // Determine which items in the value collection added.
+            context.ModelAttributeMembers.AddRange(
+                model.ModelAttributeMembers.Where(a => !entity.ModelAttributeMembers.Any(
+                    b => b.AttributeMemberId == a.AttributeMemberId)));
+
+            // Set values for modified attribute member entries. Scopes is ignore because
+            // there no other values captured but the key values identifying the record.
+            var attributeValueUpdates = 
+                from a in entity.ModelAttributeMembers
+                join b in model.ModelAttributeMembers on
+                    new { a.AttributeId, a.AttributeMemberId } equals
+                    new { b.AttributeId, b.AttributeMemberId }
+                where a.DisplayName != b.DisplayName ||
+                a.DisplayOrder != b.DisplayOrder
+                select new
+                {
+                    Old = a,
+                    New = b
+                };
+
+            foreach(var upd in attributeValueUpdates)
+            {
+                context.Entry(upd.Old).CurrentValues.SetValues(upd.New);
+            }
+
+            bool result = await context.SaveChangesAsync() > 0;
+
+            if (transaction is not null)
+                await transaction.CommitAsync();
+
+            return result;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ModelAttributeMemberDto_SR {
+    public class ModelAttributeMemberDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.ModelAttributeMemberDto_SR", typeof(ModelAttributeMemberDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Parent attribute for the value..
         /// </summary>
-        internal static string AttributeId_Description {
+        public static string AttributeId_Description {
             get {
                 return ResourceManager.GetString("AttributeId_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Attribute.
         /// </summary>
-        internal static string AttributeId_Name {
+        public static string AttributeId_Name {
             get {
                 return ResourceManager.GetString("AttributeId_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display value for reporting..
         /// </summary>
-        internal static string DisplayName_Description {
+        public static string DisplayName_Description {
             get {
                 return ResourceManager.GetString("DisplayName_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
-        internal static string DisplayName_Name {
+        public static string DisplayName_Name {
             get {
                 return ResourceManager.GetString("DisplayName_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Order the value is dipslayed in reporting..
         /// </summary>
-        internal static string DisplayOrder_Description {
+        public static string DisplayOrder_Description {
             get {
                 return ResourceManager.GetString("DisplayOrder_Description", resourceCulture);
             }
@@ -108,9 +108,45 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display Order.
         /// </summary>
-        internal static string DisplayOrder_Name {
+        public static string DisplayOrder_Name {
             get {
                 return ResourceManager.GetString("DisplayOrder_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to attribute values.
+        /// </summary>
+        public static string Noun_Plural {
+            get {
+                return ResourceManager.GetString("Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Plural_Article {
+            get {
+                return ResourceManager.GetString("Noun_Plural_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to attribute value.
+        /// </summary>
+        public static string Noun_Singular {
+            get {
+                return ResourceManager.GetString("Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Singular_Article {
+            get {
+                return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
             }
         }
     }

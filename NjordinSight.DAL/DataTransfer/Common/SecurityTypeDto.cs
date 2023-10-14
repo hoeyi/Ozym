@@ -1,8 +1,15 @@
-﻿using System.ComponentModel;
+﻿using Ichosys.DataModel.Annotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(SecurityTypeDto_SR.Noun_Plural),
+        PluralArticle = nameof(SecurityTypeDto_SR.Noun_Plural_Article),
+        Singular = nameof(SecurityTypeDto_SR.Noun_Singular),
+        SingularArticle = nameof(SecurityTypeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(SecurityTypeDto_SR)
+        )]
     public class SecurityTypeDto : DtoBase
     {
         private int _securityTypeId;
@@ -12,11 +19,9 @@ namespace NjordinSight.DataTransfer.Common
         private bool _canHaveDerivative;
         private bool _canHavePosition;
         private bool _heldInWallet;
+        private int _displayOrder;
 
-        [Display(
-            Name = nameof(SecurityTypeDto_SR.SecurityTypeId_Name),
-            Description = nameof(SecurityTypeDto_SR.SecurityTypeId_Description),
-            ResourceType = typeof(SecurityTypeDto_SR))]
+        [Key]
         public int SecurityTypeId
         {
             get { return _securityTypeId; }
@@ -136,7 +141,18 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(SecurityTypeDto_SR.DisplayOrder_Name),
             Description = nameof(SecurityTypeDto_SR.DisplayOrder_Description),
             ResourceType = typeof(SecurityTypeDto_SR))]
-        public int DisplayOrder { get; set; }
+        public int DisplayOrder
+        {
+            get { return _displayOrder; }
+            set
+            {
+                if(_displayOrder != value)
+                {
+                    _displayOrder = value;
+                    OnPropertyChanged(nameof(DisplayOrder));
+                }
+            }
+        }
     }
 
 }

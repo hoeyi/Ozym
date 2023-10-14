@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class MarketHolidayObservanceDto_SR {
+    public class MarketHolidayObservanceDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.MarketHolidayObservanceDto_SR", typeof(MarketHolidayObservanceDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to The holiday being observed..
         /// </summary>
-        internal static string MarketHolidayId_Description {
+        public static string MarketHolidayId_Description {
             get {
                 return ResourceManager.GetString("MarketHolidayId_Description", resourceCulture);
             }
@@ -72,16 +72,52 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Holiday.
         /// </summary>
-        internal static string MarketHolidayId_Name {
+        public static string MarketHolidayId_Name {
             get {
                 return ResourceManager.GetString("MarketHolidayId_Name", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to holiday observances.
+        /// </summary>
+        public static string Noun_Plural {
+            get {
+                return ResourceManager.GetString("Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Plural_Article {
+            get {
+                return ResourceManager.GetString("Noun_Plural_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to holiday observance.
+        /// </summary>
+        public static string Noun_Singular {
+            get {
+                return ResourceManager.GetString("Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Singular_Article {
+            get {
+                return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The date the holiday is observed..
         /// </summary>
-        internal static string ObservanceDate_Description {
+        public static string ObservanceDate_Description {
             get {
                 return ResourceManager.GetString("ObservanceDate_Description", resourceCulture);
             }
@@ -90,7 +126,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Observance Date.
         /// </summary>
-        internal static string ObservanceDate_Name {
+        public static string ObservanceDate_Name {
             get {
                 return ResourceManager.GetString("ObservanceDate_Name", resourceCulture);
             }

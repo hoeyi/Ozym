@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NjordinSight.EntityModel;
+﻿using NjordinSight.EntityModel;
 using NjordinSight.DataTransfer.Common;
 using AutoMapper;
 
@@ -40,7 +35,7 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<InvestmentModelTargetDto, InvestmentStrategyTarget>()
                 .ForMember(
                     a => a.AttributeMemberId,
-                    b => b.MapFrom(x => x.AttributeMember.AttributeMemberId))
+                    b => b.MapFrom(x => x.AttributeMemberId))
                 .ForMember(a => a.InvestmentStrategyId, b => b.MapFrom(x => x.InvestmentModelId))
                 .ForMember(a => a.Weight, b => b.MapFrom(x => x.PercentWeight))
                 .ForMember(a => a.AttributeMember, b => b.Ignore())

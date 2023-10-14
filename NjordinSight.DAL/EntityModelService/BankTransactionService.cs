@@ -12,7 +12,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing single CRUD requests against the <see cref="BankTransaction"/> 
     /// data store.
     /// </summary>
-    internal class BankTransactionService : ModelCollectionService<BankTransaction, int>
+    internal class BankTransactionService : ModelCollectionService<BankTransaction>
     {
         /// <summary>
         /// Creates a new <see cref="BankTransactionService"/> instance.
@@ -27,18 +27,11 @@ namespace NjordinSight.EntityModelService
                 ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
-        }
-
-        /// <inheritdoc/>
-        public override void SetParent(int parent)
-        {
-            Reader = new ModelReaderService<BankTransaction>(
-                ContextFactory, ModelMetadata, Logger)
+            Reader = new ModelReaderService<BankTransaction>(ContextFactory, ModelMetadata, Logger);
+            GetDefaultModelDelegate = () => new BankTransaction()
             {
-                ParentExpression = x => x.AccountId == parent,
+                TransactionDate = DateTime.UtcNow.Date
             };
-
-            GetDefaultModelDelegate = () => new BankTransaction(){ AccountId = parent };
         }
     }
 }

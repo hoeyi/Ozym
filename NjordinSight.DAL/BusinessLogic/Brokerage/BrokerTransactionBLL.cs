@@ -1,7 +1,8 @@
-﻿using NjordinSight.EntityModel;
+﻿using NjordinSight.ChangeTracking;
+using NjordinSight.DataTransfer.Common;
+using NjordinSight.EntityModel;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 
 namespace NjordinSight.BusinessLogic.Brokerage
@@ -9,27 +10,25 @@ namespace NjordinSight.BusinessLogic.Brokerage
     public partial class BrokerTransactionBLL : IBrokerTransactionBLL
     {
         /// <inheritdoc/>
-        public IReadOnlyCollection<BrokerTransaction> Entries => _brokerTransactions;
-        
+        public IEnumerable<BrokerTransactionDto> Entries => TrackingEntries;
+
         /// <inheritdoc/>
-        public BrokerTransaction AddTransaction()
+        public BrokerTransactionDto AddTransaction()
         {
-            BrokerTransaction newTransaction = new()
+            BrokerTransactionDto newTransaction = new()
             {
                 TransactionCodeId = default,
-                TransactionCode = _brokerTransactionCodes
-                    .FirstOrDefault(x => x.TransactionCodeId == default),
                 TradeDate = DateTime.UtcNow.Date,
-                AccountId = _parentAccount.AccountId
+                AccountId = ParentAccount.Id
             };
 
-            _brokerTransactions.Insert(0, newTransaction);
+            TrackingEntries.Add(newTransaction);
 
             return newTransaction;
         }
 
         /// <inheritdoc/>
-        public ITransactionUpdateResponse UpdateTransactionCode(BrokerTransaction model, int newId)
+        public ITransactionUpdateResponse UpdateTransactionCode(BrokerTransactionDto model, int newId)
         {
             if (model is null)
                 throw new ArgumentNullException(paramName: nameof(model));
@@ -52,16 +51,12 @@ namespace NjordinSight.BusinessLogic.Brokerage
                     ResponseObject = null
                 };
 
-            // TODO: Why is this the criteria for updating the transaction code reference?
-            // TODO: Can this be expressed more clearly?
-            if((model.TransactionCode?.TransactionCodeId ?? newId * -1) != newId)
-                model.TransactionCode = _brokerTransactionCodes
-                    .FirstOrDefault(x => x.TransactionCodeId == newId);
+            var newTransactionCode = TransactionCodes
+                .First(x => x.TransactionCodeId == model.TransactionCodeId);
 
             // If a closing action, we need to know which lots to close against.
-            if (model.TransactionCode.QuantityEffect < 0)
+            if (newTransactionCode.QuantityEffect < 0)
             {
-
                 var openLots = GetOpenTaxLots().Where(x => x.SecurityId == model.SecurityId);
 
                 // 2. Scenario: Transaction is complete, but no lots are available.
@@ -122,7 +117,6 @@ namespace NjordinSight.BusinessLogic.Brokerage
                 // 6. Scenario: Transaction is complete, but it is not a closing action.
                 // 6. Action:   Clear tax lot id and return completed status.
                 model.TaxLotId = null;
-                model.TaxLot = null;
 
                 return new TransactionUpdateResponse<object>()
                 {
@@ -133,11 +127,11 @@ namespace NjordinSight.BusinessLogic.Brokerage
         }
 
         /// <inheritdoc/>
-        public void RemoveTransaction(BrokerTransaction model) => _brokerTransactions.Remove(model);
+        public void RemoveTransaction(BrokerTransactionDto model) => TrackingEntries.Remove(model);
         
         /// <inheritdoc/>
-        public void RevertRemoveTransaction(BrokerTransaction model) 
-            => _brokerTransactions.Add(model);
+        public void RevertRemoveTransaction(BrokerTransactionDto model) 
+            => TrackingEntries.Add(model);
 
         /// <inheritdoc/>
         public IEnumerable<BrokerTaxLot> GetTaxLots(TaxLotStatus taxLotStatus)
@@ -155,12 +149,12 @@ namespace NjordinSight.BusinessLogic.Brokerage
         }
 
         /// <inheritdoc/>
-        public ITransactionUpdateResponse<IEnumerable<BrokerTransaction>> PostAllocation(
+        public ITransactionUpdateResponse<IEnumerable<BrokerTransactionDto>> PostAllocation(
             AllocationInstructionTable allocationTable)
         {
             // Applies an instruction row to a broker transaction.
             static void ApplyInstruction(
-                BrokerTransaction brokerTransaction, 
+                BrokerTransactionDto brokerTransaction, 
                 AllocationInstructionRow instruction)
             {
                 decimal proportion = instruction.ClosingQuantity / brokerTransaction.Quantity ?? 0M;
@@ -175,7 +169,7 @@ namespace NjordinSight.BusinessLogic.Brokerage
             
             // Copies all attributes of the source broker transaction to the destination broker 
             // transaction, except for TaxLot and TaxLotId.
-            static BrokerTransaction CopyTo(BrokerTransaction source, BrokerTransaction destination)
+            static BrokerTransactionDto CopyTo(BrokerTransactionDto source, BrokerTransactionDto destination)
             {
                 destination.AccountId = source.AccountId;
                 destination.SecurityId = source.SecurityId;
@@ -205,14 +199,14 @@ namespace NjordinSight.BusinessLogic.Brokerage
                 throw new ArgumentException(
                     message: string.Format(
                             ExceptionString.BrokerTransactionBLL_ClosingField_NotSet,
-                            nameof(BrokerTransaction.Quantity)));
+                            nameof(BrokerTransactionDto.Quantity)));
 
             // Verify the amount value is set.  
             if(initTransaction.Amount == 0M)
                 throw new ArgumentException(
                     message: string.Format(
                             ExceptionString.BrokerTransactionBLL_ClosingField_NotSet,
-                            nameof(BrokerTransaction.Amount)));
+                            nameof(BrokerTransactionDto.Amount)));
 
             var splitTransactions = Enumerable.Repeat(
                 element: CopyTo(source: initTransaction, destination: AddTransaction()),
@@ -230,7 +224,7 @@ namespace NjordinSight.BusinessLogic.Brokerage
                 transaction.TaxLotId = instruction.TaxLot.TaxLotId;
             }
 
-            return new TransactionUpdateResponse<IEnumerable<BrokerTransaction>>()
+            return new TransactionUpdateResponse<IEnumerable<BrokerTransactionDto>>()
             {
                 UpdateStatus = TransactionUpdateStatus.Completed,
                 ResponseObject = splitTransactions.Where(x => x != initTransaction)
@@ -239,19 +233,19 @@ namespace NjordinSight.BusinessLogic.Brokerage
     }
 
     /// <summary>
-    /// Represents the collection of business rules for modifying <see cref="BrokerTransaction"/> 
+    /// Represents the collection of business rules for modifying <see cref="BrokerTransactionDto"/> 
     /// records as children of an <see cref="Account"/> record.
     /// </summary>
     public partial class BrokerTransactionBLL
     {
-        private readonly BindingList<BrokerTransaction> _brokerTransactions;
-        private readonly IEnumerable<BrokerTransactionCode>_brokerTransactionCodes;
-        private readonly Account _parentAccount;
+        private ITrackingEnumerable<BrokerTransactionDto> TrackingEntries { get; init; }
+        private IEnumerable<BrokerTransactionCodeDtoBase> TransactionCodes { get; init; }
+        private AccountDto ParentAccount { get; init; }
 
         public BrokerTransactionBLL(
-            IList<BrokerTransaction> brokerTransactions,
-            IEnumerable<BrokerTransactionCode> transactionCodes,
-            Account parentAccount)
+            ITrackingEnumerable<BrokerTransactionDto> brokerTransactions,
+            IEnumerable<BrokerTransactionCodeDtoBase> transactionCodes,
+            AccountDto parentAccount)
         {
             if (brokerTransactions is null)
                 throw new ArgumentNullException(paramName: nameof(brokerTransactions));
@@ -262,44 +256,73 @@ namespace NjordinSight.BusinessLogic.Brokerage
             if (parentAccount is null)
                 throw new ArgumentNullException(paramName: nameof(parentAccount));
 
-            if (brokerTransactions.Any(x => x.TransactionCode is null))
-                throw new InvalidOperationException(message:
-                    string.Format(
-                        ExceptionString.BrokerTransactionBLL_IncompleteObjectGraph,
-                        nameof(BrokerTransaction.TransactionCode)));
-
-            if (brokerTransactions.Any(x => x.AccountId != parentAccount.AccountId))
+            if (brokerTransactions.Any(x => x.AccountId != parentAccount.Id))
                 throw new InvalidOperationException(
                     message: ExceptionString.BrokerTransactionBLL_InvalidCollectionParent);
 
-            _brokerTransactions = new(brokerTransactions);
-            _brokerTransactionCodes = transactionCodes;
-            _parentAccount = parentAccount;
+            TrackingEntries = brokerTransactions;
+            TransactionCodes = transactionCodes;
+            ParentAccount = parentAccount;
         }
 
-        /// <summary>
-        /// Gets an enumeration of <see cref="BrokerTransaction"/> records that create tax lots.
-        /// </summary>
-        private IEnumerable<BrokerTransaction> OpeningTransactions =>
-            _brokerTransactions
-                .Where(x => (x.TransactionCode?.QuantityEffect ?? 0D) > 0D
-                    && x.AccountId != default
-                    && x.SecurityId != default);
+        public BrokerTransactionBLL(
+            IList<BrokerTransactionDto> brokerTransactions,
+            IEnumerable<BrokerTransactionCodeDtoBase> transactionCodes,
+            AccountDto parentAccount)
+        {
+            if (brokerTransactions is null)
+                throw new ArgumentNullException(paramName: nameof(brokerTransactions));
+
+            if (transactionCodes is null)
+                throw new ArgumentNullException(paramName: nameof(transactionCodes));
+
+            if (parentAccount is null)
+                throw new ArgumentNullException(paramName: nameof(parentAccount));
+
+            if (brokerTransactions.Any(x => x.AccountId != parentAccount.Id))
+                throw new InvalidOperationException(
+                    message: ExceptionString.BrokerTransactionBLL_InvalidCollectionParent);
+
+            TrackingEntries = new TrackingEnumerable<BrokerTransactionDto>(brokerTransactions);
+            TransactionCodes = transactionCodes;
+            ParentAccount = parentAccount;
+        }
+
+        private static IEnumerable<(BrokerTransactionDto, BrokerTransactionCodeDtoBase)> MergeDatasets(
+            IEnumerable<BrokerTransactionDto> brokerTransactions, 
+            IEnumerable<BrokerTransactionCodeDtoBase> transactionCodes)
+        {
+            var query =
+                from bt in brokerTransactions
+                join tc in transactionCodes on bt.TransactionCodeId equals tc.TransactionCodeId
+                select (bt, tc);
+
+            return query;
+        }
+            
 
         /// <summary>
-        /// Gets an enumeration of <see cref="BrokerTransaction"/> records that close against
+        /// Gets an enumeration of <see cref="BrokerTransactionDto"/> records that create tax lots.
+        /// </summary>
+        private IEnumerable<BrokerTransactionDto> OpeningTransactions =>
+            from bt in MergeDatasets(TrackingEntries, TransactionCodes)
+            where bt.Item2.QuantityEffect > 0D && bt.Item1.SecurityId != default
+            select bt.Item1;
+
+        /// <summary>
+        /// Gets an enumeration of <see cref="BrokerTransactionDto"/> records that close against
         /// tax lots.
         /// </summary>
-        private IEnumerable<BrokerTransaction> ClosingTransactions =>
-            _brokerTransactions
-                .Where(x => (x.TransactionCode?.QuantityEffect ?? 0D) < 0D
-                    && x.AccountId != default
-                    && x.SecurityId != default
-                    && x.TaxLotId is not null);
+        private IEnumerable<BrokerTransactionDto> ClosingTransactions =>
+            from bt in MergeDatasets(TrackingEntries, TransactionCodes)
+            where bt.Item2.QuantityEffect < 0D && 
+                bt.Item1.SecurityId != default && 
+                bt.Item1.TaxLotId is not null
+            select bt.Item1;
 
         /// <summary>
         /// Gets the collection of <see cref="BrokerTaxLot"/> constructed from 
-        /// <see cref="_brokerTransactions"/>, ignoring the effect of closing activity.
+        /// <see cref="TrackingEntries"/>, ignoring the effect of closing activity.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTaxLot"/>.</returns>
         private IEnumerable<BrokerTaxLot> GetAllTaxLots() =>
@@ -332,7 +355,7 @@ namespace NjordinSight.BusinessLogic.Brokerage
 
         /// <summary>
         /// Gets a collection of <see cref="BrokerTaxLot"/> representing each tax
-        /// lot observed in the <see cref="BrokerTransaction"/> collection, combined with closing 
+        /// lot observed in the <see cref="BrokerTransactionDto"/> collection, combined with closing 
         /// activity derived from that same collection.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="BrokerTaxLot"/>.</returns>
@@ -340,13 +363,25 @@ namespace NjordinSight.BusinessLogic.Brokerage
         {
             var taxLots = GetAllTaxLots();
 
-            var closingActivity = ClosingTransactions
-                .GroupBy(x => x.TaxLotId)
-                .Select(x => new
-                {
-                    TaxLotId = x.Key,
-                    QuantityClosed = x.Sum(y => y.Quantity * y.TransactionCode.QuantityEffect)
-                });
+#pragma warning disable IDE0037 // Use inferred member name
+            var closingActivity = from ct in (
+                                      from ct in ClosingTransactions
+                                      join tc in TransactionCodes on
+                                         ct.TransactionCodeId equals tc.TransactionCodeId
+                                      select new
+                                      {
+                                          Transaction = ct,
+                                          TransactionCode = tc
+                                      }
+                                    )
+                                  group ct by ct.Transaction.TaxLotId into g
+                                  select new
+                                  {
+                                      TaxLotId = g.First().Transaction.TaxLotId,
+                                      QuantityClosed = g.Sum(x =>
+                                        x.Transaction.Quantity * x.TransactionCode.QuantityEffect)
+                                  };
+#pragma warning restore IDE0037 // Use inferred member name
 
             return from tl in taxLots
                    join ca in closingActivity on tl.TaxLotId equals ca.TaxLotId into ir
@@ -366,12 +401,12 @@ namespace NjordinSight.BusinessLogic.Brokerage
 
         /// <summary>
         /// Initializes a new <see cref="AllocationInstructionTable" /> from the given 
-        /// <see cref="BrokerTransaction"/> record.
+        /// <see cref="BrokerTransactionDto"/> record.
         /// </summary>
         /// <param name="model">The record that is initiating closing action.</param>
         /// <returns>A new instance of <see cref="AllocationInstructionTable" />.</returns>
         private static AllocationInstructionTable InitAllocationInstructionTable(
-            BrokerTransaction model, IEnumerable<BrokerTaxLot> availableTaxLots)
+            BrokerTransactionDto model, IEnumerable<BrokerTaxLot> availableTaxLots)
         {
             return new()
                 {

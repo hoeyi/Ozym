@@ -1,8 +1,6 @@
-﻿using NjordinSight.EntityModel;
-using NjordinSight.DataTransfer.Common.Generic;
+﻿using NjordinSight.DataTransfer.Common.Generic;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace NjordinSight.DataTransfer.Common.Collections
 {
@@ -11,7 +9,7 @@ namespace NjordinSight.DataTransfer.Common.Collections
         IAttributeEntryUnweightedGrouping<AccountBaseDto, AccountBaseAttributeDto>
     {
         public AccountAttributeGrouping(
-            AccountBaseDto parentEntity, ModelAttributeDto modelAttribute)
+            AccountBaseDto parentEntity, ModelAttributeDtoBase modelAttribute)
             : base(parentEntity, modelAttribute)
         {
         }

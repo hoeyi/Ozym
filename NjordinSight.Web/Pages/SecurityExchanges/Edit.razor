@@ -1,6 +1,6 @@
 ﻿@page "/security-exchanges/edit"
 
-@inherits ModelListPage<SecurityExchange>
+@inherits ModelPagedIndexEditor<SecurityExchangeDto>
 
 
 <ThemedComponent>
@@ -26,10 +26,10 @@
                     @Strings.Caption_Button_Save
                 </button>
                 <button class="form-control button"
-                    @onclick="(async (args) => await AddNewAsync(args))">
+                    @onclick="((args) => AddNew(args))">
                     @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                 </button>
-                <button class="form-control button" @onclick="Cancel_OnClick"
+                <button class="form-control button" @onclick="CancelEditor_OnClick"
                     @onclick:preventDefault>
                     @Strings.Caption_Button_Cancel
                 </button>
@@ -52,7 +52,7 @@
                                 <CellEditTemplate Context="model">
                                     <ToolTip Text="@Strings.Caption_Button_Delete">
                                         <button class="form-control button icon" type="button"
-                                            @onclick="async (args) => await DeleteAsync(args, model)">
+                                            @onclick="(args) => DeleteRecord(args, model)">
                                             <IonIcon Name="close-circle" />
                                         </button>
                                     </ToolTip>
@@ -60,7 +60,7 @@
                             </DataGridColumn>
                             <DataGridColumn 
                                 Type="DataGridCellType.Control"
-                                Property=@nameof(SecurityExchange.ExchangeCode)
+                                Property=@nameof(SecurityExchangeDto.ExchangeCode)
                                 Caption=@(NameFor(x => x.ExchangeCode))>
                                 <CellEditTemplate Context="model">
                                     <InputText class="form-control" @bind-Value=model.ExchangeCode />
@@ -69,7 +69,7 @@
                             </DataGridColumn>
                             <DataGridColumn 
                                 Type="DataGridCellType.Control"
-                                Property=@nameof(SecurityExchange.ExchangeDescription)
+                                Property=@nameof(SecurityExchangeDto.ExchangeDescription)
                                 Caption=@(NameFor(x => x.ExchangeDescription))>
                                 <CellEditTemplate Context="model">
                                     <InputText class="form-control" @bind-Value=model.ExchangeDescription />
@@ -83,16 +83,3 @@
         </EditForm>
     }
 </ThemedComponent>
-
-@code{
-    [Inject]    
-    protected new ICollectionController<SecurityExchange> Controller { get; init; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Update the hidden reference to refer the same object to avoid null reference exception.
-        base.Controller = Controller;
-
-        await base.OnInitializedAsync();
-    }
-}

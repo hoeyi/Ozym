@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<SecurityTypeGroup>
+﻿@inherits ModelCRUD<SecurityTypeGroupDto>
 
 @if (IsLoading)
 {
@@ -6,7 +6,7 @@
 }
 else
 {
-    <ModelForm TModelDto="SecurityTypeGroup">
+    <ModelForm TModelDto="SecurityTypeGroupDto">
         <ModelFormEntry ForMember="@(() => ModelDto.SecurityTypeGroupName)">
             @if (ReadOnly)
             {

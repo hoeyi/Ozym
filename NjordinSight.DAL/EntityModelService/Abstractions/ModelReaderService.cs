@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using NjordinSight.BusinessLogic.Functions;
 using NjordinSight.DataTransfer;
 using NjordinSight.EntityModel.Context;

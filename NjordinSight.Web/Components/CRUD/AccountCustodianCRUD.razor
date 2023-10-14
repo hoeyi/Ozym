@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<AccountCustodian>
+﻿@inherits ModelCRUD<AccountCustodianDto>
 
 @if (ModelDto is null)
 {
@@ -6,7 +6,7 @@
 }
 else
 {
-    <ModelForm TModelDto="AccountCustodian" >
+    <ModelForm TModelDto="AccountCustodianDto">
         <ModelFormEntry ForMember="@(() => ModelDto.CustodianCode)">
             @if(ReadOnly)
             {

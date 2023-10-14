@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
 using NjordinSight.DataTransfer.Common;
 using NjordinSight.EntityModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NjordinSight.EntityModel.ConstraintType;
 
 namespace NjordinSight.DataTransfer.Profiles
 {
@@ -44,7 +40,7 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<CountryAttributeDto, CountryAttributeMemberEntry>()
                 .ForMember(
                     a => a.AttributeMemberId,
-                    b => b.MapFrom(x => x.AttributeMember.AttributeMemberId))
+                    b => b.MapFrom(x => x.AttributeMemberId))
                 .ForMember(a => a.Weight, b => b.MapFrom(x => x.PercentWeight))
                 .ForMember(a => a.AttributeMember, b => b.Ignore())
                 .ForMember(a => a.Country, b => b.Ignore());
@@ -52,6 +48,12 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<CountryDto, Country>()
                 .ForMember(
                     a => a.CountryAttributeMemberEntries, b => b.MapFrom(x => x.Attributes))
+                .ForPath(
+                    a => a.AttributeMemberNavigation.AttributeId, 
+                    b => b.MapFrom(x => (int)ModelAttributeEnum.CountryExposure))
+                .ForPath(
+                    a => a.AttributeMemberNavigation.AttributeMemberId,
+                    b => b.MapFrom(x => x.CountryId))
                 .ForPath(
                     a => a.AttributeMemberNavigation.DisplayName,
                     b => b.MapFrom(x => x.IsoCode3))

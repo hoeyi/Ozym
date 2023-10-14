@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using NjordinSight.EntityModel;
 
 namespace NjordinSight.DataTransfer.Common.Generic
 {
@@ -18,12 +17,12 @@ namespace NjordinSight.DataTransfer.Common.Generic
             .ToList();
 
         /// <inheritdoc/>
-        public IEnumerable<IGrouping<ModelAttributeDto, TGroupViewModel>> EntryCollectionGroups
+        public IEnumerable<IGrouping<ModelAttributeDtoBase, TGroupViewModel>> EntryCollectionGroups
             => EntryCollection
                 .GroupBy(e => e.ParentAttribute.AttributeId)
                 .Select(grp =>
                 {
-                    var grouping = new AttributeGrouping<ModelAttributeDto, TGroupViewModel>(
+                    var grouping = new AttributeGrouping<ModelAttributeDtoBase, TGroupViewModel>(
                         key: grp.First().ParentAttribute, collection: grp);
 
                     return grouping;

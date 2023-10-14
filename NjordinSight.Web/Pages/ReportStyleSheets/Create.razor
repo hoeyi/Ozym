@@ -1,6 +1,6 @@
 ﻿@page "/style-sheets/create/{RequestGuid:guid}"
 
-@inherits ModelDetail<ReportStyleSheet>
+@inherits ModelDetail<ReportStyleSheetDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -25,7 +25,7 @@
                         @Strings.Caption_Button_Save
                     </button>
                     <button type="button" class="form-control button"
-                        @onclick="Cancel_OnClick"
+                        @onclick="FormCancelClickHandler"
                         @onclick:preventDefault>
                         @Strings.Caption_Button_Cancel
                     </button>
@@ -42,9 +42,6 @@
 
 
 @code {
-    /// <summary>
-    /// Gets or sets the unique identifier for the creation action.
-    /// </summary>
     [Parameter]
     public Guid RequestGuid { get; init; }
 
@@ -54,10 +51,7 @@
 
         try
         {
-            var modelQuery = Controller.GetDefaultAsync();
-
-            if ((await modelQuery).Value is ReportStyleSheet model)
-                Model = model;
+            Model = await HttpService.InitDefaultAsync();
         }
         finally
         {
@@ -65,12 +59,5 @@
         }
     }
 
-    private void Cancel_OnClick() => NavigationHelper.NavigateTo(IndexUriRelativePath);
-
-    protected override async Task HandleValidSubmit()
-    {
-        var result = await RunCatchingModelUpdateException(Controller.CreateAsync(Model));
-
-        ProcessCreatedAtAction(result?.Result as CreatedAtActionResult);
-    }
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
 }

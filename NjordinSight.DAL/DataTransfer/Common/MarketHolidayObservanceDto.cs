@@ -1,9 +1,16 @@
-﻿using System;
-using System.ComponentModel;
+﻿using Ichosys.DataModel.Annotations;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(MarketHolidayObservanceDto_SR.Noun_Plural),
+        PluralArticle = nameof(MarketHolidayObservanceDto_SR.Noun_Plural_Article),
+        Singular = nameof(MarketHolidayObservanceDto_SR.Noun_Singular),
+        SingularArticle = nameof(MarketHolidayObservanceDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(MarketHolidayObservanceDto_SR)
+        )]
     public class MarketHolidayObservanceDto : DtoBase
     {
         private int _marketHolidayId;

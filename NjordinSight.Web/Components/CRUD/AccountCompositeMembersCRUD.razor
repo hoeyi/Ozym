@@ -8,31 +8,27 @@ else
 {
     @if(ReadOnly)
     {
-        <DataGrid TModel="AccountCompositeMember" Data="@ModelDto.Members">
-            <DataGridColumn 
-                Property="@nameof(AccountCompositeMember.AccountId)"
-                Caption=@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.AccountId))>
+        <DataGrid TModel="AccountCompositeMemberDto" Data="@ModelDto.AccountMembers">
+            <DataGridColumn Property="@nameof(AccountCompositeMemberDto.AccountId)"
+                            Caption=@(ModelMetadata.NameFor<AccountCompositeMemberDto>(x => x.AccountId))>
                 <CellTemplate Context="model">
                     @MemberDisplay(model.AccountId)
                 </CellTemplate>
             </DataGridColumn>
-            <DataGridColumn 
-                Property="@nameof(AccountCompositeMember.EntryDate)"
-                    Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.EntryDate))">
+            <DataGridColumn Property="@nameof(AccountCompositeMemberDto.EntryDate)"
+                    Caption="@(ModelMetadata.NameFor<AccountCompositeMemberDto>(x => x.EntryDate))">
                 <CellTemplate Context="model">
                     @model.EntryDate.ToShortDateString()
                 </CellTemplate>
             </DataGridColumn>
-            <DataGridColumn 
-                Property="@nameof(AccountCompositeMember.ExitDate)"
-                    Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.ExitDate))">
+            <DataGridColumn Property="@nameof(AccountCompositeMemberDto.ExitDate)"
+                    Caption="@(ModelMetadata.NameFor<AccountCompositeMemberDto>(x => x.ExitDate))">
                 <CellTemplate Context="model">
                     @model.ExitDate?.ToShortDateString()
                 </CellTemplate>
             </DataGridColumn>
-            <DataGridColumn 
-                Property="@nameof(AccountCompositeMember.Comment)"
-                    Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.Comment))">
+            <DataGridColumn Property="@nameof(AccountCompositeMemberDto.Comment)"
+                    Caption="@(ModelMetadata.NameFor<AccountCompositeMemberDto>(x => x.Comment))">
                 <CellTemplate Context="model">
                     @model.Comment
                 </CellTemplate>
@@ -44,17 +40,18 @@ else
     {
         <ActionButtonMenu>
             <button class="form-control button" 
-                @onclick="args => ModelDto.AddMember()">
+                @onclick="args => ModelDto.AccountMembers.Add(
+                    new(){ AccountCompositeId = ModelDto.Id })">
                 @Strings.Caption_CreateNew.Format(ModelMetadata
-                    .GetAttribute<AccountCompositeMember, NounAttribute>()?.GetSingular())
+                    .GetAttribute<AccountCompositeMemberDto, NounAttribute>()?.GetSingular())
             </button>
         </ActionButtonMenu>
-        <DataGrid TModel="AccountCompositeMember" Data="@ModelDto.Members">
+        <DataGrid TModel="AccountCompositeMemberDto" Data="@ModelDto.AccountMembers">
             <DataGridColumn Type="DataGridCellType.Button">
                 <CellEditTemplate Context="model">
                     <ToolTip Text="@Strings.Caption_Button_Delete">
                         <button class="form-control button icon" type="button"
-                            @onclick="async (args) => ModelDto.RemoveMember(model)">
+                            @onclick="async (args) => RemoveMember(model)">
                             <IonIcon Name="close-circle" />
                         </button>
                     </ToolTip>
@@ -62,14 +59,14 @@ else
             </DataGridColumn>
             <DataGridColumn 
                 Type="DataGridCellType.Control"
-                Property="@nameof(AccountCompositeMember.AccountId)"
-                    Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.AccountId))">
+                Property="@nameof(AccountCompositeMemberDto.AccountId)"
+                    Caption="@(ModelMetadata.NameFor<AccountCompositeMemberDto>(x => x.AccountId))">
                 <CellEditTemplate Context="model">
                     <InputSelect class="form-control"
                              @bind-Value="@model.AccountId">
                         @foreach (var account in Accounts)
                         {
-                            <option value=@account.Key>@account.Display</option>
+                            <option value=@account.Id>@account.ShortCode</option>
                         }
                     </InputSelect>
                     <ValidationMessage For=@(()=> model.AccountId) />
@@ -77,8 +74,8 @@ else
             </DataGridColumn>
             <DataGridColumn 
                 Type="DataGridCellType.Control"
-                Property="@nameof(AccountCompositeMember.EntryDate)"
-                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.EntryDate))">
+                Property="@nameof(AccountCompositeMemberDto.EntryDate)"
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMemberDto>(x => x.EntryDate))">
                 <CellEditTemplate Context="model">
                     <InputDate class="form-control" @bind-Value="@model.EntryDate" />
                     <ValidationMessage For=@(()=> model.EntryDate) />
@@ -86,8 +83,8 @@ else
             </DataGridColumn>
             <DataGridColumn 
                 Type="DataGridCellType.Control"
-                Property="@nameof(AccountCompositeMember.ExitDate)"
-                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.ExitDate))">
+                Property="@nameof(AccountCompositeMemberDto.ExitDate)"
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMemberDto>(x => x.ExitDate))">
                 <CellEditTemplate Context="model">
                     <InputDate class="form-control" @bind-Value="@model.ExitDate" />
                     <ValidationMessage For=@(()=> model.ExitDate) />
@@ -95,8 +92,8 @@ else
             </DataGridColumn>
             <DataGridColumn 
                 Type="DataGridCellType.Control"
-                Property="@nameof(AccountCompositeMember.Comment)"
-                Caption="@(ModelMetadata.NameFor<AccountCompositeMember>(x => x.Comment))">
+                Property="@nameof(AccountCompositeMemberDto.Comment)"
+                Caption="@(ModelMetadata.NameFor<AccountCompositeMemberDto>(x => x.Comment))">
                 <CellEditTemplate Context="model">
                     <InputText class="form-control" @bind-Value="@model.Comment" />
                     <ValidationMessage For=@(()=> model.Comment) />
@@ -108,8 +105,17 @@ else
 
 @code {
     [Parameter, EditorRequired]
-    public IEnumerable<LookupModel<int, string>> Accounts { get; set; } = default!;
+    public IEnumerable<AccountSimpleDto> Accounts { get; set; } = default!;
+
+    private void AddMember() => 
+        ModelDto.AccountMembers.Add(new() { AccountCompositeId = ModelDto.Id });
+
+    private void RemoveMember(AccountCompositeMemberDto memberDto)
+    {
+        if (!ModelDto.AccountMembers.Remove(memberDto))
+            throw new InvalidOperationException();
+    }
 
     private string MemberDisplay(int? id) =>
-        Accounts.FirstOrDefault(a => a.Key == id)?.Display ?? string.Empty;
+        Accounts.FirstOrDefault(a => a.Id == id)?.ShortCode ?? string.Empty;
 }            

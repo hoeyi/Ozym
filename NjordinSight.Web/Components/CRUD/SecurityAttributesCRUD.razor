@@ -49,37 +49,37 @@ else
                 }
                 @if (ReadOnly)
                 {
-                    <DataGridColumn Property=@nameof(SecurityAttributeMemberEntry.AttributeMemberId)
-                            Caption=@(ModelMetadata.NameFor<SecurityAttributeMemberEntry>(x => x.AttributeMemberId))>
+                    <DataGridColumn Property=@nameof(SecurityAttributeDto.AttributeMemberId)
+                            Caption=@(ModelMetadata.NameFor<SecurityAttributeDto>(x => x.AttributeMemberId))>
                         <CellTemplate Context="model">
                             @model.AttributeMember.DisplayName
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityAttributeMemberEntry.Weight)
-                            Caption=@(ModelMetadata.NameFor<SecurityAttributeMemberEntry>(x => x.Weight))>
+                    <DataGridColumn Property=@nameof(SecurityAttributeDto.PercentWeight)
+                            Caption=@(ModelMetadata.NameFor<SecurityAttributeDto>(x => x.PercentWeight))>
                         <CellTemplate Context="model">
-                            @model.Weight
+                            @model.PercentWeight
                         </CellTemplate>
                     </DataGridColumn>
                 }
                 else
                 {
-                    <DataGridColumn Property=@nameof(SecurityAttributeMemberEntry.AttributeMemberId)
-                            Caption=@(ModelMetadata.NameFor<SecurityAttributeMemberEntry>(x => x.AttributeMemberId))>
+                    <DataGridColumn Property=@nameof(SecurityAttributeDto.AttributeMemberId)
+                            Caption=@(ModelMetadata.NameFor<SecurityAttributeDto>(x => x.AttributeMemberId))>
                         <CellEditTemplate Context="model">
                             <InputSelect class="form-control"
                                  @bind-Value="@model.AttributeMemberId">
-                                @foreach (var member in AttributeMemberLookup)
+                                @foreach (var member in AttributeMembers)
                                 {
-                                    <option value="@member.Key">@member.Display</option>
+                                    <option value="@member.AttributeMemberId">@member.DisplayName</option>
                                 }
                             </InputSelect>
                         </CellEditTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityAttributeMemberEntry.Weight)
-                            Caption=@(ModelMetadata.NameFor<SecurityAttributeMemberEntry>(x => x.Weight))>
+                    <DataGridColumn Property=@nameof(SecurityAttributeDto.PercentWeight)
+                            Caption=@(ModelMetadata.NameFor<SecurityAttributeDto>(x => x.PercentWeight))>
                         <CellEditTemplate Context="model">
-                            <InputNumber class="form-control" @bind-Value="@model.Weight" />
+                            <InputNumber class="form-control" @bind-Value="@model.PercentWeight" />
                         </CellEditTemplate>
                     </DataGridColumn>
                 }
@@ -89,14 +89,14 @@ else
 }
 
 @code {
-    [CascadingParameter]
-    public IEnumerable<LookupModel<int, string>> AttributeMemberLookup { get; set; }
+    [CascadingParameter(Name = nameof(AttributeMembers))]
+    public IEnumerable<ModelAttributeMemberDtoBase> AttributeMembers { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        IsLoading = ModelDto is null || (ReadOnly ^ (AttributeMemberLookup is null));
+        IsLoading = ModelDto is null || (ReadOnly ^ (AttributeMembers is null));
     }
 
     private void AddNew_OnClick(MouseEventArgs e)
@@ -106,7 +106,7 @@ else
         ModelDto.AddNewEntry();
     }
 
-    private void RemoveExisting_OnClick(MouseEventArgs e, SecurityAttributeMemberEntry entry)
+    private void RemoveExisting_OnClick(MouseEventArgs e, SecurityAttributeDto entry)
     {
         // TODO: Do something with MouseEventArgs ?
 

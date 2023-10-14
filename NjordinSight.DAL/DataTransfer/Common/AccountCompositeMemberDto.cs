@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(AccountCompositeMemberDto_SR.Noun_Plural),
+        PluralArticle = nameof(AccountCompositeMemberDto_SR.Noun_Plural_Article),
+        Singular = nameof(AccountCompositeMemberDto_SR.Noun_Singular),
+        SingularArticle = nameof(AccountCompositeMemberDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(AccountCompositeMemberDto_SR)
+        )]
     public class AccountCompositeMemberDto : DtoBase
     {
         private int _accountCompositeId;

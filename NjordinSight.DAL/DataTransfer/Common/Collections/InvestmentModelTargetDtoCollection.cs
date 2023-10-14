@@ -1,6 +1,4 @@
-﻿using NjordinSight.EntityModel.Metadata;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
 using System.Linq;
 using NjordinSight.DataTransfer.Common.Generic;
 using NjordinSight.EntityModel.Annotations;
@@ -49,7 +47,7 @@ namespace NjordinSight.DataTransfer.Common.Collections
                             var forDate = g.Key.EffectiveDate;
 
                             var group = new AttributeGrouping<
-                                (ModelAttributeDto, DateTime),
+                                (ModelAttributeDtoBase, DateTime),
                                 InvestmentModelTargetDto>(
                                 key: (attribute, forDate), collection: g);
 

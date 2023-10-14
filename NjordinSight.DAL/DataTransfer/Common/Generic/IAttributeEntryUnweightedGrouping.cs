@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NjordinSight.EntityModel;
 
 namespace NjordinSight.DataTransfer.Common.Generic
 {
@@ -23,9 +22,9 @@ namespace NjordinSight.DataTransfer.Common.Generic
         bool IsEmpty { get; }
 
         /// <summary>
-        /// Gets the <see cref="ModelAttributeDto"/> that is the parent for this view model.
+        /// Gets the <see cref="ModelAttributeDtoBase"/> that is the parent for this view model.
         /// </summary>
-        ModelAttributeDto ParentAttribute { get; }
+        ModelAttributeDtoBase ParentAttribute { get; }
 
         /// <summary>
         /// Gets the <typeparamref name="TParentEntity"/> model that is the parent object for this

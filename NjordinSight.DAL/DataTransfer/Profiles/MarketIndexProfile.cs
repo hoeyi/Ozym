@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NjordinSight.EntityModel;
 using NjordinSight.DataTransfer.Common;
 
@@ -14,7 +9,7 @@ namespace NjordinSight.DataTransfer.Profiles
     /// </summary>
     /// <remarks>The default constructor for this profile applies the following mappings:
     /// <list type="bullet">
-    /// <item><see cref="MarketIndexPrice"/> - <see cref="MarketIndexPriceDto"/></item>
+    /// <item><see cref="MarketIndexPrice"/> - <see cref="MarketIndexPriceDtoBase"/></item>
     /// <item><see cref="MarketIndex"/> - <see cref="MarketIndexDto"/></item>
     /// </list>
     /// </remarks>
@@ -25,7 +20,7 @@ namespace NjordinSight.DataTransfer.Profiles
             #region Entity-DTO
             CreateMap<MarketIndex, MarketIndexDto>();
 
-            CreateMap<MarketIndexPrice, MarketIndexPriceDto>();
+            CreateMap<MarketIndexPrice, MarketIndexPriceDtoBase>();
             #endregion
 
             #region DTO-Entity
@@ -33,7 +28,7 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<MarketIndexDto, MarketIndex>()
                 .ForMember(a => a.MarketIndexPrices, b => b.Ignore());
 
-            CreateMap<MarketIndexPriceDto, MarketIndexPrice>()
+            CreateMap<MarketIndexPriceDtoBase, MarketIndexPrice>()
                 .ForMember(a => a.MarketIndex, b => b.Ignore());
             #endregion
         }

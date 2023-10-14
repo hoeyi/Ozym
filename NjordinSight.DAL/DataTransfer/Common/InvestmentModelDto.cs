@@ -1,22 +1,26 @@
-﻿using NjordinSight.DataTransfer.Common.Collections;
+﻿using Ichosys.DataModel.Annotations;
+using NjordinSight.DataTransfer.Common.Collections;
 using NjordinSight.EntityModel.Metadata;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(InvestmentModelDto_SR.Noun_Plural),
+        PluralArticle = nameof(InvestmentModelDto_SR.Noun_Plural_Article),
+        Singular = nameof(InvestmentModelDto_SR.Noun_Singular),
+        SingularArticle = nameof(InvestmentModelDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(InvestmentModelDto_SR)
+        )]
     public class InvestmentModelDtoBase : DtoBase
     {
         private int _investmentModelId;
         private string _displayName;
         private string _notes;
 
-        [Display(
-            Name = nameof(InvestmentModelDto_SR.InvestmentModelId_Name),
-            Description = nameof(InvestmentModelDto_SR.InvestmentModelId_Description),
-            ResourceType = typeof(InvestmentModelDto_SR))]
+        [Key]
         public int InvestmentModelId
         {
             get { return _investmentModelId; }
@@ -71,17 +75,35 @@ namespace NjordinSight.DataTransfer.Common
         }
     }
 
+    [Noun(
+        Plural = nameof(InvestmentModelDto_SR.Noun_Plural),
+        PluralArticle = nameof(InvestmentModelDto_SR.Noun_Plural_Article),
+        Singular = nameof(InvestmentModelDto_SR.Noun_Singular),
+        SingularArticle = nameof(InvestmentModelDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(InvestmentModelDto_SR)
+        )]
     public class InvestmentModelDto : InvestmentModelDtoBase
     {
+        private ICollection<InvestmentModelTargetDto> _targets;
         public InvestmentModelDto()
         {
-            Targets = new List<InvestmentModelTargetDto>();
-            TargetCollection = new(this);
+            Targets = new HashSet<InvestmentModelTargetDto>();
         }
 
-        public InvestmentModelTargetDtoCollection TargetCollection { get; set; }
+        public ICollection<InvestmentModelTargetDto> Targets
+        {
+            get { return _targets; }
+            set
+            {
+                if(_targets != value)
+                {
+                    _targets = value;
+                    TargetCollection = new(this);
+                }
+            }
+        }
 
-        public ICollection<InvestmentModelTargetDto> Targets { get; set; }
+        [JsonIgnore]
+        public InvestmentModelTargetDtoCollection TargetCollection { get; private set; }
     }
-
 }

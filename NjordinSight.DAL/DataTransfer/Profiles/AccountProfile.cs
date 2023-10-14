@@ -10,7 +10,8 @@ namespace NjordinSight.DataTransfer.Profiles
     /// </summary>
     /// <remarks>The default constructor for this profile applies the following mappings:
     /// <list type="bullet">
-    /// <item><see cref="AccountAttributeMemberEntry"/> - <see cref="AccountBaseAttributeDto"/></item>
+    /// <item><see cref="AccountAttributeMemberEntry"/> - <see cref="AccountBaseAttributeDto"/></item>\
+    /// <item><see cref="AccountObject"/> - <see cref="AccountBaseSimpleDto"/></item>
     /// <item><see cref="Account"/> - <see cref="AccountDto"/></item>
     /// <item><see cref="AccountCompositeMember"/> - <see cref="AccountCompositeMemberDto"/></item>
     /// <item><see cref="AccountComposite"/> - <see cref="AccountCompositeDto"/></item>
@@ -23,6 +24,21 @@ namespace NjordinSight.DataTransfer.Profiles
             #region Entity-DTO
             CreateMap<AccountAttributeMemberEntry, AccountBaseAttributeDto>()
                 .ForMember(a => a.PercentWeight, b => b.MapFrom(x => x.Weight));
+
+            CreateMap<AccountObject, AccountBaseSimpleDto>()
+                .ForMember(a => a.Id, b => b.MapFrom(x => x.AccountObjectId))
+                .ForMember(a => a.ShortCode, b => b.MapFrom(x => x.AccountObjectCode))
+                .ForMember(a => a.DisplayName, b => b.MapFrom(x => x.ObjectDisplayName))
+                .ForMember(a => a.Description, b => b.MapFrom(x => x.ObjectDescription));
+
+            CreateMap<Account, AccountSimpleDto>()
+                .ForMember(a => a.Id, b => b.MapFrom(x => x.AccountNavigation.AccountObjectId))
+                .ForMember(a => a.ShortCode, b => b.MapFrom(x => x.AccountNavigation.AccountObjectCode))
+                .ForMember(a => a.StartDate, b => b.MapFrom(x => x.AccountNavigation.StartDate))
+                .ForMember(a => a.CloseDate, b => b.MapFrom(x => x.AccountNavigation.CloseDate))
+                .ForMember(a => a.Description, b => b.MapFrom(x => x.AccountNavigation.ObjectDescription))
+                .ForMember(a => a.DisplayName, b => b.MapFrom(x => x.AccountNavigation.ObjectDisplayName))
+                .ForMember(a => a.ObjectType, b => b.MapFrom(x => x.AccountNavigation.ObjectType));
 
             CreateMap<Account, AccountDto>()
                 .ForMember(
@@ -54,11 +70,14 @@ namespace NjordinSight.DataTransfer.Profiles
                 .ForMember(a => a.DisplayName, b => b.MapFrom(x => x.AccountCompositeNavigation.ObjectDisplayName))
                 .ForMember(a => a.ObjectType, b => b.MapFrom(x => x.AccountCompositeNavigation.ObjectType))
                 .ForMember(a => a.AttributeCollection, b => b.Ignore());
+
+            CreateMap<AccountWallet, AccountWalletDto>();
+
             #endregion
 
             #region DTO-Entity
             CreateMap<AccountBaseAttributeDto, AccountAttributeMemberEntry>()
-                .ForMember(a => a.AttributeMemberId, b => b.MapFrom(x => x.AttributeMember.AttributeMemberId))
+                .ForMember(a => a.AttributeMemberId, b => b.MapFrom(x => x.AttributeMemberId))
                 .ForMember(a => a.Weight, b => b.MapFrom(x => x.PercentWeight))
                 .ForMember(a => a.AttributeMember, b => b.Ignore())
                 .ForMember(a => a.AccountObject, b => b.Ignore());
@@ -101,6 +120,10 @@ namespace NjordinSight.DataTransfer.Profiles
                 .ForPath(
                     a => a.AccountCompositeNavigation.AccountAttributeMemberEntries,
                     b => b.MapFrom(x => x.Attributes));
+
+            CreateMap<AccountWalletDto, AccountWallet>()
+                .ForMember(a => a.Account, b => b.Ignore())
+                .ForMember(a => a.DenominationSecurity, b => b.Ignore());
             #endregion
         }
     }

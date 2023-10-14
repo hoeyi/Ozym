@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(SecurityAttributeDto_SR.Noun_Plural),
+        PluralArticle = nameof(SecurityAttributeDto_SR.Noun_Plural_Article),
+        Singular = nameof(SecurityAttributeDto_SR.Noun_Singular),
+        SingularArticle = nameof(SecurityAttributeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(SecurityAttributeDto_SR)
+        )]
     public class SecurityAttributeDto : DtoBase
     {
         private int _attributeMemberId;

@@ -1,6 +1,6 @@
 ﻿@page "/market-indices/{ModelId:int}/detail"
 
-@inherits ModelDetail<MarketIndex>
+@inherits ModelDetail<MarketIndexDto>
 
 <ThemedComponent>
     @if(IsLoading)
@@ -42,9 +42,7 @@
 
         try
         {
-            var modelQuery = await Controller.ReadAsync(ModelId);
-            if(modelQuery.Value is MarketIndex index)
-                Model = index;
+            Model = await HttpService.GetAsync(ModelId);
         }
         finally
         {

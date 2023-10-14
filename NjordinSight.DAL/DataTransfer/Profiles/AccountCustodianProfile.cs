@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using NjordinSight.DataTransfer.Common;
 using NjordinSight.EntityModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NjordinSight.DataTransfer.Profiles
 {

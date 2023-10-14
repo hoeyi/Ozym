@@ -117,35 +117,53 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CurrentSymbol_Description" xml:space="preserve">
+    <value>The current primary identifier of the security.</value>
+  </data>
+  <data name="CurrentySymbol_Name" xml:space="preserve">
+    <value>Symbol</value>
+  </data>
   <data name="HasPerpetualMarket_Description" xml:space="preserve">
-    <value />
+    <value>Flags whether the security trades on a perpetual marketplace.</value>
   </data>
   <data name="HasPerpetualMarket_Name" xml:space="preserve">
-    <value />
+    <value>Perpetual Market</value>
   </data>
   <data name="HasPerpetualPrice_Description" xml:space="preserve">
-    <value />
+    <value>Flags whether the seurity has a perpetual value.</value>
   </data>
   <data name="HasPerpetualPrice_Name" xml:space="preserve">
-    <value />
+    <value>Perpetual Price</value>
   </data>
   <data name="Issuer_Description" xml:space="preserve">
-    <value />
+    <value>The name of the company or entity underlying the security.</value>
   </data>
   <data name="Issuer_Name" xml:space="preserve">
-    <value />
+    <value>Issuer</value>
+  </data>
+  <data name="Noun_Plural" xml:space="preserve">
+    <value>securities</value>
+  </data>
+  <data name="Noun_Plural_Article" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Noun_Singular" xml:space="preserve">
+    <value>security</value>
+  </data>
+  <data name="Noun_Singular_Article" xml:space="preserve">
+    <value>the</value>
   </data>
   <data name="SecurityDescription_Description" xml:space="preserve">
-    <value />
+    <value>Name / short description of the security.</value>
   </data>
   <data name="SecurityDescription_Name" xml:space="preserve">
-    <value />
+    <value>Description</value>
   </data>
   <data name="SecurityExchangeId_Description" xml:space="preserve">
-    <value />
+    <value>Primary exchange on which the security trades.</value>
   </data>
   <data name="SecurityExchangeId_Name" xml:space="preserve">
-    <value />
+    <value>Exchange</value>
   </data>
   <data name="SecurityId_Description" xml:space="preserve">
     <value />
@@ -154,9 +172,9 @@
     <value />
   </data>
   <data name="SecurityTypeId_Description" xml:space="preserve">
-    <value />
+    <value>Type of the security.</value>
   </data>
   <data name="SecurityTypeId_Name" xml:space="preserve">
-    <value />
+    <value>Type</value>
   </data>
 </root>

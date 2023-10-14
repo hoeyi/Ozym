@@ -4,7 +4,6 @@ using Ichosys.DataModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NjordinSight.EntityModelService.Abstractions;
-using System;
 
 namespace NjordinSight.EntityModelService
 {
@@ -12,7 +11,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing batch CRUD requests against the <see cref="AccountWallet"/> 
     /// data store.
     /// </summary>
-    internal class AccountWalletService : ModelCollectionService<AccountWallet, int>
+    internal class AccountWalletService : ModelCollectionService<AccountWallet>
     {
         /// <summary>
         /// Creates a new <see cref="AccountWalletService"/> instance.
@@ -27,18 +26,8 @@ namespace NjordinSight.EntityModelService
             ILogger logger)
                 : base(contextFactory, modelMetadata, logger)
         {
-        }
-
-        /// <inheritdoc/>
-        public override void SetParent(int parent)
-        {
-            Reader = new ModelReaderService<AccountWallet>(
-                ContextFactory, ModelMetadata, Logger)
-            {
-                ParentExpression = x => x.AccountId == parent
-            };
-
-            GetDefaultModelDelegate = () => new AccountWallet() { AccountId = parent };
+            Reader = new ModelReaderService<AccountWallet>(ContextFactory, ModelMetadata, Logger);
+            GetDefaultModelDelegate = () => new AccountWallet();
         }
     }
 }

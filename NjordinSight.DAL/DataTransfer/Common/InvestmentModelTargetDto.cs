@@ -1,9 +1,16 @@
-﻿using System;
-using System.ComponentModel;
+﻿using Ichosys.DataModel.Annotations;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(InvestmentModelTargetDto_SR.Noun_Plural),
+        PluralArticle = nameof(InvestmentModelTargetDto_SR.Noun_Plural_Article),
+        Singular = nameof(InvestmentModelTargetDto_SR.Noun_Singular),
+        SingularArticle = nameof(InvestmentModelTargetDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(InvestmentModelTargetDto_SR)
+        )]
     public class InvestmentModelTargetDto : DtoBase
     {
         private int _investmentModelId;

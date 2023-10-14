@@ -1,9 +1,7 @@
 ﻿using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Annotations;
-using NjordinSight.EntityModel.Metadata;
 using NjordinSight.DataTransfer.Common.Generic;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace NjordinSight.DataTransfer.Common.Collections
@@ -39,7 +37,7 @@ namespace NjordinSight.DataTransfer.Common.Collections
                             var attribute = g.First().AttributeMember.Attribute;
 
                             var group = new AttributeGrouping<
-                                ModelAttributeDto, BankTransactionCodeAttributeDto>(
+                                ModelAttributeDtoBase, BankTransactionCodeAttributeDto>(
                                 key: attribute, collection: g);
 
                             return group;

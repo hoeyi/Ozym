@@ -1,12 +1,14 @@
-﻿using NjordinSight.DataTransfer.Common.Collections;
+﻿using Ichosys.DataModel.Annotations;
+using NjordinSight.DataTransfer.Common.Collections;
+using NjordinSight.EntityModel.Metadata;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace NjordinSight.DataTransfer.Common
 {
-    public abstract class AccountBaseDto : DtoBase
+    public class AccountBaseSimpleDto : DtoBase
     {
         private int _id;
         private string _shortCode;
@@ -15,12 +17,7 @@ namespace NjordinSight.DataTransfer.Common
         private string _displayName;
         private string _description;
 
-        public AccountBaseDto()
-        {
-            Attributes = new List<AccountBaseAttributeDto>();
-            AttributeCollection = new(this);
-        }
-
+        [Key]
         public int Id
         {
             get { return _id; }
@@ -34,6 +31,17 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
+        [Display(
+            Name = nameof(AccountCompositeDto_SR.ShortCode_Name),
+            Description = nameof(AccountCompositeDto_SR.ShortCode_Description),
+            ResourceType = typeof(AccountCompositeDto_SR))]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(12,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [Searchable]
         public virtual string ShortCode
         {
             get { return _shortCode; }
@@ -47,6 +55,11 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
+        [Display(
+            Name = nameof(AccountCompositeDto_SR.StartDate_Name),
+            Description = nameof(AccountCompositeDto_SR.StartDate_Description),
+            ResourceType = typeof(AccountCompositeDto_SR))]
+        [Searchable]
         public virtual DateTime StartDate
         {
             get { return _startDate; }
@@ -60,6 +73,11 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
+        [Display(
+            Name = nameof(AccountCompositeDto_SR.CloseDate_Name),
+            Description = nameof(AccountCompositeDto_SR.CloseDate_Description),
+            ResourceType = typeof(AccountCompositeDto_SR))]
+        [Searchable]
         public virtual DateTime? CloseDate
         {
             get { return _closeDate; }
@@ -73,8 +91,19 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
+        [Display(
+            Name = nameof(AccountCompositeDto_SR.DisplayName_Name),
+            Description = nameof(AccountCompositeDto_SR.DisplayName_Description),
+            ResourceType = typeof(AccountCompositeDto_SR))]
+        [Required(
+            ErrorMessageResourceName = nameof(ModelValidation.RequiredAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [StringLength(72,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [Searchable]
         public virtual string DisplayName
-    
+
         {
             get { return _displayName; }
             set
@@ -86,7 +115,15 @@ namespace NjordinSight.DataTransfer.Common
                 }
             }
         }
-
+        
+        [Display(
+            Name = nameof(AccountCompositeDto_SR.Description_Name),
+            Description = nameof(AccountCompositeDto_SR.Description_Description),
+            ResourceType = typeof(AccountCompositeDto_SR))]
+        [StringLength(128,
+            ErrorMessageResourceName = nameof(ModelValidation.StringLengthAttribute_ValidationError),
+            ErrorMessageResourceType = typeof(ModelValidation))]
+        [Searchable]
         public virtual string Description
         {
             get { return _description; }
@@ -100,11 +137,32 @@ namespace NjordinSight.DataTransfer.Common
             }
         }
 
-        public abstract string ObjectType { get; }
+        public virtual string ObjectType { get; } = string.Empty;
+    }
 
-        public ICollection<AccountBaseAttributeDto> Attributes { get; set; } 
+    public class AccountBaseDto : AccountBaseSimpleDto
+    {
+        private ICollection<AccountBaseAttributeDto> _attributes;
+
+        public AccountBaseDto()
+        {
+            Attributes = new HashSet<AccountBaseAttributeDto>();
+        }
+
+        public ICollection<AccountBaseAttributeDto> Attributes
+        {
+            get { return _attributes; }
+            set
+            {
+                if(_attributes != value)
+                {
+                    _attributes = value;
+                    AttributeCollection = new(this);
+                }
+            }
+        }
 
         [JsonIgnore]
-        public AccountAttributeDtoCollection AttributeCollection { get; set; }
+        public AccountAttributeDtoCollection AttributeCollection { get; private set; }
     }
 }

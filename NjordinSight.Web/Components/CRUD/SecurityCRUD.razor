@@ -28,7 +28,7 @@ else
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @(SecurityTypes.GetDisplayName(ModelDto.SecurityTypeId))
+                    @(GetItem(SecurityTypes, x => x.SecurityTypeId == ModelDto.SecurityTypeId).SecurityTypeName)
                 </div>
             }
             else
@@ -37,9 +37,10 @@ else
                      DisplayName=@(NameFor(x => x.SecurityTypeId))
                      @bind-Value="ModelDto.SecurityTypeId"
                      disabled="@Disabled">
+                <option value="0">@Strings.Caption_InputSelect_Prompt</option>
                 @foreach (var lookup in SecurityTypes)
                 {
-                    <option value=@lookup.Key>@lookup.Display</option>
+                    <option value=@lookup.SecurityTypeId>@lookup.SecurityTypeName</option>
                 }
             </InputSelect>
             }
@@ -90,7 +91,10 @@ else
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @(SecurityTypes.GetDisplayName(ModelDto.SecurityExchangeId ?? default))
+                    @(GetItem(
+                        SecurityExchanges, 
+                        x => x.ExchangeId == ModelDto.SecurityExchangeId)
+                        ?.ExchangeCode)
                 </div>
             }
             else
@@ -99,11 +103,12 @@ else
                      DisplayName=@(NameFor(x => x.SecurityExchangeId))
                      @bind-Value="ModelDto.SecurityExchangeId"
                      disabled="@Disabled">
-                @foreach (var lookup in SecurityExchanges)
-                {
-                    <option value=@lookup.Key>@lookup.Display</option>
-                }
-            </InputSelect>
+                    <option value="">@Strings.Caption_InputSelect_Prompt</option>
+                    @foreach (var lookup in SecurityExchanges)
+                    {
+                        <option value=@lookup.ExchangeId>@lookup.ExchangeCode</option>
+                    }
+                </InputSelect>
             }
         </ModelFormEntry>
     </ModelForm>
@@ -111,10 +116,10 @@ else
 
 @code{
     [Parameter, EditorRequired]
-    public IEnumerable<LookupModel<int, string>> SecurityTypes { get; set; }
+    public IEnumerable<SecurityTypeDto> SecurityTypes { get; set; }
 
     [Parameter, EditorRequired]
-    public IEnumerable<LookupModel<int, string>> SecurityExchanges { get; set; }
+    public IEnumerable<SecurityExchangeDto> SecurityExchanges { get; set; }
 
     [Parameter, EditorRequired]
     public IEnumerable<string> Issuers { get; set; }
@@ -126,4 +131,7 @@ else
             || SecurityExchanges is null
             || Issuers is null;
     }
+
+    private T GetItem<T>(IEnumerable<T> items, Func<T, bool> predicate)
+        => items.FirstOrDefault<T>(predicate);
 }

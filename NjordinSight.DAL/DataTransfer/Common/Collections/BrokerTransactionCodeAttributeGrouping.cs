@@ -1,5 +1,4 @@
-﻿using NjordinSight.EntityModel;
-using NjordinSight.DataTransfer.Common.Generic;
+﻿using NjordinSight.DataTransfer.Common.Generic;
 using System;
 using System.Collections.Generic;
 
@@ -14,10 +13,10 @@ namespace NjordinSight.DataTransfer.Common.Collections
         /// class.
         /// </summary>
         /// <param name="parentEntity">The <see cref="BrokerCodeAttributeDtoCollection"/> to which entries in the instance apply.</param>
-        /// <param name="modelAttribute">The <see cref="ModelAttributeDto"/> that entries in the instance describe.</param>
+        /// <param name="modelAttribute">The <see cref="ModelAttributeDtoBase"/> that entries in the instance describe.</param>
         /// <param name="effectiveDate">The effective date for entries in the instance.</param>
         public BrokerTransactionCodeAttributeGrouping(
-            BrokerTransactionCodeDto parentEntity, ModelAttributeDto modelAttribute)
+            BrokerTransactionCodeDto parentEntity, ModelAttributeDtoBase modelAttribute)
             : base(parentEntity, modelAttribute)
         {
         }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NjordinSight.BusinessLogic.Functions
+﻿namespace NjordinSight.BusinessLogic.Functions
 {
     /// <summary>
     /// Represents a stateless class providing statistics-related mathematical functions.

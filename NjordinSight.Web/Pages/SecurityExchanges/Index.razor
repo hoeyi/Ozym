@@ -1,6 +1,6 @@
 ﻿@page "/security-exchanges"
 
-@inherits ModelIndex<SecurityExchange>
+@inherits ModelPagedIndex<SecurityExchangeDto>
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
@@ -24,13 +24,13 @@
             else
             {
                 <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(SecurityExchange)
+                    <DataGridColumn Property=@nameof(SecurityExchangeDto)
                                 Caption=@(NameFor(x => x.ExchangeCode))>
                         <CellTemplate Context="model">
                             @model.ExchangeCode
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityExchange.ExchangeDescription)
+                    <DataGridColumn Property=@nameof(SecurityExchangeDto.ExchangeDescription)
                                 Caption=@(NameFor(x => x.ExchangeDescription))>
                         <CellTemplate Context="model">
                             @model.ExchangeDescription

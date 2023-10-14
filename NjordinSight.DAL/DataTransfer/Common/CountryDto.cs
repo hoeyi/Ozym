@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using NjordinSight.DataTransfer.Common.Collections;
 using NjordinSight.EntityModel.Metadata;
+using System.Text.Json.Serialization;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(CountryDto_SR.Noun_Plural),
+        PluralArticle = nameof(CountryDto_SR.Noun_Plural_Article),
+        Singular = nameof(CountryDto_SR.Noun_Singular),
+        SingularArticle = nameof(CountryDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(CountryDto_SR)
+        )]
     public class CountryDtoBase : DtoBase
     {
         private int _countryId;
         private string _displayName;
         private string _isoCode3;
+        private int _displayOrder;
 
-        [Display(
-            Name = nameof(CountryDto_SR.CountryId_Name),
-            Description = nameof(CountryDto_SR.CountryId_Description),
-            ResourceType = typeof(CountryDto_SR))]
+        [Key]
         public int CountryId
         {
             get { return _countryId; }
@@ -79,23 +79,49 @@ namespace NjordinSight.DataTransfer.Common
             Name = nameof(CountryDto_SR.DisplayOrder_Name),
             Description = nameof(CountryDto_SR.DisplayOrder_Description),
             ResourceType = typeof(CountryDto_SR))]
-        public int DisplayOrder { get; set; }
+        public int DisplayOrder
+        {
+            get { return _displayOrder; }
+            set
+            {
+                if(_displayOrder != value)
+                {
+                    _displayOrder = value;
+                    OnPropertyChanged(nameof(DisplayOrder));
+                }
+            }
+        }
     }
 
+    [Noun(
+        Plural = nameof(CountryDto_SR.Noun_Plural),
+        PluralArticle = nameof(CountryDto_SR.Noun_Plural_Article),
+        Singular = nameof(CountryDto_SR.Noun_Singular),
+        SingularArticle = nameof(CountryDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(CountryDto_SR)
+        )]
     public class CountryDto : CountryDtoBase
     {
+        private ICollection<CountryAttributeDto> _attributes;
+
         public CountryDto()
         {
-            // The order is important here. If Attributes is not initialized 
-            // then AttributCollection will throw exception.
-            // TODO: Determine if better approach is available.
-            Attributes = new List<CountryAttributeDto>();
-            AttributeCollection = new(this);
+            Attributes = new HashSet<CountryAttributeDto>();
+        }
+        public ICollection<CountryAttributeDto> Attributes
+        {
+            get { return _attributes; }
+            set
+            {
+                if (_attributes != value)
+                {
+                    _attributes = value;
+                    AttributeCollection = new(this);
+                }
+            }
         }
 
+        [JsonIgnore]
         public CountryAttributeDtoCollection AttributeCollection { get; set; }
-
-        public ICollection<CountryAttributeDto> Attributes { get; set; }
     }
-
 }

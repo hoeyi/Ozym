@@ -22,7 +22,6 @@ namespace NjordinSight.Test.EntityModelService
         /// <inheritdoc/>
         /// <remarks>Always passes because <see cref="ReadAsync_Returns_Single_Model"/> the 
         /// <see cref="AccountAttributeMemberEntry"/> entity does not have a single-integer key.</remarks>
-        [TestMethod]
         public override Task ReadAsync_Returns_Single_Model()
         {
             return Task.CompletedTask;
@@ -44,14 +43,7 @@ namespace NjordinSight.Test.EntityModelService
             Assert.IsTrue(TestUtility.SimplePropertiesAreEqual(models.Last(), model));
         }
 
-        protected override IModelCollectionService<
-            InvestmentPerformanceAttributeMemberEntry, (AccountObject, ModelAttributeMember)> 
-            GetModelService() => BuildModelService<
-                InvestmentPerformanceAttributeService,
-                (AccountObject, ModelAttributeMember)>()
-                .WithParent((
-                    new() { AccountObjectId = _accountObjectId, },
-                    new() { AttributeMemberId = _attributeMemberId }
-                ));
+        protected override IModelCollectionService<InvestmentPerformanceAttributeMemberEntry>
+            GetModelService() => BuildModelService<InvestmentPerformanceAttributeService>();
     }
 }

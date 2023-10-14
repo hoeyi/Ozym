@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
 using NjordinSight.DataTransfer.Common;
 using NjordinSight.EntityModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NjordinSight.EntityModel.ConstraintType;
 
 namespace NjordinSight.DataTransfer.Profiles
 {
@@ -38,6 +34,12 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<SecurityTypeGroupDto, SecurityTypeGroup>()
                 .ForMember(a => a.SecurityTypes, b => b.Ignore())
                 .ForPath(
+                    a => a.AttributeMemberNavigation.AttributeId,
+                    b => b.MapFrom(x => (int)ModelAttributeEnum.SecurityTypeGroup))
+                .ForPath(
+                    a => a.AttributeMemberNavigation.AttributeMemberId,
+                    b => b.MapFrom(x => x.SecurityTypeGroupId))
+                .ForPath(
                     a => a.AttributeMemberNavigation.DisplayName,
                     b => b.MapFrom(x => x.SecurityTypeGroupName))
                 .ForPath(
@@ -47,6 +49,12 @@ namespace NjordinSight.DataTransfer.Profiles
             CreateMap<SecurityTypeDto, SecurityType>()
                 .ForMember(a => a.SecurityTypeGroup, b => b.Ignore())
                 .ForMember(a => a.Securities, b => b.Ignore())
+                .ForPath(
+                    a => a.AttributeMemberNavigation.AttributeId,
+                    b => b.MapFrom(x => (int)ModelAttributeEnum.SecurityType))
+                .ForPath(
+                    a => a.AttributeMemberNavigation.AttributeMemberId,
+                    b => b.MapFrom(x => x.SecurityTypeId))
                 .ForPath(
                     a => a.AttributeMemberNavigation.DisplayName,
                     b => b.MapFrom(x => x.SecurityTypeName))

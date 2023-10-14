@@ -1,6 +1,6 @@
 ﻿@page "/accounts/{ModelId:int}/detail/bank-transactions"
 
-@inherits ModelListPage<BankTransaction>
+@inherits ModelPagedIndex<BankTransactionDto>
 
 <ThemedComponent>
     @if (ParentAccount is null)
@@ -9,9 +9,9 @@
     }
     else
     {
-        <PageTitle>@(PageTitle.ReadMany(ParentAccount.AccountCode).AsPageTitle())</PageTitle>
+        <PageTitle>@(PageTitle.ReadMany(ParentAccount.ShortCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.ReadMany(ParentAccount.AccountCode))" 
+        <ModelPageHeader Header="@(PageTitle.ReadMany(ParentAccount.ShortCode))" 
             ActionMenu="@SectionNavigationMenu" />
     }
 
@@ -31,26 +31,26 @@
             }
             else
             {
-                <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property="@nameof(BankTransaction.TransactionCodeId)"
+                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                    <DataGridColumn Property="@nameof(BankTransactionDto.TransactionCodeId)"
                                 Caption="@NameFor(x => x.TransactionCodeId)">
                         <CellTemplate Context="model">
-                            @GetLookupDisplayName(TransactionCodes, model.TransactionCodeId)
+                            @GetDisplayValue(TransactionCodes, model.TransactionCodeId)
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property="@nameof(BankTransaction.TransactionDate)"
+                    <DataGridColumn Property="@nameof(BankTransactionDto.TransactionDate)"
                                 Caption="@(NameFor(x => x.TransactionDate))">
                         <CellTemplate Context="model">
                             @model.TransactionDate.ToShortDateString()
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property="@nameof(BankTransaction.Amount)"
+                    <DataGridColumn Property="@nameof(BankTransactionDto.Amount)"
                                 Caption="@(NameFor(x => x.Amount))">
                         <CellTemplate Context="model">
                             @model.Amount
                         </CellTemplate>
                     </DataGridColumn>
-                    <DataGridColumn Property="@nameof(BankTransaction.Comment)"
+                    <DataGridColumn Property="@nameof(BankTransactionDto.Comment)"
                                 Caption="@(NameFor(x => x.Comment))">
                         <CellTemplate Context="model">
                             @model.Comment
@@ -66,12 +66,15 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<LookupModel<int, string>> TransactionCodes { get; set; }
-
-    private Account ParentAccount { get; set; }
+    [Inject]
+    protected IQueryService QueryService { get; init; }
 
     [Inject]
-    public new ICollectionController<BankTransaction, int> Controller { get; init; }
+    protected new IHttpCollectionService<BankTransactionDto, int> HttpService { get; init; }
+
+    private IEnumerable<BankTransactionCodeDtoBase> TransactionCodes { get; set; }
+
+    private AccountDto ParentAccount { get; set; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -82,76 +85,49 @@
                 IconKey = "caret-back-circle",
                 Caption = string.Format(
                         Strings.Caption_NavigateBackTo,
-                        ModelMetadata.GetAttribute<Account, NounAttribute>()?.GetSingular()),
+                        ModelMetadata.GetAttribute<AccountDto, NounAttribute>()?.GetSingular()),
                 UriRelativePath = $"{IndexUriRelativePath}/{ModelId}/detail"
             },
             new MenuItem()
             {
                 IconKey = "pencil",
-                Caption = string.Format(
-                                            Strings.Caption_EditMany, ModelNoun?.GetPlural()),
+                Caption = string.Format(Strings.Caption_EditMany, ModelNoun?.GetPlural()),
                 UriRelativePath = $"{IndexUriRelativePath}/{ModelId}/edit/bank-transactions"
             }
         }
     };
 
     /// <inheritdoc />
-    protected override bool GetLoadingState() => 
-        WorkingEntries is null
-        || ParentAccount is null
-        || TransactionCodes is null;
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Update the hidden reference to refer the same dobject to avoid null reference exception.
-        base.Controller = Controller;
-
-        CheckNullParameters();
-
-        IsLoading = true;
-
-        try
-        {
-            var transactionCodeDTOsTask = Controller.ReferenceQueries.GetBankTransactionCodeDTOsAsync();
-
-            ParentAccount = (
-                await Controller.ReferenceQueries
-                    .GetSingleAsync<Account>(
-                        predicate: a => a.AccountId == ModelId,
-                        path: a => a.AccountNavigation)).Value;
-
-            var initResult = await Controller.ForParent(ParentAccount.AccountId);
-
-            if (initResult is not OkResult)
-                throw new InvalidOperationException();
-
-            var transactionsQueryTask = Controller.SelectAsync(
-                predicate: SearchService.CurrentExpression,
-                pageNumber: PaginationHelper.PageIndex,
-                pageSize: PaginationHelper.PageSize);
-
-            await InitializationTasksAsync(transactionsQueryTask, transactionCodeDTOsTask);
-
-            var transactionResult = await transactionsQueryTask;
-            var transactionCodeDtoResult = await transactionCodeDTOsTask;
-
-            WorkingEntries = transactionResult.Value.Item1.ToList();
-            TransactionCodes = transactionCodeDtoResult.Value;
-
-            PaginationHelper.TotalItemCount = transactionResult.Value.Item2.ItemCount;
-            PaginationHelper.ItemCount = WorkingEntries.Count;
-        }
-        finally
-        {
-            IsLoading = GetLoadingState();
-        }
-    }
+    protected override bool PageDataIsLoading() => 
+        Entries is null || ParentAccount is null || TransactionCodes is null;
 
     /// <inheritdoc/>
-    protected override void Cancel_OnClick() => NavigationHelper
-        .NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
+    protected override async Task RefreshResultsAsync(
+        ParameterDto<BankTransactionDto> parameter, int pageNumber, int pageSize)
+    {
+        ParentAccount = await HttpService.GetAsync<AccountDto>(id: ModelId);
 
-    private string GetLookupDisplayName(IEnumerable<LookupModel<int, string>> lookupModels, int id) =>
-        lookupModels.FirstOrDefault(x => x.Key == id)?.Display ?? string.Empty;
+        var transactionCodeDTOsTask = QueryService.BuiltIn
+            .GetBankTransactionCodeDTOsAsync(pageSize: int.MaxValue);
+
+        var transactionsQueryTask = parameter is null ?
+            HttpService.IndexAsync<AccountDto>(ModelId, pageNumber, pageSize) :
+            HttpService.SearchAsync<AccountDto>(ModelId, parameter, pageNumber, pageSize);
+
+        await InitializationTasksAsync(transactionsQueryTask, transactionCodeDTOsTask);
+
+        var transactionResult = await transactionsQueryTask;
+        var transactionCodeDtoResult = await transactionCodeDTOsTask;
+
+        Entries = transactionResult.Item1;
+        ParentAccount = transactionResult.Item2;
+        TransactionCodes = transactionCodeDtoResult.Item1;
+
+        PaginationHelper.TotalItemCount = transactionResult.Item3.ItemCount;
+        PaginationHelper.ItemCount = Entries.Count();
+    }
+
+    private string GetDisplayValue(IEnumerable<BankTransactionCodeDtoBase> lookupModels, int id) =>
+        lookupModels.FirstOrDefault(x => x.TransactionCodeId == id).TransactionCode ?? string.Empty;
 
 }

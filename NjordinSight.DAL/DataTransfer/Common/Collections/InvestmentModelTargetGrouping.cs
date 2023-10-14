@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using NjordinSight.EntityModel;
 using NjordinSight.DataTransfer.Common.Generic;
 
 namespace NjordinSight.DataTransfer.Common.Collections
 {
     /// <summary>
     /// Represents a collection of <see cref="InvestmentModelTargetDto"/> instances with the same 
-    /// <see cref="InvestmentModelDto" />, <see cref="ModelAttributeDto"/>, and effective date.
+    /// <see cref="InvestmentModelDto" />, <see cref="ModelAttributeDtoBase"/>, and effective date.
     /// </summary>
     public class InvestmentModelTargetGrouping
         : AttributeEntryWeightedGrouping<InvestmentModelDto, InvestmentModelTargetDto>
     {
         internal InvestmentModelTargetGrouping(
-            InvestmentModelDto parentEntity, ModelAttributeDto modelAttribute, DateTime effectiveDate)
+            InvestmentModelDto parentEntity, ModelAttributeDtoBase modelAttribute, DateTime effectiveDate)
         : base(parentEntity, modelAttribute, effectiveDate)
         {
         }

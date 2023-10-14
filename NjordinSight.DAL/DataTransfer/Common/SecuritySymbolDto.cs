@@ -1,10 +1,16 @@
-﻿using System;
-using System.ComponentModel;
+﻿using Ichosys.DataModel.Annotations;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
-
+    [Noun(
+        Plural = nameof(SecuritySymbolDto_SR.Noun_Plural),
+        PluralArticle = nameof(SecuritySymbolDto_SR.Noun_Plural_Article),
+        Singular = nameof(SecuritySymbolDto_SR.Noun_Singular),
+        SingularArticle = nameof(SecuritySymbolDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(SecuritySymbolDto_SR)
+        )]
     public class SecuritySymbolDto : DtoBase
     {
         private int _symbolId;
@@ -17,10 +23,7 @@ namespace NjordinSight.DataTransfer.Common
         private string _optionTicker;
         private string _ticker;
 
-        [Display(
-            Name = nameof(SecuritySymbolDto_SR.SymbolId_Name),
-            Description = nameof(SecuritySymbolDto_SR.SymbolId_Description),
-            ResourceType = typeof(SecuritySymbolDto_SR))]
+        [Key]
         public int SymbolId
         {
             get { return _symbolId; }

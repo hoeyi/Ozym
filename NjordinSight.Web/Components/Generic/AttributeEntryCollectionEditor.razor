@@ -61,7 +61,7 @@ else
                     @group.Key.DisplayName
                 </div>
                 <button class="form-control button icon" type="button"
-                    @onclick="(() => AddEntryForGrouping(group.Key))">
+                    @onclick="(() => AddEntryForGrouping(group.Key.AttributeId))">
                     <IonIcon Name="add" />
                 </button>
             </TitleAlignLeft>
@@ -74,7 +74,7 @@ else
                             <a 
                                 @onclick:preventDefault
                                 @onclick="(() => OnChildViewSelect(model))">
-                                @GetGroupEffectiveDate(model).ToShortDateString()
+                                @model.EffectiveDate.ToShortDateString()
                             </a>
                         </CellTemplate>
                     </DataGridColumn>
@@ -86,7 +86,7 @@ else
     @if (DrawViewModelChildModelEditor)
     {
         <CascadingValue Value="@CurrentViewModelChild">
-            <CascadingValue Value="@CurrentAttributeMemberLookup">
+            <CascadingValue Value="@CurrentAttributeMembers" Name="AttributeMembers">
                 <AttributeTargetModalCRUD 
                     TModelDto="TViewModelChild"
                     OnClose="OnModalEditor_ForChildView_Close">

@@ -1,4 +1,4 @@
-﻿@inherits ModelCRUD<ReportStyleSheet>
+﻿@inherits ModelCRUD<ReportStyleSheetDto>
 
 @if (ModelDto is null)
 {
@@ -6,7 +6,7 @@
 }
 else
 {
-    <ModelForm TModelDto="ReportConfiguration">
+    <ModelForm TModelDto="ReportStyleSheetDto">
         <ModelFormEntry ForMember="@(() => ModelDto.StyleSheetCode)">
             @if (ReadOnly)
             {

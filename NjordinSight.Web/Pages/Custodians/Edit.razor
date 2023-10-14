@@ -1,6 +1,6 @@
 ﻿@page "/custodians/edit"
 
-@inherits ModelListPage<AccountCustodian>
+@inherits ModelPagedIndexEditor<AccountCustodianDto>
 
 <ThemedComponent>
     <PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
@@ -25,10 +25,10 @@
                     @Strings.Caption_Button_Save
                 </button>
                 <button class="form-control button" 
-                    @onclick="(async (args) => await AddNewAsync(args))">
+                    @onclick="((args) => AddNew(args))">
                     @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
                 </button>
-                <button class="form-control button" @onclick="Cancel_OnClick"
+                <button class="form-control button" @onclick="CancelEditor_OnClick"
                     @onclick:preventDefault>
                     @Strings.Caption_Button_Cancel
                 </button>
@@ -50,7 +50,7 @@
                                 <CellEditTemplate Context="model">
                                     <ToolTip Text="@Strings.Caption_Button_Delete">
                                         <button class="form-control button icon" type="button"
-                                            @onclick="async (args) => await DeleteAsync(args, model)">
+                                            @onclick="(args) => DeleteRecord(args, model)">
                                             <IonIcon Name="close-circle" />
                                         </button>
                                     </ToolTip>
@@ -58,7 +58,7 @@
                             </DataGridColumn>
                             <DataGridColumn 
                                 Type="DataGridCellType.Control"
-                                Property=@nameof(AccountCustodian.CustodianCode)
+                                Property=@nameof(AccountCustodianDto.CustodianCode)
                                 Caption=@(NameFor(x => x.CustodianCode))>
                                 <CellEditTemplate Context="model">
                                     <InputText class="form-control" @bind-Value=model.CustodianCode />
@@ -67,7 +67,7 @@
                             </DataGridColumn>
                             <DataGridColumn 
                                 Type="DataGridCellType.Control" 
-                                Property=@nameof(AccountCustodian.DisplayName)
+                                Property=@nameof(AccountCustodianDto.DisplayName)
                                 Caption=@(NameFor(x => x.DisplayName))>
                                 <CellEditTemplate Context="model">
                                     <InputText class="form-control" @bind-Value=model.DisplayName />
@@ -81,16 +81,3 @@
         </EditForm>
     }
 </ThemedComponent>
-
-@code{
-    [Inject]
-    protected new ICollectionController<AccountCustodian> Controller { get; init; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Update the hidden reference to refer the same object to avoid null reference exception.
-        base.Controller = Controller;
-
-        await base.OnInitializedAsync();
-    }
-}

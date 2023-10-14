@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Noun_Plural" xml:space="preserve">
+    <value>prices</value>
+  </data>
+  <data name="Noun_Plural_Article" xml:space="preserve">
+    <value>the</value>
+  </data>
+  <data name="Noun_Singular" xml:space="preserve">
+    <value>price</value>
+  </data>
+  <data name="Noun_Singular_Article" xml:space="preserve">
+    <value>the</value>
+  </data>
   <data name="PriceClose_Description" xml:space="preserve">
     <value>Cosing price on the price date.</value>
   </data>

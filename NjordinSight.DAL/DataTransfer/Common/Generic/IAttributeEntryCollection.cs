@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NjordinSight.EntityModel;
 
 namespace NjordinSight.DataTransfer.Common.Generic
 {
@@ -10,9 +9,9 @@ namespace NjordinSight.DataTransfer.Common.Generic
     {
         /// <summary>
         /// Gets the <typeparamref name="TGroupModel"/> entries in this model grouped by their 
-        ///  <see cref="ModelAttributeDto"/>.
+        ///  <see cref="ModelAttributeDtoBase"/>.
         /// </summary>
-        IEnumerable<IGrouping<ModelAttributeDto, TGroupModel>> EntryCollectionGroups { get; }
+        IEnumerable<IGrouping<ModelAttributeDtoBase, TGroupModel>> EntryCollectionGroups { get; }
 
         /// <summary>
         /// Gets the collection of <see cref="TGroupModel"/> that represent the 

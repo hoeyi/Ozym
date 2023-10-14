@@ -1,5 +1,4 @@
 ﻿using Ichosys.DataModel.Annotations;
-using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Metadata;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
 {
     /// <summary>
     /// Base class for collections of attribute member entries that are children 
-    /// of a composite entity uniquely identified by a composite key constructed from <see cref="ModelAttributeDto"/>, 
+    /// of a composite entity uniquely identified by a composite key constructed from <see cref="ModelAttributeDtoBase"/>, 
     /// and <typeparamref name="TParentEntity"/> identifiers, as well as a <see cref="DateTime"/>.
     /// </summary>
     /// <typeparam name="TChildEntity">The entity type this view model represents.</typeparam>
@@ -19,7 +18,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
     /// <exception cref="ArgumentNullException">The value for a required parameter was a null 
     /// reference.</exception>
     /// <remarks>Conceptually, the key definition for a grouping can be thought of as a tuple combining the instances, 
-    /// e.g., (<typeparamref name="TParentEntity"/>, <see cref="ModelAttributeDto"/>, <see cref="DateTime"/>). In practice, 
+    /// e.g., (<typeparamref name="TParentEntity"/>, <see cref="ModelAttributeDtoBase"/>, <see cref="DateTime"/>). In practice, 
     /// the database key is most likely built from the identifiers, e.g., 
     /// (<see cref="int"/>, <see cref="int" />, <see cref="DateTime"/>).</remarks>
     public abstract partial class AttributeEntryWeightedGrouping<TParentEntity, TChildEntity>
@@ -33,7 +32,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
         /// <exception cref="ArgumentNullException"></exception>
         protected AttributeEntryWeightedGrouping(
             TParentEntity parentObject,
-            ModelAttributeDto parentAttribute, 
+            ModelAttributeDtoBase parentAttribute, 
             DateTime effectiveDate)
         {
             if (parentObject is null)
@@ -89,8 +88,9 @@ namespace NjordinSight.DataTransfer.Common.Generic
 
         /// <inheritdoc/>
         [Display(
-            Name = nameof(ModelDisplay.AttributeEntryViewModel_EffectiveDate_Name),
-            ResourceType = typeof(ModelDisplay))]
+            Name = nameof(AttributeEntryGrouping_SR.EffectiveDate_Name),
+            Description = nameof(AttributeEntryGrouping_SR.EffectiveDate_Description),
+            ResourceType = typeof(AttributeEntryGrouping_SR))]
         public DateTime EffectiveDate
         {
             get { return effectiveDate; }
@@ -118,7 +118,7 @@ namespace NjordinSight.DataTransfer.Common.Generic
         public IEnumerable<TChildEntity> Entries => ParentEntryCollection.Where(EntrySelector);
 
         /// <inheritdoc/>
-        public ModelAttributeDto ParentAttribute { get; init; }
+        public ModelAttributeDtoBase ParentAttribute { get; init; }
 
         /// <inheritdoc/>
         public TParentEntity ParentObject { get; private set; }
@@ -148,7 +148,22 @@ namespace NjordinSight.DataTransfer.Common.Generic
         public bool RemoveEntry(TChildEntity entry) => ParentEntryCollection.Remove(entry);
 
         /// <inheritdoc/>
-        public bool RemoveAll() => Entries.All(x => RemoveEntry(x));
+        public bool RemoveAll()
+        {
+            // If empty or undefined, return false.
+            if (!Entries?.Any() ?? false)
+                return false;
+
+            // Define items to be removed from parent collection.
+            var groupEntries = Entries.ToList();
+
+            bool result = false;
+
+            foreach(var entry in groupEntries)
+                result = RemoveEntry(entry);
+
+            return result;
+        }
     }
     #endregion
 }

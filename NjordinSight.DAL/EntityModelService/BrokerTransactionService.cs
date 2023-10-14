@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using NjordinSight.EntityModel.Context;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModelService.Abstractions;
-using System;
 
 namespace NjordinSight.EntityModelService
 {
@@ -12,7 +11,7 @@ namespace NjordinSight.EntityModelService
     /// The class for servicing single CRUD requests against the <see cref="BrokerTransaction"/> 
     /// data store.
     /// </summary>
-    internal class BrokerTransactionService : ModelCollectionService<BrokerTransaction, int>
+    internal class BrokerTransactionService : ModelCollectionService<BrokerTransaction>
     {
         /// <summary>
         /// Creates a new <see cref="BrokerTransactionService"/> instance.
@@ -27,19 +26,12 @@ namespace NjordinSight.EntityModelService
                 ILogger logger)
             : base(contextFactory, modelMetadata, logger)
         {
-        }
-
-        /// <inheritdoc/>
-        public override void SetParent(int parent)
-        {
             Reader = new ModelReaderService<BrokerTransaction>(
                 ContextFactory, ModelMetadata, Logger)
             {
-                ParentExpression = x => x.AccountId == parent,
                 IncludeDelegate = (queryable) => queryable.Include(x => x.TransactionCode)
             };
-
-            GetDefaultModelDelegate = () => new BrokerTransaction() { AccountId = parent };
+            GetDefaultModelDelegate = () => new BrokerTransaction();
         }
     }
 }

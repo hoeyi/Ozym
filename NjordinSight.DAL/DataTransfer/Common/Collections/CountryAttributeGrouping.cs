@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using NjordinSight.EntityModel;
 using NjordinSight.EntityModel.Annotations;
 using NjordinSight.DataTransfer.Common.Generic;
-using NjordinSight.DataTransfer.Common;
 
 namespace NjordinSight.DataTransfer.Common.Collections
 {
     [ModelAttributeSupport(SupportedScopes = ModelAttributeScopeCode.Country)]
     /// <summary>
     /// Represents a collection of <see cref="CountryAttributeDto"/> instances with the same 
-    /// <see cref="CountryDto" />, <see cref="ModelAttributeDto"/>, and effective date.
+    /// <see cref="CountryDto" />, <see cref="ModelAttributeDtoBase"/>, and effective date.
     /// </summary>
     public class CountryAttributeGrouping :
         AttributeEntryWeightedGrouping<CountryDto, CountryAttributeDto>
     {
         public CountryAttributeGrouping(
             CountryDto parentEntity,
-            ModelAttributeDto modelAttribute,
+            ModelAttributeDtoBase modelAttribute,
             DateTime effectiveDate) : base(parentEntity, modelAttribute, effectiveDate)
         {
         }

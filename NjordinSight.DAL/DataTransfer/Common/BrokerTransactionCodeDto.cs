@@ -1,12 +1,19 @@
-﻿using NjordinSight.DataTransfer.Common.Collections;
+﻿using Ichosys.DataModel.Annotations;
+using NjordinSight.DataTransfer.Common.Collections;
 using NjordinSight.EntityModel.Metadata;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(BrokerTransactionCodeDto_SR.Noun_Plural),
+        PluralArticle = nameof(BrokerTransactionCodeDto_SR.Noun_Plural_Article),
+        Singular = nameof(BrokerTransactionCodeDto_SR.Noun_Singular),
+        SingularArticle = nameof(BrokerTransactionCodeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(BrokerTransactionCodeDto_SR)
+        )]
     public class BrokerTransactionCodeDtoBase : DtoBase
     {
         private int _transactionCodeId;
@@ -16,10 +23,7 @@ namespace NjordinSight.DataTransfer.Common
         private short _contributionWithdrawalEffect;
         private short _quantityEffect;
 
-        [Display(
-            Name = nameof(BrokerTransactionCodeDto_SR.TransactionCodeId_Name),
-            Description = nameof(BrokerTransactionCodeDto_SR.TransactionCodeId_Description),
-            ResourceType = typeof(BrokerTransactionCodeDto_SR))]
+        [Key]
         public int TransactionCodeId
         {
             get { return _transactionCodeId; }
@@ -132,17 +136,35 @@ namespace NjordinSight.DataTransfer.Common
 
     }
 
+    [Noun(
+        Plural = nameof(BrokerTransactionCodeDto_SR.Noun_Plural),
+        PluralArticle = nameof(BrokerTransactionCodeDto_SR.Noun_Plural_Article),
+        Singular = nameof(BrokerTransactionCodeDto_SR.Noun_Singular),
+        SingularArticle = nameof(BrokerTransactionCodeDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(BrokerTransactionCodeDto_SR)
+        )]
     public class BrokerTransactionCodeDto : BrokerTransactionCodeDtoBase
     {
+        private ICollection<BrokerTransactionCodeAttributeDto> _attributes;
         public BrokerTransactionCodeDto()
         {
-            Attributes = new List<BrokerTransactionCodeAttributeDto>();
-            AttributeCollection = new(this);
+            Attributes = new HashSet<BrokerTransactionCodeAttributeDto>();
         }
 
-        public BrokerCodeAttributeDtoCollection AttributeCollection { get; set; }
+        public ICollection<BrokerTransactionCodeAttributeDto> Attributes
+        {
+            get { return _attributes; }
+            set
+            {
+                if(_attributes != value)
+                {
+                    _attributes = value;
+                    AttributeCollection = new(this);
+                }
+            }
+        }
 
-        public ICollection<BrokerTransactionCodeAttributeDto> Attributes { get; set; }
+        [JsonIgnore]
+        public BrokerCodeAttributeDtoCollection AttributeCollection { get; private set; }
     }
-
 }

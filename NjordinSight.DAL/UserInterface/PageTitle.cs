@@ -61,24 +61,26 @@ namespace NjordinSight.UserInterface
         {
             _noun = GetAttribute<TModel, NounAttribute>();
 
-            if (_noun is null)
-                throw new InvalidOperationException(
-                    StringTemplate.ModelNoun_NotFound_Exception.Format(typeof(TModel).Name));
+            //if (_noun is null)
+            //    throw new InvalidOperationException(
+            //        StringTemplate.ModelNoun_NotFound_Exception.Format(typeof(TModel).Name));
         }
 
         /// <inheritdoc/>
         public string CreateSingle()
         {
-            return StringTemplate.CreateModel.Format(_noun.GetSingular());
+            return StringTemplate.CreateModel.Format(_noun?.GetSingular() ?? typeof(TModel).Name);
         }
 
         /// <inheritdoc/>
         public string ReadMany(string heading = null)
         {
             if(string.IsNullOrEmpty(heading))
-                return StringTemplate.IndexModel.Format(_noun.GetPlural()?.ToTitleCase());
+                return StringTemplate.IndexModel.Format(
+                    _noun?.GetPlural()?.ToTitleCase() ?? typeof(TModel).Name);
             else
-                return StringTemplate.IndexModelAsChild.Format(_noun.GetPlural()?.ToTitleCase(), heading);
+                return StringTemplate.IndexModelAsChild.Format(
+                    _noun?.GetPlural()?.ToTitleCase() ?? typeof(TModel).Name, heading);
         }
 
         /// <inheritdoc/>   
@@ -86,14 +88,15 @@ namespace NjordinSight.UserInterface
         {
             heading ??= string.Empty;
 
-            return StringTemplate.ReadModel.Format(_noun.GetSingular()?.ToTitleCase(), heading);
+            return StringTemplate.ReadModel.Format(
+                _noun.GetSingular()?.ToTitleCase() ?? typeof(TModel).Name, heading);
         }
 
         public string UpdateMany(string parentHeading)
         {
             parentHeading ??= string.Empty;
 
-            return StringTemplate.UpdateModel.Format(_noun.GetPlural(), parentHeading);
+            return StringTemplate.UpdateModel.Format(_noun?.GetPlural() ?? typeof(TModel).Name, parentHeading);
         }
 
         /// <inheritdoc/>
@@ -101,7 +104,7 @@ namespace NjordinSight.UserInterface
         {
             heading ??= string.Empty;
 
-            return StringTemplate.UpdateModel.Format(_noun.GetSingular(), heading);
+            return StringTemplate.UpdateModel.Format(_noun?.GetSingular() ?? typeof(TModel).Name, heading);
         }
 
         /// <summary>

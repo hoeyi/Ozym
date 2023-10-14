@@ -28,24 +28,4 @@ else
     /// </summary>
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;
-
-    /// <summary>
-    /// Gets or sets the view model for this form.
-    /// </summary>
-    [CascadingParameter]
-    public TModelDto ModelDto { get; set; }
-
-    /// <summary>
-    /// Gets or sets the reference list for allowable <see cref="ModelAttributeMember" />
-    /// records for this form.
-    /// </summary>
-    [CascadingParameter]
-    public IEnumerable<LookupModel<int, string>> AttributeMemberLookup { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        IsLoading = ModelDto is null || AttributeMemberLookup is null;
-    }
 }

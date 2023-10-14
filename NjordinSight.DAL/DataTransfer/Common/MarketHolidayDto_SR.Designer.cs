@@ -22,7 +22,7 @@ namespace NjordinSight.DataTransfer.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class MarketHolidayDto_SR {
+    public class MarketHolidayDto_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NjordinSight.DataTransfer.Common.MarketHolidayDto_SR", typeof(MarketHolidayDto_SR).Assembly);
@@ -51,7 +51,7 @@ namespace NjordinSight.DataTransfer.Common {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string MarketHolidayId_Description {
+        public static string MarketHolidayId_Description {
             get {
                 return ResourceManager.GetString("MarketHolidayId_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string MarketHolidayId_Name {
+        public static string MarketHolidayId_Name {
             get {
                 return ResourceManager.GetString("MarketHolidayId_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Display name of the holiday..
         /// </summary>
-        internal static string MarketHolidayName_Description {
+        public static string MarketHolidayName_Description {
             get {
                 return ResourceManager.GetString("MarketHolidayName_Description", resourceCulture);
             }
@@ -90,9 +90,45 @@ namespace NjordinSight.DataTransfer.Common {
         /// <summary>
         ///   Looks up a localized string similar to Holiday Name.
         /// </summary>
-        internal static string MarketHolidayName_Name {
+        public static string MarketHolidayName_Name {
             get {
                 return ResourceManager.GetString("MarketHolidayName_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to market holidays.
+        /// </summary>
+        public static string Noun_Plural {
+            get {
+                return ResourceManager.GetString("Noun_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Plural_Article {
+            get {
+                return ResourceManager.GetString("Noun_Plural_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to market holiday.
+        /// </summary>
+        public static string Noun_Singular {
+            get {
+                return ResourceManager.GetString("Noun_Singular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the.
+        /// </summary>
+        public static string Noun_Singular_Article {
+            get {
+                return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
             }
         }
     }

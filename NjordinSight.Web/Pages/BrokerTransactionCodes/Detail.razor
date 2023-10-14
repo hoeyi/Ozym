@@ -1,6 +1,6 @@
 ﻿@page "/broker-transaction-codes/{ModelId:int}/detail"
 
-@inherits ModelDetail<BrokerTransactionCode>
+@inherits ModelDetail<BrokerTransactionCodeDto>
 
 <ThemedComponent>
     @if (IsLoading)
@@ -20,22 +20,23 @@
 
         <ContentTile>
             <Body>
-                <CascadingValue Value="@ModelDto">
-                    <EditForm class="model-editor" Model="@ModelDto">
+                <CascadingValue Value="@Model">
+                    <EditForm class="model-editor" Model="@Model">
                         <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="true" />
                     </EditForm>
                 </CascadingValue>
             </Body>
         </ContentTile>
-        @foreach (var entry in ModelDto.CurrentEntries.OrderBy(g =>
-            g.AttributeMember.Attribute.DisplayName))
+        @foreach (var entry in Model.AttributeCollection.CurrentEntries
+            .OrderBy(g => g.AttributeMember.Attribute.DisplayName))
         {
             <ContentTile>
                 <Body>
                     <EditForm class="model-editor" Model="entry">
-                        <ModelForm TModelDto="BrokerTransactionCodeAttributeMemberEntry">
-                            <ModelFormEntry LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
-                                       ForMember="@(() => entry.AttributeMember.DisplayName)">
+                        <ModelForm TModelDto="BrokerTransactionCodeAttributeDto">
+                            <ModelFormEntry 
+                                LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
+                                ForMember="@(() => entry.AttributeMember.DisplayName)">
                                 <div class="form-control">
                                     @entry.AttributeMember.DisplayName
                                 </div>
@@ -57,24 +58,17 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private BrokerTransactionCodeDto ModelDto { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
 
         try
         {
-            var modelQuery = Controller.ReadAsync(ModelId);
-
-            if ((await modelQuery).Value is BrokerTransactionCode model)
-                Model = model;
-
-            ModelDto = new(Model);
+            Model = await HttpService.GetAsync(ModelId);
         }
         finally
         {
-            IsLoading = Model is null || ModelDto is null;
+            IsLoading = Model is null;
         }
     }
 }

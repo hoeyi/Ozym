@@ -1,26 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using Ichosys.DataModel.Annotations;
 
 namespace NjordinSight.DataTransfer.Common
 {
+    [Noun(
+        Plural = nameof(AccountWalletDto_SR.Noun_Plural),
+        PluralArticle = nameof(AccountWalletDto_SR.Noun_Plural_Article),
+        Singular = nameof(AccountWalletDto_SR.Noun_Singular),
+        SingularArticle = nameof(AccountWalletDto_SR.Noun_Singular_Article),
+        ResourceType = typeof(AccountWalletDto_SR)
+        )]
     public class AccountWalletDto : DtoBase
     {
+        private int _accountId;
         private int _accountWalletId;
         private string _addressCode;
         private string _addressTag;
         private int _denominationSecurityId;
 
-        [Display(
-            Name = nameof(AccountWalletDto_SR.AccountWalletId_Name),
-            Description = nameof(AccountWalletDto_SR.AccountWalletId_Description),
-            ResourceType = typeof(AccountWalletDto_SR))]
+        public int AccountId
+        {
+            get { return _accountId; }
+            set
+            {
+                if(_accountId != value )
+                {
+                    _accountId = value;
+                    OnPropertyChanged(nameof(AccountId));
+                }
+            }
+        }
+
+        [Key]
         public int AccountWalletId
         {
             get { return _accountWalletId; }

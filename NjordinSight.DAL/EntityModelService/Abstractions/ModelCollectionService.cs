@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using NjordinSight.EntityModel.Context;
 using Ichosys.DataModel.Annotations;
@@ -55,9 +54,6 @@ namespace NjordinSight.EntityModelService.Abstractions
         protected IModelReaderService<T> Reader { get; set; }
 
         /// <inheritdoc/>
-        public bool HasChanges => CommandHistory.Count > 0;
-
-        /// <inheritdoc/>
         public async Task<T> GetDefaultAsync()
         {
             if (GetDefaultModelDelegate is null)
@@ -77,20 +73,10 @@ namespace NjordinSight.EntityModelService.Abstractions
         /// <inheritdoc/>
         public async Task<(IEnumerable<T>, PaginationData)> SelectAsync(
             Expression<Func<T, bool>> predicate, int pageNumber = 1, int pageSize = 20)
-        {
-            var results = await Reader.SelectAsync(predicate, pageNumber, pageSize);
-
-            WorkingEntries = results.Item1.ToList();
-
-            CommandHistory.Clear();
-            return (WorkingEntries, results.Item2);
-        }
+            => await Reader.SelectAsync(predicate, pageNumber, pageSize);
 
         /// <inheritdoc/>
-        public async Task<T> ReadAsync(int? id)
-        {
-            return await Reader.ReadAsync(id);
-        }
+        public async Task<T> ReadAsync(int? id) => await Reader.ReadAsync(id);
 
         /// <inheritdoc/>
         public async Task<IEnumerable<T>> SelectAsync() => await Reader.SelectAsync();
@@ -110,21 +96,24 @@ namespace NjordinSight.EntityModelService.Abstractions
 
             using var context = await ContextFactory.CreateDbContextAsync();
 
-            if(inserts.Any())
-                context.Set<T>().AddRange(inserts);
+            if(deletes.Any())
+                context.Set<T>().RemoveRange(deletes);
 
             if(updates.Any())
                 context.Set<T>().UpdateRange(updates);
 
-            if(deletes.Any())
-                context.Set<T>().RemoveRange(deletes);
-
+            if(inserts.Any())
+                context.Set<T>().AddRange(inserts);
+            
             var result = await context.SaveChangesAsync();
 
             return result;
         }
+    }
 
-        #region Obsolete methods
+    #region Obsolete methods
+    internal abstract partial class ModelCollectionService<T>
+    {
         /// <inheritdoc/>
         [Obsolete($"Superseded by {nameof(AddUpdateDeleteAsync)}")]
         public bool AddPendingSave(T model)
@@ -197,30 +186,35 @@ namespace NjordinSight.EntityModelService.Abstractions
 
             return await context.SaveChangesAsync();
         }
-        #endregion
-    }
-
-    internal abstract partial class ModelCollectionService<T>
-    {
+        
+        [Obsolete]
         private readonly CommandHistory<T> _commandHistory;
 
+        [Obsolete]
+        /// <inheritdoc/>
+        public bool HasChanges => CommandHistory.Count > 0;
+
+        [Obsolete]
         /// <summary>
         /// Gets the <see cref="IChangeTracker{T}"/> responsible for tracking the commands 
         /// tracked by <see cref="ChangeTracker"/>.
         /// </summary>
         protected ICommandHistory<T> CommandHistory => _commandHistory;
 
+        [Obsolete]
         /// <summary>
         /// Gets the <see cref="IChangeTracker{T}"/> responsible for tracking additions and 
         /// removals from <see cref="WorkingEntries"/>.
         /// </summary>
         protected IChangeTracker<T> ChangeTracker => _commandHistory;
 
+        [Obsolete]
         /// <summary>
         /// Gets or sets the collection of currently worked items.
         /// </summary>
         protected IList<T> WorkingEntries { get; set; } = new List<T>();
 
+        [Obsolete]
         /// <summary>
         /// Checks that a required parent identifier has been set for a given 
         /// <typeparamref name="T"/> instance.
@@ -236,15 +230,18 @@ namespace NjordinSight.EntityModelService.Abstractions
             return parentCheck.Invoke(model);
         }
 
+        [Obsolete]
         /// <summary>
         /// Gets or sets the expression for filtering results to the parent id for 
         /// this service.
         /// </summary>
         protected Expression<Func<T, bool>> ParentExpression { get; set; }
 
+        [Obsolete]
         /// <summary>
         /// Delegate responsible for creating a default <typeparamref name="T"/> instance.
         /// </summary>
         protected Func<T> GetDefaultModelDelegate { get; set; }
     }
+    #endregion
 }
