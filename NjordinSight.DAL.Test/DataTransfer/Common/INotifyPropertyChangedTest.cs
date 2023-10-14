@@ -45,6 +45,10 @@ namespace NjordinSight.Test.DataTransfer.Common
         public void AccountDto_PropertyChanged_Event_Raised() =>
             When_Property_Set_PropertyChanged_Event_Raised<AccountDto>();
 
+        [TestMethod]
+        public void AccountSimpleDto_PropertyChanged_Event_Raised() =>
+            When_Property_Set_PropertyChanged_Event_Raised<AccountSimpleDto>();
+
         [TestMethod] 
         public void AccountWalletDto_PropertyChanged_Event_Raised() =>
             When_Property_Set_PropertyChanged_Event_Raised<AccountWalletDto>();
@@ -197,6 +201,10 @@ namespace NjordinSight.Test.DataTransfer.Common
         [TestMethod]
         public void AccountDto_PropertyChanged_Event_Not_Raised() =>
             When_Property_Set_No_Value_Change_PropertyChanged_Event_Not_Raised<AccountDto>();
+
+        [TestMethod]
+        public void AccountSimpleDto_PropertyChanged_Event_Not_Raised() =>
+            When_Property_Set_No_Value_Change_PropertyChanged_Event_Not_Raised<AccountSimpleDto>();
 
         [TestMethod]
         public void AccountWalletDto_PropertyChanged_Event_Not_Raised() =>
