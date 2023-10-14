@@ -107,7 +107,7 @@ body {
     background-color: var(--theme-elevation-backcolor-0, white);
 }
 
-[theme_elevation="00"] {
+::deep [theme_elevation="00"] {
     background-color: var(--theme-elevation-backcolor-0, white);
 }
 

@@ -12,7 +12,7 @@ main {
     color: var(--default-text-color);
 }
 
-.top-row {
+.navbar-custom {
     background-color: var(--default-back-color);
     border-bottom: 1px solid var(--default-text-color);
     justify-content: left;
@@ -21,7 +21,26 @@ main {
     flex-flow: nowrap;
     align-items: center;
     position: relative;
-    z-index: 99;
+    z-index: 999;
+}
+
+.navbar-custom .left {
+    margin-right: auto;
+    display: flex;
+}
+
+.navbar-custom .right {
+    display: table;
+    margin-left: auto;
+}
+
+.navbar-custom .right > * {
+    display: table-cell;
+    vertical-align: bottom;
+}
+
+.navbar-custom > * {
+    height: 100%;
 }
 
 ::deep .menu-item.root-node {
@@ -33,25 +52,6 @@ main {
     display: flex;
     float: left;
 }
-    .top-row .left {
-        margin-right: auto;
-        display: flex;
-    }
-
-    .top-row .right {
-        display: table;
-        margin-left: auto;
-    }
-
-    .top-row .right > * {
-        display: table-cell;
-        vertical-align: bottom;
-    }
-
-    .top-row > * {
-        height: 100%;
-    }
-
 .home-link a {
     padding: 0.5em;
     margin: 0rem;

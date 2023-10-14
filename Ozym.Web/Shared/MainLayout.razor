@@ -6,7 +6,7 @@
 
 <div class="page" theme_elevation="00">
     <main>
-        <div class="top-row px-4 auth">
+        <div class="navbar-custom px-4 auth">
             <div class="left">
                 @if (Menus is not null)
                 {
@@ -41,7 +41,6 @@
 
 @code {
     #nullable enable
-
     [Inject]
     protected ILogger? Logger { get; set; }
 
