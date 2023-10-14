@@ -11,4 +11,5 @@ REM Run the report generator using the given parameter
 reportgenerator ^
 	-reports:"%project%\\TestResults\\%guid%\\coverage.cobertura.xml" ^
 	-targetdir:"%project%\\TestResults\\%guid%\\coverage_report" ^
-	-reporttypes:Html
+	-reporttypes:Html ^
+	-filefilters:-*.Designer.cs
