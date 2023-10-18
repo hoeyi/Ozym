@@ -5,7 +5,7 @@ A web-application for financial recordkeeping, reporting, and portfolio manageme
 * [Commit Message Guidelines](CONTRIBUTING.md)
 
 ## Getting Started
-This application may be downloaded in a pre-build Docker image, or compiled from source and/or used to generate a Docker container to host a sample version of the app. For 
+This application may be downloaded in a pre-built Docker image, or compiled from source and/or used to generate a Docker container to host a sample version of the app. For 
 * [Download Docker image](#download-docker-image): Likley the easiest and quickest. Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 * [Compile from source](#compile-from-source): Possible, but requires downloading and compiling source for select dependent projects. Not recommended.
   * [Deploying to Docker container](#deploying-to-docker-container): If compiling from source, instructions for deploying build to a Docker container. Requires **Docker Desktop**.
