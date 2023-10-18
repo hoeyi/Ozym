@@ -1,5 +1,5 @@
-# NjordinSight #
-A web-application for recording and reporting spending and investing activity. Built using Blazor, ASP.NET Core, and Entity Framework Core.
+# Ozym #
+A web-application for financial recordkeeping, reporting, and portfolio management. Built using Blazor, ASP.NET Core, and Entity Framework.
 
 * [Getting Started](#getting-started)
 * [Commit Message Guidelines](CONTRIBUTING.md)
@@ -19,12 +19,12 @@ You will need **Docker Desktop** and access to the CLI for the local machine.
 
 For most users, running the pre-built Docker image will be the quickest way to spin-up the application. Run the following command to pull the deployed container image.
 ``` Bash
-docker pull ghcr.io/hoeyi/njordinsight:latest
+docker pull ghcr.io/hoeyi/Ozym:latest
 ```
 
 Once pulled, you may run the application using the command line:
 ``` Bash
-$ docker container run -dp {HostPort}:{ContainerPort} -t 'ghcr.io/hoeyi/njordinsight:latest'
+$ docker container run -dp {HostPort}:{ContainerPort} -t 'ghcr.io/hoeyi/Ozym:latest'
 ```
 
 Or by using the **Docker Desktop** GUI.
@@ -41,16 +41,16 @@ You will need the .NET CLI to build the project from source, typically made avai
 
 **1. Clone the source repository**
 ``` Bash
-$ git clone https://github.com/hoeyi/NjordinSight.git
+$ git clone https://github.com/hoeyi/Ozym.git
 ```
 **2. Restore package dependencies**
 ``` Bash
-$ dotnet restore "NjordinSight.Web/NjordinSight.Web.csproj"
+$ dotnet restore "Ozym.Web/Ozym.Web.csproj"
 ```
 
 **3. Update the current launch profile**
 
-There are a few different launch profiles. I recommend using `NjordinSight.Web.InMemory` as it is easy to reproduce. The data persistance for the application is SQL Server, defined in profile `NjordinSight.Web`.
+There are a few different launch profiles. I recommend using `Ozym.Web.InMemory` as it is easy to reproduce. The data persistance for the application is SQL Server, defined in profile `Ozym.Web`.
 
 <br/>
 
@@ -64,22 +64,31 @@ From the projects root directory:
 **1. Create the Docker image**
 From the projects root directory, where the `Dockerfile` is saved, run the following command:
 ``` Bash
-$ docker build --tag 'njordinsight.web' .
+$ docker build --tag 'Ozym.web' .
 ```
-This will be build the project into a new Docker image with the tag **njordinsight.web**. 
+This will be build the project into a new Docker image with the tag **Ozym.web**. 
 
 **2. Run a Docker container from the created image**
 ```Bash
-$ docker container run -dp {HostPort}:{ContainerPort} -t 'njordinsight.web'
+$ docker container run -dp {HostPort}:{ContainerPort} -t 'Ozym.web'
 ```
 <br/>
 
 ### **Migration Scripts**
-The following scripts may be used for creating and applying migrations.
+The following scripts may be used for creating and applying migrations. Parameters are listed in order of their position.
 
-| Script | Usage |
-|:--- |:--- |
-| **AddNjordWorksMigration** | Adds a new migration using `EntityModel.Context.FinanceDbContext`. Requires a positional parameter 'tagging' the migration. |
-**AddNjordIdentityMigration** | Adds a new migration using `Web.Data.IdentityDbContext`. Requires a positional parameter 'tagging' the migration. |
-| **UpdateNjordWorksDatabase** | Updates the target database for `NjordinSight.EntityModel` to the most recent migration using `EntityModel.Context.FinanceDbContext`. |
-| **UpdateNjordWorksDatabase** | Updates the target database for `NjordinSight.Web` to the most recent migration using `Web.Data.IdentityDbContext`. |
+#### Add-Migration-OzymIdentity
+Adds a new migration using `Web.Data.IdentityDbContext`.</br>
+**Parameter(s):** (req) name of the migration to create.
+
+#### Add-Migration-OzymWorks
+Adds a new migration using `EntityModel.Context.FinanceDbContext`.</br>
+**Parameter(s):** (req) name of the migration to create.
+
+#### UpdateDb-OzymIdentity 
+Updates the web identity database target using `Web.Data.IdentityDbContext`.
+**Parameter(s)::** (opt) name of the migration to update to.
+
+#### UpdateDb-OzymWorks 
+Updates the finance app database target using `EntityModel.Context.FinanceDbContext`.
+**Parameter(s)::** (opt) name of the migration to update to.

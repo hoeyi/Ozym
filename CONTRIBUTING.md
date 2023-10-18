@@ -19,16 +19,16 @@ Must be one of the following:
 * **perf**: A code change that improves performance
 * **refactor**: A code change that neither fixes a bug nor adds a feature
 * **revert**: Reverts commit `<hash>`.
-* **style**: Changes that do not affect the meaning of the code 
-(white-space, formatting, missing semi-colons, etc)
+* **style**: Code style and format rule corrections
 * **test**: Adding missing tests or correcting existing tests
 
 ### Scope ###
 The scope is the domain affected. Choose one of the following:
-* **Blazor**: Blazor pages, components, or helper services.
+
+* **Blazor**: Blazor components and user interace helper services.
 * **Controller**: Web controllers.
 * **DAL**: Entity repository services, data-transfer objects, external API integration.
-* **EntityModel**: Entity classes and/or ORM.
+* **EntityModel**: Entity classes and ORM.
 * **EntityMigration**: Entity data migrations
 * **Logic**: Business logic.
 * **API**: Project API only. Use **DAL** for noting API integrations.
