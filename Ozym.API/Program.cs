@@ -10,6 +10,7 @@ using Serilog.Extensions.Logging;
 using Ichosys.DataModel.Expressions;
 using System.IO;
 using System;
+using Asp.Versioning;
 
 namespace Ozym.Api
 {
@@ -48,7 +49,7 @@ namespace Ozym.Api
             builder.Services.AddApiVersioning(setupAction =>
             {
                 setupAction.AssumeDefaultVersionWhenUnspecified = true;
-                setupAction.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+                setupAction.DefaultApiVersion = new ApiVersion(1, 0);
                 setupAction.ReportApiVersions = true;
             });
 

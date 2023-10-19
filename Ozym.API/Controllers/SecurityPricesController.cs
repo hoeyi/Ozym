@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Ozym.DataTransfer.Common;
 using Ozym.EntityModel;
 using Ozym.EntityModelService.Abstractions;
+using Asp.Versioning;
 
 namespace Ozym.Api.Controllers
 {

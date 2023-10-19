@@ -5,6 +5,7 @@ using Ozym.EntityModel;
 using Ozym.EntityModelService;
 using Microsoft.Extensions.Logging;
 using Ichosys.DataModel.Expressions;
+using Asp.Versioning;
 
 namespace Ozym.Api.Controllers
 {
