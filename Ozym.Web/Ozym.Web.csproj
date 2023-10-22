@@ -50,6 +50,7 @@
 	</ItemGroup>
 
   <ItemGroup>
+	<ProjectReference Include="..\Ozym.API\Ozym.API.csproj" />
 	<ProjectReference Include="..\Ozym.DAL\Ozym.DAL.csproj" />
 	<ProjectReference Include="..\Ozym.EntityMigration\Ozym.EntityMigration.csproj" />
 	<ProjectReference Include="..\Ozym.EntityModel\Ozym.EntityModel.csproj" />

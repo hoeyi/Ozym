@@ -11,6 +11,7 @@ using Ichosys.DataModel.Expressions;
 using System.IO;
 using System;
 using Asp.Versioning;
+using System.Runtime.InteropServices;
 
 namespace Ozym.Api
 {
@@ -24,7 +25,11 @@ namespace Ozym.Api
             var databaseProvider = builder.Configuration["DATABASE_PROVIDER"];
 
             var logger = ConvertFromSerilogILogger(logger: BuildLogger());
-            var config = BuildConfiguration(logger, databaseProvider == "SQL_SERVER");
+
+            // If Windows OS, secure appsetings.json is supported.
+            bool isWindowsOS = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            var config = BuildConfiguration(
+                logger, builder.Environment.EnvironmentName, configureSecureJson: isWindowsOS);
 
             // Add services to DI container
             builder.Services.AddSingleton(implementationInstance: logger);
@@ -77,23 +82,28 @@ namespace Ozym.Api
         /// Builds the application <see cref="IConfiguration"/> instance.
         /// </summary>
         /// <param name="logger">The <see cref="ILogger"/> to use.</param>
-        /// <param name="configureSecureJson">Whether the application should configuration an 
-        /// encrypted JSON configuration provider.</param>
+        /// <param name="environment"></param>
+        /// <param name="configureSecureJson"></param>
         /// <returns>An <see cref="IConfiguration"/>.</returns>
         private static IConfigurationRoot BuildConfiguration(
-            ILogger logger, bool configureSecureJson = true)
+            ILogger logger,
+            string environment,
+            bool configureSecureJson = true)
         {
+            if (string.IsNullOrEmpty(environment))
+                throw new ArgumentNullException(paramName: nameof(environment));
+
             IConfigurationRoot config;
             if (configureSecureJson)
             {
                 config = new ConfigurationBuilder()
-                    .AddSecureJsonWritable(
-                        path: "appsettings.Development.json",
-                        logger: logger,
-                        optional: false,
-                        reloadOnChange: true)
-                    .AddUserSecrets<Program>()
-                    .Build();
+                .AddSecureJsonWritable(
+                    path: $"appsettings.api.{environment}.json",
+                    logger: logger,
+                    optional: false,
+                    reloadOnChange: true)
+                .AddUserSecrets<Program>()
+                .Build();
 
                 string rsaKeyAddress = "_file:RsaKeyContainer";
                 if (config[rsaKeyAddress] is null)
@@ -103,13 +113,14 @@ namespace Ozym.Api
                 }
 
                 config["ConnectionStrings:OzymWorks"] = config["ConnectionStrings:OzymWorks"];
+                config["ConnectionStrings:OzymIdentity"] = config["ConnectionStrings:OzymIdentity"];
                 config.Commit();
             }
             else
             {
                 config = new ConfigurationBuilder()
                     .AddJsonWritable(
-                        path: "appsettings.Development.json",
+                        path: $"appsettings.api.{environment}.json",
                         optional: false,
                         reloadOnChange: true)
                     .Build();
