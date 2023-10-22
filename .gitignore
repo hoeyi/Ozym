@@ -362,4 +362,12 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /.editorconfig
+
+# Project - auto-generated documentation file.
 /Ozym.API/Ozym.Api.docs.xml
+
+# Docker compose
+/compose.yaml
+
+# VS Code Files
+.vscode/
