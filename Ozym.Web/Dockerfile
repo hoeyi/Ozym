@@ -28,12 +28,23 @@ WORKDIR "/src/Ozym.Web"
 # Build the web project.
 RUN dotnet build "Ozym.Web.csproj" -c Development -o /app/build
 
+# Build the entity migration application to seed the demo database.
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS migration
+WORKDIR /src
+COPY . .
+RUN dotnet restore "Ozym.EntityMigration/Ozym.EntityMigration.csproj"
+COPY . .
+WORKDIR "/src/Ozym.EntityMigration"
+RUN dotnet build "Ozym.EntityMigration.csproj" -c Development -o /app/migration
+
+
 FROM build AS publish
 RUN dotnet publish "Ozym.Web.csproj" -c Development -o /app/publish /p:UseAppHost=false
 
-#;PublishProfile=OzymSample
-
 FROM base AS final
+WORKDIR /migration
+COPY --from=migration /app/migration .
+
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENV DOTNET_EnableDiagnostics=0
