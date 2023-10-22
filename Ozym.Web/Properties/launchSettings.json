@@ -1,34 +1,32 @@
 {
   "profiles": {
-    "Ozym.Web": {
+    "Default": {
       "commandName": "Project",
       "launchBrowser": true,
+      "dotnetRunMessages": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+    },
+    "OzymSample": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "dotnetRunMessages": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DATABASE_PROVIDER": "SQL_SERVER"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7156;http://localhost:5156"
+        "ASPNETCORE_URLS": "https://+:443;http://+:80"
+      }
     },
     "Ozym.Web.InMemory": {
       "commandName": "Project",
       "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7156;http://localhost:5156"
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "Docker": {
       "commandName": "Docker",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "publishAllPorts": true,
       "useSSL": true,
@@ -36,14 +34,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://+:443;http://+:80"
       }
-    }
-  },
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:34736",
-      "sslPort": 44351
     }
   }
 }

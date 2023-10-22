@@ -39,9 +39,7 @@ namespace Ozym.Web
 
             // Register services for dependency injection
             #region Configuration, Logger, Helper services
-
-            var databaseProvider = builder.Configuration["DATABASE_PROVIDER"];
-
+            
             var logger = ConvertFromSerilogILogger(logger: BuildLogger());
 
             // If Windows OS, secure appsetings.json is supported.
@@ -49,12 +47,11 @@ namespace Ozym.Web
             var config = BuildConfiguration(
                 logger, builder.Environment.EnvironmentName, configureSecureJson: isWindowsOS);
 
+
             builder.Services.AddSingleton(implementationInstance: logger);
             builder.Services.AddSingleton(implementationInstance: config);
-
+            
             #endregion
-
-            builder.AddIdentityContextFactoryService(databaseProvider);
 
             #region Authentication configuration
 
@@ -65,10 +62,12 @@ namespace Ozym.Web
                 .AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<WebAppUser>>();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
             #endregion
 
-            // DAL services
+            // Data access services
+            var databaseProvider = config["DATABASE_PROVIDER"];
+            builder.AddIdentityContextFactoryService(databaseProvider);
+
             builder.Services.AddDataAccessServices(
                 databaseProvider: databaseProvider,
                 developerMode: builder.Environment.IsDevelopment());

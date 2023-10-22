@@ -6,6 +6,7 @@
 	<ImplicitUsings>disable</ImplicitUsings>
 	<UserSecretsId>aspnet-Ozym.Web-8127480B-07E8-4478-AEFA-EAC0AACF174B</UserSecretsId>
 	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
 
@@ -50,7 +51,6 @@
 	</ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\Ozym.API\Ozym.API.csproj" />
 	<ProjectReference Include="..\Ozym.DAL\Ozym.DAL.csproj" />
 	<ProjectReference Include="..\Ozym.EntityMigration\Ozym.EntityMigration.csproj" />
 	<ProjectReference Include="..\Ozym.EntityModel\Ozym.EntityModel.csproj" />

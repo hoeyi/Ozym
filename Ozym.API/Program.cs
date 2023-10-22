@@ -21,9 +21,7 @@ namespace Ozym.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            var databaseProvider = builder.Configuration["DATABASE_PROVIDER"];
-
+            
             var logger = ConvertFromSerilogILogger(logger: BuildLogger());
 
             // If Windows OS, secure appsetings.json is supported.
@@ -35,6 +33,7 @@ namespace Ozym.Api
             builder.Services.AddSingleton(implementationInstance: logger);
             builder.Services.AddSingleton(implementationInstance: config);
 
+            var databaseProvider = config["DATABASE_PROVIDER"];
             builder.Services.AddDataAccessServices(
                 databaseProvider: databaseProvider,
                 developerMode: builder.Environment.IsDevelopment());
@@ -58,6 +57,11 @@ namespace Ozym.Api
                 setupAction.ReportApiVersions = true;
             });
 
+            builder.Services.AddHttpsRedirection(options =>
+            {
+                options.HttpsPort = 443;
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -68,8 +72,6 @@ namespace Ozym.Api
                 //       suppressing schema definition.
                 app.UseSwaggerUI(options => options.DefaultModelsExpandDepth(-1));
             }
-
-            app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
