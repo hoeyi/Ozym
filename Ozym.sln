@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48E6F909-E1C0-4187-A79B-BD2019FDF31B}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
 		CONTRIBUTING.md = CONTRIBUTING.md
 		README.md = README.md
 	EndProjectSection
@@ -31,6 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 		Add-Migration-OzymIdentity.bat = Add-Migration-OzymIdentity.bat
 		Add-Migration-OzymWorks.bat = Add-Migration-OzymWorks.bat
 		Generate-CodeCoverageReport.bat = Generate-CodeCoverageReport.bat
+		Bundle-Migration-OzymWorks.bat = Bundle-Migration-OzymWorks.bat
 		Run-CodeCoverage.bat = Run-CodeCoverage.bat
 		UpdateDb-OzymIdentity.bat = UpdateDb-OzymIdentity.bat
 		UpdateDb-OzymWorks.bat = UpdateDb-OzymWorks.bat

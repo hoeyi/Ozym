@@ -371,3 +371,7 @@ FodyWeavers.xsd
 
 # VS Code Files
 .vscode/
+
+# Migrations bundle app
+/Ozym.EntityModel/*bundle
+
