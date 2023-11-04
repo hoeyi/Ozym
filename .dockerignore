@@ -21,12 +21,15 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
-**/Ozym.**.Test/**
-**/**/bin
-LICENSE
-README.md
 
-# Whitelist the location for a local package repository.
-# Needs to be included because files cannot be sourced from outside 
-# the Dockerfile build context.
-!**/bin/nuget_local
+# Exclude test project directories.
+**/*.Test/
+
+# LICENSE
+# README.md
+
+# Whitelist local network nuget package source.
+!.nuget-local
+
+# Whitelist ef migrations bundle app.
+!**/bin/ozymefbundle

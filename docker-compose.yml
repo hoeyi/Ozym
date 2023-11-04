@@ -1,19 +1,22 @@
 version: '3.4'
-
+name: ozym
 services:
   ozymweb:
+    container_name: ozym-web
     image: ${DOCKER_REGISTRY-}ozymweb
     build:
       context: .
       dockerfile: Ozym.Web/Dockerfile
 
   ozymapi:
+    container_name: ozym-api
     image: ${DOCKER_REGISTRY-}ozymapi
     build:
       context: .
       dockerfile: Ozym.API/Dockerfile
 
   ozymdb:
+    container_name: ozym-db
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: example_123

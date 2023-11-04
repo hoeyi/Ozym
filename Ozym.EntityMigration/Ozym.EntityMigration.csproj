@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Description>Collections of migration logic for Ozym.EntityModel.</Description>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
