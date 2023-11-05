@@ -36,20 +36,20 @@ RUN echo "Publishing build"
 FROM build AS publish
 RUN dotnet publish "Ozym.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-RUN echo "Creating sample data migrations program"
-RUN dotnet ef migrations bundle \
-	--configuration Release \
-	--context Ozym.EntityModel.Context.FinanceDbContext \
-	--startup-project Ozym.Web.csproj \
-	--project ../Ozym.EntityMigration/Ozym.EntityMigration.csproj \
-	--output /app/migration/ozymefbundle \
-	-r linux-x64 \
-	--self-contained \
-	--no-build \
-	--force
+#RUN echo "Creating sample data migrations program"
+#RUN dotnet ef migrations bundle \
+	#--configuration Release \
+	#--context Ozym.EntityModel.Context.FinanceDbContext \
+	#--startup-project Ozym.Web.csproj \
+	#--project ../Ozym.EntityMigration/Ozym.EntityMigration.csproj \
+	#--output /app/migration/ozymefbundle \
+	#-r linux-x64 \
+	#--self-contained \
+	#--no-build \
+	#--force
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY --from=publish /app/migration .
+#COPY --from=publish /app/migration .
 ENTRYPOINT ["dotnet", "Ozym.Web.dll", "--environment=Development"]
