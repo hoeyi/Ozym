@@ -22,7 +22,7 @@ COPY [".nuget-local/*.*nupkg", "nuget-local/"]
 RUN dotnet restore "Ozym.API/Ozym.API.csproj" -s "nuget-local/" \
 	-s "https://api.nuget.org/v3/index.json"
 COPY . .
-WORKDIR "/src/Ozym.API"
+WORKDIR /src/Ozym.API
 
 # Build the web api project.
 RUN dotnet build "Ozym.API.csproj" -c Release -o /app/build
