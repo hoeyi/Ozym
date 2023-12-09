@@ -7,11 +7,9 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 RUN dotnet --version
-ENV PATH="${PATH}:/root/.dotnet/tools"
-RUN dotnet tool install --global dotnet-ef 
-
+RUN dotnet tool install --global dotnet-ef --version 6.0.25
 RUN dotnet ef --version
-
+ENV PATH="${PATH}:/root/.dotnet/tools"
 WORKDIR /src
 
 # Copy the project files to /src.
@@ -27,7 +25,7 @@ COPY [".nuget-local/*.*nupkg", "nuget-local/"]
 # Restore the projects using local nuget packages.
 RUN dotnet restore "Ozym.Web/Ozym.Web.csproj" -s "nuget-local/" -s "https://api.nuget.org/v3/index.json"
 COPY . .
-WORKDIR "/src/Ozym.Web"
+WORKDIR /src/Ozym.Web
 
 # Build the web project.
 RUN dotnet build "Ozym.Web.csproj" -c Release -o /app/build
@@ -36,20 +34,21 @@ RUN echo "Publishing build"
 FROM build AS publish
 RUN dotnet publish "Ozym.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-#RUN echo "Creating sample data migrations program"
-#RUN dotnet ef migrations bundle \
-	#--configuration Release \
-	#--context Ozym.EntityModel.Context.FinanceDbContext \
-	#--startup-project Ozym.Web.csproj \
-	#--project ../Ozym.EntityMigration/Ozym.EntityMigration.csproj \
-	#--output /app/migration/ozymefbundle \
-	#-r linux-x64 \
-	#--self-contained \
-	#--no-build \
-	#--force
+# Build data migration program from version 6.0. Version 7.0 SDK for dotnet-ef tool causes 
+# conflict with 6.0 target framework for the projects.
+RUN echo "Creating sample data migrations program"
+RUN dotnet ef migrations bundle \
+	--configuration Release \
+	--context Ozym.EntityModel.Context.FinanceDbContext \
+	--startup-project Ozym.Web.csproj \
+	--project ../Ozym.EntityMigration/Ozym.EntityMigration.csproj \
+	--output /app/migration/ozymefbundle \
+	-r linux-x64 \
+	--self-contained \
+	--no-build \
+	--force
 
 FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-#COPY --from=publish /app/migration .
+COPY --from=publish /app/publish /app
+COPY --from=publish /app/migration /opt/ozym
 ENTRYPOINT ["dotnet", "Ozym.Web.dll", "--environment=Development"]
