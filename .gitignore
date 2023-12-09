@@ -371,3 +371,10 @@ FodyWeavers.xsd
 
 # VS Code Files
 .vscode/
+
+# Local nuget packages
+**/.nuget-local
+
+# Migrations bundle app
+/Ozym.EntityModel/*bundle
+
