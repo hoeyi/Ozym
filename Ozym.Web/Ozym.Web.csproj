@@ -22,10 +22,10 @@
 
 	
   <ItemGroup>
-	<PackageReference Include="Ichosys.Blazor.Ionicons" Version="1.2.0.4133" />
-	<PackageReference Include="Ichosys.DataModel" Version="3.1.0.3791" />
-	<PackageReference Include="Ichosys.Extensions.Common" Version="1.5.0.5645" />
-	<PackageReference Include="Ichosys.Extensions.Configuration" Version="2.3.1.4879" />
+	<PackageReference Include="Ichosys.Blazor.Ionicons" Version="2.0.1.2749" />
+	<PackageReference Include="Ichosys.DataModel" Version="4.0.0.3749" />
+	<PackageReference Include="Ichosys.Extensions.Common" Version="2.0.1.2629" />
+	<PackageReference Include="Ichosys.Extensions.Configuration" Version="3.0.0.5070" />
 	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.0" />
 	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
 	<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
