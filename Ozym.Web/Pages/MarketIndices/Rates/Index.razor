@@ -127,13 +127,15 @@
     private string GetPriceCodeDisplayValue(string priceCode) =>
         PriceCodeLookup.TryGetValue(priceCode, out string value) ? value : string.Empty;
 
+    #nullable enable
     private string? TryGetMarketIndexDisplayValue(int key)
     {
-        if(MarketIndices?.TryGetValue(key, out string value) ?? false)
+        if(MarketIndices?.TryGetValue(key, out string? value) ?? false)
         {
             return value;
         }
         else
             return null;
     }
+    #nullable disable
 }
