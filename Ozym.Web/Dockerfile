@@ -1,14 +1,14 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 RUN dotnet --version
-RUN dotnet tool install --global dotnet-ef --version 6.0.25
-RUN dotnet ef --version
+RUN dotnet tool install --global dotnet-ef #--version 6.0.25
+#RUN dotnet ef --version
 ENV PATH="${PATH}:/root/.dotnet/tools"
 WORKDIR /src
 
@@ -30,7 +30,6 @@ WORKDIR /src/Ozym.Web
 # Build the web project.
 RUN dotnet build "Ozym.Web.csproj" -c Release -o /app/build
 
-RUN echo "Publishing build"
 FROM build AS publish
 RUN dotnet publish "Ozym.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
