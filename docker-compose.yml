@@ -7,6 +7,8 @@ services:
     build:
       context: .
       dockerfile: Ozym.Web/Dockerfile
+    depends_on:
+    - ozymdb
 
   ozymapi:
     container_name: ozym-api
@@ -14,6 +16,8 @@ services:
     build:
       context: .
       dockerfile: Ozym.API/Dockerfile
+    depends_on:
+    - ozymdb
 
   ozymdb:
     container_name: ozym-db

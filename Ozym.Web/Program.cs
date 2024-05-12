@@ -109,6 +109,8 @@ namespace Ozym.Web
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
 
+            app.Urls.Add("http://*:80");
+
             app.Run();
 
         }
