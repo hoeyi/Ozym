@@ -378,3 +378,5 @@ FodyWeavers.xsd
 # Migrations bundle app
 /Ozym.EntityModel/*bundle
 
+# Ingore commit message text
+.commit
