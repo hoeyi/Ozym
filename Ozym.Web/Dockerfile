@@ -31,7 +31,7 @@ WORKDIR /src/Ozym.Web
 RUN dotnet build "Ozym.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Ozym.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Ozym.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false --property WarningLevel=1
 
 # Build data migration program from version 6.0. Version 7.0 SDK for dotnet-ef tool causes 
 # conflict with 6.0 target framework for the projects.

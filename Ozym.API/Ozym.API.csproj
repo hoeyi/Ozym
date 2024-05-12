@@ -46,7 +46,7 @@
 
   <ItemGroup>
     <None Update="Ozym.API.docs.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
