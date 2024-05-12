@@ -46,7 +46,9 @@ namespace Ozym.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
-                var filePath = Path.Combine(AppContext.BaseDirectory, "Ozym.Api.docs.xml");
+                //var filePath = Path.Combine(AppContext.BaseDirectory, "Ozym.Api.docs.xml");
+                //var filePath = Path.Combine(AppContext.BaseDirectory, "Ozym.API.docs.xml");
+                var filePath = "Ozym.API.docs.xml";
                 c.IncludeXmlComments(filePath);
             });
 

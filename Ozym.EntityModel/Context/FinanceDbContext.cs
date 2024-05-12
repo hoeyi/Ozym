@@ -138,9 +138,9 @@ namespace Ozym.EntityModel.Context
                 else
                     entity.Property(e => e.PrefixedObjectCode).IsRequired(false);
 
-                entity.HasCheckConstraint(
+                entity.ToTable(t => t.HasCheckConstraint(
                     name: "CK_AccountObject_ObjectType",
-                    sql: "[ObjectType] IN ('c','a')");
+                    sql: "[ObjectType] IN ('c','a')"));
             });
 
             modelBuilder.Entity<AccountWallet>(entity =>
@@ -404,9 +404,9 @@ namespace Ozym.EntityModel.Context
                     .HasForeignKey(d => d.MarketIndexId)
                     .HasConstraintName("FK_MarketIndexPrice_MarketIndex");
 
-                entity.HasCheckConstraint(
+                entity.ToTable(t => t.HasCheckConstraint(
                     name: "CK_MarketIndexPrice_PriceCode",
-                    sql: "[PriceCode] IN ('p','t')");
+                    sql: "[PriceCode] IN ('p','t')"));
             });
 
             modelBuilder.Entity<ModelAttribute>(entity =>
@@ -431,9 +431,10 @@ namespace Ozym.EntityModel.Context
             modelBuilder.Entity<ModelAttributeScope>(entity =>
             {
                 entity.HasKey(e => new { e.AttributeId, e.ScopeCode });
-                entity.HasCheckConstraint(
+
+                entity.ToTable(t => t.HasCheckConstraint(
                     name: "CK_ModelAttributeScope_ScopeCode",
-                    sql: "[ScopeCode] in ('acc', 'bnk', 'brk', 'cou', 'cus', 'exc', 'sec')");
+                    sql: "[ScopeCode] in ('acc', 'bnk', 'brk', 'cou', 'cus', 'exc', 'sec')"));
                 entity.Property(e => e.ScopeCode).IsFixedLength();
 
                 entity.HasOne(d => d.Attribute)

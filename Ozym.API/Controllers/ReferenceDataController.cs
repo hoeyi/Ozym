@@ -29,7 +29,6 @@ namespace Ozym.Api.Controllers
         private readonly IQueryService _queryService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
-        private const string PaginationKey = "X-Pagination";
 
         /// <summary>
         /// Initializes required parameters for <see cref="ReferenceDataController"/>.
@@ -71,7 +70,7 @@ namespace Ozym.Api.Controllers
             var (items, pagination) = await _queryService.GetRecordSetAsync<Account>(
                 predicate: x => true, pageNumber: pageNumber, pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<AccountDto>>(items);
 
@@ -88,7 +87,7 @@ namespace Ozym.Api.Controllers
                 pageNumber: pageNumber, 
                 pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<ModelAttributeMemberDtoBase>>(items);
 
@@ -103,7 +102,7 @@ namespace Ozym.Api.Controllers
             var (items, pagination) = await _queryService.GetRecordSetAsync<BankTransactionCode>(
                 predicate: x => true, pageNumber: pageNumber, pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<BankTransactionCodeDtoBase>>(items);
 
@@ -118,7 +117,7 @@ namespace Ozym.Api.Controllers
             var (items, pagination) = await _queryService.GetRecordSetAsync<BrokerTransactionCode>(
                 predicate: x => true, pageNumber: pageNumber, pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<BrokerTransactionCodeDtoBase>>(items);
 
@@ -138,7 +137,7 @@ namespace Ozym.Api.Controllers
                     pageNumber: pageNumber,
                     pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<CountryDtoBase>>(items);
 
@@ -159,7 +158,7 @@ namespace Ozym.Api.Controllers
                 pageNumber: pageNumber,
                 pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<SecurityDtoBase>>(items);
 
@@ -176,7 +175,7 @@ namespace Ozym.Api.Controllers
                 pageNumber: pageNumber,
                 pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<AccountCustodianDto>>(items);
 
@@ -197,7 +196,7 @@ namespace Ozym.Api.Controllers
                     pageNumber: pageNumber,
                     pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<SecurityDtoBase>>(items);
 
@@ -214,7 +213,7 @@ namespace Ozym.Api.Controllers
                 pageNumber: pageNumber,
                 pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<SecurityTypeGroupDto>>(items);
 
@@ -231,7 +230,7 @@ namespace Ozym.Api.Controllers
                 pageNumber: pageNumber,
                 pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<SecurityTypeDto>>(items);
 
@@ -254,7 +253,7 @@ namespace Ozym.Api.Controllers
                     pageNumber: pageNumber,
                     pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<SecurityDtoBase>>(items);
 
@@ -275,7 +274,7 @@ namespace Ozym.Api.Controllers
                     pageNumber: pageNumber,
                     pageSize: pageSize);
 
-            Response.Headers.Add(PaginationKey, JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<SecuritySymbolTypeDto>>(items);
 

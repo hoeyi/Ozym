@@ -364,7 +364,7 @@ FodyWeavers.xsd
 /.editorconfig
 
 # Project - auto-generated documentation file.
-/Ozym.API/Ozym.Api.docs.xml
+/Ozym.API/Ozym.API.docs.xml
 
 # Docker compose
 /compose.yaml

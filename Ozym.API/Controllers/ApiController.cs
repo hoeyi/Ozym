@@ -116,7 +116,7 @@ namespace Ozym.Api.Controllers
         {
             var (items, pagination) = await _modelService.SelectAsync(x => true, pageNumber, pageSize);
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<TObject>>(items);
 
@@ -244,7 +244,7 @@ namespace Ozym.Api.Controllers
             var (items, pagination) = await _modelService
                 .SelectAsync(entityPredicate, pageNumber, pageSize);
 
-            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
 
             var dtoItems = _mapper.Map<IEnumerable<TObject>>(items);
 

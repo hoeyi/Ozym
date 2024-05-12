@@ -16,7 +16,6 @@ namespace Ozym.EntityModel
         /// <param name="enum"></param>
         /// <returns>The string representation of this member.</returns>
         public static string ConvertToStringCode<TEnum>(this TEnum @enum)
-            where TEnum : struct
         {
             var enumType = typeof(TEnum);
             var name = Enum.GetName(enumType, @enum);
@@ -75,7 +74,7 @@ namespace Ozym.EntityModel
         /// </summary>
         /// <returns></returns>
         public static string[] ToStringArray<TEnum>()
-            where TEnum : struct, Enum
+            where TEnum : Enum
         {
             return Enum.GetValues(typeof(TEnum))
                 .Cast<Enum>()
