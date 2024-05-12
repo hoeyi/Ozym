@@ -77,7 +77,7 @@ namespace Ozym.Web.Services
             var apiOptions = new ApiOptions();
             configuration.GetSection(ApiOptions.ApiService).Bind(apiOptions);
 
-            _rootApiPath = apiOptions.Url;
+            _rootApiPath = "http://ozymapi/api/v1";
             ResourceIndexUri = CombinePath(rootPath: _rootApiPath, relativePath: _endPointMap[typeof(T)]);
         }
 

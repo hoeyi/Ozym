@@ -362,4 +362,21 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /.editorconfig
-/Ozym.API/Ozym.Api.docs.xml
+
+# Project - auto-generated documentation file.
+/Ozym.API/Ozym.API.docs.xml
+
+# Docker compose
+/compose.yaml
+
+# VS Code Files
+.vscode/
+
+# Local nuget packages
+**/.nuget-local
+
+# Migrations bundle app
+/Ozym.EntityModel/*bundle
+
+# Ingore commit message text
+.commit

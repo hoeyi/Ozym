@@ -26,6 +26,8 @@ using Ozym.Web.Services;
 using Ozym.BusinessLogic.Functions;
 using System.Reflection;
 using System.Linq;
+using Microsoft.AspNetCore.Connections.Features;
+using System.Runtime.InteropServices;
 
 namespace Ozym.Web
 {
@@ -37,18 +39,19 @@ namespace Ozym.Web
 
             // Register services for dependency injection
             #region Configuration, Logger, Helper services
-
-            var databaseProvider = builder.Configuration["DATABASE_PROVIDER"];
-
+            
             var logger = ConvertFromSerilogILogger(logger: BuildLogger());
-            var config = BuildConfiguration(logger, databaseProvider == "SQL_SERVER");
+
+            // If Windows OS, secure appsetings.json is supported.
+            bool isWindowsOS = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            var config = BuildConfiguration(
+                logger, builder.Environment.EnvironmentName, configureSecureJson: isWindowsOS);
+
 
             builder.Services.AddSingleton(implementationInstance: logger);
             builder.Services.AddSingleton(implementationInstance: config);
-
+            
             #endregion
-
-            builder.AddIdentityContextFactoryService(databaseProvider);
 
             #region Authentication configuration
 
@@ -59,10 +62,12 @@ namespace Ozym.Web
                 .AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<WebAppUser>>();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
             #endregion
 
-            // DAL services
+            // Data access services
+            var databaseProvider = config["DATABASE_PROVIDER"];
+            builder.AddIdentityContextFactoryService(databaseProvider);
+
             builder.Services.AddDataAccessServices(
                 databaseProvider: databaseProvider,
                 developerMode: builder.Environment.IsDevelopment());
@@ -104,6 +109,8 @@ namespace Ozym.Web
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
 
+            app.Urls.Add("http://*:80");
+
             app.Run();
 
         }
@@ -140,15 +147,23 @@ namespace Ozym.Web
         /// Builds the application <see cref="IConfiguration"/> instance.
         /// </summary>
         /// <param name="logger">The <see cref="ILogger"/> to use.</param>
+        /// <param name="environment"></param>
+        /// <param name="configureSecureJson"></param>
         /// <returns>An <see cref="IConfiguration"/>.</returns>
-        private static IConfigurationRoot BuildConfiguration(ILogger logger, bool configureSecureJson = true)
+        private static IConfigurationRoot BuildConfiguration(
+            ILogger logger, 
+            string environment, 
+            bool configureSecureJson = true)
         {
+            if (string.IsNullOrEmpty(environment))
+                throw new ArgumentNullException(paramName: nameof(environment));
+
             IConfigurationRoot config;
             if(configureSecureJson)
             {
                 config = new ConfigurationBuilder()
                 .AddSecureJsonWritable(
-                    path: "appsettings.Development.json",
+                    path: $"appsettings.{environment}.json",
                     logger: logger,
                     optional: false,
                     reloadOnChange: true)
@@ -170,7 +185,7 @@ namespace Ozym.Web
             {
                 config = new ConfigurationBuilder()
                     .AddJsonWritable(
-                        path: "appsettings.Development.json",
+                        path: $"appsettings.{environment}.json",
                         optional: false,
                         reloadOnChange: true)
                     .Build();
