@@ -16,24 +16,24 @@ namespace Ozym.Api.Controllers
     /// </typeparam>
     public interface IApiCollectionController<TObject, TParent, TParentKey>
     {
-        /// <summary>
-        /// Gets the <typeparamref name="TObject"/> records, limited to the page index and size, 
-        /// and a required integer route parameter 'id'.
-        /// </summary>
-        /// <param name="parentKey">Key value for the parent record.</param>
-        /// <param name="pageNumber">The index of page to retrieve.</param>
-        /// <param name="pageSize">The record limit for each page.</param>
-        /// <returns>An <see cref="ActionResult{TValue}"/> whose value is an enumerable collection 
-        /// of <typeparamref name="TObject"/> instances.</returns>
-        Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(
-            TParentKey parentKey, int pageNumber = 1, int pageSize = 20);
+        ///// <summary>
+        ///// Gets the <typeparamref name="TObject"/> records, limited to the page index and size, 
+        ///// and a required integer route parameter 'id'.
+        ///// </summary>
+        ///// <param name="id">Key value for the parent record.</param>
+        ///// <param name="pageNumber">The index of page to retrieve.</param>
+        ///// <param name="pageSize">The record limit for each page.</param>
+        ///// <returns>An <see cref="ActionResult{TValue}"/> whose value is an enumerable collection 
+        ///// of <typeparamref name="TObject"/> instances.</returns>
+        //Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(
+        //    TParentKey id, int pageNumber = 1, int pageSize = 20);
 
-        /// <summary>
-        /// Retrieves all records from the data store.
-        /// </summary>
-        /// <returns>An <see cref="ActionResult"/> whose value the collection of 
-        /// <typeparamref name="TObject"/> records retrieved from the data store.</returns>
-        Task<ActionResult<IEnumerable<TObject>>> GetAllAsync();
+        ///// <summary>
+        ///// Retrieves all records from the data store.
+        ///// </summary>
+        ///// <returns>An <see cref="ActionResult"/> whose value the collection of 
+        ///// <typeparamref name="TObject"/> records retrieved from the data store.</returns>
+        //Task<ActionResult<IEnumerable<TObject>>> GetAllAsync();
 
         /// <summary>
         /// Posts the search expression in the request body and returns the <typeparamref name="TObject"/> 

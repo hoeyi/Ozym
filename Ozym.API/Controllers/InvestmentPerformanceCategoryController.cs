@@ -47,6 +47,40 @@ namespace Ozym.Api.Controllers
         {
         }
 
+        /// <summary>
+        /// Gets the <see cref="InvestmentPerformanceAttributeDto"/> records, limited to the page 
+        /// index and size, the composite key derived from the values for <paramref name="id1"/> and 
+        /// <paramref name="id2"/>.
+        /// </summary>
+        /// <param name="id1">First element of the key value for the parent record.</param>
+        /// <param name="id2">Second element of the key value for the parent record.</param>
+        /// <param name="pageNumber">The index of page to retrieve.</param>
+        /// <param name="pageSize">The record limit for each page.</param>
+        /// <returns>An <see cref="ActionResult{TValue}"/> whose value is an enumerable collection 
+        /// of <see cref="InvestmentPerformanceAttributeDto"/> instances paired with a 
+        /// <see cref="AccountSimpleDto"/> record.</returns>
+        [HttpGet]
+        public virtual async Task<ActionResult<(
+                IEnumerable<InvestmentPerformanceAttributeDto>, AccountBaseSimpleDto)>> 
+            IndexAsync(
+            int id1, int id2, int pageNumber = 1, int pageSize = 20)
+        {
+            var parent = new CompositeKeyParameter() { Id1 = id1, Id2 = id2 };
+
+            Expression<Func<InvestmentPerformanceAttributeMemberEntry, bool>> entityPredicate = 
+                ParentPredicate(parent);
+            
+            var (items, parentEntity, pagination) = await SelectAsync(
+                                                entityPredicate, parent, pageNumber, pageSize);
+
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
+
+            var dtoItems = Mapper.Map<IEnumerable<InvestmentPerformanceAttributeDto>>(items);
+            var parentItem = Mapper.Map<AccountBaseSimpleDto>(parentEntity);
+
+            return Ok(new { Entries = dtoItems, Parent = parentItem });
+        }
+
         /// <inheritdoc/>
         protected override Expression<Func<InvestmentPerformanceAttributeMemberEntry, bool>> 
             ParentPredicate(CompositeKeyParameter id) => x => 
