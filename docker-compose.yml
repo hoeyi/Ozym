@@ -3,23 +3,23 @@ name: ozym
 services:
   ozymweb:
     container_name: ozym-web
-    image: ${DOCKER_REGISTRY-}ozymweb:${GIT_COMMIT}
+    image: ${DOCKER_REGISTRY-}ozymweb:${COMMIT_TAG}
     build:
       context: .
       dockerfile: Ozym.Web/Dockerfile
       args:
-          - GIT_COMMIT
+          - COMMIT_TAG
     depends_on:
     - ozymdb
 
   ozymapi:
     container_name: ozym-api
-    image: ${DOCKER_REGISTRY-}ozymapi:${GIT_COMMIT}
+    image: "${DOCKER_REGISTRY-}ozymapi:${COMMIT_TAG}"
     build:
       context: .
       dockerfile: Ozym.API/Dockerfile
       args:
-          - GIT_COMMIT
+          - COMMIT_TAG
     depends_on:
     - ozymdb
 
