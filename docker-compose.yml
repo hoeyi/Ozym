@@ -12,10 +12,12 @@ services:
 
   ozymapi:
     container_name: ozym-api
-    image: ${DOCKER_REGISTRY-}ozymapi
+    image: ${DOCKER_REGISTRY-}ozymapi:${API_TAG}
     build:
       context: .
       dockerfile: Ozym.API/Dockerfile
+      args:
+          - API_TAG
     depends_on:
     - ozymdb
 
