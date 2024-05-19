@@ -2,7 +2,7 @@ name: ozym
 services:
   ozymweb:
     container_name: ozym-web
-    image: ${DOCKER_REGISTRY-}ozymweb:${COMMIT_TAG}
+    image: "${DOCKER_REGISTRY-}ozymweb:${COMMIT_TAG}"
     build:
       context: .
       dockerfile: Ozym.Web/Dockerfile
