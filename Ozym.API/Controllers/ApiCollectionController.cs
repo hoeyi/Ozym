@@ -201,6 +201,24 @@ namespace Ozym.Api.Controllers
         }
 
         /// <inheritdoc/>
+        [HttpGet]
+        public async Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(
+            int id, int pageNumber = 1, int pageSize = 20)
+        {
+            Expression<Func<TEntity, bool>> entityPredicate = ParentPredicate(id);
+
+            var (items, parentEntity, pagination) = await SelectAsync(
+                                                entityPredicate, id, pageNumber, pageSize);
+
+            Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
+
+            var dtoItems = Mapper.Map<IEnumerable<TObject>>(items);
+            var parentItem = Mapper.Map<TParent>(parentEntity);
+
+            return Ok(new { Entries = dtoItems, Parent = parentItem });
+        }
+
+        /// <inheritdoc/>
         protected override bool TryParse(
             IReadOnlyDictionary<string, object?> routeValues, out int key)
         {
@@ -276,41 +294,43 @@ namespace Ozym.Api.Controllers
         }
 
         #region IApiCollectionController<TObject, TParent> implementation
-        /// <inheritdoc/>
-        [HttpGet]
-        public async Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(
-            TParentKey parentKey, int pageNumber = 1, int pageSize = 20)
-        {
-            if (!TryParse(RouteData.Values, out TParentKey parent))
-            {
-                return NotFound();
-            }
-            else
-            {
-                Expression<Func<TEntity, bool>> entityPredicate = ParentPredicate(parent);
-
-                var (items, parentEntity, pagination) = await SelectAsync(
-                                                    entityPredicate, parent, pageNumber, pageSize);
-
-                Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
-
-                var dtoItems = Mapper.Map<IEnumerable<TObject>>(items);
-                var parentItem = Mapper.Map<TParent>(parentEntity);
-
-                return Ok(new { Entries = dtoItems, Parent = parentItem });
-            }
-        }
+        //public abstract Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(
+        //    TParentKey id, int pageNumber = 1, int pageSize = 20);
 
         /// <inheritdoc/>
-        [HttpGet]
-        [Route("all")]
-        [Obsolete($"Superseded by method: {nameof(IndexAsync)}.")]
-        public async Task<ActionResult<IEnumerable<TObject>>> GetAllAsync()
-        {
-            var items = await ModelService.SelectAsync();
+        //public virtual async Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(
+        //    TParentKey parentKey, int pageNumber = 1, int pageSize = 20)
+        //{
+        //    if (!TryParse(RouteData.Values, out TParentKey parent))
+        //    {
+        //        return NotFound();
+        //    }
+        //    else
+        //    {
+        //        Expression<Func<TEntity, bool>> entityPredicate = ParentPredicate(parent);
 
-            return Ok(items);
-        }
+        //        var (items, parentEntity, pagination) = await SelectAsync(
+        //                                            entityPredicate, parent, pageNumber, pageSize);
+
+        //        Response.Headers[PackageConstant.PaginationHeaderKey] = JsonSerializer.Serialize(pagination);
+
+        //        var dtoItems = Mapper.Map<IEnumerable<TObject>>(items);
+        //        var parentItem = Mapper.Map<TParent>(parentEntity);
+
+        //        return Ok(new { Entries = dtoItems, Parent = parentItem });
+        //    }
+        //}
+
+        ///// <inheritdoc/>
+        //[HttpGet]
+        //[Route("all")]
+        //[Obsolete($"Superseded by method: {nameof(IndexAsync)}.")]
+        //public async Task<ActionResult<IEnumerable<TObject>>> GetAllAsync()
+        //{
+        //    var items = await ModelService.SelectAsync();
+
+        //    return Ok(items);
+        //}
 
         /// <inheritdoc/>
         [HttpPost]
