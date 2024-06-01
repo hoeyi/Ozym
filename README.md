@@ -1,16 +1,23 @@
 # Ozym #
-**Ozym** is a web-based financial and investment recording-keeping and reporting application for personal use. The app user interface is built with [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) and [ASP.NET Core](https://github.com/dotnet/aspnetcore).
+**Ozym** is a web-based financial and investment recording-keeping and reporting application for personal use. The app user interface is built with [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) backed by [ASP.NET Core](https://github.com/dotnet/aspnetcore) and Entity Framework and Microsoft SQL Server on Linux for the data persistence layer.
 
 For information on contributing changes to this codebase, see [How to contribute](CONTRIBUTING.md).
 
 ## Getting Started
-Docker is the recommended approach for exploring the app's features. To use Docker, download the 
+Docker is the recommended approach for exploring the app's features.
 
 ### Running Docker app
-This approach uses the latest Docker images deployed to [Ozym/Packages](https://github.com/hoeyi?tab=packages&repo_name=Ozym).
+This approach uses the latest Docker images deployed to [Ozym/Packages](https://github.com/hoeyi?tab=packages&repo_name=Ozym). The Docker images are constructed into a multi-container app that includes:
+* **ozymapi**: The RESTful API service component.
+* **ozymdb**: The database component.
+* **ozymweb**: The Blazor web-service component.
 
-1. Download [Docker Desktop](https://www.docker.com/products/docker-desktop/).
-2. Download the installation script `install-docker-app.sh`.
+**Download Docker Desktop** <br/>
+See [Docker Desktop](https://www.docker.com/products/docker-desktop/) for installation options.
+
+**Download and run the installation script `install-docker-app.sh (coming soon)`.** 
+
+---
 
 ### **Migration Scripts**
 The following scripts may be used for creating and applying migrations. Parameters are listed in order of their position.
