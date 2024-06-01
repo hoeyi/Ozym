@@ -1,7 +1,7 @@
 # Ozym #
 **Ozym** is a web-based financial and investment recording-keeping and reporting application for personal use. The app user interface is built with [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) and [ASP.NET Core](https://github.com/dotnet/aspnetcore).
 
-For information on contributing changes to this codebase, see [Commit Message Guidelines](CONTRIBUTING.md).
+For information on contributing changes to this codebase, see [How to contribute](CONTRIBUTING.md).
 
 ## Getting Started
 Docker is the recommended approach for exploring the app's features. To use Docker, download the 
