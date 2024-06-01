@@ -1,3 +1,5 @@
+# How to contribute #
+
 ## Commit Message Guidelines ##
 
 Commit message guidelines are meant to mirror the style prescribed in [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Changes to the types and scope have been made.
@@ -5,8 +7,8 @@ Commit message guidelines are meant to mirror the style prescribed in [Conventio
 Commit messages should follow the format:
 ```
 <type>[optional scope]: <description>
-[optional body]
-[optional footer]
+[body]
+[footer]
 ```
 
 ### Type ###
@@ -14,10 +16,11 @@ Must be one of the following:
 
 * **build**: Changes that affect the build system or external dependencies
 * **docs**: Changes to documentation or code comments
-* **feat**: A new feature / ehancement
+* **feat**: A new feature or ehancement to existing feature
 * **fix**: A bug fix
 * **perf**: A code change that improves performance
 * **refactor**: A code change that neither fixes a bug nor adds a feature
+* **repo**: Changes to the repository, such as README.md, CONTRIBUTING.md, etc.
 * **revert**: Reverts commit `<hash>`.
 * **style**: Code style and format rule corrections
 * **test**: Adding missing tests or correcting existing tests
@@ -32,6 +35,9 @@ The scope is the domain affected. Choose one of the following:
 * **EntityMigration**: Entity data migrations
 * **Logic**: Business logic.
 * **API**: Project API only. Use **DAL** for noting API integrations.
+
+Where changes affect multiple domains, use the most relevant domain, or none at all if it is not 
+applicable (e.g., **repo**).
 
 Example: 
 ```

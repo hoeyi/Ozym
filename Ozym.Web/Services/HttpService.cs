@@ -74,6 +74,7 @@ namespace Ozym.Web.Services
 
             HttpFactory = httpFactory;
 
+            // TODO: Remove unused code
             var apiOptions = new ApiOptions();
             configuration.GetSection(ApiOptions.ApiService).Bind(apiOptions);
 
