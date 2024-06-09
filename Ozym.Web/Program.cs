@@ -167,7 +167,8 @@ namespace Ozym.Web
                     reloadOnChange: true)
                 .Build();
 
-            string connectionStringPattern = config["ConnectionStrings:__pattern__"];
+            string connectionStringPattern = config["ConnectionStrings:__pattern__"]
+                ?? throw new ArgumentNullException(paramName: "ConnectionStrings:__pattern__");
 
             config["ConnectionStrings:OzymWorks"] = string.Format(
                 connectionStringPattern,
