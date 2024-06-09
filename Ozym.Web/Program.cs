@@ -192,9 +192,25 @@ namespace Ozym.Web
                     .Build();
             }
 
+            string connectionStringPattern = config["ConnectionStrings:__pattern__"];
+
+            config["ConnectionStrings:OzymWorks"] = string.Format(
+                connectionStringPattern,
+                "OzymWorks",
+                "OzymAppUser",
+                config["OzymAppUser:Password"]);
+
+            config["ConnectionStrings:OzymIdentity"] = string.Format(
+                connectionStringPattern,
+                "OzymIdentity",
+                "OzymAppUser",
+                config["OzymAppUser:Password"]);
+
+            config.Commit();
+
             return config;
         }
-    
+        
         /// <summary>
         /// Converts a <see cref="Serilog.ILogger"/> instance to a <see cref="ILogger"/> instance.
         /// </summary>
