@@ -114,12 +114,6 @@ namespace Ozym.Api
                 "OzymAppUser",
                 config["OZYM_APP_PASSWORD"]);
 
-            config["ConnectionStrings:OzymIdentity"] = string.Format(
-                connectionStringPattern,
-                "OzymIdentity",
-                "OzymAppUser",
-                config["OZYM_APP_PASSWORD"]);
-
             config.Commit();
 
             return config;
