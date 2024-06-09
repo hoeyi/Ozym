@@ -160,6 +160,7 @@ namespace Ozym.Web
                 throw new ArgumentNullException(paramName: nameof(environment));
 
             IConfigurationRoot config = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
                 .AddJsonWritable(
                     path: $"appsettings.{environment}.json",
                     optional: false,
