@@ -100,7 +100,7 @@ namespace Ozym.Api
             IConfigurationRoot config = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
                 .AddJsonWritable(
-                    path: $"appsettings.api.{environment}.json",
+                    path: $"appsettings.{environment}.json",
                     optional: false,
                     reloadOnChange: true)
                 .Build();
