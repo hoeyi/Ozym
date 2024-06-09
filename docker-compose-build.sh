@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Prompt the user for values to assign to $MSSQL_SA_PASSWORD and $OZYM_APP_PASSWORD variables.
-read -s -p "Enter the password for the 'sa' SQL server user: " MSSQL_SA_PASSWORD
-echo
-read -s -p "Enter the password for the 'OzymAppUser' SQL server user: " OZYM_APP_PASSWORD
-
 # Check if the MSSQL_SA_PASSWORD variable is set and not empty.
 # If it's not set or is empty, print an error message and exit the script with a status of 1.
 if [ -v MSSQL_SA_PASSWORD ] || [ -z "MSSQL_SA_PASSWORD" ]
