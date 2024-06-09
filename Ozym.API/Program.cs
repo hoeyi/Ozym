@@ -97,38 +97,24 @@ namespace Ozym.Api
             if (string.IsNullOrEmpty(environment))
                 throw new ArgumentNullException(paramName: nameof(environment));
 
-            IConfigurationRoot config;
-            if (configureSecureJson)
-            {
-                config = new ConfigurationBuilder()
-                .AddSecureJsonWritable(
-                    path: $"appsettings.api.{environment}.json",
-                    logger: logger,
+            IConfigurationRoot config = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .AddJsonWritable(
+                    path: $"appsettings.{environment}.json",
                     optional: false,
                     reloadOnChange: true)
-                .AddUserSecrets<Program>()
                 .Build();
 
-                string rsaKeyAddress = "_file:RsaKeyContainer";
-                if (config[rsaKeyAddress] is null)
-                {
-                    config[rsaKeyAddress] = $"E1EB57FA-8D2C-41CF-912A-DDBC39534A39";
-                    config.Commit();
-                }
+            string connectionStringPattern = config["ConnectionStrings:__pattern__"]
+                ?? throw new ArgumentNullException(paramName: "ConnectionStrings:__pattern__");
 
-                config["ConnectionStrings:OzymWorks"] = config["ConnectionStrings:OzymWorks"];
-                config["ConnectionStrings:OzymIdentity"] = config["ConnectionStrings:OzymIdentity"];
-                config.Commit();
-            }
-            else
-            {
-                config = new ConfigurationBuilder()
-                    .AddJsonWritable(
-                        path: $"appsettings.api.{environment}.json",
-                        optional: false,
-                        reloadOnChange: true)
-                    .Build();
-            }
+            config["ConnectionStrings:OzymWorks"] = string.Format(
+                connectionStringPattern,
+                "OzymWorks",
+                "OzymAppUser",
+                config["OZYM_APP_PASSWORD"]);
+
+            config.Commit();
 
             return config;
         }

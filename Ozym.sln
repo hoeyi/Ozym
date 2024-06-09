@@ -34,6 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScript
 		Bundle-Migration-OzymWorks.bat = Bundle-Migration-OzymWorks.bat
 		docker-compose-build.sh = docker-compose-build.sh
 		Generate-CodeCoverageReport.bat = Generate-CodeCoverageReport.bat
+		init-ozym-db.sh = init-ozym-db.sh
 		Run-CodeCoverage.bat = Run-CodeCoverage.bat
 		UpdateDb-OzymIdentity.bat = UpdateDb-OzymIdentity.bat
 		UpdateDb-OzymWorks.bat = UpdateDb-OzymWorks.bat
