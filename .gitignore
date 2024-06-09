@@ -380,3 +380,4 @@ FodyWeavers.xsd
 
 # Ingore commit message text
 .commit
+*.env
