@@ -2,14 +2,14 @@
 
 # Check if the MSSQL_SA_PASSWORD variable is set and not empty.
 # If it's not set or is empty, print an error message and exit the script with a status of 1.
-if [ -v MSSQL_SA_PASSWORD ] || [ -z "MSSQL_SA_PASSWORD" ]
+if [ -v ${MSSQL_SA_PASSWORD+x} ] || [ -z "$MSSQL_SA_PASSWORD" ]
 then
       echo "Variable \$MSSQL_SA_PASSWORD is not set."
 	  exit 1
 fi
 
 # Repeast the same check for the OZYM_APP_PASSWORD variable.
-if [ -v MSSQL_SA_PASSWORD ] || [ -z "OZYM_APP_PASSWORD" ]
+if [ -v ${MSSQL_SA_PASSWORD}+x} ] || [ -z "$OZYM_APP_PASSWORD" ]
 then
       echo "Variable \$OZYM_APP_PASSWORD is not set."
 	  exit 1
