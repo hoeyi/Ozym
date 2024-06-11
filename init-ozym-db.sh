@@ -29,7 +29,7 @@ GO
 USE [OzymIdentity]
 CREATE USER [OzymAppUser] FOR LOGIN [OzymAppUser] WITH DEFAULT_SCHEMA=[dbo]
 ALTER ROLE db_datareader ADD MEMBER [OzymAppUser];
-ALTER ROLE db_datareader ADD MEMBER [OzymAppUser];
+ALTER ROLE db_datawriter ADD MEMBER [OzymAppUser];
 print('Created [OzymAppUser] in [OzymIdentity]')
 GO
 print('Initialization complete.')

@@ -41,7 +41,19 @@ RUN dotnet ef migrations bundle \
 	--context Ozym.EntityModel.Context.FinanceDbContext \
 	--startup-project Ozym.Web.csproj \
 	--project ../Ozym.EntityMigration/Ozym.EntityMigration.csproj \
-	--output /app/migration/ozymefbundle \
+	--output /app/migration/ozymworksbundle \
+	-r linux-x64 \
+	--self-contained \
+	--no-build \
+	--force
+
+RUN echo "Creating identity data migrations program"
+RUN dotnet ef migrations bundle \
+	--configuration Release \
+	--context Ozym.Web.Data.IdentityDbContext \
+	--startup-project Ozym.Web.csproj \
+	--project Ozym.Web.csproj \
+	--output /app/migration/ozymidentitybundle \
 	-r linux-x64 \
 	--self-contained \
 	--no-build \
