@@ -1,67 +1,40 @@
 ## Ozym Docker Setup
 
 ### Overview
-This procedure describes the steps for downloading the Docker latest Ozym Docker images and spinning up a local instance of the app. Further steps are included for initializing the app database and seeding sample data for the application and identity components.
+Use this guide to download the latest version of the app and spin up a local instance using Docker Desktop. This process allows a user to:
+* Set the passwords for the SQL accounts used by the ozym.
+* Apply data migrations to provide sample data to work with.
+
+This process uses the latest images published under the repository's packages.
 
 ### Prerequisites
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed on your system.
-- Downloaded [`ozym-docker-installer.zip`](http://localhost).
+- [winpty](https://github.com/rprichard/winpty/) installed on your system.
+- Downloaded the installer zip file from [ozym-docker-installer.zip](https://github.com/hoeyi/Ozym/releases).
 
 ### Steps
 
 #### 1. Unpack the installation files
-Unzip the `ozym-docker-installer.zip` file to a desired directory.
+Unzip the `ozym-docker-installer.zip` file to the desired directory.
 
 ```sh
-unzip ozym-docker-installer.zip -d PATH_TO_EXTRACT_DIRECTORY
+unzip ozym-docker-installer.zip -d <PATH_TO_EXTRACT_DIRECTORY>
 ```
 
 #### 2. Start Docker Desktop
 Ensure Docker Desktop is running. If it is not, start Docker Desktop from your applications menu.
 
 #### 3. Run the installation script
-This step will spin up the required containers and add them to the `ozym_default` network. Navigate to the directory where you unpacked the installation files and run the `ozym-docker-installer.sh` script. You will be prompted to enter two passwords:
-1. Password for configuring the **sa** account.
-2. Password for configuring the database user for the app.
-
+This step will pull the required Docker images, spin up a container network, initialize the database with user passwords and roles, then add sample data to play with. You will be prompted for two passwords:
+1. For the **[sa]** account.
+2. For app database user.
 
 ```sh
 cd PATH_TO_EXTRACT_DIRECTORY
-./ozym-docker-installer.sh
+./install-ozym-docker-win.sh
 ```
 
-#### 4. Initialize the database
-Now that the containers are active, run the initial database login/user configuration. Start an interactive shell in the `ozym-db` container and run the database initialization script.
+#### 4. Access the application
+Find the application by navigating to the mapped port for `ozym-web`. Open your web browser and go to `http://localhost:<port>`, where **<port>** corresponds to the mapped host port in the `docker-compose.yml` file or the port auto-selected by Docker Desktop. You may also wish to explore the API Swagger documentation, which can be found at `http://localhost:<api_port>/swagger`, where **<api_port>** corresponds to the setting in the `docker-compose.yml` file. The API root can be accessed at `http://localhost:<api_port>/api/v1`.
 
-```sh
-docker exec -it ozym-db /bin/bash init-ozym-db.sh
-exit
-```
-
-**Note**: Depending on your system, you may need to modify the commands below. For example, if on Windows your input device may not be TTY, and you receive the following error:
-``` sh
-docker exec -it ozym-web sh
-the input device is not a TTY.  If you are using mintty, try prefixing the command with 'winpty'
-```
-
-If this is the case, instead run:
-``` sh
-winpty docker exec -it ozym-web sh
-```
-
-#### 5. Run data migrations
-The installer comes with two migration apps: **(1)** **ozymworksbundle**, and **(2)** **ozymidentitybundle**. Start an interactive shell in the `ozym-web` container and run each migration app.
-
-```sh
-docker exec -it ozym-web /bin/bash
-read -p 'Enter [sa] account password: ' -s SA_PASSWORD
-echo 
-
-/app/ozymworksbundle --connection "Server=ozymdb;Database=OzymWorks;User Id=sa;Password=$SA_PASSWORD;TrustServerCertificate=true"
-
-./appidentitybundle --connection "Server=ozymdb;Database=OzymIdentity;User Id=sa;Password=$SA_PASSWORD;TrustServerCertificate=true"
-exit
-```
-
-#### 6. Access the Application
-Find the application by navigating to the mapped port for `ozym-web`. Open your web browser and go to `http://localhost:<mapped_port>` where `<mapped_port>` corresponds to your selection in the `docker-compose.yml` file or the port auto-selected by Docker Desktop.
+You can alter the **host:container** port mapping for the installation in the `docker-compose` file, if desired. 
