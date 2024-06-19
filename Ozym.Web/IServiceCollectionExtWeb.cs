@@ -35,7 +35,7 @@ namespace Ozym.Web
         private const string identity_db_name = "OzymIdentity";
 
         /// <summary>
-        /// Registers all services required for classes in the <b>Ozym.DAL</b>
+        /// Registers metadata and helper services.
         /// assembly.
         /// </summary>
         /// <param name="services"></param>
