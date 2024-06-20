@@ -31,9 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{4BFB
 		scripts\Add-Migration-OzymIdentity.bat = scripts\Add-Migration-OzymIdentity.bat
 		scripts\Add-Migration-OzymWorks.bat = scripts\Add-Migration-OzymWorks.bat
 		scripts\Bundle-Migration-OzymWorks.bat = scripts\Bundle-Migration-OzymWorks.bat
-		scripts\Generate-CodeCoverageReport.bat = scripts\Generate-CodeCoverageReport.bat
 		scripts\init-ozym-db.sh = scripts\init-ozym-db.sh
-		scripts\Run-CodeCoverage.bat = scripts\Run-CodeCoverage.bat
+		scripts\run-code-coverage.sh = scripts\run-code-coverage.sh
 		scripts\UpdateDb-OzymIdentity.bat = scripts\UpdateDb-OzymIdentity.bat
 		scripts\UpdateDb-OzymWorks.bat = scripts\UpdateDb-OzymWorks.bat
 	EndProjectSection
