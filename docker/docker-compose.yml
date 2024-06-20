@@ -4,12 +4,10 @@ services:
     container_name: ozym-web
     environment:
       OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
-    image: "${DOCKER_REGISTRY-}ozymweb:${COMMIT_TAG}"
+    image: "${DOCKER_REGISTRY-}ozymweb"
     build:
-      context: .
+      context: ..
       dockerfile: Ozym.Web/Dockerfile
-      args:
-      - COMMIT_TAG
     depends_on:
     - ozymdb
 
@@ -17,12 +15,10 @@ services:
     container_name: ozym-api
     environment:
       OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
-    image: "${DOCKER_REGISTRY-}ozymapi:${COMMIT_TAG}"
+    image: "${DOCKER_REGISTRY-}ozymapi"
     build:
-      context: .
+      context: ..
       dockerfile: Ozym.API/Dockerfile
-      args:
-          - COMMIT_TAG
     depends_on:
     - ozymdb
 
@@ -44,5 +40,5 @@ services:
         start_period: 10s
         timeout: 3s     
     volumes:
-    - ./init-ozym-db.sh:/init-ozym-db.sh
+    - ../installers/init-ozym-db.sh:/init-ozym-db.sh
   
