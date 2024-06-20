@@ -1,5 +1,5 @@
 REM Change working directory to the project direct where IdentityDbContext resides.
-cd Ozym.Web
+cd ..\Ozym.Web
 
 REM Check for first position parameter denoting the migration to use.
 REM Assume latest if undefined.

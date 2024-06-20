@@ -1,5 +1,5 @@
 REM Change working directory to the project direct where IdentityDbContext resides.
-cd Ozym.Web
+cd ..\Ozym.Web
 
 REM Check for expected positional parameter and redirect as needed.
 if "%1"=="" goto missingparameter

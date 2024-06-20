@@ -1,5 +1,5 @@
 REM Change working directory to the project directory where FinanceDbContext resides.
-cd Ozym.EntityModel
+cd ..\Ozym.EntityModel
 
 REM Check for first position parameter denoting the migration to use.
 REM Assume latest if undefined.
