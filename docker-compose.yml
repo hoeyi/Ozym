@@ -40,5 +40,6 @@ services:
         start_period: 10s
         timeout: 3s     
     volumes:
-    - ../installers/init-ozym-db.sh:/init-ozym-db.sh
+    - /installers/init-ozym-db.sql:/init-ozym-db.sql
+    - /installers/init-ozym-db.sh:/init-ozym-db.sh
   

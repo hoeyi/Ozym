@@ -31,7 +31,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{4BFB
 		scripts\Add-Migration-OzymIdentity.bat = scripts\Add-Migration-OzymIdentity.bat
 		scripts\Add-Migration-OzymWorks.bat = scripts\Add-Migration-OzymWorks.bat
 		scripts\Bundle-Migration-OzymWorks.bat = scripts\Bundle-Migration-OzymWorks.bat
-		scripts\init-ozym-db.sh = scripts\init-ozym-db.sh
 		scripts\run-code-coverage.sh = scripts\run-code-coverage.sh
 		scripts\UpdateDb-OzymIdentity.bat = scripts\UpdateDb-OzymIdentity.bat
 		scripts\UpdateDb-OzymWorks.bat = scripts\UpdateDb-OzymWorks.bat
@@ -44,6 +43,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{2E76284E-D3D2-4B70-8E33-20012369A6A8}"
 	ProjectSection(SolutionItems) = preProject
 		installers\docker-compose.yml = installers\docker-compose.yml
+		installers\init-ozym-db.sh = installers\init-ozym-db.sh
 		installers\init-ozym-db.sql = installers\init-ozym-db.sql
 		installers\install-ozym-docker-win.sh = installers\install-ozym-docker-win.sh
 		installers\README.md = installers\README.md
