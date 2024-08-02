@@ -12,6 +12,13 @@ main {
     color: var(--default-text-color);
 }
 
+.page-banner {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
 .navbar-custom {
     background-color: var(--default-back-color);
     border-bottom: 1px solid var(--default-text-color);

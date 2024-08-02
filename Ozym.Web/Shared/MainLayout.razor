@@ -20,22 +20,44 @@
                 <LoginDisplay />
             </div>
         </div>
-
-        <article class="content px-4">
-            <ErrorBoundary @ref="errorBoundary">
+        <AuthorizeView>
+            <NotAuthorized>
+                <div class="page-banner">Not authorized.</div>
+            </NotAuthorized>
+            <Authorizing>
+                <div class="page-banner">Authorizing...</div>
+                <ErrorBoundary>
                     <ChildContent>
-                        @Body
+                        <LoadingSvg/>
                     </ChildContent>
-                <ErrorContent Context="exception">
-                    @{
-                        LogUnhandledException(exception);
-                    }
-                    <CascadingValue Value="@GetUnhandledExcpetionMessage()">
-                        <ErrorMessageBox />
-                    </CascadingValue>
-                </ErrorContent>
-            </ErrorBoundary>
-        </article>
+                    <ErrorContent Context="exception">
+                        @{
+                            LogUnhandledException(exception);
+                        }
+                        <CascadingValue Value="@GetUnhandledExcpetionMessage()">
+                            <ErrorMessageBox />
+                        </CascadingValue>
+                    </ErrorContent>
+                </ErrorBoundary>
+            </Authorizing>
+            <Authorized>
+                <article class="content px-4">
+                    <ErrorBoundary @ref="errorBoundary">
+                            <ChildContent>
+                                @Body
+                            </ChildContent>
+                        <ErrorContent Context="exception">
+                            @{
+                                LogUnhandledException(exception);
+                            }
+                            <CascadingValue Value="@GetUnhandledExcpetionMessage()">
+                                <ErrorMessageBox />
+                            </CascadingValue>
+                        </ErrorContent>
+                    </ErrorBoundary>
+                </article>
+            </Authorized>
+        </AuthorizeView>
     </main>
 </div>
 
