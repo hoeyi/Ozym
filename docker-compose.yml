@@ -6,7 +6,7 @@ services:
       OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
     image: "${DOCKER_REGISTRY-}ozymweb"
     build:
-      context: ..
+      context: .
       dockerfile: Ozym.Web/Dockerfile
     depends_on:
     - ozymdb
@@ -17,7 +17,7 @@ services:
       OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
     image: "${DOCKER_REGISTRY-}ozymapi"
     build:
-      context: ..
+      context: .
       dockerfile: Ozym.API/Dockerfile
     depends_on:
     - ozymdb
@@ -40,6 +40,5 @@ services:
         start_period: 10s
         timeout: 3s     
     volumes:
-    - /installers/init-ozym-db.sql:/init-ozym-db.sql
-    - /installers/init-ozym-db.sh:/init-ozym-db.sh
-  
+    - ./installers/init-ozym-db.sql:/init-ozym-db.sql
+    - ./installers/init-ozym-db.sh:/init-ozym-db.sh

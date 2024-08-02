@@ -7,7 +7,7 @@
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://{ServicePort}</DockerServiceUrl>
     <DockerServiceName>ozym.web</DockerServiceName>
-    <DockerComposeBaseFilePath>docker\docker-compose</DockerComposeBaseFilePath>
+    <DockerComposeBaseFilePath>docker-compose</DockerComposeBaseFilePath>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".dockerignore" />
