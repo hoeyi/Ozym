@@ -1,40 +1,12 @@
 {
   "profiles": {
-    "Default": {
+    "Ozym.Web": {
       "commandName": "Project",
       "launchBrowser": true,
-      "dotnetRunMessages": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "OzymSample": {
-      "commandName": "Project",
-      "launchBrowser": false,
-      "dotnetRunMessages": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "https://+:443;http://+:80"
-      }
-    },
-    "Ozym.Web.InMemory": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "dotnetRunMessages": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "Docker": {
-      "commandName": "Docker",
-      "launchBrowser": false,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "publishAllPorts": true,
-      "useSSL": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "https://+:443;http://+:80"
-      }
+      },
+      "applicationUrl": "https://localhost:50704;http://localhost:50705"
     }
   }
 }

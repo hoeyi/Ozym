@@ -1,5 +1,5 @@
 REM Change working directory to the project directory where FinanceDbContext resides.
-cd Ozym.EntityModel
+cd ..\Ozym.EntityModel
 
 REM Bundle the migration. Reference the FinanceDbContext with fully-qualified namespace.
 dotnet ef migrations bundle ^

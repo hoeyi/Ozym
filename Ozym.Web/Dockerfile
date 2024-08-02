@@ -62,4 +62,4 @@ RUN dotnet ef migrations bundle \
 FROM base AS final
 COPY --from=publish /app/publish /app
 COPY --from=publish /app/migration /app
-ENTRYPOINT ["dotnet", "Ozym.Web.dll", "--environment=Development", "--server.urls","http://+:80,https://+:443"]
+ENTRYPOINT ["dotnet", "Ozym.Web.dll"]

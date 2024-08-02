@@ -5,7 +5,6 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "repo-items", "repo-items", "{48E6F909-E1C0-4187-A79B-BD2019FDF31B}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		CONTRIBUTING.md = CONTRIBUTING.md
 		README.md = README.md
@@ -29,15 +28,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ozym.Web.Test", "Ozym.Web.T
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{4BFBE020-17A3-4116-B9E7-E0A23D93CD74}"
 	ProjectSection(SolutionItems) = preProject
-		Add-Migration-OzymIdentity.bat = Add-Migration-OzymIdentity.bat
-		Add-Migration-OzymWorks.bat = Add-Migration-OzymWorks.bat
-		Bundle-Migration-OzymWorks.bat = Bundle-Migration-OzymWorks.bat
-		docker-compose-build.sh = docker-compose-build.sh
-		Generate-CodeCoverageReport.bat = Generate-CodeCoverageReport.bat
-		init-ozym-db.sh = init-ozym-db.sh
-		Run-CodeCoverage.bat = Run-CodeCoverage.bat
-		UpdateDb-OzymIdentity.bat = UpdateDb-OzymIdentity.bat
-		UpdateDb-OzymWorks.bat = UpdateDb-OzymWorks.bat
+		scripts\Add-Migration-OzymIdentity.bat = scripts\Add-Migration-OzymIdentity.bat
+		scripts\Add-Migration-OzymWorks.bat = scripts\Add-Migration-OzymWorks.bat
+		scripts\Bundle-Migration-OzymWorks.bat = scripts\Bundle-Migration-OzymWorks.bat
+		scripts\init-ozym-db.sh = scripts\init-ozym-db.sh
+		scripts\run-code-coverage.sh = scripts\run-code-coverage.sh
+		scripts\UpdateDb-OzymIdentity.bat = scripts\UpdateDb-OzymIdentity.bat
+		scripts\UpdateDb-OzymWorks.bat = scripts\UpdateDb-OzymWorks.bat
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5769EFBB-8250-451A-9587-9FA738ED4167}"
@@ -48,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{2E7628
 	ProjectSection(SolutionItems) = preProject
 		installers\docker-compose.yml = installers\docker-compose.yml
 		installers\init-ozym-db.sql = installers\init-ozym-db.sql
-		installers\ozym-docker-installer.sh = installers\ozym-docker-installer.sh
+		installers\install-ozym-docker-win.sh = installers\install-ozym-docker-win.sh
 		installers\README.md = installers\README.md
 	EndProjectSection
 EndProject

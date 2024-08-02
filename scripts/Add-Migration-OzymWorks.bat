@@ -1,5 +1,5 @@
 REM Change working directory to the project directory where FinanceDbContext resides.
-cd Ozym.EntityModel
+cd ..\Ozym.EntityModel
 
 REM Check for expected positional parameter and redirect as needed.
 if "%1"=="" goto missingparameter

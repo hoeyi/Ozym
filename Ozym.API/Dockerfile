@@ -33,4 +33,4 @@ RUN dotnet publish "Ozym.API.csproj" -c Release -o /app/publish /p:UseAppHost=fa
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Ozym.API.dll", "--environment=Development"]
+ENTRYPOINT ["dotnet", "Ozym.API.dll"]

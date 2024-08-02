@@ -41,12 +41,7 @@ namespace Ozym.Web
             #region Configuration, Logger, Helper services
             
             var logger = ConvertFromSerilogILogger(logger: BuildLogger());
-
-            // If Windows OS, secure appsetings.json is supported.
-            bool isWindowsOS = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            var config = BuildConfiguration(
-                logger, builder.Environment.EnvironmentName, configureSecureJson: isWindowsOS);
-
+            var config = BuildConfiguration(logger, builder.Environment.EnvironmentName);
 
             builder.Services.AddSingleton(implementationInstance: logger);
             builder.Services.AddSingleton(implementationInstance: config);
@@ -62,6 +57,9 @@ namespace Ozym.Web
                 .AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<WebAppUser>>();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+            builder.Services.AddCascadingAuthenticationState();
+
             #endregion
 
             // Data access services
@@ -109,11 +107,7 @@ namespace Ozym.Web
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
 
-            // TODO: Figure out what this does. Is it even necessary?
-            app.Urls.Add("http://*:80");
-
             app.Run();
-
         }
     }
 
@@ -149,12 +143,10 @@ namespace Ozym.Web
         /// </summary>
         /// <param name="logger">The <see cref="ILogger"/> to use.</param>
         /// <param name="environment"></param>
-        /// <param name="configureSecureJson"></param>
         /// <returns>An <see cref="IConfiguration"/>.</returns>
         private static IConfigurationRoot BuildConfiguration(
             ILogger logger, 
-            string environment, 
-            bool configureSecureJson = true)
+            string environment)
         {
             if (string.IsNullOrEmpty(environment))
                 throw new ArgumentNullException(paramName: nameof(environment));

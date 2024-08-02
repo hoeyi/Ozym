@@ -1,11 +1,11 @@
 {
   "profiles": {
-    "Docker Compose": {
+    "docker-compose": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "composeLaunchAction": "LaunchBrowser",
-      "composeLaunchServiceName": "ozym.web",
-      "composeLaunchUrl": "{Scheme}://{ServicePort}",
+      "composeLaunchServiceName": "ozymweb",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
       "serviceActions": {
         "ozymapi": "StartDebugging",
         "ozymdb": "StartWithoutDebugging",
