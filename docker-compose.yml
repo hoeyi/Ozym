@@ -10,6 +10,8 @@ services:
       dockerfile: Ozym.Web/Dockerfile
     depends_on:
     - ozymdb
+    volumes:
+    - ./installers/migrate-sample-data.sh:/migrate-sample-data.sh
 
   ozymapi:
     container_name: ozym-api
@@ -31,7 +33,7 @@ services:
     # mssql server image isn't available for arm64 architecture, so we use azure-sql instead
     # image: mcr.microsoft.com/azure-sql-edge:1.0.4
     # If you really want to use MS SQL Server, uncomment the following line
-    image: mcr.microsoft.com/mssql/server
+    image: mcr.microsoft.com/mssql/server:2022-latest
     restart: always
     healthcheck:
         test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $MSSQL_SA_PASSWORD -Q 'SELECT 1' || exit 1"]

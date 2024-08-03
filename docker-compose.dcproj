@@ -8,6 +8,7 @@
     <DockerServiceUrl>{Scheme}://{ServicePort}</DockerServiceUrl>
     <DockerServiceName>ozym.web</DockerServiceName>
     <DockerComposeBaseFilePath>docker-compose</DockerComposeBaseFilePath>
+    <DockerDevelopmentMode>Regular</DockerDevelopmentMode>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".dockerignore" />
