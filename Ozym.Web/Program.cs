@@ -28,6 +28,7 @@ using System.Reflection;
 using System.Linq;
 using Microsoft.AspNetCore.Connections.Features;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace Ozym.Web
 {
@@ -162,17 +163,35 @@ namespace Ozym.Web
             string connectionStringPattern = config["ConnectionStrings:__pattern__"]
                 ?? throw new ArgumentNullException(paramName: "ConnectionStrings:__pattern__");
 
+            bool isDevelopment = 
+                (config.GetValue<string>("ASPNETCORE_ENVIRONMENT") ?? string.Empty) == "Development";
+
+            var dbServer = isDevelopment ? "-dev" : "";
+
             config["ConnectionStrings:OzymWorks"] = string.Format(
                 connectionStringPattern,
+                dbServer,
                 "OzymWorks",
                 "OzymAppUser",
                 config["OZYM_APP_PASSWORD"]);
 
             config["ConnectionStrings:OzymIdentity"] = string.Format(
                 connectionStringPattern,
+                dbServer,
                 "OzymIdentity",
                 "OzymAppUser",
                 config["OZYM_APP_PASSWORD"]);
+
+            string apiUrlPattern = config["API_CONFIGURATION:__url_pattern__"]
+                ?? throw new InvalidOperationException(
+                    "Configuration key 'API_CONFIGURATION:__url_pattern__' is undefined.");
+
+            // Set the api service base Url
+            var apiRoot = isDevelopment ? "-dev" : "";
+            config["API_CONFIGURATION:ozymapi:Url"] = string.Format(
+                apiUrlPattern,
+                apiRoot,
+                "v1");
 
             config.Commit();
 

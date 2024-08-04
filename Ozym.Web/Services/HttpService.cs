@@ -1,20 +1,16 @@
-﻿using Ozym.DataTransfer;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Ozym.ChangeTracking;
+using Ozym.DataTransfer;
+using Ozym.DataTransfer.Common;
+using Ozym.DataTransfer.Common.Query;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Ozym.DataTransfer.Common.Query;
-using Microsoft.Extensions.Configuration;
-using Ozym.DataTransfer.Common;
-using System.Linq;
-using Ozym.ChangeTracking;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Runtime.CompilerServices;
-using Ozym.DataTransfer.Common.Collections;
-using System.Net.Http.Headers;
 
 namespace Ozym.Web.Services
 {
@@ -25,8 +21,8 @@ namespace Ozym.Web.Services
     /// <typeparam name="T">The type of resource this service interacts with.</typeparam>
     public partial class HttpService<T>
     {
-        private readonly string _rootApiPath;
-        private readonly IReadOnlyDictionary<Type, string> _endPointMap =
+        private readonly string _baseApiUrl;
+        private readonly IReadOnlyDictionary<Type, string> _typeToEndpointMap =
             new Dictionary<Type, string>()
             {
                 { typeof(AccountDto), "/accounts" },
@@ -60,26 +56,25 @@ namespace Ozym.Web.Services
         /// Initializes a new instance of <see cref="HttpService{T}"/>.
         /// </summary>
         /// <param name="httpFactory"></param>
-        /// <param name="navigationManager"></param>
         /// <param name="configuration"></param>
         public HttpService(
             IHttpClientFactory httpFactory,
             IConfiguration configuration)
         {
-            if (httpFactory is null)
-                throw new ArgumentNullException(paramName: nameof(httpFactory));
+            ArgumentNullException.ThrowIfNull(httpFactory);
 
-            if (configuration is null)
-                throw new ArgumentNullException(paramName: nameof(configuration));
+            ArgumentNullException.ThrowIfNull(configuration);
 
             HttpFactory = httpFactory;
 
-            // TODO: Remove unused code
-            var apiOptions = new ApiOptions();
-            configuration.GetSection(ApiOptions.ApiService).Bind(apiOptions);
+            var apiOptions = new OzymApiOptions();
+            configuration
+                .GetSection($"API_CONFIGURATION:{OzymApiOptions.ServiceName}")
+                .Bind(apiOptions);
 
-            _rootApiPath = "http://ozymapi/api/v1";
-            ResourceIndexUri = CombinePath(rootPath: _rootApiPath, relativePath: _endPointMap[typeof(T)]);
+             _baseApiUrl = apiOptions.Url;
+            ResourceIndexUri = CombinePath(
+                rootPath: _baseApiUrl, relativePath: _typeToEndpointMap[typeof(T)]);
         }
 
         protected IHttpClientFactory HttpFactory { get; init; }
@@ -95,8 +90,8 @@ namespace Ozym.Web.Services
         /// <inheritdoc/>
         public async Task<TRecord> GetAsync<TRecord>(int id)
         {
-            string relativePath = _endPointMap[typeof(TRecord)];
-            string absolutePath = CombinePath(_rootApiPath, $"{relativePath}/{id}");
+            string relativePath = _typeToEndpointMap[typeof(TRecord)];
+            string absolutePath = CombinePath(_baseApiUrl, $"{relativePath}/{id}");
 
             using var client = HttpFactory.CreateClient();
 
@@ -108,8 +103,8 @@ namespace Ozym.Web.Services
         /// <inheritdoc/>
         public async Task<IEnumerable<TRecord>> GetAllAsync<TRecord>()
         {
-            string relativePath = _endPointMap[typeof(TRecord)];
-            string absolutePath = CombinePath(_rootApiPath, $"{relativePath}/all");
+            string relativePath = _typeToEndpointMap[typeof(TRecord)];
+            string absolutePath = CombinePath(_baseApiUrl, $"{relativePath}/all");
 
             using var client = HttpFactory.CreateClient();
 
@@ -123,13 +118,13 @@ namespace Ozym.Web.Services
             ParameterDto<TRecord> queryParameter, int pageNumber = 1, int pageSize = 20)
         {
 
-            string endpoint = _endPointMap[typeof(TRecord)];
-            string relativePath = CombinePath(_rootApiPath, endpoint);
+            string relativePath = _typeToEndpointMap[typeof(TRecord)];
+            string absoluePath = CombinePath(_baseApiUrl, relativePath);
 
             using var client = HttpFactory.CreateClient();
 
             var httpResponse = await client.PostAsJsonAsync(
-                $"{relativePath}/search?&pageNumber={pageNumber}&pageSize={pageSize}", queryParameter);
+                $"{absoluePath}/search?&pageNumber={pageNumber}&pageSize={pageSize}", queryParameter);
 
             httpResponse.EnsureSuccessStatusCode();
 
