@@ -48,11 +48,6 @@ RUN if [ "$CONFIGURATION" == "Release" ] ; then \
         --self-contained \
         --no-build \
         --force; \
-    else \
-        echo "Skippig migration bundle creation for non-Release configuration."; \
-    fi
-
-RUN if [ "$CONFIGURATION" == "Release" ] ; then \
     echo "Creating identity data migrations program..."; \
     dotnet ef migrations bundle \
         --configuration Release \
@@ -66,6 +61,7 @@ RUN if [ "$CONFIGURATION" == "Release" ] ; then \
         --force; \
     else \
         echo "Skippig migration bundle creation for non-Release configuration."; \
+        mkdir -p /app/migration ; \
     fi
 
 FROM base AS final
