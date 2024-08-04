@@ -12,6 +12,7 @@ using System.IO;
 using System;
 using Asp.Versioning;
 using System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
 
 namespace Ozym.Api
 {
@@ -20,9 +21,19 @@ namespace Ozym.Api
     {
         public static void Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(args);
-            
             var logger = ConvertFromSerilogILogger(logger: BuildLogger());
+            AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
+            {
+                logger?.Log(
+                    logLevel: LogLevel.Critical,
+                    message: "Unhandled exception encountered.\n{Exception}",
+                    eventArgs.ExceptionObject as Exception);
+                Console.WriteLine("Application terminating: {0}", eventArgs.IsTerminating);
+
+            };
+
             var config = BuildConfiguration(logger, builder.Environment.EnvironmentName);
 
             // Add services to DI container
@@ -99,13 +110,14 @@ namespace Ozym.Api
                     reloadOnChange: true)
                 .Build();
 
-            string connectionStringPattern = config["ConnectionStrings:__pattern__"]
-                ?? throw new InvalidOperationException(
+            string connectionStringPattern = config["ConnectionStrings:__pattern__"] ??
+                throw new InvalidOperationException(
                     "Configuration key 'ConnectionStrings:__pattern__' is undefined.");
             
             string dockerDatabaseService = config["DOCKER_DATABASE_SERVICE"]
                 ?? throw new InvalidOperationException(
                     "Configuration key 'DOCKER_DATABASE_SERVICE' is undefined.");
+
             config["ConnectionStrings:OzymWorks"] = string.Format(
                 connectionStringPattern,
                 dockerDatabaseService,

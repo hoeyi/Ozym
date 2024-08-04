@@ -29,6 +29,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Connections.Features;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace Ozym.Web
 {
@@ -40,8 +41,17 @@ namespace Ozym.Web
 
             // Register services for dependency injection
             #region Configuration, Logger, Helper services
-            
             var logger = ConvertFromSerilogILogger(logger: BuildLogger());
+            AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
+            {
+                logger?.Log(
+                    logLevel: LogLevel.Critical, 
+                    message: "Unhandled exception encountered.\n{Exception}", 
+                    eventArgs.ExceptionObject as Exception);
+                Console.WriteLine("Application terminating: {0}", eventArgs.IsTerminating);
+
+            };
+
             var config = BuildConfiguration(logger, builder.Environment.EnvironmentName);
 
             builder.Services.AddSingleton(implementationInstance: logger);
