@@ -3,7 +3,7 @@
 @typeparam TModelDto where TModelDto : class
 @attribute [CascadingTypeParameter(nameof(TModelDto))]
 
-<CascadingValue Value="@this">
+<CascadingValue Value="@ModelDto">
     <table class="model-attributes">
         <tbody>
             @ChildContent
@@ -11,7 +11,7 @@
     </table>
 </CascadingValue>
 
-@code {
+@code {                                                                     
     [Parameter, EditorRequired] 
     public RenderFragment ChildContent { get; set; }
 
