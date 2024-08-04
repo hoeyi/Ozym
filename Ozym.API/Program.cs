@@ -108,15 +108,13 @@ namespace Ozym.Api
             string connectionStringPattern = config["ConnectionStrings:__pattern__"]
                 ?? throw new InvalidOperationException(
                     "Configuration key 'ConnectionStrings:__pattern__' is undefined.");
-
-            bool isDevelopment =
-                (config.GetValue<string>("ASPNETCORE_ENVIRONMENT") ?? string.Empty) == "Development";
-
-            var dbServer = isDevelopment ? "-dev" : "";
-
+            
+            string dockerDatabaseService = config["DOCKER_DATABASE_SERVICE"]
+                ?? throw new InvalidOperationException(
+                    "Configuration key 'DOCKER_DATABASE_SERVICE' is undefined.");
             config["ConnectionStrings:OzymWorks"] = string.Format(
                 connectionStringPattern,
-                dbServer,
+                dockerDatabaseService,
                 "OzymWorks",
                 "OzymAppUser",
                 config["OZYM_APP_PASSWORD"]);

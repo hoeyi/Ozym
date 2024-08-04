@@ -161,23 +161,23 @@ namespace Ozym.Web
                 .Build();
 
             string connectionStringPattern = config["ConnectionStrings:__pattern__"]
-                ?? throw new ArgumentNullException(paramName: "ConnectionStrings:__pattern__");
+                ?? throw new InvalidOperationException(
+                    "Configuration key 'ConnectionStrings:__pattern__' is undefined.");
 
-            bool isDevelopment = 
-                (config.GetValue<string>("ASPNETCORE_ENVIRONMENT") ?? string.Empty) == "Development";
-
-            var dbServer = isDevelopment ? "-dev" : "";
+            string dockerDatabaseService = config["DOCKER_DATABASE_SERVICE"]
+                ?? throw new InvalidOperationException(
+                    "Configuration key 'DOCKER_DATABASE_SERVICE' is undefined.");
 
             config["ConnectionStrings:OzymWorks"] = string.Format(
                 connectionStringPattern,
-                dbServer,
+                dockerDatabaseService,
                 "OzymWorks",
                 "OzymAppUser",
                 config["OZYM_APP_PASSWORD"]);
 
             config["ConnectionStrings:OzymIdentity"] = string.Format(
                 connectionStringPattern,
-                dbServer,
+                dockerDatabaseService,
                 "OzymIdentity",
                 "OzymAppUser",
                 config["OZYM_APP_PASSWORD"]);
@@ -186,11 +186,13 @@ namespace Ozym.Web
                 ?? throw new InvalidOperationException(
                     "Configuration key 'API_CONFIGURATION:__url_pattern__' is undefined.");
 
-            // Set the api service base Url
-            var apiRoot = isDevelopment ? "-dev" : "";
+            string dockerApiService = config["DOCKER_API_SERVICE"] 
+                ?? throw new InvalidOperationException("Configuration key 'DOCKER_API_SERVICE' is undefined.");
+
+            // Set the ozym-api service base Url, based on the docker service name in the configuration.
             config["API_CONFIGURATION:ozymapi:Url"] = string.Format(
                 apiUrlPattern,
-                apiRoot,
+                dockerApiService,
                 "v1");
 
             config.Commit();
