@@ -23,11 +23,7 @@ namespace Ozym.Api
             var builder = WebApplication.CreateBuilder(args);
             
             var logger = ConvertFromSerilogILogger(logger: BuildLogger());
-
-            // If Windows OS, secure appsetings.json is supported.
-            bool isWindowsOS = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            var config = BuildConfiguration(
-                logger, builder.Environment.EnvironmentName, configureSecureJson: isWindowsOS);
+            var config = BuildConfiguration(logger, builder.Environment.EnvironmentName);
 
             // Add services to DI container
             builder.Services.AddSingleton(implementationInstance: logger);
@@ -87,12 +83,10 @@ namespace Ozym.Api
         /// </summary>
         /// <param name="logger">The <see cref="ILogger"/> to use.</param>
         /// <param name="environment"></param>
-        /// <param name="configureSecureJson"></param>
         /// <returns>An <see cref="IConfiguration"/>.</returns>
         private static IConfigurationRoot BuildConfiguration(
             ILogger logger,
-            string environment,
-            bool configureSecureJson = true)
+            string environment)
         {
             if (string.IsNullOrEmpty(environment))
                 throw new ArgumentNullException(paramName: nameof(environment));
