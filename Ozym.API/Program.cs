@@ -106,10 +106,17 @@ namespace Ozym.Api
                 .Build();
 
             string connectionStringPattern = config["ConnectionStrings:__pattern__"]
-                ?? throw new ArgumentNullException(paramName: "ConnectionStrings:__pattern__");
+                ?? throw new InvalidOperationException(
+                    "Configuration key 'ConnectionStrings:__pattern__' is undefined.");
+
+            bool isDevelopment =
+                (config.GetValue<string>("ASPNETCORE_ENVIRONMENT") ?? string.Empty) == "Development";
+
+            var dbServer = isDevelopment ? "-dev" : "";
 
             config["ConnectionStrings:OzymWorks"] = string.Format(
                 connectionStringPattern,
+                dbServer,
                 "OzymWorks",
                 "OzymAppUser",
                 config["OZYM_APP_PASSWORD"]);
