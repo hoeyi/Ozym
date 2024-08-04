@@ -36,8 +36,8 @@ RUN dotnet publish "Ozym.Web.csproj" -c $CONFIGURATION -o /app/publish /p:UseApp
 
 # Build data migration program from version 6.0. Version 7.0 SDK for dotnet-ef tool causes 
 # conflict with 6.0 target framework for the projects.
-RUN echo "Creating sample data migrations program"
-RUN if [ "$CONFIGURATION" -eq "Release" ] ; then \
+RUN if [ "$CONFIGURATION" == "Release" ] ; then \
+    echo "Creating sample data migrations program..."; \
     dotnet ef migrations bundle \
         --configuration Release \
         --context Ozym.EntityModel.Context.FinanceDbContext \
@@ -49,11 +49,11 @@ RUN if [ "$CONFIGURATION" -eq "Release" ] ; then \
         --no-build \
         --force; \
     else \
-        echo "Skippig migration bundle creation for non-Release configuration"; \
+        echo "Skippig migration bundle creation for non-Release configuration."; \
     fi
 
-RUN echo "Creating identity data migrations program"
-RUN if [ "$CONFIGURATION" -eq "Release" ] ; then \
+RUN if [ "$CONFIGURATION" == "Release" ] ; then \
+    echo "Creating identity data migrations program..."; \
     dotnet ef migrations bundle \
         --configuration Release \
         --context Ozym.Web.Data.IdentityDbContext \
@@ -65,7 +65,7 @@ RUN if [ "$CONFIGURATION" -eq "Release" ] ; then \
         --no-build \
         --force; \
     else \
-        echo "Skippig migration bundle creation for non-Release configuration"; \
+        echo "Skippig migration bundle creation for non-Release configuration."; \
     fi
 
 FROM base AS final
