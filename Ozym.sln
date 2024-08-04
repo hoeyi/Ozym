@@ -46,6 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{2E7628
 		installers\init-ozym-db.sh = installers\init-ozym-db.sh
 		installers\init-ozym-db.sql = installers\init-ozym-db.sql
 		installers\install-ozym-docker-win.sh = installers\install-ozym-docker-win.sh
+		installers\migrate-sample-data.sh = installers\migrate-sample-data.sh
 		installers\README.md = installers\README.md
 	EndProjectSection
 EndProject

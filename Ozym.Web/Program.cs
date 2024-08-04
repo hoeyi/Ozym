@@ -28,6 +28,8 @@ using System.Reflection;
 using System.Linq;
 using Microsoft.AspNetCore.Connections.Features;
 using System.Runtime.InteropServices;
+using System.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace Ozym.Web
 {
@@ -39,8 +41,17 @@ namespace Ozym.Web
 
             // Register services for dependency injection
             #region Configuration, Logger, Helper services
-            
             var logger = ConvertFromSerilogILogger(logger: BuildLogger());
+            AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
+            {
+                logger?.Log(
+                    logLevel: LogLevel.Critical, 
+                    message: "Unhandled exception encountered.\n{Exception}", 
+                    eventArgs.ExceptionObject as Exception);
+                Console.WriteLine("Application terminating: {0}", eventArgs.IsTerminating);
+
+            };
+
             var config = BuildConfiguration(logger, builder.Environment.EnvironmentName);
 
             builder.Services.AddSingleton(implementationInstance: logger);
@@ -160,21 +171,42 @@ namespace Ozym.Web
                 .Build();
 
             string connectionStringPattern = config["ConnectionStrings:__pattern__"]
-                ?? throw new ArgumentNullException(paramName: "ConnectionStrings:__pattern__");
+                ?? throw new InvalidOperationException(
+                    "Configuration key 'ConnectionStrings:__pattern__' is undefined.");
+
+            string dockerDatabaseService = config["DOCKER_DATABASE_SERVICE"]
+                ?? throw new InvalidOperationException(
+                    "Configuration key 'DOCKER_DATABASE_SERVICE' is undefined.");
 
             config["ConnectionStrings:OzymWorks"] = string.Format(
                 connectionStringPattern,
+                dockerDatabaseService,
                 "OzymWorks",
                 "OzymAppUser",
                 config["OZYM_APP_PASSWORD"]);
 
             config["ConnectionStrings:OzymIdentity"] = string.Format(
                 connectionStringPattern,
+                dockerDatabaseService,
                 "OzymIdentity",
                 "OzymAppUser",
                 config["OZYM_APP_PASSWORD"]);
 
+            string apiUrlPattern = config["API_CONFIGURATION:__url_pattern__"]
+                ?? throw new InvalidOperationException(
+                    "Configuration key 'API_CONFIGURATION:__url_pattern__' is undefined.");
+
+            string dockerApiService = config["DOCKER_API_SERVICE"] 
+                ?? throw new InvalidOperationException("Configuration key 'DOCKER_API_SERVICE' is undefined.");
+
+            // Set the ozym-api service base Url, based on the docker service name in the configuration.
+            config["API_CONFIGURATION:ozymapi:Url"] = string.Format(
+                apiUrlPattern,
+                dockerApiService,
+                "v1");
+
             config.Commit();
+            config.Reload();
 
             return config;
         }

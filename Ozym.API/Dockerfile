@@ -25,10 +25,12 @@ COPY . .
 WORKDIR /src/Ozym.API
 
 # Build the web api project.
-RUN dotnet build "Ozym.API.csproj" -c Release -o /app/build
+ARG CONFIGURATION
+RUN dotnet build "Ozym.API.csproj" -c $CONFIGURATION -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Ozym.API.csproj" -c Release -o /app/publish /p:UseAppHost=false --property WarningLevel=1
+ARG CONFIGURATION
+RUN dotnet publish "Ozym.API.csproj" -c $CONFIGURATION -o /app/publish /p:UseAppHost=false --property WarningLevel=1
 
 FROM base AS final
 WORKDIR /app

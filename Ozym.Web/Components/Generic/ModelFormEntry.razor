@@ -28,9 +28,6 @@
 }
 
 @code {
-    [CascadingParameter]
-    private ModelForm<TModelDto> ParentForm { get; set; }
-
     [Parameter, EditorRequired] 
     public RenderFragment ChildContent { get; set; }
 

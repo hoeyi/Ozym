@@ -5,14 +5,14 @@
 if [ -v ${MSSQL_SA_PASSWORD+x} ] || [ -z "$MSSQL_SA_PASSWORD" ]
 then
       echo "Variable \$MSSQL_SA_PASSWORD is not set."
-	  exit 1
+      exit 1
 fi
 
 # Repeast the same check for the OZYM_APP_PASSWORD variable.
 if [ -v ${MSSQL_SA_PASSWORD}+x} ] || [ -z "$OZYM_APP_PASSWORD" ]
 then
       echo "Variable \$OZYM_APP_PASSWORD is not set."
-	  exit 1
+      exit 1
 fi
 
 # Get the last commit hash and pass it to the docker-compose build command

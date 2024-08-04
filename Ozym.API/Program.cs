@@ -12,6 +12,7 @@ using System.IO;
 using System;
 using Asp.Versioning;
 using System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
 
 namespace Ozym.Api
 {
@@ -20,14 +21,20 @@ namespace Ozym.Api
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
-            
-            var logger = ConvertFromSerilogILogger(logger: BuildLogger());
 
-            // If Windows OS, secure appsetings.json is supported.
-            bool isWindowsOS = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            var config = BuildConfiguration(
-                logger, builder.Environment.EnvironmentName, configureSecureJson: isWindowsOS);
+            var builder = WebApplication.CreateBuilder(args);
+            var logger = ConvertFromSerilogILogger(logger: BuildLogger());
+            AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
+            {
+                logger?.Log(
+                    logLevel: LogLevel.Critical,
+                    message: "Unhandled exception encountered.\n{Exception}",
+                    eventArgs.ExceptionObject as Exception);
+                Console.WriteLine("Application terminating: {0}", eventArgs.IsTerminating);
+
+            };
+
+            var config = BuildConfiguration(logger, builder.Environment.EnvironmentName);
 
             // Add services to DI container
             builder.Services.AddSingleton(implementationInstance: logger);
@@ -87,12 +94,10 @@ namespace Ozym.Api
         /// </summary>
         /// <param name="logger">The <see cref="ILogger"/> to use.</param>
         /// <param name="environment"></param>
-        /// <param name="configureSecureJson"></param>
         /// <returns>An <see cref="IConfiguration"/>.</returns>
         private static IConfigurationRoot BuildConfiguration(
             ILogger logger,
-            string environment,
-            bool configureSecureJson = true)
+            string environment)
         {
             if (string.IsNullOrEmpty(environment))
                 throw new ArgumentNullException(paramName: nameof(environment));
@@ -105,16 +110,23 @@ namespace Ozym.Api
                     reloadOnChange: true)
                 .Build();
 
-            string connectionStringPattern = config["ConnectionStrings:__pattern__"]
-                ?? throw new ArgumentNullException(paramName: "ConnectionStrings:__pattern__");
+            string connectionStringPattern = config["ConnectionStrings:__pattern__"] ??
+                throw new InvalidOperationException(
+                    "Configuration key 'ConnectionStrings:__pattern__' is undefined.");
+            
+            string dockerDatabaseService = config["DOCKER_DATABASE_SERVICE"]
+                ?? throw new InvalidOperationException(
+                    "Configuration key 'DOCKER_DATABASE_SERVICE' is undefined.");
 
             config["ConnectionStrings:OzymWorks"] = string.Format(
                 connectionStringPattern,
+                dockerDatabaseService,
                 "OzymWorks",
                 "OzymAppUser",
                 config["OZYM_APP_PASSWORD"]);
 
             config.Commit();
+            config.Reload();
 
             return config;
         }

@@ -1,15 +1,8 @@
 services:
-  ozymweb:
+  ozymdb:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - MSSQL_SA_PASSWORD=gl45WvA1Jb62uqNQ
       - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
-    ports:
-      - "80"
-      - "443"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
   ozymapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -21,8 +14,45 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-  ozymdb:
+  ozymweb:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  ozymdb-dev:
     environment:
       - MSSQL_SA_PASSWORD=gl45WvA1Jb62uqNQ
       - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
+  ozymapi-dev:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
+      - DOCKER_DATABASE_SERVICE=ozymdb-dev
+    ports:
+      - "5001:80"
+      - "7001:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  ozymweb-dev:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
+      - DOCKER_DATABASE_SERVICE=ozymdb-dev
+      - DOCKER_API_SERVICE=ozymapi-dev 
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     
