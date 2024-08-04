@@ -35,6 +35,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
+      - DOCKER_DATABASE_SERVICE=ozymdb-dev
     ports:
       - "5001:80"
       - "7001:443"
@@ -46,6 +47,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
+      - DOCKER_DATABASE_SERVICE=ozymdb-dev
+      - DOCKER_API_SERVICE=ozymapi-dev 
     ports:
       - "80"
       - "443"
