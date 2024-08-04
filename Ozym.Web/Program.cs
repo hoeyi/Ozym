@@ -206,6 +206,7 @@ namespace Ozym.Web
                 "v1");
 
             config.Commit();
+            config.Reload();
 
             return config;
         }

@@ -126,6 +126,7 @@ namespace Ozym.Api
                 config["OZYM_APP_PASSWORD"]);
 
             config.Commit();
+            config.Reload();
 
             return config;
         }
