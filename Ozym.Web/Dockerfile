@@ -7,8 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 RUN dotnet --version
-RUN dotnet tool install --global dotnet-ef #--version 6.0.25
-#RUN dotnet ef --version
+RUN dotnet tool install --global dotnet-ef
 ENV PATH="${PATH}:/root/.dotnet/tools"
 WORKDIR /src
 
@@ -28,36 +27,46 @@ COPY . .
 WORKDIR /src/Ozym.Web
 
 # Build the web project.
-RUN dotnet build "Ozym.Web.csproj" -c Release -o /app/build
+ARG CONFIGURATION
+RUN dotnet build "Ozym.Web.csproj" -c $CONFIGURATION -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Ozym.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false --property WarningLevel=1
+ARG CONFIGURATION
+RUN dotnet publish "Ozym.Web.csproj" -c $CONFIGURATION -o /app/publish /p:UseAppHost=false --property WarningLevel=1
 
 # Build data migration program from version 6.0. Version 7.0 SDK for dotnet-ef tool causes 
 # conflict with 6.0 target framework for the projects.
 RUN echo "Creating sample data migrations program"
-RUN dotnet ef migrations bundle \
-	--configuration Release \
-	--context Ozym.EntityModel.Context.FinanceDbContext \
-	--startup-project Ozym.Web.csproj \
-	--project ../Ozym.EntityMigration/Ozym.EntityMigration.csproj \
-	--output /app/migration/ozymworksbundle \
-	-r linux-x64 \
-	--self-contained \
-	--no-build \
-	--force
+RUN if [ "$CONFIGURATION" -eq "Release" ] ; then \
+    dotnet ef migrations bundle \
+        --configuration Release \
+        --context Ozym.EntityModel.Context.FinanceDbContext \
+        --startup-project Ozym.Web.csproj \
+        --project ../Ozym.EntityMigration/Ozym.EntityMigration.csproj \
+        --output /app/migration/ozymworksbundle \
+        -r linux-x64 \
+        --self-contained \
+        --no-build \
+        --force; \
+    else \
+        echo "Skippig migration bundle creation for non-Release configuration"; \
+    fi
 
 RUN echo "Creating identity data migrations program"
-RUN dotnet ef migrations bundle \
-	--configuration Release \
-	--context Ozym.Web.Data.IdentityDbContext \
-	--startup-project Ozym.Web.csproj \
-	--project Ozym.Web.csproj \
-	--output /app/migration/ozymidentitybundle \
-	-r linux-x64 \
-	--self-contained \
-	--no-build \
-	--force
+RUN if [ "$CONFIGURATION" -eq "Release" ] ; then \
+    dotnet ef migrations bundle \
+        --configuration Release \
+        --context Ozym.Web.Data.IdentityDbContext \
+        --startup-project Ozym.Web.csproj \
+        --project Ozym.Web.csproj \
+        --output /app/migration/ozymidentitybundle \
+        -r linux-x64 \
+        --self-contained \
+        --no-build \
+        --force; \
+    else \
+        echo "Skippig migration bundle creation for non-Release configuration"; \
+    fi
 
 FROM base AS final
 COPY --from=publish /app/publish /app

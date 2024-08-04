@@ -1,29 +1,5 @@
 name: ozym
 services:
-  ozymweb:
-    container_name: ozym-web
-    environment:
-      OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
-    image: "${DOCKER_REGISTRY-}ozymweb"
-    build:
-      context: .
-      dockerfile: Ozym.Web/Dockerfile
-    depends_on:
-    - ozymdb
-    volumes:
-    - ./installers/migrate-sample-data.sh:/migrate-sample-data.sh
-
-  ozymapi:
-    container_name: ozym-api
-    environment:
-      OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
-    image: "${DOCKER_REGISTRY-}ozymapi"
-    build:
-      context: .
-      dockerfile: Ozym.API/Dockerfile
-    depends_on:
-    - ozymdb
-
   ozymdb:
     container_name: ozym-db
     environment:
@@ -44,3 +20,65 @@ services:
     volumes:
     - ./installers/init-ozym-db.sql:/init-ozym-db.sql
     - ./installers/init-ozym-db.sh:/init-ozym-db.sh
+
+  ozymapi:
+    container_name: ozym-api
+    environment:
+      OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
+    image: "${DOCKER_REGISTRY-}ozymapi"
+    build:
+      context: .
+      dockerfile: Ozym.API/Dockerfile
+    depends_on:
+    - ozymdb
+
+  ozymweb:
+    container_name: ozym-web
+    environment:
+      OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
+    image: "${DOCKER_REGISTRY-}ozymweb"
+    build:
+      context: .
+      dockerfile: Ozym.Web/Dockerfile
+    depends_on:
+    - ozymdb
+    - ozymapi
+    volumes:
+    - ./installers/migrate-sample-data.sh:/migrate-sample-data.sh
+
+  # Services built for debugging ozym-web. ozymdb-dev is intialized and 
+  # populated with sample data.
+  # TODO: Create a pre-built image for ozymapi so that only ozymweb-dev is built each time.
+  ozymdb-dev:
+    container_name: ozym-db-dev
+    profiles: [debug]
+    image: ghcr.io/hoeyi/ozymdb:dev-latest
+
+  ozymapi-dev:
+    container_name: ozym-api-dev
+    profiles: [debug]
+    environment:
+      OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
+    image: "${DOCKER_REGISTRY-}ozymapi:dev-latest"
+    build:
+      context: .
+      dockerfile: Ozym.API/Dockerfile
+      args:
+      - CONFIGURATION=Debug
+    depends_on:
+    - ozymdb-dev
+
+  ozymweb-dev:
+    container_name: ozym-web-dev
+    profiles: [debug]
+    environment:
+      OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
+    image: "${DOCKER_REGISTRY-}ozymweb:dev-latest"
+    build:
+      context: .
+      dockerfile: Ozym.Web/Dockerfile
+      args:
+      - CONFIGURATION=Debug
+    depends_on:
+    - ozymdb-dev
+    - ozymapi-dev 
