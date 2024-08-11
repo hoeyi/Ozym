@@ -4,7 +4,6 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "composeLaunchAction": "LaunchBrowser",
-      "composeLaunchServiceName": "ozymweb",
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
       "serviceActions": {
         "ozymapi": "StartWithoutDebugging",
@@ -25,7 +24,7 @@
         "ozymapi": "DoNotStart",
         "ozymdb": "DoNotStart",
         "ozymweb": "DoNotStart",
-        "ozymapi-dev": "StartDebugging",
+        "ozymapi-dev": "StartWithoutDebugging",
         "ozymdb-dev": "StartWithoutDebugging",
         "ozymweb-dev": "StartDebugging"
       }

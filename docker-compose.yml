@@ -57,22 +57,13 @@ services:
   ozymapi-dev:
     container_name: ozym-api-dev
     profiles: [debug]
-    environment:
-      OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
-    image: "${DOCKER_REGISTRY-}ozymapi:dev-latest"
-    build:
-      context: .
-      dockerfile: Ozym.API/Dockerfile
-      args:
-      - CONFIGURATION=Debug
+    image: ghcr.io/hoeyi/ozymapi:dev-latest
     depends_on:
     - ozymdb-dev
 
   ozymweb-dev:
     container_name: ozym-web-dev
     profiles: [debug]
-    environment:
-      OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
     image: "${DOCKER_REGISTRY-}ozymweb:dev-latest"
     build:
       context: .
