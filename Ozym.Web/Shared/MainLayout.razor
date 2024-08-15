@@ -7,15 +7,19 @@
 <div class="page" theme_elevation="00">
     <main>
         <div class="navbar-custom px-4 auth">
-            <div class="left">
-                @if (Menus is not null)
-                {
-                    @foreach(var menu in Menus)
-                    {
-                        <MenuBar Menu="menu" HyperlinkClickCallBack="OnHyperlinkClickHandler" />
-                    }
-                }
-            </div>
+            <AuthorizeView>
+                <Authorized>
+                    <div class="left">
+                        @if (Menus is not null)
+                        {
+                            @foreach(var menu in Menus)
+                            {
+                                <MenuBar Menu="menu" HyperlinkClickCallBack="OnHyperlinkClickHandler" />
+                            }
+                        }
+                    </div>
+                </Authorized>
+            </AuthorizeView>
             <div class="right">
                 <LoginDisplay />
             </div>

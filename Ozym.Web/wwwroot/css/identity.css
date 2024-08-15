@@ -14,7 +14,7 @@ body {
     margin-top: 0.75rem;
 }
 
-/*#region Navigation header*/
+/*#region Navigation header and boostrap link-formatting overrides*/
 .navbar-custom {
     background-color: var(--default-back-color);
     color: var(--theme-text-color-0, black);
@@ -50,11 +50,6 @@ a.sign-in:hover, a.manage-profile:hover {
     color: var(--theme-text-color-0, black);
 }
 
-a.navbar-link:hover {
-    color: var(--theme-text-color-0, black);
-    color: var(--theme-hexcolor-secondary-2-3, yellow);
-}
-
 .navbar-custom .navbar-nav {
     height: 100%;
     display: table;
@@ -69,9 +64,20 @@ a.navbar-link:hover {
     padding-right: 1rem;
 }
 
-.nav-item:hover {
+.nav-link {
+    color: var(--theme-text-color-0, black) !important;
+}
+
+.nav-link.active {
+    background-color: var(--theme-hexcolor-primary-1, gray) !important;
+}
+
+.nav-link:not(.active):hover {
+    background-color: var(--theme-hexcolor-secondary-2-1, yellow);
+}
+
+.navbar-b:hover {
     background-color: var(--theme-hexcolor-secondary-2-0, yellow);
-    color: var(--theme-hexcolor-gray-5, gray);
     cursor: pointer;
 }
 
@@ -96,14 +102,42 @@ a.navbar-link:hover {
 .navbar-custom > * {
     height: 100%;
 }
+
+main .btn-primary {
+    background-color: var(--theme-hexcolor-primary-0);
+    color: var(--theme-text-color-0);
+    border-color: var(--theme-hexcolor-primary-0);
+}
+
+main .btn-primary:hover {
+    background-color: var(--theme-hexcolor-primary-2, gray) !important;
+    border-color: var(--theme-hexcolor-primary-2, gray) !important;
+}
+
+main .btn-danger {
+    color: var(--theme-text-color-0);
+    background-color: var(--theme-hexcolor-secondary-1-0);
+    border-color: var(--theme-hexcolor-secondary-1-0);
+}
+
+main .btn-danger:hover {
+    color: var(--theme-text-color-0);
+    background-color: var(--theme-hexcolor-secondary-1-2);
+    border-color: var(--theme-hexcolor-secondary-1-2);
+}
+
+.alert.alert-warning {
+    background-color: var(--theme-hexcolor-secondary-2-2);
+    color: var(--theme-hexcolor-secondary-1-0);
+    border-color: var(--theme-hexcolor-secondary-2-2);
+}
 /*#endregion*/
 
-
-
 /* #region Custom links */
-a.custom-link {
+a .custom-link {
     color: var(--theme-text-color-0, blue);
 }
+
 a.custom-link:hover {
     color: var(--theme-hexcolor-secondary-2-3, yellow);
 }
