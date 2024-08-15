@@ -1,5 +1,5 @@
 # Ozym #
-**Ozym** is a web-based financial and investment recording-keeping and reporting application for personal use. The app user interface is built with [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) backed by [ASP.NET Core](https://github.com/dotnet/aspnetcore) and Entity Framework and Microsoft SQL Server on Linux for the data persistence layer.
+**Ozym** is a web-based financial and investment recording-keeping and reporting application for personal use. The app user interface is built with [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor) backed by [ASP.NET Core](https://github.com/dotnet/aspnetcore) and Entity Framework and Microsoft SQL Server. The primary deployment approach is a Docker container network comprised of separate web-service, api-service, and database containers.
 
 For information on contributing changes to this codebase, see [How to contribute](CONTRIBUTING.md).
 
