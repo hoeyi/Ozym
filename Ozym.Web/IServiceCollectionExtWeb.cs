@@ -20,6 +20,9 @@ using System.Net.Http;
 using System.Collections;
 using System.Collections.Generic;
 using Ozym.DataTransfer.Common;
+using Microsoft.Extensions.Configuration;
+using Ichosys.Extensions.Configuration;
+using System.Drawing.Text;
 
 namespace Ozym.Web
 {
@@ -145,6 +148,55 @@ namespace Ozym.Web
             {
                 return string.Empty;
             }
+        }
+
+        /// <summary>
+        /// Sets the appropriate configuration values depending on the appsettings 'USE_DOCKER' 
+        /// setting and the ASP.NET environment.
+        /// </summary>
+        /// <param name="config"></param>
+        internal static void InitializeConfiguration(this IConfigurationRoot config)
+        {
+            if(config.GetValue<bool?>("USE_DOCKER") ?? true)
+            {
+                string connectionStringPattern = config["ConnectionStrings:__pattern__"]
+                                ?? throw new InvalidOperationException(
+                                    "Configuration key 'ConnectionStrings:__pattern__' is undefined.");
+
+                string dockerDatabaseService = config["DOCKER_DATABASE_SERVICE"]
+                    ?? throw new InvalidOperationException(
+                        "Configuration key 'DOCKER_DATABASE_SERVICE' is undefined.");
+
+                config["ConnectionStrings:OzymWorks"] = string.Format(
+                    connectionStringPattern,
+                    dockerDatabaseService,
+                    "OzymWorks",
+                    "OzymAppUser",
+                    config["OZYM_APP_PASSWORD"]);
+
+                config["ConnectionStrings:OzymIdentity"] = string.Format(
+                    connectionStringPattern,
+                    dockerDatabaseService,
+                    "OzymIdentity",
+                    "OzymAppUser",
+                    config["OZYM_APP_PASSWORD"]);
+
+                string apiUrlPattern = config["API_CONFIGURATION:__url_pattern__"]
+                    ?? throw new InvalidOperationException(
+                        "Configuration key 'API_CONFIGURATION:__url_pattern__' is undefined.");
+
+                string dockerApiService = config["DOCKER_API_SERVICE"]
+                    ?? throw new InvalidOperationException("Configuration key 'DOCKER_API_SERVICE' is undefined.");
+
+                // Set the ozym-api service base Url, based on the docker service name in the configuration.
+                config["API_CONFIGURATION:ozymapi:Url"] = string.Format(
+                    apiUrlPattern,
+                    dockerApiService,
+                    "v1");
+            }
+
+            config.Commit();
+            config.Reload();
         }
     }
 }

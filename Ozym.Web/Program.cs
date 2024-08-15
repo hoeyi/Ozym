@@ -52,7 +52,8 @@ namespace Ozym.Web
 
             };
 
-            var config = BuildConfiguration(logger, builder.Environment.EnvironmentName);
+            var config = BuildConfiguration(builder.Environment.EnvironmentName, args);
+            builder.Configuration.AddConfiguration(config);
 
             builder.Services.AddSingleton(implementationInstance: logger);
             builder.Services.AddSingleton(implementationInstance: config);
@@ -76,7 +77,7 @@ namespace Ozym.Web
             // Data access services
             var databaseProvider = config["DATABASE_PROVIDER"];
             builder.AddIdentityContextFactoryService(databaseProvider);
-
+            
             builder.Services.AddDataAccessServices(
                 databaseProvider: databaseProvider,
                 developerMode: builder.Environment.IsDevelopment());
@@ -152,62 +153,33 @@ namespace Ozym.Web
         /// <summary>
         /// Builds the application <see cref="IConfiguration"/> instance.
         /// </summary>
-        /// <param name="logger">The <see cref="ILogger"/> to use.</param>
-        /// <param name="environment"></param>
+        /// <param name="environment">The application environment. One of: Development, Staging, Production.</param>
+        /// <param name="args">Command line arguments to include in configuration.</param>
         /// <returns>An <see cref="IConfiguration"/>.</returns>
         private static IConfigurationRoot BuildConfiguration(
-            ILogger logger, 
-            string environment)
+            string environment,
+            string[] args)
         {
             if (string.IsNullOrEmpty(environment))
                 throw new ArgumentNullException(paramName: nameof(environment));
 
-            IConfigurationRoot config = new ConfigurationBuilder()
+            var configBuilder = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
                 .AddJsonWritable(
                     path: $"appsettings.{environment}.json",
                     optional: false,
-                    reloadOnChange: true)
-                .Build();
+                    reloadOnChange: true);
 
-            string connectionStringPattern = config["ConnectionStrings:__pattern__"]
-                ?? throw new InvalidOperationException(
-                    "Configuration key 'ConnectionStrings:__pattern__' is undefined.");
+            if(environment == "Development")
+                configBuilder.AddUserSecrets<Program>(optional: true);
 
-            string dockerDatabaseService = config["DOCKER_DATABASE_SERVICE"]
-                ?? throw new InvalidOperationException(
-                    "Configuration key 'DOCKER_DATABASE_SERVICE' is undefined.");
+            if (args is not null && args.Length > 0)
+                configBuilder.AddCommandLine(args);
 
-            config["ConnectionStrings:OzymWorks"] = string.Format(
-                connectionStringPattern,
-                dockerDatabaseService,
-                "OzymWorks",
-                "OzymAppUser",
-                config["OZYM_APP_PASSWORD"]);
+            IConfigurationRoot config = configBuilder.Build();
 
-            config["ConnectionStrings:OzymIdentity"] = string.Format(
-                connectionStringPattern,
-                dockerDatabaseService,
-                "OzymIdentity",
-                "OzymAppUser",
-                config["OZYM_APP_PASSWORD"]);
-
-            string apiUrlPattern = config["API_CONFIGURATION:__url_pattern__"]
-                ?? throw new InvalidOperationException(
-                    "Configuration key 'API_CONFIGURATION:__url_pattern__' is undefined.");
-
-            string dockerApiService = config["DOCKER_API_SERVICE"] 
-                ?? throw new InvalidOperationException("Configuration key 'DOCKER_API_SERVICE' is undefined.");
-
-            // Set the ozym-api service base Url, based on the docker service name in the configuration.
-            config["API_CONFIGURATION:ozymapi:Url"] = string.Format(
-                apiUrlPattern,
-                dockerApiService,
-                "v1");
-
-            config.Commit();
-            config.Reload();
-
+            config.InitializeConfiguration();
+            
             return config;
         }
         
