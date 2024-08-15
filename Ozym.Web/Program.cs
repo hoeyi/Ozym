@@ -85,7 +85,12 @@ namespace Ozym.Web
             // Blazor app services
             builder.Services.AddBlazorPageServices();
 
-            builder.Services.AddRazorPages();
+            builder.Services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizeAreaFolder("Identity", "/");
+                options.Conventions.AllowAnonymousToAreaPage("Identity", "/Account/Login");
+            });
+
             builder.Services.AddServerSideBlazor();
 
             builder.Services.AddHttpServices();
