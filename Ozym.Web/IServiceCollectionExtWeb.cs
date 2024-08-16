@@ -3,7 +3,7 @@ using Ozym.BusinessLogic.Functions;
 using Ozym.BusinessLogic.MarketFeed;
 //using Ozym.EntityModel.Context;
 using Ozym.Web.Services;
-using Ozym.Web.Data;
+using Ozym.Web.Identity.Data;
 using System;
 using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Builder;
@@ -80,7 +80,7 @@ namespace Ozym.Web
         }
 
         /// <summary>
-        /// Registers helpers services required for pages in the <b>Ozym.Web</b>
+        /// Registers metadata, search, and display helper services used by the web app.
         /// assembly.
         /// </summary>
         /// <param name="services"></param>
@@ -90,6 +90,7 @@ namespace Ozym.Web
         /// <item><see cref="ITypedMetadataService{T}"/></item>
         /// <item><see cref="IExpressionBuilder"/></item>
         /// <item><see cref="ISearchService{T}"/></item>
+        /// <item><see cref="ISvgHelper"/></item>
         /// </list>
         /// <see cref="IModelMetadataService"/> is not included because it is registered by 
         /// <see cref="IServiceCollectionExtDAL.AddDataAccessServices(IServiceCollection)"/>

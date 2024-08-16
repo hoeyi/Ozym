@@ -1,14 +1,8 @@
-using Ozym;
-using Ozym.Web.Areas.Identity;
-using Ozym.Web.Areas.Identity.Data;
-using Ozym.Web.Data;
-using Ozym.Messaging;
-using Ichosys.DataModel;
-using Ichosys.DataModel.Expressions;
+global using System;
+using Ozym.Web.Identity.Data;
 using Ichosys.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,20 +10,12 @@ using Serilog;
 using Serilog.Extensions.Logging;
 using Serilog.Formatting.Compact;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
-using Ichosys.Blazor.Ionicons;
-using Ozym.Web;
-using Ozym.EntityModel.Context;
-using System;
 using Microsoft.AspNetCore.Hosting;
-using Ozym.UserInterface;
-using Ozym.Web.Services;
-using Ozym.BusinessLogic.Functions;
-using System.Reflection;
-using System.Linq;
-using Microsoft.AspNetCore.Connections.Features;
-using System.Runtime.InteropServices;
-using System.Threading;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Routing;
+using Ozym.Web.Components;
+using Ozym.Web.Components.Account;
 
 namespace Ozym.Web
 {
@@ -57,41 +43,44 @@ namespace Ozym.Web
 
             builder.Services.AddSingleton(implementationInstance: logger);
             builder.Services.AddSingleton(implementationInstance: config);
-            
+
             #endregion
 
             #region Authentication configuration
 
-            builder.Services.AddDefaultIdentity<WebAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<IdentityDbContext>();
+            builder.Services.AddCascadingAuthenticationState();
+            builder.Services.AddScoped<IdentityUserAccessor>();
+            builder.Services.AddScoped<IdentityRedirectManager>();
+            builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
-            builder.Services
-                .AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<WebAppUser>>();
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            })
+                .AddIdentityCookies();
+
+            builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddEntityFrameworkStores<IdentityDbContext>()
+                .AddSignInManager()
+                .AddDefaultTokenProviders();
+
+            builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-            builder.Services.AddCascadingAuthenticationState();
-
             #endregion
 
             // Data access services
-            var databaseProvider = config["DATABASE_PROVIDER"];
+            string databaseProvider = config["DATABASE_PROVIDER"] ?? "IN_MEMORY";
             builder.AddIdentityContextFactoryService(databaseProvider);
-            
+
             builder.Services.AddDataAccessServices(
                 databaseProvider: databaseProvider,
                 developerMode: builder.Environment.IsDevelopment());
 
             // Blazor app services
             builder.Services.AddBlazorPageServices();
-
-            builder.Services.AddRazorPages(options =>
-            {
-                options.Conventions.AuthorizeAreaFolder("Identity", "/");
-                options.Conventions.AllowAnonymousToAreaPage("Identity", "/Account/Login");
-            });
-
-            builder.Services.AddServerSideBlazor();
+            builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
             builder.Services.AddHttpServices();
 
@@ -112,17 +101,20 @@ namespace Ozym.Web
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+            app.UseAntiforgery();
 
-            app.UseRouting();
+            app.MapRazorComponents<App>()
+                .AddInteractiveServerRenderMode();
+            //app.UseRouting();
 
-            // Configure to use authentication/authorization.
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //// Configure to use authentication/authorization.
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
-            app.MapControllers();
+            //app.MapControllers();
 
-            app.MapBlazorHub();
-            app.MapFallbackToPage("/_Host");
+            // Add additional endpoints required by the Identity /Account Razor components.
+            app.MapAdditionalIdentityEndpoints();
 
             app.Run();
         }

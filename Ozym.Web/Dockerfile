@@ -51,7 +51,7 @@ RUN if [ "$CONFIGURATION" == "Release" ] ; then \
     echo "Creating identity data migrations program..."; \
     dotnet ef migrations bundle \
         --configuration Release \
-        --context Ozym.Web.Data.IdentityDbContext \
+        --context Ozym.Web.Identity.Data.IdentityDbContext \
         --startup-project Ozym.Web.csproj \
         --project Ozym.Web.csproj \
         --output /app/migration/ozymidentitybundle \

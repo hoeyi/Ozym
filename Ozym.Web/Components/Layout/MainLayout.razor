@@ -1,0 +1,90 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+
+@using System.Text.Json
+@using Ozym.Web.Components.Common
+@using Ozym.Web.Components.Account
+
+<div class="page" theme_elevation="00">
+    <main>
+        <div class="navbar-custom px-4 auth">
+            <div class="left">
+                @if (Menus is not null)
+                {
+                    @foreach(var menu in Menus)
+                    {
+                        <MenuBar Menu="menu" HyperlinkClickCallBack="OnHyperlinkClickHandler" />
+                    }
+                }
+            </div>
+            <div class="right">
+                <LoginDisplay />
+            </div>
+        </div>
+        <article class="content px-4">
+            <ErrorBoundary @ref="errorBoundary">
+                    <ChildContent>
+                        @Body
+                    </ChildContent>
+                <ErrorContent Context="exception">
+                    @{
+                        LogUnhandledException(exception);
+                    }
+                    <CascadingValue Value="@GetUnhandledExcpetionMessage()">
+                        <ErrorMessageBox />
+                    </CascadingValue>
+                </ErrorContent>
+            </ErrorBoundary>
+        </article>
+    </main>
+</div>
+
+@code {
+    #nullable enable
+    [Inject]
+    protected ILogger? Logger { get; set; }
+
+    private MenuRoot? MainMenu { get; set; }
+
+    private MenuRoot[]? Menus { get; set; }
+
+    private ErrorBoundary? errorBoundary;
+
+    protected override void OnParametersSet()
+    {
+        errorBoundary?.Recover();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        MainMenu = await Resources.ResourceHelper.GetDefaultMenu<MenuRoot>();
+        Menus = await Resources.ResourceHelper.GetDefaultMenu<MenuRoot[]>(
+            shortName: "DefaultBannerMenu.json");
+    }
+
+    private void OnHyperlinkClickHandler(LinkClickEventArgs args)
+    {
+        if (!(string.IsNullOrEmpty(args.UriPath) || args.UriPath == NavigationManager.Uri))
+            // TODO: Add special handling for special keypress/mouseclick scenarios.
+            NavigationManager.NavigateTo(uri: args.UriPath, replace: true);
+    }
+
+
+    private readonly IReadOnlySet<MenuItem> menuItems = new HashSet<MenuItem>()
+    {
+        new(){ IconKey = "calendar", Caption = "Calendar" , UriRelativePath = "/PageUnderConstruction" },
+        new(){ IconKey = "newspaper", Caption = "News" , UriRelativePath = "/PageUnderConstruction" },
+        new(){ IconKey = "stats-chart", Caption = "Reports" , UriRelativePath = "/PageUnderConstruction" },
+        new(){ IconKey = "planet", Caption = "Geography" , UriRelativePath = "/PageUnderConstruction" }
+    };
+
+    private string GetUnhandledExcpetionMessage() =>
+        string.Format(Resources.Strings.Exception_Unhandled_Critical, DateTime.Now);
+
+    private void LogUnhandledException(Exception exception) =>
+        Logger?.UnhandledExceptionEncountered(exception);
+
+    
+    #nullable disable
+}
