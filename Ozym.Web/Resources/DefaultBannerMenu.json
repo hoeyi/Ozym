@@ -1,6 +1,7 @@
 [
   {
     "MenuGuid": "6963AA44-5CE9-4F84-9250-AD4A134D714B",
+    "Name": "Default banner",
     "IconKey": "home",
     "UriRelativePath": "/"
   },

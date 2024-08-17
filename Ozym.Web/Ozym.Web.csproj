@@ -13,11 +13,13 @@
   <ItemGroup>
 	<Content Remove="Resources\DefaultBannerMenu.json" />
 	<Content Remove="Resources\DefaultMenu.json" />
+	<Content Remove="Resources\PublicBannerMenu.json" />
   </ItemGroup>
 
   <ItemGroup>
 	<EmbeddedResource Include="Resources\DefaultMenu.json" />
 	<EmbeddedResource Include="Resources\DefaultBannerMenu.json" />
+	<EmbeddedResource Include="Resources\PublicBannerMenu.json" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,27 +1,26 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
+@attribute [AllowAnonymous]
+
 <div class="page" theme_elevation="00">
     <main>
         <div class="navbar-custom px-4 auth">
             <div class="left">
                 @if (Menus is not null)
                 {
-                    @foreach(var menu in Menus)
+                    @foreach (var menu in Menus)
                     {
                         <MenuBar Menu="menu" HyperlinkClickCallBack="OnHyperlinkClickHandler" />
                     }
                 }
             </div>
-            <div class="right">
-                <LoginDisplay />
-            </div>
         </div>
         <article class="content px-4">
             <ErrorBoundary @ref="errorBoundary">
-                    <ChildContent>
-                        @Body
-                    </ChildContent>
+                <ChildContent>
+                    @Body
+                </ChildContent>
                 <ErrorContent Context="exception">
                     @{
                         LogUnhandledException(exception);
@@ -40,8 +39,6 @@
     [Inject]
     protected ILogger? Logger { get; set; }
 
-    private MenuRoot? MainMenu { get; set; }
-
     private MenuRoot[]? Menus { get; set; }
 
     private ErrorBoundary? errorBoundary;
@@ -53,9 +50,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        MainMenu = await Resources.ResourceHelper.GetDefaultMenu<MenuRoot>();
         Menus = await Resources.ResourceHelper.GetDefaultMenu<MenuRoot[]>(
-            shortName: "DefaultBannerMenu.json");
+            shortName: "PublicBannerMenu.json");
     }
 
     private void OnHyperlinkClickHandler(LinkClickEventArgs args)
@@ -71,6 +67,5 @@
     private void LogUnhandledException(Exception exception) =>
         Logger?.UnhandledExceptionEncountered(exception);
 
-    
     #nullable disable
 }

@@ -1,4 +1,5 @@
 ﻿@using System.Net.Http
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Authorization
@@ -60,3 +61,5 @@
 @using Ozym.EntityModelService.Query
 @using Ozym.Logging
 @using Ozym.UserInterface
+
+@attribute [Authorize]

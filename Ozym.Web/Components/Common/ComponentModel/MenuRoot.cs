@@ -10,4 +10,6 @@ public class MenuRoot : MenuItem
     }
 
     public Guid MenuGuid { get; init; }
+
+    public string Name { get; init; }
 }
