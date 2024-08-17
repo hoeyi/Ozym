@@ -50,6 +50,10 @@ main {
         height: 100%;
     }
 
+::deep .menu-item.root-node.has-icon-key {
+    min-width: 3.5rem;
+}
+
 ::deep sub-menu.level-0 .menu-item {
     display: flex;
     float: left;

@@ -11,7 +11,7 @@ a {
 .grid-container {
     width: 100%;
     height: 100%;
-    line-height: 100% !important;
+    line-height: normal !important;
     display: inline-grid;
     grid-template-areas: "a b c";
     grid-template-columns: minmax(32px, 2fr) minmax(64px, 8fr) minmax(16px, auto);

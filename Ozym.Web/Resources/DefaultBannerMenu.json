@@ -3,12 +3,22 @@
     "MenuGuid": "6963AA44-5CE9-4F84-9250-AD4A134D714B",
     "Name": "Default banner",
     "IconKey": "home",
-    "UriRelativePath": "/"
+    "UriRelativePath": "/",
+    "RootOptions": {
+      "DisplayIconLeft": true,
+      "DisplayCaption": false,
+      "DisplayChildMenuChevron": false
+    }
   },
   {
     "IconKey": null,
     "Caption": "Accounts",
     "UriRelativePath": null,
+    "RootOptions": {
+      "DisplayIconLeft": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
     "Children": [
       {
         "IconKey": "cash",

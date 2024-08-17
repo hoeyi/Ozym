@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
+@using Ozym.Web.Components.Account.Shared
 
 <div class="page" theme_elevation="00">
     <main>
@@ -14,7 +15,7 @@
                 }
             </div>
             <div class="right">
-                <LoginDisplay />
+                <ManageMenuBar HyperlinkClickCallBack="OnHyperlinkClickHandler" />
             </div>
         </div>
         <article class="content px-4">
@@ -40,8 +41,6 @@
     [Inject]
     protected ILogger? Logger { get; set; }
 
-    private MenuRoot? MainMenu { get; set; }
-
     private MenuRoot[]? Menus { get; set; }
 
     private ErrorBoundary? errorBoundary;
@@ -53,7 +52,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        MainMenu = await Resources.ResourceHelper.GetDefaultMenu<MenuRoot>();
         Menus = await Resources.ResourceHelper.GetDefaultMenu<MenuRoot[]>(
             shortName: "DefaultBannerMenu.json");
     }

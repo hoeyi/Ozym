@@ -31,13 +31,13 @@ namespace Ozym.Web.Components.Common
         /// Gets or sets the key for the navigation menu item.
         /// </summary>
         [JsonPropertyName("IconKey")]
-        public string? IconKey { get; init; }
+        public string? IconKey { get; set; }
 
         /// <summary>
         /// Gets or sets the caption for the navigation menu item.
         /// </summary>
         [JsonPropertyName("Caption")]
-        public string? Caption { get; init; }
+        public string? Caption { get; set; }
 
         /// <summary>
         /// Gets or sets the uri stem for the navigation menu item.
@@ -51,6 +51,9 @@ namespace Ozym.Web.Components.Common
         [JsonPropertyName("Children")]
         public List<MenuItem>? Children { get; init; }
 
+        [JsonPropertyName("ChildMenuOptions")]
+        public DisplayOptions ChildMenuOptions { get; set; } = new(initialValue: true);
+
         /// <summary>
         /// Gets whether this item has children.
         /// </summary>
@@ -60,10 +63,11 @@ namespace Ozym.Web.Components.Common
             get { return Children?.Any() ?? false; }
         }
 
+        [JsonIgnore]
         /// <summary>
-        /// Gets whether this menu item is part of the first level of menu items.
+        /// Returns true if this item is a root-level node in the menu tree.
         /// </summary>
-        public bool IsRoot { get; private set; }
+        public bool IsRoot { get; private init; }
 
         /// <inheritdoc />
         public override bool Equals(object? obj)
@@ -88,6 +92,30 @@ namespace Ozym.Web.Components.Common
         public static bool operator !=(MenuItem left, MenuItem right)
         {
             return !(left == right);
+        }
+
+        public struct DisplayOptions
+        {
+            [JsonConstructor]
+            public DisplayOptions()
+            {
+            }
+
+            public DisplayOptions(bool initialValue) 
+            {
+                DisplayIconLeft = initialValue;
+                DisplayCaption = initialValue;
+                DisplayChildMenuChevron = initialValue;
+            }
+
+            [JsonPropertyName("DisplayIcon")]
+            public bool DisplayIconLeft { get; set; }
+
+            [JsonPropertyName("DisplayCaption")]
+            public bool DisplayCaption { get; set; }
+
+            [JsonPropertyName("DisplayChildMenuChevron")]
+            public bool DisplayChildMenuChevron { get; set; }
         }
     }
 #nullable disable

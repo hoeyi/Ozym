@@ -37,14 +37,14 @@ main {
 }
 
 .navbar-custom .right {
-    display: table;
     margin-left: auto;
+    display: flex;
 }
 
-.navbar-custom .right > * {
+/*.navbar-custom .right > * {
     display: table-cell;
     vertical-align: bottom;
-}
+}*/
 
 .navbar-custom > * {
     height: 100%;
@@ -52,6 +52,11 @@ main {
 
 ::deep .menu-item.root-node.has-icon-key {
     min-width: 3.5rem;
+}
+
+::deep .right > .sub-menu.level-0 {
+    right: 0;
+    top: 100%;
 }
 
 ::deep sub-menu.level-0 .menu-item {

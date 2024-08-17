@@ -1,9 +1,0 @@
-﻿<AuthorizeView>
-    <Authorized>
-        <a class="manage-profile" href="/Account/Manage">@context.User.Identity?.Name</a>
-        <a class="sign-in authenticated" href="/Account/LogOut">Sign out</a>
-    </Authorized>
-    <NotAuthorized>
-        <a class="sign-in not-authenticated" href="/Account/Login">Sign in</a>
-    </NotAuthorized>
-</AuthorizeView>

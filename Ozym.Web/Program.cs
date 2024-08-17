@@ -105,13 +105,6 @@ namespace Ozym.Web
 
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
-            //app.UseRouting();
-
-            //// Configure to use authentication/authorization.
-            //app.UseAuthentication();
-            //app.UseAuthorization();
-
-            //app.MapControllers();
 
             // Add additional endpoints required by the Identity /Account Razor components.
             app.MapAdditionalIdentityEndpoints();

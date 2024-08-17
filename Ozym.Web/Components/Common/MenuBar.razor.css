@@ -67,10 +67,22 @@
     display: none;
 }
 
-::deep .sub-menu.level-0 {
+::deep .sub-menu.level-0.expand-left {
     left: 0;
+}
+
+::deep .sub-menu.level-0.expand-right {
+    right: 0;
+}
+
+::deep .sub-menu.level-0.expand-down {
     top: 100%;
 }
+
+::deep .sub-menu.level-0.expand-up {
+    bottom: 100%;
+}
+
 
 ::deep .sub-menu.level-0:before {
     content: '';
