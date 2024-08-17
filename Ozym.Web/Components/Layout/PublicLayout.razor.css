@@ -1,4 +1,4 @@
-.page {
+﻿.page {
     --default-back-color: var(--theme-elevation-backcolor-0, white);
     --default-text-color: var(--theme-text-color-0, black);
     --default-link-onhover-back-color: var(--theme-hexcolor-primary-0, gray);
@@ -31,33 +31,30 @@ main {
     z-index: 999;
 }
 
-.navbar-custom .left {
-    margin-right: auto;
-    display: flex;
-}
+    .navbar-custom .left {
+        margin-right: auto;
+        display: flex;
+    }
 
-.navbar-custom .right {
-    display: table;
-    margin-left: auto;
-}
+    .navbar-custom .right {
+        display: table;
+        margin-left: auto;
+    }
 
-.navbar-custom .right > * {
-    display: table-cell;
-    vertical-align: bottom;
-}
+        .navbar-custom .right > * {
+            display: table-cell;
+            vertical-align: bottom;
+        }
 
-.navbar-custom > * {
-    height: 100%;
-}
-
-::deep .menu-item.root-node.has-icon-key {
-    min-width: 3.5rem;
-}
+    .navbar-custom > * {
+        height: 100%;
+    }
 
 ::deep sub-menu.level-0 .menu-item {
     display: flex;
     float: left;
 }
+
 .home-link a {
     padding: 0.5em;
     margin: 0rem;
