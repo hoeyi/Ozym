@@ -2,13 +2,13 @@
   "MenuGuid": "034BCA51-9120-4627-BA37-5472CC763169",
   "Name": "Manage user",
   "IconKey": "person-circle",
-  "DisplayOptions": {
-    "DisplayIconLeft": true,
+  "RootOptions": {
+    "DisplayIcon": true,
     "DisplayCaption": false,
     "DisplayChildMenuChevron": false
   },
   "ChildMenuOptions": {
-    "DisplayIconLeft": false,
+    "DisplayIcon": false,
     "DisplayCaption": true,
     "DisplayChildMenuChevron": false
   },

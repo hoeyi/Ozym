@@ -36,6 +36,7 @@ namespace Ozym.Web.Resources
             using var reader = new StreamReader(stream);
 
             string menuJson = await reader.ReadToEndAsync();
+            var obj = JsonSerializer.Deserialize<T>(menuJson);
 
             return JsonSerializer.Deserialize<T>(menuJson);
         }

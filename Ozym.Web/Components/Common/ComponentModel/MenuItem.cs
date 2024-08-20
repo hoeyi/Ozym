@@ -103,13 +103,13 @@ namespace Ozym.Web.Components.Common
 
             public DisplayOptions(bool initialValue) 
             {
-                DisplayIconLeft = initialValue;
+                DisplayIcon = initialValue;
                 DisplayCaption = initialValue;
                 DisplayChildMenuChevron = initialValue;
             }
 
             [JsonPropertyName("DisplayIcon")]
-            public bool DisplayIconLeft { get; set; }
+            public bool DisplayIcon { get; set; }
 
             [JsonPropertyName("DisplayCaption")]
             public bool DisplayCaption { get; set; }

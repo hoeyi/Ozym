@@ -14,7 +14,7 @@
                     @MenuItem.Caption
                 </div>
             }
-            @if (DisplayChildMenuChevron)
+            @if (DisplayChildMenuChevron && MenuItem.HasChildren)
             {
                 <div class="icon right">
                     <IonIcon Name="caret-forward" class="caret-forward" />
@@ -41,7 +41,7 @@
                     @MenuItem.Caption
                 </div>
             }
-            @if (DisplayChildMenuChevron)
+            @if (DisplayChildMenuChevron && MenuItem.HasChildren)
             {
                 <div class="icon right">
                     <IonIcon Name="caret-forward" class="caret-forward" />
@@ -57,9 +57,9 @@
                 <MenuStripItem 
                     MenuItem="@child" 
                     HyperlinkClickCallBack="HyperlinkClickCallBack"
-                    DisplayIconLeft="MenuItem.ChildMenuOptions.DisplayIconLeft"
+                    DisplayIconLeft="MenuItem.ChildMenuOptions.DisplayIcon"
                     DisplayCaption="MenuItem.ChildMenuOptions.DisplayCaption"
-                    DisplayChildMenuChevron="MenuItem.ChildMenuOptions.DisplayChildMenuChevron" />
+                               DisplayChildMenuChevron="child.ChildMenuOptions.DisplayChildMenuChevron" />
             }
         </ul>
     }
@@ -78,14 +78,24 @@
     [Parameter, EditorRequired]
     public EventCallback<LinkClickEventArgs> HyperlinkClickCallBack { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the icon in the left-column of menu item is shown.
+    /// </summary>
     [Parameter]
-    public bool DisplayIconLeft { get; set; } = true;
+    public bool DisplayIconLeft { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the icon in the left-column of menu item is shown.
+    /// </summary>
     [Parameter]
-    public bool DisplayCaption { get; set; } = true;
+    public bool DisplayCaption { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the icon in the right-column of menu item is shown. Ignored if 
+    /// the menu item has no children.
+    /// </summary>
     [Parameter]
-    public bool DisplayChildMenuChevron { get; set; } = true;
+    public bool DisplayChildMenuChevron { get; set; }
 
     [CascadingParameter(Name = nameof(VerticalExpansion))]
     public ExpandDirection VerticalExpansion { get; set; } = ExpandDirection.Down;

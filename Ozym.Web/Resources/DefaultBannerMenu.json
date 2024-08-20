@@ -1,11 +1,9 @@
 [
   {
-    "MenuGuid": "6963AA44-5CE9-4F84-9250-AD4A134D714B",
-    "Name": "Default banner",
     "IconKey": "home",
     "UriRelativePath": "/",
     "RootOptions": {
-      "DisplayIconLeft": true,
+      "DisplayIcon": true,
       "DisplayCaption": false,
       "DisplayChildMenuChevron": false
     }
@@ -15,7 +13,7 @@
     "Caption": "Accounts",
     "UriRelativePath": null,
     "RootOptions": {
-      "DisplayIconLeft": false,
+      "DisplayIcon": false,
       "DisplayCaption": true,
       "DisplayChildMenuChevron": false
     },
@@ -41,6 +39,11 @@
     "IconKey": null,
     "Caption": "Reports",
     "UriRelativePath": null,
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
     "Children": [
       {
         "IconKey": "analytics",
@@ -58,6 +61,11 @@
     "IconKey": null,
     "Caption": "Market Data",
     "UriRelativePath": "/under-construction",
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
     "Children": [
       {
         "IconKey": null,
@@ -89,6 +97,11 @@
     "IconKey": null,
     "Caption": "Reference Data",
     "UriRelativePath": null,
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
     "Children": [
       {
         "IconKey": null,
@@ -143,6 +156,11 @@
     "IconKey": null,
     "Caption": "Configuration",
     "UriRelativePath": null,
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
     "Children": [
       {
 
@@ -155,6 +173,11 @@
   {
     "IconKey": null,
     "Caption": "About",
-    "UriRelativePath": "/about"
+    "UriRelativePath": "/about",
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    }
   }
 ]
