@@ -2,13 +2,20 @@
 @layout Ozym.Web.Components.Layout.PublicLayout
 @inject NavigationManager NavigationManager
 
+<head>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/theme-dark.css" />
+</head>
+
 @if (HttpContext is null)
 {
-    <p>Loading...</p>
+    <LoadingSvg />
 }
 else
 {
-    @Body
+    <div class="page" theme_elevation="00">
+        @Body
+    </div>
 }
 
 @code {
