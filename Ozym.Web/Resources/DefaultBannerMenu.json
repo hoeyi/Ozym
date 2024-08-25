@@ -21,7 +21,14 @@
       {
         "IconKey": "cash",
         "Caption": "Accounts",
-        "UriRelativePath": "/accounts"
+        "UriRelativePath": "/accounts",
+        "Children": [
+          {
+            "IconKey": "pencil",
+            "Caption": "Create (test)",
+            "UriRelativePath": "/accounts/test-editor"
+          }
+        ]
       },
       {
         "IconKey": null,
