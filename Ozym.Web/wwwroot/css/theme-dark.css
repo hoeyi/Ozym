@@ -55,6 +55,8 @@
     --theme-text-color-0: var(--theme-hexcolor-text-0);
     --theme-text-color-success: #3EC70B;
     --theme-text-color-failure: #DC0303;
+    --theme-text-color-warning: #DC0303;
+    --theme-text-color-danger: ;
     /*#endregion */
     /*#region Control colors */
     --theme-form-control-back-color: var(--theme-hexcolor-gray-1, gray);
