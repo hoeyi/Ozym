@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="css/theme-dark.css" />
     <link rel="stylesheet" href="Ozym.Web.styles.css" />
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
-    <HeadOutlet />
+    <HeadOutlet @rendermode="new InteractiveServerRenderMode(prerender: true)"/>
 </head>
 
 <body>
-    <Routes />
+    <Routes @rendermode="new InteractiveServerRenderMode(prerender: true)" />
     <script src="_framework/blazor.web.js"></script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,8 @@
-﻿<div class="ni-dashboard-tile">
+﻿@rendermode InteractiveServer
+
+<div class="ni-dashboard-tile">
     <div class="future-value-calculator">
-        <EditForm EditContext="_inputContext" OnSubmit="OnValidSubmit" method="post" id="@_formGuid" FormName="calculate">
+        <EditForm Model="_inputModel" OnSubmit="Calculate" id="@_formGuid">
             <DataAnnotationsValidator />
             <ModelForm TModelDto="FutureValueInput">
                 <ModelFormEntry ForMember="@(() => _inputModel.StartDate)">
@@ -29,12 +31,12 @@
                         @bind-Value="_inputModel.RegularDeposit" />
                 </ModelFormEntry>
             </ModelForm>
-            <ActionButtonMenu>
-                <button type="submit" class="form-control button" form="calculate">
-                    @Strings.Caption_Button_Calculate
-                </button>
-            </ActionButtonMenu>
         </EditForm>
+        <ActionButtonMenu>
+            <button type="submit" class="form-control button" form="@_formGuid">
+                @Strings.Caption_Button_Calculate
+            </button>
+        </ActionButtonMenu>
     </div>
     <div class="radzen-chart"> 
         <RadzenChart>
@@ -103,17 +105,16 @@
         _inputContext = new(_inputModel);
     }
 
-    private void OnValidSubmit(EditContext editContext)
+    private void Calculate()
     {
-        var hasValidParameters = editContext.Validate();
-        if(hasValidParameters)
-            Data = Calculator.FutureValue(
-                startDate: _inputModel.StartDate,
-                periods: _inputModel.Periods,
-                presentValue: _inputModel.PresentValue,
-                growthRate: _inputModel.GrowthRate,
-                regularDeposit: _inputModel.RegularDeposit,
-                periodType: _inputModel.PeriodType);
+        var isValid = _inputContext.Validate();
+        Data = Calculator.FutureValue(
+            startDate: _inputModel.StartDate,
+            periods: _inputModel.Periods,
+            presentValue: _inputModel.PresentValue,
+            growthRate: _inputModel.GrowthRate,
+            regularDeposit: _inputModel.RegularDeposit,
+            periodType: _inputModel.PeriodType);
     }
 
     private string GetName<T>(Expression<Func<T, object>> selector)
