@@ -10,7 +10,7 @@ set migration=%1
 REM Add the migration. Reference the IdentityDbContext with fully-qualified namespace.
 dotnet ef migrations add %migration% ^
 	--startup-project Ozym.Web.csproj ^
-	--context Ozym.Web.Data.IdentityDbContext ^
+	--context Ozym.Web.Identity.Data.IdentityDbContext ^
 	--project Ozym.Web.csproj ^
 	--output-dir Areas/Identity/Migrations
 

@@ -5,7 +5,7 @@ REM Check for first position parameter denoting the migration to use.
 REM Assume latest if undefined.
 if "%1%"=="" (
 	dotnet ef database update ^
-		--context Ozym.Web.Data.IdentityDbContext ^
+		--context Ozym.Web.Identity.Data.IdentityDbContext ^
 		--startup-project Ozym.Web.csproj ^
 		--project Ozym.Web.csproj
 ) ^
@@ -14,7 +14,7 @@ else (
 	set migration=%1
 
 	dotnet ef database update %migration% ^
-		--context Ozym.Web.Data.IdentityDbContext ^
+		--context Ozym.Web.Identity.Data.IdentityDbContext ^
 		--startup-project Ozym.Web.csproj ^
 		--project Ozym.Web.csproj
 )

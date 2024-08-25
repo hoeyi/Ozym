@@ -1,0 +1,41 @@
+{
+  "MenuGuid": "034BCA51-9120-4627-BA37-5472CC763169",
+  "Name": "Manage user",
+  "IconKey": "person-circle",
+  "RootOptions": {
+    "DisplayIcon": true,
+    "DisplayCaption": false,
+    "DisplayChildMenuChevron": false
+  },
+  "ChildMenuOptions": {
+    "DisplayIcon": false,
+    "DisplayCaption": true,
+    "DisplayChildMenuChevron": false
+  },
+  "Children": [
+    {
+      "Caption": "Manage profile",
+      "UriRelativePath": "/Account/Manage"
+    },
+    {
+      "Caption": "Email",
+      "UriRelativePath": "/Account/Manage/Email"
+    },
+    {
+      "Caption": "Password",
+      "UriRelativePath": "/Account/Manage/ChangePassword"
+    },
+    {
+      "Caption": "External logins",
+      "UriRelativePath": "/Account/Manage/ExternalLogins"
+    },
+    {
+      "Caption": "Multi-factor authentication",
+      "UriRelativePath": "/Account/Manage/TwoFactorAuthentication"
+    },
+    {
+      "Caption": "Personal data",
+      "UriRelativePath": "/Account/Manage/PersonalData"
+    }
+  ]
+}

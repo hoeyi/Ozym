@@ -1,0 +1,28 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <div class="user-welcome-caption" style="margin:auto">
+            @context?.User?.Identity.Name
+        </div>
+        <MenuBar 
+            Menu="ManageUserMenu" 
+            HyperlinkClickCallBack="HyperlinkClickCallBack"
+            OpenVertical="MenuStripItem.ExpandDirection.Down"
+            OpenHorizontal="MenuStripItem.ExpandDirection.Right"/>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    /// <summary>
+    /// Gets or sets the delegate overriding the link behavior for this menu item.
+    /// </summary>
+    [Parameter]
+    public EventCallback<LinkClickEventArgs> HyperlinkClickCallBack { get; set; }
+
+    private MenuRoot ManageUserMenu { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ManageUserMenu = await Resources.ResourceHelper.GetDefaultMenu<MenuRoot>(
+            shortName: "ManageUserMenu.json");
+    }
+}

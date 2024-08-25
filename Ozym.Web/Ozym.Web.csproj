@@ -13,11 +13,56 @@
   <ItemGroup>
 	<Content Remove="Resources\DefaultBannerMenu.json" />
 	<Content Remove="Resources\DefaultMenu.json" />
+	<Content Remove="Resources\ManageUserMenu.json" />
+	<Content Remove="Resources\PublicBannerMenu.json" />
   </ItemGroup>
 
   <ItemGroup>
 	<EmbeddedResource Include="Resources\DefaultMenu.json" />
 	<EmbeddedResource Include="Resources\DefaultBannerMenu.json" />
+	<EmbeddedResource Include="Resources\ManageUserMenu.json" />
+	<EmbeddedResource Include="Resources\PublicBannerMenu.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Components\Account\Pages\AccessDenied.razor" />
+    <None Include="Components\Account\Pages\ConfirmEmail.razor" />
+    <None Include="Components\Account\Pages\ConfirmEmailChange.razor" />
+    <None Include="Components\Account\Pages\ExternalLogin.razor" />
+    <None Include="Components\Account\Pages\ForgotPassword.razor" />
+    <None Include="Components\Account\Pages\ForgotPasswordConfirmation.razor" />
+    <None Include="Components\Account\Pages\InvalidPasswordReset.razor" />
+    <None Include="Components\Account\Pages\InvalidUser.razor" />
+    <None Include="Components\Account\Pages\Lockout.razor" />
+    <None Include="Components\Account\Pages\Login.razor" />
+    <None Include="Components\Account\Pages\LoginWith2fa.razor" />
+    <None Include="Components\Account\Pages\LoginWithRecoveryCode.razor" />
+    <None Include="Components\Account\Pages\Manage\ChangePassword.razor" />
+    <None Include="Components\Account\Pages\Manage\DeletePersonalData.razor" />
+    <None Include="Components\Account\Pages\Manage\Disable2fa.razor" />
+    <None Include="Components\Account\Pages\Manage\Email.razor" />
+    <None Include="Components\Account\Pages\Manage\EnableAuthenticator.razor" />
+    <None Include="Components\Account\Pages\Manage\ExternalLogins.razor" />
+    <None Include="Components\Account\Pages\Manage\GenerateRecoveryCodes.razor" />
+    <None Include="Components\Account\Pages\Manage\Index.razor" />
+    <None Include="Components\Account\Pages\Manage\PersonalData.razor" />
+    <None Include="Components\Account\Pages\Manage\ResetAuthenticator.razor" />
+    <None Include="Components\Account\Pages\Manage\SetPassword.razor" />
+    <None Include="Components\Account\Pages\Manage\TwoFactorAuthentication.razor" />
+    <None Include="Components\Account\Pages\Manage\_Imports.razor" />
+    <None Include="Components\Account\Pages\Register.razor" />
+    <None Include="Components\Account\Pages\RegisterConfirmation.razor" />
+    <None Include="Components\Account\Pages\ResendEmailConfirmation.razor" />
+    <None Include="Components\Account\Pages\ResetPassword.razor" />
+    <None Include="Components\Account\Pages\ResetPasswordConfirmation.razor" />
+    <None Include="Components\Account\Pages\_Imports.razor" />
+    <None Include="Components\Account\Shared\AccountLayout.razor" />
+    <None Include="Components\Account\Shared\ExternalLoginPicker.razor" />
+    <None Include="Components\Account\Shared\ManageLayout.razor" />
+    <None Include="Components\Account\Shared\ManageNavMenu.razor" />
+    <None Include="Components\Account\Shared\RedirectToLogin.razor" />
+    <None Include="Components\Account\Shared\ShowRecoveryCodes.razor" />
+    <None Include="Components\Account\Shared\StatusMessage.razor" />
   </ItemGroup>
 
 	
@@ -28,7 +73,6 @@
 	<PackageReference Include="Ichosys.Extensions.Configuration" Version="3.0.0.5070" />
 	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.6" />
 	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
-	<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.6" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
 	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />

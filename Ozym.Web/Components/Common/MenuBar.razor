@@ -1,5 +1,13 @@
 ﻿<ul class="menu-bar">
-    <MenuStripItem MenuItem="Menu" HyperlinkClickCallBack="HyperlinkClickCallBack"/>
+    <CascadingValue Name="VerticalExpansion" Value="@OpenVertical">
+        <CascadingValue Name="HorizontalExpansion" Value="@OpenHorizontal">
+            <MenuStripItem 
+                MenuItem="Menu" HyperlinkClickCallBack="HyperlinkClickCallBack" 
+                DisplayIconLeft="Menu.RootOptions.DisplayIcon"
+                DisplayCaption="Menu.RootOptions.DisplayCaption"
+                DisplayChildMenuChevron="Menu.RootOptions.DisplayChildMenuChevron" />
+        </CascadingValue>
+    </CascadingValue>
 </ul>
 
 @code {
@@ -8,6 +16,12 @@
     /// </summary>
     [Parameter, EditorRequired]
     public MenuRoot Menu { get; set; }
+
+    [Parameter]
+    public MenuStripItem.ExpandDirection OpenVertical { get; set; } = MenuStripItem.ExpandDirection.Down;
+
+    [Parameter]
+    public MenuStripItem.ExpandDirection OpenHorizontal { get; set; } = MenuStripItem.ExpandDirection.Left;
 
     /// <summary>
     /// Gets or sets the delegate overriding the link behavior for this menu item.

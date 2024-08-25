@@ -1,0 +1,35 @@
+﻿@inherits LayoutComponentBase
+@layout Ozym.Web.Components.Layout.PublicLayout
+@inject NavigationManager NavigationManager
+
+<head>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/theme-dark.css" />
+</head>
+
+@if (HttpContext is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ThemedComponent>
+        @Body
+    </ThemedComponent>
+}
+
+@code {
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (HttpContext is null)
+        {
+            // If this code runs, we're currently rendering in interactive mode, so there is no HttpContext.
+            // The identity pages need to set cookies, so they require an HttpContext. To achieve this we
+            // must transition back from interactive mode to a server-rendered page.
+            NavigationManager.Refresh(forceReload: true);
+        }
+    }
+}

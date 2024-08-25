@@ -14,7 +14,7 @@
                     @MenuItem.Caption
                 </div>
             }
-            @if(DisplayIconRight)
+            @if (DisplayChildMenuChevron && MenuItem.HasChildren)
             {
                 <div class="icon right">
                     <IonIcon Name="caret-forward" class="caret-forward" />
@@ -41,7 +41,7 @@
                     @MenuItem.Caption
                 </div>
             }
-            @if (DisplayIconRight)
+            @if (DisplayChildMenuChevron && MenuItem.HasChildren)
             {
                 <div class="icon right">
                     <IonIcon Name="caret-forward" class="caret-forward" />
@@ -54,17 +54,18 @@
         <ul class="@GetChildMenuClass()">
             @foreach (var child in MenuItem.Children)
             {
-                <MenuStripItem MenuItem="@child" HyperlinkClickCallBack="HyperlinkClickCallBack" />
+                <MenuStripItem 
+                    MenuItem="@child" 
+                    HyperlinkClickCallBack="HyperlinkClickCallBack"
+                    DisplayIconLeft="MenuItem.ChildMenuOptions.DisplayIcon"
+                    DisplayCaption="MenuItem.ChildMenuOptions.DisplayCaption"
+                               DisplayChildMenuChevron="child.ChildMenuOptions.DisplayChildMenuChevron" />
             }
         </ul>
     }
 </li>
 
 @code {
-    protected override void OnInitialized()
-    {
-        return;
-    }
     /// <summary>
     /// Gets or sets the object defining the content of this menu item.
     /// </summary>
@@ -78,21 +79,71 @@
     public EventCallback<LinkClickEventArgs> HyperlinkClickCallBack { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the styling 
+    /// Gets or sets whether the icon in the left-column of menu item is shown.
     /// </summary>
     [Parameter]
-    public bool AsRoot { get; init; }
+    public bool DisplayIconLeft { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the icon in the left-column of menu item is shown.
+    /// </summary>
+    [Parameter]
+    public bool DisplayCaption { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the icon in the right-column of menu item is shown. Ignored if 
+    /// the menu item has no children.
+    /// </summary>
+    [Parameter]
+    public bool DisplayChildMenuChevron { get; set; }
+
+    [CascadingParameter(Name = nameof(VerticalExpansion))]
+    public ExpandDirection VerticalExpansion { get; set; } = ExpandDirection.Down;
+
+    [CascadingParameter(Name = nameof(HorizontalExpansion))]
+    public ExpandDirection HorizontalExpansion { get; set; } = ExpandDirection.Left;
+
+    public enum ExpandDirection
+    {
+        Up,
+
+        Down,
+
+        Left,
+
+        Right
+    }
 
     private const string MenuLevelRoot = "level-0";
     private const string MenuLevelChild = "level-n";
     private const string MenuItemClass = "menu-item";
 
-    private bool DisplayIconLeft => !MenuItem.IsRoot || !string.IsNullOrEmpty(MenuItem.IconKey);
-    private bool DisplayCaption => !MenuItem.IsRoot || !string.IsNullOrEmpty(MenuItem.Caption);
-    private bool DisplayIconRight => !MenuItem.IsRoot && MenuItem.HasChildren;
+    private bool ShowColumnA => DisplayIconLeft;
+    private bool ShowColumnB => DisplayCaption;
+    private bool ShowColumnC => (MenuItem?.HasChildren ?? false) && DisplayChildMenuChevron;
 
-    private string GetChildMenuClass() =>
-        $"sub-menu {(MenuItem.IsRoot ? MenuLevelRoot : MenuLevelChild)}";
+    private string GetChildMenuClass()
+    {
+        System.Text.StringBuilder sb = new();
+        sb.Append("sub-menu");
+
+        if(MenuItem.IsRoot)
+            sb.Append($" {MenuLevelRoot}");
+        else
+            sb.Append($" {MenuLevelChild}");
+
+        if(VerticalExpansion == ExpandDirection.Up)
+            sb.Append(" expand-up");
+        else if (VerticalExpansion == ExpandDirection.Down)
+            sb.Append(" expand-down");
+
+        if(HorizontalExpansion == ExpandDirection.Left)
+            sb.Append(" expand-left");
+        else if (HorizontalExpansion == ExpandDirection.Right)
+            sb.Append(" expand-right");
+
+        return sb.ToString();
+    }
 
     private string GetItemClass()
     {
@@ -103,41 +154,27 @@
             sb.Append(" parent");
 
         if (MenuItem.IsRoot)
-        {
             sb.Append(" root-node");
-        }
 
         if(!string.IsNullOrEmpty(MenuItem?.IconKey))
             sb.Append(" has-icon-key");
 
-        return string.Join(" ", sb);
+        return sb.ToString();
     }
 
     private string GetGridContainerClassModifier()
     {
         System.Text.StringBuilder sb = new();
 
-        if(DisplayIconLeft)
-        {
+        if (ShowColumnA)
             sb.Append(" col-a");
-            sb.Append(" with-icon-left");
-        }
 
-        if(DisplayCaption)
-        {
+        if (ShowColumnB)
             sb.Append(" col-b");
-            sb.Append(" with-caption");
-        }
 
-        if (DisplayIconRight)
-        {
+        if (ShowColumnC)
             sb.Append(" col-c");
-            sb.Append(" with-icon-right");
-        }
-
-        if(sb.Length == 0)
-            return string.Empty;
-
-        return string.Join(" ", sb);
+        
+        return sb.ToString();
     }
 }
