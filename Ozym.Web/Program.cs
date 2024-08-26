@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 using Ozym.Web.Components;
-using Ozym.Web.Components.Account;
+using Ozym.Web.Components.User;
 
 namespace Ozym.Web
 {

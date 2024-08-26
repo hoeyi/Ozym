@@ -15,27 +15,27 @@
   "Children": [
     {
       "Caption": "Manage profile",
-      "UriRelativePath": "/Account/Manage"
+      "UriRelativePath": "/user/manage"
     },
     {
       "Caption": "Email",
-      "UriRelativePath": "/Account/Manage/Email"
+      "UriRelativePath": "/user/manage/Email"
     },
     {
       "Caption": "Password",
-      "UriRelativePath": "/Account/Manage/ChangePassword"
+      "UriRelativePath": "/user/manage/ChangePassword"
     },
     {
       "Caption": "External logins",
-      "UriRelativePath": "/Account/Manage/ExternalLogins"
+      "UriRelativePath": "/user/manage/ExternalLogins"
     },
     {
       "Caption": "Multi-factor authentication",
-      "UriRelativePath": "/Account/Manage/TwoFactorAuthentication"
+      "UriRelativePath": "/user/manage/TwoFactorAuthentication"
     },
     {
       "Caption": "Personal data",
-      "UriRelativePath": "/Account/Manage/PersonalData"
+      "UriRelativePath": "/user/manage/PersonalData"
     }
   ]
 }
