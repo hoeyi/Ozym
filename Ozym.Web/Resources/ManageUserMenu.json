@@ -1,41 +1,54 @@
-{
-  "MenuGuid": "034BCA51-9120-4627-BA37-5472CC763169",
-  "Name": "Manage user",
-  "IconKey": "person-circle",
-  "RootOptions": {
-    "DisplayIcon": true,
-    "DisplayCaption": false,
-    "DisplayChildMenuChevron": false
-  },
-  "ChildMenuOptions": {
-    "DisplayIcon": false,
-    "DisplayCaption": true,
-    "DisplayChildMenuChevron": false
-  },
-  "Children": [
-    {
-      "Caption": "Manage profile",
-      "UriRelativePath": "/user/manage"
-    },
-    {
-      "Caption": "Email",
-      "UriRelativePath": "/user/manage/Email"
-    },
-    {
-      "Caption": "Password",
-      "UriRelativePath": "/user/manage/ChangePassword"
-    },
-    {
-      "Caption": "External logins",
-      "UriRelativePath": "/user/manage/ExternalLogins"
-    },
-    {
-      "Caption": "Multi-factor authentication",
-      "UriRelativePath": "/user/manage/TwoFactorAuthentication"
-    },
-    {
-      "Caption": "Personal data",
-      "UriRelativePath": "/user/manage/PersonalData"
+[
+  {
+    "MenuGuid": "EB3D6554-E568-4CF1-8D32-75739617B5A5",
+    "Name": "Logout",
+    "IconKey": "exit",
+    "UriRelativePath": "User/Logout",
+    "RootOptions": {
+      "DisplayIcon": true,
+      "DisplayCaption": false,
+      "DisplayChildMenuChevron": false
     }
-  ]
-}
+  },
+  {
+    "MenuGuid": "034BCA51-9120-4627-BA37-5472CC763169",
+    "Name": "Manage user",
+    "IconKey": "person-circle",
+    "RootOptions": {
+      "DisplayIcon": true,
+      "DisplayCaption": false,
+      "DisplayChildMenuChevron": false
+    },
+    "ChildMenuOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
+    "Children": [
+      {
+        "Caption": "Manage profile",
+        "UriRelativePath": "/User/Manage"
+      },
+      {
+        "Caption": "Email",
+        "UriRelativePath": "/User/Manage/Email"
+      },
+      {
+        "Caption": "Password",
+        "UriRelativePath": "/User/Manage/ChangePassword"
+      },
+      {
+        "Caption": "External logins",
+        "UriRelativePath": "/User/Manage/ExternalLogins"
+      },
+      {
+        "Caption": "Multi-factor authentication",
+        "UriRelativePath": "/User/Manage/TwoFactorAuthentication"
+      },
+      {
+        "Caption": "Personal data",
+        "UriRelativePath": "/User/Manage/PersonalData"
+      }
+    ]
+  }
+]

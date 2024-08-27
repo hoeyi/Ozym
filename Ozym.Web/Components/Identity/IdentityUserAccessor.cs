@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Ozym.Web.Components.User
+namespace Ozym.Web.Components.Identity
 {
     internal sealed class IdentityUserAccessor(UserManager<ApplicationUser> userManager, IdentityRedirectManager redirectManager)
     {

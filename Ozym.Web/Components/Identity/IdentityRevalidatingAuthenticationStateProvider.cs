@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace Ozym.Web.Components.User
+namespace Ozym.Web.Components.Identity
 {
     // This is a server-side AuthenticationStateProvider that revalidates the security stamp for the connected user
     // every 30 minutes an interactive circuit is connected.

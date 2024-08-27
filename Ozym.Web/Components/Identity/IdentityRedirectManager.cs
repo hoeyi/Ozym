@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Ozym.Web.Components.User
+namespace Ozym.Web.Components.Identity
 {
     internal sealed class IdentityRedirectManager(NavigationManager navigationManager)
     {

@@ -3,11 +3,15 @@
         <div class="user-welcome-caption" style="margin:auto">
             @context?.User?.Identity.Name
         </div>
-        <MenuBar 
-            Menu="ManageUserMenu" 
-            HyperlinkClickCallBack="HyperlinkClickCallBack"
-            OpenVertical="MenuStripItem.ExpandDirection.Down"
-            OpenHorizontal="MenuStripItem.ExpandDirection.Right"/>
+        <IonIcon Name="exit" />
+        @foreach(var menu in ManageUserMenu)
+        {
+            <MenuBar 
+                Menu="menu" 
+                HyperlinkClickCallBack="HyperlinkClickCallBack"
+                OpenVertical="MenuStripItem.ExpandDirection.Down"
+                OpenHorizontal="MenuStripItem.ExpandDirection.Right"/>
+        }
     </Authorized>
 </AuthorizeView>
 
@@ -18,11 +22,11 @@
     [Parameter]
     public EventCallback<LinkClickEventArgs> HyperlinkClickCallBack { get; set; }
 
-    private MenuRoot ManageUserMenu { get; set; }
+    private MenuRoot[] ManageUserMenu { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        ManageUserMenu = await Resources.ResourceHelper.GetDefaultMenu<MenuRoot>(
+        ManageUserMenu = await Resources.ResourceHelper.GetDefaultMenu<MenuRoot[]>(
             shortName: "ManageUserMenu.json");
     }
 }

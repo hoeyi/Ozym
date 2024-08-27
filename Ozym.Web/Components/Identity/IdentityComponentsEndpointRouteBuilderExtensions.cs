@@ -1,5 +1,5 @@
-using Ozym.Web.Components.User.Pages;
-using Ozym.Web.Components.User.Pages.Manage;
+using Ozym.Web.Components.Identity.Pages;
+using Ozym.Web.Components.Identity.Pages.Manage;
 using Ozym.Web.Identity.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -15,12 +15,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Microsoft.AspNetCore.Routing
 {
     internal static class IdentityComponentsEndpointRouteBuilderExtensions
     {
-        // These endpoints are required by the Identity Razor components defined in the /Components/user/Pages directory of this project.
+        // These endpoints are required by the Identity Razor components defined in the /Components/User/Pages directory of this project.
         public static IEndpointConventionBuilder MapAdditionalIdentityEndpoints(this IEndpointRouteBuilder endpoints)
         {
             ArgumentNullException.ThrowIfNull(endpoints);
@@ -39,7 +41,7 @@ namespace Microsoft.AspNetCore.Routing
 
                 var redirectUrl = UriHelper.BuildRelative(
                     context.Request.PathBase,
-                    "/user/ExternalLogin",
+                    "/User/ExternalLogin",
                     QueryString.Create(query));
 
                 var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
