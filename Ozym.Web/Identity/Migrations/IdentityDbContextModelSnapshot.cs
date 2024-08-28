@@ -8,7 +8,7 @@ using Ozym.Web.Identity.Data;
 
 #nullable disable
 
-namespace Ozym.Web.Areas.Identity.Migrations
+namespace Ozym.Web.Identity.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
     partial class IdentityDbContextModelSnapshot : ModelSnapshot
@@ -18,10 +18,10 @@ namespace Ozym.Web.Areas.Identity.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("WebIdentity")
-                .HasAnnotation("ProductVersion", "6.0.16")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -56,7 +56,7 @@ namespace Ozym.Web.Areas.Identity.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -81,7 +81,7 @@ namespace Ozym.Web.Areas.Identity.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -103,12 +103,10 @@ namespace Ozym.Web.Areas.Identity.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -145,12 +143,10 @@ namespace Ozym.Web.Areas.Identity.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -160,7 +156,7 @@ namespace Ozym.Web.Areas.Identity.Migrations
                     b.ToTable("AspNetUserTokens", "WebIdentity");
                 });
 
-            modelBuilder.Entity("Ozym.Web.Areas.Identity.Data.WebAppUser", b =>
+            modelBuilder.Entity("Ozym.Web.Identity.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -236,7 +232,7 @@ namespace Ozym.Web.Areas.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Ozym.Web.Areas.Identity.Data.WebAppUser", null)
+                    b.HasOne("Ozym.Web.Identity.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -245,7 +241,7 @@ namespace Ozym.Web.Areas.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Ozym.Web.Areas.Identity.Data.WebAppUser", null)
+                    b.HasOne("Ozym.Web.Identity.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -260,7 +256,7 @@ namespace Ozym.Web.Areas.Identity.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ozym.Web.Areas.Identity.Data.WebAppUser", null)
+                    b.HasOne("Ozym.Web.Identity.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -269,7 +265,7 @@ namespace Ozym.Web.Areas.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Ozym.Web.Areas.Identity.Data.WebAppUser", null)
+                    b.HasOne("Ozym.Web.Identity.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
