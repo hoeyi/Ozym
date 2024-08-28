@@ -1,0 +1,17 @@
+﻿@page "/User/Logout"
+
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+@using Ozym.Web.Identity.Data
+
+@inject SignInManager<ApplicationUser> SigninManager
+@inject NavigationManager NavigationManager
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await SigninManager.SignOutAsync();
+
+        NavigationManager.NavigateTo("User/Login", forceLoad: true);
+    }
+}

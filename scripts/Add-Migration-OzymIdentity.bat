@@ -12,7 +12,7 @@ dotnet ef migrations add %migration% ^
 	--startup-project Ozym.Web.csproj ^
 	--context Ozym.Web.Identity.Data.IdentityDbContext ^
 	--project Ozym.Web.csproj ^
-	--output-dir Areas/Identity/Migrations
+	--output-dir Identity/Migrations
 
 goto :finally
 

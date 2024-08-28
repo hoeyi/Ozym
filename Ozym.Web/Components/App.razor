@@ -24,7 +24,7 @@
     private HttpContext HttpContext { get; set; } = default!;
 
     private IComponentRenderMode? RenderModeForPage =>
-        HttpContext.Request.Path.StartsWithSegments("/Account")
+        HttpContext.Request.Path.StartsWithSegments("/User")
             ? null
             : new InteractiveServerRenderMode(prerender: true);
 }
