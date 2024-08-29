@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Ozym.Web.Identity.Data;
 
@@ -26,7 +27,30 @@ namespace Ozym.Web.Identity.Data
 
             builder.HasDefaultSchema("WebIdentity");
 
-            builder.SeedData();
+            // Add seed data here.
+            var roles = new IdentityRole[]
+            {
+                new()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Superuser",
+                    NormalizedName = "SUPERUSER"
+                },
+                new()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Datareader",
+                    NormalizedName = "DATAREADER"
+                },
+                new()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = "Datawriter",
+                    NormalizedName = "DATAWRITER"
+                }
+            };
+
+            builder.Entity<IdentityRole>().HasData(roles);
         }
     }
 }
