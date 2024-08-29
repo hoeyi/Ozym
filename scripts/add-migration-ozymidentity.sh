@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Change working directory to the project directory where IdentityDbContext resides.
-cd ../Ozym.Web
-
 # Prompt for the value of migration
 MIGRATION=''
 
@@ -17,5 +14,3 @@ dotnet ef migrations add "$MIGRATION" \
 	--context Ozym.Web.Identity.Data.IdentityDbContext \
 	--project Ozym.Web.csproj \
 	--output-dir Identity/Migrations
-
-cd ../

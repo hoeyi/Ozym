@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Change working directory to the project directory where IdentityDbContext resides.
-cd ../Ozym.Web
-
 # Prompt for the value of migration
 MIGRATION=''
 

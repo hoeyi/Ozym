@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Change working directory to the project directory where FinanceDbContext resides.
-cd ../Ozym.EntityModel
-
 # Bundle the migration. Reference the FinanceDbContext with fully-qualified namespace.
 dotnet ef migrations bundle \
 	--context Ozym.EntityModel.Context.FinanceDbContext \
@@ -13,5 +10,3 @@ dotnet ef migrations bundle \
 	--self-contained \
 	--no-build \
 	--force
-
-cd ..\

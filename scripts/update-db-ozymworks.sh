@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Change working directory to the project directory where FinanceDbContext resides.
-cd ../Ozym.Web
-
 # Prompt for a migration to use, but skip if empty.
 read -p 'Enter migration id or press enter to skip: ' MIGRATION
 

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Change working directory to the project direct where IdentityDbContext resides.
-cd ../Ozym.Web
-
 # Prompt for a migration to use, but skip if empty.
 read -p 'Enter migration id or press enter to skip: ' MIGRATION
 
@@ -18,5 +15,3 @@ else
         --startup-project Ozym.Web.csproj \
         --project Ozym.Web.csproj
 fi
-
-cd ../
