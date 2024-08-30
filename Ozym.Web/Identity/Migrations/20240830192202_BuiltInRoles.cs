@@ -7,20 +7,20 @@
 namespace Ozym.Web.Identity.Migrations
 {
     /// <inheritdoc />
-    public partial class BuiltinRoles : Migration
+    public partial class BuiltInRoles : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.InsertData(
-                schema: "WebIdentity",
+                schema: "WebId",
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "3a9bc966-6537-44c0-ac1e-05ce14b0582e", null, "Superuser", "SUPERUSER" },
-                    { "23d885e5-bb87-4c62-ba98-e3a023103b93", null, "Datareader", "DATAREADER" },
-                    { "b6d6b6b1-eb69-4ea1-8bb2-ba2a4e130831", null, "Datawriter", "DATAWRITER" }
+                    { "31e57550-05b1-44f8-943f-9c36c4ba131e", null, "Superuser", "SUPERUSER" },
+                    { "be5cc023-8bff-4354-944e-c3285ba6aa81", null, "Datawriter", "DATAWRITER" },
+                    { "d619b09f-a096-4d83-948b-7aa53c5f961a", null, "Datareader", "DATAREADER" }
                 });
         }
 
@@ -28,22 +28,22 @@ namespace Ozym.Web.Identity.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DeleteData(
-                schema: "WebIdentity",
+                schema: "WebId",
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "3a9bc966-6537-44c0-ac1e-05ce14b0582e");
+                keyValue: "31e57550-05b1-44f8-943f-9c36c4ba131e");
 
             migrationBuilder.DeleteData(
-                schema: "WebIdentity",
+                schema: "WebId",
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "23d885e5-bb87-4c62-ba98-e3a023103b93");
+                keyValue: "be5cc023-8bff-4354-944e-c3285ba6aa81");
 
             migrationBuilder.DeleteData(
-                schema: "WebIdentity",
+                schema: "WebId",
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "b6d6b6b1-eb69-4ea1-8bb2-ba2a4e130831");
+                keyValue: "d619b09f-a096-4d83-948b-7aa53c5f961a");
         }
     }
 }

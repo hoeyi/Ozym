@@ -12,15 +12,15 @@ using Ozym.Web.Identity.Data;
 namespace Ozym.Web.Identity.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20240829004408_BuiltinRoles")]
-    partial class BuiltinRoles
+    [Migration("20240830192202_BuiltInRoles")]
+    partial class BuiltInRoles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("WebIdentity")
+                .HasDefaultSchema("WebId")
                 .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -50,24 +50,24 @@ namespace Ozym.Web.Identity.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", "WebIdentity");
+                    b.ToTable("AspNetRoles", "WebId");
 
                     b.HasData(
                         new
                         {
-                            Id = "3a9bc966-6537-44c0-ac1e-05ce14b0582e",
+                            Id = "31e57550-05b1-44f8-943f-9c36c4ba131e",
                             Name = "Superuser",
                             NormalizedName = "SUPERUSER"
                         },
                         new
                         {
-                            Id = "23d885e5-bb87-4c62-ba98-e3a023103b93",
+                            Id = "d619b09f-a096-4d83-948b-7aa53c5f961a",
                             Name = "Datareader",
                             NormalizedName = "DATAREADER"
                         },
                         new
                         {
-                            Id = "b6d6b6b1-eb69-4ea1-8bb2-ba2a4e130831",
+                            Id = "be5cc023-8bff-4354-944e-c3285ba6aa81",
                             Name = "Datawriter",
                             NormalizedName = "DATAWRITER"
                         });
@@ -95,7 +95,7 @@ namespace Ozym.Web.Identity.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", "WebIdentity");
+                    b.ToTable("AspNetRoleClaims", "WebId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -120,7 +120,7 @@ namespace Ozym.Web.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", "WebIdentity");
+                    b.ToTable("AspNetUserClaims", "WebId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -142,7 +142,7 @@ namespace Ozym.Web.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", "WebIdentity");
+                    b.ToTable("AspNetUserLogins", "WebId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -157,7 +157,7 @@ namespace Ozym.Web.Identity.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", "WebIdentity");
+                    b.ToTable("AspNetUserRoles", "WebId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -176,7 +176,7 @@ namespace Ozym.Web.Identity.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", "WebIdentity");
+                    b.ToTable("AspNetUserTokens", "WebId");
                 });
 
             modelBuilder.Entity("Ozym.Web.Identity.Data.ApplicationUser", b =>
@@ -241,7 +241,7 @@ namespace Ozym.Web.Identity.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", "WebIdentity");
+                    b.ToTable("AspNetUsers", "WebId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

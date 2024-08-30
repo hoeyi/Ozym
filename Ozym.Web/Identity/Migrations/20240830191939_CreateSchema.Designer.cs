@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ozym.Web.Identity.Data;
 
@@ -11,9 +12,11 @@ using Ozym.Web.Identity.Data;
 namespace Ozym.Web.Identity.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    partial class IdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240830191939_CreateSchema")]
+    partial class CreateSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,26 +51,6 @@ namespace Ozym.Web.Identity.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", "WebId");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "31e57550-05b1-44f8-943f-9c36c4ba131e",
-                            Name = "Superuser",
-                            NormalizedName = "SUPERUSER"
-                        },
-                        new
-                        {
-                            Id = "d619b09f-a096-4d83-948b-7aa53c5f961a",
-                            Name = "Datareader",
-                            NormalizedName = "DATAREADER"
-                        },
-                        new
-                        {
-                            Id = "be5cc023-8bff-4354-944e-c3285ba6aa81",
-                            Name = "Datawriter",
-                            NormalizedName = "DATAWRITER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
