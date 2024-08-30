@@ -1,7 +1,5 @@
-﻿using Ichosys.DataModel.Expressions;
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components.Web;
 using Ozym.DataTransfer.Common.Query;
-using System;
 using System.Linq.Expressions;
 
 namespace Ozym.Web.Components.Common

@@ -1,28 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Ozym.BusinessLogic.Functions;
-using Ozym.BusinessLogic.MarketFeed;
-//using Ozym.EntityModel.Context;
 using Ozym.Web.Services;
 using Ozym.Web.Identity.Data;
-using System;
-using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Ichosys.DataModel.Expressions;
 using Ichosys.DataModel;
-using Ozym.Messaging;
 using Ozym.UserInterface;
 using Ichosys.Blazor.Ionicons;
-using System.Xml.Serialization;
-using System.Reflection;
 using System.Net.Http;
-using System.Collections;
 using System.Collections.Generic;
 using Ozym.DataTransfer.Common;
 using Microsoft.Extensions.Configuration;
 using Ichosys.Extensions.Configuration;
-using System.Drawing.Text;
 
 namespace Ozym.Web
 {

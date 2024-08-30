@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Ozym.Web.Components.Common
+﻿namespace Ozym.Web.Components.Common
 {
     /// <summary>
     /// Describes the result stemming from completion of a modal form.

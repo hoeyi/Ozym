@@ -2,21 +2,14 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System;
 using System.Linq;
 using Ozym.Web.Components.Common;
-using System.Linq.Expressions;
-using Ozym.EntityModel;
-using Microsoft.AspNetCore.Http;
 using Ozym.Web.Services;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Ozym.ChangeTracking;
 using System.ComponentModel;
 using Ozym.DataTransfer.Common.Query;
 using System.Net.Http;
-using Ichosys.DataModel.Expressions;
 
 namespace Ozym.Web.Components.Generic
 {

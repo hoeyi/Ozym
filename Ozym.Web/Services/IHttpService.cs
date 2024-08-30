@@ -1,10 +1,8 @@
 ﻿using Ozym.DataTransfer;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ozym.ChangeTracking;
 using Ichosys.DataModel.Expressions;
-using AutoMapper.Configuration.Conventions;
 using Ozym.DataTransfer.Common.Query;
 
 namespace Ozym.Web.Services

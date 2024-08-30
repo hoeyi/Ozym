@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Ozym.UserInterface;
-using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace Ozym.Web.Components.Common

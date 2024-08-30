@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Ozym.Web.Identity.Data;
-using Serilog.Core;
-using System.Drawing.Text;
 using System.Linq;
 using System.Threading.Tasks;
 
