@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Components\Identity\Shared\IdentityInitializer.razor" />
     <None Include="Components\Identity\Pages\AccessDenied.razor" />
     <None Include="Components\Identity\Pages\ConfirmEmail.razor" />
     <None Include="Components\Identity\Pages\ConfirmEmailChange.razor" />
@@ -131,6 +132,14 @@
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>Strings.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Identity\IdentityInitializer.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Identity\IdentityInitializer.razor" />
   </ItemGroup>
 
 </Project>
