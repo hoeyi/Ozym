@@ -16,14 +16,23 @@ namespace Ozym.Web.Identity
         const string _superuserPasswordKey = "SUPERUSER_PASSWORD";
         const string _superuserNameKey = "SUPERUSER_NAME";
         const string _errorsKey = "Errors";
-
+        
+        /// <summary>
+        /// Confirms if the superuser has been created and updates the database if not.
+        /// </summary>
+        /// <param name="userManager">The <see cref="UserManager{TUser}"> to sue.</param>
+        /// <param name="configuration">The app <see cref="IConfiguration"/> instance..</param>
+        /// <param name="logger">The logger.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public static async Task ConfirmSuperuserCreatedAsync(
-            this UserManager<ApplicationUser> userManager, IConfiguration configuration, ILogger logger = null)
+            this UserManager<ApplicationUser> userManager,
+            IConfiguration configuration,
+            ILogger logger = null)
         {
             var superUsername = configuration?.GetValue<string>(_superuserNameKey) ?? "SU";
 
             var superuser = await userManager.FindByNameAsync(superUsername);
-            
+
             // If the superuser is created, the database is already updated.
             if (superuser is not null)
                 return;
@@ -38,43 +47,46 @@ namespace Ozym.Web.Identity
                 NormalizedUserName = "SU"
             };
 
-            try
+            static async Task HandleOrThrowAsync(Task<IdentityResult> identityTask, string errorMessage)
             {
-                // Add new user.
-                var result = await userManager.CreateAsync(superuser, configuration[_superuserPasswordKey]);
+                ArgumentException.ThrowIfNullOrWhiteSpace(errorMessage);
+
+                var result = await identityTask;
                 if (!result.Succeeded)
                 {
-                    var exception = new InvalidOperationException("Failed to create user.");
+                    var exception = new InvalidOperationException(errorMessage);
                     exception.Data.Add(_errorsKey, result.Errors.Select(x => $"{x.Code}: {x.Description}"));
                     throw exception;
                 }
+            }
 
-                logger?.LogInformation("Default '{User}' created.", superuser.UserName);
+            try
+            {
+                // Add new user.
+                await HandleOrThrowAsync(
+                    userManager.CreateAsync(superuser, configuration[_superuserPasswordKey]),
+                    errorMessage: "Error creating default user.");
+
+                logger?.LogInformation("Default user '{User}' created.", superuser.UserName);
 
                 // Refresh the user instance.
                 superuser = await userManager.FindByNameAsync(superuser.UserName);
 
                 // Add new user to 'superuser' role.
-                result = await userManager.AddToRoleAsync(superuser, "Superuser");
-                if (!result.Succeeded)
-                {
-                    var exception = new InvalidOperationException("Failed to add user to role.");
-                    exception.Data.Add(_errorsKey, result.Errors.Select(x => $"{x.Code}: {x.Description}"));
-                    throw exception;
-                }
+                await HandleOrThrowAsync(
+                    userManager.AddToRoleAsync(superuser, "Superuser"),
+                    errorMessage: "Error assigning user role");
 
-                await userManager.UpdateAsync(superuser);
-
-                logger?.LogInformation("{User} added to {Role}.", superuser.UserName, "Superuser");
+                logger?.LogInformation("'{User}' added to role '{Role}'.", superuser.UserName, "Superuser");
             }
             catch (InvalidOperationException ioe)
             {
                 // If invalid operation was thrown, likely a password requirements issue. 
                 // Log and re-throw.
                 logger?.LogError(
-                    "Error creating default user '{User}' with role '{Role}' .\n {Errors}", 
-                    superuser.UserName, 
-                    "Superuser", 
+                    "Error creating default user '{User}' with role '{Role}' .\n {Errors}",
+                    superuser.UserName,
+                    "Superuser",
                     ioe.Data[_errorsKey]);
                 throw;
             }
