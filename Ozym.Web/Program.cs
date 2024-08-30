@@ -56,6 +56,7 @@ namespace Ozym.Web
             builder.Services.AddCustomAuthentication();
 
             builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                // Order matters here. AddRoles, then AddEntityFrameworkStore.
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddSignInManager()
