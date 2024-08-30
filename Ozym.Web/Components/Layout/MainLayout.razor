@@ -1,6 +1,12 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 @using Ozym.Web.Components.Identity.Shared
+@using Microsoft.Extensions.Configuration
+
+@if(envIsDevelopment)
+{
+    <IdentityInitializer />
+}
 
 <div class="page" theme_elevation="00">
     <main>
@@ -38,13 +44,16 @@
 
 @code {
     #nullable enable
-    [Inject]
-    protected ILogger? Logger { get; set; }
+    [Inject] ILogger? Logger { get; set; }
+
+    [Inject] IConfiguration? Configuration { get; set; }
+
+    private bool envIsDevelopment => Configuration?.EnvironmentIsDevelopment() ?? false;
 
     private MenuRoot[]? Menus { get; set; }
 
     private ErrorBoundary? errorBoundary;
-
+    
     protected override void OnParametersSet()
     {
         errorBoundary?.Recover();
@@ -68,7 +77,5 @@
 
     private void LogUnhandledException(Exception exception) =>
         Logger?.UnhandledExceptionEncountered(exception);
-
-    
     #nullable disable
 }

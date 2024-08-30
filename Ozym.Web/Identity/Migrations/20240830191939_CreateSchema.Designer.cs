@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ozym.Web.Identity.Data;
 
@@ -11,9 +12,11 @@ using Ozym.Web.Identity.Data;
 namespace Ozym.Web.Identity.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    partial class IdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240830191939_CreateSchema")]
+    partial class CreateSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,29 +51,6 @@ namespace Ozym.Web.Identity.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", "WebId");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "64dbe3da-f244-4136-9921-801bdce4bef0",
-                            ConcurrencyStamp = "64e375cc-edea-4d95-b629-02334ab9f0b2",
-                            Name = "Superuser",
-                            NormalizedName = "SUPERUSER"
-                        },
-                        new
-                        {
-                            Id = "c727af09-2359-4b24-9c23-59fc1e6bbc43",
-                            ConcurrencyStamp = "68de9beb-0202-4c46-bb19-f08551b4bc63",
-                            Name = "Datareader",
-                            NormalizedName = "DATAREADER"
-                        },
-                        new
-                        {
-                            Id = "289b10ff-09a3-4bf8-9c3d-146c2d5b374a",
-                            ConcurrencyStamp = "6a2695f3-e0ea-450a-afd6-76a49e6baa37",
-                            Name = "Datawriter",
-                            NormalizedName = "DATAWRITER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

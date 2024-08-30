@@ -15,8 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Microsoft.AspNetCore.Routing
 {

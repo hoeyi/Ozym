@@ -1,17 +1,13 @@
 ﻿using Ichosys.DataModel.Annotations;
 using Ozym.UserInterface;
 using Ozym.Web.Components.Common;
-using System;
 using System.Linq;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Ozym.EntityModelService;
 using Microsoft.AspNetCore.Mvc;
-using Ichosys.DataModel;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
-using Ozym.Web.Services;
 using System.Net.Http;
 using Radzen;
 

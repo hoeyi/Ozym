@@ -1,11 +1,7 @@
-﻿using Ichosys.DataModel.Annotations;
-using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Ozym.EntityModel;
+﻿using Microsoft.AspNetCore.Components;
 using Ozym.UserInterface;
 using Ozym.Web.Components.Common;
 using Ozym.Web.Services;
-using System;
 using System.Threading.Tasks;
 
 namespace Ozym.Web.Components.Generic

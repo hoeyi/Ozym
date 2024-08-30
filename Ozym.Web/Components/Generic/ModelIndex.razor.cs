@@ -1,20 +1,5 @@
-﻿using Ichosys.DataModel.Expressions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Ozym.Web.Components.Common;
+﻿using Ozym.Web.Components.Common;
 using Ozym.UserInterface;
-using Ichosys.DataModel;
-using Microsoft.AspNetCore.Http;
-using Ozym.EntityModelService.Abstractions;
-using Ozym.DataTransfer;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using Ozym.EntityModel;
-using Ozym.Web.Services;
 
 namespace Ozym.Web.Components.Generic
 {

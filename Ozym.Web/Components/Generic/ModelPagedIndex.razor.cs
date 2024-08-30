@@ -1,16 +1,12 @@
 ﻿using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
-using Ozym.ChangeTracking;
 using Ozym.DataTransfer;
 using Ozym.DataTransfer.Common.Query;
 using Ozym.Web.Components.Common;
 using Ozym.Web.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace Ozym.Web.Components.Generic

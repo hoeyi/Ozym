@@ -5,48 +5,48 @@
 namespace Ozym.Web.Identity.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class CreateSchema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "WebIdentity");
+                name: "WebId");
 
             migrationBuilder.RenameTable(
                 name: "AspNetUserTokens",
                 newName: "AspNetUserTokens",
-                newSchema: "WebIdentity");
+                newSchema: "WebId");
 
             migrationBuilder.RenameTable(
                 name: "AspNetUsers",
                 newName: "AspNetUsers",
-                newSchema: "WebIdentity");
+                newSchema: "WebId");
 
             migrationBuilder.RenameTable(
                 name: "AspNetUserRoles",
                 newName: "AspNetUserRoles",
-                newSchema: "WebIdentity");
+                newSchema: "WebId");
 
             migrationBuilder.RenameTable(
                 name: "AspNetUserLogins",
                 newName: "AspNetUserLogins",
-                newSchema: "WebIdentity");
+                newSchema: "WebId");
 
             migrationBuilder.RenameTable(
                 name: "AspNetUserClaims",
                 newName: "AspNetUserClaims",
-                newSchema: "WebIdentity");
+                newSchema: "WebId");
 
             migrationBuilder.RenameTable(
                 name: "AspNetRoles",
                 newName: "AspNetRoles",
-                newSchema: "WebIdentity");
+                newSchema: "WebId");
 
             migrationBuilder.RenameTable(
                 name: "AspNetRoleClaims",
                 newName: "AspNetRoleClaims",
-                newSchema: "WebIdentity");
+                newSchema: "WebId");
         }
 
         /// <inheritdoc />
@@ -54,37 +54,37 @@ namespace Ozym.Web.Identity.Migrations
         {
             migrationBuilder.RenameTable(
                 name: "AspNetUserTokens",
-                schema: "WebIdentity",
+                schema: "WebId",
                 newName: "AspNetUserTokens");
 
             migrationBuilder.RenameTable(
                 name: "AspNetUsers",
-                schema: "WebIdentity",
+                schema: "WebId",
                 newName: "AspNetUsers");
 
             migrationBuilder.RenameTable(
                 name: "AspNetUserRoles",
-                schema: "WebIdentity",
+                schema: "WebId",
                 newName: "AspNetUserRoles");
 
             migrationBuilder.RenameTable(
                 name: "AspNetUserLogins",
-                schema: "WebIdentity",
+                schema: "WebId",
                 newName: "AspNetUserLogins");
 
             migrationBuilder.RenameTable(
                 name: "AspNetUserClaims",
-                schema: "WebIdentity",
+                schema: "WebId",
                 newName: "AspNetUserClaims");
 
             migrationBuilder.RenameTable(
                 name: "AspNetRoles",
-                schema: "WebIdentity",
+                schema: "WebId",
                 newName: "AspNetRoles");
 
             migrationBuilder.RenameTable(
                 name: "AspNetRoleClaims",
-                schema: "WebIdentity",
+                schema: "WebId",
                 newName: "AspNetRoleClaims");
         }
     }

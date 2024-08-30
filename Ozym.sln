@@ -28,12 +28,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ozym.Web.Test", "Ozym.Web.T
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{4BFBE020-17A3-4116-B9E7-E0A23D93CD74}"
 	ProjectSection(SolutionItems) = preProject
-		scripts\Add-Migration-OzymIdentity.bat = scripts\Add-Migration-OzymIdentity.bat
-		scripts\Add-Migration-OzymWorks.bat = scripts\Add-Migration-OzymWorks.bat
-		scripts\Bundle-Migration-OzymWorks.bat = scripts\Bundle-Migration-OzymWorks.bat
+		scripts\add-migration-ozymidentity.sh = scripts\add-migration-ozymidentity.sh
+		scripts\add-migration-ozymworks.sh = scripts\add-migration-ozymworks.sh
+		scripts\bundle-migration-ozymworks.sh = scripts\bundle-migration-ozymworks.sh
 		scripts\run-code-coverage.sh = scripts\run-code-coverage.sh
-		scripts\UpdateDb-OzymIdentity.bat = scripts\UpdateDb-OzymIdentity.bat
-		scripts\UpdateDb-OzymWorks.bat = scripts\UpdateDb-OzymWorks.bat
+		scripts\update-db-ozymidentity.sh = scripts\update-db-ozymidentity.sh
+		scripts\update-db-ozymworks.sh = scripts\update-db-ozymworks.sh
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5769EFBB-8250-451A-9587-9FA738ED4167}"

@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.Extensions.Configuration
+@using Ozym.Web.Identity
+@using Ozym.Web.Identity.Data
+
+@inject UserManager<ApplicationUser> UserManager
+@inject IConfiguration Configuration
+@inject ILogger Logger
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await UserManager?.ConfirmSuperuserCreatedAsync(Configuration, Logger);
+    }
+}

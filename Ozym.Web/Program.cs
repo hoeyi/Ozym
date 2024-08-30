@@ -56,6 +56,8 @@ namespace Ozym.Web
             builder.Services.AddCustomAuthentication();
 
             builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                // Order matters here. AddRoles, then AddEntityFrameworkStore.
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddSignInManager()
                 .AddDefaultTokenProviders();
@@ -74,10 +76,10 @@ namespace Ozym.Web
                 developerMode: builder.Environment.IsDevelopment());
 
             // Blazor app services
-            builder.Services.AddBlazorPageServices();
+            builder.Services.AddRazorHelperServices();
             builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
-            builder.Services.AddHttpServices();
+            builder.Services.AddHttpClientServices();
 
             var app = builder.Build();
 

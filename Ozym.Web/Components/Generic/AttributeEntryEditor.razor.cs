@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Ozym.EntityModel;
-using Ozym.EntityModelService;
 using Ozym.EntityModelService.Query;
 using Ozym.DataTransfer.Common.Generic;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
