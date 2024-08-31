@@ -14,6 +14,26 @@ namespace Ozym.Web.Components.Common
         private int _totalItemCount;
         private int _pageSize;
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="PagerModel"/> class.
+        /// </summary>
+        public PagerModel() { }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="PagerModel"/> class with the 
+        /// given index and page size.
+        /// </summary>
+        /// <param name="startingIndex">The initalize page index.</param>
+        /// <param name="pageSize">The initial record count per page.</param>
+        public PagerModel(int startingIndex, int pageSize)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegative(startingIndex);
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageSize);
+
+            PageIndex = startingIndex;
+            PageSize = pageSize;
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
