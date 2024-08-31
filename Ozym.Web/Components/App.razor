@@ -23,8 +23,18 @@
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
+    /// <summary>
+    /// Lists the endpoints from "/" that should use static rendering.
+    /// </summary>
+    static readonly PathString[] StaticEndpoints = ["/User", "/Access"];
+
+    /// <summary>
+    /// Maps the current page to the appropriate render mode using the Http context.
+    /// </summary>
     private IComponentRenderMode? RenderModeForPage =>
-        HttpContext.Request.Path.StartsWithSegments("/User")
+        HttpContext.Request.Path.StartsWithSegments(StaticEndpoints)
             ? null
             : new InteractiveServerRenderMode(prerender: true);
+
+
 }
