@@ -15,16 +15,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using Ozym.Web.Components.Identity;
 
 namespace Microsoft.AspNetCore.Routing
 {
-    internal static class IdentityComponentsEndpointRouteBuilderExtensions
+    internal static partial class IdentityComponentsEndpointRouteBuilderExtensions
     {
         // These endpoints are required by the Identity Razor components defined in the /Components/User/Pages directory of this project.
         public static IEndpointConventionBuilder MapAdditionalIdentityEndpoints(this IEndpointRouteBuilder endpoints)
         {
             ArgumentNullException.ThrowIfNull(endpoints);
+
+            endpoints.MapIdentityManagementEndpoints();
 
             var accountGroup = endpoints.MapGroup("/User");
 

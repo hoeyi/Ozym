@@ -170,10 +170,20 @@
     },
     "Children": [
       {
-
         "IconKey": null,
         "Caption": "Reports",
         "UriRelativePath": "/report-configurations"
+      },
+      {
+        "IconKey": "key",
+        "Caption": "Access controls",
+        "Children": [
+          {
+            "IconKey": "people-circle",
+            "Caption": "Users",
+            "UriRelativePath":  "/Access/Users"
+          }
+        ]
       }
     ]
   },
