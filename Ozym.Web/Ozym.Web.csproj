@@ -61,7 +61,7 @@
     <None Include="Components\Identity\Shared\ExternalLoginPicker.razor" />
     <None Include="Components\Identity\Shared\ManageLayout.razor" />
     <None Include="Components\Identity\Shared\ManageNavMenu.razor" />
-    <None Include="Components\Identity\Shared\RedirectToLogin.razor" />
+    <None Include="Components\Identity\Shared\UnauthorizedAccessHandler.razor" />
     <None Include="Components\Identity\Shared\ShowRecoveryCodes.razor" />
     <None Include="Components\Identity\Shared\StatusMessage.razor" />
   </ItemGroup>
