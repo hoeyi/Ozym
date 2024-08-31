@@ -4,14 +4,26 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Http;
 
 namespace Ozym.Web.Components.Identity
 {
-    /// <summary>
-    /// Extension methods overriding the default behavior of 
-    /// </summary>
-    public static class IdentityComponentsEndpointRouteBuilderOverrides
+    internal static partial class IdentityBuilderExtensions
     {
+        
+
+        public static IEndpointConventionBuilder MapIdentityManagementEndpoints(
+            this IEndpointRouteBuilder endpoints)
+        {
+            var accessGroup = endpoints.MapGroup("/Access");
+
+            accessGroup.MapGroup("/Users");
+
+            return accessGroup;
+        }
+
         /// <summary>
         /// Registers authentication and supporting services with modified cookie options.
         /// </summary>
