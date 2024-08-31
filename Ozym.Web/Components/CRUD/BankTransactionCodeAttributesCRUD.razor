@@ -90,17 +90,17 @@ else
 
 @code {
     [CascadingParameter(Name = nameof(AttributeMembers))]
-    public IEnumerable<ModelAttributeMemberDtoBase> AttributeMembers { get; set; }
+    public IEnumerable<ModelAttributeMemberDtoBase>? AttributeMembers { get; set; }
 
-    private IDictionary<int, string> AttributeMemberLookup { get; set; }
+    private IDictionary<int, string> AttributeMemberLookup { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        AttributeMemberLookup = AttributeMembers?.ToDictionary(x => x.AttributeMemberId, y => y.DisplayName);
+        AttributeMemberLookup = AttributeMembers?.ToDictionary(x => x.AttributeMemberId, y => y.DisplayName) ?? [];
 
-        IsLoading = ModelDto is null || (ReadOnly ^ (AttributeMemberLookup is null));
+        IsLoading = ModelDto is null || (ReadOnly ^ (AttributeMemberLookup.Count == 0));
     }
 
     private void AddNew_OnClick(MouseEventArgs e)

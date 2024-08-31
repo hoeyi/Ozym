@@ -14,7 +14,7 @@ namespace Ozym.Web.Components.Common
         private int _totalItemCount;
         private int _pageSize;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Gets the index of the page returned.

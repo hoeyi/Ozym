@@ -54,11 +54,11 @@
 
 @code {
     [Inject]
-    public IWatchlist Watchlist { get; init; }
+    public IWatchlist Watchlist { get; init; } = default!;
 
-    private IEnumerable<Quote> Quotes { get; set; }
+    private IEnumerable<Quote> Quotes { get; set; } = [];
 
-    private Timer _timer;
+    private Timer _timer = default!;
     private int _interval = 5000;
     private int _delay = 0;
 
@@ -69,12 +69,12 @@
         _timer = new(callback: TimerCallbackAsync, null, _delay, _interval);
     }
 
-    private async void TimerCallbackAsync(object state)
+    private async void TimerCallbackAsync(object? state)
     {
         await InvokeAsync(() => UpdateQuotes(state));
     }
 
-    private void UpdateQuotes(object state)
+    private void UpdateQuotes(object? state = null)
     {
         Quotes = Watchlist.UpdateQuotes(Quotes.ToList());
 

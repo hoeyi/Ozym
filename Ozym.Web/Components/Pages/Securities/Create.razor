@@ -49,13 +49,13 @@
     public Guid RequestGuid { get; init; }
 
     [Inject]
-    protected IQueryService QueryService { get; init; }
+    protected IQueryService QueryService { get; init; } = default!;
 
-    private IEnumerable<SecurityExchangeDto> Exchanges { get; set; }
+    private IEnumerable<SecurityExchangeDto>? Exchanges { get; set; }
 
-    private IEnumerable<SecurityTypeDto> SecurityTypes { get; set; }
+    private IEnumerable<SecurityTypeDto>? SecurityTypes { get; set; }
 
-    private IEnumerable<string> Issuers { get; set; }
+    private IEnumerable<string>? Issuers { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

@@ -94,10 +94,10 @@
 </ThemedComponent>
 
 @code {
-    private IDictionary<int, string> SecurityDtos { get; set; }
+    private IDictionary<int, string>? SecurityDtos { get; set; }
 
     [Inject]
-    protected IQueryService QueryService { get; init;  }
+    protected IQueryService QueryService { get; init; } = default!;
 
     /// <inheritdoc/>
     protected override MenuRoot CreateSectionNavigationMenu() => new()
@@ -159,6 +159,11 @@
         PaginationHelper.ItemCount = WorkingEntries.Count;
     }
 
-    private string GetSecurityDisplay(int securityId) =>
-        SecurityDtos.TryGetValue(securityId, out string display) ? display : string.Empty;
+    private string GetSecurityDisplay(int securityId)
+    {
+        if (SecurityDtos?.TryGetValue(securityId, out string? display) ?? false)
+            return display;
+        else
+            return string.Empty;
+    }
 }

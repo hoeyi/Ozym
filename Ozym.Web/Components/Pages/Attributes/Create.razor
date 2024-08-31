@@ -66,7 +66,7 @@
                                 Caption="@(ModelMetadata.NameFor<ModelAttributeScopeDto>(x => x.ScopeCode))">
                                 <CellEditTemplate Context="model">
                                     <InputSelect class="form-control" @bind-Value="@model.ScopeCode">
-                                        @foreach (var scopeLookup in AttributeScopeDtos)
+                                        @foreach (var scopeLookup in AttributeScopeDtos ?? [])
                                         {
                                             <option value=@scopeLookup.Key>@scopeLookup.Value</option>
                                         }
@@ -127,12 +127,12 @@
     public Guid RequestGuid { get; init; }
 
     [Inject]
-    protected IQueryService QueryService { get; init; }
+    protected IQueryService QueryService { get; init; } = default!;
 
-    private IEnumerable<KeyValuePair<string, string>> AttributeScopeDtos { get; set; }
+    private IEnumerable<KeyValuePair<string, string>>? AttributeScopeDtos { get; set; }
 
-    private EditContext _attributeScopeContext;
-    private EditContext _attributeMemberContext;
+    private EditContext _attributeScopeContext = default!;
+    private EditContext _attributeMemberContext = default!;
 
     protected override async Task OnInitializedAsync()
     {

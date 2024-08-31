@@ -54,9 +54,9 @@
     public Guid RequestGuid { get; init; }
 
     [Inject]
-    protected IQueryService QueryService { get; init; }
+    protected IQueryService QueryService { get; init; } = default!;
 
-    private IEnumerable<AccountSimpleDto> AccountDtos { get; set; }
+    private IEnumerable<AccountSimpleDto>? AccountDtos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

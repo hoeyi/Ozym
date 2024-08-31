@@ -22,7 +22,7 @@ namespace Ozym.Web.Components.Generic
         /// data for this component.
         /// </summary>
         [Inject]
-        IQueryService QueryService { get; set; }
+        IQueryService QueryService { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.

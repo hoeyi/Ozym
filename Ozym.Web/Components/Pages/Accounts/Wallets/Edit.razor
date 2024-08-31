@@ -67,7 +67,7 @@
                                 <CellEditTemplate Context="model">
                                     <InputSelect class="form-control"
                                                 @bind-Value="@model.DenominationSecurityId">
-                                        @foreach (var security in DenominationSecurities)
+                                        @foreach (var security in DenominationSecurities ?? [])
                                         {
                                             <option value=@security.SecurityId>@security.SecurityDescription</option>
                                         }
@@ -102,19 +102,19 @@
     }
 </ThemedComponent>
 
-@code {
+    @code {
     [Parameter]
     public int ModelId { get; init; }
 
     [Inject]
-    protected IQueryService QueryService { get; init; }
+    protected IQueryService QueryService { get; init; } = default!;
 
     [Inject]
-    protected new IHttpCollectionService<AccountWalletDto, int> HttpService { get; init; }
+    protected new IHttpCollectionService<AccountWalletDto, int> HttpService { get; init; } = default!;
 
-    private IEnumerable<SecurityDtoBase> DenominationSecurities { get; set; }
+    private IEnumerable<SecurityDtoBase>? DenominationSecurities { get; set; }
 
-    private AccountDto ParentAccount { get; set; }
+    private AccountDto? ParentAccount { get; set; }
 
     /// <inheritdoc/>
     protected override bool PageDataIsLoading() =>
@@ -182,7 +182,7 @@
 
             try
             {
-                var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount.Id);
+                var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount!.Id);
                     
                 ReturnToIndex();
             }

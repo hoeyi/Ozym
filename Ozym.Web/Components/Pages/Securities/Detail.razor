@@ -59,7 +59,7 @@
                                     Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(
                                         x => x.SymbolTypeId))">
                             <CellTemplate Context="model">
-                                @(SymbolTypes.FirstOrDefault(x => x.SymbolTypeId == model.SymbolTypeId)?.SymbolTypeName)
+                                @(SymbolTypes!.FirstOrDefault(x => x.SymbolTypeId == model.SymbolTypeId)?.SymbolTypeName)
                             </CellTemplate>
                         </DataGridColumn>
                         <DataGridColumn Property="@nameof(SecuritySymbolDto.EffectiveDate)"
@@ -104,15 +104,15 @@
     public int ModelId { get; init; }
 
     [Inject]
-    protected IQueryService QueryService { get; init; }
+    protected IQueryService QueryService { get; init; } = default!;
 
-    private IEnumerable<SecurityExchangeDto> Exchanges { get; set; }
+    private IEnumerable<SecurityExchangeDto>? Exchanges { get; set; }
 
-    private IEnumerable<SecurityTypeDto> SecurityTypes { get; set; }
+    private IEnumerable<SecurityTypeDto>? SecurityTypes { get; set; }
 
-    private IEnumerable<SecuritySymbolTypeDto> SymbolTypes { get; set; }
+    private IEnumerable<SecuritySymbolTypeDto>? SymbolTypes { get; set; }
 
-    private IEnumerable<string> Issuers { get; set; }
+    private IEnumerable<string>? Issuers { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

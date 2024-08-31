@@ -1,7 +1,7 @@
 ﻿<AuthorizeView>
     <Authorized>
         <div class="user-welcome-caption" style="margin:auto">
-            @context?.User?.Identity.Name
+            @context.User?.Identity?.Name
         </div>
         <IonIcon Name="exit" />
         @foreach(var menu in ManageUserMenu)
@@ -22,11 +22,13 @@
     [Parameter]
     public EventCallback<LinkClickEventArgs> HyperlinkClickCallBack { get; set; }
 
-    private MenuRoot[] ManageUserMenu { get; set; }
+    private MenuRoot[] ManageUserMenu { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
-        ManageUserMenu = await Resources.ResourceHelper.GetDefaultMenu<MenuRoot[]>(
-            shortName: "ManageUserMenu.json");
+        var defaultMenu = await Resources.ResourceHelper
+            .GetDefaultMenu<MenuRoot[]>(shortName: "ManageUserMenu.json");
+
+        ManageUserMenu = defaultMenu ?? [];
     }
 }

@@ -36,7 +36,7 @@
                         Property="@nameof(BrokerTransactionDto.TransactionCodeId)"
                         Caption="@NameFor(x => x.TransactionCodeId)">
                         <CellTemplate Context="model">
-                            @(TransactionCodes
+                            @(TransactionCodes?
                                 .FirstOrDefault(x => x.TransactionCodeId == model.TransactionCodeId)
                                 ?.TransactionCode)
                         </CellTemplate>
@@ -45,7 +45,7 @@
                         Property="@nameof(BrokerTransactionDto.SecurityId)"
                         Caption="@NameFor(x => x.SecurityId)">
                         <CellTemplate Context="model">
-                            @(TransactableSecurities
+                            @(TransactableSecurities?
                                 .FirstOrDefault(x => x.SecurityId == model.SecurityId)?.CurrentSymbol)
                         </CellTemplate>
                     </DataGridColumn>
@@ -101,7 +101,7 @@
                         Property="@nameof(BrokerTransactionDto.DepSecurityId)"
                         Caption="@NameFor(x => x.DepSecurityId)">
                         <CellTemplate Context="model">
-                            @(DepositSecurities
+                            @(DepositSecurities?
                                 .FirstOrDefault(x => x.SecurityId == model.DepSecurityId)?.CurrentSymbol)
                         </CellTemplate>
                     </DataGridColumn>
@@ -116,18 +116,18 @@
     public int ModelId { get; init; }
 
     [Inject]
-    protected new IHttpCollectionService<BrokerTransactionDto, int> HttpService {get; init; }
+    protected new IHttpCollectionService<BrokerTransactionDto, int> HttpService { get; init; } = default!;
 
     [Inject]
-    protected IQueryService QueryService { get; init; }
+    protected IQueryService QueryService { get; init; } = default!;
 
-    private IEnumerable<SecurityDtoBase> DepositSecurities { get; set; }
+    private IEnumerable<SecurityDtoBase>? DepositSecurities { get; set; }
 
-    private IEnumerable<BrokerTransactionCodeDtoBase> TransactionCodes { get; set; }
+    private IEnumerable<BrokerTransactionCodeDtoBase>? TransactionCodes { get; set; }
 
-    private IEnumerable<SecurityDtoBase> TransactableSecurities { get; set; }
+    private IEnumerable<SecurityDtoBase>? TransactableSecurities { get; set; }
 
-    private AccountDto ParentAccount { get; set; }
+    private AccountDto? ParentAccount { get; set; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -162,11 +162,8 @@
 
     /// <inheritdoc />
     protected override async Task RefreshResultsAsync(
-        ParameterDto<BrokerTransactionDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<BrokerTransactionDto>? parameter, int pageNumber, int pageSize)
     {
-        // TODO:'parameter' argument is intentionally ignored here. Review for an 
-        // alternative. Method arguments should have an affect on behavior, else be omitted.
-
         IsLoading = true;
 
         try

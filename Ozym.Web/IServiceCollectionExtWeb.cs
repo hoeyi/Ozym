@@ -123,7 +123,7 @@ namespace Ozym.Web
         public static string TryGetDisplayString<TKey, TValue>(
             this IDictionary<TKey, TValue> dict, TKey key, Func<TValue, string> displayMember)
         {
-            if(dict.TryGetValue(key, out TValue value))
+            if(dict.TryGetValue(key, out TValue? value))
             {
                 return displayMember(value);
             }

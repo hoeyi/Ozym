@@ -84,7 +84,7 @@
                                 <CellEditTemplate Context="model">
                                     <InputSelect class="form-control"
                                         @bind-Value="@model.MarketIndexId">
-                                        @foreach (var lookup in MarketIndices)
+                                        @foreach (var lookup in MarketIndices ?? [])
                                         {
                                             <option value=@lookup.IndexId>@lookup.IndexCode</option>
                                         }
@@ -126,14 +126,14 @@
     }
 </ThemedComponent>
 
-@code {
+    @code {
 
     [Inject]
-    protected IQueryService QueryService { get; init; }
+    protected IQueryService QueryService { get; init; } = default!;
 
-    private IDictionary<string, string> PriceCodeLookup { get; set; }
+    private IDictionary<string, string> PriceCodeLookup { get; set; } = default!;
 
-    private IEnumerable<MarketIndexDto> MarketIndices {get; set;}
+    private IEnumerable<MarketIndexDto>? MarketIndices {get; set;}
 
     /// <inheritdoc/>
     protected override string IndexUriRelativePath => $"{base.IndexUriRelativePath}/rates";

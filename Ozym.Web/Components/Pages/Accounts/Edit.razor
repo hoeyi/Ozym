@@ -42,7 +42,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<AccountCustodianDto> CustodianDtos { get; set; }
+    private IEnumerable<AccountCustodianDto>? CustodianDtos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

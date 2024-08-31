@@ -17,7 +17,7 @@ namespace Ozym.Web.Components.Generic
         where TModelDto : class
     {
         #nullable enable
-        private MenuRoot? _sectionNavigationMenu;
+        private MenuRoot _sectionNavigationMenu;
         private NounAttribute? _modelNoun;
         private string? _indexUriRelativePath;
 
@@ -39,7 +39,7 @@ namespace Ozym.Web.Components.Generic
         /// Gets the <see cref="MenuRoot"/> containing available actions for this component.
         /// The default is null.
         /// </summary>
-        protected MenuRoot? SectionNavigationMenu
+        protected MenuRoot SectionNavigationMenu
         {
             get
             {
@@ -180,7 +180,7 @@ namespace Ozym.Web.Components.Generic
         /// returns <see cref="null"/>.
         /// </summary>
         /// <returns>An instance of <see cref="MenuRoot"/> or null.</returns>
-        protected virtual MenuRoot? CreateSectionNavigationMenu() => null;
+        protected virtual MenuRoot CreateSectionNavigationMenu() => new();
 
 #nullable disable
 

@@ -27,7 +27,7 @@
     protected static string ShortNameFor<TEnum>(TEnum @enum) =>
         GetAttribute<TEnum, DisplayAttribute>(@enum)?.GetShortName() ?? string.Empty;
 
-    private static TAttribute GetAttribute<TEnum, TAttribute>(TEnum @enum)
+    private static TAttribute? GetAttribute<TEnum, TAttribute>(TEnum @enum)
         where TAttribute : Attribute
     {
         if (@enum is null)

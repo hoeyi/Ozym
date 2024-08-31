@@ -48,7 +48,7 @@
     /// Gets or sets the string format for the data type of this column.
     /// </summary>
     [Parameter]
-    public string Format { get; set; }
+    public string Format { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the column cell type. The default is <see cref="DataGridCellType.Text" />.
@@ -82,7 +82,7 @@
         base.OnInitialized();
     }
 
-    public object GetValue(TModel model)
+    public object? GetValue(TModel model)
     {
         if (model is null)
             throw new ArgumentNullException(paramName: nameof(model));

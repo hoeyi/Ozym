@@ -35,7 +35,7 @@
                     <DataGridColumn Property="@nameof(BankTransactionDto.TransactionCodeId)"
                                 Caption="@NameFor(x => x.TransactionCodeId)">
                         <CellTemplate Context="model">
-                            @GetDisplayValue(TransactionCodes, model.TransactionCodeId)
+                            @GetDisplayValue(TransactionCodes!, model.TransactionCodeId)
                         </CellTemplate>
                     </DataGridColumn>
                     <DataGridColumn Property="@nameof(BankTransactionDto.TransactionDate)"
@@ -67,14 +67,14 @@
     public int ModelId { get; init; }
 
     [Inject]
-    protected IQueryService QueryService { get; init; }
+    protected IQueryService QueryService { get; init; } = default!;
 
     [Inject]
-    protected new IHttpCollectionService<BankTransactionDto, int> HttpService { get; init; }
+    protected new IHttpCollectionService<BankTransactionDto, int> HttpService { get; init; } = default!;
 
-    private IEnumerable<BankTransactionCodeDtoBase> TransactionCodes { get; set; }
+    private IEnumerable<BankTransactionCodeDtoBase>? TransactionCodes { get; set; }
 
-    private AccountDto ParentAccount { get; set; }
+    private AccountDto? ParentAccount { get; set; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -103,7 +103,7 @@
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        ParameterDto<BankTransactionDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<BankTransactionDto>? parameter, int pageNumber, int pageSize)
     {
         ParentAccount = await HttpService.GetAsync<AccountDto>(id: ModelId);
 
@@ -127,7 +127,8 @@
         PaginationHelper.ItemCount = Entries.Count();
     }
 
-    private string GetDisplayValue(IEnumerable<BankTransactionCodeDtoBase> lookupModels, int id) =>
-        lookupModels.FirstOrDefault(x => x.TransactionCodeId == id).TransactionCode ?? string.Empty;
+    private string GetDisplayValue(
+        IEnumerable<BankTransactionCodeDtoBase> lookupModels, int id) =>
+        lookupModels.FirstOrDefault(x => x.TransactionCodeId == id)?.TransactionCode ?? string.Empty;
 
 }

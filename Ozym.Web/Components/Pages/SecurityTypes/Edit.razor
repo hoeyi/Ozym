@@ -52,7 +52,7 @@
     [Parameter]
     public int ModelId { get; init; }
 
-    private IEnumerable<SecurityTypeGroupDto> SecurityTypeGroups { get; set; }
+    private IEnumerable<SecurityTypeGroupDto>? SecurityTypeGroups { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

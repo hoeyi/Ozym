@@ -41,7 +41,7 @@
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    private IEnumerable<AccountCustodianDto> CustodianDtos { get; set; }
+    private IEnumerable<AccountCustodianDto>? CustodianDtos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

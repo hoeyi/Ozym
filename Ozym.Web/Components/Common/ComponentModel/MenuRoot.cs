@@ -20,7 +20,7 @@ public class MenuRoot : MenuItem
     /// Gets or sets the display name of this menu.
     /// </summary>
     [JsonPropertyName("Name")]
-    public string Name { get; init; }
+    public string? Name { get; init; }
 
     /// <summary>
     /// Gets or sets the display options for the root of this menu.

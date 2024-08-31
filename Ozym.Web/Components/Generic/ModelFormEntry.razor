@@ -28,23 +28,23 @@
 }
 
 @code {
-    [Parameter, EditorRequired] 
-    public RenderFragment ChildContent { get; set; }
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
 
     [Parameter, EditorRequired]
-    public Expression<Func<object>> ForMember { get; set; }
+    public Expression<Func<object>> ForMember { get; set; } = default!;
 
     [Parameter]
-    public string LabelOverride { get; set; }
+    public string LabelOverride { get; set; } = string.Empty;
 
     [Parameter]
     public bool SuppressValidation { get; set; }
 
-    private string ToolTipText { get; set; }
+    private string ToolTipText { get; set; } = string.Empty;
 
-    private string LabelText { get; set; }
+    private string LabelText { get; set; } = string.Empty;
 
-    private Expression<Func<TModelDto, object>> TypedAccessor { get; set; }
+    private Expression<Func<TModelDto, object>> TypedAccessor { get; set; } = default!;
 
     protected override void OnInitialized()
     {

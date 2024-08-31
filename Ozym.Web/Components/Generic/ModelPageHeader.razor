@@ -12,7 +12,7 @@
                        style="cursor: pointer;"
                        href="@menuItem.UriRelativePath"
                         @onclick="((args) => HyperlinkClickHandler(new (){ 
-                            UriPath = menuItem.UriRelativePath }))">
+                            UriPath = menuItem.UriRelativePath! }))">
                         @if(!string.IsNullOrEmpty(menuItem.UriRelativePath))
                         {
                             <div class="icon left">
@@ -34,7 +34,7 @@
     /// Gets or sets the <see="Menu" /> for the component.
     /// </summary>
     [Parameter]
-    public MenuRoot ActionMenu { get; set; }
+    public MenuRoot? ActionMenu { get; set; }
 
     /// <summary>
     /// Gets or sets the text header for the component.
@@ -43,11 +43,11 @@
     public string Header { get; set; } = string.Empty;
 
     [Inject]
-    public NavigationManager NavigationManager { get; init; }
+    public NavigationManager NavigationManager { get; init; } = default!;
 
     private void HyperlinkClickHandler(LinkClickEventArgs args)
     {
-        if (string.IsNullOrEmpty(args.UriPath) || args.UriPath == NavigationManager.Uri)
+        if (args.UriPath == NavigationManager.Uri)
             return;
         else
             // TODO: Add special handling for special keypress/mouseclick scenarios.

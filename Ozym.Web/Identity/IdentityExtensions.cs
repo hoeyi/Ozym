@@ -23,9 +23,13 @@ namespace Ozym.Web.Identity
         public static async Task ConfirmSuperuserCreatedAsync(
             this UserManager<ApplicationUser> userManager,
             IConfiguration configuration,
-            ILogger logger = null)
+            ILogger logger)
         {
-            var superUsername = configuration?.GetValue<string>(_superuserNameKey) ?? "SU";
+            if (configuration.GetValue<string>(_superuserPasswordKey) is null)
+                throw new InvalidOperationException(
+                    $"Configuration key '{_superuserPasswordKey}' is required.");
+
+            var superUsername = configuration.GetValue<string>(_superuserNameKey) ?? "SU";
 
             var superuser = await userManager.FindByNameAsync(superUsername);
 
@@ -46,7 +50,7 @@ namespace Ozym.Web.Identity
             static async Task HandleOrThrowAsync(Task<IdentityResult> identityTask, string errorMessage)
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(errorMessage);
-
+                    
                 var result = await identityTask;
                 if (!result.Succeeded)
                 {
@@ -60,7 +64,7 @@ namespace Ozym.Web.Identity
             {
                 // Add new user.
                 await HandleOrThrowAsync(
-                    userManager.CreateAsync(superuser, configuration[_superuserPasswordKey]),
+                    userManager.CreateAsync(superuser, configuration[_superuserPasswordKey]!),
                     errorMessage: "Error creating default user.");
 
                 logger?.LogInformation("Default user '{User}' created.", superuser.UserName);
@@ -70,10 +74,10 @@ namespace Ozym.Web.Identity
 
                 // Add new user to 'superuser' role.
                 await HandleOrThrowAsync(
-                    userManager.AddToRoleAsync(superuser, "Superuser"),
+                    userManager.AddToRoleAsync(superuser!, "Superuser"),
                     errorMessage: "Error assigning user role");
 
-                logger?.LogInformation("'{User}' added to role '{Role}'.", superuser.UserName, "Superuser");
+                logger?.LogInformation("'{User}' added to role '{Role}'.", superuser!.UserName, "Superuser");
             }
             catch (InvalidOperationException ioe)
             {
@@ -81,7 +85,7 @@ namespace Ozym.Web.Identity
                 // Log and re-throw.
                 logger?.LogError(
                     "Error creating default user '{User}' with role '{Role}' .\n {Errors}",
-                    superuser.UserName,
+                    superuser?.UserName,
                     "Superuser",
                     ioe.Data[_errorsKey]);
                 throw;

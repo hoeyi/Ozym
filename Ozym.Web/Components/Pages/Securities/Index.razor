@@ -67,7 +67,7 @@
                                 Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityTypeId))
                                 Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
-                            @(TypeLookup.TryGetDisplayString<int, SecurityTypeDto>(
+                            @(TypeLookup?.TryGetDisplayString<int, SecurityTypeDto>(
                                 model.SecurityTypeId, x => x.SecurityTypeName))
                         </CellTemplate>
                     </DataGridColumn>
@@ -82,7 +82,7 @@
                             Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityExchangeId))
                             Type=@DataGridCellType.Text>
                         <CellTemplate Context="model">
-                            @(ExchangeLookup.TryGetDisplayString<int, SecurityExchangeDto>(
+                            @(ExchangeLookup?.TryGetDisplayString<int, SecurityExchangeDto>(
                                 model.SecurityExchangeId ?? default, x => x.ExchangeCode))
                         </CellTemplate>
                     </DataGridColumn>
@@ -108,12 +108,12 @@
 
 
 @code {
-    private IEnumerable<SecurityExchangeDto> Exchanges => ExchangeLookup.Values;
+    private IEnumerable<SecurityExchangeDto> Exchanges => ExchangeLookup?.Values ?? [];
 
-    private IEnumerable<SecurityTypeDto> SecurityTypes => TypeLookup.Values;
+    private IEnumerable<SecurityTypeDto> SecurityTypes => TypeLookup?.Values ?? [];
 
-    private IDictionary<int, SecurityExchangeDto> ExchangeLookup { get; set; }
-    private IDictionary<int, SecurityTypeDto> TypeLookup { get; set; }
+    private IDictionary<int, SecurityExchangeDto>? ExchangeLookup { get; set; }
+    private IDictionary<int, SecurityTypeDto>? TypeLookup { get; set; }
 
     /// <inheritdoc/>
     protected override bool PageDataIsLoading() => 
@@ -121,7 +121,7 @@
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        ParameterDto<SecurityDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<SecurityDto>? parameter, int pageNumber, int pageSize)
     {
         Task<(IEnumerable<SecurityDto>, Ozym.DataTransfer.PaginationData)> securityQuery;
 

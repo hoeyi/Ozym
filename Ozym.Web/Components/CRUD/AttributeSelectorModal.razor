@@ -44,12 +44,12 @@ else
     /// Gets or sets the allowable <see cref="ModelAttributeDto" /> for this selector.
     /// </summary>
     [Parameter]
-    public IEnumerable<ModelAttributeDto> AllowableAttributes { get; set; }
+    public IEnumerable<ModelAttributeDto> AllowableAttributes { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the <see cref="ModelAttributeDto" /> instance for this selector.
     /// </summary>
-    private ModelAttributeDto AttributeDto { get; set; }
+    private ModelAttributeDto? AttributeDto { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="int?"> identifier for the currently selected attribute.

@@ -72,7 +72,7 @@ else
 
 @code {
     [CascadingParameter]
-    public TModel Model { get; set; }
+    public TModel? Model { get; set; }
 
     /// <summary>
     /// Gets or sets the identifier for the <see cref="EditorMode" /> for the page.
@@ -105,21 +105,21 @@ else
     /// Gets or sets the <typeparamref name="TViewModelParent"/> representing the worked model.
     /// </summary>
     [Parameter, EditorRequired]
-    public TViewModelParent ModelDto { get; set; }
+    public TViewModelParent ModelDto { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the component responsible for presenting editor controls for
     /// <typeparamref name="TViewModelChild"/> instances.
     /// </summary>
     [Parameter]
-    public RenderFragment ViewModelChildCRUD { get; set; }
+    public RenderFragment? ViewModelChildCRUD { get; set; }
 
     /// <summary>
     /// Gets or sets the component responsible for presenting editor controls for the
     /// <typeparamref name="TViewModelParent"/> instance.
     /// </summary>
     [Parameter]
-    public RenderFragment ViewModelCRUD { get; set; }
+    public RenderFragment? ViewModelCRUD { get; set; }
 }
 
     

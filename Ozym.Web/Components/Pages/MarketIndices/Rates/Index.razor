@@ -77,11 +77,11 @@
 
 @code {
     [Inject]
-    protected IQueryService QueryService { get; init; }
+    protected IQueryService QueryService { get; init; } = default!;
 
-    private IDictionary<string, string> PriceCodeLookup { get; set; }
+    private IDictionary<string, string> PriceCodeLookup { get; set; } = default!;
 
-    private IDictionary<int, string> MarketIndices { get; set; }
+    private IDictionary<int, string>? MarketIndices { get; set; }
 
     protected override MenuRoot CreateSectionNavigationMenu() => new()
     {
@@ -100,7 +100,7 @@
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        ParameterDto<MarketIndexPriceDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<MarketIndexPriceDto>? parameter, int pageNumber, int pageSize)
     {
         var marketIndexDtosTask = QueryService.BuiltIn.GetMarketIndexDTOsAsync(pageSize: int.MaxValue);
 
@@ -125,7 +125,7 @@
     }
 
     private string GetPriceCodeDisplayValue(string priceCode) =>
-        PriceCodeLookup.TryGetValue(priceCode, out string value) ? value : string.Empty;
+        PriceCodeLookup.TryGetValue(priceCode, out string? value) ? value : string.Empty;
 
     #nullable enable
     private string? TryGetMarketIndexDisplayValue(int key)

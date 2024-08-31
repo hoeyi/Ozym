@@ -10,6 +10,9 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        await UserManager?.ConfirmSuperuserCreatedAsync(Configuration, Logger);
+        Task initTask = 
+            UserManager?.ConfirmSuperuserCreatedAsync(Configuration, Logger) ?? Task.CompletedTask;
+
+        await initTask;
     }
 }

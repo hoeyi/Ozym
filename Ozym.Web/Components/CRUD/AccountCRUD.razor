@@ -75,7 +75,7 @@ else
             {
                 <InputDate class="form-control" @bind-Value=ModelDto.CloseDate 
                     disable="@Disabled"
-                    DisplayName=@(NameFor(x => x.CloseDate)) />
+                    DisplayName=@(NameFor(x => x.CloseDate!)) />
             }
         </ModelFormEntry>
 
@@ -104,7 +104,7 @@ else
             else
             {
                 <InputSelect class="form-control"
-                    DisplayName=@(NameFor(x => x.AccountCustodianId))
+                    DisplayName=@(NameFor(x => x.AccountCustodianId!))
                     @bind-Value="ModelDto.AccountCustodianId"
                     disabled="@Disabled">
                     @foreach (var custodian in AccountCustodians)
@@ -125,7 +125,7 @@ else
             {
                 <InputDate class="form-control" @bind-Value=ModelDto.BooksClosedDate
                         disabled="@Disabled"
-                        DisplayName=@(NameFor(x => x.BooksClosedDate))/>
+                        DisplayName=@(NameFor(x => x.BooksClosedDate!))/>
             }
         </ModelFormEntry>
         <ModelFormEntry ForMember="@(() => ModelDto.HasWallet)">
@@ -140,8 +140,8 @@ else
     </ModelForm>
 }
 @code {
-    [Parameter]
-    public IEnumerable<AccountCustodianDto> AccountCustodians { get; set; }
+    [Parameter, EditorRequired]
+    public IEnumerable<AccountCustodianDto> AccountCustodians { get; set; } = [];
 
     private string CustodianDisplayName(int? id) =>
          AccountCustodians.FirstOrDefault(a => a.AccountCustodianId == id)?.CustodianCode ?? string.Empty;

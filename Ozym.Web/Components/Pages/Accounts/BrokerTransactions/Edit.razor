@@ -46,7 +46,7 @@
                                     ValueExpression="@(() => model.TransactionCodeId)"
                                     Value="@model.TransactionCodeId"
                                     ValueChanged="@((int id) => TransactionCode_OnValueChanged(model, id))">
-                                    @foreach (var lookup in TransactionCodes)
+                                    @foreach (var lookup in TransactionCodes ?? [])
                                     {
                                         <option value=@lookup.TransactionCodeId>@lookup.TransactionCode</option>
                                     }
@@ -60,7 +60,7 @@
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
                                     @bind-Value="@model.SecurityId">
-                                    @foreach (var lookup in TransactableSecurities)
+                                    @foreach (var lookup in TransactableSecurities ?? [])
                                     {
                                         <option value=@lookup.SecurityId>@lookup.SecurityDescription</option>
                                     }
@@ -125,7 +125,7 @@
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
                                     @bind-Value="@model.DepSecurityId">
-                                    @foreach (var security in DepositSecurities)
+                                    @foreach (var security in DepositSecurities ?? [])
                                     {
                                         <option value=@security.SecurityId>@security.SecurityDescription</option>
                                     }
@@ -174,29 +174,29 @@
     }
 </ThemedComponent>
 
-@code {
+    @code {
     [Parameter]
     public int ModelId { get; init; }
 
     [Inject]
-    protected new IHttpCollectionService<BrokerTransactionDto, int> HttpService {get; init; }
+    protected new IHttpCollectionService<BrokerTransactionDto, int> HttpService { get; init; } = default!;
 
     [Inject]
-    protected IQueryService QueryService { get; init; }
+    protected IQueryService QueryService { get; init; } = default!;
 
-    private IEnumerable<SecurityDtoBase> DepositSecurities { get; set; }
+    private IEnumerable<SecurityDtoBase>? DepositSecurities { get; set; }
 
-    private IEnumerable<BrokerTransactionCodeDtoBase> TransactionCodes { get; set; }
+    private IEnumerable<BrokerTransactionCodeDtoBase>? TransactionCodes { get; set; }
 
-    private IEnumerable<SecurityDtoBase> TransactableSecurities { get; set; }
+    private IEnumerable<SecurityDtoBase>? TransactableSecurities { get; set; }
 
-    private AccountDto ParentAccount { get; set; }
+    private AccountDto ParentAccount { get; set; } = default!;
 
     private bool ShowAllocationInstructionTable => CurrentAllocationInstruction is not null;
 
-    private AllocationInstructionTable CurrentAllocationInstruction { get; set; }
+    private AllocationInstructionTable? CurrentAllocationInstruction { get; set; }
 
-    private IBrokerTransactionBLL TransactionBLL { get; set; }
+    private IBrokerTransactionBLL TransactionBLL { get; set; } = default!;
 
     /// <inheritdoc/>
     protected override void AddNew(MouseEventArgs args)
@@ -289,7 +289,7 @@
 
             try
             {
-                var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount.Id);
+                var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount!.Id);
 
                 ReturnToIndex();
             }
@@ -310,7 +310,7 @@
     {
         ErrorMessage = null;
 
-        var response = TransactionBLL.UpdateTransactionCode(model, newId);
+        var response = TransactionBLL!.UpdateTransactionCode(model, newId);
 
         switch (response.UpdateStatus)
         {
@@ -318,11 +318,11 @@
                 break;
             case TransactionUpdateStatus.PendingLotClosure:
                 var contentResponse = response as ITransactionUpdateResponse<AllocationInstructionTable>;
-                CurrentAllocationInstruction = contentResponse.ResponseObject;
+                CurrentAllocationInstruction = contentResponse?.ResponseObject;
                 break;
             case TransactionUpdateStatus.Faulted:
                 var errorResponse = response as ITransactionUpdateResponse<InvalidOperationException>;
-                ErrorMessage = errorResponse.ResponseObject.Message;
+                ErrorMessage = errorResponse?.ResponseObject.Message;
                 break;
         }
     }

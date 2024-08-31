@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Ozym.Web.Components.Common
 {
@@ -48,7 +49,7 @@ namespace Ozym.Web.Components.Common
         /// Gets or sets the children <see cref="MenuItem"/> of this item.
         /// </summary>
         [JsonPropertyName("Children")]
-        public List<MenuItem>? Children { get; init; }
+        public List<MenuItem> Children { get; init; } = [];
 
         [JsonPropertyName("ChildMenuOptions")]
         public DisplayOptions ChildMenuOptions { get; set; } = new(initialValue: true);
@@ -57,10 +58,7 @@ namespace Ozym.Web.Components.Common
         /// Gets whether this item has children.
         /// </summary>
         [JsonIgnore]
-        public bool HasChildren
-        {
-            get { return Children?.Any() ?? false; }
-        }
+        public bool HasChildren => Children.Count > 0;
 
         [JsonIgnore]
         /// <summary>

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	<TargetFramework>net8.0</TargetFramework>
-	<Nullable>disable</Nullable>
+	<Nullable>enable</Nullable>
 	<ImplicitUsings>disable</ImplicitUsings>
 	<UserSecretsId>aspnet-Ozym.Web-8127480B-07E8-4478-AEFA-EAC0AACF174B</UserSecretsId>
 	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>

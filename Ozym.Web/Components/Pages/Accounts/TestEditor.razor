@@ -43,8 +43,8 @@
 </ThemedComponent>
 
 @code {
-    private IEnumerable<AccountCustodianDto> CustodianDtos { get; set; } = new List<AccountCustodianDto>();
-    private EditContext _editContext;
+    private IEnumerable<AccountCustodianDto> CustodianDtos { get; set; } = [];
+    private EditContext _editContext = default!;
     private Guid _formGuid = new Guid();
     private bool _formInvalid = false;
 

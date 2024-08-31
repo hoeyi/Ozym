@@ -69,7 +69,7 @@
         Model.PropertyChanged += OnPropertyChanged;
     }
 
-    private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs args)
+    private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs args)
     {
         if (args.PropertyName == nameof(PagerModel.PageIndex) && 
             IndexChanged.HasDelegate)

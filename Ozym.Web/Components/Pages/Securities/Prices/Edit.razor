@@ -83,7 +83,7 @@
                                     Caption=@(NameFor(x => x.SecurityId))>
                                     <CellEditTemplate Context="model">
                                         <InputSelect class="form-control" @bind-Value="@model.SecurityId">
-                                            @foreach (var lookup in SecurityLookup)
+                                            @foreach (var lookup in SecurityLookup ?? [])
                                             {
                                                 <option value=@lookup.SecurityId>@lookup.SecurityDescription</option>
                                             }
@@ -141,7 +141,7 @@
 </ThemedComponent>
 
 @code {
-    private IEnumerable<SecurityDtoBase> SecurityLookup { get; set; }
+    private IEnumerable<SecurityDtoBase>? SecurityLookup { get; set; }
 
     /// <inheritdoc />
     protected override string IndexUriRelativePath => $"{base.IndexUriRelativePath}/prices";

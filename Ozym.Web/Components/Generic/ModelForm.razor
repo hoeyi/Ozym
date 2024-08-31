@@ -11,10 +11,11 @@
     </table>
 </CascadingValue>
 
-@code {                                                                     
+@code {
     [Parameter, EditorRequired] 
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
+    // TODO: Why not just use the CascadingValue directly in the child component?
     [CascadingParameter, EditorRequired]
-    public TModelDto ModelDto { get; set; }
+    public TModelDto ModelDto { get; set; } = default!;
 }

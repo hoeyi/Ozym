@@ -389,9 +389,9 @@ namespace Ozym.Web.Services
 
         private class IndexWithParentResponse<TParent>
         {
-            public IEnumerable<T> Entries { get; init; } = new List<T>();
+            public IEnumerable<T> Entries { get; init; } = [];
 
-            public TParent Parent { get; init; }
+            public TParent Parent { get; init; } = default!;
         }
     }
 }

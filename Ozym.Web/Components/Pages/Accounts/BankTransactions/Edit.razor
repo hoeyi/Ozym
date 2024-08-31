@@ -72,7 +72,7 @@
                                 <CellEditTemplate Context="model">
                                     <InputSelect class="form-control"
                                                 @bind-Value="@model.TransactionCodeId">
-                                        @foreach (var lookup in TransactionCodes)
+                                        @foreach (var lookup in TransactionCodes ?? [])
                                         {
                                             <option value=@lookup.TransactionCodeId>@lookup.TransactionCode</option>
                                         }
@@ -109,19 +109,19 @@
     }
 </ThemedComponent>
 
-@code {
+    @code {
     [Parameter]
     public int ModelId { get; init; }
 
     [Inject]
-    protected IQueryService QueryService { get; init; }
+    protected IQueryService QueryService { get; init; } = default!;
 
     [Inject]
-    protected new IHttpCollectionService<BankTransactionDto, int> HttpService { get; init; }
+    protected new IHttpCollectionService<BankTransactionDto, int> HttpService { get; init; } = default!;
 
-    private IEnumerable<BankTransactionCodeDtoBase> TransactionCodes { get; set; }
+    private IEnumerable<BankTransactionCodeDtoBase>? TransactionCodes { get; set; }
 
-    private AccountDto ParentAccount { get; set; }
+    private AccountDto? ParentAccount { get; set; }
 
     /// <inheritdoc/>
     protected override bool PageDataIsLoading() =>
@@ -185,7 +185,7 @@
 
             try
             {
-                var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount.Id);
+                var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount!.Id);
 
                 ReturnToIndex();
             }
