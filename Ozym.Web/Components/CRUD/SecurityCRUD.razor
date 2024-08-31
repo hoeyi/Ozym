@@ -28,7 +28,7 @@ else
             @if (ReadOnly)
             {
                 <div class="form-control">
-                    @(GetItem(SecurityTypes, x => x.SecurityTypeId == ModelDto.SecurityTypeId).SecurityTypeName)
+                    @(GetItem(SecurityTypes, x => x.SecurityTypeId == ModelDto.SecurityTypeId)?.SecurityTypeName)
                 </div>
             }
             else
@@ -116,22 +116,14 @@ else
 
 @code{
     [Parameter, EditorRequired]
-    public IEnumerable<SecurityTypeDto> SecurityTypes { get; set; }
+    public IEnumerable<SecurityTypeDto>? SecurityTypes { get; set; } = default;
 
     [Parameter, EditorRequired]
-    public IEnumerable<SecurityExchangeDto> SecurityExchanges { get; set; }
+    public IEnumerable<SecurityExchangeDto>? SecurityExchanges { get; set; } = default!;
 
     [Parameter, EditorRequired]
-    public IEnumerable<string> Issuers { get; set; }
+    public IEnumerable<string> Issuers { get; set; } = default!;
 
-    protected override void OnInitialized()
-    {
-        IsLoading = ModelDto is null
-            || SecurityTypes is null
-            || SecurityExchanges is null
-            || Issuers is null;
-    }
-
-    private T GetItem<T>(IEnumerable<T> items, Func<T, bool> predicate)
+    private T? GetItem<T>(IEnumerable<T> items, Func<T, bool> predicate)
         => items.FirstOrDefault<T>(predicate);
 }

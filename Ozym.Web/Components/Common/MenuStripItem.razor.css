@@ -11,12 +11,11 @@ a {
 .grid-container {
     width: 100%;
     height: 100%;
-    line-height: 100%;
+    line-height: normal !important;
     display: inline-grid;
     grid-template-areas: "a b c";
     grid-template-columns: minmax(32px, 2fr) minmax(64px, 8fr) minmax(16px, auto);
     justify-content: space-between;
-    line-height: normal;
 }
 
 .root-node > .grid-container {
@@ -84,12 +83,13 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding-left: 0.1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .icon.right {
     grid-area: c;
     margin-left: auto;
     margin-right: 6px;
-    max-height: 12px;
+    max-height: 16px;
 }

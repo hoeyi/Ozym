@@ -1,9 +1,7 @@
-﻿using Ozym.Web.Components.Common;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System;
 
 namespace Ozym.Web.Resources
 {
@@ -36,6 +34,7 @@ namespace Ozym.Web.Resources
             using var reader = new StreamReader(stream);
 
             string menuJson = await reader.ReadToEndAsync();
+            var obj = JsonSerializer.Deserialize<T>(menuJson);
 
             return JsonSerializer.Deserialize<T>(menuJson);
         }

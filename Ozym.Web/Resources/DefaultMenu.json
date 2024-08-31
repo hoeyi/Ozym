@@ -1,5 +1,6 @@
 {
   "MenuGuid": "3e818369-9889-4b49-b565-244d3bc93217",
+  "Name": "Default",
   "IconKey": "home",
   "Caption": "Ozym",
   "UriRelativePath": "/",

@@ -1,0 +1,81 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@using Ozym.Web.Components.Identity.Shared
+@using Microsoft.Extensions.Configuration
+
+@if(envIsDevelopment)
+{
+    <IdentityInitializer />
+}
+
+<div class="page" theme_elevation="00">
+    <main>
+        <div class="navbar-custom px-4 auth">
+            <div class="left">
+                @if (Menus is not null)
+                {
+                    @foreach(var menu in Menus)
+                    {
+                        <MenuBar Menu="menu" HyperlinkClickCallBack="OnHyperlinkClickHandler" />
+                    }
+                }
+            </div>
+            <div class="right">
+                <ManageMenuBar HyperlinkClickCallBack="OnHyperlinkClickHandler" />
+            </div>
+        </div>
+        <article class="content px-4">
+            <ErrorBoundary @ref="errorBoundary">
+                    <ChildContent>
+                        @Body
+                    </ChildContent>
+                <ErrorContent Context="exception">
+                    @{
+                        LogUnhandledException(exception);
+                    }
+                    <CascadingValue Value="@GetUnhandledExcpetionMessage()">
+                        <ErrorMessageBox />
+                    </CascadingValue>
+                </ErrorContent>
+            </ErrorBoundary>
+        </article>
+    </main>
+</div>
+
+@code {
+    #nullable enable
+    [Inject] ILogger? Logger { get; set; }
+
+    [Inject] IConfiguration? Configuration { get; set; }
+
+    private bool envIsDevelopment => Configuration?.EnvironmentIsDevelopment() ?? false;
+
+    private MenuRoot[]? Menus { get; set; }
+
+    private ErrorBoundary? errorBoundary;
+    
+    protected override void OnParametersSet()
+    {
+        errorBoundary?.Recover();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Menus = await Resources.ResourceHelper.GetDefaultMenu<MenuRoot[]>(
+            shortName: "DefaultBannerMenu.json");
+    }
+
+    private void OnHyperlinkClickHandler(LinkClickEventArgs args)
+    {
+        if (!(string.IsNullOrEmpty(args.UriPath) || args.UriPath == NavigationManager.Uri))
+            // TODO: Add special handling for special keypress/mouseclick scenarios.
+            NavigationManager.NavigateTo(uri: args.UriPath, replace: true);
+    }
+
+    private string GetUnhandledExcpetionMessage() =>
+        string.Format(Resources.Strings.Exception_Unhandled_Critical, DateTime.Now);
+
+    private void LogUnhandledException(Exception exception) =>
+        Logger?.UnhandledExceptionEncountered(exception);
+    #nullable disable
+}

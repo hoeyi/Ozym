@@ -1,0 +1,91 @@
+﻿@page "/composites/{ModelId:int}/detail"
+
+@inherits ModelDetail<AccountCompositeDto>
+
+<ThemedComponent>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <PageTitle>@(PageTitle.ReadSingle(Model.ShortCode).AsPageTitle())</PageTitle>
+
+        <ModelPageHeader 
+            ActionMenu="@SectionNavigationMenu" 
+            Header="@(PageTitle.ReadSingle(Model.ShortCode))" />
+
+        <CascadingValue Value="@ErrorMessage">
+            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+        </CascadingValue>
+
+        <CascadingValue Value="@Model">
+            <EditForm class="model-editor" Model="@Model">
+                <ContentTile>
+                    <Body>
+                        <AccountCompositeCRUD Disabled="false" ReadOnly="true" />
+                    </Body>
+                </ContentTile>
+                @foreach (var entry in Model.AttributeCollection.CurrentEntries
+                    .OrderBy(g => g.AttributeMember.Attribute.DisplayName))
+                    {
+                        <ContentTile>
+                            <Body>
+                                <ModelForm TModelDto="AccountBaseAttributeDto">
+                                    <ModelFormEntry LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
+                                                ForMember="@(() => entry.AttributeMember.DisplayName)">
+                                        <div class="form-control">
+                                            @entry.AttributeMember.DisplayName
+                                        </div>
+                                    </ModelFormEntry>
+                                    <ModelFormEntry ForMember="@(() => entry.EffectiveDate)">
+                                        <div class="form-control">
+                                            @entry.EffectiveDate.ToShortDateString()
+                                        </div>
+                                    </ModelFormEntry>
+                                </ModelForm>
+                            </Body>
+                        </ContentTile>
+                    }
+                <ContentTile>
+                    <Body>
+                        <AccountCompositeMembersCRUD 
+                            Accounts="@AccountDtos" Disabled="false" ReadOnly="true" />
+                    </Body>
+                </ContentTile>
+            </EditForm>
+        </CascadingValue>
+    }
+</ThemedComponent>
+
+    @code {
+    [Parameter]
+    public int ModelId { get; init; }
+
+    [Inject]
+    protected IQueryService QueryService { get; init; } = default!;
+
+    private IEnumerable<AccountSimpleDto> AccountDtos { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        IsLoading = true;
+
+        try
+        {
+            var compositeQuery = HttpService.GetAsync(ModelId);
+            var accountsQuery = QueryService.BuiltIn.GetAccountDTOsAsync(pageSize: int.MaxValue);
+
+            var dataTasks = Task.WhenAll(compositeQuery, accountsQuery);
+            await dataTasks;
+
+            Model = await compositeQuery;
+            AccountDtos = (await accountsQuery).Item1;
+        }
+        finally
+        {
+            IsLoading = AccountDtos is null || Model is null;
+        }
+    }
+}

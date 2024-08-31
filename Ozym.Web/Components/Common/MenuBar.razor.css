@@ -9,7 +9,7 @@
     --border-size: 1px;
     --hover-color: var(--theme-elevation-backcolor-2);
     --hover-color-detail: var(--theme-elevation-backcolor-5);
-    --default-height: 48px;
+    --default-height: 2.5rem;
     --icon-max-width: 32px;
     --menu-fontfamily-default: Arial, Helvetica, sans-serif;
 }
@@ -67,10 +67,22 @@
     display: none;
 }
 
-::deep .sub-menu.level-0 {
+::deep .sub-menu.level-0.expand-left {
     left: 0;
+}
+
+::deep .sub-menu.level-0.expand-right {
+    right: 0;
+}
+
+::deep .sub-menu.level-0.expand-down {
     top: 100%;
 }
+
+::deep .sub-menu.level-0.expand-up {
+    bottom: 100%;
+}
+
 
 ::deep .sub-menu.level-0:before {
     content: '';

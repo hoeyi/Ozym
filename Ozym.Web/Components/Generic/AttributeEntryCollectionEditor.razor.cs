@@ -1,19 +1,11 @@
-﻿using Ozym.EntityModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using System.Linq;
-using System;
 using Ozym.DataTransfer.Common.Generic;
 using Ozym.EntityModelService.Query;
-using Ozym.EntityModelService;
-using Ozym.EntityModel.ConstraintType;
 using Ozym.Web.Components.Common;
 using Ozym.DataTransfer.Common;
-using Ozym.DataTransfer.Common.Collections;
-using Ozym.Web.Services;
-using Ozym.DataTransfer.Common.Query;
-using System.Net.Http;
 
 namespace Ozym.Web.Components.Generic
 {
@@ -42,7 +34,7 @@ namespace Ozym.Web.Components.Generic
         /// data for this component.
         /// </summary>
         [Inject]
-        IQueryService QueryService { get; set; }
+        IQueryService QueryService { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the current <typeparamref name="TViewModelChild"/> instance.

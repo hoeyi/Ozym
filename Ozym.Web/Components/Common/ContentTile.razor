@@ -26,15 +26,15 @@
 
 @code {
     [Parameter]
-    public RenderFragment TitleAlignLeft { get; set; }
+    public RenderFragment? TitleAlignLeft { get; set; }
 
     [Parameter]
-    public RenderFragment TitleAlignRight { get; set; }
+    public RenderFragment? TitleAlignRight { get; set; }
 
     [Parameter]
-    public RenderFragment Body { get; set; }
+    public RenderFragment? Body { get; set; }
 
-    private string ClassModifiers { get; set; }
+    private string ClassModifiers { get; set; } = string.Empty;
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> InputAttributes { get; set; } = new();
@@ -49,8 +49,12 @@
         if (Body is null)
             throw new ArgumentNullException(paramName: nameof(Body));
 
-        if(InputAttributes is not null && InputAttributes.TryGetValue("class", out object classValue))
-            ClassModifiers = classValue.ToString().Replace("content-tile", "");
+        if(InputAttributes is not null && 
+            InputAttributes.TryGetValue("class", out object? classValue) &&
+            classValue is not null)
+        {
+            ClassModifiers = classValue!.ToString()!.Replace("content-tile", "");
+        }
 
         if (!string.IsNullOrEmpty(ClassModifiers))
             Class = $"{Class} {ClassModifiers}";

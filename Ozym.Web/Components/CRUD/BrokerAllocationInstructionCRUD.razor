@@ -18,18 +18,18 @@ else
                 @(ModelMetadata.NameFor<BrokerTransactionDto>(x => x.Quantity))
             </label>
             <div class="form-control">
-                @(string.Format("{0:0.######}", InstructionTable.Transaction.Quantity))
+                @(string.Format("{0:0.######}", InstructionTable!.Transaction.Quantity))
             </div>
             <label>
                 @(NameFor(x => x.RemainingTransactionQuantity))
             </label>
             <div class="form-control">
-                @(string.Format("{0:0.######}", InstructionTable.RemainingTransactionQuantity))
+                @(string.Format("{0:0.######}", InstructionTable!.RemainingTransactionQuantity))
             </div>
         </TitleAlignRight>
         <Body>
-            <ValidationMessage For=@(() => InstructionTable.RemainingTransactionQuantity) />
-            <DataGrid Data="@InstructionTable.Instructions">
+            <ValidationMessage For=@(() => InstructionTable!.RemainingTransactionQuantity) />
+            <DataGrid Data="@InstructionTable!.Instructions">
                 <DataGridColumn
                     Type="DataGridCellType.Control"
                     Property="@nameof(AllocationInstructionRow.ClosingQuantity)"
@@ -78,9 +78,9 @@ else
     /// The <see cref="AllocationInstructionTable" /> to hold the user input.
     /// </summary>
     [CascadingParameter]
-    public AllocationInstructionTable InstructionTable { get; set; }
+    public AllocationInstructionTable? InstructionTable { get; set; }
 
-    private string Caption { get; set; }
+    private string? Caption { get; set; }
 
     protected override void OnInitialized()
     {

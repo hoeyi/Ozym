@@ -1,17 +1,13 @@
 ﻿using Ichosys.DataModel.Annotations;
 using Ozym.UserInterface;
 using Ozym.Web.Components.Common;
-using System;
 using System.Linq;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Ozym.EntityModelService;
 using Microsoft.AspNetCore.Mvc;
-using Ichosys.DataModel;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
-using Ozym.Web.Services;
 using System.Net.Http;
 using Radzen;
 
@@ -21,7 +17,7 @@ namespace Ozym.Web.Components.Generic
         where TModelDto : class
     {
         #nullable enable
-        private MenuRoot? _sectionNavigationMenu;
+        private MenuRoot _sectionNavigationMenu;
         private NounAttribute? _modelNoun;
         private string? _indexUriRelativePath;
 
@@ -43,7 +39,7 @@ namespace Ozym.Web.Components.Generic
         /// Gets the <see cref="MenuRoot"/> containing available actions for this component.
         /// The default is null.
         /// </summary>
-        protected MenuRoot? SectionNavigationMenu
+        protected MenuRoot SectionNavigationMenu
         {
             get
             {
@@ -184,7 +180,7 @@ namespace Ozym.Web.Components.Generic
         /// returns <see cref="null"/>.
         /// </summary>
         /// <returns>An instance of <see cref="MenuRoot"/> or null.</returns>
-        protected virtual MenuRoot? CreateSectionNavigationMenu() => null;
+        protected virtual MenuRoot CreateSectionNavigationMenu() => new();
 
 #nullable disable
 

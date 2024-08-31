@@ -65,7 +65,7 @@ else
                             <CellEditTemplate Context="model">
                                 <InputSelect class="form-control"
                                      @bind-Value="@model.AttributeMemberId">
-                                    @foreach (var member in AttributeMemberLookup)
+                                    @foreach (var member in AttributeMemberLookup!)
                                     {
                                         <option value="@member.Key">@member.Value</option>
                                     }
@@ -90,9 +90,9 @@ else
 
 @code {
     [CascadingParameter(Name = nameof(AttributeMembers))]
-    public IEnumerable<ModelAttributeMemberDtoBase> AttributeMembers { get; set; }
+    public IEnumerable<ModelAttributeMemberDtoBase>? AttributeMembers { get; set; }
 
-    private IDictionary<int, string> AttributeMemberLookup { get; set; }
+    private IDictionary<int, string>? AttributeMemberLookup { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

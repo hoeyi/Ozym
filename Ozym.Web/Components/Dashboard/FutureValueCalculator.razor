@@ -1,40 +1,42 @@
-﻿<div class="ni-dashboard-tile">
+﻿@rendermode InteractiveServer
+
+<div class="ni-dashboard-tile">
     <div class="future-value-calculator">
-        <EditForm Model="Model" OnValidSubmit="OnValidSubmit">
+        <EditForm Model="_inputModel" OnSubmit="Calculate" id="@_formGuid">
             <DataAnnotationsValidator />
             <ModelForm TModelDto="FutureValueInput">
-                <ModelFormEntry ForMember="@(() => Model.StartDate)">
+                <ModelFormEntry ForMember="@(() => _inputModel.StartDate)">
                     <InputDate class="form-control"
                         DisplayName="@(GetName<FutureValueInput>(x => x.StartDate))"
-                        @bind-Value="Model.StartDate" />
+                        @bind-Value="_inputModel.StartDate" />
                 </ModelFormEntry>
-                <ModelFormEntry ForMember="@(() => Model.Periods)">
+                <ModelFormEntry ForMember="@(() => _inputModel.Periods)">
                     <InputNumber class="form-control"
                         DisplayName="@(GetName<FutureValueInput>(x => x.Periods))"
-                        @bind-Value="Model.Periods" />
+                        @bind-Value="_inputModel.Periods" />
                 </ModelFormEntry>
-                <ModelFormEntry ForMember="@(() => Model.PresentValue)">
+                <ModelFormEntry ForMember="@(() => _inputModel.PresentValue)">
                     <InputNumber class="form-control"
                         DisplayName="@(GetName<FutureValueInput>(x => x.PresentValue))"
-                        @bind-Value="Model.PresentValue" />
+                        @bind-Value="_inputModel.PresentValue" />
                 </ModelFormEntry>
-                <ModelFormEntry ForMember="@(() => Model.GrowthRate)">
+                <ModelFormEntry ForMember="@(() => _inputModel.GrowthRate)">
                     <InputNumber class="form-control"
                         DisplayName="@(GetName<FutureValueInput>(x => x.GrowthRate))"
-                        @bind-Value="Model.GrowthRate" />
+                        @bind-Value="_inputModel.GrowthRate" />
                 </ModelFormEntry>
-                <ModelFormEntry ForMember="@(() => Model.RegularDeposit)">
+                <ModelFormEntry ForMember="@(() => _inputModel.RegularDeposit)">
                     <InputNumber class="form-control"
                         DisplayName="@(GetName<FutureValueInput>(x => x.RegularDeposit))"
-                        @bind-Value="Model.RegularDeposit" />
+                        @bind-Value="_inputModel.RegularDeposit" />
                 </ModelFormEntry>
             </ModelForm>
-            <ActionButtonMenu>
-                <button type="submit" class="form-control button">
-                    @Strings.Caption_Button_Calculate
-                </button>
-            </ActionButtonMenu>
         </EditForm>
+        <ActionButtonMenu>
+            <button type="submit" class="form-control button" form="@_formGuid">
+                @Strings.Caption_Button_Calculate
+            </button>
+        </ActionButtonMenu>
     </div>
     <div class="radzen-chart"> 
         <RadzenChart>
@@ -86,21 +88,37 @@
     [Inject]
     IModelMetadataService Metadata { get; init; } = default!;
 
-    [Parameter, EditorRequired]
-    public IEnumerable<FutureValueResult> Data { get; set; }
-
-    [Parameter, EditorRequired]
-    public FutureValueInput Model { get; init; }
-
-    [Parameter, EditorRequired]
-    public EventCallback<EditContext> OnValidSubmit { get; set; }
+    [Inject] IFinancialCalculator Calculator { get; init; } = default!;
 
     bool smooth = true;
     short markerSize = 3;
     short markerStrokeWidth = 1;
+    Guid _formGuid = Guid.NewGuid();
+    private EditContext _inputContext = default!;
+    private FutureValueInput _inputModel = default!;
+
+    private IEnumerable<FutureValueResult> Data { get; set; } = [];
+
+    protected override void OnInitialized()
+    {
+        _inputModel = new();
+        _inputContext = new(_inputModel);
+    }
+
+    private void Calculate()
+    {
+        var isValid = _inputContext.Validate();
+        Data = Calculator.FutureValue(
+            startDate: _inputModel.StartDate,
+            periods: _inputModel.Periods,
+            presentValue: _inputModel.PresentValue,
+            growthRate: _inputModel.GrowthRate,
+            regularDeposit: _inputModel.RegularDeposit,
+            periodType: _inputModel.PeriodType);
+    }
 
     private string GetName<T>(Expression<Func<T, object>> selector)
-        where T : class
+    where T : class
         => Metadata.NameFor<T>(selector);
 
     private string GetDescription<T>(Expression<Func<T, object>> selector)

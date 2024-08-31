@@ -14,7 +14,7 @@
 
 .page-banner {
     display: flex;
-    padding: 0rem 0.5rem 0rem 0.5rem;
+    padding: 0rem 0rem 0rem 0.5rem;
     height: 2.5rem;
 }
 
@@ -30,7 +30,8 @@
     font-family: var(--menu-fontfamily-default);
     font-weight: bold;
     display: flex;
-    padding: 0rem 1rem 0rem 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 1rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
