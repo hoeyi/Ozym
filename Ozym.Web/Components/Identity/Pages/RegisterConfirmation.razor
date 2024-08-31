@@ -1,5 +1,7 @@
 ﻿@page "/User/RegisterConfirmation"
 
+@attribute [Authorize(Roles = "Superuser")]
+
 @using System.Text
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
