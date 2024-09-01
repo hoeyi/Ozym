@@ -2,33 +2,36 @@
 
 @inherits LocalizableComponent
 
-<div class="@GetCssClass()">
-    <div class="label">
-        @if(!string.IsNullOrEmpty(ToolTipText))
-        {
-            <ToolTip Text="@ToolTipText">
+@if(ParentForm is not null)
+{
+    <div class="@GetCssClass()">
+        <div class="label">
+            @if(!string.IsNullOrEmpty(ToolTipText))
+            {
+                <ToolTip Text="@ToolTipText">
+                    @LabelText
+                </ToolTip>
+            }
+            else
+            {
                 @LabelText
-            </ToolTip>
-        }
-        else
-        {
-            @LabelText
-        }
-    </div>
-    <div class="value">
-        @ChildContent
-        @if(!SuppressValidation)
-        {
-            <ValidationMessage For="@ForMember" />
-        }
-    </div>
-    @if(ModifierContent is not null)
-    {
-        <div class="modifier">
-            @ModifierContent
+            }
         </div>
-    }
-</div>
+        <div class="value">
+            @ChildContent
+            @if(!SuppressValidation)
+            {
+                <ValidationMessage For="@ForMember" />
+            }
+        </div>
+        @if(ModifierContent is not null)
+        {
+            <div class="modifier">
+                @ModifierContent
+            </div>
+        }
+    </div>
+}
 
 @code {
     [Parameter, EditorRequired]
@@ -46,6 +49,9 @@
     [Parameter]
     public bool SuppressValidation { get; set; }
 
+    [CascadingParameter, EditorRequired]
+    public ModelForm<TModelDto>? ParentForm { get; set; }
+
     private string ToolTipText { get; set; } = string.Empty;
 
     private string LabelText { get; set; } = string.Empty;
@@ -54,8 +60,8 @@
 
     protected override void OnInitialized()
     {
-        if (ForMember is null)
-            throw new ArgumentNullException(paramName: nameof(ForMember));
+        ArgumentNullException.ThrowIfNull(ForMember);
+        ArgumentNullException.ThrowIfNull(ParentForm);
 
         // Convert the ForMember parameter into a typed accessor for compatability with the
         // IModelMetadataService methods.
@@ -71,8 +77,10 @@
     {
         var sb = new System.Text.StringBuilder();
 
-        var gridFormat = ModifierContent is null ? "no-modifier" : "with-modifier";
+        var gridFormat = string.Empty;
 
+        gridFormat = ParentForm!.WithFormEntryModifiers ? "col-3" : "col-2";
+        
         sb.AppendJoin(
             " ",
             "form-entry",
@@ -81,6 +89,6 @@
             gridFormat
         );
 
-        return sb.ToString();
+        return sb.ToString().Trim();
     }
 }

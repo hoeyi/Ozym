@@ -14,8 +14,8 @@
 
 .page-banner {
     display: flex;
-    padding: 0rem 0rem 0rem 0.5rem;
-    height: 2.5rem;
+    margin: 0.5rem 0rem 0.5rem 0rem;
+    padding-left: 0.5rem;
 }
 
 .menu-bar {
