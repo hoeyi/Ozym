@@ -141,6 +141,12 @@
   <data name="Email_Name" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="Id_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Id_Name" xml:space="preserve">
+    <value />
+  </data>
   <data name="LockoutEnabled_Description" xml:space="preserve">
     <value />
   </data>

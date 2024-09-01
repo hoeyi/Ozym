@@ -14,6 +14,13 @@ namespace Ozym.Web.Identity.Data;
         )]
 public class ApplicationUser : IdentityUser
 {
+    [Key]
+    [Display(
+            Name = nameof(ApplicationUser_SR.Id_Name),
+            Description = nameof(ApplicationUser_SR.Id_Description),
+            ResourceType = typeof(ApplicationUser_SR))]
+    public override string Id { get; set; } = string.Empty;
+    
     /// <inheritdoc/>
     [ProtectedPersonalData]
     [Display(

@@ -135,6 +135,24 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        public static string Id_Description {
+            get {
+                return ResourceManager.GetString("Id_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Id_Name {
+            get {
+                return ResourceManager.GetString("Id_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         public static string LockoutEnabled_Description {
             get {
                 return ResourceManager.GetString("LockoutEnabled_Description", resourceCulture);
