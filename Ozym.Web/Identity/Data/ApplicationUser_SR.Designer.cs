@@ -22,7 +22,7 @@ namespace Ozym.Web.Identity.Data {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ApplicationUser_SR {
+    public class ApplicationUser_SR {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Ozym.Web.Identity.Data {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ozym.Web.Identity.Data.ApplicationUser_SR", typeof(ApplicationUser_SR).Assembly);
@@ -51,7 +51,7 @@ namespace Ozym.Web.Identity.Data {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string AccessFailedCount_Description {
+        public static string AccessFailedCount_Description {
             get {
                 return ResourceManager.GetString("AccessFailedCount_Description", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to Failed access attempts.
         /// </summary>
-        internal static string AccessFailedCount_Name {
+        public static string AccessFailedCount_Name {
             get {
                 return ResourceManager.GetString("AccessFailedCount_Name", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string ConcurrencyStamp_Description {
+        public static string ConcurrencyStamp_Description {
             get {
                 return ResourceManager.GetString("ConcurrencyStamp_Description", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string ConcurrencyStamp_Name {
+        public static string ConcurrencyStamp_Name {
             get {
                 return ResourceManager.GetString("ConcurrencyStamp_Name", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to Contact email of the user.
         /// </summary>
-        internal static string Email_Description {
+        public static string Email_Description {
             get {
                 return ResourceManager.GetString("Email_Description", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
-        internal static string Email_Name {
+        public static string Email_Name {
             get {
                 return ResourceManager.GetString("Email_Name", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string EmailConfirmed_Description {
+        public static string EmailConfirmed_Description {
             get {
                 return ResourceManager.GetString("EmailConfirmed_Description", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string EmailConfirmed_Name {
+        public static string EmailConfirmed_Name {
             get {
                 return ResourceManager.GetString("EmailConfirmed_Name", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string LockoutEnabled_Description {
+        public static string LockoutEnabled_Description {
             get {
                 return ResourceManager.GetString("LockoutEnabled_Description", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string LockoutEnabled_Name {
+        public static string LockoutEnabled_Name {
             get {
                 return ResourceManager.GetString("LockoutEnabled_Name", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string LockoutEnd_Description {
+        public static string LockoutEnd_Description {
             get {
                 return ResourceManager.GetString("LockoutEnd_Description", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string LockoutEnd_Name {
+        public static string LockoutEnd_Name {
             get {
                 return ResourceManager.GetString("LockoutEnd_Name", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NormalizedEmail_Description {
+        public static string NormalizedEmail_Description {
             get {
                 return ResourceManager.GetString("NormalizedEmail_Description", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NormalizedEmail_Name {
+        public static string NormalizedEmail_Name {
             get {
                 return ResourceManager.GetString("NormalizedEmail_Name", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NormalizedUserName_Description {
+        public static string NormalizedUserName_Description {
             get {
                 return ResourceManager.GetString("NormalizedUserName_Description", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NormalizedUserName_Name {
+        public static string NormalizedUserName_Name {
             get {
                 return ResourceManager.GetString("NormalizedUserName_Name", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to users.
         /// </summary>
-        internal static string Noun_Plural {
+        public static string Noun_Plural {
             get {
                 return ResourceManager.GetString("Noun_Plural", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to the.
         /// </summary>
-        internal static string Noun_Plural_Article {
+        public static string Noun_Plural_Article {
             get {
                 return ResourceManager.GetString("Noun_Plural_Article", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to user.
         /// </summary>
-        internal static string Noun_Singular {
+        public static string Noun_Singular {
             get {
                 return ResourceManager.GetString("Noun_Singular", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to the.
         /// </summary>
-        internal static string Noun_Singular_Article {
+        public static string Noun_Singular_Article {
             get {
                 return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string PasswordHash_Description {
+        public static string PasswordHash_Description {
             get {
                 return ResourceManager.GetString("PasswordHash_Description", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string PasswordHash_Name {
+        public static string PasswordHash_Name {
             get {
                 return ResourceManager.GetString("PasswordHash_Name", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to Contact phone of the user.
         /// </summary>
-        internal static string PhoneNumber_Description {
+        public static string PhoneNumber_Description {
             get {
                 return ResourceManager.GetString("PhoneNumber_Description", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to Phone.
         /// </summary>
-        internal static string PhoneNumber_Name {
+        public static string PhoneNumber_Name {
             get {
                 return ResourceManager.GetString("PhoneNumber_Name", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string PhoneNumberConfirmed_Description {
+        public static string PhoneNumberConfirmed_Description {
             get {
                 return ResourceManager.GetString("PhoneNumberConfirmed_Description", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string PhoneNumberConfirmed_Name {
+        public static string PhoneNumberConfirmed_Name {
             get {
                 return ResourceManager.GetString("PhoneNumberConfirmed_Name", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string SecurityStamp_Description {
+        public static string SecurityStamp_Description {
             get {
                 return ResourceManager.GetString("SecurityStamp_Description", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string SecurityStamp_Name {
+        public static string SecurityStamp_Name {
             get {
                 return ResourceManager.GetString("SecurityStamp_Name", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to Dual-factor authentication is configured for the user.
         /// </summary>
-        internal static string TwoFactorEnabled_Description {
+        public static string TwoFactorEnabled_Description {
             get {
                 return ResourceManager.GetString("TwoFactorEnabled_Description", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to 2FA enabled.
         /// </summary>
-        internal static string TwoFactorEnabled_Name {
+        public static string TwoFactorEnabled_Name {
             get {
                 return ResourceManager.GetString("TwoFactorEnabled_Name", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to Public id of the user.
         /// </summary>
-        internal static string UserName_Description {
+        public static string UserName_Description {
             get {
                 return ResourceManager.GetString("UserName_Description", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace Ozym.Web.Identity.Data {
         /// <summary>
         ///   Looks up a localized string similar to User name.
         /// </summary>
-        internal static string UserName_Name {
+        public static string UserName_Name {
             get {
                 return ResourceManager.GetString("UserName_Name", resourceCulture);
             }

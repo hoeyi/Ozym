@@ -134,7 +134,7 @@
 	  <LastGenOutput>Strings.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
 	<EmbeddedResource Update="Identity\Data\ApplicationUser_SR.resx">
-	  <Generator>ResXFileCodeGenerator</Generator>
+	  <Generator>PublicResXFileCodeGenerator</Generator>
 	  <LastGenOutput>ApplicationUser_SR.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
 	<EmbeddedResource Update="Resources\Strings.resx">
