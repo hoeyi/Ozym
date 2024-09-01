@@ -2,8 +2,8 @@
 
 @inherits LocalizableComponent
 
-<tr class="@GetCssClass()">
-    <td class="label">
+<div class="@GetCssClass()">
+    <div class="label">
         @if(!string.IsNullOrEmpty(ToolTipText))
         {
             <ToolTip Text="@ToolTipText">
@@ -14,21 +14,21 @@
         {
             @LabelText
         }
-    </td>
-    <td class="value">
+    </div>
+    <div class="value">
         @ChildContent
         @if(!SuppressValidation)
         {
             <ValidationMessage For="@ForMember" />
         }
-    </td>
+    </div>
     @if(ModifierContent is not null)
     {
-        <td class="modifier">
+        <div class="modifier">
             @ModifierContent
-        </td>
+        </div>
     }
-</tr>
+</div>
 
 @code {
     [Parameter, EditorRequired]
@@ -75,6 +75,7 @@
 
         sb.AppendJoin(
             " ",
+            "form-entry",
             "grid-container",
             "model-property-input",
             gridFormat

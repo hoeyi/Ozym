@@ -1,46 +1,28 @@
-﻿.grid-container td:last-child {
-    padding-right: 0.5rem;
+﻿.grid-container.with-modifier {
+    grid-template-columns: 2fr 3fr 1fr;
 }
 
-.grid-container.with-modifier {
-    grid-template-areas: "lbl vlu vlu vlu mdf";
-    grid-template-columns: 12rem auto 6rem;
-}
-
-grid.grid-container.no-modifier {
-    grid-template-columns: 12rem auto;
-    grid-template-areas: "lbl vlu vlu vlu vlu";
+.grid-container.no-modifier {
+    grid-template-columns: 2fr 4fr;
 }
 
 .grid-container {
     display: inline-grid;
-    width: 100%;
+    /*width: 100%;*/
+    /*max-width: 45vw;*/
     align-items: center;
 }
-
-.grid-container td.label {
-    grid-area: lbl;
+.grid-container div {
+    height: 100%;
+    width: auto;
 }
 
-.grid-container td.value {
-    grid-area: vlu;
+.form-entry {
+    padding-bottom: 0.5rem;
 }
 
-.grid-container td.modifier {
-    grid-area: mdf;
-}
-
-td:first-child {
-    padding-left: 0.5rem;
-}
-
-    td:first-child div {
-        overflow: hidden;
-        white-space: nowrap;
-    }
-
-td:not(:first-child) {
-    padding-left: 1rem;
+.form-entry:last-child {
+    padding-bottom: 0rem;
 }
 
 ::deep div.form-control:empty {

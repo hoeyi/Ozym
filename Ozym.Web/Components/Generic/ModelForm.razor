@@ -4,11 +4,9 @@
 @attribute [CascadingTypeParameter(nameof(TModelDto))]
 
 <CascadingValue Value="@ModelDto">
-    <table class="model-attributes">
-        <tbody>
-            @ChildContent
-        </tbody>
-    </table>
+    <div class="model-attributes">
+        @ChildContent
+    </div>
 </CascadingValue>
 
 @code {

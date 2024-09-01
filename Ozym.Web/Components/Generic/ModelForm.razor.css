@@ -1,4 +1,37 @@
-﻿table.model-attributes {
+﻿.model-attributes {
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 1rem;
+}
+::deep .form-control {
+    box-sizing:border-box !important;
     width: 100%;
 }
+::deep .model-attributes .custom-tooltip {
+    position: static;
+}
 
+::deep .model-attributes .custom-tooltip-text {
+    margin-left: 0.5rem;
+    z-index: 999;
+}
+
+::deep .model-attributes .form-entry {
+    padding-bottom: 0.5rem;
+}
+
+::deep .model-attributes .form-entry:last-child {
+    padding-bottom: 0;
+}
+
+::deep .model-attributes .text-area {
+    overflow: auto;
+    height: auto;
+    display: block;
+}
+
+::deep .text-area {
+    white-space: pre-wrap;
+    height: 0.25rem;
+}

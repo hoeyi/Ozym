@@ -12,14 +12,6 @@
     z-index: 99;
 }
 
-::deep .model-attributes td {
-    padding-bottom: 0.5rem;  
-}
-
-::deep .model-attributes tr:last-child td {
-    padding-bottom: 0;
-}
-
 ::deep .model-attributes .text-area {
     overflow: auto;
     height: auto;
@@ -29,7 +21,7 @@
 ::deep .text-area {
     white-space: pre-wrap;
     height: 0.25rem;
-}
+}*/
 /*#endregion */
 
 
