@@ -2,57 +2,55 @@
 
 @inherits ModelDetail<BrokerTransactionCodeDto>
 
-<ThemedComponent>
-    @if (IsLoading)
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+
+    <ModelPageHeader ActionMenu="@SectionNavigationMenu"
+                        Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@Model">
+                <EditForm class="model-editor" Model="@Model">
+                    <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="true" />
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+    @foreach (var entry in Model.AttributeCollection.CurrentEntries
+        .OrderBy(g => g.AttributeMember.Attribute.DisplayName))
     {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
-
-        <ModelPageHeader ActionMenu="@SectionNavigationMenu"
-                         Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
-
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
-
         <ContentTile>
             <Body>
-                <CascadingValue Value="@Model">
-                    <EditForm class="model-editor" Model="@Model">
-                        <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="true" />
-                    </EditForm>
-                </CascadingValue>
+                <EditForm class="model-editor" Model="entry">
+                    <ModelForm TModelDto="BrokerTransactionCodeAttributeDto">
+                        <ModelFormEntry 
+                            LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
+                            ForMember="@(() => entry.AttributeMember.DisplayName)">
+                            <div class="form-control">
+                                @entry.AttributeMember.DisplayName
+                            </div>
+                        </ModelFormEntry>
+                        <ModelFormEntry ForMember="@(() => entry.EffectiveDate)">
+                            <div class="form-control">
+                                @entry.EffectiveDate.ToShortDateString()
+                            </div>
+                        </ModelFormEntry>
+                    </ModelForm>
+                </EditForm>
             </Body>
         </ContentTile>
-        @foreach (var entry in Model.AttributeCollection.CurrentEntries
-            .OrderBy(g => g.AttributeMember.Attribute.DisplayName))
-        {
-            <ContentTile>
-                <Body>
-                    <EditForm class="model-editor" Model="entry">
-                        <ModelForm TModelDto="BrokerTransactionCodeAttributeDto">
-                            <ModelFormEntry 
-                                LabelOverride="@entry.AttributeMember.Attribute.DisplayName"
-                                ForMember="@(() => entry.AttributeMember.DisplayName)">
-                                <div class="form-control">
-                                    @entry.AttributeMember.DisplayName
-                                </div>
-                            </ModelFormEntry>
-                            <ModelFormEntry ForMember="@(() => entry.EffectiveDate)">
-                                <div class="form-control">
-                                    @entry.EffectiveDate.ToShortDateString()
-                                </div>
-                            </ModelFormEntry>
-                        </ModelForm>
-                    </EditForm>
-                </Body>
-            </ContentTile>
-        }
     }
-</ThemedComponent>
+}
 
 @code {
     [Parameter]

@@ -2,47 +2,45 @@
 
 @inherits ModelDetail<SecurityDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>
-            @(PageTitle.CreateSingle().AsPageTitle())
-        </PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>
+        @(PageTitle.CreateSingle().AsPageTitle())
+    </PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.CreateSingle())" />
+    <ModelPageHeader Header="@(PageTitle.CreateSingle())" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <CascadingValue Value="@Model">
-            <AttributeEntryCollectionEditor 
-                TViewModelParent="SecurityAttributeDtoCollection"
-                TViewModelChild="SecurityAttributeGrouping"
-                TModel="SecurityDto"
-                TModelChild="SecurityAttributeDto"
-                OnCancelEditorClick="FormCancelClickHandler"
-                OnValidFormSubmit="HandleValidSubmit"
-                EffectiveDatePath="@(x => x.EffectiveDate)"
-                ModelDto="@Model.AttributeCollection"
-                Mode="EditorMode.Add">
-                <ViewModelCRUD>
-                    <SecurityCRUD SecurityTypes="SecurityTypes"
-                              SecurityExchanges="Exchanges"
-                              Issuers="Issuers"
-                              Disabled="false" ReadOnly="false" />
-                </ViewModelCRUD>
-                <ViewModelChildCRUD>
-                    <SecurityAttributesCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelChildCRUD>
-            </AttributeEntryCollectionEditor>
-        </CascadingValue>
-    }
-</ThemedComponent>
+    <CascadingValue Value="@Model">
+        <AttributeEntryCollectionEditor 
+            TViewModelParent="SecurityAttributeDtoCollection"
+            TViewModelChild="SecurityAttributeGrouping"
+            TModel="SecurityDto"
+            TModelChild="SecurityAttributeDto"
+            OnCancelEditorClick="FormCancelClickHandler"
+            OnValidFormSubmit="HandleValidSubmit"
+            EffectiveDatePath="@(x => x.EffectiveDate)"
+            ModelDto="@Model.AttributeCollection"
+            Mode="EditorMode.Add">
+            <ViewModelCRUD>
+                <SecurityCRUD SecurityTypes="SecurityTypes"
+                            SecurityExchanges="Exchanges"
+                            Issuers="Issuers"
+                            Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <SecurityAttributesCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryCollectionEditor>
+    </CascadingValue>
+}
 
 @code {
     [Parameter]

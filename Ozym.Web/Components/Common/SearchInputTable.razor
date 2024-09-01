@@ -11,46 +11,44 @@
         <CascadingValue Value="@ErrorMessage">
             <ErrorMessageBox />
         </CascadingValue>
-        <ThemedComponent>
-            <EditForm Model="@Parameter">
-                <table class="table search-parameter-table">
-                    <tbody>
-                        <tr class="search-input-table-row">
-                            <td>
-                                <label class="form-control label">
-                                    @Strings.Caption_InputSelect_SearchField
-                                </label>
-                            </td>
-                            <td>
-                                <InputSelect TValue="@(string)" 
-                                             class="form-control" @bind-Value="@Parameter.MemberName">
-                                    @foreach (var field in SearchFields)
-                                    {
-                                        <option value="@field.QualifiedMemberName">@field.Display?.GetName()</option>
+        <EditForm Model="@Parameter">
+            <table class="table search-parameter-table">
+                <tbody>
+                    <tr class="search-input-table-row">
+                        <td>
+                            <label class="form-control label">
+                                @Strings.Caption_InputSelect_SearchField
+                            </label>
+                        </td>
+                        <td>
+                            <InputSelect TValue="@(string)" 
+                                            class="form-control" @bind-Value="@Parameter.MemberName">
+                                @foreach (var field in SearchFields)
+                                {
+                                    <option value="@field.QualifiedMemberName">@field.Display?.GetName()</option>
 
-                                    }
-                                </InputSelect>
-                            </td>
-                            <td>
-                                <InputSelect class="form-control" @bind-Value="@Parameter.Operator">
-                                    @foreach (var op in ComparisonOperators)
-                                    {
-                                        <option value=@op>@(NameFor(@enum: op))</option>
-                                    }
-                                </InputSelect>
-                            </td>
-                            <td>
-                                <InputText class="form-control" @bind-Value="@Parameter.Value" />
-                            </td>
-                            <td>
-                                <button class="form-control button" @onclick="@(args => SearchSubmitted(args))">
-                                    @Strings.Caption_Button_Search
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </EditForm>
-        </ThemedComponent>
+                                }
+                            </InputSelect>
+                        </td>
+                        <td>
+                            <InputSelect class="form-control" @bind-Value="@Parameter.Operator">
+                                @foreach (var op in ComparisonOperators)
+                                {
+                                    <option value=@op>@(NameFor(@enum: op))</option>
+                                }
+                            </InputSelect>
+                        </td>
+                        <td>
+                            <InputText class="form-control" @bind-Value="@Parameter.Value" />
+                        </td>
+                        <td>
+                            <button class="form-control button" @onclick="@(args => SearchSubmitted(args))">
+                                @Strings.Caption_Button_Search
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </EditForm>
     }
 </div>

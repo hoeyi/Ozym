@@ -2,67 +2,65 @@
 
 @inherits ModelDetail<ModelAttributeDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+    <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@Model">
+                <EditForm class="model-editor" Model="@Model">
+                    <ModelAttributeCRUD Disabled="false" ReadOnly="true" />
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+    <EditForm Model="@Model">
         <ContentTile>
             <Body>
-                <CascadingValue Value="@Model">
-                    <EditForm class="model-editor" Model="@Model">
-                        <ModelAttributeCRUD Disabled="false" ReadOnly="true" />
-                    </EditForm>
-                </CascadingValue>
+                <DataGrid Data="@Model.AttributeScopes">
+                    <DataGridColumn Type="DataGridCellType.Text"
+                                Property="@nameof(ModelAttributeScopeDto.ScopeCode)"
+                                    Caption="@(ModelMetadata.NameFor<ModelAttributeScopeDto>(x => x.ScopeCode))">
+                        <CellTemplate Context="model">
+                            @model.ScopeCode
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
             </Body>
         </ContentTile>
-        <EditForm Model="@Model">
-            <ContentTile>
-                <Body>
-                    <DataGrid Data="@Model.AttributeScopes">
-                        <DataGridColumn Type="DataGridCellType.Text"
-                                    Property="@nameof(ModelAttributeScopeDto.ScopeCode)"
-                                        Caption="@(ModelMetadata.NameFor<ModelAttributeScopeDto>(x => x.ScopeCode))">
-                            <CellTemplate Context="model">
-                                @model.ScopeCode
-                            </CellTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
-                </Body>
-            </ContentTile>
-            <ContentTile>
-                <Body>
-                    <DataGrid Data="@Model.AttributeValues">
-                        <DataGridColumn Type="DataGridCellType.Text"
-                                    Property="@nameof(ModelAttributeMemberDto.DisplayName)"
-                                    Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayName))">
-                            <CellTemplate Context="model">
-                                @model.DisplayName
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Type="DataGridCellType.Text"
-                                    Property="@nameof(ModelAttributeMemberDto.DisplayOrder)"
-                                    Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayOrder))">
-                            <CellTemplate Context="model">
-                                @model.DisplayOrder
-                            </CellTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
-                </Body>
-            </ContentTile>
-        </EditForm>
-    }
-</ThemedComponent>
+        <ContentTile>
+            <Body>
+                <DataGrid Data="@Model.AttributeValues">
+                    <DataGridColumn Type="DataGridCellType.Text"
+                                Property="@nameof(ModelAttributeMemberDto.DisplayName)"
+                                Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayName))">
+                        <CellTemplate Context="model">
+                            @model.DisplayName
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Type="DataGridCellType.Text"
+                                Property="@nameof(ModelAttributeMemberDto.DisplayOrder)"
+                                Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayOrder))">
+                        <CellTemplate Context="model">
+                            @model.DisplayOrder
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </Body>
+        </ContentTile>
+    </EditForm>
+}
 
 @code {
     [Parameter]

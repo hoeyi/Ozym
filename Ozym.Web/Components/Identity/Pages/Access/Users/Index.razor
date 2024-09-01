@@ -12,60 +12,58 @@
     Manager users
 </PageTitle>
 
-<ThemedComponent>
-    <ContentTile>
-        <TitleAlignLeft>
-            <Paginator Model="PaginationHelper"
-                       IndexChanged="RefreshResultsAsync" PageSizeChanged="RefreshResultsAsync" />
-        </TitleAlignLeft>
-        <Body>
-            @if(IsLoading)
-            {
-                <LoadingSvg/>
-            }
-            else
-            {
-                <DataGrid Data="@Users" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(ApplicationUser.UserName)
-                                    Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.UserName))
-                                Type=@DataGridCellType.Link>
-                        <CellTemplate Context="model">
-                            <a class="custom-nav-link" href=@(FormatDetailUri(model)) 
-                                @onclick:preventDefault 
-                                @onclick="@(args => Detail_OnClick(model, args))">
-                                @model.UserName
-                            </a>
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(ApplicationUser.Email)
-                                    Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.Email))>
-                        <CellTemplate Context="model">
-                            @model.Email
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(ApplicationUser.EmailConfirmed)
-                                    Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.EmailConfirmed))>
-                        <CellTemplate Context="model">
-                            @model.EmailConfirmed
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(ApplicationUser.PhoneNumber)
-                                    Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.PhoneNumber))>
-                        <CellTemplate Context="model">
-                            @model.PhoneNumber
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(ApplicationUser.PhoneNumberConfirmed)
-                                    Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.PhoneNumberConfirmed))>
-                        <CellTemplate Context="model">
-                            @model.PhoneNumberConfirmed
-                        </CellTemplate>
-                    </DataGridColumn>
-                </DataGrid>
-            }
-        </Body>
-    </ContentTile>
-</ThemedComponent>
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+                    IndexChanged="RefreshResultsAsync" PageSizeChanged="RefreshResultsAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if(IsLoading)
+        {
+            <LoadingSvg/>
+        }
+        else
+        {
+            <DataGrid Data="@Users" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn Property=@nameof(ApplicationUser.UserName)
+                                Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.UserName))
+                            Type=@DataGridCellType.Link>
+                    <CellTemplate Context="model">
+                        <a class="custom-nav-link" href=@(FormatDetailUri(model)) 
+                            @onclick:preventDefault 
+                            @onclick="@(args => Detail_OnClick(model, args))">
+                            @model.UserName
+                        </a>
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(ApplicationUser.Email)
+                                Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.Email))>
+                    <CellTemplate Context="model">
+                        @model.Email
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(ApplicationUser.EmailConfirmed)
+                                Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.EmailConfirmed))>
+                    <CellTemplate Context="model">
+                        @model.EmailConfirmed
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(ApplicationUser.PhoneNumber)
+                                Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.PhoneNumber))>
+                    <CellTemplate Context="model">
+                        @model.PhoneNumber
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(ApplicationUser.PhoneNumberConfirmed)
+                                Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.PhoneNumberConfirmed))>
+                    <CellTemplate Context="model">
+                        @model.PhoneNumberConfirmed
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
 
 @code {
 

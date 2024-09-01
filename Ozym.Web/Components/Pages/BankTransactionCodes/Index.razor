@@ -4,49 +4,47 @@
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-<ThemedComponent>
-    <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
+<ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
-    <CascadingValue Value="@ErrorMessage">
-        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-    </CascadingValue>
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
 
-    <ContentTile>
-        <TitleAlignLeft>
-            <Paginator Model="PaginationHelper"
-                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
-        </TitleAlignLeft>
-        <Body>
-            @if (IsLoading)
-            {
-                <LoadingSvg />
-            }
-            else
-            {
-                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(BankTransactionCodeDto.TransactionCode)
-                        Caption=@(NameFor(x => x.TransactionCode))
-                        Type=@DataGridCellType.Link>
-                        <CellTemplate Context="model">
-                            <a class="custom-nav-link" 
-                                href=@(FormatDetailUri(model.TransactionCodeId))
-                                @onclick:preventDefault
-                                @onclick="@(args => Detail_OnClick(model, args))">
-                                @model.TransactionCode.ToLower()
-                            </a>
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(BankTransactionCodeDto.DisplayName)
-                                Caption=@(NameFor(x => x.DisplayName))>
-                        <CellTemplate Context="model">
-                            @model.DisplayName
-                        </CellTemplate>
-                    </DataGridColumn>
-                </DataGrid>
-            }
-        </Body>
-    </ContentTile>
-</ThemedComponent>
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+                IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if (IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+            <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn Property=@nameof(BankTransactionCodeDto.TransactionCode)
+                    Caption=@(NameFor(x => x.TransactionCode))
+                    Type=@DataGridCellType.Link>
+                    <CellTemplate Context="model">
+                        <a class="custom-nav-link" 
+                            href=@(FormatDetailUri(model.TransactionCodeId))
+                            @onclick:preventDefault
+                            @onclick="@(args => Detail_OnClick(model, args))">
+                            @model.TransactionCode.ToLower()
+                        </a>
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(BankTransactionCodeDto.DisplayName)
+                            Caption=@(NameFor(x => x.DisplayName))>
+                    <CellTemplate Context="model">
+                        @model.DisplayName
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
 
 @code {
 

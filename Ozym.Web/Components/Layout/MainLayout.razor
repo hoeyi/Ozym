@@ -14,35 +14,37 @@
 
 <div class="page" theme_elevation="00">
     <main>
-        <div class="navbar-custom px-4 auth">
-            <div class="left">
-                @if (Menus is not null)
-                {
-                    @foreach(var menu in Menus)
+        <ThemedComponent>
+            <div class="navbar-custom px-4 auth">
+                <div class="left">
+                    @if (Menus is not null)
                     {
-                        <MenuBar Menu="menu" HyperlinkClickCallBack="OnHyperlinkClickHandler" />
+                        @foreach(var menu in Menus)
+                        {
+                            <MenuBar Menu="menu" HyperlinkClickCallBack="OnHyperlinkClickHandler" />
+                        }
                     }
-                }
+                </div>
+                <div class="right">
+                    <ManageMenuBar HyperlinkClickCallBack="OnHyperlinkClickHandler" />
+                </div>
             </div>
-            <div class="right">
-                <ManageMenuBar HyperlinkClickCallBack="OnHyperlinkClickHandler" />
-            </div>
-        </div>
-        <article class="content px-4">
-            <ErrorBoundary @ref="errorBoundary">
-                    <ChildContent>
-                        @Body
-                    </ChildContent>
-                <ErrorContent Context="exception">
-                    @{
-                        LogUnhandledException(exception);
-                    }
-                    <CascadingValue Value="@GetUnhandledExcpetionMessage()">
-                        <ErrorMessageBox />
-                    </CascadingValue>
-                </ErrorContent>
-            </ErrorBoundary>
-        </article>
+            <article class="content px-4">
+                <ErrorBoundary @ref="errorBoundary">
+                        <ChildContent>
+                            @Body
+                        </ChildContent>
+                    <ErrorContent Context="exception">
+                        @{
+                            LogUnhandledException(exception);
+                        }
+                        <CascadingValue Value="@GetUnhandledExcpetionMessage()">
+                            <ErrorMessageBox />
+                        </CascadingValue>
+                    </ErrorContent>
+                </ErrorBoundary>
+            </article>
+        </ThemedComponent>
     </main>
 </div>
 

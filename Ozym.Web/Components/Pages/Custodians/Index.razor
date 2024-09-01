@@ -4,45 +4,43 @@
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-<ThemedComponent>
-    <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
+<ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
-    <CascadingValue Value="@ErrorMessage">
-        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-    </CascadingValue>
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
 
-    <ContentTile>
-        <TitleAlignLeft>
-            <Paginator Model="PaginationHelper"
-                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
-        </TitleAlignLeft>
-        <Body>
-            @if (IsLoading)
-            {
-                <LoadingSvg />
-            }
-            else
-            {
-                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn 
-                        Property=@nameof(AccountCustodianDto.CustodianCode)
-                        Caption=@(NameFor(x => x.CustodianCode))>
-                        <CellTemplate Context="model">
-                            @model.CustodianCode
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn 
-                        Property=@nameof(AccountCustodianDto.DisplayName)
-                        Caption=@(NameFor(x => x.DisplayName))>
-                        <CellTemplate Context="model">
-                            @model.DisplayName
-                        </CellTemplate>
-                    </DataGridColumn>
-                </DataGrid>
-            }
-        </Body>
-    </ContentTile>
-</ThemedComponent>
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+                IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if (IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+            <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn 
+                    Property=@nameof(AccountCustodianDto.CustodianCode)
+                    Caption=@(NameFor(x => x.CustodianCode))>
+                    <CellTemplate Context="model">
+                        @model.CustodianCode
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Property=@nameof(AccountCustodianDto.DisplayName)
+                    Caption=@(NameFor(x => x.DisplayName))>
+                    <CellTemplate Context="model">
+                        @model.DisplayName
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
 
 @code {
     protected override MenuRoot CreateSectionNavigationMenu() => new()

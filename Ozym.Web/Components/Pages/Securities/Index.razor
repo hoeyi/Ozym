@@ -4,107 +4,105 @@
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-    <ThemedComponent>
-        <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
+<ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
-    @if(SearchFields is null)
+@if(SearchFields is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    @if(SearchFields.Any())
     {
-        <LoadingSvg />
+        <ContentTile>
+            <Body>
+                <SearchInputTable TModel="SecurityDto"
+                    ComparisonOperators=@ComparisonOperators
+                    ExpressionBuilder=@ExpressionBuilder
+                    SearchFields=@SearchFields
+                    OnSearchClick=@(async (args) => await SearchClicked(args))>
+                </SearchInputTable>
+            </Body>
+        </ContentTile>
     }
-    else
-    {
-        @if(SearchFields.Any())
+}
+
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
+
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+                IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if (IsLoading)
         {
-            <ContentTile>
-                <Body>
-                    <SearchInputTable TModel="SecurityDto"
-                        ComparisonOperators=@ComparisonOperators
-                        ExpressionBuilder=@ExpressionBuilder
-                        SearchFields=@SearchFields
-                        OnSearchClick=@(async (args) => await SearchClicked(args))>
-                    </SearchInputTable>
-                </Body>
-            </ContentTile>
+            <LoadingSvg />
         }
-    }
-
-    <CascadingValue Value="@ErrorMessage">
-        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-    </CascadingValue>
-
-    <ContentTile>
-        <TitleAlignLeft>
-            <Paginator Model="PaginationHelper"
-                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
-        </TitleAlignLeft>
-        <Body>
-            @if (IsLoading)
-            {
-                <LoadingSvg />
-            }
-            else
-            {
-                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(SecurityDto.SecurityDescription)
-                                Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityDescription))
-                                Type=@DataGridCellType.Link>
-                        <CellTemplate Context="model">
-                            <a class="custom-nav-link" href=@(FormatDetailUri(model.SecurityId)) 
-                                @onclick:preventDefault
-                                @onclick="@(args => Detail_OnClick(model, args))">
-                                    @model.SecurityDescription
-                            </a>
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityDto.CurrentSymbol)
-                                    Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.CurrentSymbol))
-                                Type=@DataGridCellType.Text>
-                        <CellTemplate Context="model">
-                            @model.CurrentSymbol
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityDto.SecurityTypeId)
-                                Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityTypeId))
-                                Type=@DataGridCellType.Text>
-                        <CellTemplate Context="model">
-                            @(TypeLookup?.TryGetDisplayString<int, SecurityTypeDto>(
-                                model.SecurityTypeId, x => x.SecurityTypeName))
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityDto.Issuer)
-                            Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.Issuer))
+        else
+        {
+            <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn Property=@nameof(SecurityDto.SecurityDescription)
+                            Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityDescription))
+                            Type=@DataGridCellType.Link>
+                    <CellTemplate Context="model">
+                        <a class="custom-nav-link" href=@(FormatDetailUri(model.SecurityId)) 
+                            @onclick:preventDefault
+                            @onclick="@(args => Detail_OnClick(model, args))">
+                                @model.SecurityDescription
+                        </a>
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(SecurityDto.CurrentSymbol)
+                                Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.CurrentSymbol))
                             Type=@DataGridCellType.Text>
-                        <CellTemplate Context="model">
-                            @model.Issuer
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityDto.SecurityExchangeId)
-                            Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityExchangeId))
+                    <CellTemplate Context="model">
+                        @model.CurrentSymbol
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(SecurityDto.SecurityTypeId)
+                            Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityTypeId))
                             Type=@DataGridCellType.Text>
-                        <CellTemplate Context="model">
-                            @(ExchangeLookup?.TryGetDisplayString<int, SecurityExchangeDto>(
-                                model.SecurityExchangeId ?? default, x => x.ExchangeCode))
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityDto.HasPerpetualMarket)
-                            Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.HasPerpetualMarket))
-                            Type=@DataGridCellType.Text>
-                        <CellTemplate Context="model">
-                            @model.HasPerpetualMarket
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(SecurityDto.HasPerpetualPrice)
-                                Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.HasPerpetualPrice))
-                            Type=@DataGridCellType.Text>
-                        <CellTemplate Context="model">
-                            @model.HasPerpetualPrice
-                        </CellTemplate>
-                    </DataGridColumn>
-                </DataGrid>
-            }
-        </Body>
-    </ContentTile>
-</ThemedComponent>
+                    <CellTemplate Context="model">
+                        @(TypeLookup?.TryGetDisplayString<int, SecurityTypeDto>(
+                            model.SecurityTypeId, x => x.SecurityTypeName))
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(SecurityDto.Issuer)
+                        Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.Issuer))
+                        Type=@DataGridCellType.Text>
+                    <CellTemplate Context="model">
+                        @model.Issuer
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(SecurityDto.SecurityExchangeId)
+                        Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.SecurityExchangeId))
+                        Type=@DataGridCellType.Text>
+                    <CellTemplate Context="model">
+                        @(ExchangeLookup?.TryGetDisplayString<int, SecurityExchangeDto>(
+                            model.SecurityExchangeId ?? default, x => x.ExchangeCode))
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(SecurityDto.HasPerpetualMarket)
+                        Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.HasPerpetualMarket))
+                        Type=@DataGridCellType.Text>
+                    <CellTemplate Context="model">
+                        @model.HasPerpetualMarket
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(SecurityDto.HasPerpetualPrice)
+                            Caption=@(ModelMetadata.NameFor<SecurityDto>(x => x.HasPerpetualPrice))
+                        Type=@DataGridCellType.Text>
+                    <CellTemplate Context="model">
+                        @model.HasPerpetualPrice
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
 
 
 @code {
