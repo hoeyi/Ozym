@@ -2,30 +2,33 @@
 
 @inherits LocalizableComponent
 
-@if(!string.IsNullOrEmpty(LabelText))
-{
-    <tr class="grid-container model-property-input">
-        <td class="label">
-            @if(!string.IsNullOrEmpty(ToolTipText))
-            {
-                <ToolTip Text="@ToolTipText">
-                    @LabelText
-                </ToolTip>
-            }
-            else
-            {
+<tr class="@GetCssClass()">
+    <td class="label">
+        @if(!string.IsNullOrEmpty(ToolTipText))
+        {
+            <ToolTip Text="@ToolTipText">
                 @LabelText
-            }
+            </ToolTip>
+        }
+        else
+        {
+            @LabelText
+        }
+    </td>
+    <td class="value">
+        @ChildContent
+        @if(!SuppressValidation)
+        {
+            <ValidationMessage For="@ForMember" />
+        }
+    </td>
+    @if(ModifierContent is not null)
+    {
+        <td class="modifier">
+            @ModifierContent
         </td>
-        <td class="value">
-            @ChildContent
-            @if(!SuppressValidation)
-            {
-                <ValidationMessage For="@ForMember" />
-            }
-        </td>
-    </tr>
-}
+    }
+</tr>
 
 @code {
     [Parameter, EditorRequired]
@@ -33,6 +36,9 @@
 
     [Parameter, EditorRequired]
     public Expression<Func<object>> ForMember { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? ModifierContent { get; set; }
 
     [Parameter]
     public string LabelOverride { get; set; } = string.Empty;
@@ -61,5 +67,19 @@
         ToolTipText = ModelMetadata.DescriptionFor(TypedAccessor);
     }
 
+    private string GetCssClass()
+    {
+        var sb = new System.Text.StringBuilder();
 
+        var gridFormat = ModifierContent is null ? "no-modifier" : "with-modifier";
+
+        sb.AppendJoin(
+            " ",
+            "grid-container",
+            "model-property-input",
+            gridFormat
+        );
+
+        return sb.ToString();
+    }
 }

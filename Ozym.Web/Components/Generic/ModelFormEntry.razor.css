@@ -2,10 +2,18 @@
     padding-right: 0.5rem;
 }
 
-.grid-container {
-    display: inline-grid;
+.grid-container.with-modifier {
+    grid-template-areas: "lbl vlu vlu vlu mdf";
+    grid-template-columns: 12rem auto 6rem;
+}
+
+grid.grid-container.no-modifier {
     grid-template-columns: 12rem auto;
     grid-template-areas: "lbl vlu vlu vlu vlu";
+}
+
+.grid-container {
+    display: inline-grid;
     width: 100%;
     align-items: center;
 }
@@ -16,6 +24,10 @@
 
 .grid-container td.value {
     grid-area: vlu;
+}
+
+.grid-container td.modifier {
+    grid-area: mdf;
 }
 
 td:first-child {
