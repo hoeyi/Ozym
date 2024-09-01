@@ -12,6 +12,8 @@
     @(titleInfo.ReadMany().ToTitleCase().AsPageTitle())
 </PageTitle>
 
+<ModelPageHeader Header="@(titleInfo.ReadMany())" />
+
 <ContentTile>
     <TitleAlignLeft>
         <Paginator Model="PaginationHelper"
