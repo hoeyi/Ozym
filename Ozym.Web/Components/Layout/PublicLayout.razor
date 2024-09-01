@@ -1,7 +1,9 @@
 ﻿@inherits LayoutComponentBase
-@inject NavigationManager NavigationManager
 
 @attribute [AllowAnonymous]
+
+@inject NavigationManager NavigationManager
+@inject ILogger Logger
 
 <div class="page" theme_elevation="00">
     <main>
@@ -9,7 +11,7 @@
             <div class="left">
                 @if (Menus is not null)
                 {
-                    @foreach (var menu in Menus)
+                    @foreach (var menu in Menus ?? [])
                     {
                         <MenuBar Menu="menu" HyperlinkClickCallBack="OnHyperlinkClickHandler" />
                     }
@@ -35,10 +37,6 @@
 </div>
 
 @code {
-    #nullable enable
-    [Inject]
-    protected ILogger? Logger { get; set; }
-
     private MenuRoot[]? Menus { get; set; }
 
     private ErrorBoundary? errorBoundary;
@@ -66,6 +64,4 @@
 
     private void LogUnhandledException(Exception exception) =>
         Logger?.UnhandledExceptionEncountered(exception);
-
-    #nullable disable
 }

@@ -1,7 +1,11 @@
 ﻿@inherits LayoutComponentBase
-@inject NavigationManager NavigationManager
+
 @using Ozym.Web.Components.Identity.Shared
 @using Microsoft.Extensions.Configuration
+
+@inject NavigationManager NavigationManager
+@inject ILogger Logger
+@inject IConfiguration Configuration
 
 @if(envIsDevelopment)
 {
@@ -43,12 +47,7 @@
 </div>
 
 @code {
-    #nullable enable
-    [Inject] ILogger? Logger { get; set; }
-
-    [Inject] IConfiguration? Configuration { get; set; }
-
-    private bool envIsDevelopment => Configuration?.EnvironmentIsDevelopment() ?? false;
+    private bool envIsDevelopment => Configuration.EnvironmentIsDevelopment();
 
     private MenuRoot[]? Menus { get; set; }
 
@@ -77,5 +76,4 @@
 
     private void LogUnhandledException(Exception exception) =>
         Logger?.UnhandledExceptionEncountered(exception);
-    #nullable disable
 }
