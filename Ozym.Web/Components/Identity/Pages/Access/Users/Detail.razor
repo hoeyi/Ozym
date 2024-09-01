@@ -1,0 +1,83 @@
+﻿@page "/Access/Users/{Id:guid}"
+
+@using Microsoft.EntityFrameworkCore
+
+@inherits ModelPage<ApplicationUser>
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject IdentityUserAccessor UserAccessor
+@inject IdentityRedirectManager RedirectManager
+
+@if(isLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>
+        @(titleInfo.ReadSingle(heading: user!.UserName).AsPageTitle())
+    </PageTitle>
+
+    <ModelPageHeader ActionMenu="@navMenu" Header="@(titleInfo.ReadSingle(heading: user!.UserName))" />
+
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@user">
+                <EditForm class="model-editor" Model="@user">
+                    <ApplicationUserCRUD Disabled="false" ReadOnly="true"/>
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+}
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private ApplicationUser? user;
+
+    private bool isLoading = true;
+
+    private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationUser>();
+
+    private MenuRoot navMenu = default!;
+
+    protected override string IndexUriRelativePath => "/Access/Users";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            user = await UserManager.Users.FirstAsync(u => u.Id == Id.ToString());
+
+            string editCaption = Strings.Caption_EditSingle.Format(ModelNoun?.GetSingular());
+            string indexCaption = Strings.Caption_NavigateBackTo.Format(ModelNoun?.GetPlural());
+
+            navMenu = new()
+            {
+                IconKey = "reorder-four",
+                Children = new()
+                {
+                    // Add return to index button.
+                    new MenuItem()
+                    {
+                        IconKey = "caret-back-circle",
+                        Caption = indexCaption,
+                        UriRelativePath = $"{IndexUriRelativePath}"
+                    },
+                    // Add edit button.
+                    new MenuItem()
+                    {
+                        IconKey = "pencil",
+                        Caption = editCaption,
+                        UriRelativePath = FormatEditUri(GetKeyValueOrDefault<string>(user))
+                    }
+                }
+            };
+        }
+        finally
+        {
+            isLoading = user is null;
+        }
+    }
+}
