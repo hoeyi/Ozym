@@ -22,13 +22,7 @@
         "IconKey": "cash",
         "Caption": "Accounts",
         "UriRelativePath": "/accounts",
-        "Children": [
-          {
-            "IconKey": "pencil",
-            "Caption": "Create (test)",
-            "UriRelativePath": "/accounts/test-editor"
-          }
-        ]
+        "Children": []
       },
       {
         "IconKey": null,
@@ -196,5 +190,22 @@
       "DisplayCaption": true,
       "DisplayChildMenuChevron": false
     }
+  },
+  {
+    "IconKey": "flask",
+    "Caption": "Test components",
+    "UriRelativePath": null,
+    "RootOptions": {
+      "DisplayIcon": true,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
+    "Children": [
+      {
+        "IconKey": null,
+        "Caption": "Account (Create)",
+        "UriRelativePath": "/_test/test-account-editor"
+      }
+    ]
   }
 ]

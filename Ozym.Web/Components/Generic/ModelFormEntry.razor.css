@@ -9,9 +9,8 @@
 .grid-container {
     display: inline-grid;
     align-items: center;
-    /*padding-left: 0.5rem;
-    padding-right: 0.5rem;*/
 }
+
 .grid-container div {
     height: 100%;
     width: auto;

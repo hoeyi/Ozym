@@ -1,9 +1,23 @@
 ﻿.content-tile {
+    --content-margin: 0.5rem;
     display: block;
 }
 
-.content-tile > .content-header, .content-body {
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+::deep .content-tile {
+    width: 100%;
+}
+
+.content-body {
+    margin: var(--content-margin);
+}
+
+::deep .content-body > * {
+    width: 100%;
+}
+
+.content-header {
+    margin: var(--content-margin);
+    margin-bottom: 0px;
 }
 
 ::deep button.form-control.icon {
