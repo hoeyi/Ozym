@@ -1,5 +1,11 @@
 ﻿@inherits LayoutComponentBase
-@layout AccountLayout
+@layout MainLayout
+@inject NavigationManager NavigationManager
+
+<head>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/theme-dark.css" />
+</head>
 
 <h1>Manage your account</h1>
 
@@ -11,7 +17,32 @@
             <ManageNavMenu />
         </div>
         <div class="col-md-9">
-            @Body
+            @if (HttpContext is null)
+            {
+                <LoadingSvg />
+            }
+            else
+            {
+                <ThemedComponent>
+                    @Body
+                </ThemedComponent>
+            }
         </div>
     </div>
 </div>
+
+@code {
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (HttpContext is null)
+        {
+            // If this code runs, we're currently rendering in interactive mode, so there is no HttpContext.
+            // The identity pages need to set cookies, so they require an HttpContext. To achieve this we
+            // must transition back from interactive mode to a server-rendered page.
+            NavigationManager.Refresh(forceReload: true);
+        }
+    }
+}
