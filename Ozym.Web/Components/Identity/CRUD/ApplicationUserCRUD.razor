@@ -1,0 +1,58 @@
+﻿@inherits ModelCRUD<ApplicationUser>
+
+@if(ModelDto is null)
+{
+    <LoadingSvg/>
+}
+else
+{
+    <ModelForm TModelDto="ApplicationUser">
+        <ModelFormEntry ForMember="@(() => ModelDto.UserName)">
+            @if(ReadOnly)
+            {
+                <div class="form-control">
+                    @ModelDto.UserName
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ModelDto.UserName
+                    disable="@Disabled"
+                    DisplayName=@(NameFor(x => x.UserName)) />
+            }
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.Email)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ModelDto.Email
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ModelDto.Email
+                           disable="@Disabled"
+                           DisplayName=@(NameFor(x => x.Email)) />
+            }
+            <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.EmailConfirmed disabled="@true" />
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.PhoneNumber)">
+            @if (ReadOnly)
+            {
+                <div class="form-control">
+                    @ModelDto.PhoneNumber
+                </div>
+            }
+            else
+            {
+                <InputText class="form-control" @bind-Value=ModelDto.PhoneNumber
+                           disable="@Disabled"
+                           DisplayName=@(NameFor(x => x.PhoneNumber)) />
+            }
+            <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.PhoneNumberConfirmed disabled="@true" />
+        </ModelFormEntry>
+        <ModelFormEntry ForMember="@(() => ModelDto.TwoFactorEnabled)">
+            <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.TwoFactorEnabled disabled="@true" />
+        </ModelFormEntry>
+    </ModelForm>
+}
