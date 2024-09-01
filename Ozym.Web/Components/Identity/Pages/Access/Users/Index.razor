@@ -9,7 +9,7 @@
 @inject IModelMetadataService ModelMetadata
 
 <PageTitle>
-    Manager users
+    @(titleInfo.ReadMany().ToTitleCase().AsPageTitle())
 </PageTitle>
 
 <ContentTile>
@@ -72,6 +72,8 @@
     private PagerModel PaginationHelper { get; set; } = new(startingIndex: 1, pageSize: 20);
 
     private bool IsLoading { get; set; } = true;
+
+    private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationUser>();
 
     protected override async Task OnInitializedAsync()
     {
