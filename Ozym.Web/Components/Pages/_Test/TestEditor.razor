@@ -46,6 +46,8 @@ else
     private Guid _formGuid = new Guid();
     private bool _formInvalid = false;
 
+    protected override string IndexUriRelativePath => "/";
+
     #if DEBUG
     protected override async Task OnInitializedAsync()
     {
