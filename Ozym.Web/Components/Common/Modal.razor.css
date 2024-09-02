@@ -9,7 +9,6 @@
     box-shadow: 0.25rem 0.25rem rgb(0 0 0 / 0.3);
     border-color: black;
     border-radius: 1rem;
-    /*z-index: 1;*/
     overflow: auto;
     resize: both;
     color: var(--theme-text-color-0, black);
@@ -30,19 +29,12 @@
 }
 
 ::deep .custom-modal-body > * > .content-tile {
-    background-color: transparent;
-    border: none;
-    margin-bottom: revert !important;
-    /*margin-bottom: 0.5rem;*/
-}
-
-::deep .custom-modal .content-tile > .content-header {
-    margin-bottom: 0.5rem !important;
+    /*background-color: transparent;*/
+    /*border: none;*/
 }
 
 ::deep .custom-modal-body .action-button-menu {
-    /*padding-left: 1rem;*/
-    width: 100%;
+    margin: 0rem 1rem 1rem 1rem;
 }
 
 .custom-modal.visible {
@@ -50,7 +42,6 @@
 }
 
 .custom-modal-body {
-    padding: 0.5rem;
     width: 100% !important;
 }
 

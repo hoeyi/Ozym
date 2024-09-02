@@ -7,7 +7,9 @@
 }
 
 .content-body {
-    margin: 1rem;
+    margin: 0.5rem 1rem 1rem 1rem;
+    display: grid;
+    grid-row-gap: 0.5rem;
 }
 
 ::deep .content-body > * {
@@ -61,7 +63,6 @@
 }
 
 ::deep .content-header > * > .form-control {
-    height: 100%;
     width: fit-content;
     font-size: 0.9rem;
 }
