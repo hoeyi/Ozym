@@ -126,6 +126,12 @@
   <data name="Caption_InputSelect_Placeholder" xml:space="preserve">
     <value>&lt; Select &gt;</value>
   </data>
+  <data name="Caption_IsConfirmed" xml:space="preserve">
+    <value>Confirmed</value>
+  </data>
+  <data name="Caption_IsNotConfirmed" xml:space="preserve">
+    <value>Not confirmed</value>
+  </data>
   <data name="ComponentTile_MarketQuotes" xml:space="preserve">
     <value>Market quotes</value>
   </data>

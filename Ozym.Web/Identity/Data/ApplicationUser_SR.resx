@@ -130,10 +130,10 @@
     <value />
   </data>
   <data name="EmailConfirmed_Description" xml:space="preserve">
-    <value />
+    <value>Whether email has been confirmed</value>
   </data>
   <data name="EmailConfirmed_Name" xml:space="preserve">
-    <value />
+    <value>Email confirmed</value>
   </data>
   <data name="Email_Description" xml:space="preserve">
     <value>Contact email of the user</value>
@@ -151,7 +151,7 @@
     <value />
   </data>
   <data name="LockoutEnabled_Name" xml:space="preserve">
-    <value />
+    <value>Lockout enabled</value>
   </data>
   <data name="LockoutEnd_Description" xml:space="preserve">
     <value />
@@ -160,13 +160,13 @@
     <value />
   </data>
   <data name="NormalizedEmail_Description" xml:space="preserve">
-    <value />
+    <value>Value of 'Email' in upper case</value>
   </data>
   <data name="NormalizedEmail_Name" xml:space="preserve">
     <value />
   </data>
   <data name="NormalizedUserName_Description" xml:space="preserve">
-    <value />
+    <value>Value of 'User name' in upper case</value>
   </data>
   <data name="NormalizedUserName_Name" xml:space="preserve">
     <value />
@@ -190,10 +190,10 @@
     <value />
   </data>
   <data name="PhoneNumberConfirmed_Description" xml:space="preserve">
-    <value />
+    <value>Whether phone has been confirmed</value>
   </data>
   <data name="PhoneNumberConfirmed_Name" xml:space="preserve">
-    <value />
+    <value>Phone confirmed</value>
   </data>
   <data name="PhoneNumber_Description" xml:space="preserve">
     <value>Contact phone of the user</value>

@@ -115,7 +115,7 @@ namespace Ozym.Web.Identity.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Whether email has been confirmed.
         /// </summary>
         public static string EmailConfirmed_Description {
             get {
@@ -124,7 +124,7 @@ namespace Ozym.Web.Identity.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Email confirmed.
         /// </summary>
         public static string EmailConfirmed_Name {
             get {
@@ -160,7 +160,7 @@ namespace Ozym.Web.Identity.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Lockout enabled.
         /// </summary>
         public static string LockoutEnabled_Name {
             get {
@@ -187,7 +187,7 @@ namespace Ozym.Web.Identity.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Value of &apos;Email&apos; in upper case.
         /// </summary>
         public static string NormalizedEmail_Description {
             get {
@@ -205,7 +205,7 @@ namespace Ozym.Web.Identity.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Value of &apos;User name&apos; in upper case.
         /// </summary>
         public static string NormalizedUserName_Description {
             get {
@@ -295,7 +295,7 @@ namespace Ozym.Web.Identity.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Whether phone has been confirmed.
         /// </summary>
         public static string PhoneNumberConfirmed_Description {
             get {
@@ -304,7 +304,7 @@ namespace Ozym.Web.Identity.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Phone confirmed.
         /// </summary>
         public static string PhoneNumberConfirmed_Name {
             get {
