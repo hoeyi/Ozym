@@ -1,5 +1,4 @@
 ﻿.content-tile {
-    --content-margin: 0.5rem;
     display: block;
 }
 
@@ -8,7 +7,7 @@
 }
 
 .content-body {
-    margin: var(--content-margin);
+    margin: 1rem;
 }
 
 ::deep .content-body > * {
@@ -16,7 +15,7 @@
 }
 
 .content-header {
-    margin: var(--content-margin);
+    margin: 1rem;
     margin-bottom: 0px;
 }
 

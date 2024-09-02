@@ -25,11 +25,7 @@
     padding: 0rem 0.125rem 0.125rem 0.5rem;
 }
 
-::deep div.form-control:hover {
-    box-shadow: 0 0 0 0.2rem var(--theme-hexcolor-secondary-2-2, blue);
-}
-
-::deep .model-attributes {
+.model-attributes {
     row-gap: 1rem;
 }
 

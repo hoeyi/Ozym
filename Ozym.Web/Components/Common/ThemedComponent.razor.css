@@ -158,7 +158,7 @@
 ::deep textarea.form-control {
     height: 30vh;
 }
-
+    
 ::deep .form-control:not(.label):not(.button) {
     background-color: var(--theme-form-control-back-color, white);
     border-color: var(--theme-form-control-border-color, gray);
@@ -195,10 +195,14 @@
             color: var(--theme-text-color-0, white) !important;
         }
 
-::deep .form-control:focus {
+/*::deep .form-control.button.icon:active {
+    background-color: var(--theme-hexcolor-primary-0, darkblue);
+}
+*/
+/*::deep .form-control:not(.button.icon):focus {
     box-shadow: 0 0 0 0.2rem var(--theme-hexcolor-secondary-2-2, blue);
 }
-
+*/
 /* Handle the style of checkboxes */
 ::deep input[type=checkbox].checkbox-themed {
     -webkit-appearance: none;

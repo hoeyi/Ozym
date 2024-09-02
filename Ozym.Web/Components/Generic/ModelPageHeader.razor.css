@@ -15,7 +15,7 @@
 .page-banner {
     display: flex;
     margin: 0.5rem 0rem 0.5rem 0rem;
-    padding-left: 0.5rem;
+    /*padding-left: 0.5rem;*/
 }
 
 .menu-bar {
@@ -30,11 +30,10 @@
     font-family: var(--menu-fontfamily-default);
     font-weight: bold;
     display: flex;
-    padding-left: 0.5rem;
-    padding-right: 1rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    margin: 0rem 0.5rem 0rem 0.5rem;
 }
 
 .page-banner .header span {
