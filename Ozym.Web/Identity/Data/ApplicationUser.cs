@@ -20,13 +20,14 @@ public class ApplicationUser : IdentityUser
             Description = nameof(ApplicationUser_SR.Id_Description),
             ResourceType = typeof(ApplicationUser_SR))]
     public override string Id { get; set; } = string.Empty;
-    
+
     /// <inheritdoc/>
     [ProtectedPersonalData]
     [Display(
             Name = nameof(ApplicationUser_SR.UserName_Name),
             Description = nameof(ApplicationUser_SR.UserName_Description),
             ResourceType = typeof(ApplicationUser_SR))]
+    [Required]
     public override string? UserName { get; set; }
 
     /// <inheritdoc/>
