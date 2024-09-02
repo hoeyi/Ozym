@@ -28,24 +28,24 @@ else
     <ContentTile>
         <Body>
             <CascadingValue Value="@user">
-                <EditForm class="model-editor" Model="@user"
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button" form="@_formGuid">
+                        @Strings.Caption_Button_Save
+                    </button>
+                    <button type="button" class="form-control button"
+                            @onclick="FormDeleteClickHandler"
+                    @onclick:preventDefault>
+                        @Strings.Caption_Button_Delete
+                    </button>
+                    <button type="button" class="form-control button"
+                            @onclick="FormCancelClickHandler"
+                    @onclick:preventDefault>
+                        @Strings.Caption_Button_Cancel
+                    </button>
+                </ActionButtonMenu>
+                <EditForm class="model-editor" id="@_formGuid" Model="@user"
                     OnValidSubmit="ValidFormSubmitHandler">
                     <DataAnnotationsValidator />
-                    <ActionButtonMenu>
-                        <button type="submit" class="form-control button">
-                            @Strings.Caption_Button_Save
-                        </button>
-                        <button type="button" class="form-control button"
-                                @onclick="FormDeleteClickHandler"
-                        @onclick:preventDefault>
-                            @Strings.Caption_Button_Delete
-                        </button>
-                        <button type="button" class="form-control button"
-                                @onclick="FormCancelClickHandler"
-                        @onclick:preventDefault>
-                            @Strings.Caption_Button_Cancel
-                        </button>
-                    </ActionButtonMenu>
                     <ApplicationUserCRUD Disabled="false" ReadOnly="false" />
                 </EditForm>
             </CascadingValue>
@@ -63,6 +63,8 @@ else
     private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationUser>();
 
     private MenuRoot navMenu = default!;
+
+    private Guid _formGuid = new Guid();
 
     protected override string IndexUriRelativePath => "/Access/Users";
 
