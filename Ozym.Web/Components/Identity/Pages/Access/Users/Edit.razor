@@ -1,0 +1,141 @@
+﻿@page "/Access/Users/{Id:guid}/edit"
+
+@using Microsoft.EntityFrameworkCore
+
+@inherits ModelPage<ApplicationUser>
+
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject IdentityUserAccessor UserAccessor
+@inject IdentityRedirectManager RedirectManager
+
+@if (isLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>
+        @(titleInfo.UpdateSingle(heading: user!.UserName).AsPageTitle())
+    </PageTitle>
+
+    <ModelPageHeader Header="@(titleInfo.UpdateSingle(heading: user!.UserName))" />
+
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@user">
+                <EditForm class="model-editor" Model="@user"
+                    OnValidSubmit="ValidFormSubmitHandler">
+                    <DataAnnotationsValidator />
+                    <ActionButtonMenu>
+                        <button type="submit" class="form-control button">
+                            @Strings.Caption_Button_Save
+                        </button>
+                        <button type="button" class="form-control button"
+                                @onclick="FormDeleteClickHandler"
+                        @onclick:preventDefault>
+                            @Strings.Caption_Button_Delete
+                        </button>
+                        <button type="button" class="form-control button"
+                                @onclick="FormCancelClickHandler"
+                        @onclick:preventDefault>
+                            @Strings.Caption_Button_Cancel
+                        </button>
+                    </ActionButtonMenu>
+                    <ApplicationUserCRUD Disabled="false" ReadOnly="false" />
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+}
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private ApplicationUser? user;
+
+    private bool isLoading = true;
+
+    private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationUser>();
+
+    private MenuRoot navMenu = default!;
+
+    protected override string IndexUriRelativePath => "/Access/Users";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            user = await UserManager.Users.FirstAsync(u => u.Id == Id.ToString());
+
+            string editCaption = Strings.Caption_EditSingle.Format(ModelNoun?.GetSingular());
+            string indexCaption = Strings.Caption_NavigateBackTo.Format(ModelNoun?.GetPlural());
+
+            navMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                {
+                    // Add return to index button.
+                    new MenuItem()
+                    {
+                        IconKey = "caret-back-circle",
+                        Caption = indexCaption,
+                        UriRelativePath = $"{IndexUriRelativePath}"
+                    },
+                    // Add edit button.
+                    new MenuItem()
+                    {
+                        IconKey = "pencil",
+                        Caption = editCaption,
+                        UriRelativePath = FormatEditUri(GetKeyValueOrDefault<string>(user))
+                    }
+                }
+                };
+        }
+        finally
+        {
+            isLoading = user is null;
+        }
+    }
+
+    /// <summary>
+    /// Handles the delete click event of this page.
+    /// </summary>
+    private async Task FormDeleteClickHandler(MouseEventArgs args)
+    {
+        var result = UserManager.DeleteAsync(user!);
+
+        await result;
+
+        if (result.IsCompletedSuccessfully)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
+        else if(result.IsFaulted)
+            ErrorMessage = result.Exception?.Message;
+    }
+
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
+    {
+        var result = UserManager.UpdateAsync(user!);
+
+        await result;
+
+        if (result.IsCompletedSuccessfully)
+            NavigationHelper.NavigateTo(FormatDetailUri(user!.Id));
+        else if (result.IsFaulted)
+            ErrorMessage = result.Exception?.Message;
+    }
+
+    /// <summary>edit
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
+        NavigationHelper.NavigateTo(FormatDetailUri(user!.Id));
+}
