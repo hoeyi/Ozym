@@ -15,11 +15,9 @@
 <ModelPageHeader Header="@(titleInfo.ReadMany())" />
 
 <ContentTile>
-    <TitleAlignLeft>
+    <Body>
         <Paginator Model="PaginationHelper"
                     IndexChanged="RefreshResultsAsync" PageSizeChanged="RefreshResultsAsync" />
-    </TitleAlignLeft>
-    <Body>
         @if(IsLoading)
         {
             <LoadingSvg/>
