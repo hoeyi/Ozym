@@ -6,7 +6,7 @@
 }
 else
 {
-    <ModelForm TModelDto="ApplicationUser">
+    <ModelForm TModelDto="ApplicationUser" WithFormEntryModifiers="true">
         <ModelFormEntry ForMember="@(() => ModelDto.UserName)">
             @if(ReadOnly)
             {
@@ -22,37 +22,54 @@ else
             }
         </ModelFormEntry>
         <ModelFormEntry ForMember="@(() => ModelDto.Email)">
-            @if (ReadOnly)
-            {
-                <div class="form-control">
-                    @ModelDto.Email
-                </div>
-            }
-            else
-            {
-                <InputText class="form-control" @bind-Value=ModelDto.Email
-                           disable="@Disabled"
-                           DisplayName=@(NameFor(x => x.Email)) />
-            }
-            <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.EmailConfirmed disabled="@true" />
+            <ChildContent>
+                @if (ReadOnly)
+                {
+                    <div class="form-control">
+                        @ModelDto.Email
+                    </div>
+                }
+                else
+                {
+                    <InputText class="form-control" @bind-Value=ModelDto.Email
+                               disable="@Disabled"
+                               DisplayName=@(NameFor(x => x.Email)) />
+                }
+            </ChildContent>
+            <ModifierContent>
+                <ToolTip Text="@GetConfirmedCaption(ModelDto.EmailConfirmed)">
+                    <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.EmailConfirmed disabled="@true" />
+                </ToolTip>
+            </ModifierContent>
         </ModelFormEntry>
         <ModelFormEntry ForMember="@(() => ModelDto.PhoneNumber)">
-            @if (ReadOnly)
-            {
-                <div class="form-control">
-                    @ModelDto.PhoneNumber
-                </div>
-            }
-            else
-            {
-                <InputText class="form-control" @bind-Value=ModelDto.PhoneNumber
-                           disable="@Disabled"
-                           DisplayName=@(NameFor(x => x.PhoneNumber)) />
-            }
-            <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.PhoneNumberConfirmed disabled="@true" />
+            <ChildContent>
+                @if (ReadOnly)
+                {
+                    <div class="form-control">
+                        @ModelDto.PhoneNumber
+                    </div>
+                }
+                else
+                {
+                    <InputText class="form-control" @bind-Value=ModelDto.PhoneNumber
+                               disable="@Disabled"
+                               DisplayName=@(NameFor(x => x.PhoneNumber)) />
+                }
+            </ChildContent>
+            <ModifierContent>
+                <ToolTip Text="@GetConfirmedCaption(ModelDto.PhoneNumberConfirmed)">
+                    <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.PhoneNumberConfirmed disabled="@true" />
+                </ToolTip>
+            </ModifierContent>
         </ModelFormEntry>
         <ModelFormEntry ForMember="@(() => ModelDto.TwoFactorEnabled)">
             <InputCheckbox class="checkbox-themed" @bind-Value=ModelDto.TwoFactorEnabled disabled="@true" />
         </ModelFormEntry>
     </ModelForm>
+}
+
+@code {
+    private string GetConfirmedCaption(bool confirmed) => 
+        confirmed ? Resources.Strings.Caption_IsConfirmed : Resources.Strings.Caption_IsNotConfirmed;
 }
