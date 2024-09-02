@@ -16,16 +16,6 @@ else
         <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
     </CascadingValue>
 
-    <ActionButtonMenu>
-        <button type="submit" form="@_formGuid" class="form-control button" disabled="@_formInvalid">
-            @Strings.Caption_Button_Save
-        </button>
-        <button type="button" class="form-control button"
-                @onclick="FormCancelClickHandler"
-        @onclick:preventDefault>
-            @Strings.Caption_Button_Cancel
-        </button>
-    </ActionButtonMenu>
     <ContentTile class="left">
         <Body>
             <CascadingValue Value="@Model">
@@ -33,6 +23,16 @@ else
                             EditContext="_editContext"
                             OnValidSubmit="HandleValidSubmit">
                     <DataAnnotationsValidator />
+                    <ActionButtonMenu>
+                        <button type="submit" form="@_formGuid" class="form-control button" disabled="@_formInvalid">
+                            @Strings.Caption_Button_Save
+                        </button>
+                        <button type="button" class="form-control button"
+                                @onclick="FormCancelClickHandler"
+                        @onclick:preventDefault>
+                            @Strings.Caption_Button_Cancel
+                        </button>
+                    </ActionButtonMenu>
                     <AccountCRUD AccountCustodians="@CustodianDtos" Disabled="false" ReadOnly="false" />
                 </EditForm>
             </CascadingValue>
@@ -67,5 +67,5 @@ else
     }
     #endif
 
-    private void FormCancelClickHandler() => NavigationHelper.NavigateTo(IndexUriRelativePath);
+    private void FormCancelClickHandler() => NavigationHelper.NavigateTo("/");
 }

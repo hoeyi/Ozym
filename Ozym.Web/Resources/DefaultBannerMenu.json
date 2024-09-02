@@ -205,6 +205,11 @@
         "IconKey": null,
         "Caption": "Account (Create)",
         "UriRelativePath": "/_test/test-account-editor"
+      },
+      {
+        "IconKey": null,
+        "Caption": "Investment model (Create)",
+        "UriRelativePath": "/_test/test-investment-model-editor"
       }
     ]
   }
