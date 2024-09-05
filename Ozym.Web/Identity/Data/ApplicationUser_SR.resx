@@ -129,6 +129,12 @@
   <data name="ConcurrencyStamp_Name" xml:space="preserve">
     <value />
   </data>
+  <data name="ConfirmPassword_Description" xml:space="preserve">
+    <value>Must match 'Password'</value>
+  </data>
+  <data name="ConfirmPassword_Name" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
   <data name="EmailConfirmed_Description" xml:space="preserve">
     <value>Whether email has been confirmed</value>
   </data>
@@ -188,6 +194,12 @@
   </data>
   <data name="PasswordHash_Name" xml:space="preserve">
     <value />
+  </data>
+  <data name="Password_Description" xml:space="preserve">
+    <value>Initial password for the user</value>
+  </data>
+  <data name="Password_Name" xml:space="preserve">
+    <value>Password</value>
   </data>
   <data name="PhoneNumberConfirmed_Description" xml:space="preserve">
     <value>Whether phone has been confirmed</value>

@@ -97,6 +97,24 @@ namespace Ozym.Web.Identity.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Must match &apos;Password&apos;.
+        /// </summary>
+        public static string ConfirmPassword_Description {
+            get {
+                return ResourceManager.GetString("ConfirmPassword_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm password.
+        /// </summary>
+        public static string ConfirmPassword_Name {
+            get {
+                return ResourceManager.GetString("ConfirmPassword_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact email of the user.
         /// </summary>
         public static string Email_Description {
@@ -255,6 +273,24 @@ namespace Ozym.Web.Identity.Data {
         public static string Noun_Singular_Article {
             get {
                 return ResourceManager.GetString("Noun_Singular_Article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initial password for the user.
+        /// </summary>
+        public static string Password_Description {
+            get {
+                return ResourceManager.GetString("Password_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password_Name {
+            get {
+                return ResourceManager.GetString("Password_Name", resourceCulture);
             }
         }
         
