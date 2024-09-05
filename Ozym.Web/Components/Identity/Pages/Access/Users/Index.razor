@@ -12,7 +12,7 @@
     @(titleInfo.ReadMany().ToTitleCase().AsPageTitle())
 </PageTitle>
 
-<ModelPageHeader Header="@(titleInfo.ReadMany())" />
+<ModelPageHeader ActionMenu="@PageMenu" Header="@(titleInfo.ReadMany())" />
 
 <ContentTile>
     <Body>
@@ -75,8 +75,25 @@
 
     private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationUser>();
 
+    private MenuRoot PageMenu { get; set; } = default!;
+
     protected override async Task OnInitializedAsync()
     {
+        var modelNoun = ModelMetadata.GetAttribute<ApplicationUser, NounAttribute>();
+
+        PageMenu = new()
+        {
+            Children = 
+            {
+                new MenuItem()
+                {
+                    IconKey = "create",
+                    Caption = titleInfo.CreateSingle(),
+                    UriRelativePath = "/Access/Users/create"
+                }
+            }
+        };
+
         await RefreshResultsAsync();
     }
 

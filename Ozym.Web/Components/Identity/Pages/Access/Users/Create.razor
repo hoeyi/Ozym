@@ -1,0 +1,179 @@
+﻿@page "/Access/Users/create"
+
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.EntityFrameworkCore
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Encodings.Web
+
+@inject IEmailSender<ApplicationUser> EmailSender
+@inject IUserStore<ApplicationUser> UserStore
+@inject IModelMetadataService ModelMetadata
+@inject NavigationManager NavigationManager
+@inject UserManager<ApplicationUser> UserManager
+
+<PageTitle>
+    @(titleInfo.CreateSingle().AsPageTitle())
+</PageTitle>
+
+<ModelPageHeader Header="@(titleInfo.CreateSingle())" />
+
+@if (isLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@inputModel" Name="ModelDto">
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button" form="@_formGuid">
+                        @Strings.Caption_Button_Save
+                    </button>
+                    <button type="button" class="form-control button"
+                            @onclick="FormCancelClickHandler"
+                    @onclick:preventDefault>
+                        @Strings.Caption_Button_Cancel
+                    </button>
+                </ActionButtonMenu>
+                <EditForm class="model-editor" id="@_formGuid" Model="@inputModel"
+                          OnValidSubmit="ValidFormSubmitHandler">
+                    <DataAnnotationsValidator />
+                    <ModelForm TModelDto="InputModel">
+                        <ModelFormEntry ForMember="@(() => inputModel.UserName)">
+                            <InputText 
+                                @bind-Vale=inputModel.UserName 
+                                DisplayName=@(NameFor(x => x.UserName))
+                                class="form-control" />
+                        </ModelFormEntry>
+                        <ModelFormEntry ForMember="@(() => inputModel.Email)">
+                            <InputText 
+                                @bind-Vale=inputModel.Email 
+                                DisplayName=@(NameFor(x => x.Email!))
+                                class="form-control" />
+                        </ModelFormEntry>
+                        <ModelFormEntry ForMember="@(() => inputModel.Password)">
+                            <InputText 
+                                @bind-Vale=inputModel.Password 
+                                DisplayName=@(ModelMetadata.NameFor<InputModel>(x => x.Password))
+                                class="form-control" />
+                        </ModelFormEntry>
+                        <ModelFormEntry ForMember="@(() => inputModel.ConfirmPassword)">
+                            <InputText 
+                                @bind-Vale=inputModel.UserName 
+                                DisplayName=@(NameFor(x => x.ConfirmPassword))
+                                class="form-control" />
+                        </ModelFormEntry>
+                    </ModelForm>
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+}
+
+@code {
+    [Inject]
+    private ILogger<Create> Logger { get; set; } = default!;
+
+    private InputModel inputModel = new();
+    private ApplicationUser user = new();
+
+    private bool isLoading = true;
+
+    private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationUser>();
+
+    private MenuRoot navMenu = default!;
+
+    private Guid _formGuid = new Guid();
+
+    private IEnumerable<IdentityError>? identityErrors;
+
+    private readonly string _userIndexUrl = "/Access/Users";
+
+    private string? ErrorMessage => 
+        identityErrors is null ? null : string.Join("\n", identityErrors!.Select(x => x.Description));
+
+    protected override void OnParametersSet()
+    {
+        // If the user manager does not support user email, throw an exception before loading
+        // the page.
+        if (!UserManager.SupportsUserEmail)
+            throw new NotSupportedException("The default UI requires a user store with email support.");
+
+        isLoading = inputModel is null;
+    }
+
+    private string NameFor(Expression<Func<InputModel, object>> expression) =>
+        ModelMetadata.NameFor(expression);
+
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
+    {
+        await UserStore.SetUserNameAsync(user, inputModel.UserName, CancellationToken.None);
+
+        var emailStore = (IUserEmailStore<ApplicationUser>)UserManager;
+        await emailStore.SetEmailAsync(user, inputModel.UserName, CancellationToken.None);
+
+        var result = await UserManager.CreateAsync(user, inputModel.Password);
+
+        if (!result.Succeeded)
+        {
+            identityErrors = result.Errors;
+            return;
+        }
+
+        Logger.LogInformation("User created a new account with password.");
+
+        NavigationManager.NavigateTo(_userIndexUrl);
+    }
+
+    /// <summary>edit
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
+        NavigationManager.NavigateTo(_userIndexUrl);
+
+    internal sealed class InputModel
+    {
+        [Required]
+        [Display(
+            Name = nameof(ApplicationUser_SR.UserName_Name),
+            Description = nameof(ApplicationUser_SR.UserName_Description),
+            ResourceType = typeof(ApplicationUser_SR))]
+        public string UserName { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(
+            64,
+            ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", 
+            MinimumLength = 16)]
+        [DataType(DataType.Password)]
+        [Display(
+            Name = nameof(ApplicationUser_SR.Password_Name),
+            Description = nameof(ApplicationUser_SR.Password_Description),
+            ResourceType = typeof(ApplicationUser_SR))]
+        public string Password { get; set; } = string.Empty;
+
+        [DataType(DataType.Password)]
+        [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(
+            Name = nameof(ApplicationUser_SR.Password_Name),
+            Description = nameof(ApplicationUser_SR.Password_Description),
+            ResourceType = typeof(ApplicationUser_SR))]
+        public string ConfirmPassword { get; set; } = string.Empty;
+
+        [EmailAddress]
+        [Display(
+            Name = nameof(ApplicationUser_SR.Email_Name),
+            Description = nameof(ApplicationUser_SR.Email_Description),
+            ResourceType = typeof(ApplicationUser_SR))]
+        public string? Email { get; set; }
+    }
+}
