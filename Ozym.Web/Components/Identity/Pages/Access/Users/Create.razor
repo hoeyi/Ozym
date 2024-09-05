@@ -30,7 +30,7 @@ else
 
     <ContentTile>
         <Body>
-            <CascadingValue Value="@inputModel" Name="ModelDto">
+            <CascadingValue Value="@inputModel" >
                 <ActionButtonMenu>
                     <button type="submit" class="form-control button" form="@_formGuid">
                         @Strings.Caption_Button_Save
@@ -47,25 +47,27 @@ else
                     <ModelForm TModelDto="InputModel">
                         <ModelFormEntry ForMember="@(() => inputModel.UserName)">
                             <InputText 
-                                @bind-Vale=inputModel.UserName 
+                                @bind-Value=inputModel.UserName 
                                 DisplayName=@(NameFor(x => x.UserName))
                                 class="form-control" />
                         </ModelFormEntry>
                         <ModelFormEntry ForMember="@(() => inputModel.Email)">
                             <InputText 
-                                @bind-Vale=inputModel.Email 
+                                @bind-Value=inputModel.Email 
                                 DisplayName=@(NameFor(x => x.Email!))
                                 class="form-control" />
                         </ModelFormEntry>
                         <ModelFormEntry ForMember="@(() => inputModel.Password)">
                             <InputText 
-                                @bind-Vale=inputModel.Password 
-                                DisplayName=@(ModelMetadata.NameFor<InputModel>(x => x.Password))
+                                type="password"
+                                @bind-Value=inputModel.Password 
+                                DisplayName=@(NameFor(x => x.Password))
                                 class="form-control" />
                         </ModelFormEntry>
                         <ModelFormEntry ForMember="@(() => inputModel.ConfirmPassword)">
                             <InputText 
-                                @bind-Vale=inputModel.UserName 
+                                type="password"
+                                @bind-Value=inputModel.ConfirmPassword 
                                 DisplayName=@(NameFor(x => x.ConfirmPassword))
                                 class="form-control" />
                         </ModelFormEntry>
@@ -118,7 +120,7 @@ else
     {
         await UserStore.SetUserNameAsync(user, inputModel.UserName, CancellationToken.None);
 
-        var emailStore = (IUserEmailStore<ApplicationUser>)UserManager;
+        var emailStore = (IUserEmailStore<ApplicationUser>)UserStore;
         await emailStore.SetEmailAsync(user, inputModel.UserName, CancellationToken.None);
 
         var result = await UserManager.CreateAsync(user, inputModel.Password);
@@ -131,7 +133,7 @@ else
 
         Logger.LogInformation("User created a new account with password.");
 
-        NavigationManager.NavigateTo(_userIndexUrl);
+        NavigationManager.NavigateTo($"{_userIndexUrl}/{user.Id}");
     }
 
     /// <summary>edit
@@ -164,8 +166,8 @@ else
         [DataType(DataType.Password)]
         [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match.")]
         [Display(
-            Name = nameof(ApplicationUser_SR.Password_Name),
-            Description = nameof(ApplicationUser_SR.Password_Description),
+            Name = nameof(ApplicationUser_SR.ConfirmPassword_Name),
+            Description = nameof(ApplicationUser_SR.ConfirmPassword_Description),
             ResourceType = typeof(ApplicationUser_SR))]
         public string ConfirmPassword { get; set; } = string.Empty;
 
