@@ -29,11 +29,6 @@ namespace Ozym.EntityModelService
         {
             Reader = new ModelReaderService<InvestmentPerformanceEntry>(
                 ContextFactory, ModelMetadata, Logger);
-            GetDefaultModelDelegate = () => new InvestmentPerformanceEntry()
-            {
-                FromDate = DateTime.UtcNow.Date.AddDays(-1),
-                ToDate = DateTime.UtcNow.Date
-            };
         }
     }
 }

@@ -49,11 +49,10 @@ namespace Ozym
             string databaseProvider,
             bool developerMode = false)
         {
-            if (databaseProvider is null)
-                throw new ArgumentNullException(paramName: nameof(databaseProvider));
+            ArgumentNullException.ThrowIfNull(databaseProvider);
 
             var dbProvider = databaseProvider.ConvertFromStringCode<DatabaseProvider>() ?? 
-                throw new InvalidOperationException();
+                throw new NotSupportedException($"Provider '{databaseProvider}' is not recognized.");
 
             services
                 .AddSingleton<IModelMetadataService, ModelMetadataService>()

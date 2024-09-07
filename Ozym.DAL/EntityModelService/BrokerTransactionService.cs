@@ -31,7 +31,6 @@ namespace Ozym.EntityModelService
             {
                 IncludeDelegate = (queryable) => queryable.Include(x => x.TransactionCode)
             };
-            GetDefaultModelDelegate = () => new BrokerTransaction();
         }
     }
 }

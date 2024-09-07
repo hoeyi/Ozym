@@ -42,27 +42,12 @@ namespace Ozym.EntityModelService.Abstractions
             ILogger logger)
             : base(contextFactory, metadataService, logger)
         {
-            ModelNoun = ModelMetadata.GetAttribute<T, NounAttribute>();
-            _commandHistory = new CommandHistory<T>();
         }
-
-        private NounAttribute ModelNoun { get; init; }
 
         /// <summary>
         /// Gets or sets the <see cref="IModelReaderService{T}" /> for this service.
         /// </summary>
         protected IModelReaderService<T> Reader { get; set; }
-
-        /// <inheritdoc/>
-        public async Task<T> GetDefaultAsync()
-        {
-            if (GetDefaultModelDelegate is null)
-                throw new InvalidOperationException(
-                    string.Format(
-                        ExceptionString.ModelService_DelegateIsNull, nameof(GetDefaultModelDelegate)));
-
-            return await Task.Run(() => GetDefaultModelDelegate.Invoke());
-        }
 
         /// <inheritdoc/>
         public bool ModelExists(int? id) => Reader.ModelExists(id);
@@ -85,14 +70,11 @@ namespace Ozym.EntityModelService.Abstractions
         public async Task<int> AddUpdateDeleteAsync(
             IEnumerable<T> inserts, IEnumerable<T> updates, IEnumerable<T> deletes)
         {
-            if (inserts is null)
-                throw new ArgumentNullException(paramName: nameof(inserts));
+            ArgumentNullException.ThrowIfNull(inserts);
 
-            if (updates is null)
-                throw new ArgumentNullException(paramName: nameof(updates));
+            ArgumentNullException.ThrowIfNull(updates);
 
-            if (deletes is null)
-                throw new ArgumentNullException(paramName: nameof(deletes));
+            ArgumentNullException.ThrowIfNull(deletes);
 
             using var context = await ContextFactory.CreateDbContextAsync();
 
@@ -110,138 +92,4 @@ namespace Ozym.EntityModelService.Abstractions
             return result;
         }
     }
-
-    #region Obsolete methods
-    internal abstract partial class ModelCollectionService<T>
-    {
-        /// <inheritdoc/>
-        [Obsolete($"Superseded by {nameof(AddUpdateDeleteAsync)}")]
-        public bool AddPendingSave(T model)
-        {
-            if (!RequiredParentIdIsSet(model))
-            {
-                string modelDisplayName = ModelMetadata
-                    .GetAttribute<T, NounAttribute>()
-                    ?.GetSingular();
-
-                throw new InvalidOperationException(string.Format(
-                    ExceptionString.ModelService_AddFailed_RequiredParentNotset,
-                        modelDisplayName?.ToLower() ?? typeof(T).Name));
-            }
-
-            if (!WorkingEntries.Contains(model))
-            {
-                var addCommand = new AddCommand<T>(
-                    collection: WorkingEntries,
-                    item: model,
-                    description: string.Format(
-                        Strings.ModelCollectionService_CommandDescription_AddModel,
-                        ModelNoun?.GetSingular() ?? string.Empty));
-
-                CommandHistory.AddThenExecute(addCommand);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <inheritdoc/>
-        [Obsolete($"Superseded by {nameof(AddUpdateDeleteAsync)}")]
-        public bool DeletePendingSave(T model)
-        {
-            if (WorkingEntries.Contains(model))
-            {
-                var removeCommand = new RemoveCommand<T>(
-                    collection: WorkingEntries,
-                    item: model,
-                    description: string.Format(
-                        Strings.ModelCollectionService_CommandDescription_RemoveModel,
-                        ModelNoun?.GetSingular() ?? string.Empty));
-
-                CommandHistory.AddThenExecute(removeCommand);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <inheritdoc/>
-        [Obsolete($"Superseded by {nameof(AddUpdateDeleteAsync)}")]
-        public async Task<int> SaveChangesAsync()
-        {
-            var changes = ChangeTracker.GetChanges();
-            var updated = WorkingEntries.ToHashSet().Except(changes.Added);
-
-            using var context = await ContextFactory.CreateDbContextAsync();
-
-            context.Set<T>().AddRange(changes.Added);
-            context.Set<T>().RemoveRange(changes.Removed);
-            context.Set<T>().UpdateRange(updated);
-
-            return await context.SaveChangesAsync();
-        }
-        
-        [Obsolete]
-        private readonly CommandHistory<T> _commandHistory;
-
-        [Obsolete]
-        /// <inheritdoc/>
-        public bool HasChanges => CommandHistory.Count > 0;
-
-        [Obsolete]
-        /// <summary>
-        /// Gets the <see cref="IChangeTracker{T}"/> responsible for tracking the commands 
-        /// tracked by <see cref="ChangeTracker"/>.
-        /// </summary>
-        protected ICommandHistory<T> CommandHistory => _commandHistory;
-
-        [Obsolete]
-        /// <summary>
-        /// Gets the <see cref="IChangeTracker{T}"/> responsible for tracking additions and 
-        /// removals from <see cref="WorkingEntries"/>.
-        /// </summary>
-        protected IChangeTracker<T> ChangeTracker => _commandHistory;
-
-        [Obsolete]
-        /// <summary>
-        /// Gets or sets the collection of currently worked items.
-        /// </summary>
-        protected IList<T> WorkingEntries { get; set; } = new List<T>();
-
-        [Obsolete]
-        /// <summary>
-        /// Checks that a required parent identifier has been set for a given 
-        /// <typeparamref name="T"/> instance.
-        /// </summary>
-        /// <param name="model">The <typeparamref name="T"/> to check.</param>
-        /// <returns>True, if the parent is set or not required, else false.</returns>
-        private bool RequiredParentIdIsSet(T model)
-        {
-            if (ParentExpression is null)
-                return true;
-
-            var parentCheck = ParentExpression.Compile();
-            return parentCheck.Invoke(model);
-        }
-
-        [Obsolete]
-        /// <summary>
-        /// Gets or sets the expression for filtering results to the parent id for 
-        /// this service.
-        /// </summary>
-        protected Expression<Func<T, bool>> ParentExpression { get; set; }
-
-        [Obsolete]
-        /// <summary>
-        /// Delegate responsible for creating a default <typeparamref name="T"/> instance.
-        /// </summary>
-        protected Func<T> GetDefaultModelDelegate { get; set; }
-    }
-    #endregion
 }
