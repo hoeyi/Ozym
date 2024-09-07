@@ -1,0 +1,85 @@
+﻿@page "/access/roles/create"
+
+@inject NavigationManager NavigationManager
+@inject RoleManager<ApplicationRole> RoleManager
+
+<PageTitle>
+    @(titleInfo.CreateSingle().AsPageTitle())
+</PageTitle>
+
+<ModelPageHeader Header="@(titleInfo.CreateSingle())" />
+
+@if (isLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@role">
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button" form="@_formGuid">
+                        @Strings.Caption_Button_Save
+                    </button>
+                    <button type="button" class="form-control button"
+                            @onclick="FormCancelClickHandler"
+                    @onclick:preventDefault>
+                        @Strings.Caption_Button_Cancel
+                    </button>
+                </ActionButtonMenu>
+                <EditForm class="model-editor" id="@_formGuid" Model="@role"
+                          OnValidSubmit="ValidFormSubmitHandler">
+                    <DataAnnotationsValidator />
+                    <ApplicationRoleCRUD Disabled="false" ReadOnly="false" />
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+}
+
+@code {
+    [Inject]
+    private ILogger<Create> Logger { get; set; } = default!;
+
+    private ApplicationRole role = new();
+
+    private bool isLoading = false;
+
+    private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationRole>();
+
+    private Guid _formGuid = new Guid();
+
+    private IEnumerable<IdentityError>? identityErrors;
+
+    private readonly string _roleIndexUrl = "/access/roles";
+
+    private string? ErrorMessage =>
+        identityErrors is null ? null : string.Join("\n", identityErrors!.Select(x => x.Description));
+
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
+    {
+        var result = await RoleManager.CreateAsync(role);
+
+        if (!result.Succeeded)
+        {
+            identityErrors = result.Errors;
+            return;
+        }
+
+        NavigationManager.NavigateTo($"{_roleIndexUrl}/{role.Id}");
+    }
+
+    /// <summary>edit
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
+        NavigationManager.NavigateTo(_roleIndexUrl);
+}
