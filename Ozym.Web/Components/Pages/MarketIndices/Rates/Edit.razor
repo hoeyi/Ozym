@@ -140,7 +140,7 @@ else
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        ParameterDto<MarketIndexPriceDtoBase> parameter, int pageNumber, int pageSize)
+        ParameterDto<MarketIndexPriceDtoBase>? parameter, int pageNumber, int pageSize)
     {
         if (WorkingEntries?.HasChanges ?? false)
         {

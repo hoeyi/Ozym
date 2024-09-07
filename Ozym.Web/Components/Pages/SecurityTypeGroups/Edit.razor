@@ -54,7 +54,7 @@ else
 
         try
         {
-            Model = await HttpService.GetAsync(ModelId);
+            Model = (await HttpService.GetAsync(ModelId))!;
         }
         finally
         {

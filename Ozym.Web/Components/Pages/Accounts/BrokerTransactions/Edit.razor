@@ -212,7 +212,7 @@ else
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        ParameterDto<BrokerTransactionDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<BrokerTransactionDto>? parameter, int pageNumber, int pageSize)
     {
         if (WorkingEntries?.HasChanges ?? false)
         {

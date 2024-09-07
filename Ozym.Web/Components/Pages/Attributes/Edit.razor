@@ -122,7 +122,7 @@ else
     </CascadingValue>
 }
 
-    @code {
+@code {
     [Parameter]
     public int ModelId { get; init; }
 
@@ -149,7 +149,7 @@ else
 
             if (modelQuery.Status == TaskStatus.RanToCompletion)
             {
-                Model = await modelQuery;
+                Model = (await modelQuery)!;
                 AttributeScopeDtos = attributeScopeCodes
                     .OrderByDescending(k => k.Key == string.Empty).ThenBy(k => k.Value);
 

@@ -121,7 +121,7 @@ else
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        ParameterDto<SecurityPriceDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<SecurityPriceDto>? parameter, int pageNumber, int pageSize)
     {
         if (WorkingEntries?.HasChanges ?? false)
         {

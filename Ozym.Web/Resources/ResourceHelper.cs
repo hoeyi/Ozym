@@ -12,8 +12,10 @@ namespace Ozym.Web.Resources
     {
         static ResourceHelper()
         {
-            ResourceNamespace = typeof(ResourceHelper).Namespace;
+            ResourceNamespace = typeof(ResourceHelper).Namespace!;
             DefaultMenuJsonQualifiedName = $"{ResourceNamespace}.DefaultMenu.json";
+
+            ArgumentException.ThrowIfNullOrEmpty(ResourceNamespace);
         }
 
         private static string DefaultMenuJsonQualifiedName { get; }

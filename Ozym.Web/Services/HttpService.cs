@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Ozym.ChangeTracking;
 using Ozym.DataTransfer;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -96,7 +98,8 @@ namespace Ozym.Web.Services
 
             var response = await client.GetFromJsonAsync<TRecord>(absolutePath);
 
-            return response;
+            return response ??
+                throw new InvalidOperationException("The response content is empty or could not be parsed.");
         }
 
         /// <inheritdoc/>
@@ -109,7 +112,9 @@ namespace Ozym.Web.Services
 
             var response = await client.GetFromJsonAsync<IEnumerable<TRecord>>(absolutePath);
 
-            return response;
+            return response is null ?
+                throw new InvalidOperationException("The response content is empty or could not be parsed.") :
+                response;
         }
 
         /// <inheritdoc/>
@@ -129,7 +134,7 @@ namespace Ozym.Web.Services
 
             var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<TRecord>>();
 
-            PaginationData pageData = null!;
+            PaginationData? pageData = null;
 
             if (httpResponse.Content.Headers.TryGetValues("X-Pagination", out var stringValues))
             {
@@ -139,14 +144,13 @@ namespace Ozym.Web.Services
                 }
             }
 
-            return (deserializedResults, pageData);
+            return (deserializedResults ?? [], pageData ?? new());
         }
 
         protected async Task<(TRepsonse, PaginationData)> SearchAsync<TRepsonse>(
             string requestUri, ParameterDto<T> parameter)
         {
-            if (parameter is null)
-                throw new ArgumentNullException(paramName: nameof(parameter));
+            ArgumentNullException.ThrowIfNull(parameter);
 
             using var client = HttpFactory.CreateClient();
 
@@ -156,7 +160,7 @@ namespace Ozym.Web.Services
 
             var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<TRepsonse>();
 
-            PaginationData pageData = null!;
+            PaginationData? pageData = null;
 
             if (httpResponse.Headers.TryGetValues("X-Pagination", out var stringValues))
             {
@@ -166,7 +170,10 @@ namespace Ozym.Web.Services
                 }
             }
 
-            return (deserializedResults, pageData);
+            if (deserializedResults is null)
+                throw new InvalidOperationException("Response not found.");
+
+            return (deserializedResults, pageData ?? new());
         }
 
         protected static string CombinePath(string rootPath, string relativePath)
@@ -183,7 +190,7 @@ namespace Ozym.Web.Services
     public partial class HttpService<T> : IHttpService<T>
     {
         /// <inheritdoc/>
-        public async Task<T> GetAsync(int? id)
+        public async Task<T> GetAsync(int id)
         {
             using var client = HttpFactory.CreateClient();
 
@@ -191,7 +198,8 @@ namespace Ozym.Web.Services
 
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<T>();
+            return await response.Content.ReadFromJsonAsync<T>() ??
+                throw new InvalidOperationException("The response content is empty or could not be parsed.");
         }
 
         /// <inheritdoc/>
@@ -215,17 +223,17 @@ namespace Ozym.Web.Services
 
             var deserializedResults = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<T>>();
 
-            PaginationData pageData = null!;
+            PaginationData? pageData = null;
 
             if (httpResponse.Headers.TryGetValues("X-Pagination", out var stringValues))
             {
                 if (stringValues?.Any() ?? false)
                 {
-                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
+                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First())!;
                 }
             }
 
-            return (deserializedResults, pageData);
+            return (deserializedResults ?? [], pageData ?? new());
         }
 
         /// <inheritdoc/>
@@ -243,7 +251,8 @@ namespace Ozym.Web.Services
         {
             using var client = HttpFactory.CreateClient();
 
-            return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/init");
+            return await client.GetFromJsonAsync<T>($"{ResourceIndexUri}/init") ?? 
+                throw new InvalidOperationException("Response content is empty or could not be parsed.");
         }
 
         /// <inheritdoc/>
@@ -258,7 +267,7 @@ namespace Ozym.Web.Services
             var creationRecord = await httpResponse.Content
                                         .ReadFromJsonAsync<CreationRecord<TKey, T>>();
 
-            return creationRecord;
+            return creationRecord ?? throw new InvalidOperationException("Response content is empty or could not be parsed.");
         }
 
         /// <inheritdoc/>
@@ -271,15 +280,14 @@ namespace Ozym.Web.Services
 
             httpResponse.EnsureSuccessStatusCode();
 
-            return httpResponse.Headers.Location;
+            return httpResponse?.Headers?.Location ?? throw new InvalidOperationException("Response location header not found.");
         }
 
         /// <inheritdoc/>
         public async Task<(IEnumerable<T>, PaginationData)> SearchAsync(
             ParameterDto<T> parameter, int pageNumber = 1, int pageSize = 20)
         {
-            if(parameter is null)
-                throw new ArgumentNullException(paramName: nameof(parameter));
+            ArgumentNullException.ThrowIfNull(parameter);
 
             string requestUri = $"{ResourceIndexUri}/search?&pageNumber={pageNumber}&pageSize={pageSize}";
 
@@ -309,20 +317,17 @@ namespace Ozym.Web.Services
         }
     }
 
-    public class HttpService<T, TParentKey> : HttpService<T>, IHttpCollectionService<T, TParentKey>
+    /// <summary>
+    /// Initializes a new instance of <see cref="HttpService{T, TParentKey}"/>.
+    /// </summary>
+    /// <typeparam name="TParent">The type of the parent entity.</typeparam>
+    /// <param name="httpFactory">The HTTP client factory.</param>
+    /// <param name="configuration">The configuration.</param>
+    public class HttpService<T, TParentKey>(
+        IHttpClientFactory httpFactory,
+        IConfiguration configuration)
+        : HttpService<T>(httpFactory, configuration), IHttpCollectionService<T, TParentKey>
     {
-        /// <summary>
-        /// Initializes a new instance of <see cref="HttpService{T, TParentKey}"/>.
-        /// </summary>
-        /// <param name="httpFactory"></param>
-        /// <param name="navigationManager"></param>
-        /// <param name="configuration"></param>
-        public HttpService(
-            IHttpClientFactory httpFactory,
-            IConfiguration configuration) : base(httpFactory, configuration)
-        {
-        }
-
         /// <inheritdoc/>
         public async Task<(IEnumerable<T>, TParent, PaginationData)> IndexAsync<TParent>(
             TParentKey parent, int pageNumber = 1, int pageSize = 20)
@@ -334,20 +339,26 @@ namespace Ozym.Web.Services
 
             httpResponse.EnsureSuccessStatusCode();
 
-            var deserializedResults = await httpResponse.Content
-                                            .ReadFromJsonAsync<IndexWithParentResponse<TParent>>();
+            var response = await httpResponse.Content
+                                            .ReadFromJsonAsync<IndexWithParentResponse<TParent?>>();
 
-            PaginationData pageData = null!;
+            PaginationData pageData = default!;
 
             if (httpResponse.Headers.TryGetValues("X-Pagination", out var stringValues))
             {
                 if (stringValues?.Any() ?? false)
                 {
-                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First());
+                    pageData = JsonSerializer.Deserialize<PaginationData>(stringValues.First())!;
                 }
             }
 
-            return (deserializedResults.Entries, deserializedResults.Parent, pageData);
+            if (response is null)
+                throw new InvalidOperationException("Response content is empty or could not be parsed.");
+
+            if (response.Parent is null)
+                throw new InvalidOperationException("Response content is invalid; parent entity not found.");
+
+            return (response?.Entries ?? [], response!.Parent!, pageData);
         }
 
         /// <inheritdoc/>
@@ -374,24 +385,29 @@ namespace Ozym.Web.Services
         public async Task<(IEnumerable<T>, TParent, PaginationData)> SearchAsync<TParent>(
             TParentKey parent, ParameterDto<T> parameter, int pageNumber = 1, int pageSize = 20)
         {
-            if (parameter is null)
-                throw new ArgumentNullException(paramName: nameof(parameter));
+            ArgumentNullException.ThrowIfNull(parameter);
 
             string requestUri = CombinePath(
                 rootPath: string.Format(ResourceIndexUri, parent),
                 relativePath: $"/search?&pageNumber={pageNumber}&pageSize={pageSize}");
 
-            var (response, pageData) = 
+            var (response, pageData) =
                 await SearchAsync<IndexWithParentResponse<TParent>>(requestUri, parameter);
 
-            return (response.Entries, response.Parent, pageData);
+            if (response is null)
+                throw new InvalidOperationException("Response content is empty or could not be parsed.");
+
+            if (response.Parent is null)
+                throw new InvalidOperationException("Response content is invalid; parent entity not found.");
+
+            return (response.Entries ?? [], response.Parent, pageData);
         }
 
         private class IndexWithParentResponse<TParent>
         {
-            public IEnumerable<T> Entries { get; init; } = [];
+            public IEnumerable<T>? Entries { get; init; }
 
-            public TParent Parent { get; init; } = default!;
+            public TParent? Parent { get; init; }
         }
     }
 }

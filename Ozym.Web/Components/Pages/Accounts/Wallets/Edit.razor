@@ -120,7 +120,7 @@ else
 
     /// <inheritdoc/>
     protected override async Task RefreshResultsAsync(
-        ParameterDto<AccountWalletDto> parameter, int pageNumber, int pageSize)
+        ParameterDto<AccountWalletDto>? parameter, int pageNumber, int pageSize)
     {
         if (WorkingEntries?.HasChanges ?? false)
         {

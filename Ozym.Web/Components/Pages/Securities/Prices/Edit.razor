@@ -149,7 +149,7 @@ else
 
     /// <inheritdoc />
     protected override async Task RefreshResultsAsync(
-    ParameterDto<SecurityPriceDto> parameter, int pageNumber, int pageSize)
+    ParameterDto<SecurityPriceDto>? parameter, int pageNumber, int pageSize)
     {
         var pricesTask = parameter is null ?
             HttpService.IndexAsync(
