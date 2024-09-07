@@ -186,6 +186,10 @@ else
                     ErrorMessage = string.Join("\n", userResult.Errors.Select(x => x.Description));
                     return;
                 }
+                else
+                {
+                    ErrorMessage = null;
+                }
 
                 // Update the role assignment.
                 IEnumerable<string> storeRoles = (await UserManager.GetRolesAsync(user!));
@@ -193,23 +197,32 @@ else
 
                 var additions = currentRoles.Except(storeRoles) ?? [];
                 var removals = storeRoles.Except(currentRoles) ?? [];
+                var logUser = new { Id = user.Id };
 
                 if (removals.Count() > 0)
+                {
                     await UserManager.RemoveFromRolesAsync(user, removals);
+                    Logger.LogInformation("{User} removed from: {Roles}", logUser, removals);
+                }
 
                 if (additions.Count() > 0)
+                {
                     await UserManager.AddToRolesAsync(user, additions);
+                    Logger.LogInformation("{User} assigned to: {Roles}", logUser, additions);
+                }
 
                 scope.Complete();
 
-                NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{user!.Id}");
             }
             catch(TransactionAbortedException ex)
             {
                 scope?.Dispose();
                 ErrorMessage = ex.Message;
+                return;
             }
         }
+
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{user!.Id}");
     }
 
     /// <summary>edit

@@ -6,6 +6,7 @@
 @using System.Text
 @using System.Text.Encodings.Web
 @using System.ComponentModel.DataAnnotations.Schema
+@using System.Transactions
 
 @inject IEmailSender<ApplicationUser> EmailSender
 @inject IUserStore<ApplicationUser> UserStore
@@ -132,14 +133,11 @@ else
 
     private Guid _formGuid = new Guid();
 
-    private IEnumerable<IdentityError>? identityErrors;
-
     private readonly string _userIndexUrl = "/access/users";
 
-    private string? ErrorMessage => 
-        identityErrors is null ? null : string.Join("\n", identityErrors!.Select(x => x.Description));
+    private string? ErrorMessage { get; set; }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
         // If the user manager does not support user email, throw an exception before loading
         // the page.
@@ -161,39 +159,62 @@ else
     private async Task ValidFormSubmitHandler(EditContext args)
     {
         var appUser = (ApplicationUser)user;
-
-        var setResult = UserStore.SetUserNameAsync(appUser, appUser.UserName, CancellationToken.None);
-        await setResult;
-
-        var emailStore = (IUserEmailStore<ApplicationUser>)UserStore;
-        await emailStore.SetEmailAsync(appUser, appUser.Email, CancellationToken.None);
-
-        var result = await UserManager.CreateAsync(appUser, user.Password);
-
-        if (!result.Succeeded)
+        using(var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
         {
-            identityErrors = result.Errors;
-            return;
-        }
-        
-        Logger.LogInformation("User created a new account with password.");
-
-        IEnumerable<string> roles = (appUser.Roles
-            .Where(x => !string.IsNullOrEmpty(x.Name))
-            .Select(x => x.Name) ?? [])!;
-
-        if(roles.Count() > 0)
-        {
-            var addRolesTask = await UserManager.AddToRolesAsync(appUser, roles ?? []);
-            if (!addRolesTask.Succeeded)
+            try
             {
-                identityErrors = result.Errors;
+                // var setResult = UserStore
+                //     .SetUserNameAsync(appUser, appUser.UserName, CancellationToken.None);
+                // await setResult;
+
+                var emailStore = (IUserEmailStore<ApplicationUser>)UserStore;
+                await emailStore.SetEmailAsync(appUser, appUser.Email, CancellationToken.None);
+
+                var result = await UserManager.CreateAsync(appUser, user.Password);
+
+                if (!result.Succeeded)
+                {
+                    ErrorMessage = string.Join("\n", result.Errors!.Select(x => x.Description));
+                    return;
+                }
+                else
+                {
+                    ErrorMessage = null;
+                }
+
+                var logUser = new { Id = appUser.Id };
+
+                Logger.LogInformation("{User} created a new account with password.", logUser);
+
+                IEnumerable<string> roles = (appUser.Roles
+                    .Where(x => !string.IsNullOrEmpty(x.Name))
+                    .Select(x => x.Name) ?? [])!;
+
+                if(roles.Count() > 0)
+                {
+                    var addRolesTask = await UserManager.AddToRolesAsync(appUser, roles ?? []);
+                    if (!addRolesTask.Succeeded)
+                    {
+                        ErrorMessage = string.Join("\n", result.Errors!.Select(x => x.Description));
+                        return;
+                    }
+                    else
+                    {
+                        ErrorMessage = null;
+                    }
+                }
+
+                Logger.LogInformation("{User} assgined to roles: {Roles}", logUser, roles);
+
+            }
+            catch (TransactionAbortedException ex)
+            {
+                scope?.Dispose();
+                ErrorMessage = ex.Message;
                 return;
             }
         }
-
-        Logger.LogInformation("User assgined to roles: {Roles}", roles);
-
+        
         NavigationManager.NavigateTo($"{_userIndexUrl}/{user.Id}");
     }
 
