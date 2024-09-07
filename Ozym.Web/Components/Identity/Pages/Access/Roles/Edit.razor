@@ -91,7 +91,7 @@ else
                     {
                         IconKey = "pencil",
                         Caption = editCaption,
-                        UriRelativePath = FormatEditUri(GetKeyValueOrDefault<string>(role))
+                        UriRelativePath = $"{IndexUriRelativePath}/{role!.Id}"
                     }
                 }
                 };
@@ -112,7 +112,7 @@ else
         await result;
 
         if (result.IsCompletedSuccessfully)
-            NavigationHelper.NavigateTo(IndexUriRelativePath);
+            NavigationHelper.NavigateTo($"{IndexUriRelativePath}");
         else if (result.IsFaulted)
             ErrorMessage = result.Exception?.Message;
     }
@@ -127,7 +127,7 @@ else
         await result;
 
         if (result.IsCompletedSuccessfully)
-            NavigationHelper.NavigateTo(FormatDetailUri(role!.Id));
+            NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{role!.Id}");
         else if (result.IsFaulted)
             ErrorMessage = result.Exception?.Message;
     }
@@ -136,5 +136,5 @@ else
     /// Handles the cancel editor event of this page.
     /// </summary>
     private void FormCancelClickHandler(MouseEventArgs args) =>
-        NavigationHelper.NavigateTo(FormatDetailUri(role!.Id));
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{role!.Id}");
 }
