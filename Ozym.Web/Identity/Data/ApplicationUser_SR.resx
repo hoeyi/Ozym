@@ -213,6 +213,12 @@
   <data name="PhoneNumber_Name" xml:space="preserve">
     <value>Phone</value>
   </data>
+  <data name="Roles_Description" xml:space="preserve">
+    <value>Current roles assgined to the user</value>
+  </data>
+  <data name="Roles_Name" xml:space="preserve">
+    <value>Roles</value>
+  </data>
   <data name="SecurityStamp_Description" xml:space="preserve">
     <value />
   </data>

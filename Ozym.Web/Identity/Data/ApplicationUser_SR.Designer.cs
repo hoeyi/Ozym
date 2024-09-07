@@ -349,6 +349,24 @@ namespace Ozym.Web.Identity.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current roles assgined to the user.
+        /// </summary>
+        public static string Roles_Description {
+            get {
+                return ResourceManager.GetString("Roles_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roles.
+        /// </summary>
+        public static string Roles_Name {
+            get {
+                return ResourceManager.GetString("Roles_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         public static string SecurityStamp_Description {

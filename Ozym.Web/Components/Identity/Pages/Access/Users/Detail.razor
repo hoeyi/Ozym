@@ -4,6 +4,7 @@
 
 @inherits ModelPage<ApplicationUser>
 @inject UserManager<ApplicationUser> UserManager
+@inject RoleManager<ApplicationRole> RoleManager
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
@@ -29,6 +30,24 @@ else
             </CascadingValue>
         </Body>
     </ContentTile>
+    <ContentTile>
+        <TitleAlignLeft>
+            <div>
+                @(NameFor(x => x.Roles))
+            </div>
+        </TitleAlignLeft>
+        <Body>
+            <DataGrid Data="@user.Roles" TModel="ApplicationRole">
+                <DataGridColumn
+                    Property="@nameof(ApplicationRole.Name)"
+                    Caption="@(ModelMetadata.NameFor<ApplicationRole>(x => x.Name))">
+                    <CellTemplate Context="role">
+                        @role.Name
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        </Body>
+    </ContentTile>
 }
 @code {
     [Parameter]
@@ -49,6 +68,11 @@ else
         try
         {
             user = await UserManager.Users.FirstAsync(u => u.Id == Id.ToString());
+            string[] assignedRoleNames = (await UserManager.GetRolesAsync(user))?.ToArray() ?? [];
+            var assignedRoles = await RoleManager.Roles
+                .Where(x => assignedRoleNames.Contains(x.Name))
+                .ToListAsync();
+            user.SetRoles(assignedRoles);
 
             string editCaption = Strings.Caption_EditSingle.Format(ModelNoun?.GetSingular());
             string indexCaption = Strings.Caption_NavigateBackTo.Format(ModelNoun?.GetPlural());
@@ -77,7 +101,7 @@ else
         }
         finally
         {
-            isLoading = user is null;
+            isLoading = user is null || user.Roles is null;
         }
     }
 }

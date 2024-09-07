@@ -1,10 +1,17 @@
 ﻿using Ichosys.DataModel.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Ozym.DataTransfer.Common;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Ozym.Web.Identity.Data;
 
+/// <summary>
+/// Implementation of the <see cref="IdentityUser"/> base class for the application.
+/// </summary>
 [Noun(
         Plural = nameof(ApplicationUser_SR.Noun_Plural),
         PluralArticle = nameof(ApplicationUser_SR.Noun_Plural_Article),
@@ -12,7 +19,7 @@ namespace Ozym.Web.Identity.Data;
         SingularArticle = nameof(ApplicationUser_SR.Noun_Singular_Article),
         ResourceType = typeof(ApplicationUser_SR)
         )]
-public class ApplicationUser : IdentityUser
+public partial class ApplicationUser : IdentityUser
 {
     [Key]
     [Display(
@@ -125,5 +132,58 @@ public class ApplicationUser : IdentityUser
             Description = nameof(ApplicationUser_SR.AccessFailedCount_Description),
             ResourceType = typeof(ApplicationUser_SR))]
     public override int AccessFailedCount { get; set; }
+
 }
 
+#region Un-mapped properties and methods
+public partial class ApplicationUser
+{
+    private static readonly HashSet<ApplicationRole> _roles = new(new ApplicationRoleComparer());
+
+    /// <summary>
+    /// Gets the collection of roles assigned to this user. Default is an empty collection.
+    /// </summary>
+    [NotMapped]
+    [Display(
+            Name = nameof(ApplicationUser_SR.Roles_Name),
+            Description = nameof(ApplicationUser_SR.Roles_Description),
+            ResourceType = typeof(ApplicationUser_SR))]
+    public ICollection<ApplicationRole> Roles
+    {
+        get { return _roles;  }
+    }
+
+
+    /// <summary>
+    /// Sets the roles assigned to this user.
+    /// </summary>
+    /// <param name="roles">The roles to assign.</param>
+    public void SetRoles(IEnumerable<ApplicationRole> roles)
+    {
+        _roles.Clear();
+        foreach (var role in roles)
+            _roles.Add(role);
+    }
+
+    /// <summary>
+    /// Implements <see cref="IEqualityComparer{T}"/> for the <see cref="ApplicationRole"/> class.
+    /// </summary>
+    internal sealed class ApplicationRoleComparer : IEqualityComparer<ApplicationRole>
+    {
+        /// <inheritdoc/>
+        public bool Equals(ApplicationRole? x, ApplicationRole? y)
+        {
+            if(x is null || y is null || x.Name is null || y.Name is null)
+                return false;
+
+            return x.Name.Equals(y.Name);
+        }
+
+        /// <inheritdoc/>
+        public int GetHashCode([DisallowNull] ApplicationRole obj)
+        {
+            return obj.Name!.GetHashCode();
+        }
+    }
+}
+#endregion
