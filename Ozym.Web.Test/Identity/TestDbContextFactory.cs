@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ozym.Web.Data;
+using Ozym.Web.Identity.Data;
 
 namespace Ozym.Web.Test.Identity
 {
