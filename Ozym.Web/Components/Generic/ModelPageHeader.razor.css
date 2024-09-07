@@ -14,7 +14,7 @@
 
 .page-banner {
     display: flex;
-    margin: 0.5rem 0rem 0.5rem 0rem;
+    margin: 0.5rem 0rem 0.5rem 0.5rem;
     /*padding-left: 0.5rem;*/
 }
 
@@ -62,14 +62,10 @@
     align-self: center;
 }
 
-.custom-nav-link {
-    padding-left: 0.5rem;
-}
-
 .custom-nav-link:hover {
     background-color: var(--hover-color-detail);
     outline: var(--border-size) solid var(--border-hover-color);
-    outline-offset: -0.25rem;
+    outline-offset: calc(var(--border-size) * -1);
 }
 
 a {
