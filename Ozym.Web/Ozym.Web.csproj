@@ -112,6 +112,11 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>Strings.resx</DependentUpon>
 	</Compile>
+	<Compile Update="Identity\Data\ApplicationRole_SR.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>ApplicationRole_SR.resx</DependentUpon>
+	</Compile>
 	<Compile Update="Identity\Data\ApplicationUser_SR.Designer.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
@@ -132,6 +137,10 @@
 	<EmbeddedResource Update="Components\Common\Strings.resx">
 	  <Generator>PublicResXFileCodeGenerator</Generator>
 	  <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="Identity\Data\ApplicationRole_SR.resx">
+	  <Generator>PublicResXFileCodeGenerator</Generator>
+	  <LastGenOutput>ApplicationRole_SR.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
 	<EmbeddedResource Update="Identity\Data\ApplicationUser_SR.resx">
 	  <Generator>PublicResXFileCodeGenerator</Generator>

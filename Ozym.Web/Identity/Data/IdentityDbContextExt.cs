@@ -7,7 +7,7 @@ namespace Ozym.Web.Identity.Data
     /// <summary>
     /// <see cref="DbContext"/> child for working with <see cref="ApplicationUser"/> records.
     /// </summary>
-    public partial class IdentityDbContext : IdentityDbContext<ApplicationUser>
+    public partial class IdentityDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,8 +26,11 @@ namespace Ozym.Web.Identity.Data
 
             builder.HasDefaultSchema("WebId");
 
+            builder.Entity<ApplicationUser>(x => x.ToTable("AspNetUsers"));
+            builder.Entity<ApplicationRole>(x => x.ToTable("AspNetRoles"));
+
             // Add built-in rules.
-            var roles = new IdentityRole[]
+            var roles = new ApplicationRole[]
             {
                 new()
                 {
@@ -52,7 +55,7 @@ namespace Ozym.Web.Identity.Data
                 }
             };
 
-            builder.Entity<IdentityRole>().HasData(roles);
+            builder.Entity<ApplicationRole>().HasData(roles);
         }
     }
 }
