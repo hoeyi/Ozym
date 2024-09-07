@@ -109,7 +109,7 @@ namespace Ozym.Web.Components.Generic
             pageSize: PaginationHelper.PageSize);
 
         /// <inheritdoc/>
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
             CheckNullParameters();
 

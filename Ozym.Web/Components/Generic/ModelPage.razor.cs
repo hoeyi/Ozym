@@ -17,7 +17,7 @@ namespace Ozym.Web.Components.Generic
         where TModelDto : class
     {
         #nullable enable
-        private MenuRoot _sectionNavigationMenu;
+        private MenuRoot? _sectionNavigationMenu;
         private NounAttribute? _modelNoun;
         private string? _indexUriRelativePath;
 
@@ -142,8 +142,7 @@ namespace Ozym.Web.Components.Generic
         /// <typeparamref name="TModelDto"/>, or null if undefined.</returns>
         protected static TKey? GetKeyValueOrDefault<TKey>(TModelDto model)
         {
-            if (model is null)
-                throw new ArgumentNullException(paramName: nameof(model));
+            ArgumentNullException.ThrowIfNull(model);
 
             var memberInfo = typeof(TModelDto).GetProperties(
                 BindingFlags.Instance | BindingFlags.Public).Where(

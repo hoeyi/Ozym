@@ -44,14 +44,12 @@ namespace Ozym.Web.Components.Generic
         /// <summary>
         /// Gets or sets the valid entries to the currently selected attribute.
         /// </summary>
-        protected IEnumerable<ModelAttributeMemberDto> CurrentAttributeMembers { get; set; }
-            = Array.Empty<ModelAttributeMemberDto>();
+        protected IEnumerable<ModelAttributeMemberDto> CurrentAttributeMembers { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
         /// </summary>
-        protected IEnumerable<ModelAttributeDto> AllowableModelAttributes { get; set; }
-            = Array.Empty<ModelAttributeDto>();
+        protected IEnumerable<ModelAttributeDto> AllowableModelAttributes { get; set; } = [];
 
         /// <summary>
         /// Gets or sets whether the modal editor for the current <typeparamref name="TViewModelChild"/>  
@@ -59,7 +57,7 @@ namespace Ozym.Web.Components.Generic
         /// </summary>
         protected bool DrawViewModelChildModelEditor { get; set; } = false;
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
             IsLoading = true;
 

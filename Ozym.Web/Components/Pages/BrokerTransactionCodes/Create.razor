@@ -39,7 +39,7 @@ else
     [Parameter]
     public Guid RequestGuid { get; init; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

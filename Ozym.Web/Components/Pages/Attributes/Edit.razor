@@ -134,7 +134,7 @@ else
     private EditContext _attributeScopeContext = default!;
     private EditContext _attributeMemberContext = default!;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

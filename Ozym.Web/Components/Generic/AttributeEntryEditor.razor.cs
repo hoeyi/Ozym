@@ -27,18 +27,21 @@ namespace Ozym.Web.Components.Generic
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
         /// </summary>
-        protected IEnumerable<ModelAttributeDto> AllowableModelAttributes { get; set; }
-            = Array.Empty<ModelAttributeDto>();
+        protected IEnumerable<ModelAttributeDto> AllowableModelAttributes { get; set; } = [];
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
             IsLoading = true;
 
-            if (QueryService is null)
-                throw new ArgumentNullException(paramName: nameof(QueryService));
+            ArgumentNullException.ThrowIfNull(Model);
+            ArgumentNullException.ThrowIfNull(QueryService);
 
             AllowableModelAttributes = await QueryService.BuiltIn
                                                 .GetSupportedAttributesAsync<TViewModelParent>();
+
+            _editContext ??= new(Model);
+            _editContext.OnFieldChanged += HandleFieldChanged;
+            _formInvalid = Mode == EditorMode.Add || !_editContext.Validate();
 
             IsLoading = AllowableModelAttributes is null || !AllowableModelAttributes.Any();
         }
@@ -47,7 +50,7 @@ namespace Ozym.Web.Components.Generic
             ModelAttributeDtoBase attribute)
             => AllowableModelAttributes
                 .FirstOrDefault(x => x.AttributeId == attribute.AttributeId)
-                ?.AttributeValues;
+                ?.AttributeValues ?? [];
 
         /// <summary>
         /// Gets or sets whether the modal dialog for selecting an attribute is drawn. Default is
@@ -96,23 +99,14 @@ namespace Ozym.Web.Components.Generic
         }
 
         private bool _formInvalid = false;
-        private EditContext _editContext;
-        private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
+        private EditContext? _editContext;
+        private void HandleFieldChanged(object? sender, FieldChangedEventArgs e)
         {
             if (_editContext is not null)
             {
                 _formInvalid = !_editContext.Validate();
                 StateHasChanged();
             }
-        }
-
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
-
-            _editContext ??= new(Model);
-            _editContext.OnFieldChanged += HandleFieldChanged;
-            _formInvalid = Mode == EditorMode.Add || !_editContext.Validate();
         }
 
         public void Dispose()

@@ -94,10 +94,8 @@ else
 
     private IDictionary<int, string> AttributeMemberLookup { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        await base.OnInitializedAsync();
-
         AttributeMemberLookup = AttributeMembers?.ToDictionary(x => x.AttributeMemberId, y => y.DisplayName) ?? [];
 
         IsLoading = ModelDto is null || (ReadOnly ^ (AttributeMemberLookup.Count == 0));

@@ -77,7 +77,7 @@
 
     private MenuRoot PageMenu { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         var modelNoun = ModelMetadata.GetAttribute<ApplicationUser, NounAttribute>();
 

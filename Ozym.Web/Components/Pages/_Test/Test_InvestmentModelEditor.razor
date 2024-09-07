@@ -72,7 +72,7 @@ else
     protected override string IndexUriRelativePath => "/";
 
 #if DEBUG
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
     IsLoading = true;
 

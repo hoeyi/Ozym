@@ -22,13 +22,13 @@ namespace Ozym.Web.Components.Generic
         where TModelDto : class, INotifyPropertyChanged, new()
     {
         [Inject]
-        protected IHttpCollectionService<TModelDto> HttpService { get; init; }
+        protected IHttpCollectionService<TModelDto> HttpService { get; init; } = default!;
 
         /// <summary>
         /// Gets or sets the <see cref="ISearchService{T}"/> for this page.
         /// </summary>
         [Inject]
-        protected ISearchService<TModelDto> SearchService { get; init; }
+        protected ISearchService<TModelDto> SearchService { get; init; } = default!;
 
         /// <inheritdoc/>
         protected override bool PageDataIsLoading() => WorkingEntries is null || Context is null;
@@ -47,12 +47,12 @@ namespace Ozym.Web.Components.Generic
         /// <summary>
         /// Gets or sets the collection of entries worked via this page.
         /// </summary>
-        protected ITrackingEnumerable<TModelDto> WorkingEntries { get; set; }
+        protected ITrackingEnumerable<TModelDto> WorkingEntries { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the <see cref="EditContext" /> for this control.
         /// </summary>
-        protected EditContext Context { get; set; }
+        protected EditContext? Context { get; set; }
 
         /// <summary>
         /// Adds a new entry to the worked collection.
@@ -166,7 +166,7 @@ namespace Ozym.Web.Components.Generic
         }
 
         /// <inheritdoc/>
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
             CheckNullParameters();
 
@@ -194,7 +194,7 @@ namespace Ozym.Web.Components.Generic
         /// <exception cref="NotImplementedException">The method has not been overriden in a 
         /// derived class.</exception>
         protected virtual async Task RefreshResultsAsync(
-            ParameterDto<TModelDto> parameter, int pageNumber, int pageSize)
+            ParameterDto<TModelDto>? parameter, int pageNumber, int pageSize)
         {
             if (WorkingEntries?.HasChanges ?? false)
             {
@@ -230,14 +230,19 @@ namespace Ozym.Web.Components.Generic
         /// <exception cref="ArgumentNullException"></exception>
         protected async Task InitializationTasksAsync(params Task[] initTasks)
         {
-            if (initTasks is null || !initTasks.Any())
+            if (initTasks is null || initTasks.Length == 0)
                 throw new ArgumentNullException(paramName: nameof(initTasks));
 
             var initTaskCollection = Task.WhenAll(initTasks);
             await initTaskCollection;
 
             if (initTaskCollection.Status != TaskStatus.RanToCompletion)
-                throw initTaskCollection.Exception.Flatten();
+            {
+                Exception? exc = initTaskCollection?.Exception?.Flatten();
+                    ;
+
+                throw exc ?? new InvalidOperationException("Aggregate exception not found.");
+            }
         }
 
         protected static async Task<bool> ConfirmDiscardChangesAsync()
