@@ -6,6 +6,7 @@
 @using System.Text
 @using System.Text.Encodings.Web
 @using System.ComponentModel.DataAnnotations.Schema
+@using System.Transactions
 
 @inject IEmailSender<ApplicationUser> EmailSender
 @inject IUserStore<ApplicationUser> UserStore
@@ -14,6 +15,7 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject RoleManager<ApplicationRole> RoleManager
 @inject ILogger<Create> Logger
+@inject AuthenticationStateProvider AuthStateProvider
 
 <PageTitle>
     @(titleInfo.CreateSingle().AsPageTitle())
@@ -33,7 +35,7 @@ else
 
     <ContentTile>
         <Body>
-            <CascadingValue Value="@user" >
+            <CascadingValue Value="@inputModel" >
                 <ActionButtonMenu>
                     <button type="submit" class="form-control button" form="@_formGuid">
                         @Strings.Caption_Button_Save
@@ -44,33 +46,33 @@ else
                         @Strings.Caption_Button_Cancel
                     </button>
                 </ActionButtonMenu>
-                <EditForm class="model-editor" id="@_formGuid" Model="@user"
+                <EditForm class="model-editor" id="@_formGuid" Model="@inputModel"
                           OnValidSubmit="ValidFormSubmitHandler">
                     <DataAnnotationsValidator />
                     <ModelForm TModelDto="InputModel">
-                        <ModelFormEntry ForMember="@(() => user.UserName)">
+                        <ModelFormEntry ForMember="@(() => inputModel.UserName)">
                             <InputText 
-                                @bind-Value=user.UserName 
+                                @bind-Value=inputModel.UserName 
                                 DisplayName=@(NameFor(x => x.UserName!))
                                 class="form-control" />
                         </ModelFormEntry>
-                        <ModelFormEntry ForMember="@(() => user.Email)">
+                        <ModelFormEntry ForMember="@(() => inputModel.Email)">
                             <InputText 
-                                @bind-Value=user.Email 
+                                @bind-Value=inputModel.Email 
                                 DisplayName=@(NameFor(x => x.Email!))
                                 class="form-control" />
                         </ModelFormEntry>
-                        <ModelFormEntry ForMember="@(() => user.Password)">
+                        <ModelFormEntry ForMember="@(() => inputModel.Password)">
                             <InputText 
                                 type="password"
-                                @bind-Value=user.Password 
+                                @bind-Value=inputModel.Password 
                                 DisplayName=@(NameFor(x => x.Password))
                                 class="form-control" />
                         </ModelFormEntry>
-                        <ModelFormEntry ForMember="@(() => user.ConfirmPassword)">
+                        <ModelFormEntry ForMember="@(() => inputModel.ConfirmPassword)">
                             <InputText 
                                 type="password"
-                                @bind-Value=user.ConfirmPassword 
+                                @bind-Value=inputModel.ConfirmPassword 
                                 DisplayName=@(NameFor(x => x.ConfirmPassword))
                                 class="form-control" />
                         </ModelFormEntry>
@@ -87,17 +89,17 @@ else
             <button id="add-new-entry-button"
                     class="form-control button icon"
                     type="button"
-                    @onclick="() => user.Roles.Add(new(){ Name = string.Empty })">
+                    @onclick="() => inputModel.Roles.Add(new(){ Name = string.Empty })">
                 <IonIcon Name="add" />
             </button>
         </TitleAlignLeft>
         <Body>
-            <DataGrid Data="@user.Roles" TModel="ApplicationRole">
+            <DataGrid Data="@inputModel.Roles" TModel="ApplicationRole">
                 <DataGridColumn Type="DataGridCellType.Button">
                     <CellEditTemplate Context="role">
                         <ToolTip Text="@Strings.Caption_Button_Delete">
                             <button class="form-control button icon" type="button"
-                                    @onclick="() => user.Roles.Remove(role)">
+                                    @onclick="() => inputModel.Roles.Remove(role)">
                                 <IonIcon Name="close-circle" />
                             </button>
                         </ToolTip>
@@ -122,7 +124,7 @@ else
 }
 
 @code {
-    private InputModel user = default!;
+    private InputModel inputModel = new();
 
     private IEnumerable<ApplicationRole>? roles;
 
@@ -132,24 +134,20 @@ else
 
     private Guid _formGuid = new Guid();
 
-    private IEnumerable<IdentityError>? identityErrors;
-
     private readonly string _userIndexUrl = "/access/users";
 
-    private string? ErrorMessage => 
-        identityErrors is null ? null : string.Join("\n", identityErrors!.Select(x => x.Description));
+    private string? ErrorMessage { get; set; }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
         // If the user manager does not support user email, throw an exception before loading
         // the page.
         if (!UserManager.SupportsUserEmail)
             throw new NotSupportedException("The default UI requires a user store with email support.");
 
-        user = new();
         roles = await RoleManager.Roles.ToListAsync();
 
-        isLoading = user is null || roles is null;
+        isLoading = inputModel is null || roles is null;
     }
 
     private string NameFor(Expression<Func<InputModel, object>> expression) =>
@@ -160,41 +158,80 @@ else
     /// </summary>
     private async Task ValidFormSubmitHandler(EditContext args)
     {
-        var appUser = (ApplicationUser)user;
+        var appUser = new ApplicationUser();
+        var adminAuthState = await AuthStateProvider.GetAuthenticationStateAsync();
 
-        var setResult = UserStore.SetUserNameAsync(appUser, appUser.UserName, CancellationToken.None);
-        await setResult;
+        if(adminAuthState is null || adminAuthState.User is null)
+            throw new InvalidOperationException("Authorization state not found.");
 
-        var emailStore = (IUserEmailStore<ApplicationUser>)UserStore;
-        await emailStore.SetEmailAsync(appUser, appUser.Email, CancellationToken.None);
+        var adminUser = await UserManager.GetUserAsync(adminAuthState.User);
+        if(adminUser is null)
+            throw new InvalidOperationException("User not found.");
 
-        var result = await UserManager.CreateAsync(appUser, user.Password);
-
-        if (!result.Succeeded)
+        using(var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
         {
-            identityErrors = result.Errors;
-            return;
-        }
-        
-        Logger.LogInformation("User created a new account with password.");
-
-        IEnumerable<string> roles = (appUser.Roles
-            .Where(x => !string.IsNullOrEmpty(x.Name))
-            .Select(x => x.Name) ?? [])!;
-
-        if(roles.Count() > 0)
-        {
-            var addRolesTask = await UserManager.AddToRolesAsync(appUser, roles ?? []);
-            if (!addRolesTask.Succeeded)
+            try
             {
-                identityErrors = result.Errors;
+                var setResult = UserStore
+                    .SetUserNameAsync(appUser, inputModel.UserName, CancellationToken.None);
+                await setResult;
+
+                var emailStore = (IUserEmailStore<ApplicationUser>)UserStore;
+                await emailStore.SetEmailAsync(appUser, inputModel.Email, CancellationToken.None);
+
+                var result = await UserManager.CreateAsync(appUser, inputModel.Password);
+
+                appUser.SetRoles(inputModel.Roles);
+
+                if (!result.Succeeded)
+                {
+                    ErrorMessage = string.Join("\n", result.Errors!.Select(x => x.Description));
+                    return;
+                }
+                else
+                {
+                    ErrorMessage = null;
+                }
+
+                Logger.LogInformation(
+                    "{Admin} created {User} with password.", 
+                    new { Id = appUser.Id },
+                    new { Id = adminUser.Id }
+                );
+
+                IEnumerable<string> assignedRoles = (appUser.Roles
+                    .Where(x => !string.IsNullOrEmpty(x.Name))
+                    .Select(x => x.Name) ?? [])!;
+
+                if(assignedRoles.Count() > 0)
+                {
+                    var addRolesTask = await UserManager.AddToRolesAsync(appUser, assignedRoles ?? []);
+                    if (!addRolesTask.Succeeded)
+                    {
+                        ErrorMessage = string.Join("\n", result.Errors!.Select(x => x.Description));
+                        return;
+                    }
+
+                    ErrorMessage = null;
+
+                    Logger.LogInformation(
+                        "{Admin} assgined {User} to roles: {Roles}.",
+                        new { Id = appUser.Id },
+                        new { Id = adminUser.Id },
+                        assignedRoles);
+                }
+
+                scope.Complete();
+            }
+            catch (TransactionAbortedException ex)
+            {
+                scope?.Dispose();
+                ErrorMessage = ex.Message;
                 return;
             }
         }
 
-        Logger.LogInformation("User assgined to roles: {Roles}", roles);
-
-        NavigationManager.NavigateTo($"{_userIndexUrl}/{user.Id}");
+        NavigationManager.NavigateTo($"{_userIndexUrl}/{appUser.Id}");
     }
 
     /// <summary>edit
@@ -203,14 +240,14 @@ else
     private void FormCancelClickHandler(MouseEventArgs args) =>
         NavigationManager.NavigateTo(_userIndexUrl);
 
-    internal sealed class InputModel : ApplicationUser
+    internal sealed class InputModel
     {
         [Required]
         [Display(
             Name = nameof(ApplicationUser_SR.UserName_Name),
             Description = nameof(ApplicationUser_SR.UserName_Description),
             ResourceType = typeof(ApplicationUser_SR))]
-        public override string? UserName { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
 
         [Required]
         [StringLength(
@@ -237,6 +274,15 @@ else
             Name = nameof(ApplicationUser_SR.Email_Name),
             Description = nameof(ApplicationUser_SR.Email_Description),
             ResourceType = typeof(ApplicationUser_SR))]
-        public override string? Email { get; set; }
+        public string? Email { get; set; }
+
+        /// <summary>
+        /// Gets the collection of roles assigned to this user. Default is an empty collection.
+        /// </summary>
+        [Display(
+                Name = nameof(ApplicationUser_SR.Roles_Name),
+                Description = nameof(ApplicationUser_SR.Roles_Description),
+                ResourceType = typeof(ApplicationUser_SR))]
+        public ICollection<ApplicationRole> Roles { get; set; } = [];
     }
 }
