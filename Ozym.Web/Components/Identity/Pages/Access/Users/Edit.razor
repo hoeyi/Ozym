@@ -1,4 +1,4 @@
-﻿@page "/Access/Users/{Id:guid}/edit"
+﻿@page "/access/users/{Id:guid}/edit"
 
 @using Microsoft.EntityFrameworkCore
 
@@ -66,7 +66,7 @@ else
 
     private Guid _formGuid = new Guid();
 
-    protected override string IndexUriRelativePath => "/Access/Users";
+    protected override string IndexUriRelativePath => "/access/users";
 
     protected override async Task OnParametersSetAsync()
     {

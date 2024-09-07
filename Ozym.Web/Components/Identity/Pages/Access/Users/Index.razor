@@ -1,4 +1,4 @@
-﻿@page "/Access/Users/"
+﻿@page "/access/users/"
 
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.EntityFrameworkCore
@@ -89,7 +89,7 @@
                 {
                     IconKey = "create",
                     Caption = titleInfo.CreateSingle(),
-                    UriRelativePath = "/Access/Users/create"
+                    UriRelativePath = "/access/users/create"
                 }
             }
         };
@@ -117,7 +117,7 @@
         }
     }
 
-    private string FormatDetailUri(ApplicationUser user) => $"/Access/Users/{user.Id}";
+    private string FormatDetailUri(ApplicationUser user) => $"/access/users/{user.Id}";
 
     private void Detail_OnClick(ApplicationUser model, MouseEventArgs args)
     {

@@ -1,4 +1,4 @@
-﻿@page "/Access/Users/{Id:guid}"
+﻿@page "/access/users/{Id:guid}"
 
 @using Microsoft.EntityFrameworkCore
 
@@ -42,7 +42,7 @@ else
 
     private MenuRoot navMenu = default!;
 
-    protected override string IndexUriRelativePath => "/Access/Users";
+    protected override string IndexUriRelativePath => "/access/users";
 
     protected override async Task OnParametersSetAsync()
     {

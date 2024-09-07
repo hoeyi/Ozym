@@ -175,7 +175,12 @@
           {
             "IconKey": "people-circle",
             "Caption": "Users",
-            "UriRelativePath":  "/Access/Users"
+            "UriRelativePath": "/access/users"
+          },
+          {
+            "IconKey": null,
+            "Caption": "Roles",
+            "UriRelativePath":  "/access/roles"
           }
         ]
       }

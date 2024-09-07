@@ -1,4 +1,4 @@
-﻿@page "/Access/Users/create"
+﻿@page "/access/users/create"
 
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.EntityFrameworkCore
@@ -93,7 +93,7 @@ else
 
     private IEnumerable<IdentityError>? identityErrors;
 
-    private readonly string _userIndexUrl = "/Access/Users";
+    private readonly string _userIndexUrl = "/access/users";
 
     private string? ErrorMessage => 
         identityErrors is null ? null : string.Join("\n", identityErrors!.Select(x => x.Description));
