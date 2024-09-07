@@ -107,13 +107,12 @@
     }
 
 ::deep .datagrid-column-header {
-    padding-top: 0.25rem;
-    padding-left: 0.5rem;
+    padding: 0rem 0.5rem 0rem 0.5rem;
     background-color: var(--theme-tableheader-back-color, white);
     color: var(--theme-tableheader-fore-color, black);
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 2rem;
+    height: 1.5rem;
     font-size: 1rem;
 }
 

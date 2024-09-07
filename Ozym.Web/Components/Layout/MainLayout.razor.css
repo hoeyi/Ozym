@@ -12,6 +12,13 @@ main {
     color: var(--default-text-color);
 }
 
+article.content {
+    display: grid;
+    grid-row-gap: 1rem;
+    grid-row-start: span 2;
+    padding-bottom: 0.5rem;
+}
+
 .page-banner {
     width: 100%;
     font-size: 1.25rem;
