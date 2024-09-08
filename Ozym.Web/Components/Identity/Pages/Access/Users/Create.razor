@@ -14,7 +14,7 @@
 @inject NavigationManager NavigationManager
 @inject UserManager<ApplicationUser> UserManager
 @inject RoleManager<ApplicationRole> RoleManager
-@inject ILogger<Create> Logger
+@inject ILogger Logger
 @inject AuthenticationStateProvider AuthStateProvider
 
 <PageTitle>
@@ -128,6 +128,8 @@ else
 
     private IEnumerable<ApplicationRole>? roles;
 
+    private ApplicationUser adminUser = default!;
+
     private bool isLoading = true;
 
     private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationUser>();
@@ -138,14 +140,28 @@ else
 
     private string? ErrorMessage { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
+    protected override async Task OnParametersSetAsync()
     {
+        ArgumentNullException.ThrowIfNull(authenticationState);
+
+        var adminAuthState = await authenticationState;
+
+        if (adminAuthState is null || adminAuthState.User is null)
+            throw new InvalidOperationException("Authorization state not found.");
+
+        adminUser = (await UserManager.GetUserAsync(adminAuthState.User))!;
+        if (adminUser is null)
+            throw new InvalidOperationException("User not found.");
+
         // If the user manager does not support user email, throw an exception before loading
         // the page.
         if (!UserManager.SupportsUserEmail)
             throw new NotSupportedException("The default UI requires a user store with email support.");
 
-        roles = await RoleManager.Roles.ToListAsync();
+        roles = await RoleManager.Roles.OrderBy(x => x.Name).ToListAsync();
 
         isLoading = inputModel is null || roles is null;
     }
@@ -159,14 +175,6 @@ else
     private async Task ValidFormSubmitHandler(EditContext args)
     {
         var appUser = new ApplicationUser();
-        var adminAuthState = await AuthStateProvider.GetAuthenticationStateAsync();
-
-        if(adminAuthState is null || adminAuthState.User is null)
-            throw new InvalidOperationException("Authorization state not found.");
-
-        var adminUser = await UserManager.GetUserAsync(adminAuthState.User);
-        if(adminUser is null)
-            throw new InvalidOperationException("User not found.");
 
         using(var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
         {
@@ -215,7 +223,7 @@ else
                     ErrorMessage = null;
 
                     Logger.LogInformation(
-                        "{Admin} assgined {User} to roles: {Roles}.",
+                        "{Admin} assgined {User} to role(s): {Roles}.",
                         new { Id = appUser.Id },
                         new { Id = adminUser.Id },
                         assignedRoles);

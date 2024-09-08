@@ -9,6 +9,7 @@
 @inject RoleManager<ApplicationRole> RoleManager
 @inject IdentityUserAccessor UserAccessor
 @inject IdentityRedirectManager RedirectManager
+@inject AuthenticationStateProvider AuthStateProvider
 
 @if (isLoading)
 {
@@ -99,6 +100,8 @@ else
 
     private ApplicationUser? user;
 
+    private ApplicationUser adminUser = default!;
+
     private IEnumerable<ApplicationRole>? roles;
 
     private bool isLoading = true;
@@ -109,15 +112,29 @@ else
 
     private Guid _formGuid = new Guid();
 
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
     protected override string IndexUriRelativePath => "/access/users";
 
     protected override async Task OnParametersSetAsync()
     {
+        ArgumentNullException.ThrowIfNull(authenticationState);
+
+        var adminAuthState = await authenticationState;
+
+        if (adminAuthState is null || adminAuthState.User is null)
+            throw new InvalidOperationException("Authorization state not found.");
+
+        adminUser = (await UserManager.GetUserAsync(adminAuthState.User))!;
+        if (adminUser is null)
+            throw new InvalidOperationException("User not found.");
+
         try
         {
             user = await UserManager.Users.FirstAsync(u => u.Id == Id.ToString());
             string[] assignedRoleNames = (await UserManager.GetRolesAsync(user))?.ToArray() ?? [];
-            roles = await RoleManager.Roles.ToListAsync();
+            roles = await RoleManager.Roles.OrderBy(x => x.Name).ToListAsync();
             var assignedRoles = await RoleManager.Roles
                 .Where(x => assignedRoleNames.Contains(x.Name))
                 .ToListAsync();
@@ -165,7 +182,14 @@ else
         await result;
 
         if (result.IsCompletedSuccessfully)
+        {
+            Logger.LogInformation(
+                "{User} deleted by {Admin}.", 
+                new { Id = user!.Id }, 
+                new { Id = adminUser.Id });
+
             NavigationHelper.NavigateTo(IndexUriRelativePath);
+        }
         else if(result.IsFaulted)
             ErrorMessage = result.Exception?.Message;
     }
@@ -197,18 +221,25 @@ else
 
                 var additions = currentRoles.Except(storeRoles) ?? [];
                 var removals = storeRoles.Except(currentRoles) ?? [];
-                var logUser = new { Id = user.Id };
 
                 if (removals.Count() > 0)
                 {
                     await UserManager.RemoveFromRolesAsync(user, removals);
-                    Logger.LogInformation("{User} removed by user {Admin} from roles: {Roles}.", logUser, removals);
+                    Logger.LogInformation(
+                        "{User} removed by user {Admin} from role(s): {Roles}.", 
+                        new { Id = user.Id },
+                        new { Id = adminUser.Id },
+                        removals);
                 }
 
                 if (additions.Count() > 0)
                 {
                     await UserManager.AddToRolesAsync(user, additions);
-                    Logger.LogInformation("{User} assigned by {Admin} to roles: {Roles}.", logUser, additions);
+                    Logger.LogInformation(
+                        "{User} assigned by {Admin} to role(s): {Roles}.",
+                        new { Id = user.Id },
+                        new { Id = adminUser.Id },
+                        additions);
                 }
 
                 scope.Complete();

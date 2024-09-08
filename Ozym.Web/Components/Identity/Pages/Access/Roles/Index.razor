@@ -26,14 +26,9 @@
         {
             <DataGrid Data="@Roles" FootNote="@PaginationHelper.RecordReport">
                 <DataGridColumn Property=@nameof(ApplicationRole.Name)
-                                Caption=@(ModelMetadata.NameFor<ApplicationRole>(x => x.Name))
-                                Type=@DataGridCellType.Link>
+                                Caption=@(ModelMetadata.NameFor<ApplicationRole>(x => x.Name))>
                     <CellTemplate Context="model">
-                        <a class="custom-nav-link" href=@(FormatDetailUri(model))
-                        @onclick:preventDefault
-                           @onclick="@(args => Detail_OnClick(model, args))">
                             @model.Name
-                        </a>
                     </CellTemplate>
                 </DataGridColumn>
                 <DataGridColumn Property=@nameof(ApplicationRole.NormalizedName)
@@ -62,19 +57,6 @@
     protected override async Task OnParametersSetAsync()
     {
         var modelNoun = ModelMetadata.GetAttribute<ApplicationRole, NounAttribute>();
-
-        PageMenu = new()
-            {
-                Children =
-            {
-                new MenuItem()
-                {
-                    IconKey = "create",
-                    Caption = titleInfo.CreateSingle(),
-                    UriRelativePath = "/access/roles/create"
-                }
-            }
-            };
 
         await RefreshResultsAsync();
     }
