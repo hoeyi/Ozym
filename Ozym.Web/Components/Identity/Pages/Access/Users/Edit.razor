@@ -131,22 +131,22 @@ else
                 {
                     IconKey = "reorder-four",
                     Children = new()
-                {
-                    // Add return to index button.
-                    new MenuItem()
                     {
-                        IconKey = "caret-back-circle",
-                        Caption = indexCaption,
-                        UriRelativePath = $"{IndexUriRelativePath}"
-                    },
-                    // Add edit button.
-                    new MenuItem()
-                    {
-                        IconKey = "pencil",
-                        Caption = editCaption,
-                        UriRelativePath = FormatEditUri(GetKeyValueOrDefault<string>(user))
+                        // Add return to index button.
+                        new MenuItem()
+                        {
+                            IconKey = "caret-back-circle",
+                            Caption = indexCaption,
+                            UriRelativePath = $"{IndexUriRelativePath}"
+                        },
+                        // Add edit button.
+                        new MenuItem()
+                        {
+                            IconKey = "pencil",
+                            Caption = editCaption,
+                            UriRelativePath = FormatEditUri(GetKeyValueOrDefault<string>(user))
+                        }
                     }
-                }
                 };
         }
         finally
