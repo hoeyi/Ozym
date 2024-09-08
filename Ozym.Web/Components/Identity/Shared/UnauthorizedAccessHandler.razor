@@ -4,7 +4,7 @@
     [CascadingParameter]
     private Task<AuthenticationState>? authenticationState { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         // If we're not able to authenticate, redirect to login.
         if (authenticationState is null)
