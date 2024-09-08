@@ -2,49 +2,47 @@
 
 @inherits ModelDetail<CountryDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
+    <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <CascadingValue Value="@Model">
-            <AttributeEntryCollectionEditor 
-                TViewModelParent="CountryAttributeDtoCollection"
-                TViewModelChild="CountryAttributeGrouping"
-                TModel="CountryDto"
-                TModelChild="CountryAttributeDto"
-                OnCancelEditorClick="FormCancelClickHandler"
-                OnDeleteModelClick="FormDeleteClickHandler"
-                OnValidFormSubmit="ValidFormSubmitHandler"
-                EffectiveDatePath="@(x => x.EffectiveDate)"
-                ModelDto="@Model.AttributeCollection"
-                Mode="EditorMode.Edit">
-                <ViewModelCRUD>
-                    <CountryCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelCRUD>
-                <ViewModelChildCRUD>
-                    <CountryAttributesCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelChildCRUD>
-            </AttributeEntryCollectionEditor>
-        </CascadingValue>
-    }
-</ThemedComponent>
+    <CascadingValue Value="@Model">
+        <AttributeEntryCollectionEditor 
+            TViewModelParent="CountryAttributeDtoCollection"
+            TViewModelChild="CountryAttributeGrouping"
+            TModel="CountryDto"
+            TModelChild="CountryAttributeDto"
+            OnCancelEditorClick="FormCancelClickHandler"
+            OnDeleteModelClick="FormDeleteClickHandler"
+            OnValidFormSubmit="ValidFormSubmitHandler"
+            EffectiveDatePath="@(x => x.EffectiveDate)"
+            ModelDto="@Model.AttributeCollection"
+            Mode="EditorMode.Edit">
+            <ViewModelCRUD>
+                <CountryCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <CountryAttributesCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryCollectionEditor>
+    </CascadingValue>
+}
 
 @code {
     [Parameter]
     public int ModelId { get; init; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

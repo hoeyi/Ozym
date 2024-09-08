@@ -32,12 +32,6 @@ namespace Ozym.EntityModelService
             {
                 IncludeDelegate = (queryable) => queryable.Include(a => a.MarketIndex)
             };
-
-            GetDefaultModelDelegate = () => new()
-            {
-                PriceCode = string.Empty,
-                PriceDate = DateTime.UtcNow.Date
-            };
         }
     }
 }

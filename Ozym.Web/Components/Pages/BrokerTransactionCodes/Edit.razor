@@ -4,46 +4,44 @@
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <ModelPageHeader ActionMenu="@SectionNavigationMenu"
-                        Header="@(PageTitle.CreateSingle())" />
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <ModelPageHeader ActionMenu="@SectionNavigationMenu"
+                    Header="@(PageTitle.CreateSingle())" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <CascadingValue Value="@Model">
-            <AttributeEntryEditor TViewModelParent="BrokerCodeAttributeDtoCollection"
-                            TViewModelChild="BrokerTransactionCodeAttributeGrouping"
-                            TModel="BrokerTransactionCodeDto"
-                            TModelChild="BrokerTransactionCodeAttributeDto"
-                            OnCancelEditorClick="FormCancelClickHandler"
-                            OnDeleteModelClick="FormDeleteClickHandler"
-                            OnValidFormSubmit="ValidFormSubmitHandler"
-                            ModelDto="@Model.AttributeCollection"
-                            Mode="EditorMode.Edit">
-                <ViewModelCRUD>
-                    <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelCRUD>
-                <ViewModelChildCRUD>
-                    <BrokerTransactionCodeAttributesCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelChildCRUD>
-            </AttributeEntryEditor>
-        </CascadingValue>
-    }
-</ThemedComponent>
+    <CascadingValue Value="@Model">
+        <AttributeEntryEditor TViewModelParent="BrokerCodeAttributeDtoCollection"
+                        TViewModelChild="BrokerTransactionCodeAttributeGrouping"
+                        TModel="BrokerTransactionCodeDto"
+                        TModelChild="BrokerTransactionCodeAttributeDto"
+                        OnCancelEditorClick="FormCancelClickHandler"
+                        OnDeleteModelClick="FormDeleteClickHandler"
+                        OnValidFormSubmit="ValidFormSubmitHandler"
+                        ModelDto="@Model.AttributeCollection"
+                        Mode="EditorMode.Edit">
+            <ViewModelCRUD>
+                <BrokerTransactionCodeCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <BrokerTransactionCodeAttributesCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryEditor>
+    </CascadingValue>
+}
 
 @code {
     [Parameter]
     public int ModelId { get; init; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

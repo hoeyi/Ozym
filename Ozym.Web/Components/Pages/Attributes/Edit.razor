@@ -2,129 +2,127 @@
 
 @inherits ModelDetail<ModelAttributeDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle()</PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle()</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
+    <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <CascadingValue Value="@Model">
-            <EditForm class="model-editor" Model="@Model" OnValidSubmit="ValidFormSubmitHandler">
-                <DataAnnotationsValidator />
-                <ActionButtonMenu>
-                    <button type="submit" class="form-control button">
-                        @Strings.Caption_Button_Save
-                    </button>
-                    <button type="button" class="form-control button"
-                        @onclick="FormDeleteClickHandler"
-                        @onclick:preventDefault>
-                        @Strings.Caption_Button_Delete
-                    </button>
-                    <button type="button" class="form-control button"
-                        @onclick="FormCancelClickHandler"
-                        @onclick:preventDefault>
-                        @Strings.Caption_Button_Cancel
-                    </button>
-                </ActionButtonMenu>
-                <ContentTile>
-                    <Body>
-                        <ModelAttributeCRUD Disabled="false" ReadOnly="false" />
-                    </Body>
-                </ContentTile>
-            </EditForm>
-            <EditForm class="model-editor" EditContext="_attributeScopeContext" >
-                <DataAnnotationsValidator />
-                <ContentTile>
-                    <Body>
-                        <ActionButtonMenu>
-                            <button class="form-control button"
-                                @onclick="args => Model.AttributeScopes.Add(new(){ AttributeId = Model.AttributeId })">
-                                @Strings.Caption_CreateNew.Format(ModelMetadata
-                                    .GetAttribute<ModelAttributeScopeDto, NounAttribute>()?.GetSingular())
-                            </button>
-                        </ActionButtonMenu>
-                        <ValidationSummary />
-                        <DataGrid Data="@Model.AttributeScopes">
-                            <DataGridColumn Type="DataGridCellType.Button">
-                                <CellEditTemplate Context="model">
-                                    <ToolTip Text="@Strings.Caption_Button_Delete">
-                                        <button class="form-control button icon" type="button"
-                                            @onclick="(args) => Model.AttributeScopes.Remove(model)">
-                                            <IonIcon Name="close-circle" />
-                                        </button>
-                                    </ToolTip>
-                                </CellEditTemplate>
-                            </DataGridColumn>
-                            <DataGridColumn Type="DataGridCellType.Control"
-                                        Property="@nameof(ModelAttributeScopeDto.ScopeCode)"
-                                            Caption="@(ModelMetadata.NameFor<ModelAttributeScopeDto>(x => x.ScopeCode))">
-                                <CellEditTemplate Context="model">
-                                    <InputSelect class="form-control" @bind-Value="@model.ScopeCode">
-                                        @foreach (var scopeLookup in AttributeScopeDtos ?? [])
-                                        {
-                                            <option value=@scopeLookup.Key>@scopeLookup.Value</option>
-                                        }
-                                    </InputSelect>
-                                </CellEditTemplate>
-                            </DataGridColumn>
-                        </DataGrid>
-                    </Body>
-                </ContentTile>
-            </EditForm>
-            <EditForm class="model-editor" EditContext="_attributeMemberContext">
-                <ContentTile>
-                    <Body>
-                        <ActionButtonMenu>
-                            <button class="form-control button"
-                                @onclick="args => Model.AttributeValues.Add(new(){ Attribute = Model})">
-                                @Strings.Caption_CreateNew.Format(ModelMetadata
-                                    .GetAttribute<ModelAttributeMemberDto, NounAttribute>()?.GetSingular())
-                            </button>
-                        </ActionButtonMenu>
-                        <ValidationSummary />
-                        <DataGrid Data="@Model.AttributeValues">
-                            <DataGridColumn Type="DataGridCellType.Button">
-                                <CellEditTemplate Context="model">
-                                    <ToolTip Text="@Strings.Caption_Button_Delete">
-                                        <button class="form-control button icon" type="button"
-                                            @onclick="async (args) => Model.AttributeValues.Remove(model)">
-                                            <IonIcon Name="close-circle" />
-                                        </button>
-                                    </ToolTip>
-                                </CellEditTemplate>
-                            </DataGridColumn>
-                            <DataGridColumn Type="DataGridCellType.Control"
-                                            Property="@nameof(ModelAttributeMemberDto.DisplayName)"
-                                            Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayName))">
-                                <CellEditTemplate Context="model">
-                                    <InputText class="form-control" @bind-Value="model.DisplayName" />                            
-                                </CellEditTemplate>
-                            </DataGridColumn>
-                            <DataGridColumn Type="DataGridCellType.Control"
-                                            Property="@nameof(ModelAttributeMemberDto.DisplayOrder)"
-                                        Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayOrder))">
-                                <CellEditTemplate Context="model">
-                                    <InputNumber class="form-control" @bind-Value="@model.DisplayOrder" />
-                                </CellEditTemplate>
-                            </DataGridColumn>
-                        </DataGrid>
-                    </Body>
-                </ContentTile>
-            </EditForm>
-        </CascadingValue>
-    }
-</ThemedComponent>
+    <CascadingValue Value="@Model">
+        <EditForm class="model-editor" Model="@Model" OnValidSubmit="ValidFormSubmitHandler">
+            <DataAnnotationsValidator />
+            <ActionButtonMenu>
+                <button type="submit" class="form-control button">
+                    @Strings.Caption_Button_Save
+                </button>
+                <button type="button" class="form-control button"
+                    @onclick="FormDeleteClickHandler"
+                    @onclick:preventDefault>
+                    @Strings.Caption_Button_Delete
+                </button>
+                <button type="button" class="form-control button"
+                    @onclick="FormCancelClickHandler"
+                    @onclick:preventDefault>
+                    @Strings.Caption_Button_Cancel
+                </button>
+            </ActionButtonMenu>
+            <ContentTile>
+                <Body>
+                    <ModelAttributeCRUD Disabled="false" ReadOnly="false" />
+                </Body>
+            </ContentTile>
+        </EditForm>
+        <EditForm class="model-editor" EditContext="_attributeScopeContext" >
+            <DataAnnotationsValidator />
+            <ContentTile>
+                <Body>
+                    <ActionButtonMenu>
+                        <button class="form-control button"
+                            @onclick="args => Model.AttributeScopes.Add(new(){ AttributeId = Model.AttributeId })">
+                            @Strings.Caption_CreateNew.Format(ModelMetadata
+                                .GetAttribute<ModelAttributeScopeDto, NounAttribute>()?.GetSingular())
+                        </button>
+                    </ActionButtonMenu>
+                    <ValidationSummary />
+                    <DataGrid Data="@Model.AttributeScopes">
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon" type="button"
+                                        @onclick="(args) => Model.AttributeScopes.Remove(model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                    Property="@nameof(ModelAttributeScopeDto.ScopeCode)"
+                                        Caption="@(ModelMetadata.NameFor<ModelAttributeScopeDto>(x => x.ScopeCode))">
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control" @bind-Value="@model.ScopeCode">
+                                    @foreach (var scopeLookup in AttributeScopeDtos ?? [])
+                                    {
+                                        <option value=@scopeLookup.Key>@scopeLookup.Value</option>
+                                    }
+                                </InputSelect>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </Body>
+            </ContentTile>
+        </EditForm>
+        <EditForm class="model-editor" EditContext="_attributeMemberContext">
+            <ContentTile>
+                <Body>
+                    <ActionButtonMenu>
+                        <button class="form-control button"
+                            @onclick="args => Model.AttributeValues.Add(new(){ Attribute = Model})">
+                            @Strings.Caption_CreateNew.Format(ModelMetadata
+                                .GetAttribute<ModelAttributeMemberDto, NounAttribute>()?.GetSingular())
+                        </button>
+                    </ActionButtonMenu>
+                    <ValidationSummary />
+                    <DataGrid Data="@Model.AttributeValues">
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon" type="button"
+                                        @onclick="async (args) => Model.AttributeValues.Remove(model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                        Property="@nameof(ModelAttributeMemberDto.DisplayName)"
+                                        Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayName))">
+                            <CellEditTemplate Context="model">
+                                <InputText class="form-control" @bind-Value="model.DisplayName" />                            
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                                        Property="@nameof(ModelAttributeMemberDto.DisplayOrder)"
+                                    Caption="@(ModelMetadata.NameFor<ModelAttributeMemberDto>(x => x.DisplayOrder))">
+                            <CellEditTemplate Context="model">
+                                <InputNumber class="form-control" @bind-Value="@model.DisplayOrder" />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                </Body>
+            </ContentTile>
+        </EditForm>
+    </CascadingValue>
+}
 
-    @code {
+@code {
     [Parameter]
     public int ModelId { get; init; }
 
@@ -136,7 +134,7 @@
     private EditContext _attributeScopeContext = default!;
     private EditContext _attributeMemberContext = default!;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 
@@ -151,7 +149,7 @@
 
             if (modelQuery.Status == TaskStatus.RanToCompletion)
             {
-                Model = await modelQuery;
+                Model = (await modelQuery)!;
                 AttributeScopeDtos = attributeScopeCodes
                     .OrderByDescending(k => k.Key == string.Empty).ThenBy(k => k.Value);
 

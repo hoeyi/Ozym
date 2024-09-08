@@ -153,7 +153,9 @@ namespace Ozym.DataTransfer.Common
             Name = nameof(SecurityDto_SR.CurrentySymbol_Name),
             Description = nameof(SecurityDto_SR.CurrentSymbol_Description),
             ResourceType = typeof(SecurityDto_SR))]
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         public string? CurrentSymbol { get; set; }
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
     }
 
     [Noun(
@@ -169,8 +171,8 @@ namespace Ozym.DataTransfer.Common
 
         public SecurityDto()
         {
-            Attributes = new HashSet<SecurityAttributeDto>();
-            Symbols = new HashSet<SecuritySymbolDto>();
+            Attributes = [];
+            Symbols = [];
         }
 
         public ICollection<SecurityAttributeDto> Attributes

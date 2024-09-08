@@ -4,76 +4,74 @@
 
 <PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
 
-<ThemedComponent>
-    <ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
+<ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
 
-    @if (SearchService.SearchFields is null)
+@if (SearchService.SearchFields is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    @if (SearchService.SearchFields.Any())
     {
-        <LoadingSvg />
+        <ContentTile>
+            <Body>
+                <SearchInputTable TModel="MarketIndexPriceDto"
+                                    ComparisonOperators=@SearchService.ComparisonOperators
+                                    ExpressionBuilder=@SearchService.ExpressionBuilder
+                                    SearchFields=@SearchService.SearchFields
+                                    OnSearchClick=@(async (args) => await SearchClicked(args))>
+                </SearchInputTable>
+            </Body>
+        </ContentTile>
     }
-    else
-    {
-        @if (SearchService.SearchFields.Any())
+}
+
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
+
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+                IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if (IsLoading)
         {
-            <ContentTile>
-                <Body>
-                    <SearchInputTable TModel="MarketIndexPriceDto"
-                                        ComparisonOperators=@SearchService.ComparisonOperators
-                                        ExpressionBuilder=@SearchService.ExpressionBuilder
-                                        SearchFields=@SearchService.SearchFields
-                                        OnSearchClick=@(async (args) => await SearchClicked(args))>
-                    </SearchInputTable>
-                </Body>
-            </ContentTile>
+            <LoadingSvg />
         }
-    }
-
-    <CascadingValue Value="@ErrorMessage">
-        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-    </CascadingValue>
-
-    <ContentTile>
-        <TitleAlignLeft>
-            <Paginator Model="PaginationHelper"
-                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
-        </TitleAlignLeft>
-        <Body>
-            @if (IsLoading)
-            {
-                <LoadingSvg />
-            }
-            else
-            {
-                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property=@nameof(MarketIndexPriceDto.MarketIndexId)
-                                Caption=@(NameFor(x => x.MarketIndexId))>
+        else
+        {
+            <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn Property=@nameof(MarketIndexPriceDto.MarketIndexId)
+                            Caption=@(NameFor(x => x.MarketIndexId))>
+                    <CellTemplate Context="model">
+                        @TryGetMarketIndexDisplayValue(model.MarketIndexId)
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(MarketIndexPriceDto.PriceCode)
+                    Caption=@(NameFor(x => x.PriceCode))>
+                    <CellTemplate Context="model">
+                        @(GetPriceCodeDisplayValue(model.PriceCode))
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(MarketIndexPriceDto.PriceDate)
+                    Caption=@(NameFor(x => x.PriceDate))>
                         <CellTemplate Context="model">
-                            @TryGetMarketIndexDisplayValue(model.MarketIndexId)
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPriceDto.PriceCode)
-                        Caption=@(NameFor(x => x.PriceCode))>
-                        <CellTemplate Context="model">
-                            @(GetPriceCodeDisplayValue(model.PriceCode))
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPriceDto.PriceDate)
-                        Caption=@(NameFor(x => x.PriceDate))>
-                            <CellTemplate Context="model">
-                            @model.PriceDate.ToShortDateString()
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property=@nameof(MarketIndexPriceDto.Price)
-                        Caption=@(NameFor(x => x.Price))>
-                        <CellTemplate Context="model">
-                            @model.Price
-                        </CellTemplate>
-                    </DataGridColumn>
-                </DataGrid>
-            }
-        </Body>
-    </ContentTile>
-</ThemedComponent>
+                        @model.PriceDate.ToShortDateString()
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(MarketIndexPriceDto.Price)
+                    Caption=@(NameFor(x => x.Price))>
+                    <CellTemplate Context="model">
+                        @model.Price
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
 
 @code {
     [Inject]

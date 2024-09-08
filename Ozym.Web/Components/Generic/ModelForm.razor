@@ -4,11 +4,11 @@
 @attribute [CascadingTypeParameter(nameof(TModelDto))]
 
 <CascadingValue Value="@ModelDto">
-    <table class="model-attributes">
-        <tbody>
-            @ChildContent
-        </tbody>
-    </table>
+    <CascadingValue Value="@this">
+        <div class="model-attributes">
+                @ChildContent
+        </div>
+    </CascadingValue>
 </CascadingValue>
 
 @code {
@@ -18,4 +18,7 @@
     // TODO: Why not just use the CascadingValue directly in the child component?
     [CascadingParameter, EditorRequired]
     public TModelDto ModelDto { get; set; } = default!;
+
+    [Parameter]
+    public bool WithFormEntryModifiers { get; set; } = false;
 }

@@ -1,23 +1,24 @@
 ﻿.content-tile {
     display: block;
-    /*overflow: auto;*/
-    margin-bottom: 1rem;
 }
 
-/** + .content-tile {
-    margin-top: 1rem;
-}*/
+::deep .content-tile {
+    width: 100%;
+}
 
-.content-tile > .content-header, .content-body {
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+.content-body {
+    margin: 0.5rem 1rem 0.5rem 1rem;
+    display: grid;
+    grid-row-gap: 0.5rem;
+}
+
+::deep .content-body > * {
+    width: 100%;
 }
 
 .content-header {
-    margin-top: 0.5rem;
-}
-
-::deep .content-header .form-control {
-    height: 2rem !important;
+    margin: 1rem;
+    margin-bottom: 0px;
 }
 
 ::deep button.form-control.icon {
@@ -27,7 +28,6 @@
 .content-header {
     display: flex;
     justify-content: space-between;
-    width: 100%;
     align-items: center;
     
     height: 2rem;
@@ -63,7 +63,6 @@
 }
 
 ::deep .content-header > * > .form-control {
-    height: 100%;
     width: fit-content;
     font-size: 0.9rem;
 }

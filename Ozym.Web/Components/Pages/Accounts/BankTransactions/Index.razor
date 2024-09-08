@@ -2,65 +2,63 @@
 
 @inherits ModelPagedIndex<BankTransactionDto>
 
-<ThemedComponent>
-    @if (ParentAccount is null)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.ReadMany(ParentAccount.ShortCode).AsPageTitle())</PageTitle>
+@if (ParentAccount is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.ReadMany(ParentAccount.ShortCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.ReadMany(ParentAccount.ShortCode))" 
-            ActionMenu="@SectionNavigationMenu" />
-    }
+    <ModelPageHeader Header="@(PageTitle.ReadMany(ParentAccount.ShortCode))" 
+        ActionMenu="@SectionNavigationMenu" />
+}
 
-    <CascadingValue Value="@ErrorMessage">
-        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-    </CascadingValue>
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
 
-    <ContentTile>
-        <TitleAlignLeft>
-            <Paginator Model="PaginationHelper"
-                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
-        </TitleAlignLeft>
-        <Body>
-            @if(IsLoading)
-            {
-                <LoadingSvg />
-            }
-            else
-            {
-                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn Property="@nameof(BankTransactionDto.TransactionCodeId)"
-                                Caption="@NameFor(x => x.TransactionCodeId)">
-                        <CellTemplate Context="model">
-                            @GetDisplayValue(TransactionCodes!, model.TransactionCodeId)
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property="@nameof(BankTransactionDto.TransactionDate)"
-                                Caption="@(NameFor(x => x.TransactionDate))">
-                        <CellTemplate Context="model">
-                            @model.TransactionDate.ToShortDateString()
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property="@nameof(BankTransactionDto.Amount)"
-                                Caption="@(NameFor(x => x.Amount))">
-                        <CellTemplate Context="model">
-                            @model.Amount
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property="@nameof(BankTransactionDto.Comment)"
-                                Caption="@(NameFor(x => x.Comment))">
-                        <CellTemplate Context="model">
-                            @model.Comment
-                        </CellTemplate>
-                    </DataGridColumn>
-                </DataGrid>
-            }
-        </Body>
-    </ContentTile>
-</ThemedComponent>
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+                IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if(IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+            <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn Property="@nameof(BankTransactionDto.TransactionCodeId)"
+                            Caption="@NameFor(x => x.TransactionCodeId)">
+                    <CellTemplate Context="model">
+                        @GetDisplayValue(TransactionCodes!, model.TransactionCodeId)
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property="@nameof(BankTransactionDto.TransactionDate)"
+                            Caption="@(NameFor(x => x.TransactionDate))">
+                    <CellTemplate Context="model">
+                        @model.TransactionDate.ToShortDateString()
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property="@nameof(BankTransactionDto.Amount)"
+                            Caption="@(NameFor(x => x.Amount))">
+                    <CellTemplate Context="model">
+                        @model.Amount
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property="@nameof(BankTransactionDto.Comment)"
+                            Caption="@(NameFor(x => x.Comment))">
+                    <CellTemplate Context="model">
+                        @model.Comment
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
 
 @code {
     [Parameter]

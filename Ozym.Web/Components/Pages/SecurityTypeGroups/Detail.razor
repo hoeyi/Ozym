@@ -2,40 +2,37 @@
 
 @inherits ModelDetail<SecurityTypeGroupDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.ReadSingle(Model.SecurityTypeGroupName).AsPageTitle())</PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.ReadSingle(Model.SecurityTypeGroupName).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader ActionMenu="@SectionNavigationMenu"
-                         Header="@(PageTitle.ReadSingle(Model.SecurityTypeGroupName))" />
+    <ModelPageHeader ActionMenu="@SectionNavigationMenu"
+                        Header="@(PageTitle.ReadSingle(Model.SecurityTypeGroupName))" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <ContentTile>
-            <Body>
-                <CascadingValue Value="@Model">
-                    <EditForm class="model-editor" Model="@Model">
-                        <SecurityTypeGroupCRUD Disabled="false" ReadOnly="true"/>
-                    </EditForm>
-                </CascadingValue>
-            </Body>
-        </ContentTile>
-    }
-</ThemedComponent>
-
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@Model">
+                <EditForm class="model-editor" Model="@Model">
+                    <SecurityTypeGroupCRUD Disabled="false" ReadOnly="true"/>
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+}
 
 @code {
     [Parameter]
     public int ModelId { get; init; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

@@ -2,102 +2,100 @@
 
 @inherits ModelDetail<SecurityDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.ReadSingle($"{Model.CurrentSymbol} {Model.SecurityDescription}").AsPageTitle())
-        </PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.ReadSingle($"{Model.CurrentSymbol} {Model.SecurityDescription}").AsPageTitle())
+    </PageTitle>
 
-        <ModelPageHeader 
-            ActionMenu="@SectionNavigationMenu" 
-            Header="@(PageTitle.ReadSingle(Model.SecurityDescription))" />
+    <ModelPageHeader 
+        ActionMenu="@SectionNavigationMenu" 
+        Header="@(PageTitle.ReadSingle(Model.SecurityDescription))" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <ContentTile>
-            <Body>
-                <CascadingValue Value="@Model">
-                    <EditForm class="model-editor" Model="@Model">
-                        <SecurityCRUD
-                            SecurityTypes="SecurityTypes"
-                            SecurityExchanges="Exchanges"
-                            Issuers="Issuers"
-                            Disabled="false" ReadOnly="true" />
-                    </EditForm>
-                </CascadingValue>
-            </Body>
-        </ContentTile>
-        @foreach (var group in Model.AttributeCollection.CurrentEntryCollectionGroups
-            .OrderBy(g => g.ParentAttribute.DisplayName))
-        {
-            <CascadingValue Value="@group">
-                <EditForm class="model-editor" Model="@group">
-                    <SecurityAttributesCRUD 
-                        Disabled="false"
-                        ReadOnly="true" />
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@Model">
+                <EditForm class="model-editor" Model="@Model">
+                    <SecurityCRUD
+                        SecurityTypes="SecurityTypes"
+                        SecurityExchanges="Exchanges"
+                        Issuers="Issuers"
+                        Disabled="false" ReadOnly="true" />
                 </EditForm>
             </CascadingValue>
-        }
-        <ContentTile>
-            <TitleAlignLeft>
-                @(ModelMetadata
-                    .GetAttribute<SecuritySymbolDto, NounAttribute>()
-                    .GetPlural().ToTitleCase())
-            </TitleAlignLeft>
-            <Body>
-                <EditForm width="100%" Model="@Model.Symbols">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <DataGrid Data="@Model.Symbols">
-                        <DataGridColumn Property="@nameof(SecuritySymbolDto.SymbolTypeId)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(
-                                        x => x.SymbolTypeId))">
-                            <CellTemplate Context="model">
-                                @(SymbolTypes!.FirstOrDefault(x => x.SymbolTypeId == model.SymbolTypeId)?.SymbolTypeName)
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property="@nameof(SecuritySymbolDto.EffectiveDate)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.EffectiveDate))">
-                            <CellTemplate Context="model">
-                                @model.EffectiveDate.ToShortDateString()
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property="@nameof(SecuritySymbolDto.Ticker)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.Ticker))">
-                            <CellTemplate Context="model">
-                                @model.Ticker
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property="@nameof(SecuritySymbolDto.Cusip)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.Cusip))">
-                            <CellTemplate Context="model">
-                                @model.Cusip
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property="@nameof(SecuritySymbolDto.CustomSymbol)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.CustomSymbol))">
-                            <CellTemplate Context="model">
-                                @model.CustomSymbol
-                            </CellTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn Property="@nameof(SecuritySymbolDto.OptionTicker)"
-                                    Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.OptionTicker))">
-                            <CellTemplate Context="model">
-                                @model.OptionTicker
-                            </CellTemplate>
-                        </DataGridColumn>
-                    </DataGrid>
-                </EditForm>
-            </Body>
-        </ContentTile>
+        </Body>
+    </ContentTile>
+    @foreach (var group in Model.AttributeCollection.CurrentEntryCollectionGroups
+        .OrderBy(g => g.ParentAttribute.DisplayName))
+    {
+        <CascadingValue Value="@group">
+            <EditForm class="model-editor" Model="@group">
+                <SecurityAttributesCRUD 
+                    Disabled="false"
+                    ReadOnly="true" />
+            </EditForm>
+        </CascadingValue>
     }
-</ThemedComponent>
+    <ContentTile>
+        <TitleAlignLeft>
+            @(ModelMetadata
+                .GetAttribute<SecuritySymbolDto, NounAttribute>()
+                .GetPlural().ToTitleCase())
+        </TitleAlignLeft>
+        <Body>
+            <EditForm width="100%" Model="@Model.Symbols">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <DataGrid Data="@Model.Symbols">
+                    <DataGridColumn Property="@nameof(SecuritySymbolDto.SymbolTypeId)"
+                                Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(
+                                    x => x.SymbolTypeId))">
+                        <CellTemplate Context="model">
+                            @(SymbolTypes!.FirstOrDefault(x => x.SymbolTypeId == model.SymbolTypeId)?.SymbolTypeName)
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property="@nameof(SecuritySymbolDto.EffectiveDate)"
+                                Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.EffectiveDate))">
+                        <CellTemplate Context="model">
+                            @model.EffectiveDate.ToShortDateString()
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property="@nameof(SecuritySymbolDto.Ticker)"
+                                Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.Ticker))">
+                        <CellTemplate Context="model">
+                            @model.Ticker
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property="@nameof(SecuritySymbolDto.Cusip)"
+                                Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.Cusip))">
+                        <CellTemplate Context="model">
+                            @model.Cusip
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property="@nameof(SecuritySymbolDto.CustomSymbol)"
+                                Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.CustomSymbol))">
+                        <CellTemplate Context="model">
+                            @model.CustomSymbol
+                        </CellTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn Property="@nameof(SecuritySymbolDto.OptionTicker)"
+                                Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.OptionTicker))">
+                        <CellTemplate Context="model">
+                            @model.OptionTicker
+                        </CellTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </EditForm>
+        </Body>
+    </ContentTile>
+}
 
 @code {
     [Parameter]
@@ -114,7 +112,7 @@
 
     private IEnumerable<string>? Issuers { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

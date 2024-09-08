@@ -2,51 +2,49 @@
 
 @inherits ModelDetail<InvestmentModelDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.ReadSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader
-            ActionMenu="@SectionNavigationMenu" 
-            Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
+    <ModelPageHeader
+        ActionMenu="@SectionNavigationMenu" 
+        Header="@(PageTitle.ReadSingle(Model.DisplayName))" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <ContentTile>
-            <Body>
-                <CascadingValue Value="@Model">
-                    <EditForm class="model-editor" Model="@Model" >
-                        <InvestmentModelCRUD Disabled="false" ReadOnly="true" />
-                    </EditForm>
-                </CascadingValue>
-            </Body>
-        </ContentTile>
-        @foreach(var group in Model.TargetCollection.CurrentEntryCollectionGroups
-            .OrderBy(g => g.ParentAttribute.DisplayName))
-        {
-            <CascadingValue Value="@group">
-                <EditForm class="model-editor" Model="@group">
-                    <InvestmentModelTargetCRUD 
-                        Disabled="false"
-                        ReadOnly="true" />
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@Model">
+                <EditForm class="model-editor" Model="@Model" >
+                    <InvestmentModelCRUD Disabled="false" ReadOnly="true" />
                 </EditForm>
             </CascadingValue>
-        }
+        </Body>
+    </ContentTile>
+    @foreach(var group in Model.TargetCollection.CurrentEntryCollectionGroups
+        .OrderBy(g => g.ParentAttribute.DisplayName))
+    {
+        <CascadingValue Value="@group">
+            <EditForm class="model-editor" Model="@group">
+                <InvestmentModelTargetCRUD 
+                    Disabled="false"
+                    ReadOnly="true" />
+            </EditForm>
+        </CascadingValue>
     }
-</ThemedComponent>
+}
 
 @code{
     [Parameter]
     public int ModelId { get; init; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

@@ -2,47 +2,45 @@
 
 @inherits ModelDetail<BankTransactionCodeDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
+    <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <CascadingValue Value="@Model">
-            <AttributeEntryEditor TViewModelParent="BankCodeAttributeDtoCollection"
-                TViewModelChild="BankTransactionCodeAttributeGrouping"
-                TModel="BankTransactionCodeDto"
-                TModelChild="BankTransactionCodeAttributeDto"
-                OnCancelEditorClick="FormCancelClickHandler"
-                OnDeleteModelClick="FormDeleteClickHandler"
-                OnValidFormSubmit="ValidFormSubmitHandler"
-                ModelDto="@Model.AttributeCollection"
-                Mode="EditorMode.Edit">
-                <ViewModelCRUD>
-                    <BankTransactionCodeCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelCRUD>
-                <ViewModelChildCRUD>
-                    <BankTransactionCodeAttributesCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelChildCRUD>
-            </AttributeEntryEditor>
-        </CascadingValue>
-    }
-</ThemedComponent>
+    <CascadingValue Value="@Model">
+        <AttributeEntryEditor TViewModelParent="BankCodeAttributeDtoCollection"
+            TViewModelChild="BankTransactionCodeAttributeGrouping"
+            TModel="BankTransactionCodeDto"
+            TModelChild="BankTransactionCodeAttributeDto"
+            OnCancelEditorClick="FormCancelClickHandler"
+            OnDeleteModelClick="FormDeleteClickHandler"
+            OnValidFormSubmit="ValidFormSubmitHandler"
+            ModelDto="@Model.AttributeCollection"
+            Mode="EditorMode.Edit">
+            <ViewModelCRUD>
+                <BankTransactionCodeCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <BankTransactionCodeAttributesCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryEditor>
+    </CascadingValue>
+}
 
 @code {
     [Parameter]
     public int ModelId { get; init; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

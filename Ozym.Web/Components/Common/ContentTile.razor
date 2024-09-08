@@ -46,9 +46,6 @@
 
     protected override void OnInitialized()
     {
-        if (Body is null)
-            throw new ArgumentNullException(paramName: nameof(Body));
-
         if(InputAttributes is not null && 
             InputAttributes.TryGetValue("class", out object? classValue) &&
             classValue is not null)

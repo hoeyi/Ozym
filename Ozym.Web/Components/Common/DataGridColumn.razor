@@ -68,18 +68,15 @@
     [Parameter]
     public RenderFragment<TModel> CellEditTemplate { get; set; } = default!;
 
-    protected override Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
         DataGrid.AddColumn(this);
-
-        return base.OnInitializedAsync();
     }
 
-    protected override void OnInitialized()
+    protected override Task OnParametersSetAsync()
     {
         DataGrid.AddColumn(this);
-
-        base.OnInitialized();
+        return base.OnParametersSetAsync();
     }
 
     public object? GetValue(TModel model)

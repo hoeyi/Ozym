@@ -42,14 +42,11 @@ namespace Ozym.EntityModelService.Abstractions
             IModelMetadataService metadataService,
             ILogger logger)
         {
-            if (contextFactory is null)
-                throw new ArgumentNullException(paramName: nameof(contextFactory));
+            ArgumentNullException.ThrowIfNull(contextFactory);
 
-            if (metadataService is null)
-                throw new ArgumentNullException(paramName: nameof(metadataService));
+            ArgumentNullException.ThrowIfNull(metadataService);
 
-            if (logger is null)
-                throw new ArgumentNullException(paramName: nameof(logger));
+            ArgumentNullException.ThrowIfNull(logger);
 
             ContextFactory = contextFactory;
             ModelMetadata = metadataService;
@@ -117,8 +114,7 @@ namespace Ozym.EntityModelService.Abstractions
 
         protected static bool Exists(FinanceDbContext context, Expression<Func<T, bool>> predicate)
         {
-            if (context is null)
-                throw new ArgumentNullException(paramName: nameof(context));
+            ArgumentNullException.ThrowIfNull(context);
 
             return context.Set<T>().Any(predicate);
         }

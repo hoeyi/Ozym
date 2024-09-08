@@ -4,38 +4,36 @@
 
 <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
-<ThemedComponent>
-        <ModelPageHeader Header="@(PageTitle.CreateSingle())" />
+<ModelPageHeader Header="@(PageTitle.CreateSingle())" />
 
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+@if (IsLoading)
+{
+<LoadingSvg />
+}
+else
+{
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
 
-        <CascadingValue Value="@Model">
-            <AttributeEntryEditor TViewModelParent="AccountAttributeDtoCollection"
-                TViewModelChild="AccountAttributeGrouping"
-                TModel="AccountBaseDto"
-                TModelChild="AccountBaseAttributeDto"
-                OnCancelEditorClick="FormCancelClickHandler"
-                OnValidFormSubmit="HandleValidSubmit"
-                ModelDto="@Model.AttributeCollection"
-                Mode="EditorMode.Add">
-                <ViewModelCRUD>
-                    <AccountCRUD AccountCustodians="@CustodianDtos" Disabled="false" ReadOnly="false" />
-                </ViewModelCRUD>
-                <ViewModelChildCRUD>
-                    <AccountAttributesCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelChildCRUD>
-            </AttributeEntryEditor>
-        </CascadingValue>
-    }
-</ThemedComponent>
+<CascadingValue Value="@Model">
+    <AttributeEntryEditor TViewModelParent="AccountAttributeDtoCollection"
+        TViewModelChild="AccountAttributeGrouping"
+        TModel="AccountBaseDto"
+        TModelChild="AccountBaseAttributeDto"
+        OnCancelEditorClick="FormCancelClickHandler"
+        OnValidFormSubmit="HandleValidSubmit"
+        ModelDto="@Model.AttributeCollection"
+        Mode="EditorMode.Add">
+        <ViewModelCRUD>
+            <AccountCRUD AccountCustodians="@CustodianDtos" Disabled="false" ReadOnly="false" />
+        </ViewModelCRUD>
+        <ViewModelChildCRUD>
+            <AccountAttributesCRUD Disabled="false" ReadOnly="false" />
+        </ViewModelChildCRUD>
+    </AttributeEntryEditor>
+</CascadingValue>
+}
 
 @code {
     [Parameter]
@@ -43,7 +41,7 @@
 
     private IEnumerable<AccountCustodianDto>? CustodianDtos { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

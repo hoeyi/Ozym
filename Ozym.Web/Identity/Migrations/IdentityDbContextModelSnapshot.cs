@@ -23,56 +23,6 @@ namespace Ozym.Web.Identity.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", "WebId");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "64dbe3da-f244-4136-9921-801bdce4bef0",
-                            ConcurrencyStamp = "64e375cc-edea-4d95-b629-02334ab9f0b2",
-                            Name = "Superuser",
-                            NormalizedName = "SUPERUSER"
-                        },
-                        new
-                        {
-                            Id = "c727af09-2359-4b24-9c23-59fc1e6bbc43",
-                            ConcurrencyStamp = "68de9beb-0202-4c46-bb19-f08551b4bc63",
-                            Name = "Datareader",
-                            NormalizedName = "DATAREADER"
-                        },
-                        new
-                        {
-                            Id = "289b10ff-09a3-4bf8-9c3d-146c2d5b374a",
-                            ConcurrencyStamp = "6a2695f3-e0ea-450a-afd6-76a49e6baa37",
-                            Name = "Datawriter",
-                            NormalizedName = "DATAWRITER"
-                        });
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -179,6 +129,56 @@ namespace Ozym.Web.Identity.Migrations
                     b.ToTable("AspNetUserTokens", "WebId");
                 });
 
+            modelBuilder.Entity("Ozym.Web.Identity.Data.ApplicationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", "WebId");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "9831dc10-ddc1-455b-bc05-e19e81ee9e98",
+                            ConcurrencyStamp = "c75177d6-031e-44a9-90f3-c24497fb61ea",
+                            Name = "Superuser",
+                            NormalizedName = "SUPERUSER"
+                        },
+                        new
+                        {
+                            Id = "e8a39bc3-4a87-47b7-87df-c0d706368b05",
+                            ConcurrencyStamp = "5812bd14-f377-4c7e-ba1d-975801540ec5",
+                            Name = "Datareader",
+                            NormalizedName = "DATAREADER"
+                        },
+                        new
+                        {
+                            Id = "50d8a8e2-772b-474e-bcf3-b0108bc003b6",
+                            ConcurrencyStamp = "dbcd874d-8d47-4530-ad34-5a0b46971fed",
+                            Name = "Datawriter",
+                            NormalizedName = "DATAWRITER"
+                        });
+                });
+
             modelBuilder.Entity("Ozym.Web.Identity.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -228,6 +228,7 @@ namespace Ozym.Web.Identity.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -246,7 +247,7 @@ namespace Ozym.Web.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Ozym.Web.Identity.Data.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -273,7 +274,7 @@ namespace Ozym.Web.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Ozym.Web.Identity.Data.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)

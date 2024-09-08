@@ -2,50 +2,48 @@
 
 @inherits ModelDetail<AccountCompositeDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.UpdateSingle(Model.ShortCode).AsPageTitle())</PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.UpdateSingle(Model.ShortCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.ShortCode))" />
+    <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.ShortCode))" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic"/>
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic"/>
+    </CascadingValue>
 
-        <CascadingValue Value="@Model">
-            <AttributeEntryEditor TViewModelParent="AccountAttributeDtoCollection"
-                TViewModelChild="AccountAttributeGrouping"
-                TModel="AccountBaseDto"
-                TModelChild="AccountBaseAttributeDto"
-                OnCancelEditorClick="FormCancelClickHandler"
-                OnDeleteModelClick="FormDeleteClickHandler"
-                OnValidFormSubmit="ValidFormSubmitHandler"
-                ModelDto="@Model.AttributeCollection"
-                Mode="EditorMode.Edit">
-                <ViewModelCRUD>
-                    <AccountCompositeCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelCRUD>
-                <ViewModelChildCRUD>
-                    <AccountAttributesCRUD Disabled="false" ReadOnly="false" />
-                </ViewModelChildCRUD>
-            </AttributeEntryEditor>
-            <ContentTile>
-                <Body>
-                    <EditForm Model="@Model">
-                        <AccountCompositeMembersCRUD Accounts="@AccountDtos" Disabled="false" ReadOnly="false" />
-                    </EditForm>
-                </Body>
-            </ContentTile>
-        </CascadingValue>
-    }
-</ThemedComponent>
+    <CascadingValue Value="@Model">
+        <AttributeEntryEditor TViewModelParent="AccountAttributeDtoCollection"
+            TViewModelChild="AccountAttributeGrouping"
+            TModel="AccountBaseDto"
+            TModelChild="AccountBaseAttributeDto"
+            OnCancelEditorClick="FormCancelClickHandler"
+            OnDeleteModelClick="FormDeleteClickHandler"
+            OnValidFormSubmit="ValidFormSubmitHandler"
+            ModelDto="@Model.AttributeCollection"
+            Mode="EditorMode.Edit">
+            <ViewModelCRUD>
+                <AccountCompositeCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <AccountAttributesCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryEditor>
+        <ContentTile>
+            <Body>
+                <EditForm Model="@Model">
+                    <AccountCompositeMembersCRUD Accounts="@AccountDtos" Disabled="false" ReadOnly="false" />
+                </EditForm>
+            </Body>
+        </ContentTile>
+    </CascadingValue>
+}
 
-    @code {
+@code {
     [Parameter]
     public int ModelId { get; init; }
 
@@ -54,7 +52,7 @@
 
     private IEnumerable<AccountSimpleDto> AccountDtos { get; set; } = [];
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

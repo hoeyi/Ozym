@@ -27,7 +27,6 @@ namespace Ozym.EntityModelService
                 : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<AccountWallet>(ContextFactory, ModelMetadata, Logger);
-            GetDefaultModelDelegate = () => new AccountWallet();
         }
     }
 }

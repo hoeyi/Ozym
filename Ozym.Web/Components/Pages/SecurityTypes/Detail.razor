@@ -2,35 +2,32 @@
 
 @inherits ModelDetail<SecurityTypeDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.ReadSingle(Model.SecurityTypeName).AsPageTitle())</PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.ReadSingle(Model.SecurityTypeName).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader ActionMenu="@SectionNavigationMenu"
-                         Header="@(PageTitle.ReadSingle(Model.SecurityTypeName))" />
+    <ModelPageHeader ActionMenu="@SectionNavigationMenu"
+                        Header="@(PageTitle.ReadSingle(Model.SecurityTypeName))" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <ContentTile>
-            <Body>
-                <CascadingValue Value="@Model">
-                    <EditForm class="model-editor" Model="@Model">
-                        <SecurityTypeCRUD Disabled="false" ReadOnly="true" 
-                            SecurityTypeGroups="@SecurityTypeGroups" />
-                    </EditForm>
-                </CascadingValue>
-            </Body>
-        </ContentTile>
-    }
-</ThemedComponent>
-
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@Model">
+                <EditForm class="model-editor" Model="@Model">
+                    <SecurityTypeCRUD Disabled="false" ReadOnly="true" 
+                        SecurityTypeGroups="@SecurityTypeGroups" />
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+}
 
 @code {
     [Parameter]
@@ -38,7 +35,7 @@
 
     private IEnumerable<SecurityTypeGroupDto>? SecurityTypeGroups { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

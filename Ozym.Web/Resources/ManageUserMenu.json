@@ -38,10 +38,6 @@
         "UriRelativePath": "/User/Manage/ChangePassword"
       },
       {
-        "Caption": "External logins",
-        "UriRelativePath": "/User/Manage/ExternalLogins"
-      },
-      {
         "Caption": "Multi-factor authentication",
         "UriRelativePath": "/User/Manage/TwoFactorAuthentication"
       },

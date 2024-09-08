@@ -2,62 +2,59 @@
 
 @inherits ModelDetail<SecurityTypeGroupDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.UpdateSingle(Model.SecurityTypeGroupName).AsPageTitle())</PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.UpdateSingle(Model.SecurityTypeGroupName).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.SecurityTypeGroupName))" />
+    <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.SecurityTypeGroupName))" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
 
-        <ContentTile>
-            <Body>
-                <CascadingValue Value="@Model" >
-                    <EditForm class="model-editor" Model="@Model"
-                        OnValidSubmit="ValidFormSubmitHandler">
-                        <DataAnnotationsValidator />
-                        <ActionButtonMenu>
-                            <button type="submit" class="form-control button">
-                                @Strings.Caption_Button_Save
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="FormDeleteClickHandler"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Delete
-                            </button>
-                            <button type="button" class="form-control button"
-                                @onclick="FormCancelClickHandler"
-                                @onclick:preventDefault>
-                                @Strings.Caption_Button_Cancel
-                            </button>
-                        </ActionButtonMenu>
-                        <SecurityTypeGroupCRUD Disabled="false" ReadOnly="false" />
-                    </EditForm>
-                </CascadingValue>
-            </Body>
-        </ContentTile>
-    }
-</ThemedComponent>
-
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@Model" >
+                <EditForm class="model-editor" Model="@Model"
+                    OnValidSubmit="ValidFormSubmitHandler">
+                    <DataAnnotationsValidator />
+                    <ActionButtonMenu>
+                        <button type="submit" class="form-control button">
+                            @Strings.Caption_Button_Save
+                        </button>
+                        <button type="button" class="form-control button"
+                            @onclick="FormDeleteClickHandler"
+                            @onclick:preventDefault>
+                            @Strings.Caption_Button_Delete
+                        </button>
+                        <button type="button" class="form-control button"
+                            @onclick="FormCancelClickHandler"
+                            @onclick:preventDefault>
+                            @Strings.Caption_Button_Cancel
+                        </button>
+                    </ActionButtonMenu>
+                    <SecurityTypeGroupCRUD Disabled="false" ReadOnly="false" />
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+}
 
 @code {
     [Parameter]
     public int ModelId { get; init; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 
         try
         {
-            Model = await HttpService.GetAsync(ModelId);
+            Model = (await HttpService.GetAsync(ModelId))!;
         }
         finally
         {

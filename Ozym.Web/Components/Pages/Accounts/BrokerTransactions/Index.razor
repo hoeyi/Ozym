@@ -2,114 +2,112 @@
 
 @inherits ModelPagedIndex<BrokerTransactionDto>
 
-<ThemedComponent>
-    @if(ParentAccount is null)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.ReadMany(ParentAccount.ShortCode).AsPageTitle())</PageTitle>
+@if(ParentAccount is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.ReadMany(ParentAccount.ShortCode).AsPageTitle())</PageTitle>
 
-        <ModelPageHeader 
-            Header="@(PageTitle.ReadMany(ParentAccount.ShortCode))" ActionMenu="@SectionNavigationMenu"/>
-    }
+    <ModelPageHeader 
+        Header="@(PageTitle.ReadMany(ParentAccount.ShortCode))" ActionMenu="@SectionNavigationMenu"/>
+}
 
-    <CascadingValue Value="@ErrorMessage">
-        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-    </CascadingValue>
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
 
-    <ContentTile>
-        <TitleAlignLeft>
-            <Paginator Model="PaginationHelper"
-                IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
-        </TitleAlignLeft>
-        <Body>
-            @if (IsLoading)
-            {
-                <LoadingSvg />
-            }
-            else
-            {
-                <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
-                    <DataGridColumn 
-                        Property="@nameof(BrokerTransactionDto.TransactionCodeId)"
-                        Caption="@NameFor(x => x.TransactionCodeId)">
-                        <CellTemplate Context="model">
-                            @(TransactionCodes?
-                                .FirstOrDefault(x => x.TransactionCodeId == model.TransactionCodeId)
-                                ?.TransactionCode)
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn
-                        Property="@nameof(BrokerTransactionDto.SecurityId)"
-                        Caption="@NameFor(x => x.SecurityId)">
-                        <CellTemplate Context="model">
-                            @(TransactableSecurities?
-                                .FirstOrDefault(x => x.SecurityId == model.SecurityId)?.CurrentSymbol)
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn
-                        Property="@nameof(BrokerTransactionDto.TradeDate)"
-                        Caption="@(NameFor(x => x.TradeDate))">
-                        <CellTemplate Context="model">
-                            @model.TradeDate.ToShortDateString()
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn
-                        Property="@nameof(BrokerTransactionDto.SettleDate)"
-                        Caption="@(NameFor(x => x.SettleDate))">
-                        <CellTemplate Context="model">
-                            @model.SettleDate?.ToShortDateString()
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn Property="@nameof(BrokerTransactionDto.AcquisitionDate)"
-                                Caption="@(NameFor(x => x.AcquisitionDate))">
-                        <CellTemplate Context="model">
-                            @model.AcquisitionDate?.ToShortDateString()
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn 
-                        Property="@nameof(BrokerTransactionDto.Quantity)"
-                        Caption="@(NameFor(x => x.Quantity))">
-                        <CellTemplate Context="model">
-                            @model.Quantity
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn 
-                        Property="@nameof(BrokerTransactionDto.Amount)"
-                        Caption="@(NameFor(x => x.Amount))">
-                        <CellTemplate Context="model">
-                            @model.Amount
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn 
-                        Property="@nameof(BrokerTransactionDto.Fee)"
-                        Caption="@(NameFor(x => x.Fee))">
-                        <CellTemplate Context="model">
-                            @model.Fee
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn 
-                        Property="@nameof(BrokerTransactionDto.Withholding)"
-                        Caption="@(NameFor(x => x.Withholding))">
-                        <CellTemplate Context="model">
-                            @model.Withholding
-                        </CellTemplate>
-                    </DataGridColumn>
-                    <DataGridColumn 
-                        Property="@nameof(BrokerTransactionDto.DepSecurityId)"
-                        Caption="@NameFor(x => x.DepSecurityId)">
-                        <CellTemplate Context="model">
-                            @(DepositSecurities?
-                                .FirstOrDefault(x => x.SecurityId == model.DepSecurityId)?.CurrentSymbol)
-                        </CellTemplate>
-                    </DataGridColumn>
-                </DataGrid>
-            }
-        </Body>
-    </ContentTile>
-</ThemedComponent>
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+            IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if (IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+            <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.TransactionCodeId)"
+                    Caption="@NameFor(x => x.TransactionCodeId)">
+                    <CellTemplate Context="model">
+                        @(TransactionCodes?
+                            .FirstOrDefault(x => x.TransactionCodeId == model.TransactionCodeId)
+                            ?.TransactionCode)
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn
+                    Property="@nameof(BrokerTransactionDto.SecurityId)"
+                    Caption="@NameFor(x => x.SecurityId)">
+                    <CellTemplate Context="model">
+                        @(TransactableSecurities?
+                            .FirstOrDefault(x => x.SecurityId == model.SecurityId)?.CurrentSymbol)
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn
+                    Property="@nameof(BrokerTransactionDto.TradeDate)"
+                    Caption="@(NameFor(x => x.TradeDate))">
+                    <CellTemplate Context="model">
+                        @model.TradeDate.ToShortDateString()
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn
+                    Property="@nameof(BrokerTransactionDto.SettleDate)"
+                    Caption="@(NameFor(x => x.SettleDate))">
+                    <CellTemplate Context="model">
+                        @model.SettleDate?.ToShortDateString()
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property="@nameof(BrokerTransactionDto.AcquisitionDate)"
+                            Caption="@(NameFor(x => x.AcquisitionDate))">
+                    <CellTemplate Context="model">
+                        @model.AcquisitionDate?.ToShortDateString()
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.Quantity)"
+                    Caption="@(NameFor(x => x.Quantity))">
+                    <CellTemplate Context="model">
+                        @model.Quantity
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.Amount)"
+                    Caption="@(NameFor(x => x.Amount))">
+                    <CellTemplate Context="model">
+                        @model.Amount
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.Fee)"
+                    Caption="@(NameFor(x => x.Fee))">
+                    <CellTemplate Context="model">
+                        @model.Fee
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.Withholding)"
+                    Caption="@(NameFor(x => x.Withholding))">
+                    <CellTemplate Context="model">
+                        @model.Withholding
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.DepSecurityId)"
+                    Caption="@NameFor(x => x.DepSecurityId)">
+                    <CellTemplate Context="model">
+                        @(DepositSecurities?
+                            .FirstOrDefault(x => x.SecurityId == model.DepSecurityId)?.CurrentSymbol)
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
 
 @code {
     [Parameter]

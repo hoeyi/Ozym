@@ -3,83 +3,81 @@
 @inherits ModelPagedIndexEditor<SecurityExchangeDto>
 
 
-<ThemedComponent>
-    <PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
+<PageTitle>@(PageTitle.UpdateMany(string.Empty).AsPageTitle())</PageTitle>
 
-    <ModelPageHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
+<ModelPageHeader Header="@(PageTitle.UpdateMany(string.Empty))" />
     
-    <CascadingValue Value="@ErrorMessage">
-        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
-    </CascadingValue>
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
     
-    @if(Context is null)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <EditForm width="100%" EditContext="@Context">
-            <DataAnnotationsValidator />
-            <ActionButtonMenu>
-                <button class="form-control button"
-                    @onclick="@(async (args) => await Submit_OnClick(context, args))">
-                    @Strings.Caption_Button_Save
-                </button>
-                <button class="form-control button"
-                    @onclick="((args) => AddNew(args))">
-                    @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
-                </button>
-                <button class="form-control button" @onclick="CancelEditor_OnClick"
-                    @onclick:preventDefault>
-                    @Strings.Caption_Button_Cancel
-                </button>
-            </ActionButtonMenu>
-            <ContentTile>
-                <TitleAlignLeft>
-                    <Paginator Model="PaginationHelper"
-                        IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
-                </TitleAlignLeft>
-                <Body>
-                    @if(IsLoading)
-                    {
-                        <LoadingSvg />
-                    }
-                    else
-                    {
-                        <ValidationSummary />
-                        <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
-                            <DataGridColumn Type="DataGridCellType.Button">
-                                <CellEditTemplate Context="model">
-                                    <ToolTip Text="@Strings.Caption_Button_Delete">
-                                        <button class="form-control button icon" type="button"
-                                            @onclick="(args) => DeleteRecord(args, model)">
-                                            <IonIcon Name="close-circle" />
-                                        </button>
-                                    </ToolTip>
-                                </CellEditTemplate>
-                            </DataGridColumn>
-                            <DataGridColumn 
-                                Type="DataGridCellType.Control"
-                                Property=@nameof(SecurityExchangeDto.ExchangeCode)
-                                Caption=@(NameFor(x => x.ExchangeCode))>
-                                <CellEditTemplate Context="model">
-                                    <InputText class="form-control" @bind-Value=model.ExchangeCode />
-                                    <ValidationMessage For=@(()=> model.ExchangeCode) />
-                                </CellEditTemplate>
-                            </DataGridColumn>
-                            <DataGridColumn 
-                                Type="DataGridCellType.Control"
-                                Property=@nameof(SecurityExchangeDto.ExchangeDescription)
-                                Caption=@(NameFor(x => x.ExchangeDescription))>
-                                <CellEditTemplate Context="model">
-                                    <InputText class="form-control" @bind-Value=model.ExchangeDescription />
-                                    <ValidationMessage For=@(()=> model.ExchangeDescription) />
-                                </CellEditTemplate>
-                            </DataGridColumn>
-                        </DataGrid>
-                    }
-                </Body>
-            </ContentTile>
-        </EditForm>
-    }
-</ThemedComponent>
+@if(Context is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <EditForm width="100%" EditContext="@Context">
+        <DataAnnotationsValidator />
+        <ActionButtonMenu>
+            <button class="form-control button"
+                @onclick="@(async (args) => await Submit_OnClick(context, args))">
+                @Strings.Caption_Button_Save
+            </button>
+            <button class="form-control button"
+                @onclick="((args) => AddNew(args))">
+                @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
+            </button>
+            <button class="form-control button" @onclick="CancelEditor_OnClick"
+                @onclick:preventDefault>
+                @Strings.Caption_Button_Cancel
+            </button>
+        </ActionButtonMenu>
+        <ContentTile>
+            <TitleAlignLeft>
+                <Paginator Model="PaginationHelper"
+                    IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+            </TitleAlignLeft>
+            <Body>
+                @if(IsLoading)
+                {
+                    <LoadingSvg />
+                }
+                else
+                {
+                    <ValidationSummary />
+                    <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon" type="button"
+                                        @onclick="(args) => DeleteRecord(args, model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property=@nameof(SecurityExchangeDto.ExchangeCode)
+                            Caption=@(NameFor(x => x.ExchangeCode))>
+                            <CellEditTemplate Context="model">
+                                <InputText class="form-control" @bind-Value=model.ExchangeCode />
+                                <ValidationMessage For=@(()=> model.ExchangeCode) />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property=@nameof(SecurityExchangeDto.ExchangeDescription)
+                            Caption=@(NameFor(x => x.ExchangeDescription))>
+                            <CellEditTemplate Context="model">
+                                <InputText class="form-control" @bind-Value=model.ExchangeDescription />
+                                <ValidationMessage For=@(()=> model.ExchangeDescription) />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                }
+            </Body>
+        </ContentTile>
+    </EditForm>
+}

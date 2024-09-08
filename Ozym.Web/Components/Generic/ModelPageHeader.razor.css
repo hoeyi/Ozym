@@ -14,8 +14,7 @@
 
 .page-banner {
     display: flex;
-    padding: 0rem 0rem 0rem 0.5rem;
-    height: 2.5rem;
+    margin: 0.5rem 0.5rem 0rem 0.5rem;
 }
 
 .menu-bar {
@@ -30,11 +29,10 @@
     font-family: var(--menu-fontfamily-default);
     font-weight: bold;
     display: flex;
-    padding-left: 0.5rem;
-    padding-right: 1rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    margin: 0rem 0.5rem 0rem 0.5rem;
 }
 
 .page-banner .header span {
@@ -63,14 +61,10 @@
     align-self: center;
 }
 
-.custom-nav-link {
-    padding-left: 0.5rem;
-}
-
 .custom-nav-link:hover {
     background-color: var(--hover-color-detail);
     outline: var(--border-size) solid var(--border-hover-color);
-    outline-offset: -0.25rem;
+    outline-offset: calc(var(--border-size) * -1);
 }
 
 a {

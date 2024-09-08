@@ -114,10 +114,8 @@
         StateHasChanged();
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        await base.OnInitializedAsync();
-
         var flagsQuery = Enum.GetValues(typeof(DialogResult))
             .OfType<DialogResult>()
             .Where(v => v != DialogResult.None && DialogOptions.HasFlag(v));

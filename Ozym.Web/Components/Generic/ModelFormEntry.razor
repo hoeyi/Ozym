@@ -2,10 +2,10 @@
 
 @inherits LocalizableComponent
 
-@if(!string.IsNullOrEmpty(LabelText))
+@if(ParentForm is not null)
 {
-    <tr class="grid-container model-property-input">
-        <td class="label">
+    <div class="@GetCssClass()">
+        <div class="label">
             @if(!string.IsNullOrEmpty(ToolTipText))
             {
                 <ToolTip Text="@ToolTipText">
@@ -16,15 +16,21 @@
             {
                 @LabelText
             }
-        </td>
-        <td class="value">
+        </div>
+        <div class="value">
             @ChildContent
             @if(!SuppressValidation)
             {
                 <ValidationMessage For="@ForMember" />
             }
-        </td>
-    </tr>
+        </div>
+        @if(ModifierContent is not null)
+        {
+            <div class="modifier">
+                @ModifierContent
+            </div>
+        }
+    </div>
 }
 
 @code {
@@ -35,10 +41,16 @@
     public Expression<Func<object>> ForMember { get; set; } = default!;
 
     [Parameter]
+    public RenderFragment? ModifierContent { get; set; }
+
+    [Parameter]
     public string LabelOverride { get; set; } = string.Empty;
 
     [Parameter]
     public bool SuppressValidation { get; set; }
+
+    [CascadingParameter, EditorRequired]
+    public ModelForm<TModelDto>? ParentForm { get; set; }
 
     private string ToolTipText { get; set; } = string.Empty;
 
@@ -48,8 +60,8 @@
 
     protected override void OnInitialized()
     {
-        if (ForMember is null)
-            throw new ArgumentNullException(paramName: nameof(ForMember));
+        ArgumentNullException.ThrowIfNull(ForMember);
+        ArgumentNullException.ThrowIfNull(ParentForm);
 
         // Convert the ForMember parameter into a typed accessor for compatability with the
         // IModelMetadataService methods.
@@ -61,5 +73,22 @@
         ToolTipText = ModelMetadata.DescriptionFor(TypedAccessor);
     }
 
+    private string GetCssClass()
+    {
+        var sb = new System.Text.StringBuilder();
 
+        var gridFormat = string.Empty;
+
+        gridFormat = ParentForm!.WithFormEntryModifiers ? "col-3" : "col-2";
+        
+        sb.AppendJoin(
+            " ",
+            "form-entry",
+            "grid-container",
+            "model-property-input",
+            gridFormat
+        );
+
+        return sb.ToString().Trim();
+    }
 }

@@ -2,52 +2,50 @@
 
 @inherits ModelDetail<AccountCompositeDto>
 
-<ThemedComponent>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.CreateSingle().AsPageTitle())</PageTitle>
 
-        <ModelPageHeader Header="@(PageTitle.CreateSingle())" />
+    <ModelPageHeader Header="@(PageTitle.CreateSingle())" />
 
-        <CascadingValue Value="@ErrorMessage">
-            <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic"/>
-        </CascadingValue>
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic"/>
+    </CascadingValue>
 
-        <CascadingValue Value="@Model">
-            <EditForm class="model-editor"
-                      Model="@Model"
-                  OnValidSubmit="HandleValidSubmit">
-                <DataAnnotationsValidator />
-                <ActionButtonMenu>
-                    <button type="submit" class="form-control button">
-                        @Strings.Caption_Button_Save
-                    </button>
-                    <button type="button" class="form-control button"
-                        @onclick="FormCancelClickHandler"
-                        @onclick:preventDefault>
-                        @Strings.Caption_Button_Cancel
-                    </button>
-                </ActionButtonMenu>
-                <ContentTile>
-                    <Body>
-                        <AccountCompositeCRUD Disabled="false" ReadOnly="false" />
-                    </Body>
-                </ContentTile>
-            </EditForm>
-            <EditForm Model="@Model">
-                <ContentTile>
-                    <Body>
-                        <AccountCompositeMembersCRUD Accounts="@AccountDtos" Disabled="false" ReadOnly="false" />
-                    </Body>
-                </ContentTile>
-            </EditForm>
-        </CascadingValue>
-    }
-</ThemedComponent>
+    <CascadingValue Value="@Model">
+        <EditForm class="model-editor"
+                    Model="@Model"
+                OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ActionButtonMenu>
+                <button type="submit" class="form-control button">
+                    @Strings.Caption_Button_Save
+                </button>
+                <button type="button" class="form-control button"
+                    @onclick="FormCancelClickHandler"
+                    @onclick:preventDefault>
+                    @Strings.Caption_Button_Cancel
+                </button>
+            </ActionButtonMenu>
+            <ContentTile>
+                <Body>
+                    <AccountCompositeCRUD Disabled="false" ReadOnly="false" />
+                </Body>
+            </ContentTile>
+        </EditForm>
+        <EditForm Model="@Model">
+            <ContentTile>
+                <Body>
+                    <AccountCompositeMembersCRUD Accounts="@AccountDtos" Disabled="false" ReadOnly="false" />
+                </Body>
+            </ContentTile>
+        </EditForm>
+    </CascadingValue>
+}
 
 @code {
     [Parameter]
@@ -58,7 +56,7 @@
 
     private IEnumerable<AccountSimpleDto>? AccountDtos { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         IsLoading = true;
 

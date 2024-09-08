@@ -12,14 +12,6 @@
     z-index: 99;
 }
 
-::deep .model-attributes td {
-    padding-bottom: 0.5rem;  
-}
-
-::deep .model-attributes tr:last-child td {
-    padding-bottom: 0;
-}
-
 ::deep .model-attributes .text-area {
     overflow: auto;
     height: auto;
@@ -29,7 +21,7 @@
 ::deep .text-area {
     white-space: pre-wrap;
     height: 0.25rem;
-}
+}*/
 /*#endregion */
 
 
@@ -83,12 +75,21 @@
     border-width: 0.5px;
     border-color: var(--theme-tablecell-border-color, white);
     color: var(--theme-tablecell-fore-color, black);
+    margin-left: 1rem;
 }
 
 ::deep .datagrid-cell:not(.button):not(.control) div {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
+    ::deep .datagrid-cell.text {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    ::deep .datagrid-cell > .custom-nav-link {
+        padding-left: 0.5rem;
+    }
 
     ::deep .datagrid-cell.button .form-control.button.icon {
         background-color: var(--theme-form-control-back-color, white);
@@ -101,14 +102,17 @@
         font-size: 0.9rem;
     }
 
+    ::deep .datagrid-cell .form-control {
+        width: 100%;
+    }
+
 ::deep .datagrid-column-header {
-    padding-top: 0.25rem;
-    padding-left: 0.5rem;
+    padding: 0rem 0.5rem 0rem 0.5rem;
     background-color: var(--theme-tableheader-back-color, white);
     color: var(--theme-tableheader-fore-color, black);
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 2rem;
+    height: 1.5rem;
     font-size: 1rem;
 }
 
@@ -142,6 +146,8 @@
 
 ::deep .datagrid-row .datagrid-cell.button {
     width: 2rem;
+    height: 2rem;
+    aspect-ratio: 1/1;
     white-space: nowrap;
 }
 
@@ -166,7 +172,7 @@
 ::deep textarea.form-control {
     height: 30vh;
 }
-
+    
 ::deep .form-control:not(.label):not(.button) {
     background-color: var(--theme-form-control-back-color, white);
     border-color: var(--theme-form-control-border-color, gray);
@@ -186,7 +192,7 @@
         border-color: var(--theme-form-control-border-color, inherit) !important;
         border: 1px solid;
         color: var(--theme-text-color-0, white) !important;
-        /*padding: 0.125rem;*/
+        height: 2rem;
     }
     
     ::deep .form-control.button.icon {
@@ -203,10 +209,14 @@
             color: var(--theme-text-color-0, white) !important;
         }
 
-::deep .form-control:focus {
+/*::deep .form-control.button.icon:active {
+    background-color: var(--theme-hexcolor-primary-0, darkblue);
+}
+*/
+/*::deep .form-control:not(.button.icon):focus {
     box-shadow: 0 0 0 0.2rem var(--theme-hexcolor-secondary-2-2, blue);
 }
-
+*/
 /* Handle the style of checkboxes */
 ::deep input[type=checkbox].checkbox-themed {
     -webkit-appearance: none;
@@ -302,7 +312,7 @@ input::-webkit-inner-spin-button {
 
 /*#region Ion-Icon svg formatting */
 ::deep .ion-icon {
-    height: 100%;
+    /*height: 100%;*/
 }
 
 /*Change the fill color to light shade if not 'none' or 'transparent'.*/

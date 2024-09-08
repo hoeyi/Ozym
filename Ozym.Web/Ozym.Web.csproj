@@ -11,6 +11,7 @@
 
 
   <ItemGroup>
+	<Content Remove="Components\Pages\AccountComposites\_Imports.razor" />
 	<Content Remove="Resources\DefaultBannerMenu.json" />
 	<Content Remove="Resources\DefaultMenu.json" />
 	<Content Remove="Resources\ManageUserMenu.json" />
@@ -64,6 +65,7 @@
     <None Include="Components\Identity\Shared\UnauthorizedAccessHandler.razor" />
     <None Include="Components\Identity\Shared\ShowRecoveryCodes.razor" />
     <None Include="Components\Identity\Shared\StatusMessage.razor" />
+    <None Include="Components\Pages\AccountComposites\_Imports.razor" />
   </ItemGroup>
 
 	
@@ -112,6 +114,16 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>Strings.resx</DependentUpon>
 	</Compile>
+	<Compile Update="Identity\Data\ApplicationRole_SR.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>ApplicationRole_SR.resx</DependentUpon>
+	</Compile>
+	<Compile Update="Identity\Data\ApplicationUser_SR.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>ApplicationUser_SR.resx</DependentUpon>
+	</Compile>
 	<Compile Update="Resources\Strings.Designer.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
@@ -128,6 +140,14 @@
 	  <Generator>PublicResXFileCodeGenerator</Generator>
 	  <LastGenOutput>Strings.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
+	<EmbeddedResource Update="Identity\Data\ApplicationRole_SR.resx">
+	  <Generator>PublicResXFileCodeGenerator</Generator>
+	  <LastGenOutput>ApplicationRole_SR.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="Identity\Data\ApplicationUser_SR.resx">
+	  <Generator>PublicResXFileCodeGenerator</Generator>
+	  <LastGenOutput>ApplicationUser_SR.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
 	<EmbeddedResource Update="Resources\Strings.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>Strings.Designer.cs</LastGenOutput>
@@ -140,6 +160,16 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Components\Identity\IdentityInitializer.razor" />
+    <_ContentIncludedByDefault Remove="Components\Identity\Pages\Access\Users\Create.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\AccountComposites\_Imports.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Identity\Pages\Access\Users\Create.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Pages\AccountComposites\_Imports.razor" />
   </ItemGroup>
 
 </Project>

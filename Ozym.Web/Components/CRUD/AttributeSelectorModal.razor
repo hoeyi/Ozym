@@ -56,14 +56,10 @@ else
     /// </summary>
     private int? SelectedAttributeId { get; set; }
 
-
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        await base.OnInitializedAsync();
-
         AttributeDto = AllowableAttributes.OrderBy(a => a.DisplayName).FirstOrDefault();
     }
-
 
     /// <summary>
     /// Updates the current attribute id and <see cref="AttributeDto" />.

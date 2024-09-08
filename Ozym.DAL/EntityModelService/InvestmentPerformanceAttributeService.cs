@@ -35,11 +35,6 @@ namespace Ozym.EntityModelService
                     .Include(x => x.AttributeMember)
                     .ThenInclude(y => y.Attribute)
             };
-            GetDefaultModelDelegate = () => new InvestmentPerformanceAttributeMemberEntry()
-            {
-                FromDate = DateTime.UtcNow.Date.AddDays(-1),
-                ToDate = DateTime.UtcNow.Date
-            };
         }
     }
 }
