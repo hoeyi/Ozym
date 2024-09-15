@@ -88,6 +88,24 @@ namespace Ozym.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirmed.
+        /// </summary>
+        internal static string Caption_IsConfirmed {
+            get {
+                return ResourceManager.GetString("Caption_IsConfirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not confirmed.
+        /// </summary>
+        internal static string Caption_IsNotConfirmed {
+            get {
+                return ResourceManager.GetString("Caption_IsNotConfirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Market quotes.
         /// </summary>
         internal static string ComponentTile_MarketQuotes {

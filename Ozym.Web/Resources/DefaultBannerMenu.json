@@ -1,18 +1,28 @@
 [
   {
-    "MenuGuid": "6963AA44-5CE9-4F84-9250-AD4A134D714B",
     "IconKey": "home",
-    "UriRelativePath": "/"
+    "UriRelativePath": "/",
+    "RootOptions": {
+      "DisplayIcon": true,
+      "DisplayCaption": false,
+      "DisplayChildMenuChevron": false
+    }
   },
   {
     "IconKey": null,
     "Caption": "Accounts",
     "UriRelativePath": null,
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
     "Children": [
       {
         "IconKey": "cash",
         "Caption": "Accounts",
-        "UriRelativePath": "/accounts"
+        "UriRelativePath": "/accounts",
+        "Children": []
       },
       {
         "IconKey": null,
@@ -30,6 +40,11 @@
     "IconKey": null,
     "Caption": "Reports",
     "UriRelativePath": null,
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
     "Children": [
       {
         "IconKey": "analytics",
@@ -47,6 +62,11 @@
     "IconKey": null,
     "Caption": "Market Data",
     "UriRelativePath": "/under-construction",
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
     "Children": [
       {
         "IconKey": null,
@@ -78,6 +98,11 @@
     "IconKey": null,
     "Caption": "Reference Data",
     "UriRelativePath": null,
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
     "Children": [
       {
         "IconKey": null,
@@ -132,18 +157,65 @@
     "IconKey": null,
     "Caption": "Configuration",
     "UriRelativePath": null,
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
     "Children": [
       {
-
         "IconKey": null,
         "Caption": "Reports",
         "UriRelativePath": "/report-configurations"
+      },
+      {
+        "IconKey": "key",
+        "Caption": "Access controls",
+        "Children": [
+          {
+            "IconKey": "people-circle",
+            "Caption": "Users",
+            "UriRelativePath": "/access/users"
+          },
+          {
+            "IconKey": null,
+            "Caption": "Roles",
+            "UriRelativePath":  "/access/roles"
+          }
+        ]
       }
     ]
   },
   {
     "IconKey": null,
     "Caption": "About",
-    "UriRelativePath": "/about"
+    "UriRelativePath": "/about",
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    }
+  },
+  {
+    "IconKey": "flask",
+    "Caption": "Test components",
+    "UriRelativePath": null,
+    "RootOptions": {
+      "DisplayIcon": true,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
+    "Children": [
+      {
+        "IconKey": null,
+        "Caption": "Account (Create)",
+        "UriRelativePath": "/_test/test-account-editor"
+      },
+      {
+        "IconKey": null,
+        "Caption": "Investment model (Create)",
+        "UriRelativePath": "/_test/test-investment-model-editor"
+      }
+    ]
   }
 ]

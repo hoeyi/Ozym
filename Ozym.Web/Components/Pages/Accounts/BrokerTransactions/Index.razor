@@ -1,0 +1,208 @@
+﻿@page "/accounts/{ModelId:int}/detail/broker-transactions"
+
+@inherits ModelPagedIndex<BrokerTransactionDto>
+
+@if(ParentAccount is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.ReadMany(ParentAccount.ShortCode).AsPageTitle())</PageTitle>
+
+    <ModelPageHeader 
+        Header="@(PageTitle.ReadMany(ParentAccount.ShortCode))" ActionMenu="@SectionNavigationMenu"/>
+}
+
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
+
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+            IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if (IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+            <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.TransactionCodeId)"
+                    Caption="@NameFor(x => x.TransactionCodeId)">
+                    <CellTemplate Context="model">
+                        @(TransactionCodes?
+                            .FirstOrDefault(x => x.TransactionCodeId == model.TransactionCodeId)
+                            ?.TransactionCode)
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn
+                    Property="@nameof(BrokerTransactionDto.SecurityId)"
+                    Caption="@NameFor(x => x.SecurityId)">
+                    <CellTemplate Context="model">
+                        @(TransactableSecurities?
+                            .FirstOrDefault(x => x.SecurityId == model.SecurityId)?.CurrentSymbol)
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn
+                    Property="@nameof(BrokerTransactionDto.TradeDate)"
+                    Caption="@(NameFor(x => x.TradeDate))">
+                    <CellTemplate Context="model">
+                        @model.TradeDate.ToShortDateString()
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn
+                    Property="@nameof(BrokerTransactionDto.SettleDate)"
+                    Caption="@(NameFor(x => x.SettleDate))">
+                    <CellTemplate Context="model">
+                        @model.SettleDate?.ToShortDateString()
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property="@nameof(BrokerTransactionDto.AcquisitionDate)"
+                            Caption="@(NameFor(x => x.AcquisitionDate))">
+                    <CellTemplate Context="model">
+                        @model.AcquisitionDate?.ToShortDateString()
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.Quantity)"
+                    Caption="@(NameFor(x => x.Quantity))">
+                    <CellTemplate Context="model">
+                        @model.Quantity
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.Amount)"
+                    Caption="@(NameFor(x => x.Amount))">
+                    <CellTemplate Context="model">
+                        @model.Amount
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.Fee)"
+                    Caption="@(NameFor(x => x.Fee))">
+                    <CellTemplate Context="model">
+                        @model.Fee
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.Withholding)"
+                    Caption="@(NameFor(x => x.Withholding))">
+                    <CellTemplate Context="model">
+                        @model.Withholding
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn 
+                    Property="@nameof(BrokerTransactionDto.DepSecurityId)"
+                    Caption="@NameFor(x => x.DepSecurityId)">
+                    <CellTemplate Context="model">
+                        @(DepositSecurities?
+                            .FirstOrDefault(x => x.SecurityId == model.DepSecurityId)?.CurrentSymbol)
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
+
+@code {
+    [Parameter]
+    public int ModelId { get; init; }
+
+    [Inject]
+    protected new IHttpCollectionService<BrokerTransactionDto, int> HttpService { get; init; } = default!;
+
+    [Inject]
+    protected IQueryService QueryService { get; init; } = default!;
+
+    private IEnumerable<SecurityDtoBase>? DepositSecurities { get; set; }
+
+    private IEnumerable<BrokerTransactionCodeDtoBase>? TransactionCodes { get; set; }
+
+    private IEnumerable<SecurityDtoBase>? TransactableSecurities { get; set; }
+
+    private AccountDto? ParentAccount { get; set; }
+
+    protected override MenuRoot CreateSectionNavigationMenu() => new()
+    {
+        Children = new()
+        {
+            new MenuItem()
+            {
+                IconKey = "caret-back-circle",
+                Caption = string.Format(
+                        Strings.Caption_NavigateBackTo,
+                        ModelMetadata.GetAttribute<AccountDto, NounAttribute>()?.GetSingular()),
+                UriRelativePath = $"{IndexUriRelativePath}/{ModelId}/detail"
+            },
+            new MenuItem()
+            {
+                IconKey = "pencil",
+                Caption = string.Format(
+                    Strings.Caption_EditMany, 
+                    ModelNoun?.GetPlural()),
+                UriRelativePath = $"{IndexUriRelativePath}/{ModelId}/edit/broker-transactions"
+            }
+        }
+    };
+
+    /// <inheritdoc />
+    protected override bool PageDataIsLoading() =>
+        Entries is null
+        || ParentAccount is null
+        || DepositSecurities is null
+        || TransactionCodes is null
+        || TransactableSecurities is null;
+
+    /// <inheritdoc />
+    protected override async Task RefreshResultsAsync(
+        ParameterDto<BrokerTransactionDto>? parameter, int pageNumber, int pageSize)
+    {
+        IsLoading = true;
+
+        try
+        {
+            var transactionsQueryTask = parameter is null ?
+                HttpService.IndexAsync<AccountDto>(ModelId, pageNumber, pageSize) :
+                HttpService.SearchAsync<AccountDto>(ModelId, parameter, pageNumber, pageSize);
+
+            var securityDTOsTask = QueryService.BuiltIn
+                .GetTransactableSecurityDTOsAsync(pageSize: int.MaxValue);
+
+            var depositySecurityDTOsTask = QueryService.BuiltIn
+                .GetCashOrExternalSecurityDTOsAsync(pageSize: int.MaxValue);
+
+            var transactionCodeDTOsTask = QueryService.BuiltIn
+                .GetBrokerTransactionCodeDTOsAsync(pageSize: int.MaxValue);
+
+            await InitializationTasksAsync(
+                transactionsQueryTask,
+                securityDTOsTask,
+                depositySecurityDTOsTask,
+                transactionCodeDTOsTask);
+
+            var securityDtoResult = await securityDTOsTask;
+            var depSecurityDtoResult = await depositySecurityDTOsTask;
+            var transactionCodeDtoResult = await transactionCodeDTOsTask;
+            var recordsResult = await transactionsQueryTask;
+
+            Entries = recordsResult.Item1;
+            ParentAccount = recordsResult.Item2;
+
+            PaginationHelper.TotalItemCount = recordsResult.Item3.ItemCount;
+            PaginationHelper.ItemCount = Entries.Count();
+
+            TransactableSecurities = securityDtoResult.Item1;
+            DepositSecurities = depSecurityDtoResult.Item1;
+            TransactionCodes = transactionCodeDtoResult.Item1;
+        }
+        finally
+        {
+            IsLoading = PageDataIsLoading();
+        }
+    }
+}

@@ -1,0 +1,53 @@
+﻿@page "/report-configurations"
+
+@inherits ModelIndex<ReportConfigurationDto>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+<ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
+
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
+
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+                IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if (IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+            <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn Property=@nameof(ReportConfigurationDto.ConfigurationCode)
+                            Caption=@(NameFor(x => x.ConfigurationCode))
+                            Type=@DataGridCellType.Link>
+                    <CellTemplate Context="model">
+                        <a class="custom-nav-link" href=@(FormatDetailUri(model.ConfigurationId))
+                            @onclick:preventDefault
+                            @onclick="@(args => Detail_OnClick(model, args))">
+                            @model.ConfigurationCode
+                        </a>
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(ReportConfigurationDto.ConfigurationDescription)
+                            Caption=@(NameFor(x => x.ConfigurationDescription))>
+                    <CellTemplate Context="model">
+                        @model.ConfigurationDescription
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
+
+@code {
+    private void Detail_OnClick(ReportConfigurationDto model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.ConfigurationId));
+    }
+}

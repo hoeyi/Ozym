@@ -1,40 +1,75 @@
 name: ozym
 services:
-  ozymweb:
-    container_name: ozym-web
-    image: "${DOCKER_REGISTRY-}ozymweb:${COMMIT_TAG}"
-    build:
-      context: .
-      dockerfile: Ozym.Web/Dockerfile
-      args:
-          - COMMIT_TAG
-    depends_on:
-    - ozymdb
-
-  ozymapi:
-    container_name: ozym-api
-    image: "${DOCKER_REGISTRY-}ozymapi:${COMMIT_TAG}"
-    build:
-      context: .
-      dockerfile: Ozym.API/Dockerfile
-      args:
-          - COMMIT_TAG
-    depends_on:
-    - ozymdb
-
   ozymdb:
     container_name: ozym-db
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: example_123
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
     # mssql server image isn't available for arm64 architecture, so we use azure-sql instead
     # image: mcr.microsoft.com/azure-sql-edge:1.0.4
     # If you really want to use MS SQL Server, uncomment the following line
-    image: mcr.microsoft.com/mssql/server
+    image: mcr.microsoft.com/mssql/server:2022-latest
     restart: always
     healthcheck:
-        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P example_123 -Q 'SELECT 1' || exit 1"]
+        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $MSSQL_SA_PASSWORD -Q 'SELECT 1' || exit 1"]
         interval: 10s
         retries: 10
         start_period: 10s
         timeout: 3s     
+    volumes:
+    - ./installers/init-ozym-db.sql:/init-ozym-db.sql
+    - ./installers/init-ozym-db.sh:/init-ozym-db.sh
+
+  ozymapi:
+    container_name: ozym-api
+    environment:
+      OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
+    image: "${DOCKER_REGISTRY-}ozymapi"
+    build:
+      context: .
+      dockerfile: Ozym.API/Dockerfile
+    depends_on:
+    - ozymdb
+
+  ozymweb:
+    container_name: ozym-web
+    environment:
+      OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
+    image: "${DOCKER_REGISTRY-}ozymweb"
+    build:
+      context: .
+      dockerfile: Ozym.Web/Dockerfile
+    depends_on:
+    - ozymdb
+    - ozymapi
+    volumes:
+    - ./installers/migrate-sample-data.sh:/migrate-sample-data.sh
+
+  # Services built for debugging ozym-web. ozymdb-dev is intialized and 
+  # populated with sample data.
+  # TODO: Create a pre-built image for ozymapi so that only ozymweb-dev is built each time.
+  ozymdb-dev:
+    container_name: ozym-db-dev
+    profiles: [debug]
+    image: ghcr.io/hoeyi/ozymdb:dev-latest
+
+  ozymapi-dev:
+    container_name: ozym-api-dev
+    profiles: [debug]
+    image: ghcr.io/hoeyi/ozymapi:dev-latest
+    depends_on:
+    - ozymdb-dev
+
+  ozymweb-dev:
+    container_name: ozym-web-dev
+    profiles: [debug]
+    image: "${DOCKER_REGISTRY-}ozymweb:dev-latest"
+    build:
+      context: .
+      dockerfile: Ozym.Web/Dockerfile
+      args:
+      - CONFIGURATION=Debug
+    depends_on:
+    - ozymdb-dev
+    - ozymapi-dev 

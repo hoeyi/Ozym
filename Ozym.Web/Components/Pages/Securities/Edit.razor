@@ -1,0 +1,212 @@
+﻿@page "/securities/{ModelId:int}/edit"
+
+@inherits ModelDetail<SecurityDto>
+
+@if (IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>
+        @(PageTitle.UpdateSingle($"{Model.CurrentSymbol} {Model.SecurityDescription}").AsPageTitle())
+    </PageTitle>
+
+    <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.SecurityDescription))" />
+
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+
+    <CascadingValue Value="@Model">
+        <AttributeEntryCollectionEditor 
+            TViewModelParent="SecurityAttributeDtoCollection"
+            TViewModelChild="SecurityAttributeGrouping"
+            TModel="SecurityDto"
+            TModelChild="SecurityAttributeDto"
+            OnCancelEditorClick="FormCancelClickHandler"
+            OnDeleteModelClick="FormDeleteClickHandler"
+            OnValidFormSubmit="ValidFormSubmitHandler"
+            EffectiveDatePath="@(x => x.EffectiveDate)"
+            ModelDto="@Model.AttributeCollection"
+            Mode="EditorMode.Edit">
+            <ViewModelCRUD>
+                <SecurityCRUD 
+                    SecurityTypes="SecurityTypes"
+                    SecurityExchanges="Exchanges"
+                    Issuers="Issuers"
+                    Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <SecurityAttributesCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryCollectionEditor>
+    </CascadingValue>
+    <ContentTile>
+        <TitleAlignLeft>
+            <div>
+                @(ModelMetadata
+                    .GetAttribute<SecuritySymbolDto, NounAttribute>()
+                    .GetPlural().ToTitleCase())
+            </div>
+            <button class="form-control button icon" type="button"
+                @onclick="() => Model.Symbols.Add(new(){ SecurityId = Model.SecurityId})">
+                <IonIcon Name="add" />
+            </button>
+        </TitleAlignLeft>
+        <TitleAlignRight>
+        </TitleAlignRight>
+        <Body>
+            <EditForm width="100%" Model="@Model.Symbols">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <DataGrid Data="@Model.Symbols">
+                    <DataGridColumn Type="DataGridCellType.Button">
+                        <CellEditTemplate Context="model">
+                            <ToolTip Text="@Strings.Caption_Button_Delete">
+                                <button class="form-control button icon" type="button"
+                                    @onclick="() => Model.Symbols.Remove(model)">
+                                    <IonIcon Name="close-circle" />
+                                </button>
+                            </ToolTip>
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Property="@nameof(SecuritySymbolDto.SymbolTypeId)"
+                        Type="DataGridCellType.Control"
+                        Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.SymbolTypeId))">
+                        <CellEditTemplate Context="model" >
+                                <InputSelect class="form-control" @bind-Value="model.SymbolTypeId">
+                                @foreach(var lookup in SymbolTypes ?? [])
+                                {
+                                    <option value="@lookup.SymbolTypeId">@lookup.SymbolTypeName</option>
+                                }
+                            </InputSelect>
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Type="DataGridCellType.Control"
+                        Property="@nameof(SecuritySymbolDto.EffectiveDate)"
+                        Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.EffectiveDate))">
+                        <CellEditTemplate Context="model">
+                            <InputDate class="form-control" @bind-Value="model.EffectiveDate" />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Type="DataGridCellType.Control"
+                        Property="@nameof(SecuritySymbolDto.Ticker)"
+                        Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.Ticker))">
+                        <CellEditTemplate Context="model">
+                            <InputText class="form-control" @bind-Value="model.Ticker" />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Type="DataGridCellType.Control"
+                        Property="@nameof(SecuritySymbolDto.Cusip)"
+                        Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.Cusip))">
+                        <CellEditTemplate Context="model">
+                            <InputText class="form-control" @bind-Value="model.Cusip" />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Type="DataGridCellType.Control" 
+                        Property="@nameof(SecuritySymbolDto.CustomSymbol)"
+                        Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.CustomSymbol))">
+                        <CellEditTemplate Context="model">
+                            <InputText class="form-control" @bind-Value="model.CustomSymbol" />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn 
+                        Type="DataGridCellType.Control"
+                        Property="@nameof(SecuritySymbolDto.OptionTicker)"
+                        Caption="@(ModelMetadata.NameFor<SecuritySymbolDto>(x => x.OptionTicker))">
+                        <CellEditTemplate Context="model">
+                            <InputText class="form-control" @bind-Value="model.OptionTicker" />
+                        </CellEditTemplate>
+                    </DataGridColumn>
+                </DataGrid>
+            </EditForm>
+        </Body>
+    </ContentTile>
+}
+
+@code {
+    [Parameter]
+    public int ModelId { get; init; }
+
+    [Inject]
+    protected IQueryService QueryService { get; init; } = default!;
+
+    private IEnumerable<SecurityExchangeDto>? Exchanges { get; set; }
+
+    private IEnumerable<SecurityTypeDto>? SecurityTypes { get; set; }
+
+    private IEnumerable<SecuritySymbolTypeDto>? SymbolTypes { get; set; }
+
+    private IEnumerable<string>? Issuers { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            var exchangesQuery = HttpService.GetAllAsync<SecurityExchangeDto>();
+            var issuersQuery = QueryService.BuiltIn.GetIssuersAsync(pageSize: int.MaxValue);
+            var securityTypesQuery = QueryService.BuiltIn.GetSecurityTypeDTOsAsync(pageSize: int.MaxValue);
+            var symbolTypesQuery = QueryService.BuiltIn.GetSecuritySymbolTypesAsync(pageSize: int.MaxValue);
+
+            var securityQuery = HttpService.GetAsync(ModelId);
+
+            await Task.WhenAll(
+                exchangesQuery, securityTypesQuery, issuersQuery, securityQuery, symbolTypesQuery);
+
+            Model = await securityQuery;
+            Exchanges = await exchangesQuery;
+            SecurityTypes = (await securityTypesQuery).Item1;
+            SymbolTypes = (await symbolTypesQuery).Item1;
+            Issuers = (await issuersQuery).Item1;
+        }
+        finally
+        {
+            IsLoading =
+                Exchanges is null ||
+                SecurityTypes is null ||
+                Issuers is null ||
+                SymbolTypes is null ||
+                Model is null;
+        }
+    }
+
+    /// <summary>
+    /// Handles the delete click event of this page.
+    /// </summary>
+    private async Task FormDeleteClickHandler(MouseEventArgs args)
+    {
+        var result = RunCatchingHttpRequestException(HttpService.DeleteAsync(Model.SecurityId));
+
+        await result;
+
+        if (result.Status == TaskStatus.RanToCompletion)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
+    {
+        var result = RunCatchingHttpRequestException(HttpService.PutAsync(ModelId, Model));
+
+        await result;
+
+        if (result.Status == TaskStatus.RanToCompletion)
+            NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
+    }
+
+    /// <summary>edit
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
+        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
+}

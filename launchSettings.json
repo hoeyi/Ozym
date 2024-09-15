@@ -1,15 +1,32 @@
 {
   "profiles": {
-    "Docker Compose": {
+    "docker-compose": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "composeLaunchAction": "LaunchBrowser",
-      "composeLaunchServiceName": "ozym.web",
-      "composeLaunchUrl": "{Scheme}://{ServicePort}",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
       "serviceActions": {
-        "ozymapi": "StartDebugging",
+        "ozymapi": "StartWithoutDebugging",
         "ozymdb": "StartWithoutDebugging",
-        "ozymweb": "StartDebugging"
+        "ozymweb": "StartWithoutDebugging",
+        "ozymapi-dev": "DoNotStart",
+        "ozymdb-dev": "DoNotStart",
+        "ozymweb-dev": "DoNotStart"
+      }
+    },
+    "docker-compose-debug": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "ozymweb-dev",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
+      "serviceActions": {
+        "ozymapi": "DoNotStart",
+        "ozymdb": "DoNotStart",
+        "ozymweb": "DoNotStart",
+        "ozymapi-dev": "StartWithoutDebugging",
+        "ozymdb-dev": "StartWithoutDebugging",
+        "ozymweb-dev": "StartDebugging"
       }
     }
   }

@@ -55,7 +55,8 @@
     --theme-text-color-0: var(--theme-hexcolor-text-0);
     --theme-text-color-success: #3EC70B;
     --theme-text-color-failure: #DC0303;
-
+    --theme-text-color-warning: #DC0303;
+    --theme-text-color-danger: ;
     /*#endregion */
     /*#region Control colors */
     --theme-form-control-back-color: var(--theme-hexcolor-gray-1, gray);
@@ -69,10 +70,10 @@
     --theme-tablecell-onhover-color: var(--theme-hexcolor-primary-2);
     /*#endregion*/
     /*#region Fonts */
-    --theme-fontfamily-default: 'Cambria Math';
-    --theme-fontfamily-actionmenu: 'Arial';
-    --theme-fontfamily-tableheader: 'Cambria Math';
-    --theme-fontfamily-tablecell: 'Arial';
+    --theme-fontfamily-default: "Cambria Math",system-ui,-apple-system,sans-serif;
+    --theme-fontfamily-actionmenu: system-ui,-apple-system,sans-serif;
+    --theme-fontfamily-tableheader: "Cambria Math",system-ui,-apple-system,sans-serif;
+    --theme-fontfamily-tablecell: system-ui,-apple-system,sans-serif;
     /*#endregion */
     --theme-box-shadow-opacity: 0.3;
     /*#region Radzen.Blazor chart series override */
@@ -101,6 +102,10 @@
     --rz-series-23: #80cbc4;
     --rz-series-24: #b3e5fc;
     /*#endregion */
+}
+
+body, html {
+    font-family: system-ui,-apple-system,sans-serif;
 }
 
 body {

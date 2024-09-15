@@ -10,12 +10,6 @@ namespace Ozym.Test.EntityModelService
     public interface IModelCollectionServiceTest<T>
     {
         /// <summary>
-        /// Verifies the unit of work for generating the default <typeparamref name="T"/> model.
-        /// </summary>
-        /// <returns></returns>
-        Task GetDefault_Yields_Model_Instance();
-
-        /// <summary>
         /// Verifies the unit of work for checking a model exists using a key value.
         /// </summary>
         void ModelExists_KeyIsPresent_Returns_True();

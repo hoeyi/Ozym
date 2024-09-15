@@ -6,20 +6,18 @@
 @if (DataGridColumn is not null && DataGridRow is not null)
 {
     <td class="datagrid-cell @(DataGridColumn.Type.ToString().ToLower())">
-        <div class="cell-content">
-                @if(DataGridColumn.CellEditTemplate is not null)
-                {
-                    @DataGridColumn.CellEditTemplate(Model);
-                }
-                else if(DataGridColumn.CellTemplate is not null)
-                {
-                    @DataGridColumn.CellTemplate(Model);
-                }
-                else
-                {
-                    @DataGridColumn.GetValue(Model);
-                }
-        </div>
+        @if(DataGridColumn.CellEditTemplate is not null)
+        {
+            @DataGridColumn.CellEditTemplate(Model);
+        }
+        else if(DataGridColumn.CellTemplate is not null)
+        {
+            @DataGridColumn.CellTemplate(Model);
+        }
+        else
+        {
+            @DataGridColumn.GetValue(Model);
+        }
     </td>
 }
 

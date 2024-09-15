@@ -105,13 +105,13 @@ else
 
 @code {
     [Parameter, EditorRequired]
-    public IEnumerable<SecurityTypeGroupDto> SecurityTypeGroups { get; set; }
+    public IEnumerable<SecurityTypeGroupDto> SecurityTypeGroups { get; set; } = [];
 
     protected override void OnInitialized()
     {
         IsLoading = ModelDto is null | SecurityTypeGroups is null;
     }
 
-    private T GetItem<T>(IEnumerable<T> items, Func<T, bool> predicate)
+    private T? GetItem<T>(IEnumerable<T> items, Func<T, bool> predicate)
         => items.FirstOrDefault<T>(predicate);
 }

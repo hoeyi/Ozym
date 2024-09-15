@@ -3,18 +3,22 @@
 @typeparam TModelDto where TModelDto : class
 @attribute [CascadingTypeParameter(nameof(TModelDto))]
 
-<CascadingValue Value="@this">
-    <table class="model-attributes">
-        <tbody>
-            @ChildContent
-        </tbody>
-    </table>
+<CascadingValue Value="@ModelDto">
+    <CascadingValue Value="@this">
+        <div class="model-attributes">
+                @ChildContent
+        </div>
+    </CascadingValue>
 </CascadingValue>
 
 @code {
     [Parameter, EditorRequired] 
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
+    // TODO: Why not just use the CascadingValue directly in the child component?
     [CascadingParameter, EditorRequired]
-    public TModelDto ModelDto { get; set; }
+    public TModelDto ModelDto { get; set; } = default!;
+
+    [Parameter]
+    public bool WithFormEntryModifiers { get; set; } = false;
 }

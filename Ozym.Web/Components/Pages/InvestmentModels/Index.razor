@@ -1,0 +1,48 @@
+﻿@page "/investment-models"
+
+@inherits ModelIndex<InvestmentModelDto>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+<ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
+
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
+
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+                IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if (IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+
+            <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn Property=@nameof(InvestmentModelDtoBase.DisplayName)
+                            Caption=@(NameFor(x => x.DisplayName))
+                            Type=@DataGridCellType.Link>
+                    <CellTemplate Context="model">
+                        <a href=@(FormatDetailUri(model.InvestmentModelId)) 
+                            @onclick:preventDefault 
+                            @onclick="@(args => Detail_OnClick(model, args))">
+                            @model.DisplayName
+                        </a>
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
+
+@code {
+    private void Detail_OnClick(InvestmentModelDtoBase model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.InvestmentModelId));
+    }
+}

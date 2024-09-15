@@ -1,0 +1,73 @@
+﻿@page "/countries"
+
+@inherits ModelIndex<CountryDtoBase>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+<ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
+
+@if(SearchFields is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    @if(SearchFields.Any())
+    {
+        <ContentTile>
+            <Body>
+                <SearchInputTable TModel="CountryDtoBase"
+                    ComparisonOperators=@ComparisonOperators
+                    ExpressionBuilder=@ExpressionBuilder
+                    SearchFields=@SearchFields
+                    OnSearchClick=@(async (args) => await SearchClicked(args))>
+                </SearchInputTable>
+            </Body>
+        </ContentTile>
+    }
+}
+
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic"/>
+</CascadingValue>
+
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+                IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if (IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+            <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn Type="DataGridCellType.Link" Property=@nameof(CountryDtoBase.DisplayName)
+                            Caption=@(NameFor(x => x.DisplayName))>
+                    <CellTemplate Context="model">
+                        <a class="custom-nav-link" href=@(FormatDetailUri(model.CountryId)) 
+                            @onclick:preventDefault
+                            @onclick="@(args => Detail_OnClick(model, args))">
+                            @model.DisplayName
+                        </a>
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(CountryDtoBase.IsoCode3)
+                            Caption=@(NameFor(x => x.IsoCode3))>
+                    <CellTemplate Context="model">
+                        @model.IsoCode3
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
+
+@code {
+    private void Detail_OnClick(CountryDtoBase model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.CountryId));
+    }
+}

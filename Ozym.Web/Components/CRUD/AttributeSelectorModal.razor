@@ -44,26 +44,22 @@ else
     /// Gets or sets the allowable <see cref="ModelAttributeDto" /> for this selector.
     /// </summary>
     [Parameter]
-    public IEnumerable<ModelAttributeDto> AllowableAttributes { get; set; }
+    public IEnumerable<ModelAttributeDto> AllowableAttributes { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the <see cref="ModelAttributeDto" /> instance for this selector.
     /// </summary>
-    private ModelAttributeDto AttributeDto { get; set; }
+    private ModelAttributeDto? AttributeDto { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="int?"> identifier for the currently selected attribute.
     /// </summary>
     private int? SelectedAttributeId { get; set; }
 
-
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        await base.OnInitializedAsync();
-
         AttributeDto = AllowableAttributes.OrderBy(a => a.DisplayName).FirstOrDefault();
     }
-
 
     /// <summary>
     /// Updates the current attribute id and <see cref="AttributeDto" />.

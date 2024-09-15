@@ -1,14 +1,8 @@
-using Ozym;
-using Ozym.Web.Areas.Identity;
-using Ozym.Web.Areas.Identity.Data;
-using Ozym.Web.Data;
-using Ozym.Messaging;
-using Ichosys.DataModel;
-using Ichosys.DataModel.Expressions;
+global using System;
+using Ozym.Web.Identity.Data;
 using Ichosys.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,18 +10,12 @@ using Serilog;
 using Serilog.Extensions.Logging;
 using Serilog.Formatting.Compact;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
-using Ichosys.Blazor.Ionicons;
-using Ozym.Web;
-using Ozym.EntityModel.Context;
-using System;
 using Microsoft.AspNetCore.Hosting;
-using Ozym.UserInterface;
-using Ozym.Web.Services;
-using Ozym.BusinessLogic.Functions;
-using System.Reflection;
-using System.Linq;
-using Microsoft.AspNetCore.Connections.Features;
-using System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Routing;
+using Ozym.Web.Components;
+using Ozym.Web.Components.Identity;
 
 namespace Ozym.Web
 {
@@ -39,33 +27,48 @@ namespace Ozym.Web
 
             // Register services for dependency injection
             #region Configuration, Logger, Helper services
-            
             var logger = ConvertFromSerilogILogger(logger: BuildLogger());
+            AppDomain.CurrentDomain.UnhandledException += (sender, eventArgs) =>
+            {
+                logger?.Log(
+                    logLevel: LogLevel.Critical, 
+                    message: "Unhandled exception encountered.\n{Exception}", 
+                    eventArgs.ExceptionObject as Exception);
+                Console.WriteLine("Application terminating: {0}", eventArgs.IsTerminating);
 
-            // If Windows OS, secure appsetings.json is supported.
-            bool isWindowsOS = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            var config = BuildConfiguration(
-                logger, builder.Environment.EnvironmentName, configureSecureJson: isWindowsOS);
+            };
 
+            var config = BuildConfiguration(builder.Environment.EnvironmentName, args);
+            builder.Configuration.AddConfiguration(config);
 
             builder.Services.AddSingleton(implementationInstance: logger);
             builder.Services.AddSingleton(implementationInstance: config);
-            
+
             #endregion
 
             #region Authentication configuration
 
-            builder.Services.AddDefaultIdentity<WebAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<IdentityDbContext>();
+            builder.Services.AddCascadingAuthenticationState();
+            builder.Services.AddScoped<IdentityUserAccessor>();
+            builder.Services.AddScoped<IdentityRedirectManager>();
+            builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
-            builder.Services
-                .AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<WebAppUser>>();
+            builder.Services.AddCustomAuthentication();
+
+            builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                // Order matters here. AddRoles, then AddEntityFrameworkStore.
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<IdentityDbContext>()
+                .AddSignInManager()
+                .AddDefaultTokenProviders();
+
+            builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             #endregion
 
             // Data access services
-            var databaseProvider = config["DATABASE_PROVIDER"];
+            string databaseProvider = config["DATABASE_PROVIDER"] ?? "IN_MEMORY";
             builder.AddIdentityContextFactoryService(databaseProvider);
 
             builder.Services.AddDataAccessServices(
@@ -73,12 +76,10 @@ namespace Ozym.Web
                 developerMode: builder.Environment.IsDevelopment());
 
             // Blazor app services
-            builder.Services.AddBlazorPageServices();
+            builder.Services.AddRazorHelperServices();
+            builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
-            builder.Services.AddRazorPages();
-            builder.Services.AddServerSideBlazor();
-
-            builder.Services.AddHttpServices();
+            builder.Services.AddHttpClientServices();
 
             var app = builder.Build();
 
@@ -97,23 +98,15 @@ namespace Ozym.Web
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+            app.UseAntiforgery();
 
-            app.UseRouting();
+            app.MapRazorComponents<App>()
+                .AddInteractiveServerRenderMode();
 
-            // Configure to use authentication/authorization.
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.MapControllers();
-
-            app.MapBlazorHub();
-            app.MapFallbackToPage("/_Host");
-
-            // TODO: Figure out what this does. Is it even necessary?
-            app.Urls.Add("http://*:80");
+            // Add additional endpoints required by the Identity /Account Razor components.
+            app.MapAdditionalIdentityEndpoints();
 
             app.Run();
-
         }
     }
 
@@ -147,54 +140,36 @@ namespace Ozym.Web
         /// <summary>
         /// Builds the application <see cref="IConfiguration"/> instance.
         /// </summary>
-        /// <param name="logger">The <see cref="ILogger"/> to use.</param>
-        /// <param name="environment"></param>
-        /// <param name="configureSecureJson"></param>
+        /// <param name="environment">The application environment. One of: Development, Staging, Production.</param>
+        /// <param name="args">Command line arguments to include in configuration.</param>
         /// <returns>An <see cref="IConfiguration"/>.</returns>
         private static IConfigurationRoot BuildConfiguration(
-            ILogger logger, 
-            string environment, 
-            bool configureSecureJson = true)
+            string environment,
+            string[] args)
         {
             if (string.IsNullOrEmpty(environment))
                 throw new ArgumentNullException(paramName: nameof(environment));
 
-            IConfigurationRoot config;
-            if(configureSecureJson)
-            {
-                config = new ConfigurationBuilder()
-                .AddSecureJsonWritable(
+            var configBuilder = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .AddJsonWritable(
                     path: $"appsettings.{environment}.json",
-                    logger: logger,
                     optional: false,
-                    reloadOnChange: true)
-                .AddUserSecrets<Program>()
-                .Build();
+                    reloadOnChange: true);
 
-                string rsaKeyAddress = "_file:RsaKeyContainer";
-                if (config[rsaKeyAddress] is null)
-                {
-                    config[rsaKeyAddress] = $"E1EB57FA-8D2C-41CF-912A-DDBC39534A39";
-                    config.Commit();
-                }
+            if(environment == "Development")
+                configBuilder.AddUserSecrets<Program>(optional: true);
 
-                config["ConnectionStrings:OzymWorks"] = config["ConnectionStrings:OzymWorks"];
-                config["ConnectionStrings:OzymIdentity"] = config["ConnectionStrings:OzymIdentity"];
-                config.Commit();
-            }
-            else
-            {
-                config = new ConfigurationBuilder()
-                    .AddJsonWritable(
-                        path: $"appsettings.{environment}.json",
-                        optional: false,
-                        reloadOnChange: true)
-                    .Build();
-            }
+            if (args is not null && args.Length > 0)
+                configBuilder.AddCommandLine(args);
 
+            IConfigurationRoot config = configBuilder.Build();
+
+            config.InitializeConfiguration();
+            
             return config;
         }
-    
+        
         /// <summary>
         /// Converts a <see cref="Serilog.ILogger"/> instance to a <see cref="ILogger"/> instance.
         /// </summary>

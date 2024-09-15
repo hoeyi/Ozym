@@ -27,8 +27,6 @@ namespace Ozym.EntityModelService
                 : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<SecurityExchange>(ContextFactory, ModelMetadata, Logger);
-
-            GetDefaultModelDelegate = () => new SecurityExchange();
         }
     }
 }

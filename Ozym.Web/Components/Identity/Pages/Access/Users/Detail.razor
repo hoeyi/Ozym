@@ -1,0 +1,107 @@
+﻿@page "/access/users/{Id:guid}"
+
+@using Microsoft.EntityFrameworkCore
+
+@inherits ModelPage<ApplicationUser>
+@inject UserManager<ApplicationUser> UserManager
+@inject RoleManager<ApplicationRole> RoleManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject IdentityUserAccessor UserAccessor
+@inject IdentityRedirectManager RedirectManager
+
+@if(isLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>
+        @(titleInfo.ReadSingle(heading: user!.UserName).AsPageTitle())
+    </PageTitle>
+
+    <ModelPageHeader ActionMenu="@navMenu" Header="@(titleInfo.ReadSingle(heading: user!.UserName))" />
+
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@user">
+                <EditForm class="model-editor" Model="@user">
+                    <ApplicationUserCRUD Disabled="false" ReadOnly="true"/>
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+    <ContentTile>
+        <TitleAlignLeft>
+            <div>
+                @(NameFor(x => x.Roles))
+            </div>
+        </TitleAlignLeft>
+        <Body>
+            <DataGrid Data="@user.Roles" TModel="ApplicationRole">
+                <DataGridColumn
+                    Property="@nameof(ApplicationRole.Name)"
+                    Caption="@(ModelMetadata.NameFor<ApplicationRole>(x => x.Name))">
+                    <CellTemplate Context="role">
+                        @role.Name
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        </Body>
+    </ContentTile>
+}
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private ApplicationUser? user;
+
+    private bool isLoading = true;
+
+    private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationUser>();
+
+    private MenuRoot navMenu = default!;
+
+    protected override string IndexUriRelativePath => "/access/users";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            user = await UserManager.Users.FirstAsync(u => u.Id == Id.ToString());
+            string[] assignedRoleNames = (await UserManager.GetRolesAsync(user))?.ToArray() ?? [];
+            var assignedRoles = await RoleManager.Roles
+                .Where(x => assignedRoleNames.Contains(x.Name))
+                .ToListAsync();
+            user.SetRoles(assignedRoles);
+
+            string editCaption = Strings.Caption_EditSingle.Format(ModelNoun?.GetSingular());
+            string indexCaption = Strings.Caption_NavigateBackTo.Format(ModelNoun?.GetPlural());
+
+            navMenu = new()
+            {
+                IconKey = "reorder-four",
+                Children = new()
+                {
+                    // Add return to index button.
+                    new MenuItem()
+                    {
+                        IconKey = "caret-back-circle",
+                        Caption = indexCaption,
+                        UriRelativePath = $"{IndexUriRelativePath}"
+                    },
+                    // Add edit button.
+                    new MenuItem()
+                    {
+                        IconKey = "pencil",
+                        Caption = editCaption,
+                        UriRelativePath = $"{IndexUriRelativePath}/{Id}/edit"
+                    }
+                }
+            };
+        }
+        finally
+        {
+            isLoading = user is null || user.Roles is null;
+        }
+    }
+}

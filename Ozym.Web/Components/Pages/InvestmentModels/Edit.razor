@@ -1,0 +1,90 @@
+﻿@page "/investment-models/{ModelId:int}/edit"
+
+@inherits ModelDetail<InvestmentModelDto>
+
+@if(IsLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.UpdateSingle(Model.DisplayName).AsPageTitle())</PageTitle>
+
+    <ModelPageHeader Header="@(PageTitle.UpdateSingle(Model.DisplayName))" />
+
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+
+    <CascadingValue Value="@Model">
+        <AttributeEntryCollectionEditor 
+            TViewModelParent="InvestmentModelTargetDtoCollection"
+            TViewModelChild="InvestmentModelTargetGrouping"
+            TModel="InvestmentModelDto"
+            TModelChild="InvestmentModelTargetDto"
+            OnCancelEditorClick="FormCancelClickHandler"
+            OnDeleteModelClick="FormDeleteClickHandler"
+            OnValidFormSubmit="ValidFormSubmitHandler"
+            EffectiveDatePath="@(x => x.EffectiveDate)"
+            ModelDto="@Model.TargetCollection"
+            Mode="EditorMode.Edit">
+            <ViewModelCRUD>
+                <InvestmentModelCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelCRUD>
+            <ViewModelChildCRUD>
+                <InvestmentModelTargetCRUD Disabled="false" ReadOnly="false" />
+            </ViewModelChildCRUD>
+        </AttributeEntryCollectionEditor>
+    </CascadingValue>
+}
+
+@code {
+    [Parameter]
+    public int ModelId { get; init; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+
+        try
+        {
+            Model = await HttpService.GetAsync(ModelId);
+        }
+        finally
+        {
+            IsLoading = Model is null;
+        }
+    }
+
+    /// <summary>
+    /// Handles the delete click event of this page.
+    /// </summary>
+    private async Task FormDeleteClickHandler(MouseEventArgs args)
+    {
+        var result = RunCatchingHttpRequestException(HttpService.DeleteAsync(Model.InvestmentModelId));
+
+        await result;
+
+        if (result.Status == TaskStatus.RanToCompletion)
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
+    }
+
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
+    {
+        var result = RunCatchingHttpRequestException(HttpService.PutAsync(ModelId, Model));
+
+        await result;
+
+        if (result.Status == TaskStatus.RanToCompletion)
+            NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
+    }
+
+    /// <summary>edit
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
+        NavigationHelper.NavigateTo(FormatDetailUri(ModelId));
+}

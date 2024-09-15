@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Ozym.EntityModel;
-using Ozym.EntityModelService;
 using Ozym.EntityModelService.Query;
 using Ozym.DataTransfer.Common.Generic;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ozym.Web.Components.Common;
 using Ozym.DataTransfer.Common;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Ozym.Web.Components.Generic
 {
@@ -24,23 +22,26 @@ namespace Ozym.Web.Components.Generic
         /// data for this component.
         /// </summary>
         [Inject]
-        IQueryService? QueryService { get; set; }
+        IQueryService QueryService { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the allowable model attributes for this attribute entry view model.
         /// </summary>
-        protected IEnumerable<ModelAttributeDto> AllowableModelAttributes { get; set; }
-            = Array.Empty<ModelAttributeDto>();
+        protected IEnumerable<ModelAttributeDto> AllowableModelAttributes { get; set; } = [];
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
             IsLoading = true;
 
-            if (QueryService is null)
-                throw new ArgumentNullException(paramName: nameof(QueryService));
+            ArgumentNullException.ThrowIfNull(Model);
+            ArgumentNullException.ThrowIfNull(QueryService);
 
             AllowableModelAttributes = await QueryService.BuiltIn
                                                 .GetSupportedAttributesAsync<TViewModelParent>();
+
+            _editContext ??= new(Model);
+            _editContext.OnFieldChanged += HandleFieldChanged;
+            _formInvalid = Mode == EditorMode.Add || !_editContext.Validate();
 
             IsLoading = AllowableModelAttributes is null || !AllowableModelAttributes.Any();
         }
@@ -49,7 +50,7 @@ namespace Ozym.Web.Components.Generic
             ModelAttributeDtoBase attribute)
             => AllowableModelAttributes
                 .FirstOrDefault(x => x.AttributeId == attribute.AttributeId)
-                ?.AttributeValues;
+                ?.AttributeValues ?? [];
 
         /// <summary>
         /// Gets or sets whether the modal dialog for selecting an attribute is drawn. Default is
@@ -95,6 +96,23 @@ namespace Ozym.Web.Components.Generic
         protected void AddEntryForGrouping(ModelAttributeDto forModelAttribute)
         {
             ModelDto.AddEntryForGrouping(forModelAttribute);
+        }
+
+        private bool _formInvalid = false;
+        private EditContext? _editContext;
+        private void HandleFieldChanged(object? sender, FieldChangedEventArgs e)
+        {
+            if (_editContext is not null)
+            {
+                _formInvalid = !_editContext.Validate();
+                StateHasChanged();
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_editContext is not null)
+                _editContext.OnFieldChanged -= HandleFieldChanged;
         }
     }
 }

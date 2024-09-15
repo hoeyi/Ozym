@@ -1,0 +1,337 @@
+﻿::deep .themed-component {
+    position: static;
+}
+
+/*#region Model attributes form */
+::deep .model-attributes .custom-tooltip {
+    position: static;
+}
+
+::deep .model-attributes .custom-tooltip-text {
+    margin-left: 0.5rem;
+    z-index: 99;
+}
+
+::deep .model-attributes .text-area {
+    overflow: auto;
+    height: auto;
+    display: block;
+}
+
+::deep .text-area {
+    white-space: pre-wrap;
+    height: 0.25rem;
+}*/
+/*#endregion */
+
+
+/*#region DataGrid*/
+::deep .datagrid {
+    width: 100%;
+    overflow: scroll;
+    border-spacing: 0;
+    border-collapse: separate;
+}
+
+::deep .datagrid-cell:last-child .custom-tooltip-text {
+    right: 95%;
+    top: 55%;
+}
+
+::deep .datagrid-cell:not(:last-child) .custom-tooltip-text {
+    left: 100%;
+}
+
+::deep .datagrid th, .datagrid tr {
+    resize: both;
+}
+
+
+    ::deep .datagrid th {
+        border-color: var(--theme-tableheader-border-color, black);
+    }
+
+::deep .datagrid-cell a {
+    color: var(--theme-text-color-0, black);
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+    ::deep .datagrid-cell.link:hover {
+        background-color: var(--theme-tablecell-onhover-color, gray);
+        color: var(--theme-text-color-0, black);
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+::deep .datagrid-cell {
+    background-color: var(--theme-tablecell-back-color, white);
+    border: solid;
+    border-width: 0.5px;
+    border-color: var(--theme-tablecell-border-color, white);
+    color: var(--theme-tablecell-fore-color, black);
+    margin-left: 1rem;
+}
+
+::deep .datagrid-cell:not(.button):not(.control) div {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+    ::deep .datagrid-cell.text {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    ::deep .datagrid-cell > .custom-nav-link {
+        padding-left: 0.5rem;
+    }
+
+    ::deep .datagrid-cell.button .form-control.button.icon {
+        background-color: var(--theme-form-control-back-color, white);
+        border: none;
+        height: 2rem;
+        width: 2rem;
+    }
+
+    ::deep .datagrid tbody .datagrid-cell {
+        font-size: 0.9rem;
+    }
+
+    ::deep .datagrid-cell .form-control {
+        width: 100%;
+    }
+
+::deep .datagrid-column-header {
+    padding: 0rem 0.5rem 0rem 0.5rem;
+    background-color: var(--theme-tableheader-back-color, white);
+    color: var(--theme-tableheader-fore-color, black);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 1.5rem;
+    font-size: 1rem;
+}
+
+
+    ::deep .datagrid-column-header:first-child {
+        border-top-left-radius: 1rem;
+    }
+
+    ::deep .datagrid-column-header:last-child {
+        border-top-right-radius: 1rem;
+    }
+
+::deep .datagrid-footer {
+    font-size: 0.75rem;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+
+}
+::deep .datagrid-footer .datagrid-cell:first-child {
+    border-bottom-left-radius: 1rem;
+}
+
+::deep .datagrid-footer .datagrid-cell:first-child {
+    border-bottom-right-radius: 1rem;
+}
+
+::deep .datagrid-footer .datagrid-cell.text {
+    padding-left: 0.5rem;
+}
+
+::deep .datagrid-row .datagrid-cell.button {
+    width: 2rem;
+    height: 2rem;
+    aspect-ratio: 1/1;
+    white-space: nowrap;
+}
+
+::deep .datagrid .form-control {
+    border: none;
+}
+
+    ::deep .datagrid .form-control:not(.button) {
+        line-height: 1rem;
+    }
+
+/*#endregion*/
+
+
+/*#region Form Control*/
+::deep .form-control {
+    color: var(--theme-text-color-0, black) !important;
+    outline: none !important;
+    font-family: inherit !important;
+}
+
+::deep textarea.form-control {
+    height: 30vh;
+}
+    
+::deep .form-control:not(.label):not(.button) {
+    background-color: var(--theme-form-control-back-color, white);
+    border-color: var(--theme-form-control-border-color, gray);
+}
+
+    ::deep .form-control.label {
+        background-color: transparent;
+        border: none !important;
+        color: var(--theme-text-color-0, black) !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        outline: none !important;
+    }
+
+    ::deep .form-control.button {
+        background-color: var(--theme-hexcolor-primary-0, inherit);
+        border-color: var(--theme-form-control-border-color, inherit) !important;
+        border: 1px solid;
+        color: var(--theme-text-color-0, white) !important;
+        height: 2rem;
+    }
+    
+    ::deep .form-control.button.icon {
+        padding: 0.125rem !important;
+    }
+
+    ::deep .form-control.button.icon {
+        vertical-align: revert;
+    }
+
+        ::deep .form-control.button:hover {
+            background-color: var(--theme-hexcolor-primary-2, inherit) !important;
+            border-color: var(--theme-form-control-border-color, inherit) !important;
+            color: var(--theme-text-color-0, white) !important;
+        }
+
+/*::deep .form-control.button.icon:active {
+    background-color: var(--theme-hexcolor-primary-0, darkblue);
+}
+*/
+/*::deep .form-control:not(.button.icon):focus {
+    box-shadow: 0 0 0 0.2rem var(--theme-hexcolor-secondary-2-2, blue);
+}
+*/
+/* Handle the style of checkboxes */
+::deep input[type=checkbox].checkbox-themed {
+    -webkit-appearance: none;
+    background-color: var(--theme-form-control-back-color, white);
+    border: 1px solid;
+    border-color: var(--theme-form-control-border-color, gray);
+    color: var(--theme-hexcolor-text-0, white);
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 0.25rem;
+    /*position: static;*/
+}
+
+::deep input[type=checkbox].checkbox-themed:checked {
+    background-color: var(--theme-hexcolor-secondary-2-1, blue);
+}
+::deep input[type=checkbox].checkbox-themed:checked:after {
+    content: '\2714';
+    /*margin: 0em 0em 0.1em 0.15em;*/
+    padding-left: 0.15rem;
+    top: -0.15rem;
+    aspect-ratio: 1/1;
+    position: relative;
+    float: left;
+    max-height: 100%;
+}
+
+/* Remove the InputNumber element's selector control */
+/* Chrome, Safari, Edge, Opera */
+::deep input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+::deep input[type=number] {
+    -moz-appearance: textfield; 
+}
+
+/* Handle the width of date input controls. */
+::deep input[type=date] {
+    width: auto;
+    min-width: 155px;
+}
+
+::deep .validation-message {
+    padding-left: 0.25rem;
+    width: 100%;
+}
+
+/*#endregion*/
+
+
+/*#region Content tile, headers, & columns */
+
+::deep .content-tile {
+    background-color: var(--theme-elevation-backcolor-2, white);
+    border: 1px solid var(--theme-elevation-backcolor-2, black);
+    border-radius: 1rem;
+}
+
+/* Style the font for content tile headers */
+::deep .content-header .left {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+::deep .content-header .sub-title {
+    font-size: 0.85rem;
+}
+
+/*#endregion*/
+
+
+/*#region Modal forms/dialog */
+
+::deep .custom-modal {
+    border: 0.1rem solid var(--theme-form-control-border-color, black);
+}
+
+    ::deep .custom-modal .content-tile {
+        background-color: var(--theme-elevation-backcolor-0);
+        border: none;
+    }
+
+    ::deep .custom-modal[tag="attribute-target"] {
+        min-width: 525px;
+        min-height: 240px;
+    }
+
+/*#endregion */
+
+/*#region Ion-Icon svg formatting */
+::deep .ion-icon {
+    /*height: 100%;*/
+}
+
+/*Change the fill color to light shade if not 'none' or 'transparent'.*/
+::deep .ion-icon :not(svg[fill="none"], svg[fill="transparent"]) {
+    fill: var(--theme-text-color-0, black);
+}
+
+/*Change the stroke color to light shade if not 'none' or 'transparent'.*/
+::deep .ion-icon :not(svg[stroke="none"], svg[stroke="transparent"]) {
+    stroke: var(--theme-text-color-0, black);
+}
+
+/*Set the default background color for IonIcons.*/
+::deep .ion-icon svg {
+    background: none;
+}
+
+::deep svg {
+    vertical-align: revert !important;
+}
+/*#endregion*/
+

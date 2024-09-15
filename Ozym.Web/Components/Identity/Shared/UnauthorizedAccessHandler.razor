@@ -1,0 +1,35 @@
+﻿@inject NavigationManager NavigationManager
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // If we're not able to authenticate, redirect to login.
+        if (authenticationState is null)
+            RouteToLoginWithReturnUrl();
+        else
+        {
+            var authState = await authenticationState;
+
+            // If the user is authneticated, redirect to the access denied page instead of login.
+            if (authState?.User?.Identity is not null)
+                RouteToAccessDenied();
+            else
+                RouteToLoginWithReturnUrl();
+        }
+    }
+
+    private void RouteToLoginWithReturnUrl()
+    {
+        NavigationManager.NavigateTo(
+            uri: $"User/Login?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}", 
+            forceLoad: true);
+    }
+
+    private void RouteToAccessDenied()
+    {
+        NavigationManager.NavigateTo(uri: $"User/AccessDenied", forceLoad: true);
+    }
+}

@@ -1,0 +1,90 @@
+@page "/access/roles/"
+
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@using Ozym.Web.Identity.Data
+
+@inject NavigationManager NavigationManager
+@inject RoleManager<ApplicationRole> RoleManager
+@inject IModelMetadataService ModelMetadata
+
+<PageTitle>
+    @(titleInfo.ReadMany().ToTitleCase().AsPageTitle())
+</PageTitle>
+
+<ModelPageHeader ActionMenu="@PageMenu" Header="@(titleInfo.ReadMany())" />
+
+<ContentTile>
+    <Body>
+        <Paginator Model="PaginationHelper"
+                   IndexChanged="RefreshResultsAsync" PageSizeChanged="RefreshResultsAsync" />
+        @if (IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+            <DataGrid Data="@Roles" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn Property=@nameof(ApplicationRole.Name)
+                                Caption=@(ModelMetadata.NameFor<ApplicationRole>(x => x.Name))>
+                    <CellTemplate Context="model">
+                            @model.Name
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(ApplicationRole.NormalizedName)
+                                Caption=@(ModelMetadata.NameFor<ApplicationRole>(x => x.NormalizedName))>
+                    <CellTemplate Context="model">
+                        @model.NormalizedName
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
+
+@code {
+
+    private IEnumerable<ApplicationRole>? Roles { get; set; }
+
+    private PagerModel PaginationHelper { get; set; } = new(startingIndex: 1, pageSize: 20);
+
+    private bool IsLoading { get; set; } = true;
+
+    private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationRole>();
+
+    private MenuRoot PageMenu { get; set; } = default!;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var modelNoun = ModelMetadata.GetAttribute<ApplicationRole, NounAttribute>();
+
+        await RefreshResultsAsync();
+    }
+
+    private async Task RefreshResultsAsync()
+    {
+        IsLoading = true;
+        try
+        {
+            Roles = await RoleManager.Roles
+                .OrderBy(x => x.Name)
+                .Skip(PaginationHelper.PageSize * (PaginationHelper.PageIndex - 1))
+                .Take(PaginationHelper.PageSize)
+                .ToListAsync();
+
+            PaginationHelper.TotalItemCount = await RoleManager.Roles.CountAsync();
+            PaginationHelper.ItemCount = Roles.Count();
+        }
+        finally
+        {
+            IsLoading = Roles is null;
+        }
+    }
+
+    private string FormatDetailUri(ApplicationRole role) => $"/access/roles/{role.Id}";
+
+    private void Detail_OnClick(ApplicationRole model, MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo(FormatDetailUri(model));
+    }
+}
