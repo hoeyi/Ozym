@@ -1009,8 +1009,5 @@ namespace Ozym.EntityModel.Context.Configurations
 
             return _configurationCollection;
         }
-
-
-        
     }
 }
