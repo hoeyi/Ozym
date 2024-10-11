@@ -38,6 +38,8 @@ namespace Ozym.EntityModel.Context
             {
                 configAction.Invoke(modelBuilder);
             }
+
+            modelBuilder.MapUserDefinedFunctions();
         }
 
         /// <summary>
@@ -91,6 +93,13 @@ namespace Ozym.EntityModel.Context
                 return await database.BeginTransactionAsync();
             else
                 return null;
+        }
+
+        public static void MapUserDefinedFunctions(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasDbFunction(
+                typeof(FinanceDbContext)
+                .GetMethod(nameof(ContextExtension.BankBalance), [typeof(int), typeof(DateTime)]));
         }
     }
 } 
