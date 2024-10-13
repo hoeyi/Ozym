@@ -62,7 +62,8 @@ namespace Ozym
                 .AddCalculatorServices()
                 .AddMappingProfiles()
                 .AddModelServices()
-                .AddDbContextFactoryServices(dbProvider, developerMode);
+                .AddDbContextFactoryServices(dbProvider, developerMode)
+                .AddTestDbContextFactoryServices(dbProvider, developerMode);
 
             return services;
         }

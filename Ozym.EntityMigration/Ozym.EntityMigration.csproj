@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Ozym.EntityModel\Ozym.EntityModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Test\" />
+  </ItemGroup>
+
 </Project>

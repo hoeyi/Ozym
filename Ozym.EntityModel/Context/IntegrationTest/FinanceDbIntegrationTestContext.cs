@@ -9,10 +9,6 @@ namespace Ozym.EntityModel.Context.IntegrationTest
     /// </summary>
     public partial class FinanceDbIntegrationTestContext : FinanceDbContext
     {
-        public FinanceDbIntegrationTestContext()
-        {
-        }
-
         public FinanceDbIntegrationTestContext(DbContextOptions<FinanceDbContext> options)
             : base(options)
         {
