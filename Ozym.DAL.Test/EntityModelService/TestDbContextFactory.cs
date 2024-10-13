@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Ozym.EntityModel.Context.IntegrationTest;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.VisualBasic;
 
 namespace Ozym.Test.EntityModelService
 {
@@ -26,8 +27,10 @@ namespace Ozym.Test.EntityModelService
             {
                 if (!_databaseInitialized)
                 {
-                    using (var context = new FinanceDbContext(options: GetDbContextOptions()))
+                    using (var context = new FinanceDbIntegrationTestContext(options: GetDbContextOptions()))
                     {
+                        var migrations = context.Database.GetMigrations();
+
                         context.Database.EnsureDeleted();
                         try
                         {
@@ -58,8 +61,10 @@ namespace Ozym.Test.EntityModelService
         {
             lock(_lock)
             {
-                using (var context = new FinanceDbContext(options: GetDbContextOptions()))
+                using (var context = new FinanceDbIntegrationTestContext(options: GetDbContextOptions()))
                 {
+                    var migrations = context.Database.GetMigrations();
+
                     context.Database.EnsureDeleted();
                     try
                     {

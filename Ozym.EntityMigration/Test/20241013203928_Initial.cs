@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Ozym.EntityModel;
 
 #nullable disable
 
@@ -2573,11 +2574,15 @@ namespace Ozym.EntityMigration.Test
                 column: "SecurityTypeGroupName",
                 unique: true,
                 filter: "([SecurityTypeGroupName] IS NOT NULL)");
+
+            migrationBuilder.AddUserDefinedFunctions();
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropUserDefinedFunctions();
+
             migrationBuilder.DropTable(
                 name: "AccountAttributeMemberEntry",
                 schema: "FinanceApp");
