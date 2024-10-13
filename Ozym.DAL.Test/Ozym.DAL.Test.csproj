@@ -25,6 +25,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6">
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -42,6 +46,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ozym.DAL\Ozym.DAL.csproj" />
+    <ProjectReference Include="..\Ozym.EntityMigration\Ozym.EntityMigration.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Reflection;
+using Ozym.EntityMigration.FinanceApp;
 
 namespace Ozym.Test
 {
