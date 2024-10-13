@@ -7,10 +7,12 @@
 
   <ItemGroup>
     <None Remove="Metadata\ReportStyleSheet.xsd" />
+    <None Remove="Routines\fBankAccountBalance.sql" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Metadata\ReportStyleSheet.xsd" />
+    <EmbeddedResource Include="Routines\fBankAccountBalance.sql" />
   </ItemGroup>
 
   <ItemGroup>
