@@ -98,7 +98,7 @@ namespace Ozym.EntityModel.Context
         public static void MapUserDefinedFunctions(this ModelBuilder modelBuilder)
         {
             modelBuilder.HasDbFunction(
-                typeof(FinanceDbContext)
+                typeof(ContextExtension)
                 .GetMethod(nameof(ContextExtension.BankBalance), [typeof(int), typeof(DateTime)]));
         }
     }
