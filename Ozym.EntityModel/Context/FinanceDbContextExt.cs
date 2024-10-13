@@ -82,7 +82,7 @@ namespace Ozym.EntityModel.Context
         /// <param name="date">The balance date.</param>
         /// <returns>A <see cref="float"/> giving the balance.</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public float? BankBalance(int accountId, DateTime date) =>
+        public double? BankBalance(int accountId, DateTime date) =>
             throw new NotImplementedException();
     }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Ozym.DataTransfer;
 using Ozym.EntityModel.Context;
 using System;
@@ -12,10 +13,14 @@ namespace Ozym.BusinessLogic.Accounting
     public class AccountingService
     {
         private readonly IDbContextFactory<FinanceDbContext> _factory;
-        public AccountingService(IDbContextFactory<FinanceDbContext> factory)
+        private readonly ILogger _logger;
+        public AccountingService(IDbContextFactory<FinanceDbContext> factory, ILogger logger)
         {
             ArgumentNullException.ThrowIfNull(factory);
+            ArgumentNullException.ThrowIfNull(logger);
+
             _factory = factory;
+            _logger = logger;
         }
 
         public async Task<(IEnumerable<AccountBalanceRecord>, PaginationData)> BankBalancesAsync(
@@ -43,21 +48,29 @@ namespace Ozym.BusinessLogic.Accounting
                 PageSize = pageSize
             };
 
-            // TODO: This needs an ORDER BY clause in order to generate consistent results.
-            var result = await queryable
-                .Skip(pageSize * (pageNumber - 1))
-                .Take(pageSize)
-                .ToListAsync();
-
-            var recordResult = result.Select(x => new AccountBalanceRecord()
+            try
             {
-                AccountId = x.Id,
-                DisplayName = x.DisplayName,
-                Balance = x.Balance,
-                AsOfDate = x.AsOfDate
-            });
+                // TODO: This needs an ORDER BY clause in order to generate consistent results.
+                var result = await queryable
+                    .Skip(pageSize * (pageNumber - 1))
+                    .Take(pageSize)
+                    .ToListAsync();
+                var recordResult = result.Select(x => new AccountBalanceRecord()
+                {
+                    AccountId = x.Id,
+                    DisplayName = x.DisplayName,
+                    Balance = x.Balance,
+                    AsOfDate = x.AsOfDate
+                });
 
-            return (recordResult, pageData);
+                return (recordResult, pageData);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, message: "Query exception raised.");
+                throw;
+            }
+
         }
     }
 }

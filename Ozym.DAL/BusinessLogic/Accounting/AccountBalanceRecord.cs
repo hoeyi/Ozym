@@ -12,7 +12,7 @@ namespace Ozym.BusinessLogic.Accounting
 
         public string DisplayName { get; init; }
 
-        public float? Balance { get; init; }
+        public double? Balance { get; init; }
 
         public DateTime? AsOfDate { get; init; }
     }
