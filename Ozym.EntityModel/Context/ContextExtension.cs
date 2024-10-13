@@ -62,15 +62,5 @@ namespace Ozym.EntityModel.Context
                 .Select(x => x.Property.GetValue(entity))
                 .ToArray());
         }
-
-        /// <summary>
-        /// Returns the net balance of the given bank account as of the given date.
-        /// </summary>
-        /// <param name="accountId">The account identifer.</param>
-        /// <param name="date">The balance date.</param>
-        /// <returns>A <see cref="float"/> giving the balance.</returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static float? BankBalance(int accountId, DateTime date) =>
-            throw new NotImplementedException();
     }
 }

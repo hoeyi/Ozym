@@ -74,6 +74,16 @@ namespace Ozym.EntityModel.Context
                 optionsBuilder.UseInMemoryDatabase(IServiceCollectionExtEntityModel.app_db_name);
             }
         }
+
+        /// <summary>
+        /// Returns the net balance of the given bank account as of the given date.
+        /// </summary>
+        /// <param name="accountId">The account identifer.</param>
+        /// <param name="date">The balance date.</param>
+        /// <returns>A <see cref="float"/> giving the balance.</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public float? BankBalance(int accountId, DateTime date) =>
+            throw new NotImplementedException();
     }
 
     public static class FinanceDbContextExtension
@@ -98,8 +108,10 @@ namespace Ozym.EntityModel.Context
         public static void MapUserDefinedFunctions(this ModelBuilder modelBuilder)
         {
             modelBuilder.HasDbFunction(
-                typeof(ContextExtension)
-                .GetMethod(nameof(ContextExtension.BankBalance), [typeof(int), typeof(DateTime)]));
+                typeof(FinanceDbContext)
+                .GetMethod(nameof(FinanceDbContext.BankBalance), [typeof(int), typeof(DateTime)]))
+               .HasName("fBankAccountBalance")
+               .HasSchema("FinanceApp");
         }
     }
 } 
