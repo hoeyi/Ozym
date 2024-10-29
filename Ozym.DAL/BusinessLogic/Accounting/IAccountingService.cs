@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Ozym.BusinessLogic.Functions;
 using Ozym.DataTransfer;
+using Ozym.DataTransfer.Common;
 using Ozym.EntityModel.Context;
 using System;
 using System.Collections.Generic;
@@ -33,10 +35,11 @@ namespace Ozym.BusinessLogic.Accounting
 
             var queryable = from a in context.Accounts
                         where ids.Contains(a.AccountId)
+                        orderby a.AccountCode ascending
                         select new
                         {
                             Id = a.AccountId,
-                            DisplayName = a.AccountCode,
+                            DisplayName = a.AccountName,
                             Balance = context.BankBalance(a.AccountId, asOfDate),
                             AsOfDate = asOfDate
                         };
@@ -50,7 +53,6 @@ namespace Ozym.BusinessLogic.Accounting
 
             try
             {
-                // TODO: This needs an ORDER BY clause in order to generate consistent results.
                 var result = await queryable
                     .Skip(pageSize * (pageNumber - 1))
                     .Take(pageSize)
@@ -67,10 +69,62 @@ namespace Ozym.BusinessLogic.Accounting
             }
             catch(Exception e)
             {
-                _logger.LogError(e, message: "Query exception raised.");
+                _logger.LogError(e, message: "Unhandled query exception.");
                 throw;
             }
 
+        }
+
+        public async Task<(IEnumerable<RecentTransactionRecord>, PaginationData)> RecentBankTransactionsAsync(
+            DateTime asOfDate,
+            short dayOffset,
+            int pageNumber,
+            int pageSize,
+            params int[] ids)
+        {
+            dayOffset = BusinessMath.Clamp<short>(dayOffset, -30, -1);
+
+            using var context = await _factory.CreateDbContextAsync();
+
+#pragma warning disable IDE0037 // Use inferred member name
+            var queryable = from bt in context.BankTransactions
+                            where ids.Contains(bt.AccountId) && 
+                                bt.TransactionDate >= asOfDate.AddDays(dayOffset) &&
+                                bt.TransactionDate <= asOfDate &&
+                                bt.Account.HasBankTransaction.Equals(true)
+                            orderby bt.TransactionDate
+                            select new RecentTransactionRecord
+                            {
+                                AccountId = bt.AccountId,
+                                AccountName = bt.Account.AccountName,
+                                TransactionDate = bt.TransactionDate,
+                                Amount = bt.Amount,
+                                Comment = bt.Comment,
+                                Category = bt.TransactionCode.DisplayName
+                            };
+#pragma warning restore IDE0037 // Use inferred member name
+
+            PaginationData pageData = new()
+            {
+                ItemCount = await queryable.CountAsync(),
+                PageIndex = pageNumber,
+                PageSize = pageSize
+            };
+
+            try
+            {
+                var result = await queryable
+                    .Skip(pageSize * (pageNumber - 1))
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return (result, pageData);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, message: "Unhandled query exception.");
+                throw;
+            }
         }
     }
 }
