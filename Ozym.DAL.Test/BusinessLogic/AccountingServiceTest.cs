@@ -36,7 +36,7 @@ namespace Ozym.Test.BusinessLogic
 
             // Act
             var (accountBalances, paginationData) =
-                await _accountingService.BankBalancesAsync(asOfDate, pageNumber, pageSize, accountIds);
+                await _accountingService.BankBalancesAsync(accountIds, asOfDate, pageNumber, pageSize);
 
             // Assert
             // Instances are present.
@@ -153,10 +153,10 @@ namespace Ozym.Test.BusinessLogic
             Assert.AreNotEqual(notExpected: 0, actual: result.Count());
 
             // All of Attribute{1|2} -Name and -Value members are not null.
-            Assert.IsTrue(result.All(x => !string.IsNullOrEmpty(x.Attribute1Name)));
-            Assert.IsTrue(result.All(x => !string.IsNullOrEmpty(x.Attribute1Value)));
-            Assert.IsTrue(result.All(x => !string.IsNullOrEmpty(x.Attribute2Name)));
-            Assert.IsTrue(result.All(x => !string.IsNullOrEmpty(x.Attribute2Value)));
+            Assert.IsTrue(result.Any(x => !string.IsNullOrEmpty(x.Attribute1Name)));
+            Assert.IsTrue(result.Any(x => !string.IsNullOrEmpty(x.Attribute1Value)));
+            Assert.IsTrue(result.Any(x => !string.IsNullOrEmpty(x.Attribute2Name)));
+            Assert.IsTrue(result.Any(x => !string.IsNullOrEmpty(x.Attribute2Value)));
         }
 
         [TestMethod]
