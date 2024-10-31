@@ -19,12 +19,12 @@ RETURNS TABLE AS RETURN
         [AccountObjectID] = a0.AccountObjectID,
         [AttributeID] = m.AttributeID,
         [AttributeName] = m.DisplayName,
-        [AttributeValueDisplay] = m0.DisplayName,
+        [AttributeValue] = m0.DisplayName,
         [AttributeValueOrder] = m0.DisplayOrder,
         [AttributeMemberID] = a0.AttributeMemberID,
         [PercentWeight] = a0.[Weight],
-        [EffectiveDate] = a0.EffectiveDate,
-        [NextEffectiveDate] = isnull(n.EffectiveDate, getdate())
+        [EffectiveFromDate] = a0.EffectiveDate,
+        [EffectiveToDate] = isnull(dateadd(day, -1, n.EffectiveDate), getdate())
     from FinanceApp.AccountAttributeMemberEntry a0
     join FinanceApp.ModelAttributeMember m0 on m0.AttributeMemberID = a0.AttributeMemberID
     join FinanceApp.ModelAttribute m on m.AttributeID = m0.AttributeID
@@ -39,8 +39,7 @@ RETURNS TABLE AS RETURN
         and a1.EffectiveDate > a0.EffectiveDate
         order by a1.EffectiveDate asc
     ) n
-    -- limit results where the given date is with the effective-next effective date ranges.
-    where m.AttributeId = @AttributeId
+    where m.AttributeID = @AttributeId
     and a0.EffectiveDate <= @AsOfDate
-    and @AsOfDate < isnull(n.EffectiveDate, getdate())
+    and (n.EffectiveDate is null or @AsOfDate < n.EffectiveDate)
 )

@@ -12,7 +12,7 @@ remarks: Does not attempt to validate whether the account is a bank account.
 CREATE FUNCTION [FinanceApp].[fBankAccountBalance]
 (
     @AccountId int,
-	@Date date
+    @Date date
 )
 RETURNS float
 AS

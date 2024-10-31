@@ -16,12 +16,12 @@ RETURNS TABLE AS RETURN
         [TransactionCodeID] = a0.TransactionCodeID,
         [AttributeID] = m.AttributeID,
         [AttributeName] = m.DisplayName,
-        [AttributeValueDisplay] = m0.DisplayName,
+        [AttributeValue] = m0.DisplayName,
         [AttributeValueOrder] = m0.DisplayOrder,
         [AttributeMemberID] = a0.AttributeMemberID,
         [PercentWeight] = a0.[Weight],
-        [EffectiveDate] = a0.EffectiveDate,
-        [NextEffectiveDate] = isnull(n.EffectiveDate, getdate())
+        [EffectiveFromDate] = a0.EffectiveDate,
+        [EffectiveToDate] = isnull(dateadd(day, -1, n.EffectiveDate), getdate())
     from FinanceApp.BankTransactionCodeAttributeMemberEntry a0
     join FinanceApp.ModelAttributeMember m0 on m0.AttributeMemberID = a0.AttributeMemberID
     join FinanceApp.ModelAttribute m on m.AttributeID = m0.AttributeID
