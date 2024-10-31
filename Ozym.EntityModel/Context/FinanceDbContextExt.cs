@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using Ozym.EntityModel.Context.Configurations;
+using Ozym.EntityModel.RoutineTypes;
 
 namespace Ozym.EntityModel.Context
 {
