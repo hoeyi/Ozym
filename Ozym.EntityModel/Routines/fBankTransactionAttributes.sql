@@ -13,12 +13,12 @@ CREATE FUNCTION [FinanceApp].[fBankTransactionAttributes]
 RETURNS TABLE AS RETURN
 (
     select
-        [TransactionCodeID] = a0.TransactionCodeID,
-        [AttributeID] = m.AttributeID,
+        [TransactionCodeId] = a0.TransactionCodeID,
+        [AttributeId] = m.AttributeID,
         [AttributeName] = m.DisplayName,
         [AttributeValue] = m0.DisplayName,
         [AttributeValueOrder] = m0.DisplayOrder,
-        [AttributeMemberID] = a0.AttributeMemberID,
+        [AttributeMemberId] = a0.AttributeMemberID,
         [PercentWeight] = a0.[Weight],
         [EffectiveFromDate] = a0.EffectiveDate,
         [EffectiveToDate] = isnull(dateadd(day, -1, n.EffectiveDate), getdate())

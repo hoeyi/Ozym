@@ -16,12 +16,12 @@ CREATE FUNCTION [FinanceApp].[fAccountAttributes]
 RETURNS TABLE AS RETURN
 (
     select
-        [AccountObjectID] = a0.AccountObjectID,
-        [AttributeID] = m.AttributeID,
+        [AccountObjectId] = a0.AccountObjectID,
+        [AttributeId] = m.AttributeID,
         [AttributeName] = m.DisplayName,
         [AttributeValue] = m0.DisplayName,
         [AttributeValueOrder] = m0.DisplayOrder,
-        [AttributeMemberID] = a0.AttributeMemberID,
+        [AttributeMemberId] = a0.AttributeMemberID,
         [PercentWeight] = a0.[Weight],
         [EffectiveFromDate] = a0.EffectiveDate,
         [EffectiveToDate] = isnull(dateadd(day, -1, n.EffectiveDate), getdate())
