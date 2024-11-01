@@ -23,7 +23,6 @@
 }
 
 ::deep .form-control:not(button) {
-    /*width: 125px !important;*/
     min-width: 100px !important;
     font-size: 0.8rem;
 }
