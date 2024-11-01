@@ -1,9 +1,8 @@
 ﻿.ni-dashboard-tile {
     display: grid;
     grid-template-columns: 3fr 7fr;
-    grid-gap: 1rem;
+    grid-column-gap: 1rem;
     font-size: 0.8rem !important;
-    /*width: 100%;*/
     resize: both;   
 }
 
@@ -23,7 +22,6 @@
 }
 
 ::deep .form-control:not(button) {
-    min-width: 100px !important;
     font-size: 0.8rem;
 }
 

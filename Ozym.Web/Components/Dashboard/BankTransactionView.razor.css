@@ -1,0 +1,19 @@
+﻿.ni-dashboard-tile {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-row-gap: 0.5rem;
+}
+
+::deep .bank-trx-data .datagrid {
+    width: 100%;
+}
+
+::deep .ni-dashboard-tile form .model-attributes {
+    /*grid-column-gap: 0.5rem !important;*/
+    display: inline-flex !important; /* Ensures items are placed in columns */
+}
+
+::deep .form-control:not(button) {
+    /*min-width: 100px !important;*/
+    font-size: 0.8rem;
+}

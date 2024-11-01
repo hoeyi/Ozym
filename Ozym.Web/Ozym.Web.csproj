@@ -18,6 +18,11 @@
 	<Content Remove="Resources\PublicBannerMenu.json" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Remove="Components\Dashboard\BankTransactionView.razor.css" />
+  </ItemGroup>
+
   <ItemGroup>
 	<EmbeddedResource Include="Resources\DefaultMenu.json" />
 	<EmbeddedResource Include="Resources\DefaultBannerMenu.json" />
@@ -170,6 +175,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Components\Pages\AccountComposites\_Imports.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Components\Dashboard\BankTransactionView.razor.css" />
   </ItemGroup>
 
 </Project>
