@@ -4,6 +4,10 @@
     grid-row-gap: 0.5rem;
 }
 
+::deep .content-header .left {
+    padding-left: 0 !important;
+}
+
 ::deep .bank-trx-data .datagrid {
     width: 100%;
 }

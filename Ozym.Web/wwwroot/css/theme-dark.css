@@ -76,6 +76,9 @@
     --theme-fontfamily-tablecell: system-ui,-apple-system,sans-serif;
     /*#endregion */
     --theme-box-shadow-opacity: 0.3;
+
+    --theme-border-radius: 0.25rem;
+
     /*#region Radzen.Blazor chart series override */
     --rz-series-1: var(--theme-hexcolor-secondary-3-0, #3700b3) !important;
     --rz-series-2: var(--theme-hexcolor-secondary-3-1, #ba68c8) !important;

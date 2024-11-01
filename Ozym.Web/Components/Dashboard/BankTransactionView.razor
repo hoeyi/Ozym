@@ -75,7 +75,7 @@
                                 Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.Amount))
                                 Type=@DataGridCellType.Text>
                     <CellTemplate Context="model">
-                        @model.Amount.ToString("C2");
+                        @model.Amount.ToString("C2")
                     </CellTemplate>
                 </DataGridColumn>
                 <DataGridColumn Property=@nameof(BankTransactionResult.Comment)

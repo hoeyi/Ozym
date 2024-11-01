@@ -39,7 +39,6 @@
 }
 
 .content-header .left {
-    padding-left: 0.5rem;
     display: flex;  
     justify-content: flex-start;
 }

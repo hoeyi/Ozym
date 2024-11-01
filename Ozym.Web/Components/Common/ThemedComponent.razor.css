@@ -118,11 +118,11 @@
 
 
     ::deep .datagrid-column-header:first-child {
-        border-top-left-radius: 1rem;
+        border-top-left-radius: var(--theme-border-radius, 1rem);
     }
 
     ::deep .datagrid-column-header:last-child {
-        border-top-right-radius: 1rem;
+        border-top-right-radius: var(--theme-border-radius, 1rem);
     }
 
 ::deep .datagrid-footer {
@@ -133,11 +133,11 @@
 
 }
 ::deep .datagrid-footer .datagrid-cell:first-child {
-    border-bottom-left-radius: 1rem;
+    border-bottom-left-radius: var(--theme-border-radius, 1rem);
 }
 
 ::deep .datagrid-footer .datagrid-cell:first-child {
-    border-bottom-right-radius: 1rem;
+    border-bottom-right-radius: var(--theme-border-radius, 1rem);
 }
 
 ::deep .datagrid-footer .datagrid-cell.text {
