@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ozym.BusinessLogic.Accounting
 {
-    /// <summary>
+  /// <summary>
     /// A service for accounting-related operations in both banking and investing.
     /// </summary>
     public class AccountingService : IAccountingService
@@ -166,40 +166,40 @@ namespace Ozym.BusinessLogic.Accounting
             // Map method parameters to SqlCommand parameters.
             sqlCommand.Parameters.AddRange([
                     new()
-                    {
-                        ParameterName = "AccountIds",
-                        SqlDbType = SqlDbType.NVarChar,
-                        IsNullable = false,
-                        Value = idsDelimited
-                    },
-                    new()
-                    {
-                        ParameterName = "FromDate",
-                        SqlDbType = SqlDbType.Date,
-                        IsNullable = false,
-                        Value = fromDate
-                    },
-                    new()
-                    {
-                        ParameterName = "ThruDate",
-                        SqlDbType = SqlDbType.Date,
-                        IsNullable = false,
-                        Value = toDate
-                    },
-                    new()
-                    {
-                        ParameterName = "AttributeId1",
-                        SqlDbType = SqlDbType.Int,
-                        IsNullable = true,
-                        Value = attributeId1
-                    },
-                    new()
-                    {
-                        ParameterName = "AttributeId2",
-                        SqlDbType = SqlDbType.Int,
-                        IsNullable = true,
-                        Value = attributeId2
-                    }
+                        {
+                            ParameterName = "AccountIds",
+                            SqlDbType = SqlDbType.NVarChar,
+                            IsNullable = false,
+                            Value = idsDelimited
+                        },
+                        new()
+                        {
+                            ParameterName = "FromDate",
+                            SqlDbType = SqlDbType.Date,
+                            IsNullable = false,
+                            Value = fromDate
+                        },
+                        new()
+                        {
+                            ParameterName = "ThruDate",
+                            SqlDbType = SqlDbType.Date,
+                            IsNullable = false,
+                            Value = toDate
+                        },
+                        new()
+                        {
+                            ParameterName = "AttributeId1",
+                            SqlDbType = SqlDbType.Int,
+                            IsNullable = true,
+                            Value = attributeId1
+                        },
+                        new()
+                        {
+                            ParameterName = "AttributeId2",
+                            SqlDbType = SqlDbType.Int,
+                            IsNullable = true,
+                            Value = attributeId2
+                        }
                 ]);
             try
             {
@@ -213,16 +213,16 @@ namespace Ozym.BusinessLogic.Accounting
                 var recordResult = dataTable.AsEnumerable()
                     .Select(row => new BankTransactionResult
                     {
-                        AccountId = row.Field<int>("AccountId"),
-                        AccountName = row.Field<string>("AccountName"),
-                        TransactionCode = row.Field<string>("TransactionCode"),
-                        TransactionDate = row.Field<DateTime>("TransactionDate"),
-                        Amount = row.Field<decimal>("Amount"),
-                        Comment = row.Field<string>("Comment"),
-                        Attribute1Name = row.Field<string>("Attribute1Name"),
-                        Attribute1Value = row.Field<string>("Attribute1Value"),
-                        Attribute2Name = row.Field<string>("Attribute2Name"),
-                        Attribute2Value = row.Field<string>("Attribute2Value"),
+                        AccountId = row.Field<int>(nameof(BankTransactionResult.AccountId)),
+                        AccountName = row.Field<string>(nameof(BankTransactionResult.AccountName)),
+                        TransactionCode = row.Field<string>(nameof(BankTransactionResult.TransactionCode)),
+                        TransactionDate = row.Field<DateTime>(nameof(BankTransactionResult.TransactionDate)),
+                        Amount = row.Field<decimal>(nameof(BankTransactionResult.Amount)),
+                        Comment = row.Field<string>(nameof(BankTransactionResult.Comment)),
+                        Attribute1Name = row.Field<string>(nameof(BankTransactionResult.Attribute1Name)),
+                        Attribute1Value = row.Field<string>(nameof(BankTransactionResult.Attribute1Value)),
+                        Attribute2Name = row.Field<string>(nameof(BankTransactionResult.Attribute2Name)),
+                        Attribute2Value = row.Field<string>(nameof(BankTransactionResult.Attribute2Value)),
                     })
                     .ToList();
 
