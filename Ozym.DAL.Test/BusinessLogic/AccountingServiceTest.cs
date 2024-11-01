@@ -69,7 +69,7 @@ namespace Ozym.Test.BusinessLogic
             // Act
             var (result, paginationData) =
                 await _accountingService.RecentBankTransactionsAsync(
-                    accountIds, asOfDate, -30, pageNumber, pageSize);
+                    accountIds, asOfDate, 30, pageNumber, pageSize);
 
             // Assert
             // Instances are present.
