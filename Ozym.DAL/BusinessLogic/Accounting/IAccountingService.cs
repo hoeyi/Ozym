@@ -47,7 +47,7 @@ namespace Ozym.BusinessLogic.Accounting
         /// </summary>
         /// <param name="accountIds">The account IDs to retrieve the transactions for.</param>
         /// <param name="asOfDate">The reference date for retrieving recent transactions.</param>
-        /// <param name="dayOffset">The number of days to offset from the reference date. Limited to range [-365, -1].</param>
+        /// <param name="dayOffset">The number of days to offset from the reference date. Limited to range [0, 365].</param>
         /// <param name="pageNumber">The page number of the results.</param>
         /// <param name="pageSize">The number of records per page.</param>
         /// <returns>A tuple containing the recent bank transaction records and pagination data.</returns>
