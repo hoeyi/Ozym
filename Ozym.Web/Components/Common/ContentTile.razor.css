@@ -16,6 +16,12 @@
     width: 100%;
 }
 
+.content-header .left {
+    border-left-style: inset;
+    border-left-color: var(--theme-text-color-0, black);
+    /*margin-left: 0.25rem;*/
+    padding-left: 0.5rem;
+}
 .content-header {
     margin: 1rem;
     margin-bottom: 0px;

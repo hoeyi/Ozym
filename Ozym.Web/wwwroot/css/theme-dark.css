@@ -56,7 +56,7 @@
     --theme-text-color-success: #3EC70B;
     --theme-text-color-failure: #DC0303;
     --theme-text-color-warning: #DC0303;
-    --theme-text-color-danger: ;
+    --theme-text-color-danger: #DC0303;
     /*#endregion */
     /*#region Control colors */
     --theme-form-control-back-color: var(--theme-hexcolor-gray-1, gray);
@@ -76,9 +76,7 @@
     --theme-fontfamily-tablecell: system-ui,-apple-system,sans-serif;
     /*#endregion */
     --theme-box-shadow-opacity: 0.3;
-
     --theme-border-radius: 0.25rem;
-
     /*#region Radzen.Blazor chart series override */
     --rz-series-1: var(--theme-hexcolor-secondary-3-0, #3700b3) !important;
     --rz-series-2: var(--theme-hexcolor-secondary-3-1, #ba68c8) !important;
