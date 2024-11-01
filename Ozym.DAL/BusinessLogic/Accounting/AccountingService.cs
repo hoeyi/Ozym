@@ -110,7 +110,7 @@ namespace Ozym.BusinessLogic.Accounting
                             select new BankTransactionResult
                             {
                                 AccountId = bt.AccountId,
-                                AccountName = bt.Account.AccountName,
+                                AccountName = $"{bt.Account.AccountName} [{bt.Account.AccountCode}]",
                                 TransactionDate = bt.TransactionDate,
                                 Amount = bt.Amount,
                                 Comment = bt.Comment,
@@ -213,6 +213,7 @@ namespace Ozym.BusinessLogic.Accounting
                     .Select(row => new BankTransactionResult
                     {
                         AccountId = row.Field<int>(nameof(BankTransactionResult.AccountId)),
+                        AccountCode = row.Field<string>(nameof(BankTransactionResult.AccountCode)),
                         AccountName = row.Field<string>(nameof(BankTransactionResult.AccountName)),
                         TransactionCode = row.Field<string>(nameof(BankTransactionResult.TransactionCode)),
                         TransactionDate = row.Field<DateTime>(nameof(BankTransactionResult.TransactionDate)),

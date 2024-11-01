@@ -27,6 +27,7 @@ AS
 BEGIN
     select
         [AccountId] = bt.AccountID,
+        [AccountCode] = a.AccountObjectCode,
         [AccountName] = a.ObjectDisplayName,
         [TransactionID] = bt.TransactionID,
         [TransactionCode] = btc.TransactionCode,

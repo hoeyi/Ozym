@@ -18,6 +18,11 @@ namespace Ozym.BusinessLogic.Accounting
         public int AccountId { get; init; }
 
         /// <summary>
+        /// Gets or sets the short identifier of the account.
+        /// </summary>
+        public string AccountCode { get; init; }
+
+        /// <summary>
         /// Gets or sets the name of the account.
         /// </summary>
         [Display(
