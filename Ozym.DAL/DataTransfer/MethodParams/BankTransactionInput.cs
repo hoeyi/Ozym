@@ -21,11 +21,11 @@ namespace Ozym.DataTransfer.MethodParams
             ResourceType = typeof(DisplayString))]
         public DateTime AsOfDate { get; set; } = DateTime.Now;
 
-        [Range(minimum: 0, 365)]
         [Display(
             Name = nameof(DisplayString.BankTransactionInput_DayOffset_Name),
             Description = nameof(DisplayString.BankTransactionInput_DayOffset_Description),
             ResourceType = typeof(DisplayString))]
+        [Range(0, 365)]
         public short DayOffset { get; set; } = 30;
     }
 }

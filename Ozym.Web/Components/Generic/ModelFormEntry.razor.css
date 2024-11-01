@@ -16,6 +16,10 @@
     width: auto;
 }
 
+::deep .validation-message {
+    color: var(--theme-text-color-warning, red);
+}
+
 ::deep div.form-control:empty {
     padding: 0.7rem;
 }

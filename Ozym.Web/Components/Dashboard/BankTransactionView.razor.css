@@ -10,7 +10,7 @@
 
 ::deep .ni-dashboard-tile form .model-attributes {
     /*grid-column-gap: 0.5rem !important;*/
-    display: inline-flex !important; /* Ensures items are placed in columns */
+    display: inline-flex !important;
 }
 
 ::deep .form-control:not(button) {
