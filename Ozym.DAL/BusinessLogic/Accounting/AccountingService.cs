@@ -94,7 +94,7 @@ namespace Ozym.BusinessLogic.Accounting
             int pageNumber,
             int pageSize)
         {
-            dayOffset = BusinessMath.Clamp<short>(dayOffset, -365, -1);
+            dayOffset = BusinessMath.Clamp<short>(dayOffset, 0, 365);
 
             using var context = await _factory.CreateDbContextAsync();
 
@@ -103,7 +103,7 @@ namespace Ozym.BusinessLogic.Accounting
                                 .Include(a => a.Account)
                                 .ThenInclude(b => b.AccountNavigation)
                             where accountIds.Contains(bt.AccountId) &&
-                                bt.TransactionDate >= asOfDate.AddDays(dayOffset) &&
+                                bt.TransactionDate >= asOfDate.AddDays(dayOffset * -1) &&
                                 bt.TransactionDate <= asOfDate &&
                                 bt.Account.HasBankTransaction.Equals(true)
                             orderby bt.TransactionDate
