@@ -23,9 +23,6 @@ namespace Ozym.BusinessLogic.Accounting
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountingService"/> class.
         /// </summary>
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AccountingService"/> class.
-        /// </summary>
         /// <param name="factory">The factory used to create instances of <see cref="FinanceDbContext"/>.</param>
         /// <param name="logger">The logger to use.</param>
         public AccountingService(
@@ -103,6 +100,8 @@ namespace Ozym.BusinessLogic.Accounting
 
 #pragma warning disable IDE0037 // Use inferred member name
             var queryable = from bt in context.BankTransactions
+                                .Include(a => a.Account)
+                                .ThenInclude(b => b.AccountNavigation)
                             where accountIds.Contains(bt.AccountId) &&
                                 bt.TransactionDate >= asOfDate.AddDays(dayOffset) &&
                                 bt.TransactionDate <= asOfDate &&
