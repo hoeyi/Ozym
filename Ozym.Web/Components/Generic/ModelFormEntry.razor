@@ -52,6 +52,15 @@
     [CascadingParameter, EditorRequired]
     public ModelForm<TModelDto>? ParentForm { get; set; }
 
+    public enum Layout
+    {
+        InlineLabel,
+
+        AboveLineLabel,
+
+        InlineWithModifier
+    }
+
     private string ToolTipText { get; set; } = string.Empty;
 
     private string LabelText { get; set; } = string.Empty;
@@ -77,10 +86,14 @@
     {
         var sb = new System.Text.StringBuilder();
 
-        var gridFormat = string.Empty;
+        string gridFormat = ParentForm!.ControlLayout switch
+            {
+                Layout.InlineLabel => "col-2",
+                Layout.AboveLineLabel => "col-1",
+                Layout.InlineWithModifier => "col-3",
+                _ => string.Empty
+            };
 
-        gridFormat = ParentForm!.WithFormEntryModifiers ? "col-3" : "col-2";
-        
         sb.AppendJoin(
             " ",
             "form-entry",

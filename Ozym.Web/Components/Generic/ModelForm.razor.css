@@ -25,9 +25,9 @@
     padding: 0rem 0.125rem 0.125rem 0.5rem;
 }
 
-.model-attributes {
+/*.model-attributes {
     row-gap: 1rem;
-}
+}*/
 
 ::deep .model-attributes .text-area {
     overflow: auto;

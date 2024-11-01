@@ -20,5 +20,5 @@
     public TModelDto ModelDto { get; set; } = default!;
 
     [Parameter]
-    public bool WithFormEntryModifiers { get; set; } = false;
+    public ModelFormEntry<TModelDto>.Layout ControlLayout { get; set; } = ModelFormEntry<TModelDto>.Layout.InlineLabel;
 }

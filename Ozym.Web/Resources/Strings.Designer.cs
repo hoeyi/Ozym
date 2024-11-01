@@ -106,11 +106,11 @@ namespace Ozym.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Market quotes.
+        ///   Looks up a localized string similar to Active account balances.
         /// </summary>
-        internal static string ComponentTile_MarketQuotes {
+        internal static string ComponentTitle_AccountBalances {
             get {
-                return ResourceManager.GetString("ComponentTile_MarketQuotes", resourceCulture);
+                return ResourceManager.GetString("ComponentTitle_AccountBalances", resourceCulture);
             }
         }
         
@@ -129,6 +129,24 @@ namespace Ozym.Web.Resources {
         internal static string ComponentTitle_FutureValueCalculator {
             get {
                 return ResourceManager.GetString("ComponentTitle_FutureValueCalculator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Market quotes.
+        /// </summary>
+        internal static string ComponentTitle_MarketQuotes {
+            get {
+                return ResourceManager.GetString("ComponentTitle_MarketQuotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent bank transactions.
+        /// </summary>
+        internal static string ComponentTitle_RecentBankTransactions {
+            get {
+                return ResourceManager.GetString("ComponentTitle_RecentBankTransactions", resourceCulture);
             }
         }
         

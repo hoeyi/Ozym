@@ -1,37 +1,29 @@
 ﻿.ni-dashboard-tile {
+    display: grid;
+    grid-template-columns: 3fr 7fr;
+    grid-gap: 1rem;
     font-size: 0.8rem !important;
-    display: flex;
-    width: 100%;
+    /*width: 100%;*/
     resize: both;   
 }
 
-.ni-dashboard-tile .future-value-calculator {
-    padding-top: 1rem;
-    max-width: 300px;
-    float: left;
+.future-value-calculator {
+    display: grid;
 }
 
-.future-value-calculator .model-attributes {
-    padding-top: 0.5rem;
-}
 
 .ni-dashboard-tile .radzen-chart {
     overflow-x: auto;
     overflow-y: hidden;
-    min-width: 300px;   
-    margin-left: 16px;
     flex-grow: 1;
 }
 
-::deep .future-value-calculator .grid-container {
-    display: inline-grid;
-    grid-template-columns: 7rem auto;
-    grid-template-areas: "lbl vlu vlu vlu vlu";
-    align-items: center;
+::deep .future-value-calculator form .model-attributes {
+    grid-row-gap: 0.5rem !important;
 }
 
 ::deep .form-control:not(button) {
-    width: 150px !important;
+    /*width: 125px !important;*/
     min-width: 100px !important;
     font-size: 0.8rem;
 }

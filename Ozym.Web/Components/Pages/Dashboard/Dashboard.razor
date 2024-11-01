@@ -25,7 +25,7 @@
         </ContentTile>
         <ContentTile>
             <TitleAlignLeft>
-                <div>@Resources.Strings.ComponentTile_MarketQuotes</div>
+                <div>@Resources.Strings.ComponentTitle_MarketQuotes</div>
             </TitleAlignLeft>
             <Body>
                 @if(IsLoading)
@@ -35,6 +35,21 @@
                 else
                 {
                     <MarketQuoteTable /> 
+                }
+            </Body>
+        </ContentTile>
+        <ContentTile>
+            <TitleAlignLeft>
+                <div>@Resources.Strings.ComponentTitle_RecentBankTransactions</div>
+            </TitleAlignLeft>
+            <Body>
+                @if (IsLoading)
+                {
+                    <LoadingSvg />
+                }
+                else
+                {
+                    <BankTransactionView />
                 }
             </Body>
         </ContentTile>

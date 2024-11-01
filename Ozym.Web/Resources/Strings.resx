@@ -132,14 +132,20 @@
   <data name="Caption_IsNotConfirmed" xml:space="preserve">
     <value>Not confirmed</value>
   </data>
-  <data name="ComponentTile_MarketQuotes" xml:space="preserve">
-    <value>Market quotes</value>
+  <data name="ComponentTitle_AccountBalances" xml:space="preserve">
+    <value>Active account balances</value>
   </data>
   <data name="ComponentTitle_AttributeSelector" xml:space="preserve">
     <value>Select attribute</value>
   </data>
   <data name="ComponentTitle_FutureValueCalculator" xml:space="preserve">
     <value>Future value calculator</value>
+  </data>
+  <data name="ComponentTitle_MarketQuotes" xml:space="preserve">
+    <value>Market quotes</value>
+  </data>
+  <data name="ComponentTitle_RecentBankTransactions" xml:space="preserve">
+    <value>Recent bank transactions</value>
   </data>
   <data name="Exception_Application_Fatal" xml:space="preserve">
     <value>Host terminated unexpectedly.</value>

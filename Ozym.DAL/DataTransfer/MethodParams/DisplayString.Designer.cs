@@ -61,6 +61,60 @@ namespace Ozym.DataTransfer.MethodParams {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account to filter results to.
+        /// </summary>
+        public static string BankTransactionInput_AccountId_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_AccountId_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        public static string BankTransactionInput_AccountId_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_AccountId_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference date for the offset range.
+        /// </summary>
+        public static string BankTransactionInput_AsOfDate_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_AsOfDate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to As of date.
+        /// </summary>
+        public static string BankTransactionInput_AsOfDate_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_AsOfDate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of days prior to as of date to include.
+        /// </summary>
+        public static string BankTransactionInput_DayOffset_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_DayOffset_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Day offset.
+        /// </summary>
+        public static string BankTransactionInput_DayOffset_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_DayOffset_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Constant growth rate applied to balance.
         /// </summary>
         public static string FutureValueInput_GrowthRate_Description {
