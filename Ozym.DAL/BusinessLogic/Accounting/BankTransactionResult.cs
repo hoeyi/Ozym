@@ -8,7 +8,7 @@ using Ozym.EntityModel.RoutineTypes;
 namespace Ozym.BusinessLogic.Accounting
 {
     /// <inheritdoc/>
-    public record BankTransactionRecord : ReportBankTransaction
+    public record BankTransactionResult : ReportBankTransaction
     {
     }
 }

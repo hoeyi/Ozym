@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ozym.BusinessLogic.Accounting
 {
-    public record AccountBalanceRecord
+    public record AccountBalanceResult
     {
         public int AccountId { get; init; }
 

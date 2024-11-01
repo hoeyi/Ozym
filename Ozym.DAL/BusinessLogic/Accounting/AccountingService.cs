@@ -40,7 +40,7 @@ namespace Ozym.BusinessLogic.Accounting
         }
 
         /// <inheritdoc/>
-        public async Task<(IEnumerable<AccountBalanceRecord>, PaginationData)> BankBalancesAsync(
+        public async Task<(IEnumerable<AccountBalanceResult>, PaginationData)> BankBalancesAsync(
             int[] accountIds,
             DateTime asOfDate,
             int pageNumber,
@@ -71,7 +71,7 @@ namespace Ozym.BusinessLogic.Accounting
                     .Skip(pageSize * (pageNumber - 1))
                     .Take(pageSize)
                     .ToListAsync();
-                var recordResult = result.Select(x => new AccountBalanceRecord()
+                var recordResult = result.Select(x => new AccountBalanceResult()
                 {
                     AccountId = x.Id,
                     DisplayName = x.DisplayName,
@@ -90,7 +90,7 @@ namespace Ozym.BusinessLogic.Accounting
         }
 
         /// <inheritdoc/>
-        public async Task<(IEnumerable<BankTransactionRecord>, PaginationData)> RecentBankTransactionsAsync(
+        public async Task<(IEnumerable<BankTransactionResult>, PaginationData)> RecentBankTransactionsAsync(
             int[] accountIds,
             DateTime asOfDate,
             short dayOffset,
@@ -108,7 +108,7 @@ namespace Ozym.BusinessLogic.Accounting
                                 bt.TransactionDate <= asOfDate &&
                                 bt.Account.HasBankTransaction.Equals(true)
                             orderby bt.TransactionDate
-                            select new BankTransactionRecord
+                            select new BankTransactionResult
                             {
                                 AccountId = bt.AccountId,
                                 AccountName = bt.Account.AccountName,
@@ -143,7 +143,7 @@ namespace Ozym.BusinessLogic.Accounting
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<BankTransactionRecord>> BankTransactionReportAsync(
+        public async Task<IEnumerable<BankTransactionResult>> BankTransactionReportAsync(
             int[] accountIds,
             DateTime fromDate,
             DateTime toDate,
@@ -211,7 +211,7 @@ namespace Ozym.BusinessLogic.Accounting
                 }
 
                 var recordResult = dataTable.AsEnumerable()
-                    .Select(row => new BankTransactionRecord
+                    .Select(row => new BankTransactionResult
                     {
                         AccountId = row.Field<int>("AccountId"),
                         AccountName = row.Field<string>("AccountName"),

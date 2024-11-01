@@ -20,7 +20,7 @@ namespace Ozym.BusinessLogic.Accounting
         /// <param name="pageNumber">The page number of the results.</param>
         /// <param name="pageSize">The number of records per page.</param>
         /// <returns>A tuple containing the account balance records and pagination data.</returns>
-        Task<(IEnumerable<AccountBalanceRecord>, PaginationData)> BankBalancesAsync(
+        Task<(IEnumerable<AccountBalanceResult>, PaginationData)> BankBalancesAsync(
             int[] accountIds,
             DateTime asOfDate, 
             int pageNumber, 
@@ -35,7 +35,7 @@ namespace Ozym.BusinessLogic.Accounting
         /// <param name="attributeId1">Optional attribute ID 1 to include in the result set.</param>
         /// <param name="attributeId2">Optional attribute ID 2 to include in the result set.</param>
         /// <returns>The bank transaction records.</returns>
-        Task<IEnumerable<BankTransactionRecord>> BankTransactionReportAsync(
+        Task<IEnumerable<BankTransactionResult>> BankTransactionReportAsync(
             int[] accountIds, 
             DateTime fromDate, 
             DateTime toDate, 
@@ -51,7 +51,7 @@ namespace Ozym.BusinessLogic.Accounting
         /// <param name="pageNumber">The page number of the results.</param>
         /// <param name="pageSize">The number of records per page.</param>
         /// <returns>A tuple containing the recent bank transaction records and pagination data.</returns>
-        Task<(IEnumerable<BankTransactionRecord>, PaginationData)> RecentBankTransactionsAsync(
+        Task<(IEnumerable<BankTransactionResult>, PaginationData)> RecentBankTransactionsAsync(
             int[] accountIds, 
             DateTime asOfDate, 
             short dayOffset, 
