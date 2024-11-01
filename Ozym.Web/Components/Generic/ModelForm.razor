@@ -6,8 +6,8 @@
 
 <CascadingValue Value="@ModelDto">
     <CascadingValue Value="@this">
-        <div class="@GetCssClass()">
-                @ChildContent
+        <div class="@GetCssClass()" @attributes="Attributes">
+            @ChildContent
         </div>
     </CascadingValue>
 </CascadingValue>
@@ -38,6 +38,11 @@
     [Parameter]
     public ModelFormEntry<TModelDto>.Layout ControlLayout { get; set; } = ModelFormEntry<TModelDto>.Layout.InlineLabel;
 
+    /// <summary>
+    /// Gets or sets the attributes to apply to the <ModelForm> element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> Attributes { get; set; } = default!;
     /// <summary>
     /// Use to pass instruction on the column count to create in the model form.
     /// </summary>

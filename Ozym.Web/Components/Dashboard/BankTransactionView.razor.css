@@ -2,18 +2,13 @@
     display: grid;
     grid-template-rows: 1fr;
     grid-row-gap: 0.5rem;
+    font-size: 0.8rem !important;
 }
 
-::deep .bank-trx-data .datagrid {
+.ni-dashboard-tile .datagrid {
     width: 100%;
 }
 
-::deep .ni-dashboard-tile form .model-attributes {
-    /*grid-column-gap: 0.5rem !important;*/
-    display: inline-flex !important;
-}
-
 ::deep .form-control:not(button) {
-    /*min-width: 100px !important;*/
     font-size: 0.8rem;
 }

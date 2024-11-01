@@ -5,7 +5,7 @@
 <div class="ni-dashboard-tile">
     <EditForm Model="_inputModel" OnValidSubmit="GetTransactionsAsync" id="@_formGuid">
         <DataAnnotationsValidator />
-        <ModelForm TModelDto="BankTransactionInput" 
+        <ModelForm TModelDto="BankTransactionInput" style="display: inline-flex;" 
             Columns="ModelForm<BankTransactionInput>.ColumnLayout.Three"
             ControlLayout="ModelFormEntry<BankTransactionInput>.Layout.AboveLineLabel">
             <ModelFormEntry ForMember="@(() => _inputModel.AccountId)">
@@ -48,45 +48,43 @@
     {
         <Paginator Model="_transactionPager"
                    IndexChanged="GetTransactionsAsync" PageSizeChanged="GetTransactionsAsync" />
-        <div class="bank-trx-data">
-            <DataGrid Data="@Transactions" FootNote="@_transactionPager.RecordReport">
-                <DataGridColumn Property=@nameof(BankTransactionResult.AccountName)
-                                Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.AccountName))
-                                Type=@DataGridCellType.Text>
-                    <CellTemplate Context="model">
-                        @model.AccountName
-                    </CellTemplate>
-                </DataGridColumn>
-                <DataGridColumn Property=@nameof(BankTransactionResult.TransactionDate)
-                                Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.TransactionDate))
-                                Type=@DataGridCellType.Text>
-                    <CellTemplate Context="model">
-                        @model.TransactionDate.ToShortDateString()
-                    </CellTemplate>
-                </DataGridColumn>
-                <DataGridColumn Property=@nameof(BankTransactionResult.TransactionCode)
-                                Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.TransactionCode))
-                                Type=@DataGridCellType.Text>
-                    <CellTemplate Context="model">
-                        @model.TransactionCode
-                    </CellTemplate>
-                </DataGridColumn>
-                <DataGridColumn Property=@nameof(BankTransactionResult.Amount)
-                                Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.Amount))
-                                Type=@DataGridCellType.Text>
-                    <CellTemplate Context="model">
-                        @model.Amount.ToString("C2")
-                    </CellTemplate>
-                </DataGridColumn>
-                <DataGridColumn Property=@nameof(BankTransactionResult.Comment)
-                                Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.Comment))
-                                Type=@DataGridCellType.Text>
-                    <CellTemplate Context="model">
-                        @model.Comment
-                    </CellTemplate>
-                </DataGridColumn>
-            </DataGrid>
-        </div>
+        <DataGrid Data="@Transactions" FootNote="@_transactionPager.RecordReport">
+            <DataGridColumn Property=@nameof(BankTransactionResult.AccountName)
+                            Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.AccountName))
+                            Type=@DataGridCellType.Text>
+                <CellTemplate Context="model">
+                    @model.AccountName
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn Property=@nameof(BankTransactionResult.TransactionDate)
+                            Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.TransactionDate))
+                            Type=@DataGridCellType.Text>
+                <CellTemplate Context="model">
+                    @model.TransactionDate.ToShortDateString()
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn Property=@nameof(BankTransactionResult.TransactionCode)
+                            Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.TransactionCode))
+                            Type=@DataGridCellType.Text>
+                <CellTemplate Context="model">
+                    @model.TransactionCode
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn Property=@nameof(BankTransactionResult.Amount)
+                            Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.Amount))
+                            Type=@DataGridCellType.Text>
+                <CellTemplate Context="model">
+                    @model.Amount.ToString("C2")
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn Property=@nameof(BankTransactionResult.Comment)
+                            Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.Comment))
+                            Type=@DataGridCellType.Text>
+                <CellTemplate Context="model">
+                    @model.Comment
+                </CellTemplate>
+            </DataGridColumn>
+        </DataGrid>
     }
 </div>
 
