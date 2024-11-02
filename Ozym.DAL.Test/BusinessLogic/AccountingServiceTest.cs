@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Ozym.BusinessLogic.Accounting;
 using Ozym.DataTransfer;
@@ -257,6 +258,24 @@ namespace Ozym.Test.BusinessLogic
             // All of Attribute2 -Name and -Value members are null.
             Assert.IsTrue(result.All(x => string.IsNullOrEmpty(x.Attribute2Name)));
             Assert.IsTrue(result.All(x => string.IsNullOrEmpty(x.Attribute2Value)));
+        }
+
+    }
+
+    [TestClass]
+    [TestCategory("Unit")]
+    public class AccountServiceUnitTest
+    {
+        [TestMethod]
+        public async Task RecentBankTransactionsAsync_DayOffset_GreaterThanMax_ThrowArgumentOutOfRange()
+        {
+            // Arrange
+            var _accountingService = new AccountingService(TestUtility.DbContextFactory, TestUtility.Logger);
+            uint max = 365;
+
+            // Act & Assert - Parameters other than dayOffset are irrelevant.
+            await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(
+                async () => await _accountingService.RecentBankTransactionsAsync([-10], DateTime.Today, max + 1U, 1, 20));
         }
     }
 }

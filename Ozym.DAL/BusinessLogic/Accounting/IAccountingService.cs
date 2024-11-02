@@ -54,7 +54,7 @@ namespace Ozym.BusinessLogic.Accounting
         Task<(IEnumerable<BankTransactionResult>, PaginationData)> RecentBankTransactionsAsync(
             int[] accountIds, 
             DateTime asOfDate, 
-            short dayOffset, 
+            uint dayOffset, 
             int pageNumber, 
             int pageSize);
     }

@@ -92,11 +92,11 @@ namespace Ozym.BusinessLogic.Accounting
         public async Task<(IEnumerable<BankTransactionResult>, PaginationData)> RecentBankTransactionsAsync(
             int[] accountIds,
             DateTime asOfDate,
-            short dayOffset,
+            uint dayOffset,
             int pageNumber,
             int pageSize)
         {
-            dayOffset = BusinessMath.Clamp<short>(dayOffset, 0, 365);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(dayOffset, 365U);
 
             using var context = await _factory.CreateDbContextAsync();
 
