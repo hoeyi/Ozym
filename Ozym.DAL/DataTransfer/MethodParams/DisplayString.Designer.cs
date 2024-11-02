@@ -63,6 +63,42 @@ namespace Ozym.DataTransfer.MethodParams {
         /// <summary>
         ///   Looks up a localized string similar to Account to filter results to.
         /// </summary>
+        public static string AccountBalanceInput_AccountId_Description {
+            get {
+                return ResourceManager.GetString("AccountBalanceInput_AccountId_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        public static string AccountBalanceInput_AccountId_Name {
+            get {
+                return ResourceManager.GetString("AccountBalanceInput_AccountId_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference date for balance.
+        /// </summary>
+        public static string AccountBalanceInput_AsOfDate_Description {
+            get {
+                return ResourceManager.GetString("AccountBalanceInput_AsOfDate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to As of date.
+        /// </summary>
+        public static string AccountBalanceInput_AsOfDate_Name {
+            get {
+                return ResourceManager.GetString("AccountBalanceInput_AsOfDate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account to filter results to.
+        /// </summary>
         public static string BankTransactionInput_AccountId_Description {
             get {
                 return ResourceManager.GetString("BankTransactionInput_AccountId_Description", resourceCulture);

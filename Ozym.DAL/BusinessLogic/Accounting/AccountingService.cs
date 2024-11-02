@@ -50,7 +50,7 @@ namespace Ozym.BusinessLogic.Accounting
                             select new
                             {
                                 Id = a.AccountId,
-                                DisplayName = a.AccountName,
+                                DisplayName = a.FormattedDisplayName,
                                 Balance = context.BankBalance(a.AccountId, asOfDate),
                                 AsOfDate = asOfDate
                             };
@@ -110,7 +110,7 @@ namespace Ozym.BusinessLogic.Accounting
                             select new BankTransactionResult
                             {
                                 AccountId = bt.AccountId,
-                                AccountName = $"{bt.Account.AccountName} [{bt.Account.AccountCode}]",
+                                AccountName = bt.Account.FormattedDisplayName,
                                 TransactionDate = bt.TransactionDate,
                                 Amount = bt.Amount,
                                 Comment = bt.Comment,
