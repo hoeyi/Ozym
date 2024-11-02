@@ -271,11 +271,23 @@ namespace Ozym.Test.BusinessLogic
         {
             // Arrange
             var _accountingService = new AccountingService(TestUtility.DbContextFactory, TestUtility.Logger);
-            uint max = 365;
+            int max = 365;
 
             // Act & Assert - Parameters other than dayOffset are irrelevant.
             await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(
-                async () => await _accountingService.RecentBankTransactionsAsync([-10], DateTime.Today, max + 1U, 1, 20));
+                async () => await _accountingService.RecentBankTransactionsAsync([-10], DateTime.Today, max + 1, 1, 20));
+        }
+
+        [TestMethod]
+        public async Task RecentBankTransactionsAsync_DayOffset_LessThanMin_ThrowArgumentOutOfRange()
+        {
+            // Arrange
+            var _accountingService = new AccountingService(TestUtility.DbContextFactory, TestUtility.Logger);
+            int min = 0;
+
+            // Act & Assert - Parameters other than dayOffset are irrelevant.
+            await Assert.ThrowsExceptionAsync<ArgumentOutOfRangeException>(
+                async () => await _accountingService.RecentBankTransactionsAsync([-10], DateTime.Today, min - 1, 1, 20));
         }
     }
 }

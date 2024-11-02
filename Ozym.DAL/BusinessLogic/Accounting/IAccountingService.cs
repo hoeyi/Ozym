@@ -51,10 +51,11 @@ namespace Ozym.BusinessLogic.Accounting
         /// <param name="pageNumber">The page number of the results.</param>
         /// <param name="pageSize">The number of records per page.</param>
         /// <returns>A tuple containing the recent bank transaction records and pagination data.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">See <paramref name="dayOffset"/> for allowable range.</exception>
         Task<(IEnumerable<BankTransactionResult>, PaginationData)> RecentBankTransactionsAsync(
             int[] accountIds, 
             DateTime asOfDate, 
-            uint dayOffset, 
+            int dayOffset, 
             int pageNumber, 
             int pageSize);
     }

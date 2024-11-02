@@ -26,6 +26,6 @@ namespace Ozym.DataTransfer.MethodParams
             Description = nameof(DisplayString.BankTransactionInput_DayOffset_Description),
             ResourceType = typeof(DisplayString))]
         [Range(0, 365)]
-        public short DayOffset { get; set; } = 30;
+        public int DayOffset { get; set; } = 30;
     }
 }
