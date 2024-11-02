@@ -133,6 +133,42 @@ namespace Ozym.DataTransfer.MethodParams {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assign this attribute as the parent category.
+        /// </summary>
+        public static string BankTransactionInput_Attribute1_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_Attribute1_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category 1.
+        /// </summary>
+        public static string BankTransactionInput_Attribute1_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_Attribute1_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assign this attribute as the child category.
+        /// </summary>
+        public static string BankTransactionInput_Attribute2_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_Attribute2_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category 2.
+        /// </summary>
+        public static string BankTransactionInput_Attribute2_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_Attribute2_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of days prior to as of date to include.
         /// </summary>
         public static string BankTransactionInput_DayOffset_Description {

@@ -168,8 +168,7 @@ namespace Ozym.EntityModelService.Query
         /// </summary>
         /// <typeparam name="T">The type of the attribute entry view model.</typeparam>
         /// <returns>A task that represents the asynchronous operation. The task result contains the supported attributes.</returns>
-        Task<IEnumerable<ModelAttributeDto>> GetSupportedAttributesAsync<T>()
-            where T : IAttributeEntryViewModel;
+        Task<IEnumerable<ModelAttributeDto>> GetSupportedAttributesAsync<T>();
 
         /// <summary>
         /// Gets the transactable security DTOs asynchronously.
@@ -202,8 +201,7 @@ namespace Ozym.EntityModelService.Query
         /// </summary>
         /// <typeparam name="T">The type of the attribute entry view model.</typeparam>
         /// <returns>A <see cref="string[]"/> containing the codes representing each supported attribute scope, or an empty array.</returns>
-        public static string[] GetSupportedAttributeScopeCodes<T>()
-            where T : IAttributeEntryViewModel =>
+        public static string[] GetSupportedAttributeScopeCodes<T>() =>
             typeof(T).GetCustomAttribute<ModelAttributeSupportAttribute>()
             ?.SupportedScopes.ToStringArray() ?? Array.Empty<string>();
     }

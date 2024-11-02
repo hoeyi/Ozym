@@ -141,6 +141,18 @@
   <data name="BankTransactionInput_AsOfDate_Name" xml:space="preserve">
     <value>As of date</value>
   </data>
+  <data name="BankTransactionInput_Attribute1_Description" xml:space="preserve">
+    <value>Assign this attribute as the parent category</value>
+  </data>
+  <data name="BankTransactionInput_Attribute1_Name" xml:space="preserve">
+    <value>Category 1</value>
+  </data>
+  <data name="BankTransactionInput_Attribute2_Description" xml:space="preserve">
+    <value>Assign this attribute as the child category</value>
+  </data>
+  <data name="BankTransactionInput_Attribute2_Name" xml:space="preserve">
+    <value>Category 2</value>
+  </data>
   <data name="BankTransactionInput_DayOffset_Description" xml:space="preserve">
     <value>Number of days prior to as of date to include</value>
   </data>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ozym.EntityModel.Annotations;
+using Ozym.EntityModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,6 +12,8 @@ namespace Ozym.BusinessLogic.Accounting
     /// <summary>
     /// Represents the result of the routine: <b>pReportBankTransactions</b>.
     /// </summary>
+    [ModelAttributeSupport(
+            SupportedScopes = ModelAttributeScopeCode.BankTransactionCode)]
     public record BankTransactionResult
     {
         /// <summary>
