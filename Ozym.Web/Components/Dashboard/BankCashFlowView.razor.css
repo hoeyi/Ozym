@@ -5,7 +5,64 @@
     font-size: 0.8rem !important;
 }
 
-    .ni-dashboard-tile .datagrid {
-        width: 100%;
-    }
+::deep .datagrid {
+    width: 100%;
+}
 
+.hidden {
+    display: none;
+}
+
+.group-primary {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: auto auto;
+    grid-column-gap: 1rem;
+    grid-row-gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.group-secondary {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-column-gap: 1rem;
+    grid-row-gap: 0.25rem;
+    padding: 0.5rem;
+}
+
+.group-header {
+    padding: 0.5rem;
+    grid-column: 1;
+}
+
+.group-total {
+    padding: 0.5rem;
+    grid-column: 2;
+}
+
+.group-detail {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+}
+
+.group-header:hover {
+    background-color: var(--theme-elevation-backcolor-9, gray);
+    cursor: pointer;
+}
+
+div.positive {
+    color: var(--theme-text-color-success, green);
+}
+
+div.negative {
+    color: var(--theme-text-color-failure, red);
+}
+
+
+::deep .form-control:not(button) {
+    font-size: 0.8rem !important;
+}
+
+::deep .form-entry .label {
+    padding-left: 0.1rem !important;
+}

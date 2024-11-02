@@ -9,3 +9,10 @@
     width: 100%;
 }
 
+::deep .form-control:not(button) {
+    font-size: 0.8rem !important;
+}
+
+::deep .form-entry .label {
+    padding-left: 0.1rem !important;
+}
