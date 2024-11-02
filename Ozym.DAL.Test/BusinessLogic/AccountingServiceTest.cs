@@ -183,7 +183,7 @@ namespace Ozym.Test.BusinessLogic
             if (attributeIds.Length < 1)
                 Assert.Inconclusive($"Test requires at least 1 attribute.");
 
-            DateTime fromDate = new(2020, 1, 1);
+            DateTime fromDate = new(1900, 1, 1); // large date range to ensure results
             DateTime toDate = new(2023, 12, 31);
             int? attributeId1 = null;
             int? attributeId2 = attributeIds[0];

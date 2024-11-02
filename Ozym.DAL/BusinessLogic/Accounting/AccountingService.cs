@@ -224,8 +224,8 @@ namespace Ozym.BusinessLogic.Accounting
                         Comment = row.Field<string>(nameof(BankTransactionResult.Comment)),
                         Attribute1Name = row.Field<string>(nameof(BankTransactionResult.Attribute1Name)),
                         Attribute1Value = row.Field<string>(nameof(BankTransactionResult.Attribute1Value)),
-                        Attribute2Name = row.Field<string>(nameof(BankTransactionResult.Attribute2Name)),
-                        Attribute2Value = row.Field<string>(nameof(BankTransactionResult.Attribute2Value)),
+                        Attribute2Name = row.Field<string?>(nameof(BankTransactionResult.Attribute2Name)),
+                        Attribute2Value = row.Field<string?>(nameof(BankTransactionResult.Attribute2Value)),
                     })
                     .ToList();
 
