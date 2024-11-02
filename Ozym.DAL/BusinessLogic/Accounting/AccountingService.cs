@@ -46,7 +46,9 @@ namespace Ozym.BusinessLogic.Accounting
             using var context = await _factory.CreateDbContextAsync();
 
             var queryable = from a in context.Accounts.Include(a => a.AccountNavigation)
-                            where accountIds.Contains(a.AccountId)
+                            where accountIds.Contains(a.AccountId) && 
+                            a.HasBankTransaction.Equals(true) &&
+                            (a.AccountNavigation.CloseDate == null || a.AccountNavigation.CloseDate > asOfDate)
                             select new
                             {
                                 Id = a.AccountId,
