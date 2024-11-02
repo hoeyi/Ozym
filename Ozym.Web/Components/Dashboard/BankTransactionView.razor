@@ -121,6 +121,8 @@
 
     private IEnumerable<AccountSimpleDto> Accounts { get; set; } = [];
 
+    Guid _formGuid = Guid.NewGuid();
+
     private EditContext _inputContext = default!;
 
     private BankTransactionInput _inputModel = default!;
@@ -128,8 +130,6 @@
     private PagerModel _transactionPager = default!;
 
     private PagerModel _accountPager { get; set; } = default!;
-
-    Guid _formGuid = Guid.NewGuid();
 
     protected override async Task OnInitializedAsync()
     {

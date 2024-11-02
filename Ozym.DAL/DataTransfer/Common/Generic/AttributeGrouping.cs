@@ -4,9 +4,9 @@ using System.Linq;
 namespace Ozym.DataTransfer.Common.Generic
 {
     /// <summary>
-    /// Represents a collection of <typeparamref name="TElement"/> records grouped by 
-    /// a related <see cref="ModelAttributeDtoBase"/> record.
+    /// Represents a collection of objects that have a common key.
     /// </summary>
+    /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TElement"></typeparam>
     public class AttributeGrouping<TKey, TElement> : List<TElement>, IGrouping<TKey, TElement>
     {

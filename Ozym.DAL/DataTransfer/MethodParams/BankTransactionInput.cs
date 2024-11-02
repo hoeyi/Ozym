@@ -27,5 +27,17 @@ namespace Ozym.DataTransfer.MethodParams
             ResourceType = typeof(DisplayString))]
         [Range(0, 365)]
         public int DayOffset { get; set; } = 30;
+
+        [Display(
+            Name = nameof(DisplayString.BankTransactionInput_Attribute1_Name),
+            Description = nameof(DisplayString.BankTransactionInput_Attribute1_Description),
+            ResourceType = typeof(DisplayString))]
+        public int? AttributeId1 { get; set; }
+
+        [Display(
+            Name = nameof(DisplayString.BankTransactionInput_Attribute2_Name),
+            Description = nameof(DisplayString.BankTransactionInput_Attribute2_Description),
+            ResourceType = typeof(DisplayString))]
+        public int? AttributeId2 { get; set; }
     }
 }

@@ -9,6 +9,3 @@
     width: 100%;
 }
 
-::deep .form-control:not(button) {
-    font-size: 0.8rem;
-}
