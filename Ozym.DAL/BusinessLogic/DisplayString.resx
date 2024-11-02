@@ -253,6 +253,12 @@
   <data name="FutureValueResult_Balance_Name" xml:space="preserve">
     <value>Balance</value>
   </data>
+  <data name="FutureValueResult_GrowthRate_Description" xml:space="preserve">
+    <value>The rate applied to the principal for this period, prior to contributions</value>
+  </data>
+  <data name="FutureValueResult_GrowthRate_Name" xml:space="preserve">
+    <value>Growth rate</value>
+  </data>
   <data name="FutureValueResult_Interest_Description" xml:space="preserve">
     <value>Sum of interest earned to date</value>
   </data>

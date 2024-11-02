@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Ozym.BusinessLogic.Functions;
 using System.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ozym.Test.BusinessLogic
 {
     [TestClass]
     [TestCategory("Unit")]
-    public class FinancialCalculatorTest
+    public partial class FinancialCalculatorTest
     {
         private const double ResultPrecision = 0.0001;
 

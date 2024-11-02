@@ -171,5 +171,80 @@ namespace Ozym.BusinessLogic.Functions
 
             return results;
         }
+
+        /// <inheritdoc/>
+        public IDictionary<int, IEnumerable<FutureValueResult>> FutureValueSimulation(
+            DateTime startDate,
+            int periods,
+            float presentValue,
+            (float, float) growthRate,
+            (float, float) regularDeposit,
+            PeriodType periodType,
+            int simulations = 1)
+        {
+            ArgumentOutOfRangeException.ThrowIfLessThan(periods, 0);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(periods, 100);
+
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(simulations, 1000);
+
+            var results = new Dictionary<int, IEnumerable<FutureValueResult>>();
+
+            for(int s = 0; s < simulations; s++)
+            {
+                var simulationResult = new List<FutureValueResult>();
+
+                // Set the initial period values.
+                int period = 0;
+                DateTime periodDate = startDate;
+                float principal = presentValue;
+                float interest = 0F;
+
+                var statsCalc = new StatisticsCalculator();
+
+                var growthSample = statsCalc.NormalDistributionSamples(growthRate.Item1, growthRate.Item2, periods);
+                var depositSample = statsCalc.NormalDistributionSamples(regularDeposit.Item1, regularDeposit.Item2, periods);
+
+                // Run in a checked context to throw an OverflowException
+                checked
+                {
+                    // Loop through the periods and calculate results based on the prior values.
+                    for (int i = 0; i <= periods; i++)
+                    {
+
+                        // If period == 0, intialized values are appropriate.
+                        // Else calculate results for the current iteration.
+                        if (i > 0)
+                        {
+                            period = i;
+                            periodDate = periodType switch
+                            {
+                                PeriodType.Day => startDate.AddDays(i),
+                                PeriodType.Week => startDate.AddDays(i * 7),
+                                PeriodType.Month => startDate.AddMonths(i),
+                                PeriodType.Quarter => startDate.AddMonths(i * 3),
+                                PeriodType.Annual => startDate.AddYears(i),
+                                _ => throw new NotImplementedException(),
+                            };
+
+                            interest += (principal + interest) * (float)growthSample[i-1];
+                            principal += (float)depositSample[i-1];
+                        }
+
+                        // Add the record to the result set.
+                        simulationResult.Add(new()
+                        {
+                            Period = period,
+                            PeriodDate = periodDate,
+                            Principal = (float)Math.Round(principal, CurrencyPrecision),
+                            Interest = (float)Math.Round(interest, CurrencyPrecision)
+                        });
+                    }
+                    results.Add(s, simulationResult);
+                }
+
+            }
+
+            return results;
+        }
     }
 }

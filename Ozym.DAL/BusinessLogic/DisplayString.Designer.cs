@@ -466,6 +466,24 @@ namespace Ozym.BusinessLogic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The rate applied to the principal for this period, prior to contributions.
+        /// </summary>
+        public static string FutureValueResult_GrowthRate_Description {
+            get {
+                return ResourceManager.GetString("FutureValueResult_GrowthRate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Growth rate.
+        /// </summary>
+        public static string FutureValueResult_GrowthRate_Name {
+            get {
+                return ResourceManager.GetString("FutureValueResult_GrowthRate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sum of interest earned to date.
         /// </summary>
         public static string FutureValueResult_Interest_Description {

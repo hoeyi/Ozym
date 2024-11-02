@@ -48,5 +48,14 @@ namespace Ozym.BusinessLogic.Functions
             Description = nameof(DisplayString.FutureValueResult_Balance_Description),
             ResourceType = typeof(DisplayString))]
         public float Balance => Principal + Interest;
+
+        /// <summary>
+        /// Gets the growth rate for this period.
+        /// </summary>
+        [Display(
+            Name = nameof(DisplayString.FutureValueResult_GrowthRate_Name),
+            Description = nameof(DisplayString.FutureValueResult_GrowthRate_Description),
+            ResourceType = typeof(DisplayString))]
+        public float GrowthRate => Interest / Principal;
     }
 }
