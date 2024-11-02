@@ -1,0 +1,302 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Collections
+@rendermode InteractiveServer
+@inherits LocalizableComponent
+
+<ContentTile>
+    <TitleAlignLeft>
+        <div>@Resources.Strings.ComponentTitle_BankCashFlow</div>
+    </TitleAlignLeft>
+    <TitleAlignRight>
+        <button class="form-control button icon" type="button"
+                @onclick="() => ResetAsync()">
+            <IonIcon Name="refresh-circle" />
+        </button>
+    </TitleAlignRight>
+    <Body>
+        @if (IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+            <div class="ni-dashboard-tile">
+                <EditForm Model="_inputModel" OnValidSubmit="GetTransactionsAsync" id="@_formGuid">
+                    <DataAnnotationsValidator />
+                    <ModelForm TModelDto="BankTransactionInput" style="display: inline-flex;"
+                               Columns="ModelForm<BankTransactionInput>.ColumnLayout.Three"
+                               ControlLayout="ModelFormEntry<BankTransactionInput>.Layout.AboveLineLabel">
+                        <ModelFormEntry ForMember="@(() => _inputModel.AccountId)">
+                            <InputSelect class="form-control"
+                                         DisplayName="@(ModelMetadata.NameFor<BankTransactionInput>(x => x.AccountId))"
+                                         @bind-Value="_inputModel.AccountId">
+                                <option value=0 disabled>@Strings.Caption_InputSelect_Prompt</option>
+                                @foreach (var account in Accounts)
+                                {
+                                    <option value=@account.Id>@($"{account.DisplayName} [{account.ShortCode}]")</option>
+                                }
+                            </InputSelect>
+                        </ModelFormEntry>
+                        <ModelFormEntry ForMember="@(() => _inputModel.AsOfDate)">
+                            <InputDate class="form-control"
+                                       DisplayName="@(ModelMetadata.NameFor<BankTransactionInput>(x => x.AsOfDate))"
+                                       @bind-Value="_inputModel.AsOfDate">
+                                @_inputModel.AsOfDate.ToShortDateString()
+                            </InputDate>
+                        </ModelFormEntry>
+                        <ModelFormEntry ForMember="@(() => _inputModel.DayOffset)">
+                            <InputNumber class="form-control"
+                                         DisplayName="@(ModelMetadata.NameFor<BankTransactionInput>(x => x.DayOffset))"
+                                         @bind-Value="_inputModel.DayOffset">
+                                @_inputModel.DayOffset
+                            </InputNumber>
+                        </ModelFormEntry>
+                        <ModelFormEntry ForMember="@(() => _inputModel.AttributeId1)">
+                            <InputSelect class="form-control"
+                                         DisplayName="@(ModelMetadata.NameFor<BankTransactionInput>(x => x.AttributeId1))"
+                                         @bind-Value="_inputModel.AttributeId1">
+                                <option value=0 disabled>@Strings.Caption_InputSelect_Prompt</option>
+                                @foreach (var attr in Attributes)
+                                {
+                                    <option value=@attr.AttributeId>@attr.DisplayName</option>
+                                }
+                            </InputSelect>
+                        </ModelFormEntry>
+                        <ModelFormEntry ForMember="@(() => _inputModel.AttributeId2)">
+                            <InputSelect class="form-control"
+                                         DisplayName="@(ModelMetadata.NameFor<BankTransactionInput>(x => x.AttributeId2))"
+                                         @bind-Value="_inputModel.AttributeId2">
+                                <option value=0 disabled>@Strings.Caption_InputSelect_Prompt</option>
+                                @foreach (var attr in Attributes)
+                                {
+                                    <option value=@attr.AttributeId>@attr.DisplayName</option>
+                                }
+                            </InputSelect>
+                        </ModelFormEntry>
+                    </ModelForm>
+                </EditForm>
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button" form="@_formGuid">
+                        @Strings.Caption_Button_Search
+                    </button>
+                </ActionButtonMenu>
+                @if (IsLoading)
+                {
+                    <LoadingSvg />
+                }
+                else
+                {
+                    @foreach(var attr1 in GroupedTransactions ?? [])
+                    {
+                        <div class="group-primary">
+                            <div class="group-header">@attr1.Key.Key1</div>
+                            <div class="group-total @GetCssPositiveNegativeFlag(attr1.TotalValue)">
+                                @attr1.TotalValue.ToString("C2")
+                            </div>
+                            <div class="group-detail" hidden="@hidden1">
+                                @foreach(var attr2 in attr1)
+                                {
+                                    <div class="group-secondary">
+                                        <div class="group-header">@attr2.Key.Key2</div>
+                                        <div class="group-total @GetCssPositiveNegativeFlag(attr2.TotalValue)">
+                                            @attr2.TotalValue.ToString("C2")
+                                        </div>
+                                        <div class="group-detail" hidden="@hidden2">
+                                            <DataGrid Data="@attr2">
+                                                <DataGridColumn Property=@nameof(BankTransactionResult.AccountName)
+                                                                Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.AccountName))
+                                                                Type=@DataGridCellType.Text>
+                                                    <CellTemplate Context="model">
+                                                        @model.AccountName
+                                                    </CellTemplate>
+                                                </DataGridColumn>
+                                                <DataGridColumn Property=@nameof(BankTransactionResult.TransactionDate)
+                                                                Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.TransactionDate))
+                                                                Type=@DataGridCellType.Text>
+                                                    <CellTemplate Context="model">
+                                                        @model.TransactionDate.ToShortDateString()
+                                                    </CellTemplate>
+                                                </DataGridColumn>
+                                                <DataGridColumn Property=@nameof(BankTransactionResult.TransactionCode)
+                                                                Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.TransactionCode))
+                                                                Type=@DataGridCellType.Text>
+                                                    <CellTemplate Context="model">
+                                                        @model.TransactionCode
+                                                    </CellTemplate>
+                                                </DataGridColumn>
+                                                <DataGridColumn Property=@nameof(BankTransactionResult.Amount)
+                                                                Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.Amount))
+                                                                Type=@DataGridCellType.Text>
+                                                    <CellTemplate Context="model">
+                                                        @model.Amount.ToString("C2")
+                                                    </CellTemplate>
+                                                </DataGridColumn>
+                                                <DataGridColumn Property=@nameof(BankTransactionResult.Comment)
+                                                                Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.Comment))
+                                                                Type=@DataGridCellType.Text>
+                                                    <CellTemplate Context="model">
+                                                        @model.Comment
+                                                    </CellTemplate>
+                                                </DataGridColumn>
+                                            </DataGrid>
+                                        </div>
+                                    </div>
+                                }       
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    </Body>
+</ContentTile>
+
+@code {
+    [Inject]
+    private IAccountingService AccountingService { get; set; } = default!;
+
+    [Inject]
+    private IQueryService QueryService { get; set; } = default!;
+
+    private IEnumerable<BankTransactionResult>? Transactions { get; set; } = [];
+
+    private IEnumerable<AccountSimpleDto> Accounts { get; set; } = [];
+
+    private IEnumerable<ModelAttributeDtoBase> Attributes { get; set; } = [];
+
+    private IEnumerable<GroupingWithTotal<GroupingWithTotal<BankTransactionResult>>>?
+        GroupedTransactions => Transactions?
+                .GroupBy(x => new KeyStruct(x.Attribute1Value, x.Attribute2Value))
+                .Select(g => new GroupingWithTotal<BankTransactionResult>(g.Key, g, g => g.Sum(a => a.Amount)))
+                .GroupBy(x => new KeyStruct(x.Key.Key1, null))
+                .Select(g => new GroupingWithTotal<GroupingWithTotal<BankTransactionResult>>(g.Key, g, g => g.Sum(a => a.TotalValue)));
+
+    private bool hidden1 = true;
+    private bool hidden2 = true;
+
+    Guid _formGuid = Guid.NewGuid();
+
+    private EditContext _inputContext = default!;
+
+    private BankTransactionInput _inputModel = default!;
+
+    private PagerModel _accountPager { get; set; } = default!;
+
+    private readonly record struct KeyStruct{
+        public KeyStruct(string key1, string? key2)
+        {
+            ArgumentNullException.ThrowIfNullOrEmpty(key1);
+
+            Key1 = key1;
+            Key2 = key2;
+        }
+
+        public string Key1 { get; }
+
+        public string? Key2 { get; }
+    }
+
+    private class GroupingWithTotal<T> : AttributeGrouping<KeyStruct, T>
+    {
+        private readonly Func<IEnumerable<T>, decimal> _totalValueFunc;
+
+        public GroupingWithTotal(
+            KeyStruct key, 
+            int capacity, 
+            Func<IEnumerable<T>, decimal> totalValueFunc) : base(key, capacity)
+        {
+            _totalValueFunc = totalValueFunc;
+        }
+
+        public GroupingWithTotal(
+            KeyStruct key, 
+            IEnumerable<T> collection, 
+            Func<IEnumerable<T>, decimal> totalValueFunc) : base(key, collection)
+        {
+            _totalValueFunc = totalValueFunc;
+        }
+
+        public decimal TotalValue => _totalValueFunc?.Invoke(this) ?? default;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+        _inputModel = new() { AttributeId1 = 0, AttributeId2 = 0 };
+        _inputContext = new(_inputModel);
+        _accountPager = new() { PageIndex = 1, PageSize = 20 };
+
+        try
+        {
+            await GetAccountsAsync();
+            await GetAttributesAsync();
+        }
+        finally
+        {
+            SetIsLoading();
+        }
+    }
+
+    private string GetCssPositiveNegativeFlag(decimal? balance)
+    {
+        if (balance.HasValue)
+        {
+            return balance.Value >= 0 ? "positive" : "negative";
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
+
+    private decimal GetNetCashFlow(IEnumerable<BankTransactionResult> transactions) =>
+        transactions.Sum(x => x.Amount);
+
+    private async Task ResetAsync()
+    {
+        Transactions = [];
+
+        await OnInitializedAsync();
+    }
+
+    private bool SetIsLoading() => IsLoading = Transactions is null || Accounts is null;
+
+    private async Task GetAccountsAsync()
+    {
+        var accountsQuery = QueryService.BuiltIn.GetAccountDTOsAsync(
+                predicate: x => x.HasBankTransaction.Equals(true),
+                pageNumber: _accountPager.PageIndex,
+                pageSize: _accountPager.PageSize);
+
+        var (acctRecords, acctPageData) = await accountsQuery;
+
+        Accounts = acctRecords;
+
+        _accountPager.TotalItemCount = acctPageData.ItemCount;
+        _accountPager.ItemCount = acctRecords.Count();
+    }
+
+    private async Task GetAttributesAsync()
+    {
+        Attributes = await QueryService.BuiltIn
+                        .GetSupportedAttributesAsync<BankTransactionResult>();
+    }
+
+    private async Task GetTransactionsAsync()
+    {
+        try
+        {
+            var transactionQuery = AccountingService.BankTransactionReportAsync(
+                    [_inputModel.AccountId],
+                    _inputModel.AsOfDate,
+                    _inputModel.AsOfDate.AddDays(_inputModel.DayOffset * -1),
+                    _inputModel.AttributeId1,
+                    _inputModel.AttributeId2);
+
+            Transactions = await transactionQuery;
+        }
+        finally
+        {
+            SetIsLoading();
+        }
+    }
+}

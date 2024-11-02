@@ -164,6 +164,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Dashboard\BankCashFlowView.razor" />
     <_ContentIncludedByDefault Remove="Components\Identity\IdentityInitializer.razor" />
     <_ContentIncludedByDefault Remove="Components\Identity\Pages\Access\Users\Create.razor" />
     <_ContentIncludedByDefault Remove="Components\Pages\AccountComposites\_Imports.razor" />
@@ -179,6 +180,10 @@
 
   <ItemGroup>
     <Content Include="Components\Dashboard\BankTransactionView.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Dashboard\BankCashFlowView.razor" />
   </ItemGroup>
 
 </Project>

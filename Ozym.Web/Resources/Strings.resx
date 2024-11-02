@@ -141,6 +141,9 @@
   <data name="ComponentTitle_BankBalances" xml:space="preserve">
     <value>Open bank balances</value>
   </data>
+  <data name="ComponentTitle_BankCashFlow" xml:space="preserve">
+    <value>Bank cash flow</value>
+  </data>
   <data name="ComponentTitle_FutureValueCalculator" xml:space="preserve">
     <value>Future value calculator</value>
   </data>

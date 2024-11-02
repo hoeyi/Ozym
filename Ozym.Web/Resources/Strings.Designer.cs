@@ -133,6 +133,15 @@ namespace Ozym.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bank cash flow.
+        /// </summary>
+        internal static string ComponentTitle_BankCashFlow {
+            get {
+                return ResourceManager.GetString("ComponentTitle_BankCashFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Future value calculator.
         /// </summary>
         internal static string ComponentTitle_FutureValueCalculator {

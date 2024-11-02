@@ -1,0 +1,11 @@
+﻿.ni-dashboard-tile {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-row-gap: 0.5rem;
+    font-size: 0.8rem !important;
+}
+
+    .ni-dashboard-tile .datagrid {
+        width: 100%;
+    }
+
