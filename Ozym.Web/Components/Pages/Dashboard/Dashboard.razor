@@ -38,9 +38,10 @@
                 }
             </Body>
         </ContentTile>
+        <BankTransactionView />
         <ContentTile>
             <TitleAlignLeft>
-                <div>@Resources.Strings.ComponentTitle_RecentBankTransactions</div>
+                <div>@Resources.Strings.ComponentTitle_AccountBalances</div>
             </TitleAlignLeft>
             <Body>
                 @if (IsLoading)
@@ -49,7 +50,7 @@
                 }
                 else
                 {
-                    <BankTransactionView />
+                    <AccountBalanceView />
                 }
             </Body>
         </ContentTile>

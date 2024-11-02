@@ -2,91 +2,113 @@
 @rendermode InteractiveServer
 @inherits LocalizableComponent
 
-<div class="ni-dashboard-tile">
-    <EditForm Model="_inputModel" OnValidSubmit="GetTransactionsAsync" id="@_formGuid">
-        <DataAnnotationsValidator />
-        <ModelForm TModelDto="BankTransactionInput" style="display: inline-flex;" 
-            Columns="ModelForm<BankTransactionInput>.ColumnLayout.Three"
-            ControlLayout="ModelFormEntry<BankTransactionInput>.Layout.AboveLineLabel">
-            <ModelFormEntry ForMember="@(() => _inputModel.AccountId)">
-                <InputSelect class="form-control"
-                    DisplayName="@(ModelMetadata.NameFor<BankTransactionInput>(x => x.AccountId))"
-                    @bind-Value="_inputModel.AccountId">
-                    <option value="">@Strings.Caption_InputSelect_Prompt</option>
-                    @foreach (var account in Accounts)
-                    {
-                        <option value=@account.Id>@($"{account.DisplayName} [{account.ShortCode}]")</option>
-                    }
-                </InputSelect>
-            </ModelFormEntry>
-            <ModelFormEntry ForMember="@(() => _inputModel.AsOfDate)">
-                <InputDate class="form-control"
-                    DisplayName="@(ModelMetadata.NameFor<BankTransactionInput>(x => x.AsOfDate))"
-                    @bind-Value="_inputModel.AsOfDate">
-                    @_inputModel.AsOfDate.ToShortDateString()
-                </InputDate>
-            </ModelFormEntry>
-            <ModelFormEntry ForMember="@(() => _inputModel.DayOffset)">
-                <InputNumber class="form-control"
-                    DisplayName="@(ModelMetadata.NameFor<BankTransactionInput>(x => x.DayOffset))"
-                    @bind-Value="_inputModel.DayOffset">
-                    @_inputModel.DayOffset
-                </InputNumber>
-            </ModelFormEntry>
-        </ModelForm>
-    </EditForm>
-    <ActionButtonMenu>
-        <button type="submit" class="form-control button" form="@_formGuid">
-            @Strings.Caption_Button_Search
+<ContentTile>
+    <TitleAlignLeft>
+        <div>@Resources.Strings.ComponentTitle_RecentBankTransactions</div>
+    </TitleAlignLeft>
+    <TitleAlignRight>
+        <button class="form-control button icon" type="button"
+                @onclick="() => ResetAsync()">
+            <IonIcon Name="refresh-circle" />
         </button>
-    </ActionButtonMenu>
-    @if (IsLoading)
-    {
-        <LoadingSvg />
-    }
-    else
-    {
-        <Paginator Model="_transactionPager"
-                   IndexChanged="GetTransactionsAsync" PageSizeChanged="GetTransactionsAsync" />
-        <DataGrid Data="@Transactions" FootNote="@_transactionPager.RecordReport">
-            <DataGridColumn Property=@nameof(BankTransactionResult.AccountName)
-                            Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.AccountName))
-                            Type=@DataGridCellType.Text>
-                <CellTemplate Context="model">
-                    @model.AccountName
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(BankTransactionResult.TransactionDate)
-                            Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.TransactionDate))
-                            Type=@DataGridCellType.Text>
-                <CellTemplate Context="model">
-                    @model.TransactionDate.ToShortDateString()
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(BankTransactionResult.TransactionCode)
-                            Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.TransactionCode))
-                            Type=@DataGridCellType.Text>
-                <CellTemplate Context="model">
-                    @model.TransactionCode
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(BankTransactionResult.Amount)
-                            Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.Amount))
-                            Type=@DataGridCellType.Text>
-                <CellTemplate Context="model">
-                    @model.Amount.ToString("C2")
-                </CellTemplate>
-            </DataGridColumn>
-            <DataGridColumn Property=@nameof(BankTransactionResult.Comment)
-                            Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.Comment))
-                            Type=@DataGridCellType.Text>
-                <CellTemplate Context="model">
-                    @model.Comment
-                </CellTemplate>
-            </DataGridColumn>
-        </DataGrid>
-    }
-</div>
+    </TitleAlignRight>
+    <Body>
+        @if (IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+            <div class="ni-dashboard-tile">
+                <EditForm Model="_inputModel" OnValidSubmit="GetTransactionsAsync" id="@_formGuid">
+                    <DataAnnotationsValidator />
+                    <ModelForm TModelDto="BankTransactionInput" style="display: inline-flex;"
+                               Columns="ModelForm<BankTransactionInput>.ColumnLayout.Three"
+                               ControlLayout="ModelFormEntry<BankTransactionInput>.Layout.AboveLineLabel">
+                        <ModelFormEntry ForMember="@(() => _inputModel.AccountId)">
+                            <InputSelect class="form-control"
+                                         DisplayName="@(ModelMetadata.NameFor<BankTransactionInput>(x => x.AccountId))"
+                                         @bind-Value="_inputModel.AccountId">
+                                <option value=0 disabled>@Strings.Caption_InputSelect_Prompt</option>
+                                @foreach (var account in Accounts)
+                                {
+                                    <option value=@account.Id>@($"{account.DisplayName} [{account.ShortCode}]")</option>
+                                }
+                            </InputSelect>
+                        </ModelFormEntry>
+                        <ModelFormEntry ForMember="@(() => _inputModel.AsOfDate)">
+                            <InputDate class="form-control"
+                                       DisplayName="@(ModelMetadata.NameFor<BankTransactionInput>(x => x.AsOfDate))"
+                                       @bind-Value="_inputModel.AsOfDate">
+                                @_inputModel.AsOfDate.ToShortDateString()
+                            </InputDate>
+                        </ModelFormEntry>
+                        <ModelFormEntry ForMember="@(() => _inputModel.DayOffset)">
+                            <InputNumber class="form-control"
+                                         DisplayName="@(ModelMetadata.NameFor<BankTransactionInput>(x => x.DayOffset))"
+                                         @bind-Value="_inputModel.DayOffset">
+                                @_inputModel.DayOffset
+                            </InputNumber>
+                        </ModelFormEntry>
+                    </ModelForm>
+                </EditForm>
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button" form="@_formGuid">
+                        @Strings.Caption_Button_Search
+                    </button>
+                </ActionButtonMenu>
+                @if (IsLoading)
+                {
+                    <LoadingSvg />
+                }
+                else
+                {
+                    <Paginator Model="_transactionPager"
+                               IndexChanged="GetTransactionsAsync" PageSizeChanged="GetTransactionsAsync" />
+                    <DataGrid Data="@Transactions" FootNote="@_transactionPager.RecordReport">
+                        <DataGridColumn Property=@nameof(BankTransactionResult.AccountName)
+                                        Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.AccountName))
+                                        Type=@DataGridCellType.Text>
+                            <CellTemplate Context="model">
+                                @model.AccountName
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(BankTransactionResult.TransactionDate)
+                                        Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.TransactionDate))
+                                        Type=@DataGridCellType.Text>
+                            <CellTemplate Context="model">
+                                @model.TransactionDate.ToShortDateString()
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(BankTransactionResult.TransactionCode)
+                                        Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.TransactionCode))
+                                        Type=@DataGridCellType.Text>
+                            <CellTemplate Context="model">
+                                @model.TransactionCode
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(BankTransactionResult.Amount)
+                                        Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.Amount))
+                                        Type=@DataGridCellType.Text>
+                            <CellTemplate Context="model">
+                                @model.Amount.ToString("C2")
+                            </CellTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Property=@nameof(BankTransactionResult.Comment)
+                                        Caption=@(ModelMetadata.NameFor<BankTransactionResult>(x => x.Comment))
+                                        Type=@DataGridCellType.Text>
+                            <CellTemplate Context="model">
+                                @model.Comment
+                            </CellTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                }
+            </div>
+        }
+    </Body>
+</ContentTile>
+
+
 
 @code{
     [Inject]
@@ -101,26 +123,21 @@
 
     private EditContext _inputContext = default!;
 
-    private BankTransactionInput _inputModel = new();
+    private BankTransactionInput _inputModel = default!;
 
-    private PagerModel _transactionPager = new()
-    {
-        PageIndex = 1,
-        PageSize = 20
-    };
+    private PagerModel _transactionPager = default!;
 
-    private PagerModel _accountPager { get; set; } = new()
-    {
-        PageIndex = 1,
-        PageSize = 20
-    };
+    private PagerModel _accountPager { get; set; } = default!;
 
     Guid _formGuid = Guid.NewGuid();
 
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
+        _inputModel = new();
         _inputContext = new(_inputModel);
+        _accountPager = new() { PageIndex = 1, PageSize = 20 };
+        _transactionPager = new(){ PageIndex = 1, PageSize = 20 };
 
         try
         {
@@ -147,6 +164,13 @@
 
         _accountPager.TotalItemCount = acctPageData.ItemCount;
         _accountPager.ItemCount = acctRecords.Count();
+    }
+
+    private async Task ResetAsync()
+    {
+        Transactions = [];
+
+        await OnInitializedAsync();
     }
 
     private async Task GetTransactionsAsync()

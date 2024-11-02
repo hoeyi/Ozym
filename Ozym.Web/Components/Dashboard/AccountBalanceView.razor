@@ -1,0 +1,160 @@
+﻿@using System.ComponentModel.DataAnnotations
+@rendermode InteractiveServer
+@inherits LocalizableComponent
+
+<div class="ni-dashboard-tile">
+    <EditForm Model="_inputModel" OnValidSubmit="GetTransactionsAsync" id="@_formGuid">
+        <DataAnnotationsValidator />
+        <ModelForm TModelDto="AccountBalanceInput" style="display: inline-flex;"
+                   Columns="ModelForm<AccountBalanceInput>.ColumnLayout.Three"
+                   ControlLayout="ModelFormEntry<AccountBalanceInput>.Layout.AboveLineLabel">
+            <ModelFormEntry ForMember="@(() => _inputModel.AccountId)">
+                <InputSelect class="form-control"
+                             DisplayName="@(ModelMetadata.NameFor<AccountBalanceInput>(x => x.AccountId))"
+                             @bind-Value="_inputModel.AccountId">
+                    <option value="">@Strings.Caption_InputSelect_Prompt</option>
+                    @foreach (var account in Accounts)
+                    {
+                        <option value=@account.Id>@($"{account.DisplayName} [{account.ShortCode}]")</option>
+                    }
+                </InputSelect>
+            </ModelFormEntry>
+            <ModelFormEntry ForMember="@(() => _inputModel.AsOfDate)">
+                <InputDate class="form-control"
+                           DisplayName="@(ModelMetadata.NameFor<AccountBalanceInput>(x => x.AsOfDate))"
+                           @bind-Value="_inputModel.AsOfDate">
+                    @_inputModel.AsOfDate.ToShortDateString()
+                </InputDate>
+            </ModelFormEntry>
+        </ModelForm>
+    </EditForm>
+    <ActionButtonMenu>
+        <button type="submit" class="form-control button" form="@_formGuid">
+            @Strings.Caption_Button_Search
+        </button>
+    </ActionButtonMenu>
+    @if (IsLoading)
+    {
+        <LoadingSvg />
+    }
+    else
+    {
+        <Paginator Model="_transactionPager"
+                   IndexChanged="GetTransactionsAsync" PageSizeChanged="GetTransactionsAsync" />
+        <DataGrid Data="@Balances" FootNote="@_transactionPager.RecordReport">
+            <DataGridColumn Property=@nameof(AccountBalanceResult.DisplayName)
+                            Caption=@(ModelMetadata.NameFor<AccountBalanceResult>(x => x.DisplayName))
+                            Type=@DataGridCellType.Text>
+                <CellTemplate Context="model">
+                    @model.DisplayName
+                </CellTemplate>
+            </DataGridColumn>
+            <DataGridColumn Property=@nameof(AccountBalanceResult.Balance)
+                            Caption=@(ModelMetadata.NameFor<AccountBalanceResult>(x => x.Balance))
+                            Type=@DataGridCellType.Text>
+                <CellTemplate Context="model">
+                    <div class="@GetCssPositiveNegativeFlag(model.Balance)">
+                        @model.Balance?.ToString("C2")
+                    </div>
+                </CellTemplate>
+            </DataGridColumn>
+        </DataGrid>
+    }
+</div>
+
+@code {
+    [Inject]
+    private IAccountingService AccountingService { get; set; } = default!;
+
+    [Inject]
+    private IQueryService QueryService { get; set; } = default!;
+
+    private IEnumerable<AccountBalanceResult>? Balances { get; set; } = [];
+
+    private IEnumerable<AccountSimpleDto> Accounts { get; set; } = [];
+
+    private EditContext _inputContext = default!;
+
+    private AccountBalanceInput _inputModel = new();
+
+    private PagerModel _transactionPager = new()
+        {
+            PageIndex = 1,
+            PageSize = 20
+        };
+
+    private PagerModel _accountPager { get; set; } = new()
+        {
+            PageIndex = 1,
+            PageSize = 20
+        };
+
+    Guid _formGuid = Guid.NewGuid();
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+        _inputContext = new(_inputModel);
+
+        try
+        {
+            await GetAccountsAsync();
+        }
+        finally
+        {
+            SetIsLoading();
+        }
+    }
+
+    private bool SetIsLoading() => IsLoading = Balances is null || Accounts is null;
+
+    private async Task GetAccountsAsync()
+    {
+        var accountsQuery = QueryService.BuiltIn.GetAccountDTOsAsync(
+                predicate: x => x.HasBankTransaction.Equals(true),
+                pageNumber: _accountPager.PageIndex,
+                pageSize: _accountPager.PageSize);
+
+        var (acctRecords, acctPageData) = await accountsQuery;
+
+        Accounts = acctRecords;
+
+        _accountPager.TotalItemCount = acctPageData.ItemCount;
+        _accountPager.ItemCount = acctRecords.Count();
+    }
+
+    private async Task GetTransactionsAsync()
+    {
+        try
+        {
+            var balancesQuery = AccountingService.BankBalancesAsync(
+                    [_inputModel.AccountId],
+                    _inputModel.AsOfDate,
+                    _transactionPager.PageIndex,
+                    _transactionPager.PageSize);
+
+            var (balances, balancePageData) = await balancesQuery;
+
+            Balances = balances;
+
+            _transactionPager.TotalItemCount = balancePageData.ItemCount;
+            _transactionPager.ItemCount = balances.Count();
+        }
+        finally
+        {
+            SetIsLoading();
+        }
+    }
+
+    private string GetCssPositiveNegativeFlag(double? balance)
+    {
+        if (balance.HasValue)
+        {
+            return balance.Value >= 0 ? "positive" : "negative";
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
+}

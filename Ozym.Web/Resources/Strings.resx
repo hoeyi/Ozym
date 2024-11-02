@@ -138,6 +138,9 @@
   <data name="ComponentTitle_AttributeSelector" xml:space="preserve">
     <value>Select attribute</value>
   </data>
+  <data name="ComponentTitle_BankBalances" xml:space="preserve">
+    <value>Open bank balances</value>
+  </data>
   <data name="ComponentTitle_FutureValueCalculator" xml:space="preserve">
     <value>Future value calculator</value>
   </data>
