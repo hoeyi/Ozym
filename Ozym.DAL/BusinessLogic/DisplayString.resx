@@ -265,6 +265,12 @@
   <data name="FutureValueResult_Interest_Name" xml:space="preserve">
     <value>Interest</value>
   </data>
+  <data name="FutureValueResult_NetContribution_Description" xml:space="preserve">
+    <value>The net contribution at the end of this period</value>
+  </data>
+  <data name="FutureValueResult_NetContribution_Name" xml:space="preserve">
+    <value>Net contribution</value>
+  </data>
   <data name="FutureValueResult_PeriodDate_Description" xml:space="preserve">
     <value>End date of the period</value>
   </data>

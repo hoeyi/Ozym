@@ -44,6 +44,42 @@ namespace Ozym.Test.BusinessLogic
         }
 
         [TestMethod]
+        public void FutureValueSimulation_SimulationsBelowMinimum_Throws_ArgumentOutOfRangeException()
+        {
+            // Arrange
+            var calculator = new FinancialCalculator();
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                calculator.FutureValueSimulation(
+                    startDate: DateTime.MinValue,
+                    periods: 0,
+                    presentValue: 0,
+                    growthRate: (0, 0),
+                    regularDeposit: (0, 0),
+                    periodType: PeriodType.Annual,
+                    simulations: 0));
+        }
+
+        [TestMethod]
+        public void FutureValueSimulation_SimulationsAboveMaximum_Throws_ArgumentOutOfRangeException()
+        {
+            // Arrange
+            var calculator = new FinancialCalculator();
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                calculator.FutureValueSimulation(
+                    startDate: DateTime.MinValue,
+                    periods: 0,
+                    presentValue: 0,
+                    growthRate: (0, 0),
+                    regularDeposit: (0, 0),
+                    periodType: PeriodType.Annual,
+                    simulations: int.MaxValue));
+        }
+
+        [TestMethod]
         public void FutureValueSimulation_SingleSimulation_ValidParameters_ReturnsExpectedResult()
         {
             // Arrange

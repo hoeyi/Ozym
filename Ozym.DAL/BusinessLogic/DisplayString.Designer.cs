@@ -502,6 +502,24 @@ namespace Ozym.BusinessLogic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The net contribution at the end of this period.
+        /// </summary>
+        public static string FutureValueResult_NetContribution_Description {
+            get {
+                return ResourceManager.GetString("FutureValueResult_NetContribution_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Net contribution.
+        /// </summary>
+        public static string FutureValueResult_NetContribution_Name {
+            get {
+                return ResourceManager.GetString("FutureValueResult_NetContribution_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End date of the period.
         /// </summary>
         public static string FutureValueResult_PeriodDate_Description {

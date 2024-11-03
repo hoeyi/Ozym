@@ -182,9 +182,10 @@ namespace Ozym.BusinessLogic.Functions
             PeriodType periodType,
             int simulations = 1)
         {
-            ArgumentOutOfRangeException.ThrowIfLessThan(periods, 0);
+            ArgumentOutOfRangeException.ThrowIfLessThan(periods, 1);
             ArgumentOutOfRangeException.ThrowIfGreaterThan(periods, 100);
 
+            ArgumentOutOfRangeException.ThrowIfLessThan(simulations, 1);
             ArgumentOutOfRangeException.ThrowIfGreaterThan(simulations, 1000);
 
             var results = new Dictionary<int, IEnumerable<FutureValueResult>>();
@@ -198,6 +199,7 @@ namespace Ozym.BusinessLogic.Functions
                 DateTime periodDate = startDate;
                 float principal = presentValue;
                 float interest = 0F;
+                float contribution = 0F;
 
                 var statsCalc = new StatisticsCalculator();
 
@@ -227,7 +229,8 @@ namespace Ozym.BusinessLogic.Functions
                             };
 
                             interest += (principal + interest) * (float)growthSample[i-1];
-                            principal += (float)depositSample[i-1];
+                            contribution = (float)depositSample[i - 1];
+                            principal += contribution;
                         }
 
                         // Add the record to the result set.
@@ -236,12 +239,12 @@ namespace Ozym.BusinessLogic.Functions
                             Period = period,
                             PeriodDate = periodDate,
                             Principal = (float)Math.Round(principal, CurrencyPrecision),
+                            NetContribution = contribution,
                             Interest = (float)Math.Round(interest, CurrencyPrecision)
                         });
                     }
                     results.Add(s, simulationResult);
                 }
-
             }
 
             return results;
