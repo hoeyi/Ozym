@@ -1,4 +1,5 @@
-﻿using Ozym.BusinessLogic.Functions;
+﻿using MathNet.Numerics.Distributions;
+using Ozym.BusinessLogic.Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,6 +110,115 @@ namespace Ozym.Test.BusinessLogic
             Assert.AreEqual(expected: 1000, actual: resultset.Count);
             Assert.IsTrue(resultset.Values.All(x => x.Count() == 21));
             Assert.IsTrue(resultset.Values.All(x => x.Max(y => y.Period) == 20));
+        }
+
+
+        [TestMethod]
+        public void FutureValueSimulation_GrowthDistributionIsNull_Throws_ArgumentNullException()
+        {
+            // Arrange
+            var calculator = new FinancialCalculator();
+            var startDate = DateTime.UtcNow.Date;
+            var periods = 10;
+            var presentValue = 100;
+            IContinuousDistribution growthDistribution = null;
+            IContinuousDistribution contributionDistribution = new Normal();
+            var periodType = PeriodType.Annual;
+            var simulations = 1;
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                calculator.FutureValueSimulation(startDate, periods, presentValue, growthDistribution, contributionDistribution, periodType, simulations));
+        }
+
+        [TestMethod]
+        public void FutureValueSimulation_ContributionDistributionIsNull_Throws_ArgumentNullException()
+        {
+            // Arrange
+            var calculator = new FinancialCalculator();
+            var startDate = DateTime.UtcNow.Date;
+            var periods = 10;
+            var presentValue = 100;
+            IContinuousDistribution growthDistribution = new Normal();
+            IContinuousDistribution contributionDistribution = null;
+            var periodType = PeriodType.Annual;
+            var simulations = 1;
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+                calculator.FutureValueSimulation(startDate, periods, presentValue, growthDistribution, contributionDistribution, periodType, simulations));
+        }
+
+        [TestMethod]
+        public void FutureValueSimulation_PeriodsLessThanOne_Throws_ArgumentOutOfRangeException()
+        {
+            // Arrange
+            var calculator = new FinancialCalculator();
+            var startDate = DateTime.UtcNow.Date;
+            var periods = 0;
+            var presentValue = 100;
+            IContinuousDistribution growthDistribution = new Normal();
+            IContinuousDistribution contributionDistribution = new Normal();
+            var periodType = PeriodType.Annual;
+            var simulations = 1;
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                calculator.FutureValueSimulation(startDate, periods, presentValue, growthDistribution, contributionDistribution, periodType, simulations));
+        }
+
+        [TestMethod]
+        public void FutureValueSimulation_PeriodsGreaterThanOneHundred_Throws_ArgumentOutOfRangeException()
+        {
+            // Arrange
+            var calculator = new FinancialCalculator();
+            var startDate = DateTime.UtcNow.Date;
+            var periods = 101;
+            var presentValue = 100;
+            IContinuousDistribution growthDistribution = new Normal();
+            IContinuousDistribution contributionDistribution = new Normal();
+            var periodType = PeriodType.Annual;
+            var simulations = 1;
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                calculator.FutureValueSimulation(startDate, periods, presentValue, growthDistribution, contributionDistribution, periodType, simulations));
+        }
+
+        [TestMethod]
+        public void FutureValueSimulation_SimulationsLessThanOne_Throws_ArgumentOutOfRangeException()
+        {
+            // Arrange
+            var calculator = new FinancialCalculator();
+            var startDate = DateTime.UtcNow.Date;
+            var periods = 10;
+            var presentValue = 100;
+            IContinuousDistribution growthDistribution = new Normal();
+            IContinuousDistribution contributionDistribution = new Normal();
+            var periodType = PeriodType.Annual;
+            var simulations = 0;
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                calculator.FutureValueSimulation(startDate, periods, presentValue, growthDistribution, contributionDistribution, periodType, simulations));
+        }
+
+        [TestMethod]
+        public void FutureValueSimulation_SimulationsGreaterThanOneThousand_Throws_ArgumentOutOfRangeException()
+        {
+            // Arrange
+            var calculator = new FinancialCalculator();
+            var startDate = DateTime.UtcNow.Date;
+            var periods = 10;
+            var presentValue = 100;
+            IContinuousDistribution growthDistribution = new Normal();
+            IContinuousDistribution contributionDistribution = new Normal();
+            var periodType = PeriodType.Annual;
+            var simulations = 1001;
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                calculator.FutureValueSimulation(startDate, periods, presentValue, growthDistribution, contributionDistribution, periodType, simulations));
         }
     }
 }

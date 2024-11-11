@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Numerics.Distributions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -59,14 +60,14 @@ namespace Ozym.BusinessLogic.Functions
     /// </summary>
     public class FinancialCalculator : IFinancialCalculator
     {
-        private const int PercentPrecision = 4;
-        private const int CurrencyPrecision = 2;
+        private const int _percentPrecision = 4;
+        private const int _currencyPrecision = 2;
 
         /// <inheritdoc/>
         public double AnnualizedTimeWeightedReturn(float cumulativeReturn, float years)
         {
             if (years > 0.0)
-                return Math.Round(Math.Pow(cumulativeReturn + 1.0F, 1.0 / years) - 1.0, PercentPrecision);
+                return Math.Round(Math.Pow(cumulativeReturn + 1.0F, 1.0 / years) - 1.0, _percentPrecision);
 
             return double.NaN;
         }
@@ -89,7 +90,7 @@ namespace Ozym.BusinessLogic.Functions
 
             var result = Math.Exp(productSeries.Sum(x => x.AdjustedIrr)) - 1.0;
 
-            return Math.Round(result, PercentPrecision);
+            return Math.Round(result, _percentPrecision);
         }
 
         /// <inheritdoc/>
@@ -163,9 +164,93 @@ namespace Ozym.BusinessLogic.Functions
                     {
                         Period = period,
                         PeriodDate = periodDate,
-                        Principal = (float)Math.Round(principal, CurrencyPrecision),
-                        Interest = (float)Math.Round(interest, CurrencyPrecision)
+                        Principal = (float)Math.Round(principal, _currencyPrecision),
+                        Interest = (float)Math.Round(interest, _currencyPrecision)
                     });
+                }
+            }
+
+            return results;
+        }
+
+        /// <inheritdoc/>
+        public IDictionary<int, IEnumerable<FutureValueResult>> FutureValueSimulation(
+            DateTime startDate, 
+            int periods, 
+            float presentValue, 
+            IContinuousDistribution growthDistribution, 
+            IContinuousDistribution contributionDistribution, 
+            PeriodType periodType, int simulations = 1)
+        {
+            // Parameter validation...
+            ArgumentNullException.ThrowIfNull(growthDistribution);
+            ArgumentNullException.ThrowIfNull(contributionDistribution);
+
+            ArgumentOutOfRangeException.ThrowIfLessThan(periods, 1);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(periods, 100);
+
+            ArgumentOutOfRangeException.ThrowIfLessThan(simulations, 1);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(simulations, 1000);
+
+            var results = new Dictionary<int, IEnumerable<FutureValueResult>>();
+
+            for (int s = 0; s < simulations; s++)
+            {
+                var simulationResult = new List<FutureValueResult>();
+
+                // Set the initial period values.
+                int period = 0;
+                DateTime periodDate = startDate;
+                float principal = presentValue;
+                float interest = 0F;
+                float contribution = 0F;
+
+                var statsCalc = new StatisticsCalculator();
+
+                var growthSample = new double[periods];
+                var depositSample = new double[periods];
+
+                growthDistribution.Samples(growthSample);
+                contributionDistribution.Samples(depositSample);
+
+                // Run in a checked context to throw an OverflowException
+                checked
+                {
+                    // Loop through the periods and calculate results based on the prior values.
+                    for (int i = 0; i <= periods; i++)
+                    {
+
+                        // If period == 0, intialized values are appropriate.
+                        // Else calculate results for the current iteration.
+                        if (i > 0)
+                        {
+                            period = i;
+                            periodDate = periodType switch
+                            {
+                                PeriodType.Day => startDate.AddDays(i),
+                                PeriodType.Week => startDate.AddDays(i * 7),
+                                PeriodType.Month => startDate.AddMonths(i),
+                                PeriodType.Quarter => startDate.AddMonths(i * 3),
+                                PeriodType.Annual => startDate.AddYears(i),
+                                _ => throw new NotImplementedException(),
+                            };
+
+                            interest += (principal + interest) * (float)growthSample[i - 1];
+                            contribution = (float)depositSample[i - 1];
+                            principal += contribution;
+                        }
+
+                        // Add the record to the result set.
+                        simulationResult.Add(new()
+                        {
+                            Period = period,
+                            PeriodDate = periodDate,
+                            Principal = (float)Math.Round(principal, _currencyPrecision),
+                            NetContribution = contribution,
+                            Interest = (float)Math.Round(interest, _currencyPrecision)
+                        });
+                    }
+                    results.Add(s, simulationResult);
                 }
             }
 
@@ -238,9 +323,9 @@ namespace Ozym.BusinessLogic.Functions
                         {
                             Period = period,
                             PeriodDate = periodDate,
-                            Principal = (float)Math.Round(principal, CurrencyPrecision),
+                            Principal = (float)Math.Round(principal, _currencyPrecision),
                             NetContribution = contribution,
-                            Interest = (float)Math.Round(interest, CurrencyPrecision)
+                            Interest = (float)Math.Round(interest, _currencyPrecision)
                         });
                     }
                     results.Add(s, simulationResult);

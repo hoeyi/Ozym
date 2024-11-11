@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MathNet.Numerics.Distributions;
+using System;
 using System.Collections.Generic;
 
 namespace Ozym.BusinessLogic.Functions
 {
     /// <summary>
-    /// Represents a stateless class providing business-related mathematical functions.
+    /// Represents a stateless class providing business-related mathematical functions and simulations.
     /// </summary>
     public interface IFinancialCalculator
     {
@@ -22,9 +23,10 @@ namespace Ozym.BusinessLogic.Functions
         /// <param name="simulations">The number of simulations to run. Default is one.</param>
         /// <returns>An <see cref="IDictionary{TKey, TValue}"/> where the integer key denotes the simulation index.
         /// <see cref="FutureValueResult"/>.</returns>
-        /// <exception cref="ArgumentOutOfRangeException"> Parameter <paramref name="periods"/> was 
-        /// less than zero.</exception>
-        public IDictionary<int, IEnumerable<FutureValueResult>> FutureValueSimulation(
+        /// <exception cref="ArgumentOutOfRangeException">Parameter <paramref name="periods"/> was 
+        /// less than or greater than 100, or parameter <paramref name="simulations"/> was less than 1
+        /// or greater than 1000.</exception>
+        IDictionary<int, IEnumerable<FutureValueResult>> FutureValueSimulation(
             DateTime startDate,
             int periods,
             float presentValue,
@@ -32,7 +34,41 @@ namespace Ozym.BusinessLogic.Functions
             (float, float) regularDeposit,
             PeriodType periodType,
             int simulations = 1);
-        public double AnnualizedTimeWeightedReturn(float cumulativeReturn, float years);
+
+        /// <summary>
+        /// Calculates a series of <see cref="FutureValueResult"/> records representing the 
+        /// growth table of a principal amount subject to variable periodic constributions and 
+        /// growth rates.
+        /// </summary>
+        /// <param name="startDate">The start date from which periods are calculated.</param>
+        /// <param name="periods">The number of periods / cash flows in the range.</param>
+        /// <param name="presentValue">The present value in the range.</param>
+        /// <param name="growthDistribution">The growth rate distribution.</param>
+        /// <param name="contributionDistribution">The contribution amount distribution.</param>
+        /// <param name="periodType">The period type defining the calendar length.</param>
+        /// <param name="simulations">The number of simulations to run. Default is one.</param>
+        /// <returns>An <see cref="IDictionary{TKey, TValue}"/> where the integer key denotes the simulation index.
+        /// <see cref="FutureValueResult"/>.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Parameter <paramref name="periods"/> was 
+        /// less than or greater than 100, or parameter <paramref name="simulations"/> was less than 1
+        /// or greater than 1000.</exception>
+        IDictionary<int, IEnumerable<FutureValueResult>> FutureValueSimulation(
+            DateTime startDate,
+            int periods,
+            float presentValue,
+            IContinuousDistribution growthDistribution,
+            IContinuousDistribution contributionDistribution,
+            PeriodType periodType,
+            int simulations = 1);
+
+        /// <summary>
+        /// Annualizes the given cumulative return.
+        /// </summary>
+        /// <param name="cumulativeReturn">The cumulative return.</param>
+        /// <param name="years">The number of years over the cumulative return is measured.</param>
+        /// <returns>A <see cref="double"/> representing the annualized return (geometric mean) of 
+        /// the cumulative return.</returns>
+        double AnnualizedTimeWeightedReturn(float cumulativeReturn, float years);
 
         /// <summary>
         /// Calculates the cumulative time-weighted return given a series of equal-weighted IRRs.
@@ -41,7 +77,7 @@ namespace Ozym.BusinessLogic.Functions
         /// single-period returns in the series.</param>
         /// <returns>A <see cref="float"/> representing the cumulative growth rate, e.g., 
         /// 0.35 for 35%, or <see cref="double.NaN"/> if undefined.</returns>
-        public double CumulativeTimeWeightedReturn(params InternalRateReturnResult[] irrs);
+        double CumulativeTimeWeightedReturn(params InternalRateReturnResult[] irrs);
 
         /// <summary>
         /// Calculates the effective annual rate given a nominal annual rate and compounding 
@@ -51,7 +87,7 @@ namespace Ozym.BusinessLogic.Functions
         /// <param name="compounding">The frequency of compounding.</param>
         /// <returns>A <see cref="float"/> representing the effective annual rate, e.g., 0.1 for 10%.
         /// </returns>
-        public double EffectiveAnnualInterestRate(float nominalRate, CompoundSchedule compounding);
+        double EffectiveAnnualInterestRate(float nominalRate, CompoundSchedule compounding);
 
         /// <summary>
         /// Calculates a series of <see cref="FutureValueResult"/> records representing the 
@@ -67,14 +103,12 @@ namespace Ozym.BusinessLogic.Functions
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="FutureValueResult"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException"> Parameter <paramref name="periods"/> was 
         /// less than zero.</exception>
-        public IEnumerable<FutureValueResult> FutureValue(
+        IEnumerable<FutureValueResult> FutureValue(
             DateTime startDate,
             int periods, 
             float presentValue, 
             float growthRate, 
             float regularDeposit, 
             PeriodType periodType);
-
-        
     }
 }
