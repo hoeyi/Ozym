@@ -159,6 +159,18 @@
   <data name="BankTransactionInput_DayOffset_Name" xml:space="preserve">
     <value>Day offset</value>
   </data>
+  <data name="FutureValueInput_DepositDistribution_Description" xml:space="preserve">
+    <value>Distribution of periodic deposits</value>
+  </data>
+  <data name="FutureValueInput_DepositDistribution_Name" xml:space="preserve">
+    <value>Deposits distribution</value>
+  </data>
+  <data name="FutureValueInput_GrowthDistribution_Description" xml:space="preserve">
+    <value>Distribution of growth ratess</value>
+  </data>
+  <data name="FutureValueInput_GrowthDistribution_Name" xml:space="preserve">
+    <value>Growth distribution</value>
+  </data>
   <data name="FutureValueInput_GrowthRate_Description" xml:space="preserve">
     <value>Constant growth rate applied to balance</value>
   </data>

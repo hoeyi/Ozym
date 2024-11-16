@@ -187,6 +187,42 @@ namespace Ozym.DataTransfer.MethodParams {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Distribution of periodic deposits.
+        /// </summary>
+        public static string FutureValueInput_DepositDistribution_Description {
+            get {
+                return ResourceManager.GetString("FutureValueInput_DepositDistribution_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deposits distribution.
+        /// </summary>
+        public static string FutureValueInput_DepositDistribution_Name {
+            get {
+                return ResourceManager.GetString("FutureValueInput_DepositDistribution_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distribution of growth ratess.
+        /// </summary>
+        public static string FutureValueInput_GrowthDistribution_Description {
+            get {
+                return ResourceManager.GetString("FutureValueInput_GrowthDistribution_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Growth distribution.
+        /// </summary>
+        public static string FutureValueInput_GrowthDistribution_Name {
+            get {
+                return ResourceManager.GetString("FutureValueInput_GrowthDistribution_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Constant growth rate applied to balance.
         /// </summary>
         public static string FutureValueInput_GrowthRate_Description {
