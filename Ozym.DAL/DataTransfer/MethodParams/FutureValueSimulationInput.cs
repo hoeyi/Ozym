@@ -21,7 +21,7 @@ namespace Ozym.DataTransfer.MethodParams
             Name = nameof(DisplayString.FutureValueInput_Periods_Name),
             Description = nameof(DisplayString.FutureValueInput_Periods_Description),
             ResourceType = typeof(DisplayString))]
-        [Range(0, 100)]
+        [Range(1, 100)]
         public int Periods { get; set; } = 10;
 
         [Display(
@@ -49,5 +49,12 @@ namespace Ozym.DataTransfer.MethodParams
             Description = nameof(DisplayString.FutureValueInput_PeriodType_Description),
             ResourceType = typeof(DisplayString))]
         public PeriodType PeriodType { get; set; } = PeriodType.Annual;
+
+        [Display(
+            Name = nameof(DisplayString.FutureValueSimulation_SimulationCount_Name),
+            Description = nameof(DisplayString.FutureValueSimulation_SimulationCount_Description),
+            ResourceType = typeof(DisplayString))]
+        [Range(100, 1000)]
+        public int SimulationCount { get; set; } = 100;
     }
 }

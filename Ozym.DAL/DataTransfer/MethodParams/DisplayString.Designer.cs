@@ -329,5 +329,23 @@ namespace Ozym.DataTransfer.MethodParams {
                 return ResourceManager.GetString("FutureValueInput_StartDate_Name", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of simulations to run.
+        /// </summary>
+        public static string FutureValueSimulation_SimulationCount_Description {
+            get {
+                return ResourceManager.GetString("FutureValueSimulation_SimulationCount_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simulations.
+        /// </summary>
+        public static string FutureValueSimulation_SimulationCount_Name {
+            get {
+                return ResourceManager.GetString("FutureValueSimulation_SimulationCount_Name", resourceCulture);
+            }
+        }
     }
 }
