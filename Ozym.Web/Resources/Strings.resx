@@ -148,7 +148,7 @@
     <value>Future value calculator</value>
   </data>
   <data name="ComponentTitle_FutureValueSimulation" xml:space="preserve">
-    <value>Monte carlo future value</value>
+    <value>Monte Carlo future value</value>
   </data>
   <data name="ComponentTitle_MarketQuotes" xml:space="preserve">
     <value>Market quotes</value>

@@ -151,7 +151,7 @@ namespace Ozym.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monte carlo future value.
+        ///   Looks up a localized string similar to Monte Carlo future value.
         /// </summary>
         internal static string ComponentTitle_FutureValueSimulation {
             get {
