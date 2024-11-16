@@ -9,20 +9,6 @@
 	<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
-
-  <ItemGroup>
-	<Content Remove="Components\Pages\AccountComposites\_Imports.razor" />
-	<Content Remove="Resources\DefaultBannerMenu.json" />
-	<Content Remove="Resources\DefaultMenu.json" />
-	<Content Remove="Resources\ManageUserMenu.json" />
-	<Content Remove="Resources\PublicBannerMenu.json" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <None Remove="Components\Dashboard\BankTransactionView.razor.css" />
-  </ItemGroup>
-
   <ItemGroup>
 	<EmbeddedResource Include="Resources\DefaultMenu.json" />
 	<EmbeddedResource Include="Resources\DefaultBannerMenu.json" />
@@ -30,50 +16,6 @@
 	<EmbeddedResource Include="Resources\PublicBannerMenu.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Components\Identity\Shared\IdentityInitializer.razor" />
-    <None Include="Components\Identity\Pages\AccessDenied.razor" />
-    <None Include="Components\Identity\Pages\ConfirmEmail.razor" />
-    <None Include="Components\Identity\Pages\ConfirmEmailChange.razor" />
-    <None Include="Components\Identity\Pages\ExternalLogin.razor" />
-    <None Include="Components\Identity\Pages\ForgotPassword.razor" />
-    <None Include="Components\Identity\Pages\ForgotPasswordConfirmation.razor" />
-    <None Include="Components\Identity\Pages\InvalidPasswordReset.razor" />
-    <None Include="Components\Identity\Pages\InvalidUser.razor" />
-    <None Include="Components\Identity\Pages\Lockout.razor" />
-    <None Include="Components\Identity\Pages\Login.razor" />
-    <None Include="Components\Identity\Pages\LoginWith2fa.razor" />
-    <None Include="Components\Identity\Pages\LoginWithRecoveryCode.razor" />
-    <None Include="Components\Identity\Pages\Manage\ChangePassword.razor" />
-    <None Include="Components\Identity\Pages\Manage\DeletePersonalData.razor" />
-    <None Include="Components\Identity\Pages\Manage\Disable2fa.razor" />
-    <None Include="Components\Identity\Pages\Manage\Email.razor" />
-    <None Include="Components\Identity\Pages\Manage\EnableAuthenticator.razor" />
-    <None Include="Components\Identity\Pages\Manage\ExternalLogins.razor" />
-    <None Include="Components\Identity\Pages\Manage\GenerateRecoveryCodes.razor" />
-    <None Include="Components\Identity\Pages\Manage\Index.razor" />
-    <None Include="Components\Identity\Pages\Manage\PersonalData.razor" />
-    <None Include="Components\Identity\Pages\Manage\ResetAuthenticator.razor" />
-    <None Include="Components\Identity\Pages\Manage\SetPassword.razor" />
-    <None Include="Components\Identity\Pages\Manage\TwoFactorAuthentication.razor" />
-    <None Include="Components\Identity\Pages\Manage\_Imports.razor" />
-    <None Include="Components\Identity\Pages\Register.razor" />
-    <None Include="Components\Identity\Pages\RegisterConfirmation.razor" />
-    <None Include="Components\Identity\Pages\ResendEmailConfirmation.razor" />
-    <None Include="Components\Identity\Pages\ResetPassword.razor" />
-    <None Include="Components\Identity\Pages\ResetPasswordConfirmation.razor" />
-    <None Include="Components\Identity\Pages\_Imports.razor" />
-    <None Include="Components\Identity\Shared\AccountLayout.razor" />
-    <None Include="Components\Identity\Shared\ExternalLoginPicker.razor" />
-    <None Include="Components\Identity\Shared\ManageLayout.razor" />
-    <None Include="Components\Identity\Shared\ManageNavMenu.razor" />
-    <None Include="Components\Identity\Shared\UnauthorizedAccessHandler.razor" />
-    <None Include="Components\Identity\Shared\ShowRecoveryCodes.razor" />
-    <None Include="Components\Identity\Shared\StatusMessage.razor" />
-    <None Include="Components\Pages\AccountComposites\_Imports.razor" />
-  </ItemGroup>
-
-	
   <ItemGroup>
 	<PackageReference Include="Ichosys.Blazor.Ionicons" Version="2.0.1.2749" />
 	<PackageReference Include="Ichosys.DataModel" Version="4.0.0.3749" />
@@ -160,30 +102,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Components\Identity\IdentityInitializer.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <_ContentIncludedByDefault Remove="Components\Dashboard\BankCashFlowView.razor" />
+    <_ContentIncludedByDefault Remove="Components\Dashboard\FutureValueSimulation.razor" />
     <_ContentIncludedByDefault Remove="Components\Identity\IdentityInitializer.razor" />
     <_ContentIncludedByDefault Remove="Components\Identity\Pages\Access\Users\Create.razor" />
     <_ContentIncludedByDefault Remove="Components\Pages\AccountComposites\_Imports.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Components\Identity\Pages\Access\Users\Create.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Components\Pages\AccountComposites\_Imports.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Components\Dashboard\BankTransactionView.razor.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Components\Dashboard\BankCashFlowView.razor" />
   </ItemGroup>
 
 </Project>

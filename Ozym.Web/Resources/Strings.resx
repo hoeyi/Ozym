@@ -147,6 +147,9 @@
   <data name="ComponentTitle_FutureValueCalculator" xml:space="preserve">
     <value>Future value calculator</value>
   </data>
+  <data name="ComponentTitle_FutureValueSimulation" xml:space="preserve">
+    <value>Monte carlo future value</value>
+  </data>
   <data name="ComponentTitle_MarketQuotes" xml:space="preserve">
     <value>Market quotes</value>
   </data>
@@ -179,5 +182,8 @@ If submitting a ticket, please include the following timestamp in your report: {
   </data>
   <data name="PageTitle_NotFound" xml:space="preserve">
     <value>(No title)</value>
+  </data>
+  <data name="PageTitle_Workbench" xml:space="preserve">
+    <value>Workbench</value>
   </data>
 </root>
