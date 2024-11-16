@@ -1,6 +1,8 @@
 ﻿using MathNet.Numerics.Distributions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 
 namespace Ozym.BusinessLogic.Functions
 {
@@ -110,5 +112,40 @@ namespace Ozym.BusinessLogic.Functions
             float growthRate, 
             float regularDeposit, 
             PeriodType periodType);
+    }
+
+    public static class FinancialCalculatorExtensions
+    {
+        /// <summary>
+        /// Returns the simulation results by quartiles, including the minimum and maximumn values.
+        /// </summary>
+        /// <param name="simulationResults">The dictionary of simulation results.</param>
+        /// <returns>An <see cref="IDictionary{TKey, TValue}"/> where the double key denotes the quantile value,
+        /// and the value is an <see cref="IEnumerable{T}"/> of <see cref="FutureValueResult"/>.</returns>
+        public static IDictionary<double, IEnumerable<FutureValueResult>> ByQuantiles(
+            this IDictionary<int, IEnumerable<FutureValueResult>> simulationResults)
+        {
+            ArgumentNullException.ThrowIfNull(simulationResults);
+
+            var rankedSimulationIds = simulationResults
+                                    .Select(x =>
+                                        new { SimulationId = x.Key, x.Value.Last().Balance })
+                                    .OrderBy(x => x.Balance)
+                                    .ToArray();
+
+            Dictionary<double, IEnumerable<FutureValueResult>> percentileData = [];
+            (double, double)[] percentiles = (new double[]{ 0, 0.025, 0.25, 0.50, 0.75, 0.975, 1 })
+                                    .Select(x => (x, Math.Round(x * rankedSimulationIds.Length, 0)))
+                                    .Distinct()
+                                    .ToArray();
+
+            foreach (var p in percentiles)
+            {
+                var id = rankedSimulationIds[(int)Math.Clamp(p.Item2 - 1, 0, rankedSimulationIds.Length - 1)].SimulationId;
+                percentileData.Add(p.Item1, simulationResults[id]);
+            }
+
+            return percentileData;
+        }
     }
 }
