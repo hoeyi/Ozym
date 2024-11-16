@@ -117,6 +117,60 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountBalanceInput_AccountId_Description" xml:space="preserve">
+    <value>Account to filter results to</value>
+  </data>
+  <data name="AccountBalanceInput_AccountId_Name" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="AccountBalanceInput_AsOfDate_Description" xml:space="preserve">
+    <value>Reference date for balance</value>
+  </data>
+  <data name="AccountBalanceInput_AsOfDate_Name" xml:space="preserve">
+    <value>As of date</value>
+  </data>
+  <data name="BankTransactionInput_AccountId_Description" xml:space="preserve">
+    <value>Account to filter results to</value>
+  </data>
+  <data name="BankTransactionInput_AccountId_Name" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="BankTransactionInput_AsOfDate_Description" xml:space="preserve">
+    <value>Reference date for the offset range</value>
+  </data>
+  <data name="BankTransactionInput_AsOfDate_Name" xml:space="preserve">
+    <value>As of date</value>
+  </data>
+  <data name="BankTransactionInput_Attribute1_Description" xml:space="preserve">
+    <value>Assign this attribute as the parent category</value>
+  </data>
+  <data name="BankTransactionInput_Attribute1_Name" xml:space="preserve">
+    <value>Category 1</value>
+  </data>
+  <data name="BankTransactionInput_Attribute2_Description" xml:space="preserve">
+    <value>Assign this attribute as the child category</value>
+  </data>
+  <data name="BankTransactionInput_Attribute2_Name" xml:space="preserve">
+    <value>Category 2</value>
+  </data>
+  <data name="BankTransactionInput_DayOffset_Description" xml:space="preserve">
+    <value>Number of days prior to as of date to include</value>
+  </data>
+  <data name="BankTransactionInput_DayOffset_Name" xml:space="preserve">
+    <value>Day offset</value>
+  </data>
+  <data name="FutureValueInput_DepositDistribution_Description" xml:space="preserve">
+    <value>Distribution of periodic deposits</value>
+  </data>
+  <data name="FutureValueInput_DepositDistribution_Name" xml:space="preserve">
+    <value>Deposits distribution</value>
+  </data>
+  <data name="FutureValueInput_GrowthDistribution_Description" xml:space="preserve">
+    <value>Distribution of growth ratess</value>
+  </data>
+  <data name="FutureValueInput_GrowthDistribution_Name" xml:space="preserve">
+    <value>Growth distribution</value>
+  </data>
   <data name="FutureValueInput_GrowthRate_Description" xml:space="preserve">
     <value>Constant growth rate applied to balance</value>
   </data>
@@ -152,5 +206,11 @@
   </data>
   <data name="FutureValueInput_StartDate_Name" xml:space="preserve">
     <value>Start Date</value>
+  </data>
+  <data name="FutureValueSimulation_SimulationCount_Description" xml:space="preserve">
+    <value>Number of simulations to run</value>
+  </data>
+  <data name="FutureValueSimulation_SimulationCount_Name" xml:space="preserve">
+    <value>Simulations</value>
   </data>
 </root>

@@ -16,6 +16,11 @@
     width: 100%;
 }
 
+.content-header .left {
+    border-left-style: inset;
+    border-left-color: var(--theme-text-color-0, black);
+    padding-left: 0.5rem;
+}
 .content-header {
     margin: 1rem;
     margin-bottom: 0px;
@@ -39,7 +44,6 @@
 }
 
 .content-header .left {
-    padding-left: 0.5rem;
     display: flex;  
     justify-content: flex-start;
 }

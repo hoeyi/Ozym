@@ -41,6 +41,15 @@ namespace Ozym.BusinessLogic.Functions
         public float Interest { get; init; }
 
         /// <summary>
+        /// Gets or sets the net contribution for this period.
+        /// </summary>
+        [Display(
+            Name = nameof(DisplayString.FutureValueResult_NetContribution_Name),
+            Description = nameof(DisplayString.FutureValueResult_NetContribution_Description),
+            ResourceType = typeof(DisplayString))]
+        public float NetContribution { get; init; }
+
+        /// <summary>
         /// Gets the balance at the end of the period.
         /// </summary>
         [Display(
@@ -48,5 +57,14 @@ namespace Ozym.BusinessLogic.Functions
             Description = nameof(DisplayString.FutureValueResult_Balance_Description),
             ResourceType = typeof(DisplayString))]
         public float Balance => Principal + Interest;
+
+        /// <summary>
+        /// Gets the growth rate for this period.
+        /// </summary>
+        [Display(
+            Name = nameof(DisplayString.FutureValueResult_GrowthRate_Name),
+            Description = nameof(DisplayString.FutureValueResult_GrowthRate_Description),
+            ResourceType = typeof(DisplayString))]
+        public float GrowthRate => Interest / Principal;
     }
 }

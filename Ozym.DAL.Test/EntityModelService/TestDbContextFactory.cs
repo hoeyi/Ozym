@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.Extensions.Logging;
 using Ozym.EntityModel.Context.IntegrationTest;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.VisualBasic;
 
 namespace Ozym.Test.EntityModelService
 {
@@ -14,7 +17,7 @@ namespace Ozym.Test.EntityModelService
         private static readonly object _lock = new();
         private static bool _databaseInitialized;
         private readonly static string _database_provider = TestUtility.Configuration["DATABASE_PROVIDER"];
-
+            
         /// <summary>
         /// Initializes a new instance of the<see cref="TestDbContextFactory"/> class.
         /// </summary>
@@ -24,14 +27,16 @@ namespace Ozym.Test.EntityModelService
             {
                 if (!_databaseInitialized)
                 {
-                    using (var context = InitializeTestDbContext())
+                    using (var context = new FinanceDbIntegrationTestContext(options: GetDbContextOptions()))
                     {
+                        var migrations = context.Database.GetMigrations();
+
+                        context.Database.EnsureDeleted();
                         try
                         {
-                            context.Database.EnsureDeleted();
-                            context.Database.EnsureCreated();
+                            context.Database.Migrate();
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             TestUtility.Logger.LogError(e, "Exception raised when re-creating database.");
                             throw;
@@ -49,9 +54,6 @@ namespace Ozym.Test.EntityModelService
         public FinanceDbContext CreateDbContext() => 
             new FinanceDbIntegrationTestContext(options: GetDbContextOptions());
 
-        private static FinanceDbContext InitializeTestDbContext() =>
-            new FinanceDbIntegrationTestContext(options: GetDbContextOptions());
-
         /// <summary>
         /// Resets the test database to its state before seeding test data.
         /// </summary>
@@ -59,29 +61,38 @@ namespace Ozym.Test.EntityModelService
         {
             lock(_lock)
             {
-                using var context = GetFinanceDbContext();
+                using (var context = new FinanceDbIntegrationTestContext(options: GetDbContextOptions()))
+                {
+                    var migrations = context.Database.GetMigrations();
 
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
+                    context.Database.EnsureDeleted();
+                    try
+                    {
+                        context.Database.Migrate();
+                    }
+                    catch (Exception e)
+                    {
+                        TestUtility.Logger.LogError(e, "Exception raised when re-creating database.");
+                        throw;
+                    }
+                }
                 _databaseInitialized = true;
             }
         }
-
-        private static FinanceDbContext GetFinanceDbContext() =>
-            new FinanceDbIntegrationTestContext(options: GetDbContextOptions());
 
         private static DbContextOptions<FinanceDbContext> GetDbContextOptions()
         {
             return _database_provider switch
             {
-                "SQL_SERVER" => (new DbContextOptionsBuilder<FinanceDbContext>()
-                    .UseSqlServer(TestUtility.Configuration["ConnectionStrings:OzymWorksIntegrationTest"])
-                    .EnableSensitiveDataLogging()).Options,
+                "SQL_SERVER" => new DbContextOptionsBuilder<FinanceDbContext>()
+                    .UseSqlServer(
+                        connectionString: TestUtility.Configuration["ConnectionStrings:OzymWorksIntegrationTest"],
+                        sqlServerOptionsAction: x => x.MigrationsAssembly("Ozym.EntityMigration"))
+                    .EnableSensitiveDataLogging().Options,
 
-                _ => (new DbContextOptionsBuilder<FinanceDbContext>()
+                _ => new DbContextOptionsBuilder<FinanceDbContext>()
                     .UseInMemoryDatabase("OzymWorks")
-                    .EnableSensitiveDataLogging()).Options
+                    .EnableSensitiveDataLogging().Options
             };
         }
     }

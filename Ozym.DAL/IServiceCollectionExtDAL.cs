@@ -12,6 +12,7 @@ using System;
 using Ozym.DataTransfer.Profiles;
 using AutoMapper;
 using System.Reflection;
+using Ozym.BusinessLogic.Accounting;
 
 namespace Ozym
 {
@@ -62,7 +63,8 @@ namespace Ozym
                 .AddCalculatorServices()
                 .AddMappingProfiles()
                 .AddModelServices()
-                .AddDbContextFactoryServices(dbProvider, developerMode);
+                .AddDbContextFactoryServices(dbProvider, developerMode)
+                .AddTestDbContextFactoryServices(dbProvider, developerMode);
 
             return services;
         }
@@ -83,7 +85,8 @@ namespace Ozym
         {
             services
                 .AddTransient<IFinancialCalculator, FinancialCalculator>()
-                .AddTransient<IStatisticsCalculator, StatisticsCalculator>();
+                .AddTransient<IStatisticsCalculator, StatisticsCalculator>()
+                .AddScoped<IAccountingService, AccountingService>();
 
             return services;
         }

@@ -87,6 +87,15 @@ namespace Ozym.EntityModel
         {
             get { return AccountNavigation?.ObjectDisplayName; }
         }
+
+        /// <summary>
+        /// Gets the formatted display name following the pattern: 
+        /// '[{<see cref="AccountCode"/>}] {<see cref="AccountName"/>}'.
+        /// </summary>
+        [NotMapped]
+        public string? FormattedDisplayName => 
+            AccountNavigation is null ? null : $"[{AccountCode}] {AccountName}";
+
 #pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
         public override string ToString()

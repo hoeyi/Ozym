@@ -9,11 +9,17 @@ namespace Ozym.BusinessLogic.Functions
     public class StatisticsCalculator : IStatisticsCalculator
     {
         /// <inheritdoc/>
+        public double NormalDistributionSample(double mean, double stddev)
+        {
+            var normal = new Normal(mean, stddev);
+
+            return normal.Sample();
+        }
+
+        /// <inheritdoc/>
         public double[] NormalDistributionSamples(double mean, double stddev, int count)
         {
-            if (count <= 0)
-                throw new ArgumentOutOfRangeException(
-                    paramName: nameof(count), actualValue: count, message: nameof(NormalDistributionSamples));
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(count, 0, paramName: nameof(count));
 
             var normal = new Normal(mean, stddev);
 
@@ -24,13 +30,31 @@ namespace Ozym.BusinessLogic.Functions
             return results;
         }
 
+        /// <inheritdoc/>
+        public double StudentTDistributionSample(
+            double mu, double scale, double degreesOfFreedom)
+        {
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(
+                degreesOfFreedom, 0, paramName: nameof(degreesOfFreedom));
+
+            var student = new StudentT(mu, scale, degreesOfFreedom);
+
+            return student.Sample();
+        }
 
         /// <inheritdoc/>
-        public double NormalDistributionSample(double mean, double stddev)
+        public double[] StudentTDistributionSamples(
+            double mu, double scale, double degreesOfFreedom, int count)
         {
-            var normal = new Normal(mean, stddev);
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(count, 0, paramName: nameof(count));
 
-            return normal.Sample();
+            var student = new StudentT(mu, scale, degreesOfFreedom);
+
+            var results = new double[count];
+
+            student.Samples(results);
+
+            return results;
         }
     }
 }

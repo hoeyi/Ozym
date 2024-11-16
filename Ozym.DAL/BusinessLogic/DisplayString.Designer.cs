@@ -61,6 +61,60 @@ namespace Ozym.BusinessLogic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to As of date.
+        /// </summary>
+        public static string AccountBalanceResult_AsOfDate_Description {
+            get {
+                return ResourceManager.GetString("AccountBalanceResult_AsOfDate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string AccountBalanceResult_AsOfDate_Name {
+            get {
+                return ResourceManager.GetString("AccountBalanceResult_AsOfDate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Net sum of credits (+) and debits (-).
+        /// </summary>
+        public static string AccountBalanceResult_Balance_Description {
+            get {
+                return ResourceManager.GetString("AccountBalanceResult_Balance_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balance.
+        /// </summary>
+        public static string AccountBalanceResult_Balance_Name {
+            get {
+                return ResourceManager.GetString("AccountBalanceResult_Balance_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display name of the account.
+        /// </summary>
+        public static string AccountBalanceResult_DisplayName_Description {
+            get {
+                return ResourceManager.GetString("AccountBalanceResult_DisplayName_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        public static string AccountBalanceResult_DisplayName_Name {
+            get {
+                return ResourceManager.GetString("AccountBalanceResult_DisplayName_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quantity to close in each lot..
         /// </summary>
         public static string AllocationInstructionRow_ClosingQuantity_Description {
@@ -138,6 +192,168 @@ namespace Ozym.BusinessLogic {
         public static string AllocationInstructionTable_RemainingQuantity_Name {
             get {
                 return ResourceManager.GetString("AllocationInstructionTable_RemainingQuantity_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display name of the account.
+        /// </summary>
+        public static string BankTransactionResult_AccountName_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_AccountName_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        public static string BankTransactionResult_AccountName_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_AccountName_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credit (+) or debit (-) amount.
+        /// </summary>
+        public static string BankTransactionResult_Amount_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Amount_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount.
+        /// </summary>
+        public static string BankTransactionResult_Amount_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Amount_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1st-level transaction categorization attribute.
+        /// </summary>
+        public static string BankTransactionResult_Attribute1Name_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Attribute1Name_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attribute 1.
+        /// </summary>
+        public static string BankTransactionResult_Attribute1Name_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Attribute1Name_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value assigned to attribute 1 for the entry.
+        /// </summary>
+        public static string BankTransactionResult_Attribute1Value_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Attribute1Value_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attribute 1 Value.
+        /// </summary>
+        public static string BankTransactionResult_Attribute1Value_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Attribute1Value_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2nd-level transaction categorization attribute.
+        /// </summary>
+        public static string BankTransactionResult_Attribute2Name_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Attribute2Name_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attribute 2.
+        /// </summary>
+        public static string BankTransactionResult_Attribute2Name_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Attribute2Name_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value assigned to attribute 2 for the entry.
+        /// </summary>
+        public static string BankTransactionResult_Attribute2Value_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Attribute2Value_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attribute 2 Value.
+        /// </summary>
+        public static string BankTransactionResult_Attribute2Value_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Attribute2Value_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entry detail / commentary.
+        /// </summary>
+        public static string BankTransactionResult_Comment_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Comment_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment.
+        /// </summary>
+        public static string BankTransactionResult_Comment_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_Comment_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction category.
+        /// </summary>
+        public static string BankTransactionResult_TransactionCode_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_TransactionCode_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code.
+        /// </summary>
+        public static string BankTransactionResult_TransactionCode_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_TransactionCode_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date of the entry.
+        /// </summary>
+        public static string BankTransactionResult_TransactionDate_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_TransactionDate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string BankTransactionResult_TransactionDate_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionResult_TransactionDate_Name", resourceCulture);
             }
         }
         
@@ -250,6 +466,24 @@ namespace Ozym.BusinessLogic {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The rate applied to the principal for this period, prior to contributions.
+        /// </summary>
+        public static string FutureValueResult_GrowthRate_Description {
+            get {
+                return ResourceManager.GetString("FutureValueResult_GrowthRate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Growth rate.
+        /// </summary>
+        public static string FutureValueResult_GrowthRate_Name {
+            get {
+                return ResourceManager.GetString("FutureValueResult_GrowthRate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sum of interest earned to date.
         /// </summary>
         public static string FutureValueResult_Interest_Description {
@@ -264,6 +498,24 @@ namespace Ozym.BusinessLogic {
         public static string FutureValueResult_Interest_Name {
             get {
                 return ResourceManager.GetString("FutureValueResult_Interest_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The net contribution at the end of this period.
+        /// </summary>
+        public static string FutureValueResult_NetContribution_Description {
+            get {
+                return ResourceManager.GetString("FutureValueResult_NetContribution_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Net contribution.
+        /// </summary>
+        public static string FutureValueResult_NetContribution_Name {
+            get {
+                return ResourceManager.GetString("FutureValueResult_NetContribution_Name", resourceCulture);
             }
         }
         

@@ -61,6 +61,168 @@ namespace Ozym.DataTransfer.MethodParams {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account to filter results to.
+        /// </summary>
+        public static string AccountBalanceInput_AccountId_Description {
+            get {
+                return ResourceManager.GetString("AccountBalanceInput_AccountId_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        public static string AccountBalanceInput_AccountId_Name {
+            get {
+                return ResourceManager.GetString("AccountBalanceInput_AccountId_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference date for balance.
+        /// </summary>
+        public static string AccountBalanceInput_AsOfDate_Description {
+            get {
+                return ResourceManager.GetString("AccountBalanceInput_AsOfDate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to As of date.
+        /// </summary>
+        public static string AccountBalanceInput_AsOfDate_Name {
+            get {
+                return ResourceManager.GetString("AccountBalanceInput_AsOfDate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account to filter results to.
+        /// </summary>
+        public static string BankTransactionInput_AccountId_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_AccountId_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account.
+        /// </summary>
+        public static string BankTransactionInput_AccountId_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_AccountId_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference date for the offset range.
+        /// </summary>
+        public static string BankTransactionInput_AsOfDate_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_AsOfDate_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to As of date.
+        /// </summary>
+        public static string BankTransactionInput_AsOfDate_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_AsOfDate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assign this attribute as the parent category.
+        /// </summary>
+        public static string BankTransactionInput_Attribute1_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_Attribute1_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category 1.
+        /// </summary>
+        public static string BankTransactionInput_Attribute1_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_Attribute1_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assign this attribute as the child category.
+        /// </summary>
+        public static string BankTransactionInput_Attribute2_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_Attribute2_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category 2.
+        /// </summary>
+        public static string BankTransactionInput_Attribute2_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_Attribute2_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of days prior to as of date to include.
+        /// </summary>
+        public static string BankTransactionInput_DayOffset_Description {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_DayOffset_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Day offset.
+        /// </summary>
+        public static string BankTransactionInput_DayOffset_Name {
+            get {
+                return ResourceManager.GetString("BankTransactionInput_DayOffset_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distribution of periodic deposits.
+        /// </summary>
+        public static string FutureValueInput_DepositDistribution_Description {
+            get {
+                return ResourceManager.GetString("FutureValueInput_DepositDistribution_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deposits distribution.
+        /// </summary>
+        public static string FutureValueInput_DepositDistribution_Name {
+            get {
+                return ResourceManager.GetString("FutureValueInput_DepositDistribution_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distribution of growth ratess.
+        /// </summary>
+        public static string FutureValueInput_GrowthDistribution_Description {
+            get {
+                return ResourceManager.GetString("FutureValueInput_GrowthDistribution_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Growth distribution.
+        /// </summary>
+        public static string FutureValueInput_GrowthDistribution_Name {
+            get {
+                return ResourceManager.GetString("FutureValueInput_GrowthDistribution_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Constant growth rate applied to balance.
         /// </summary>
         public static string FutureValueInput_GrowthRate_Description {
@@ -165,6 +327,24 @@ namespace Ozym.DataTransfer.MethodParams {
         public static string FutureValueInput_StartDate_Name {
             get {
                 return ResourceManager.GetString("FutureValueInput_StartDate_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of simulations to run.
+        /// </summary>
+        public static string FutureValueSimulation_SimulationCount_Description {
+            get {
+                return ResourceManager.GetString("FutureValueSimulation_SimulationCount_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Simulations.
+        /// </summary>
+        public static string FutureValueSimulation_SimulationCount_Name {
+            get {
+                return ResourceManager.GetString("FutureValueSimulation_SimulationCount_Name", resourceCulture);
             }
         }
     }

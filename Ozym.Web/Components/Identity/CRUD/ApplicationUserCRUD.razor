@@ -6,7 +6,7 @@
 }
 else
 {
-    <ModelForm TModelDto="ApplicationUser" WithFormEntryModifiers="true">
+    <ModelForm TModelDto="ApplicationUser" ControlLayout="ModelFormEntry<ApplicationUser>.Layout.InlineWithModifier">
         <ModelFormEntry ForMember="@(() => ModelDto.UserName)">
             @if(ReadOnly)
             {

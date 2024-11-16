@@ -47,9 +47,14 @@
     },
     "Children": [
       {
-        "IconKey": "analytics",
-        "Caption": "Data Tools",
+        "IconKey": "bar-chart",
+        "Caption": "Dashboard",
         "UriRelativePath": "/dashboard"
+      },
+      {
+        "IconKey": "flask",
+        "Caption": "Data Tools",
+        "UriRelativePath": "/workbench"
       },
       {
         "IconKey": "reader",

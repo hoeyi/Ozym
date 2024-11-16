@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountBalanceResult_AsOfDate_Description" xml:space="preserve">
+    <value>As of date</value>
+  </data>
+  <data name="AccountBalanceResult_AsOfDate_Name" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="AccountBalanceResult_Balance_Description" xml:space="preserve">
+    <value>Net sum of credits (+) and debits (-)</value>
+  </data>
+  <data name="AccountBalanceResult_Balance_Name" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="AccountBalanceResult_DisplayName_Description" xml:space="preserve">
+    <value>Display name of the account</value>
+  </data>
+  <data name="AccountBalanceResult_DisplayName_Name" xml:space="preserve">
+    <value>Account</value>
+  </data>
   <data name="AllocationInstructionRow_ClosingQuantity_Description" xml:space="preserve">
     <value>Quantity to close in each lot.</value>
   </data>
@@ -144,6 +162,60 @@
   </data>
   <data name="AllocationInstructionTable_RemainingQuantity_Name" xml:space="preserve">
     <value>Remaining quantity</value>
+  </data>
+  <data name="BankTransactionResult_AccountName_Description" xml:space="preserve">
+    <value>Display name of the account</value>
+  </data>
+  <data name="BankTransactionResult_AccountName_Name" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="BankTransactionResult_Amount_Description" xml:space="preserve">
+    <value>Credit (+) or debit (-) amount</value>
+  </data>
+  <data name="BankTransactionResult_Amount_Name" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="BankTransactionResult_Attribute1Name_Description" xml:space="preserve">
+    <value>1st-level transaction categorization attribute</value>
+  </data>
+  <data name="BankTransactionResult_Attribute1Name_Name" xml:space="preserve">
+    <value>Attribute 1</value>
+  </data>
+  <data name="BankTransactionResult_Attribute1Value_Description" xml:space="preserve">
+    <value>Value assigned to attribute 1 for the entry</value>
+  </data>
+  <data name="BankTransactionResult_Attribute1Value_Name" xml:space="preserve">
+    <value>Attribute 1 Value</value>
+  </data>
+  <data name="BankTransactionResult_Attribute2Name_Description" xml:space="preserve">
+    <value>2nd-level transaction categorization attribute</value>
+  </data>
+  <data name="BankTransactionResult_Attribute2Name_Name" xml:space="preserve">
+    <value>Attribute 2</value>
+  </data>
+  <data name="BankTransactionResult_Attribute2Value_Description" xml:space="preserve">
+    <value>Value assigned to attribute 2 for the entry</value>
+  </data>
+  <data name="BankTransactionResult_Attribute2Value_Name" xml:space="preserve">
+    <value>Attribute 2 Value</value>
+  </data>
+  <data name="BankTransactionResult_Comment_Description" xml:space="preserve">
+    <value>Entry detail / commentary</value>
+  </data>
+  <data name="BankTransactionResult_Comment_Name" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="BankTransactionResult_TransactionCode_Description" xml:space="preserve">
+    <value>Transaction category</value>
+  </data>
+  <data name="BankTransactionResult_TransactionCode_Name" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="BankTransactionResult_TransactionDate_Description" xml:space="preserve">
+    <value>Date of the entry</value>
+  </data>
+  <data name="BankTransactionResult_TransactionDate_Name" xml:space="preserve">
+    <value>Date</value>
   </data>
   <data name="BrokerTaxLot_AcquisitionDate_Description" xml:space="preserve">
     <value>Date of the original acquisition.</value>
@@ -181,11 +253,23 @@
   <data name="FutureValueResult_Balance_Name" xml:space="preserve">
     <value>Balance</value>
   </data>
+  <data name="FutureValueResult_GrowthRate_Description" xml:space="preserve">
+    <value>The rate applied to the principal for this period, prior to contributions</value>
+  </data>
+  <data name="FutureValueResult_GrowthRate_Name" xml:space="preserve">
+    <value>Growth rate</value>
+  </data>
   <data name="FutureValueResult_Interest_Description" xml:space="preserve">
     <value>Sum of interest earned to date</value>
   </data>
   <data name="FutureValueResult_Interest_Name" xml:space="preserve">
     <value>Interest</value>
+  </data>
+  <data name="FutureValueResult_NetContribution_Description" xml:space="preserve">
+    <value>The net contribution at the end of this period</value>
+  </data>
+  <data name="FutureValueResult_NetContribution_Name" xml:space="preserve">
+    <value>Net contribution</value>
   </data>
   <data name="FutureValueResult_PeriodDate_Description" xml:space="preserve">
     <value>End date of the period</value>

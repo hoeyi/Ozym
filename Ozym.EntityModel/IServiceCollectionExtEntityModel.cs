@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Ozym.EntityModel.Context;
+using Ozym.EntityModel.Context.IntegrationTest;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
@@ -44,7 +46,39 @@ namespace Ozym.EntityModel
                             message: $"{nameof(DatabaseProvider)}: {dbProvider}");
                 }
             });
-            
+
+            return services;
+        }
+
+        public static IServiceCollection AddTestDbContextFactoryServices(
+            this IServiceCollection services, DatabaseProvider dbProvider, bool developerMode = false)
+        {
+            services.AddDbContextFactory<FinanceDbIntegrationTestContext>(options =>
+            {
+                switch (dbProvider)
+                {
+                    case DatabaseProvider.InMemory:
+                        if (developerMode)
+                        {
+                            options.UseInMemoryDatabase(app_db_name);
+                            SeedInMemoryDatabase();
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException();
+                        }
+                        break;
+                    case DatabaseProvider.SqlServer:
+                        options.UseSqlServer(
+                            connectionString: $"Name=ConnectionStrings:{app_db_name}",
+                            sqlServerOptionsAction: x => x.MigrationsAssembly("Ozym.EntityMigration"));
+                        break;
+                    default:
+                        throw new NotSupportedException(
+                            message: $"{nameof(DatabaseProvider)}: {dbProvider}");
+                }
+            });
+
             return services;
         }
 

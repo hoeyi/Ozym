@@ -10,22 +10,7 @@
     <ContentTiles>
         <ContentTile>
             <TitleAlignLeft>
-                <div>@Resources.Strings.ComponentTitle_FutureValueCalculator</div>
-            </TitleAlignLeft>
-            <Body>
-                @if(IsLoading)
-                {
-                    <LoadingSvg />
-                }
-                else
-                {
-                    <FutureValueCalculator />
-                }
-            </Body>
-        </ContentTile>
-        <ContentTile>
-            <TitleAlignLeft>
-                <div>@Resources.Strings.ComponentTile_MarketQuotes</div>
+                <div>@Resources.Strings.ComponentTitle_MarketQuotes</div>
             </TitleAlignLeft>
             <Body>
                 @if(IsLoading)
@@ -38,6 +23,23 @@
                 }
             </Body>
         </ContentTile>
+        <ContentTile>
+            <TitleAlignLeft>
+                <div>@Resources.Strings.ComponentTitle_AccountBalances</div>
+            </TitleAlignLeft>
+            <Body>
+                @if (IsLoading)
+                {
+                    <LoadingSvg />
+                }
+                else
+                {
+                    <AccountBalanceView />
+                }
+            </Body>
+        </ContentTile>
+        <BankTransactionView />
+        <BankCashFlowView />
     </ContentTiles>
 </DashboardContainer>
 

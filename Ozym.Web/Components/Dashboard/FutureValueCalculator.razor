@@ -4,7 +4,7 @@
     <div class="future-value-calculator">
         <EditForm Model="_inputModel" OnSubmit="Calculate" id="@_formGuid">
             <DataAnnotationsValidator />
-            <ModelForm TModelDto="FutureValueInput">
+            <ModelForm TModelDto="FutureValueInput" ControlLayout="ModelFormEntry<FutureValueInput>.Layout.AboveLineLabel">
                 <ModelFormEntry ForMember="@(() => _inputModel.StartDate)">
                     <InputDate class="form-control"
                         DisplayName="@(GetName<FutureValueInput>(x => x.StartDate))"

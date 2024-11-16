@@ -78,8 +78,8 @@ namespace Ozym.Test.Context
                 sourceGuid: SourceGuid,
                 new Account[]
                 {
-                    new Account() { AccountId = 1 },
-                    new Account() { AccountId = 2 }
+                    new() { AccountId = 1 },
+                    new() { AccountId = 2 }
                 });
 
             Assert.AreEqual(
@@ -97,8 +97,8 @@ namespace Ozym.Test.Context
                 sourceGuid: SourceGuid,
                 new Account[]
                 {
-                    new Account() { AccountId = 1 },
-                    new Account() { AccountId = 1 }
+                    new() { AccountId = 1 },
+                    new() { AccountId = 1 }
                 });
 
             Assert.AreEqual(1, configuration.ReservedKeys.Count);

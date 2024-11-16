@@ -1,5 +1,12 @@
-﻿div {
-    padding: 0rem;
+﻿.ni-dashboard-tile {
+    display: grid;
+    grid-template-columns: 1fr;
+    font-size: 0.8rem !important;
+    resize: both;
+}
+
+.ni-dashboard-tile .datagrid {
+    width: 100%;
 }
 
 div.positive {

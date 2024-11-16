@@ -1,0 +1,28 @@
+﻿@page "/workbench"
+
+@inherits LocalizableComponent
+
+<PageTitle>
+    @($"{Resources.Strings.ApplicationName} | {Resources.Strings.PageTitle_Workbench}")
+</PageTitle>
+
+<DashboardContainer>
+    <ContentTiles>
+        <ContentTile>
+            <TitleAlignLeft>
+                <div>@Resources.Strings.ComponentTitle_FutureValueSimulation</div>
+            </TitleAlignLeft>
+            <Body>
+                <FutureValueSimulation />
+            </Body>
+        </ContentTile>
+        <ContentTile>
+            <TitleAlignLeft>
+                <div>@Resources.Strings.ComponentTitle_FutureValueCalculator</div>
+            </TitleAlignLeft>
+            <Body>
+                <FutureValueCalculator />
+            </Body>
+        </ContentTile>
+    </ContentTiles>
+</DashboardContainer>

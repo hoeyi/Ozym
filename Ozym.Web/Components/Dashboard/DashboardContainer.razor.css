@@ -5,6 +5,16 @@
     resize: both !important;
 }
 
+.ni-dashboard-tile.horizontal {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.ni-dashboard-tile.vertical {
+    display: grid;
+    grid-template-rows: 1fr 4fr;
+}
+
 @media only screen and (max-width: 1000px){
     .ni-dashboard-container {
         display: grid;
