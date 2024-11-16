@@ -11,7 +11,6 @@ namespace Ozym.Web.Test
         /// <summary>
         /// Resets the test 
         /// </summary>
-        [AssemblyCleanup]
         public static void ResetDatabaseToInitialState() =>
             TestDbContextFactory.ResetTestDatabase();
 
