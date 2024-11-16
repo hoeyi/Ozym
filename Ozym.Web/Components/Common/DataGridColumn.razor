@@ -48,7 +48,7 @@
     /// Gets or sets the string format for the data type of this column.
     /// </summary>
     [Parameter]
-    public string Format { get; set; }
+    public string Format { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the column cell type. The default is <see cref="DataGridCellType.Text" />.
@@ -68,21 +68,18 @@
     [Parameter]
     public RenderFragment<TModel> CellEditTemplate { get; set; } = default!;
 
-    protected override Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
         DataGrid.AddColumn(this);
-
-        return base.OnInitializedAsync();
     }
 
-    protected override void OnInitialized()
+    protected override Task OnParametersSetAsync()
     {
         DataGrid.AddColumn(this);
-
-        base.OnInitialized();
+        return base.OnParametersSetAsync();
     }
 
-    public object GetValue(TModel model)
+    public object? GetValue(TModel model)
     {
         if (model is null)
             throw new ArgumentNullException(paramName: nameof(model));

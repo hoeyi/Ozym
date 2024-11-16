@@ -1,0 +1,47 @@
+﻿@page "/dashboard"
+
+@inherits LocalizableComponent
+
+<PageTitle>
+    @($"{Resources.Strings.ApplicationName} | {Resources.Strings.PageTitle_Dashboard}")
+</PageTitle>
+
+<DashboardContainer>
+    <ContentTiles>
+        <ContentTile>
+            <TitleAlignLeft>
+                <div>@Resources.Strings.ComponentTitle_MarketQuotes</div>
+            </TitleAlignLeft>
+            <Body>
+                @if(IsLoading)
+                {
+                    <LoadingSvg />
+                }
+                else
+                {
+                    <MarketQuoteTable /> 
+                }
+            </Body>
+        </ContentTile>
+        <ContentTile>
+            <TitleAlignLeft>
+                <div>@Resources.Strings.ComponentTitle_AccountBalances</div>
+            </TitleAlignLeft>
+            <Body>
+                @if (IsLoading)
+                {
+                    <LoadingSvg />
+                }
+                else
+                {
+                    <AccountBalanceView />
+                }
+            </Body>
+        </ContentTile>
+        <BankTransactionView />
+        <BankCashFlowView />
+    </ContentTiles>
+</DashboardContainer>
+
+@code {
+}

@@ -29,11 +29,6 @@ namespace Ozym.EntityModelService
         {
             Reader = new ModelReaderService<SecurityPrice>(
                 ContextFactory, ModelMetadata, Logger);
-
-            GetDefaultModelDelegate = () => new SecurityPrice()
-            {
-                PriceDate = DateTime.UtcNow.Date
-            };
         }
     }
 }

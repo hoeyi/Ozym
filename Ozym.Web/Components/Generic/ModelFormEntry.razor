@@ -2,10 +2,10 @@
 
 @inherits LocalizableComponent
 
-@if(!string.IsNullOrEmpty(LabelText))
+@if(ParentForm is not null)
 {
-    <tr class="grid-container model-property-input">
-        <td class="label">
+    <div class="@GetCssClass()">
+        <div class="label">
             @if(!string.IsNullOrEmpty(ToolTipText))
             {
                 <ToolTip Text="@ToolTipText">
@@ -16,43 +16,61 @@
             {
                 @LabelText
             }
-        </td>
-        <td class="value">
+        </div>
+        <div class="value">
             @ChildContent
             @if(!SuppressValidation)
             {
                 <ValidationMessage For="@ForMember" />
             }
-        </td>
-    </tr>
+        </div>
+        @if(ModifierContent is not null)
+        {
+            <div class="modifier">
+                @ModifierContent
+            </div>
+        }
+    </div>
 }
 
 @code {
-    [CascadingParameter]
-    private ModelForm<TModelDto> ParentForm { get; set; }
-
-    [Parameter, EditorRequired] 
-    public RenderFragment ChildContent { get; set; }
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = default!;
 
     [Parameter, EditorRequired]
-    public Expression<Func<object>> ForMember { get; set; }
+    public Expression<Func<object>> ForMember { get; set; } = default!;
 
     [Parameter]
-    public string LabelOverride { get; set; }
+    public RenderFragment? ModifierContent { get; set; }
+
+    [Parameter]
+    public string LabelOverride { get; set; } = string.Empty;
 
     [Parameter]
     public bool SuppressValidation { get; set; }
 
-    private string ToolTipText { get; set; }
+    [CascadingParameter, EditorRequired]
+    public ModelForm<TModelDto>? ParentForm { get; set; }
 
-    private string LabelText { get; set; }
+    public enum Layout
+    {
+        InlineLabel,
 
-    private Expression<Func<TModelDto, object>> TypedAccessor { get; set; }
+        AboveLineLabel,
+
+        InlineWithModifier
+    }
+
+    private string ToolTipText { get; set; } = string.Empty;
+
+    private string LabelText { get; set; } = string.Empty;
+
+    private Expression<Func<TModelDto, object>> TypedAccessor { get; set; } = default!;
 
     protected override void OnInitialized()
     {
-        if (ForMember is null)
-            throw new ArgumentNullException(paramName: nameof(ForMember));
+        ArgumentNullException.ThrowIfNull(ForMember);
+        ArgumentNullException.ThrowIfNull(ParentForm);
 
         // Convert the ForMember parameter into a typed accessor for compatability with the
         // IModelMetadataService methods.
@@ -64,5 +82,26 @@
         ToolTipText = ModelMetadata.DescriptionFor(TypedAccessor);
     }
 
+    private string GetCssClass()
+    {
+        var sb = new System.Text.StringBuilder();
 
+        string gridFormat = ParentForm!.ControlLayout switch
+            {
+                Layout.InlineLabel => "col-2",
+                Layout.AboveLineLabel => "col-1",
+                Layout.InlineWithModifier => "col-3",
+                _ => string.Empty
+            };
+
+        sb.AppendJoin(
+            " ",
+            "form-entry",
+            "grid-container",
+            "model-property-input",
+            gridFormat
+        );
+
+        return sb.ToString().Trim();
+    }
 }

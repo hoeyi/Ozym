@@ -72,7 +72,7 @@ else
                                 <CellEditTemplate Context="model">
                                     <InputSelect class="form-control"
                                         @bind-Value="@model.AttributeMemberId">
-                                        @foreach(var member in AttributeMembers)
+                                        @foreach(var member in AttributeMembers ?? [])
                                         {
                                             <option value="@member.AttributeMemberId">@member.DisplayName</option>
                                         }
@@ -94,12 +94,10 @@ else
 
 @code{
     [CascadingParameter(Name = nameof(AttributeMembers))]
-    public IEnumerable<ModelAttributeMemberDtoBase> AttributeMembers { get; set; }
+    public IEnumerable<ModelAttributeMemberDtoBase>? AttributeMembers { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        await base.OnInitializedAsync();
-
         IsLoading = ModelDto is null || (ReadOnly ^ (AttributeMembers is null));
     }
 

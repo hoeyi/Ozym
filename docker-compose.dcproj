@@ -7,12 +7,15 @@
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://{ServicePort}</DockerServiceUrl>
     <DockerServiceName>ozym.web</DockerServiceName>
+    <DockerComposeBaseFilePath>docker-compose</DockerComposeBaseFilePath>
+    <DockerDevelopmentMode>Regular</DockerDevelopmentMode>
   </PropertyGroup>
   <ItemGroup>
+    <None Include=".dockerignore" />
+    <None Include="docker-compose-build.sh" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
     <None Include="docker-compose.yml" />
-    <None Include=".dockerignore" />
   </ItemGroup>
 </Project>

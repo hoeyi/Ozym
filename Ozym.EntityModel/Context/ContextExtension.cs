@@ -8,9 +8,9 @@ using System.Reflection;
 
 namespace Ozym.EntityModel.Context
 {
+    
     /// <summary>
-    /// The class for servicing single CRUD requests against the <see cref="MODEL"/> 
-    /// data store.
+    /// Provides extension methods for the <see cref="FinanceDbContext"/> class.
     /// </summary>
     public static class ContextExtension
     {
@@ -18,11 +18,13 @@ namespace Ozym.EntityModel.Context
         /// Gets the <see cref="DatabaseKey"/> that uniquely identifies a <typeparamref name="T"/> 
         /// instance.
         /// </summary>
+        /// <typeparam name="T">The type of the entity.</typeparam>
         /// <param name="entity">An instance of <typeparamref name="T"/>.</param>
-        /// <returns>A <see cref="DatabaseKey"/> from <paramref name="entity"/>that can be used to 
+        /// <returns>A <see cref="DatabaseKey"/> from <paramref name="entity"/> that can be used to 
         /// compare to other <typeparamref name="T"/> instances.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="entity"/> is null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when no key columns are defined for the entity or 
+        /// a composite key is not ordered properly.</exception>
         public static DatabaseKey GetKeyValue<T>(this T entity)
         {
             if (entity is null)

@@ -33,8 +33,6 @@
                     OnValidSubmit="(async () => await OnClickAsync(DialogResult.OK))">
                     <DataAnnotationsValidator />
                         @ChildContent
-                        @*<div>
-                        </div>*@
                         <ActionButtonMenu>
                             @foreach (var dialogOption in _dialogResultButtons)
                             {
@@ -88,7 +86,7 @@
     /// for this modal form.
     /// </summary>
     [CascadingParameter]
-    public TModelDto ModelDto { get; set; } 
+    public TModelDto? ModelDto { get; set; } 
 
     /// <summary>
     /// Flags the form to be rendered as a read-only page with a <div> element, or an 
@@ -101,9 +99,9 @@
     /// Captures unmatched attributes for additional style flexibility.
     /// </summary>
     [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object> AdditionalAttributes { get; set; }
+    public Dictionary<string, object> AdditionalAttributes { get; set; } = [];
 
-    private IEnumerable<DialogResult> _dialogResultButtons;
+    private IEnumerable<DialogResult> _dialogResultButtons = [];
 
     private string IsShownClassAttribute { get; set; } = VisibleClass;
 
@@ -116,10 +114,8 @@
         StateHasChanged();
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        await base.OnInitializedAsync();
-
         var flagsQuery = Enum.GetValues(typeof(DialogResult))
             .OfType<DialogResult>()
             .Where(v => v != DialogResult.None && DialogOptions.HasFlag(v));

@@ -2,49 +2,43 @@
 
   <PropertyGroup>
 	<TargetFramework>net8.0</TargetFramework>
-	<Nullable>disable</Nullable>
+	<Nullable>enable</Nullable>
 	<ImplicitUsings>disable</ImplicitUsings>
 	<UserSecretsId>aspnet-Ozym.Web-8127480B-07E8-4478-AEFA-EAC0AACF174B</UserSecretsId>
 	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
-
-  <ItemGroup>
-	<Content Remove="Resources\DefaultBannerMenu.json" />
-	<Content Remove="Resources\DefaultMenu.json" />
-  </ItemGroup>
-
   <ItemGroup>
 	<EmbeddedResource Include="Resources\DefaultMenu.json" />
 	<EmbeddedResource Include="Resources\DefaultBannerMenu.json" />
+	<EmbeddedResource Include="Resources\ManageUserMenu.json" />
+	<EmbeddedResource Include="Resources\PublicBannerMenu.json" />
   </ItemGroup>
 
-	
   <ItemGroup>
 	<PackageReference Include="Ichosys.Blazor.Ionicons" Version="2.0.1.2749" />
 	<PackageReference Include="Ichosys.DataModel" Version="4.0.0.3749" />
 	<PackageReference Include="Ichosys.Extensions.Common" Version="2.0.1.2629" />
 	<PackageReference Include="Ichosys.Extensions.Configuration" Version="3.0.0.5070" />
-	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.0" />
-	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
-	<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
-	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
-	<PackageReference Include="Radzen.Blazor" Version="4.23.4" />
-	<PackageReference Include="Serilog" Version="3.1.1" />
+	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.6" />
+	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
+	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
+	<PackageReference Include="Radzen.Blazor" Version="4.32.6" />
+	<PackageReference Include="Serilog" Version="4.0.0" />
 	<PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
-	<PackageReference Include="Serilog.Formatting.Compact" Version="2.0.0" />
+	<PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
 	<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 	<ItemGroup>
 		<!--This line forces a non-vulnerable version of System.Drawaing.Common to be included 
 			in the build. Without it, v4.7.0 is included. -->
-		<PackageReference Include="System.Drawing.Common" Version="8.0.0" />
+		<PackageReference Include="System.Drawing.Common" Version="8.0.6" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -67,6 +61,16 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>Strings.resx</DependentUpon>
 	</Compile>
+	<Compile Update="Identity\Data\ApplicationRole_SR.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>ApplicationRole_SR.resx</DependentUpon>
+	</Compile>
+	<Compile Update="Identity\Data\ApplicationUser_SR.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>ApplicationUser_SR.resx</DependentUpon>
+	</Compile>
 	<Compile Update="Resources\Strings.Designer.cs">
 	  <DesignTime>True</DesignTime>
 	  <AutoGen>True</AutoGen>
@@ -83,10 +87,26 @@
 	  <Generator>PublicResXFileCodeGenerator</Generator>
 	  <LastGenOutput>Strings.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
+	<EmbeddedResource Update="Identity\Data\ApplicationRole_SR.resx">
+	  <Generator>PublicResXFileCodeGenerator</Generator>
+	  <LastGenOutput>ApplicationRole_SR.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="Identity\Data\ApplicationUser_SR.resx">
+	  <Generator>PublicResXFileCodeGenerator</Generator>
+	  <LastGenOutput>ApplicationUser_SR.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
 	<EmbeddedResource Update="Resources\Strings.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>Strings.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Dashboard\BankCashFlowView.razor" />
+    <_ContentIncludedByDefault Remove="Components\Dashboard\FutureValueSimulation.razor" />
+    <_ContentIncludedByDefault Remove="Components\Identity\IdentityInitializer.razor" />
+    <_ContentIncludedByDefault Remove="Components\Identity\Pages\Access\Users\Create.razor" />
+    <_ContentIncludedByDefault Remove="Components\Pages\AccountComposites\_Imports.razor" />
   </ItemGroup>
 
 </Project>

@@ -24,7 +24,7 @@ namespace Ozym.Web.Test.Services
             var mockConfigSection = new Mock<IConfigurationSection>();
 
             mockConfig
-                .Setup(x => x.GetSection(ApiOptions.ApiService))
+                .Setup(x => x.GetSection(OzymApiOptions.ServiceName))
                 .Returns(mockConfigSection.Object);
 
             // Act 

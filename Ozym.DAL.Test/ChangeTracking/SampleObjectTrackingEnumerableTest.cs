@@ -111,7 +111,7 @@ namespace Ozym.Test.ChangeTracking
             var tracking = new TrackingEnumerable<SampleObject>(
                 new List<SampleObject>()
                 {
-                    new SampleObject()
+                    new()
                 });
 
             // Act

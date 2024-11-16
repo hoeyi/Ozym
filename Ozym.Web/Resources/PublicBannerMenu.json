@@ -1,0 +1,12 @@
+[
+  {
+    "Caption": "Ozym",
+    "UriRelativePath": "/",
+    "RootOptions": {
+      "DisplayIcon": false,
+      "DisplayCaption": true,
+      "DisplayChildMenuChevron": false
+    },
+    "Children": []
+  }
+]

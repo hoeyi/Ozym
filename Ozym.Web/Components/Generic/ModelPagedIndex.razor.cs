@@ -1,16 +1,12 @@
 ﻿using Ichosys.DataModel.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
-using Ozym.ChangeTracking;
 using Ozym.DataTransfer;
 using Ozym.DataTransfer.Common.Query;
 using Ozym.Web.Components.Common;
 using Ozym.Web.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace Ozym.Web.Components.Generic
@@ -24,13 +20,13 @@ namespace Ozym.Web.Components.Generic
         where TModelDto : class
     {
         [Inject]
-        protected IHttpService<TModelDto> HttpService { get; init; }
+        protected IHttpService<TModelDto> HttpService { get; init; } = default!;
 
         /// <summary>
         /// Gets or sets the <see cref="ISearchService{T}"/> for this page.
         /// </summary>
         [Inject]
-        protected ISearchService<TModelDto> SearchService { get; init; }
+        protected ISearchService<TModelDto> SearchService { get; init; } = default!;
 
         /// <summary>
         /// Checks the <see cref="SearchService"/> and <see cref="Controller"/> properties are 
@@ -62,7 +58,7 @@ namespace Ozym.Web.Components.Generic
         /// <summary>
         /// Gets the model collection that matches the search expression for this component.
         /// </summary>
-        protected virtual IEnumerable<TModelDto> Entries { get; set; }
+        protected virtual IEnumerable<TModelDto>? Entries { get; set; }
 
         protected ParameterDto<TModelDto>? LastSearchParameter { get; set; }
 
@@ -84,14 +80,14 @@ namespace Ozym.Web.Components.Generic
         /// <exception cref="ArgumentNullException"></exception>
         protected async Task InitializationTasksAsync(params Task[] initTasks)
         {
-            if (initTasks is null || !initTasks.Any())
+            if (initTasks is null || initTasks.Length == 0)
                 throw new ArgumentNullException(paramName: nameof(initTasks));
 
-            var initTaskCollection = Task.WhenAll(initTasks);
+            Task initTaskCollection = Task.WhenAll(initTasks);
             await initTaskCollection;
 
-            if (initTaskCollection.Status != TaskStatus.RanToCompletion)
-                throw initTaskCollection.Exception.Flatten();
+            if (initTaskCollection.Status == TaskStatus.Faulted)
+                throw initTaskCollection.Exception!.Flatten();
         }
 
         /// <summary>
@@ -113,7 +109,7 @@ namespace Ozym.Web.Components.Generic
             pageSize: PaginationHelper.PageSize);
 
         /// <inheritdoc/>
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
             CheckNullParameters();
 
@@ -145,7 +141,7 @@ namespace Ozym.Web.Components.Generic
         /// Refreshes the core result set according to the current search and page parameters. Lookup 
         /// collections are not refreshed.
         /// </summary>
-        /// <param name="predicate">The filter expression to apply.</param>
+        /// <param name="parameter">The <see cref="ParameterDto{T}"> to apply.</param>
         /// <param name="pageNumber">The index of the page desired.</param>
         /// <param name="pageSize">The record limit per page.</param>
         /// <returns>A task representing the asynchronous action to query and render 
@@ -153,7 +149,7 @@ namespace Ozym.Web.Components.Generic
         /// <exception cref="NotImplementedException">The method has not been overriden in a 
         /// derived class.</exception>
         protected virtual async Task RefreshResultsAsync(
-            ParameterDto<TModelDto> parameter,
+            ParameterDto<TModelDto>? parameter,
             int pageNumber,
             int pageSize)
         {

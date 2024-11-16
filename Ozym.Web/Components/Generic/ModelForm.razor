@@ -1,20 +1,78 @@
-﻿@inherits ModelComponent<TModelDto>
+﻿@using System.Text
+@inherits ModelComponent<TModelDto>
 
 @typeparam TModelDto where TModelDto : class
 @attribute [CascadingTypeParameter(nameof(TModelDto))]
 
-<CascadingValue Value="@this">
-    <table class="model-attributes">
-        <tbody>
+<CascadingValue Value="@ModelDto">
+    <CascadingValue Value="@this">
+        <div class="@GetCssClass()" @attributes="Attributes">
             @ChildContent
-        </tbody>
-    </table>
+        </div>
+    </CascadingValue>
 </CascadingValue>
 
 @code {
+    /// <summary>
+    /// Gets or sets the child content of the model form.
+    /// </summary>
     [Parameter, EditorRequired] 
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
+    /// <summary>
+    /// Captues cascading <see cref="TModelDto"> insatnce.
+    /// </summary>
+    // TODO: Why not just use the CascadingValue directly in the child component?
     [CascadingParameter, EditorRequired]
-    public TModelDto ModelDto { get; set; }
+    public TModelDto ModelDto { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the column layout for the model form. Default is <see cref="ColumnLayout.Two">.
+    /// </summary>
+    [Parameter]
+    public ColumnLayout Columns { get; set; } = ColumnLayout.Two;
+
+    /// <summary>
+    /// Gets or sets the controll layout of the model form.
+    /// </summary>
+    [Parameter]
+    public ModelFormEntry<TModelDto>.Layout ControlLayout { get; set; } = ModelFormEntry<TModelDto>.Layout.InlineLabel;
+
+    /// <summary>
+    /// Gets or sets the attributes to apply to the <ModelForm> element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> Attributes { get; set; } = default!;
+    /// <summary>
+    /// Use to pass instruction on the column count to create in the model form.
+    /// </summary>
+    public enum ColumnLayout
+    {
+        One = 1,
+
+        Two = 2,
+
+        Three = 3
+    }
+
+    private string GetCssClass()
+    {
+        var sb = new StringBuilder();
+        sb.Append("model-attributes");
+
+        switch (Columns)
+        {
+            case ColumnLayout.One:
+                sb.Append(" col-1");
+                break;
+            case ColumnLayout.Two:
+                sb.Append(" col-2");
+                break;
+            case ColumnLayout.Three:
+                sb.Append(" col-3");
+                break;
+        }
+
+        return sb.ToString();
+    }
 }

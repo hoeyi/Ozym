@@ -28,8 +28,6 @@ namespace Ozym.EntityModelService
         {
             Reader = new ModelReaderService<MarketHolidayObservance>(
                 ContextFactory, ModelMetadata, Logger);
-
-            GetDefaultModelDelegate = () => new();
         }
     }
 }

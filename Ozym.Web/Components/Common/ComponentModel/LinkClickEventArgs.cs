@@ -11,6 +11,6 @@ namespace Ozym.Web.Components.Common
         /// <summary>
         /// The relative URI path that was clicked to raise the event.
         /// </summary>
-        public string UriPath { get; init; }
+        public string UriPath { get; init; } = string.Empty;
     }
 }

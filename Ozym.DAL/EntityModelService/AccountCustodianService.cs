@@ -27,8 +27,6 @@ namespace Ozym.EntityModelService
                 : base(contextFactory, modelMetadata, logger)
         {
             Reader = new ModelReaderService<AccountCustodian>(ContextFactory, ModelMetadata, Logger);
-
-            GetDefaultModelDelegate = () => new AccountCustodian();
         }
     }
 }

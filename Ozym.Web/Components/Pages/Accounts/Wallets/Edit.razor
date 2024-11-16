@@ -1,0 +1,197 @@
+﻿@page "/accounts/{ModelId:int}/edit/wallets"
+
+@inherits ModelPagedIndexEditor<AccountWalletDto>
+
+@if(ParentAccount is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>@(PageTitle.UpdateSingle(ParentAccount.ShortCode).AsPageTitle())</PageTitle>
+
+    <ModelPageHeader Header="@(PageTitle.UpdateMany(ParentAccount.ShortCode))" />
+}
+
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
+
+@if(Context is null)
+{
+    <LoadingSvg />
+}
+else
+{
+    <EditForm width="100%" EditContext="Context">
+        <DataAnnotationsValidator/>
+        <ActionButtonMenu>
+            <button class="form-control button" 
+                @onclick="@(async (args) => await Submit_OnClick(context, args))">
+                @Strings.Caption_Button_Save
+            </button>
+            <button class="form-control button" 
+                @onclick=@((args) => AddNew(args))>
+                @Strings.Caption_CreateNew.Format(ModelNoun?.GetSingular())
+            </button>
+            <button class="form-control button" @onclick="CancelEditor_OnClick"
+                @onclick:preventDefault>
+                @Strings.Caption_Button_Cancel
+            </button>
+        </ActionButtonMenu>
+        <ContentTile>
+            <Body>
+                @if (IsLoading)
+                {
+                    <LoadingSvg />
+                }
+                else
+                {   
+                    <ValidationSummary />
+                        <DataGrid Data="@WorkingEntries" FootNote="@PaginationHelper.RecordReport">
+                        <DataGridColumn Type="DataGridCellType.Button">
+                            <CellEditTemplate Context="model">
+                                <ToolTip Text="@Strings.Caption_Button_Delete">
+                                    <button class="form-control button icon" type="button"
+                                        @onclick="(args) => DeleteRecord(args, model)">
+                                        <IonIcon Name="close-circle" />
+                                    </button>
+                                </ToolTip>
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                            Property=@nameof(AccountWalletDto.DenominationSecurityId)
+                            Caption=@(ModelMetadata.NameFor<AccountWalletDto>(x => x.DenominationSecurityId))
+                            width="20%">
+                            <CellEditTemplate Context="model">
+                                <InputSelect class="form-control"
+                                            @bind-Value="@model.DenominationSecurityId">
+                                    @foreach (var security in DenominationSecurities ?? [])
+                                    {
+                                        <option value=@security.SecurityId>@security.SecurityDescription</option>
+                                    }
+                                </InputSelect>
+                                <ValidationMessage For=@(()=> model.DenominationSecurityId) />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn 
+                            Type="DataGridCellType.Control"
+                            Property=@nameof(AccountWalletDto.AddressCode)
+                            Caption=@(ModelMetadata.NameFor<AccountWalletDto>(x => x.AddressCode)) 
+                            width="45%">
+                            <CellEditTemplate Context="model">
+                                <InputText class="form-control" @bind-Value="@model.AddressCode" />
+                                <ValidationMessage For=@(()=> model.AddressCode) />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn Type="DataGridCellType.Control"
+                            Property=@nameof(AccountWalletDto.AddressTag)
+                            Caption=@(ModelMetadata.NameFor<AccountWalletDto>(x => x.AddressTag)) 
+                            width="35%">
+                            <CellEditTemplate Context="model">
+                                <InputText class="form-control" @bind-Value="@model.AddressTag" />
+                                <ValidationMessage For=@(()=> model.AddressTag) />
+                            </CellEditTemplate>
+                        </DataGridColumn>
+                    </DataGrid>
+                }
+            </Body>
+        </ContentTile>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int ModelId { get; init; }
+
+    [Inject]
+    protected IQueryService QueryService { get; init; } = default!;
+
+    [Inject]
+    protected new IHttpCollectionService<AccountWalletDto, int> HttpService { get; init; } = default!;
+
+    private IEnumerable<SecurityDtoBase>? DenominationSecurities { get; set; }
+
+    private AccountDto? ParentAccount { get; set; }
+
+    /// <inheritdoc/>
+    protected override bool PageDataIsLoading() =>
+        WorkingEntries is null || ParentAccount is null || DenominationSecurities is null;
+
+    /// <inheritdoc/>
+    protected override async Task RefreshResultsAsync(
+        ParameterDto<AccountWalletDto>? parameter, int pageNumber, int pageSize)
+    {
+        if (WorkingEntries?.HasChanges ?? false)
+        {
+            var discardConfirmed = await ConfirmDiscardChangesAsync();
+
+            if (!discardConfirmed)
+                return;
+        }
+
+        var denominationDtosTask = QueryService.BuiltIn
+                .GetCryptocurrencyDTOsAsync(pageSize: int.MaxValue);
+
+        var walletsTask = parameter is null ?
+            HttpService.IndexAsync<AccountDto>(
+                parent: ModelId,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize) :
+            HttpService.SearchAsync<AccountDto>(
+                parent: ModelId,
+                parameter: parameter,
+                pageNumber: PaginationHelper.PageIndex,
+                pageSize: PaginationHelper.PageSize);
+
+        await InitializationTasksAsync(walletsTask, denominationDtosTask);
+
+        var walletsResult = await walletsTask;
+        var denominationDtosResult = await denominationDtosTask;
+
+        WorkingEntries = new TrackingEnumerable<AccountWalletDto>(walletsResult.Item1.ToList());
+        Context = new(WorkingEntries);
+
+        ParentAccount = walletsResult.Item2;
+
+        DenominationSecurities = denominationDtosResult.Item1;
+
+        PaginationHelper.TotalItemCount = walletsResult.Item3.ItemCount;
+        PaginationHelper.ItemCount = WorkingEntries.Count;
+    }
+
+    /// <inheritdoc/>
+    protected override void ReturnToIndex() => 
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{ModelId}/detail");
+
+    /// <inheritdoc/>
+    protected override async Task Submit_OnClick(EditContext context, MouseEventArgs args)
+    {
+        // Clear error message, if present.
+        ErrorMessage = null;
+
+        if(!WorkingEntries.HasChanges)
+            ReturnToIndex();
+
+        bool isValid = context.Validate();
+        if (isValid)
+        {
+            var changes = WorkingEntries.GetChanges();
+
+            try
+            {
+                var saveResult = await HttpService.PatchCollectionAsync(changes, ParentAccount!.Id);
+                    
+                ReturnToIndex();
+            }
+            catch(HttpRequestException e)
+            {
+                ErrorMessage = e?.Message;
+            }
+        }
+        else
+        {
+            ErrorMessage = string.Join("\n", context.GetValidationMessages());
+        }
+    }
+}

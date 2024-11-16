@@ -17,10 +17,10 @@ namespace Ozym.EntityMigration.FinanceApp
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.16")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.HasSequence("seqAuditEventID", "FinanceApp")
                 .HasMin(1L);
@@ -110,7 +110,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnOrder(2);
 
                     b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(5,4)");
+                        .HasColumnType("decimal(5, 4)");
 
                     b.HasKey("AttributeMemberId", "AccountObjectId", "EffectiveDate");
 
@@ -249,7 +249,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("AccountCustodianID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountCustodianId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountCustodianId"));
 
                     b.Property<string>("CustodianCode")
                         .IsRequired()
@@ -295,7 +295,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("AccountObjectID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountObjectId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountObjectId"));
 
                     b.Property<string>("AccountObjectCode")
                         .IsRequired()
@@ -336,9 +336,10 @@ namespace Ozym.EntityMigration.FinanceApp
                         .IsUnique()
                         .HasFilter("([AccountObjectCode] IS NOT NULL)");
 
-                    b.ToTable("AccountObject", "FinanceApp");
-
-                    b.HasCheckConstraint("CK_AccountObject_ObjectType", "[ObjectType] IN ('c','a')");
+                    b.ToTable("AccountObject", "FinanceApp", t =>
+                        {
+                            t.HasCheckConstraint("CK_AccountObject_ObjectType", "[ObjectType] IN ('c','a')");
+                        });
 
                     b.HasData(
                         new
@@ -393,7 +394,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("AccountWalletID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountWalletId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountWalletId"));
 
                     b.Property<int>("AccountId")
                         .HasColumnType("int")
@@ -459,14 +460,14 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("TransactionID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"));
 
                     b.Property<int>("AccountId")
                         .HasColumnType("int")
                         .HasColumnName("AccountID");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<string>("Comment")
                         .HasMaxLength(72)
@@ -1871,7 +1872,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("TransactionCodeID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionCodeId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionCodeId"));
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
@@ -1970,7 +1971,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnOrder(2);
 
                     b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(5,4)");
+                        .HasColumnType("decimal(5, 4)");
 
                     b.HasKey("AttributeMemberId", "TransactionCodeId", "EffectiveDate");
 
@@ -2116,7 +2117,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("TransactionID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"));
 
                     b.Property<int>("AccountId")
                         .HasColumnType("int")
@@ -2126,17 +2127,17 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("date");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<int>("DepSecurityId")
                         .HasColumnType("int")
                         .HasColumnName("DepSecurityID");
 
                     b.Property<decimal?>("Fee")
-                        .HasColumnType("decimal(9,4)");
+                        .HasColumnType("decimal(9, 4)");
 
                     b.Property<decimal?>("Quantity")
-                        .HasColumnType("decimal(19,6)");
+                        .HasColumnType("decimal(19, 6)");
 
                     b.Property<int>("SecurityId")
                         .HasColumnType("int")
@@ -2157,7 +2158,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnName("TransactionCodeID");
 
                     b.Property<decimal?>("Withholding")
-                        .HasColumnType("decimal(9,4)");
+                        .HasColumnType("decimal(9, 4)");
 
                     b.HasKey("TransactionId");
 
@@ -3495,7 +3496,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("TransactionCodeID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionCodeId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionCodeId"));
 
                     b.Property<short>("CashEffect")
                         .HasColumnType("smallint");
@@ -3702,7 +3703,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnOrder(2);
 
                     b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(5,4)");
+                        .HasColumnType("decimal(5, 4)");
 
                     b.HasKey("AttributeMemberId", "TransactionCodeId", "EffectiveDate");
 
@@ -5502,7 +5503,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnOrder(2);
 
                     b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(5,4)");
+                        .HasColumnType("decimal(5, 4)");
 
                     b.HasKey("AttributeMemberId", "CountryId", "EffectiveDate");
 
@@ -6013,20 +6014,20 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnOrder(2);
 
                     b.Property<decimal>("AverageCapital")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<decimal>("Gain")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<decimal>("Irr")
-                        .HasColumnType("decimal(9,4)")
+                        .HasColumnType("decimal(9, 4)")
                         .HasColumnName("IRR");
 
                     b.Property<decimal>("MarketValue")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<decimal>("NetContribution")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<DateTime>("ToDate")
                         .HasColumnType("date");
@@ -8214,20 +8215,20 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnOrder(1);
 
                     b.Property<decimal>("AverageCapital")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<decimal>("Gain")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<decimal>("Irr")
-                        .HasColumnType("decimal(9,4)")
+                        .HasColumnType("decimal(9, 4)")
                         .HasColumnName("IRR");
 
                     b.Property<decimal>("MarketValue")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<decimal>("NetContribution")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<DateTime>("ToDate")
                         .HasColumnType("date");
@@ -9238,7 +9239,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("InvestmentStrategyID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvestmentStrategyId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InvestmentStrategyId"));
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
@@ -9285,7 +9286,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("date");
 
                     b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(5,4)");
+                        .HasColumnType("decimal(5, 4)");
 
                     b.HasKey("InvestmentStrategyId", "AttributeMemberId", "EffectiveDate");
 
@@ -9361,7 +9362,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("MarketHolidayID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MarketHolidayId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MarketHolidayId"));
 
                     b.Property<string>("MarketHolidayName")
                         .IsRequired()
@@ -9496,7 +9497,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("IndexID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IndexId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IndexId"));
 
                     b.Property<string>("IndexCode")
                         .IsRequired()
@@ -9544,14 +9545,14 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("IndexPriceID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IndexPriceId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IndexPriceId"));
 
                     b.Property<int>("MarketIndexId")
                         .HasColumnType("int")
                         .HasColumnName("MarketIndexID");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<string>("PriceCode")
                         .HasMaxLength(1)
@@ -9569,9 +9570,10 @@ namespace Ozym.EntityMigration.FinanceApp
                         .IsUnique()
                         .HasFilter("([PriceCode] IS NOT NULL)");
 
-                    b.ToTable("MarketIndexPrice", "FinanceApp");
-
-                    b.HasCheckConstraint("CK_MarketIndexPrice_PriceCode", "[PriceCode] IN ('p','t')");
+                    b.ToTable("MarketIndexPrice", "FinanceApp", t =>
+                        {
+                            t.HasCheckConstraint("CK_MarketIndexPrice_PriceCode", "[PriceCode] IN ('p','t')");
+                        });
 
                     b.HasData(
                         new
@@ -11071,7 +11073,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("AttributeID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttributeId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttributeId"));
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
@@ -11146,7 +11148,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("AttributeMemberID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttributeMemberId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttributeMemberId"));
 
                     b.Property<int>("AttributeId")
                         .HasColumnType("int")
@@ -13548,9 +13550,10 @@ namespace Ozym.EntityMigration.FinanceApp
 
                     b.HasKey("AttributeId", "ScopeCode");
 
-                    b.ToTable("ModelAttributeScope", "FinanceApp");
-
-                    b.HasCheckConstraint("CK_ModelAttributeScope_ScopeCode", "[ScopeCode] in ('acc', 'bnk', 'brk', 'cou', 'cus', 'exc', 'sec')");
+                    b.ToTable("ModelAttributeScope", "FinanceApp", t =>
+                        {
+                            t.HasCheckConstraint("CK_ModelAttributeScope_ScopeCode", "[ScopeCode] in ('acc', 'bnk', 'brk', 'cou', 'cus', 'exc', 'sec')");
+                        });
 
                     b.HasData(
                         new
@@ -13622,7 +13625,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("ConfigurationID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConfigurationId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConfigurationId"));
 
                     b.Property<string>("ConfigurationCode")
                         .IsRequired()
@@ -13664,7 +13667,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("StyleSheetID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StyleSheetId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StyleSheetId"));
 
                     b.Property<string>("StyleSheetCode")
                         .IsRequired()
@@ -13694,7 +13697,7 @@ namespace Ozym.EntityMigration.FinanceApp
                             StyleSheetId = -1,
                             StyleSheetCode = "Default",
                             StyleSheetDescription = "Standard style sheet for report content.",
-                            XmlDefinition = "<StyleSheet xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <Fonts>\r\n    <Font Name=\"TableGroupHeader\" FontFamily=\"Arial\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray5\" BackColor=\"blue\" />\r\n    <Font Name=\"TableSubGroupHeader\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableColumnHeader\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableCell\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ChartAxisLabel\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"7pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ChartTitle\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"12pt\" Color=\"blue\" BackColor=\"No Color\" />\r\n    <Font Name=\"ReportParameter\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Italic\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ReportTitle\" FontFamily=\"Cambria\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"14pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ChartLegend\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableCellSubTotal\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableCellTotal\" FontFamily=\"Arial\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ReportPageNumber\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"7pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableDefault\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"ReportDefault\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n    <Font Name=\"TableTotalRow\" FontFamily=\"Arial\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray5\" BackColor=\"blue\" />\r\n    <Font Name=\"ChartSeriesLabel\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"7pt\" Color=\"gray1\" BackColor=\"No Color\" />\r\n  </Fonts>\r\n  <Colors>\r\n    <Color Name=\"gray0\" HexCode=\"#191919\" />\r\n    <Color Name=\"gray1\" HexCode=\"#212121\" />\r\n    <Color Name=\"gray2\" HexCode=\"#303030\" />\r\n    <Color Name=\"gray3\" HexCode=\"#424242\" />\r\n    <Color Name=\"gray4\" HexCode=\"#D2D2D2\" />\r\n    <Color Name=\"gray5\" HexCode=\"#E6E6E6\" />\r\n    <Color Name=\"blue\" HexCode=\"#0E2C39\" />\r\n    <Color Name=\"yellow\" HexCode=\"#5B4713\" />\r\n    <Color Name=\"green\" HexCode=\"#0E391B\" />\r\n    <Color Name=\"red\" HexCode=\"#5B2113\" />\r\n  </Colors>\r\n  <DefaultFont BackColor=\"No Color\" Color=\"#000000\" Name=\"default\" Decoration=\"Default\" Size=\"8pt\" Weight=\"Default\" Style=\"Default\" Family=\"Arial\" />\r\n  <AlphaBlendHexCode>#ffffff</AlphaBlendHexCode>\r\n</StyleSheet>"
+                            XmlDefinition = "<StyleSheet xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <Fonts>\n    <Font Name=\"TableGroupHeader\" FontFamily=\"Arial\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray5\" BackColor=\"blue\" />\n    <Font Name=\"TableSubGroupHeader\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"TableColumnHeader\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"TableCell\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"ChartAxisLabel\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"7pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"ChartTitle\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"12pt\" Color=\"blue\" BackColor=\"No Color\" />\n    <Font Name=\"ReportParameter\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Italic\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"ReportTitle\" FontFamily=\"Cambria\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"14pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"ChartLegend\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"TableCellSubTotal\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"TableCellTotal\" FontFamily=\"Arial\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"ReportPageNumber\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"7pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"TableDefault\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"ReportDefault\" FontFamily=\"Arial\" FontWeight=\"Default\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray1\" BackColor=\"No Color\" />\n    <Font Name=\"TableTotalRow\" FontFamily=\"Arial\" FontWeight=\"Bold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"8pt\" Color=\"gray5\" BackColor=\"blue\" />\n    <Font Name=\"ChartSeriesLabel\" FontFamily=\"Arial\" FontWeight=\"SemiBold\" TextDecoration=\"Default\" FontStyle=\"Default\" FontSize=\"7pt\" Color=\"gray1\" BackColor=\"No Color\" />\n  </Fonts>\n  <Colors>\n    <Color Name=\"gray0\" HexCode=\"#191919\" />\n    <Color Name=\"gray1\" HexCode=\"#212121\" />\n    <Color Name=\"gray2\" HexCode=\"#303030\" />\n    <Color Name=\"gray3\" HexCode=\"#424242\" />\n    <Color Name=\"gray4\" HexCode=\"#D2D2D2\" />\n    <Color Name=\"gray5\" HexCode=\"#E6E6E6\" />\n    <Color Name=\"blue\" HexCode=\"#0E2C39\" />\n    <Color Name=\"yellow\" HexCode=\"#5B4713\" />\n    <Color Name=\"green\" HexCode=\"#0E391B\" />\n    <Color Name=\"red\" HexCode=\"#5B2113\" />\n  </Colors>\n  <DefaultFont BackColor=\"No Color\" Color=\"#000000\" Name=\"default\" Decoration=\"Default\" Size=\"8pt\" Weight=\"Default\" Style=\"Default\" Family=\"Arial\" />\n  <AlphaBlendHexCode>#ffffff</AlphaBlendHexCode>\n</StyleSheet>"
                         });
                 });
 
@@ -13705,7 +13708,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("ImageID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
 
                     b.Property<string>("FileExtension")
                         .IsRequired()
@@ -13733,7 +13736,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("SecurityID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SecurityId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SecurityId"));
 
                     b.Property<bool>("HasPerpetualMarket")
                         .HasColumnType("bit");
@@ -14090,7 +14093,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnOrder(12);
 
                     b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(5,4)");
+                        .HasColumnType("decimal(5, 4)");
 
                     b.HasKey("AttributeMemberId", "SecurityId", "EffectiveDate");
 
@@ -14971,7 +14974,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("ExchangeID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExchangeId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExchangeId"));
 
                     b.Property<string>("ExchangeCode")
                         .IsRequired()
@@ -15055,22 +15058,22 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("PriceID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PriceId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PriceId"));
 
                     b.Property<decimal>("PriceClose")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<DateTime>("PriceDate")
                         .HasColumnType("date");
 
                     b.Property<decimal?>("PriceHigh")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<decimal?>("PriceLow")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<decimal?>("PriceOpen")
-                        .HasColumnType("decimal(19,4)");
+                        .HasColumnType("decimal(19, 4)");
 
                     b.Property<int>("SecurityId")
                         .HasColumnType("int")
@@ -32195,7 +32198,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("SymbolID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SymbolId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SymbolId"));
 
                     b.Property<string>("Cusip")
                         .HasMaxLength(9)
@@ -32482,7 +32485,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("SymbolMapID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SymbolMapId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SymbolMapId"));
 
                     b.Property<int>("AccountCustodianId")
                         .HasColumnType("int")
@@ -32514,7 +32517,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("int")
                         .HasColumnName("SymbolTypeID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SymbolTypeId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SymbolTypeId"));
 
                     b.Property<string>("SymbolTypeName")
                         .IsRequired()
@@ -32577,7 +32580,7 @@ namespace Ozym.EntityMigration.FinanceApp
                         .HasColumnType("nvarchar(72)");
 
                     b.Property<decimal>("ValuationFactor")
-                        .HasColumnType("decimal(7,4)");
+                        .HasColumnType("decimal(7, 4)");
 
                     b.HasKey("SecurityTypeId");
 

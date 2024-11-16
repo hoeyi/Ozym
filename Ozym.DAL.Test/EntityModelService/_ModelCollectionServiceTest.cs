@@ -18,15 +18,6 @@ namespace Ozym.Test.EntityModelService
     {
         /// <inheritdoc/>
         [TestMethod]
-        public virtual async Task GetDefault_Yields_Model_Instance()
-        {
-            var model = await GetModelService().GetDefaultAsync();
-
-            Assert.IsInstanceOfType(model, typeof(T));
-        }
-
-        /// <inheritdoc/>
-        [TestMethod]
         public virtual void ModelExists_KeyIsPresent_Returns_True()
         {
             var model = GetLast(ParentExpression);

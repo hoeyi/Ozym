@@ -1,0 +1,53 @@
+﻿@page "/style-sheets"
+
+@inherits ModelIndex<ReportStyleSheetDto>
+
+<PageTitle>@(PageTitle.ReadMany().AsPageTitle())</PageTitle>
+
+<ModelPageHeader ActionMenu="@SectionNavigationMenu" Header="@(PageTitle.ReadMany())" />
+
+<CascadingValue Value="@ErrorMessage">
+    <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+</CascadingValue>
+
+<ContentTile>
+    <TitleAlignLeft>
+        <Paginator Model="PaginationHelper"
+                IndexChanged="OnIndexChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+    </TitleAlignLeft>
+    <Body>
+        @if (IsLoading)
+        {
+            <LoadingSvg />
+        }
+        else
+        {
+            <DataGrid Data="@Entries" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn Property=@nameof(ReportStyleSheetDto.StyleSheetCode)
+                            Caption=@(NameFor(x => x.StyleSheetCode))
+                            Type=@DataGridCellType.Link>
+                    <CellTemplate Context="model">
+                        <a class="custom-nav-link" href=@(FormatDetailUri(model.StyleSheetId))
+                            @onclick:preventDefault
+                            @onclick="@(args => Detail_OnClick(model, args))">
+                            @model.StyleSheetCode
+                        </a>
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(ReportStyleSheetDto.StyleSheetDescription)
+                            Caption=@(NameFor(x => x.StyleSheetDescription))>
+                    <CellTemplate Context="model">
+                        @model.StyleSheetDescription
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
+
+@code {
+    private void Detail_OnClick(ReportStyleSheetDto model, MouseEventArgs args)
+    {
+        NavigationHelper.NavigateTo(FormatDetailUri(model.StyleSheetId));
+    }
+}

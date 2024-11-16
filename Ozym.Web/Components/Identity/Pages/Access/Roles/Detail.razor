@@ -1,0 +1,79 @@
+﻿@using Microsoft.EntityFrameworkCore
+
+@inherits ModelPage<ApplicationRole>
+
+@inject RoleManager<ApplicationRole> RoleManager
+
+@if (isLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>
+        @(titleInfo.ReadSingle(heading: role!.Name).AsPageTitle())
+    </PageTitle>
+
+    <ModelPageHeader ActionMenu="@navMenu" Header="@(titleInfo.ReadSingle(heading: role!.Name))" />
+
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@role">
+                <EditForm class="model-editor" Model="@role">
+                    <ApplicationRoleCRUD Disabled="false" ReadOnly="true" />
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+}
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private ApplicationRole? role;
+
+    private bool isLoading = true;
+
+    private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationRole>();
+
+    private MenuRoot navMenu = default!;
+
+    protected override string IndexUriRelativePath => "/access/roles";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            role = await RoleManager.Roles.FirstAsync(r => r.Id == Id.ToString());
+
+            string editCaption = Strings.Caption_EditSingle.Format(ModelNoun?.GetSingular());
+            string indexCaption = Strings.Caption_NavigateBackTo.Format(ModelNoun?.GetPlural());
+
+            navMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                {
+                    // Add return to index button.
+                    new MenuItem()
+                    {
+                        IconKey = "caret-back-circle",
+                        Caption = indexCaption,
+                        UriRelativePath = $"{IndexUriRelativePath}"
+                    },
+                    // Add edit button.
+                    new MenuItem()
+                    {
+                        IconKey = "pencil",
+                        Caption = editCaption,
+                        UriRelativePath = FormatEditUri(GetKeyValueOrDefault<string>(role))
+                    }
+                }
+                };
+        }
+        finally
+        {
+            isLoading = role is null;
+        }
+    }
+}

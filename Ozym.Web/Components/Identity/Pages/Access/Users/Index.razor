@@ -1,0 +1,126 @@
+﻿@page "/access/users/"
+
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@using Ozym.Web.Identity.Data
+
+@inject NavigationManager NavigationManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IModelMetadataService ModelMetadata
+
+<PageTitle>
+    @(titleInfo.ReadMany().ToTitleCase().AsPageTitle())
+</PageTitle>
+
+<ModelPageHeader ActionMenu="@PageMenu" Header="@(titleInfo.ReadMany())" />
+
+<ContentTile>
+    <Body>
+        <Paginator Model="PaginationHelper"
+                    IndexChanged="RefreshResultsAsync" PageSizeChanged="RefreshResultsAsync" />
+        @if(IsLoading)
+        {
+            <LoadingSvg/>
+        }
+        else
+        {
+            <DataGrid Data="@Users" FootNote="@PaginationHelper.RecordReport">
+                <DataGridColumn Property=@nameof(ApplicationUser.UserName)
+                                Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.UserName))
+                            Type=@DataGridCellType.Link>
+                    <CellTemplate Context="model">
+                        <a class="custom-nav-link" href=@(FormatDetailUri(model)) 
+                            @onclick:preventDefault 
+                            @onclick="@(args => Detail_OnClick(model, args))">
+                            @model.UserName
+                        </a>
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(ApplicationUser.Email)
+                                Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.Email))>
+                    <CellTemplate Context="model">
+                        @model.Email
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(ApplicationUser.EmailConfirmed)
+                                Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.EmailConfirmed))>
+                    <CellTemplate Context="model">
+                        @model.EmailConfirmed
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(ApplicationUser.PhoneNumber)
+                                Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.PhoneNumber))>
+                    <CellTemplate Context="model">
+                        @model.PhoneNumber
+                    </CellTemplate>
+                </DataGridColumn>
+                <DataGridColumn Property=@nameof(ApplicationUser.PhoneNumberConfirmed)
+                                Caption=@(ModelMetadata.NameFor<ApplicationUser>(x => x.PhoneNumberConfirmed))>
+                    <CellTemplate Context="model">
+                        @model.PhoneNumberConfirmed
+                    </CellTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        }
+    </Body>
+</ContentTile>
+
+@code {
+
+    private IEnumerable<ApplicationUser>? Users { get; set; }
+
+    private PagerModel PaginationHelper { get; set; } = new(startingIndex: 1, pageSize: 20);
+
+    private bool IsLoading { get; set; } = true;
+
+    private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationUser>();
+
+    private MenuRoot PageMenu { get; set; } = default!;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var modelNoun = ModelMetadata.GetAttribute<ApplicationUser, NounAttribute>();
+
+        PageMenu = new()
+        {
+            Children = 
+            {
+                new MenuItem()
+                {
+                    IconKey = "create",
+                    Caption = titleInfo.CreateSingle(),
+                    UriRelativePath = "/access/users/create"
+                }
+            }
+        };
+
+        await RefreshResultsAsync();
+    }
+
+    private async Task RefreshResultsAsync()
+    {
+        IsLoading = true;
+        try
+        {
+            Users = await UserManager.Users
+                .OrderBy(x => x.UserName)
+                .Skip(PaginationHelper.PageSize * (PaginationHelper.PageIndex - 1))
+                .Take(PaginationHelper.PageSize)
+                .ToListAsync();
+
+            PaginationHelper.TotalItemCount = await UserManager.Users.CountAsync();
+            PaginationHelper.ItemCount = Users.Count();
+        }
+        finally
+        {
+            IsLoading = Users is null;   
+        }
+    }
+
+    private string FormatDetailUri(ApplicationUser user) => $"/access/users/{user.Id}";
+
+    private void Detail_OnClick(ApplicationUser model, MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo(FormatDetailUri(model));
+    }
+}

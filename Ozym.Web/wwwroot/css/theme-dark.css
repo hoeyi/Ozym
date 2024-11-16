@@ -55,7 +55,8 @@
     --theme-text-color-0: var(--theme-hexcolor-text-0);
     --theme-text-color-success: #3EC70B;
     --theme-text-color-failure: #DC0303;
-
+    --theme-text-color-warning: #DC0303;
+    --theme-text-color-danger: #DC0303;
     /*#endregion */
     /*#region Control colors */
     --theme-form-control-back-color: var(--theme-hexcolor-gray-1, gray);
@@ -69,22 +70,23 @@
     --theme-tablecell-onhover-color: var(--theme-hexcolor-primary-2);
     /*#endregion*/
     /*#region Fonts */
-    --theme-fontfamily-default: 'Cambria Math';
-    --theme-fontfamily-actionmenu: 'Arial';
-    --theme-fontfamily-tableheader: 'Cambria Math';
-    --theme-fontfamily-tablecell: 'Arial';
+    --theme-fontfamily-default: "Cambria Math",system-ui,-apple-system,sans-serif;
+    --theme-fontfamily-actionmenu: system-ui,-apple-system,sans-serif;
+    --theme-fontfamily-tableheader: "Cambria Math",system-ui,-apple-system,sans-serif;
+    --theme-fontfamily-tablecell: system-ui,-apple-system,sans-serif;
     /*#endregion */
     --theme-box-shadow-opacity: 0.3;
+    --theme-border-radius: 0.25rem;
     /*#region Radzen.Blazor chart series override */
     --rz-series-1: var(--theme-hexcolor-secondary-3-0, #3700b3) !important;
     --rz-series-2: var(--theme-hexcolor-secondary-3-1, #ba68c8) !important;
     --rz-series-3: var(--theme-hexcolor-secondary-3-2, #f06292) !important;
-    --rz-series-4: #ff8a65;
-    --rz-series-5: #ffee58;
-    --rz-series-6: #9ccc65;
-    --rz-series-7: #26a69a;
-    --rz-series-8: #4fc3f7;
-    --rz-series-9: #7f5cce;
+    --rz-series-4: var(--theme-hexcolor-secondary-1-0, #ff8a65) !important;
+    --rz-series-5: var(--theme-hexcolor-secondary-1-1, #ffee58) !important;
+    --rz-series-6: var(--theme-hexcolor-secondary-1-2, #9ccc65) !important;
+    --rz-series-7: var(--theme-hexcolor-secondary-2-0, #26a69a) !important;
+    --rz-series-8: var(--theme-hexcolor-secondary-2-1, #4fc3f7) !important;
+    --rz-series-9: var(--theme-hexcolor-secondary-2-2, #7f5cce) !important;
     --rz-series-10: #ce93d8;
     --rz-series-11: #f48fb1;
     --rz-series-12: #ffab91;
@@ -101,6 +103,10 @@
     --rz-series-23: #80cbc4;
     --rz-series-24: #b3e5fc;
     /*#endregion */
+}
+
+body, html {
+    font-family: system-ui,-apple-system,sans-serif;
 }
 
 body {

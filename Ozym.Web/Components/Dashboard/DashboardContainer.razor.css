@@ -5,8 +5,14 @@
     resize: both !important;
 }
 
-::deep .content-tile {
-    /*margin-bottom: 0rem;*/
+.ni-dashboard-tile.horizontal {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.ni-dashboard-tile.vertical {
+    display: grid;
+    grid-template-rows: 1fr 4fr;
 }
 
 @media only screen and (max-width: 1000px){
@@ -14,5 +20,6 @@
         display: grid;
         grid-template-columns: repeat(1, 1fr);
         gap: 0rem;
+        grid-row-gap: 1rem;
     }
 }

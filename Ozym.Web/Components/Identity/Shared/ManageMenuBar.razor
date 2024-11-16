@@ -1,0 +1,34 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <div class="user-welcome-caption" style="margin:auto">
+            @context.User?.Identity?.Name
+        </div>
+        <IonIcon Name="exit" />
+        @foreach(var menu in ManageUserMenu)
+        {
+            <MenuBar 
+                Menu="menu" 
+                HyperlinkClickCallBack="HyperlinkClickCallBack"
+                OpenVertical="MenuStripItem.ExpandDirection.Down"
+                OpenHorizontal="MenuStripItem.ExpandDirection.Right"/>
+        }
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    /// <summary>
+    /// Gets or sets the delegate overriding the link behavior for this menu item.
+    /// </summary>
+    [Parameter]
+    public EventCallback<LinkClickEventArgs> HyperlinkClickCallBack { get; set; }
+
+    private MenuRoot[] ManageUserMenu { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        var defaultMenu = await Resources.ResourceHelper
+            .GetDefaultMenu<MenuRoot[]>(shortName: "ManageUserMenu.json");
+
+        ManageUserMenu = defaultMenu ?? [];
+    }
+}

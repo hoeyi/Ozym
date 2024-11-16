@@ -1,10 +1,8 @@
 ﻿using Ozym.DataTransfer;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ozym.ChangeTracking;
 using Ichosys.DataModel.Expressions;
-using AutoMapper.Configuration.Conventions;
 using Ozym.DataTransfer.Common.Query;
 
 namespace Ozym.Web.Services
@@ -63,7 +61,7 @@ namespace Ozym.Web.Services
         /// </summary>
         /// <param name="id">The integer key to match.</param>
         /// <returns>The <typeparamref name="T"/> identified by <paramref name="id"/>.</returns>
-        Task<T> GetAsync(int? id);
+        Task<T> GetAsync(int id);
 
         /// <summary>
         /// Gets the <typeparamref name="T"/> items limited to the page and count provided.

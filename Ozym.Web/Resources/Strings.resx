@@ -126,14 +126,35 @@
   <data name="Caption_InputSelect_Placeholder" xml:space="preserve">
     <value>&lt; Select &gt;</value>
   </data>
-  <data name="ComponentTile_MarketQuotes" xml:space="preserve">
-    <value>Market quotes</value>
+  <data name="Caption_IsConfirmed" xml:space="preserve">
+    <value>Confirmed</value>
+  </data>
+  <data name="Caption_IsNotConfirmed" xml:space="preserve">
+    <value>Not confirmed</value>
+  </data>
+  <data name="ComponentTitle_AccountBalances" xml:space="preserve">
+    <value>Active account balances</value>
   </data>
   <data name="ComponentTitle_AttributeSelector" xml:space="preserve">
     <value>Select attribute</value>
   </data>
+  <data name="ComponentTitle_BankBalances" xml:space="preserve">
+    <value>Open bank balances</value>
+  </data>
+  <data name="ComponentTitle_BankCashFlow" xml:space="preserve">
+    <value>Bank cash flow</value>
+  </data>
   <data name="ComponentTitle_FutureValueCalculator" xml:space="preserve">
     <value>Future value calculator</value>
+  </data>
+  <data name="ComponentTitle_FutureValueSimulation" xml:space="preserve">
+    <value>Monte Carlo future value</value>
+  </data>
+  <data name="ComponentTitle_MarketQuotes" xml:space="preserve">
+    <value>Market quotes</value>
+  </data>
+  <data name="ComponentTitle_RecentBankTransactions" xml:space="preserve">
+    <value>Recent bank transactions</value>
   </data>
   <data name="Exception_Application_Fatal" xml:space="preserve">
     <value>Host terminated unexpectedly.</value>
@@ -161,5 +182,8 @@ If submitting a ticket, please include the following timestamp in your report: {
   </data>
   <data name="PageTitle_NotFound" xml:space="preserve">
     <value>(No title)</value>
+  </data>
+  <data name="PageTitle_Workbench" xml:space="preserve">
+    <value>Workbench</value>
   </data>
 </root>

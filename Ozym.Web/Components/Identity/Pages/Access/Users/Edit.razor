@@ -1,0 +1,264 @@
+﻿@page "/access/users/{Id:guid}/edit"
+
+@using Microsoft.EntityFrameworkCore
+@using System.Transactions
+
+@inherits ModelPage<ApplicationUser>
+
+@inject UserManager<ApplicationUser> UserManager
+@inject RoleManager<ApplicationRole> RoleManager
+@inject IdentityUserAccessor UserAccessor
+@inject IdentityRedirectManager RedirectManager
+@inject AuthenticationStateProvider AuthStateProvider
+
+@if (isLoading)
+{
+    <LoadingSvg />
+}
+else
+{
+    <PageTitle>
+        @(titleInfo.UpdateSingle(heading: user!.UserName).AsPageTitle())
+    </PageTitle>
+
+    <ModelPageHeader Header="@(titleInfo.UpdateSingle(heading: user!.UserName))" />
+
+    <CascadingValue Value="@ErrorMessage">
+        <ErrorMessageBox Header="@Resources.Strings.Exception_Message_Generic" />
+    </CascadingValue>
+
+    <ContentTile>
+        <Body>
+            <CascadingValue Value="@user">
+                <ActionButtonMenu>
+                    <button type="submit" class="form-control button" form="@_formGuid">
+                        @Strings.Caption_Button_Save
+                    </button>
+                    <button type="button" class="form-control button"
+                            @onclick="FormDeleteClickHandler"
+                    @onclick:preventDefault>
+                        @Strings.Caption_Button_Delete
+                    </button>
+                    <button type="button" class="form-control button"
+                            @onclick="FormCancelClickHandler"
+                    @onclick:preventDefault>
+                        @Strings.Caption_Button_Cancel
+                    </button>
+                </ActionButtonMenu>
+                <EditForm class="model-editor" id="@_formGuid" Model="@user"
+                    OnValidSubmit="ValidFormSubmitHandler">
+                    <DataAnnotationsValidator />
+                    <ApplicationUserCRUD Disabled="false" ReadOnly="false" />
+                </EditForm>
+            </CascadingValue>
+        </Body>
+    </ContentTile>
+    <ContentTile>
+        <TitleAlignLeft>
+            <div>
+                @(NameFor(x => x.Roles))
+            </div>
+            <button id="add-new-entry-button"
+                    class="form-control button icon"
+                    type="button"
+                    @onclick="() => user.Roles.Add(new(){ Name = string.Empty })">
+                <IonIcon Name="add" />
+            </button>
+        </TitleAlignLeft>
+        <Body>
+            <DataGrid Data="@user.Roles" TModel="ApplicationRole">
+                <DataGridColumn Type="DataGridCellType.Button">
+                    <CellEditTemplate Context="role">
+                        <ToolTip Text="@Strings.Caption_Button_Delete">
+                            <button class="form-control button icon" type="button"
+                                    @onclick="() => user.Roles.Remove(role)">
+                                <IonIcon Name="close-circle" />
+                            </button>
+                        </ToolTip>
+                    </CellEditTemplate>
+                </DataGridColumn>
+                <DataGridColumn Type="DataGridCellType.Control"
+                                Property="@nameof(ApplicationRole.Name)"
+                                Caption="@(ModelMetadata.NameFor<ApplicationRole>(x => x.Name))">
+                    <CellEditTemplate Context="role">
+                        <InputSelect class="form-control" @bind-Value="@role.Name">
+                            <option value="" disabled selected>@Strings.Caption_InputSelect_Prompt</option>
+                            @foreach(var role in roles ?? [])
+                            {
+                                <option value="@role.Name">@role.Name</option>
+                            })
+                        </InputSelect>
+                    </CellEditTemplate>
+                </DataGridColumn>
+            </DataGrid>
+        </Body>
+    </ContentTile>
+}
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private ApplicationUser? user;
+
+    private ApplicationUser adminUser = default!;
+
+    private IEnumerable<ApplicationRole>? roles;
+
+    private bool isLoading = true;
+
+    private IPageTitle titleInfo = IPageTitle.GetTitleFor<ApplicationUser>();
+
+    private MenuRoot navMenu = default!;
+
+    private Guid _formGuid = new Guid();
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
+    protected override string IndexUriRelativePath => "/access/users";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        ArgumentNullException.ThrowIfNull(authenticationState);
+
+        var adminAuthState = await authenticationState;
+
+        if (adminAuthState is null || adminAuthState.User is null)
+            throw new InvalidOperationException("Authorization state not found.");
+
+        adminUser = (await UserManager.GetUserAsync(adminAuthState.User))!;
+        if (adminUser is null)
+            throw new InvalidOperationException("User not found.");
+
+        try
+        {
+            user = await UserManager.Users.FirstAsync(u => u.Id == Id.ToString());
+            string[] assignedRoleNames = (await UserManager.GetRolesAsync(user))?.ToArray() ?? [];
+            roles = await RoleManager.Roles.OrderBy(x => x.Name).ToListAsync();
+            var assignedRoles = await RoleManager.Roles
+                .Where(x => assignedRoleNames.Contains(x.Name))
+                .ToListAsync();
+
+            user.SetRoles(assignedRoles);
+
+            string editCaption = Strings.Caption_EditSingle.Format(ModelNoun?.GetSingular());
+            string indexCaption = Strings.Caption_NavigateBackTo.Format(ModelNoun?.GetPlural());
+
+            navMenu = new()
+                {
+                    IconKey = "reorder-four",
+                    Children = new()
+                    {
+                        // Add return to index button.
+                        new MenuItem()
+                        {
+                            IconKey = "caret-back-circle",
+                            Caption = indexCaption,
+                            UriRelativePath = $"{IndexUriRelativePath}"
+                        },
+                        // Add edit button.
+                        new MenuItem()
+                        {
+                            IconKey = "pencil",
+                            Caption = editCaption,
+                            UriRelativePath = FormatEditUri(GetKeyValueOrDefault<string>(user))
+                        }
+                    }
+                };
+        }
+        finally
+        {
+            isLoading = user is null || user.Roles is null || roles is null;
+        }
+    }
+
+    /// <summary>
+    /// Handles the delete click event of this page.
+    /// </summary>
+    private async Task FormDeleteClickHandler(MouseEventArgs args)
+    {
+        var result = UserManager.DeleteAsync(user!);
+
+        await result;
+
+        if (result.IsCompletedSuccessfully)
+        {
+            Logger.LogInformation(
+                "{User} deleted by {Admin}.", 
+                new { Id = user!.Id }, 
+                new { Id = adminUser.Id });
+
+            NavigationHelper.NavigateTo(IndexUriRelativePath);
+        }
+        else if(result.IsFaulted)
+            ErrorMessage = result.Exception?.Message;
+    }
+
+    /// <summary>
+    /// Handles the valid form submission event of this page.
+    /// </summary>
+    private async Task ValidFormSubmitHandler(EditContext args)
+    {
+        using(var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        {
+            try
+            {
+                var userResult = await UserManager.UpdateAsync(user!);
+
+                if (!userResult.Succeeded)
+                {
+                    ErrorMessage = string.Join("\n", userResult.Errors.Select(x => x.Description));
+                    return;
+                }
+                else
+                {
+                    ErrorMessage = null;
+                }
+
+                // Update the role assignment.
+                IEnumerable<string> storeRoles = (await UserManager.GetRolesAsync(user!));
+                IEnumerable<string> currentRoles = user!.Roles.Select(x => x.Name!) ?? [];
+
+                var additions = currentRoles.Except(storeRoles) ?? [];
+                var removals = storeRoles.Except(currentRoles) ?? [];
+
+                if (removals.Count() > 0)
+                {
+                    await UserManager.RemoveFromRolesAsync(user, removals);
+                    Logger.LogInformation(
+                        "{User} removed by user {Admin} from role(s): {Roles}.", 
+                        new { Id = user.Id },
+                        new { Id = adminUser.Id },
+                        removals);
+                }
+
+                if (additions.Count() > 0)
+                {
+                    await UserManager.AddToRolesAsync(user, additions);
+                    Logger.LogInformation(
+                        "{User} assigned by {Admin} to role(s): {Roles}.",
+                        new { Id = user.Id },
+                        new { Id = adminUser.Id },
+                        additions);
+                }
+
+                scope.Complete();
+
+            }
+            catch(TransactionAbortedException ex)
+            {
+                scope?.Dispose();
+                ErrorMessage = ex.Message;
+                return;
+            }
+        }
+
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{user!.Id}");
+    }
+
+    /// <summary>edit
+    /// Handles the cancel editor event of this page.
+    /// </summary>
+    private void FormCancelClickHandler(MouseEventArgs args) =>
+        NavigationHelper.NavigateTo($"{IndexUriRelativePath}/{user!.Id}");
+}

@@ -1,0 +1,189 @@
+﻿@rendermode InteractiveServer
+
+<div class="ni-dashboard-tile">
+    <div class="future-value-calculator">
+        <EditForm Model="_inputModel" OnSubmit="CalculateAsync" id="@_formGuid">
+            <DataAnnotationsValidator />
+            <ModelForm TModelDto="InputModel" 
+                ControlLayout="ModelFormEntry<InputModel>.Layout.AboveLineLabel">
+                <ModelFormEntry ForMember="@(() => _inputModel.StartDate)">
+                    <InputDate class="form-control"
+                        DisplayName="@(GetName<InputModel>(x => x.StartDate))"
+                        @bind-Value="_inputModel.StartDate" />
+                </ModelFormEntry>
+                <ModelFormEntry ForMember="@(() => _inputModel.Periods)">
+                    <InputNumber class="form-control"
+                        DisplayName="@(GetName<InputModel>(x => x.Periods))"
+                        @bind-Value="_inputModel.Periods" />
+                </ModelFormEntry>
+                <ModelFormEntry ForMember="@(() => _inputModel.PresentValue)">
+                    <InputNumber class="form-control"
+                        DisplayName="@(GetName<InputModel>(x => x.PresentValue))"
+                        @bind-Value="_inputModel.PresentValue" />
+                </ModelFormEntry>
+                <div class="form-group">
+                    <ModelFormEntry ForMember="@(() => _inputModel.GrowthLocation)" 
+                        LabelOverride="@(GetName<InputModel>(x => x.GrowthDistribution))">
+                        <InputNumber class="form-control"
+                            DisplayName="@(GetName<InputModel>(x => x.GrowthLocation))"
+                            @bind-Value="_inputModel.GrowthLocation" />
+                    </ModelFormEntry>
+                    <ModelFormEntry ForMember="@(() => _inputModel.GrowthScale)">
+                        <InputNumber class="form-control"
+                            DisplayName="@(GetName<InputModel>(x => x.GrowthScale))"
+                            @bind-Value="_inputModel.GrowthScale" />
+                    </ModelFormEntry>
+                    <ModelFormEntry ForMember="@(() => _inputModel.GrowthFreedom)">
+                        <InputNumber class="form-control"
+                            DisplayName="@(GetName<InputModel>(x => x.GrowthFreedom))"
+                            @bind-Value="_inputModel.GrowthFreedom" />
+                    </ModelFormEntry>
+                </div>
+                <div class="form-group">
+                    <ModelFormEntry ForMember="@(() => _inputModel.DepositLocation)"
+                        LabelOverride="@(GetName<InputModel>(x => x.DepositDistribution))">
+                        <InputNumber class="form-control"
+                            DisplayName="@(GetName<InputModel>(x => x.DepositLocation))"
+                            @bind-Value="_inputModel.DepositLocation" />
+                    </ModelFormEntry>
+                    <ModelFormEntry ForMember="@(() => _inputModel.DepositScale)">
+                        <InputNumber class="form-control"
+                            DisplayName="@(GetName<InputModel>(x => x.DepositScale))"
+                            @bind-Value="_inputModel.DepositScale" />
+                    </ModelFormEntry>
+                    <ModelFormEntry ForMember="@(() => _inputModel.DepositFreedom)">
+                        <InputNumber class="form-control"
+                            DisplayName="@(GetName<InputModel>(x => x.DepositFreedom))"
+                            @bind-Value="_inputModel.DepositFreedom" />
+                    </ModelFormEntry>
+                </div>
+                <ModelFormEntry ForMember="@(() => _inputModel.SimulationCount)">
+                    <InputNumber class="form-control"
+                        DisplayName="@(GetName<InputModel>(x => x.SimulationCount))"
+                        @bind-Value="_inputModel.SimulationCount" />
+                </ModelFormEntry>
+            </ModelForm>
+        </EditForm>
+        <ActionButtonMenu>
+            <button type="submit" class="form-control button" form="@_formGuid">
+                @Strings.Caption_Button_Calculate
+            </button>
+        </ActionButtonMenu>
+    </div>
+    @if (!isLoading)
+    {
+        <div class="radzen-chart"> 
+            <RadzenChart>
+                @foreach(var series in Data.ByQuantiles().OrderByDescending(x => x.Key))
+                {
+                    <RadzenLineSeries 
+                        Smooth="@smooth" Data="series.Value" CategoryProperty="@nameof(FutureValueResult.PeriodDate)" 
+                        Title="@series.Key.ToString("P1")" 
+                        ValueProperty="@nameof(FutureValueResult.Balance)">
+                        <TooltipTemplate Context="data">
+                            @($"{GetName<FutureValueResult>(x => x.Balance)}: {data.Balance:C0}")
+                        </TooltipTemplate>
+                    </RadzenLineSeries>
+                }
+                <RadzenCategoryAxis Padding="20" Formatter="@FormatAsYear" />
+                <RadzenValueAxis Formatter="@FormatAsUSD">
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="@(GetName<FutureValueResult>(x => x.Balance))" />
+                </RadzenValueAxis>
+            </RadzenChart>
+        </div>
+    }
+</div>
+@code {
+    [Inject]
+    IModelMetadataService Metadata { get; init; } = default!;
+
+    [Inject] 
+    IFinancialCalculator FinancialCalc { get; init; } = default!;
+
+    [Inject] 
+    IStatisticsCalculator StatsCalc { get; set; } = default!;
+
+    bool isLoading = true;
+    bool smooth = false;
+    short markerSize = 3;
+    short markerStrokeWidth = 1;
+    Guid _formGuid = Guid.NewGuid();
+    private EditContext _inputContext = default!;
+    private InputModel _inputModel = default!;
+
+    private record InputModel : FutureValueSimulationInput
+    {
+        public double GrowthLocation { get; set; }
+
+        public double GrowthScale { get; set; }
+
+        public double GrowthFreedom { get; set; }
+
+        public double DepositLocation { get; set; }
+
+        public double DepositScale { get; set; }
+
+        public double DepositFreedom { get; set; }
+    }
+
+    private record struct StudentTParameters(double Location, double Scale, int DegreesFreedom);
+
+    private IDictionary<int, IEnumerable<FutureValueResult>> Data { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        _inputModel = new()
+        {
+            GrowthLocation = 0.10,
+            GrowthScale = 0.16,
+            GrowthFreedom = 30,
+            DepositLocation = 20000, 
+            DepositScale = 500,
+            DepositFreedom = 30
+        };
+        _inputContext = new(_inputModel);
+    }
+
+    private async Task CalculateAsync()
+    {
+        isLoading = true;
+        var growthDist = new MathNet.Numerics.Distributions.StudentT(
+            _inputModel.GrowthLocation, _inputModel.GrowthScale, _inputModel.GrowthFreedom);
+        var depositDist = new MathNet.Numerics.Distributions.StudentT(
+            _inputModel.DepositLocation, _inputModel.DepositScale, _inputModel.DepositFreedom);
+
+        var isValid = _inputContext.Validate();
+
+        try
+        {
+            Data = await Task.Run(() => FinancialCalc.FutureValueSimulation(
+                startDate: _inputModel.StartDate,
+                periods: _inputModel.Periods,
+                presentValue: _inputModel.PresentValue,
+                growthDistribution: growthDist,
+                contributionDistribution: depositDist,
+                periodType: _inputModel.PeriodType,
+                simulations: _inputModel.SimulationCount));
+        }
+        finally
+        {
+            isLoading = Data is null;
+        }
+
+
+    }
+
+    private string GetName<T>(Expression<Func<T, object>> selector)
+        where T : class
+        => Metadata.NameFor<T>(selector);
+
+    private string GetDescription<T>(Expression<Func<T, object>> selector)
+        where T : class
+        => Metadata.DescriptionFor<T>(selector);
+
+    string FormatAsUSD(object value) => ((double)value).ToString("C0");
+
+    string FormatAsYear(object value) =>
+        value is null ? string.Empty : Convert.ToDateTime(value).ToString("yyyy");
+}

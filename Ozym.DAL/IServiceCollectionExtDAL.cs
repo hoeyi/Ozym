@@ -12,6 +12,7 @@ using System;
 using Ozym.DataTransfer.Profiles;
 using AutoMapper;
 using System.Reflection;
+using Ozym.BusinessLogic.Accounting;
 
 namespace Ozym
 {
@@ -49,11 +50,10 @@ namespace Ozym
             string databaseProvider,
             bool developerMode = false)
         {
-            if (databaseProvider is null)
-                throw new ArgumentNullException(paramName: nameof(databaseProvider));
+            ArgumentNullException.ThrowIfNull(databaseProvider);
 
             var dbProvider = databaseProvider.ConvertFromStringCode<DatabaseProvider>() ?? 
-                throw new InvalidOperationException();
+                throw new NotSupportedException($"Provider '{databaseProvider}' is not recognized.");
 
             services
                 .AddSingleton<IModelMetadataService, ModelMetadataService>()
@@ -63,7 +63,8 @@ namespace Ozym
                 .AddCalculatorServices()
                 .AddMappingProfiles()
                 .AddModelServices()
-                .AddDbContextFactoryServices(dbProvider, developerMode);
+                .AddDbContextFactoryServices(dbProvider, developerMode)
+                .AddTestDbContextFactoryServices(dbProvider, developerMode);
 
             return services;
         }
@@ -84,7 +85,8 @@ namespace Ozym
         {
             services
                 .AddTransient<IFinancialCalculator, FinancialCalculator>()
-                .AddTransient<IStatisticsCalculator, StatisticsCalculator>();
+                .AddTransient<IStatisticsCalculator, StatisticsCalculator>()
+                .AddScoped<IAccountingService, AccountingService>();
 
             return services;
         }

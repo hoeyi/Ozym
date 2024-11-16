@@ -1,0 +1,26 @@
+﻿.ni-dashboard-tile {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-row-gap: 0.5rem;
+    font-size: 0.8rem !important;
+}
+
+.ni-dashboard-tile .datagrid {
+    width: 100%;
+}
+
+.datagrid div.positive {
+    color: var(--theme-text-color-success, green);
+}
+
+.datagrid div.negative {
+    color: var(--theme-text-color-failure, red);
+}
+
+::deep .form-control:not(button) {
+    font-size: 0.8rem !important;
+}
+
+::deep .form-entry .label {
+    padding-left: 0.1rem !important;
+}
