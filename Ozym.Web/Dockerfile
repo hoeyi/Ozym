@@ -28,14 +28,14 @@ WORKDIR /src/Ozym.Web
 
 # Build the web project.
 ARG CONFIGURATION
-RUN dotnet build "Ozym.Web.csproj" -c $CONFIGURATION -o /app/build
+RUN dotnet build "Ozym.Web.csproj" -c $CONFIGURATION -o /app/build --property WarningLevel=1
 
 FROM build AS publish
 ARG CONFIGURATION
+RUN dotnet dev-certs https
 RUN dotnet publish "Ozym.Web.csproj" -c $CONFIGURATION -o /app/publish /p:UseAppHost=false --property WarningLevel=1
 
-# Build data migration program from version 6.0. Version 7.0 SDK for dotnet-ef tool causes 
-# conflict with 6.0 target framework for the projects.
+# Build data migration programs
 RUN if [ "$CONFIGURATION" == "Release" ] ; then \
     echo "Creating sample data migrations program..."; \
     dotnet ef migrations bundle \
@@ -67,4 +67,6 @@ RUN if [ "$CONFIGURATION" == "Release" ] ; then \
 FROM base AS final
 COPY --from=publish /app/publish /app
 COPY --from=publish /app/migration /app
+# Copy the self-signed certificate to the container.
+COPY --from=publish /root/.dotnet/corefx/cryptography/x509stores/my/* /root/.dotnet/corefx/cryptography/x509stores/my/
 ENTRYPOINT ["dotnet", "Ozym.Web.dll"]

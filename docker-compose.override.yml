@@ -8,22 +8,25 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
+      - DOCKER_DATABASE_SERVICE=ozymdb
     ports:
       - "5001:80"
       - "7001:443"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      # - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
   ozymweb:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
+      - DOCKER_DATABASE_SERVICE=ozymdb
+      - DOCKER_API_SERVICE=ozymapi 
     ports:
       - "80"
       - "443"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      # - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   ozymdb-dev:

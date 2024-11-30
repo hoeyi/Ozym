@@ -2,6 +2,7 @@ name: ozym
 services:
   ozymdb:
     container_name: ozym-db
+    profiles: [release]
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
@@ -23,23 +24,29 @@ services:
 
   ozymapi:
     container_name: ozym-api
+    profiles: [release]
     environment:
       OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
     image: "${DOCKER_REGISTRY-}ozymapi"
     build:
       context: .
       dockerfile: Ozym.API/Dockerfile
+      args:
+        CONFIGURATION: ${CONFIGURATION}
     depends_on:
     - ozymdb
 
   ozymweb:
     container_name: ozym-web
+    profiles: [release]
     environment:
       OZYM_APP_PASSWORD: ${OZYM_APP_PASSWORD}
     image: "${DOCKER_REGISTRY-}ozymweb"
     build:
       context: .
       dockerfile: Ozym.Web/Dockerfile
+      args:
+        CONFIGURATION: ${CONFIGURATION}
     depends_on:
     - ozymdb
     - ozymapi
@@ -68,8 +75,6 @@ services:
     build:
       context: .
       dockerfile: Ozym.Web/Dockerfile
-      args:
-      - CONFIGURATION=Debug
     depends_on:
     - ozymdb-dev
     - ozymapi-dev 
