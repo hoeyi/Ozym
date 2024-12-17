@@ -143,8 +143,8 @@ namespace Ozym.Web
             if(config.GetValue<bool?>("USE_DOCKER") ?? true)
             {
                 string connectionStringPattern = config["ConnectionStrings:__pattern__"]
-                                ?? throw new InvalidOperationException(
-                                    "Configuration key 'ConnectionStrings:__pattern__' is undefined.");
+                    ?? throw new InvalidOperationException(
+                        "Configuration key 'ConnectionStrings:__pattern__' is undefined.");
 
                 string dockerDatabaseService = config["DOCKER_DATABASE_SERVICE"]
                     ?? throw new InvalidOperationException(
