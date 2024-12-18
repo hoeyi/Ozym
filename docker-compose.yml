@@ -47,6 +47,8 @@ services:
       dockerfile: Ozym.Web/Dockerfile
       args:
         CONFIGURATION: ${CONFIGURATION}
+        DOCKER_DATABASE_SERVICE: ozymdb
+        DOCKER_API_SERVICE: ozymapi 
     depends_on:
     - ozymdb
     - ozymapi

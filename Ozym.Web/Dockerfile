@@ -36,7 +36,11 @@ RUN dotnet dev-certs https
 RUN dotnet publish "Ozym.Web.csproj" -c $CONFIGURATION -o /app/publish /p:UseAppHost=false --property WarningLevel=1
 
 # Build data migration programs
-RUN if [ "$CONFIGURATION" == "Release" ] ; then \
+ARG DOCKER_DATABASE_SERVICE
+ENV DOCKER_DATABASE_SERVICE $DOCKER_DATABASE_SERVICE
+ARG DOCKER_API_SERVICE
+ENV DOCKER_API_SERVICE DOCKER_API_SERVICE
+RUN if [ "$CONFIGURATION" = "Release" ] ; then \
     echo "Creating sample data migrations program..."; \
     dotnet ef migrations bundle \
         --configuration Release \
@@ -59,10 +63,10 @@ RUN if [ "$CONFIGURATION" == "Release" ] ; then \
         --self-contained \
         --no-build \
         --force; \
-    else \
-        echo "Skippig migration bundle creation for non-Release configuration."; \
-        mkdir -p /app/migration ; \
-    fi
+else \
+    echo "Skipping migration bundle creation for non-Release configuration."; \
+    mkdir -p /app/migration ; \
+fi
 
 FROM base AS final
 COPY --from=publish /app/publish /app
