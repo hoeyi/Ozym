@@ -74,13 +74,10 @@ namespace Ozym.Api
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                // TODO: Implement query parameters or ODATA to avoid need for 
-                //       suppressing schema definition.
-                app.UseSwaggerUI(options => options.DefaultModelsExpandDepth(-1));
-            }
+            app.UseSwagger();
+            // TODO: Implement query parameters or ODATA to avoid need for 
+            //       suppressing schema definition.
+            app.UseSwaggerUI(options => options.DefaultModelsExpandDepth(-1));
 
             app.UseAuthorization();
 

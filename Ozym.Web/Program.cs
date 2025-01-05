@@ -64,7 +64,8 @@ namespace Ozym.Web
 
             builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
-            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+            if(builder.Environment.IsDevelopment())
+                builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             #endregion
 
             // Data access services
@@ -95,7 +96,10 @@ namespace Ozym.Web
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            if(app.Environment.IsProduction())
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseStaticFiles();
             app.UseAntiforgery();
