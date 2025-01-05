@@ -26,16 +26,14 @@ WORKDIR /src/Ozym.API
 
 # Build the web api project.
 ARG CONFIGURATION
-RUN dotnet build "Ozym.API.csproj" -c $CONFIGURATION -o /app/build --property WarningLevel=1
 
-FROM build AS publish
-ARG CONFIGURATION
-RUN dotnet dev-certs https
+# TODO: If release build, configure tests to run before publishing.
+
 RUN dotnet publish "Ozym.API.csproj" -c $CONFIGURATION -o /app/publish /p:UseAppHost=false --property WarningLevel=1
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 # Copy the self-signed certificate to the container.
-COPY --from=publish /root/.dotnet/corefx/cryptography/x509stores/my/* /root/.dotnet/corefx/cryptography/x509stores/my/
+#COPY --from=build /root/.dotnet/corefx/cryptography/x509stores/my/* /root/.dotnet/corefx/cryptography/x509stores/my/
 ENTRYPOINT ["dotnet", "Ozym.API.dll"]

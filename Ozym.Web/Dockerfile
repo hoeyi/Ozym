@@ -28,18 +28,16 @@ WORKDIR /src/Ozym.Web
 
 # Build the web project.
 ARG CONFIGURATION
-RUN dotnet build "Ozym.Web.csproj" -c $CONFIGURATION -o /app/build --property WarningLevel=1
 
-FROM build AS publish
-ARG CONFIGURATION
-RUN dotnet dev-certs https
+# TODO: If release build, configure tests to run before publishing.
+
 RUN dotnet publish "Ozym.Web.csproj" -c $CONFIGURATION -o /app/publish /p:UseAppHost=false --property WarningLevel=1
 
 # Build data migration programs
 ARG DOCKER_DATABASE_SERVICE
-ENV DOCKER_DATABASE_SERVICE $DOCKER_DATABASE_SERVICE
+ENV DOCKER_DATABASE_SERVICE=$DOCKER_DATABASE_SERVICE
 ARG DOCKER_API_SERVICE
-ENV DOCKER_API_SERVICE DOCKER_API_SERVICE
+ENV DOCKER_API_SERVICE=$DOCKER_API_SERVICE
 RUN if [ "$CONFIGURATION" = "Release" ] ; then \
     echo "Creating sample data migrations program..."; \
     dotnet ef migrations bundle \
@@ -69,8 +67,8 @@ else \
 fi
 
 FROM base AS final
-COPY --from=publish /app/publish /app
-COPY --from=publish /app/migration /app
+COPY --from=build /app/publish /app
+COPY --from=build /app/migration /app
 # Copy the self-signed certificate to the container.
-COPY --from=publish /root/.dotnet/corefx/cryptography/x509stores/my/* /root/.dotnet/corefx/cryptography/x509stores/my/
+#COPY --from=build /root/.dotnet/corefx/cryptography/x509stores/my/* /root/.dotnet/corefx/cryptography/x509stores/my/
 ENTRYPOINT ["dotnet", "Ozym.Web.dll"]
