@@ -23,7 +23,8 @@ namespace Ozym.Test.DataTransfer.Mapping
             {
                 x.AddProfile<ModelAttributeProfile>();
                 x.AddProfile<CountryProfile>();
-            });
+            },
+            TestUtility.ProjectLoggerFactory);
 
         /// <inheritdoc/>
         [TestMethod]

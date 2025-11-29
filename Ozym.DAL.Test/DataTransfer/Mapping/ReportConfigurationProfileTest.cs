@@ -22,7 +22,8 @@ namespace Ozym.Test.DataTransfer.Mapping
             new MapperConfiguration(x =>
             {
                 x.AddProfile<ReportConfigurationProfile>();
-            });
+            },
+            TestUtility.ProjectLoggerFactory);
 
         /// <summary>
         /// Class for unit test methods targeting <see cref="AccountCustodianProfile"/>.

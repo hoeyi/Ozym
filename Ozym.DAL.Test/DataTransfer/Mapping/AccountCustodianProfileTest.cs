@@ -23,7 +23,8 @@ namespace Ozym.Test.DataTransfer.Mapping
             new MapperConfiguration(x =>
             {
                 x.AddProfile<AccountCustodianProfile>();
-            });
+            },
+            TestUtility.ProjectLoggerFactory);
 
         [TestMethod]
         public void Configuration_IsValid()

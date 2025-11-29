@@ -22,7 +22,8 @@ namespace Ozym.Test.DataTransfer.Mapping
             new MapperConfiguration(x =>
             {
                 x.AddProfile<ReportStyleSheetProfile>();
-            });
+            },
+            TestUtility.ProjectLoggerFactory);
 
         /// <inheritdoc/>
         [TestMethod]

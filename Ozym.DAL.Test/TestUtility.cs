@@ -17,8 +17,10 @@ namespace Ozym.Test
     {
         static TestUtility()
         {
-            Logger = LoggerFactory
-                .Create(builder => builder.AddConsole().AddDebug())
+            ProjectLoggerFactory = LoggerFactory
+                .Create(builder => builder.AddConsole().AddDebug());
+
+            Logger = ProjectLoggerFactory
                 .CreateLogger<TestUtility>();
 
             Configuration = new ConfigurationBuilder()
@@ -45,6 +47,11 @@ namespace Ozym.Test
         /// The <see cref="ILogger"/> instance for this project.
         /// </summary>
         internal static ILogger Logger { get; } 
+
+        /// <summary>
+        /// The <see cref="ILoggerFactory"/> instance for this project.
+        /// </summary>
+        internal static ILoggerFactory ProjectLoggerFactory { get; }
 
         /// <summary>
         /// Gets the <see cref="IDbContextFactory{TContext}"/> for creating test contexts.

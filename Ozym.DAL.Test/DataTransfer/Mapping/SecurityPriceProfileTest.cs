@@ -23,7 +23,8 @@ namespace Ozym.Test.DataTransfer.Mapping
             new MapperConfiguration(x =>
             {
                 x.AddProfile<SecurityPriceProfile>();
-            });
+            },
+            TestUtility.ProjectLoggerFactory);
 
         /// <inheritdoc/>
         [TestMethod]
