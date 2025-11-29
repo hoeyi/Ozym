@@ -3,6 +3,7 @@ services:
     environment:
       - MSSQL_SA_PASSWORD=gl45WvA1Jb62uqNQ
       - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
+      - PATH="$PATH:/opt/mssql-tools18/bin
   ozymapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -25,7 +26,7 @@ services:
       - DOCKER_DATABASE_SERVICE=ozymdb
       - DOCKER_API_SERVICE=ozymapi 
       - SUPERUSER_NAME=SU
-      - SUPERUSER_PASSWORD=ChangeThisPassword^1234
+      - SUPERUSER_PASSWORD=72Q3MVXhglACvG9m7pjX4p2w
     ports:
       - "80"
       - "443"
