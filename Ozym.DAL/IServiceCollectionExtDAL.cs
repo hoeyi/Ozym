@@ -149,8 +149,7 @@ namespace Ozym
         public static IServiceCollection AddMappingProfiles(this IServiceCollection services)
         {
             // Grab all Profile-derived classes defined in the assembly with AccountProfile.
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(AccountProfile)));
-
+            services.AddAutoMapper(cfg => {}, typeof(AccountProfile));
             return services;
         }
     }
