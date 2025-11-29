@@ -297,6 +297,8 @@ namespace Ozym.Api.Controllers
         //public abstract Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(
         //    TParentKey id, int pageNumber = 1, int pageSize = 20);
 
+
+#pragma warning disable CS1587 // XML comment is not placed on a valid language element
         /// <inheritdoc/>
         //public virtual async Task<ActionResult<(IEnumerable<TObject>, TParent)>> IndexAsync(
         //    TParentKey parentKey, int pageNumber = 1, int pageSize = 20)
@@ -331,6 +333,7 @@ namespace Ozym.Api.Controllers
 
         //    return Ok(items);
         //}
+#pragma warning restore CS1587 // XML comment is not placed on a valid language element
 
         /// <inheritdoc/>
         [HttpPost]
