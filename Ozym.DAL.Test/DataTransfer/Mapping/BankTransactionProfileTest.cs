@@ -19,7 +19,8 @@ namespace Ozym.Test.DataTransfer.Mapping
             {
                 x.AddProfile<ModelAttributeProfile>();
                 x.AddProfile<BankTransactionProfile>();
-            });
+            },
+            TestUtility.ProjectLoggerFactory);
 
         /// <inheritdoc/>
         [TestMethod]

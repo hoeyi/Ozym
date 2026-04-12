@@ -3,31 +3,36 @@ services:
     environment:
       - MSSQL_SA_PASSWORD=gl45WvA1Jb62uqNQ
       - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
+      - PATH="$PATH:/opt/mssql-tools18/bin
   ozymapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/8B7463519B14BF0A0E7B2C5DB703A30574C9AB1F.pfx
       - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
       - DOCKER_DATABASE_SERVICE=ozymdb
     ports:
       - "5001:80"
       - "7001:443"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${HOME}/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      - ${HOME}/.dotnet/corefx/cryptography/x509stores/my:/https:ro
   ozymweb:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/8B7463519B14BF0A0E7B2C5DB703A30574C9AB1F.pfx
       - OZYM_APP_PASSWORD=Ogj5ii8Scf6D6sCI
       - DOCKER_DATABASE_SERVICE=ozymdb
       - DOCKER_API_SERVICE=ozymapi 
+      - SUPERUSER_NAME=SU
+      - SUPERUSER_PASSWORD=72Q3MVXhglACvG9m7pjX4p2w
     ports:
       - "80"
       - "443"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${HOME}/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      - ${HOME}/.dotnet/corefx/cryptography/x509stores/my:/https:ro
 
   ozymdb-dev:
     environment:
@@ -43,8 +48,8 @@ services:
       - "5001:80"
       - "7001:443"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${HOME}/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      - ${HOME}/.dotnet/corefx/cryptography/x509stores/my:/https:ro
   ozymweb-dev:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -56,6 +61,6 @@ services:
       - "80"
       - "443"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${HOME}/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      - ${HOME}/.dotnet/corefx/cryptography/x509stores/my:/https:ro
     

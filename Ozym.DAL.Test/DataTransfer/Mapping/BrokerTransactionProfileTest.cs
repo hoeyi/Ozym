@@ -21,7 +21,8 @@ namespace Ozym.Test.DataTransfer.Mapping
                 x.AddProfile<AccountProfile>();
                 x.AddProfile<SecurityProfile>();
                 x.AddProfile<BrokerTransactionProfile>();
-            });
+            },
+            TestUtility.ProjectLoggerFactory);
 
         /// <inheritdoc/>
         [TestMethod]
