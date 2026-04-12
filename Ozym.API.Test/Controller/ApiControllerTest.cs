@@ -24,6 +24,7 @@ namespace Ozym.Api.Test.Controller
     /// Base class containing helper methods for testing <see cref="ApiController{TObject, TEntity}"/>.
     /// </summary>
     [TestCategory("Unit")]
+    [TestClass]
     public partial class ApiControllerTest<T, TEntity> : IApiControllerTests<T>
         where TEntity : class, new()
     {
@@ -493,7 +494,7 @@ namespace Ozym.Api.Test.Controller
             };
 
             // Act / Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
                 new ApiController<T, TEntity>(
                     expressionBuilder: null!,
                     mapper: mocks.Mapper.Object,
@@ -519,7 +520,7 @@ namespace Ozym.Api.Test.Controller
             };
 
             // Act / Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
                 new ApiController<T, TEntity>(
                     expressionBuilder: mocks.Expression.Object,
                     mapper: null!,
@@ -545,7 +546,7 @@ namespace Ozym.Api.Test.Controller
             };
 
             // Act / Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
                 new ApiController<T, TEntity>(
                     expressionBuilder: mocks.Expression.Object,
                     mapper: mocks.Mapper.Object,
@@ -571,7 +572,7 @@ namespace Ozym.Api.Test.Controller
             };
 
             // Act / Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
                 new ApiController<T, TEntity>(
                     expressionBuilder: mocks.Expression.Object,
                     mapper: mocks.Mapper.Object,

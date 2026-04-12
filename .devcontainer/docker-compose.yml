@@ -1,0 +1,9 @@
+services:
+  ozym_dev:
+    image: "mcr.microsoft.com/devcontainers/dotnet:10.0-noble"
+    environment:
+      - DOTNET_NUGET_SIGNATURE_VERIFICATION:false
+    volumes:
+      - ../:/workspaces/ozym
+      - ~/repos/nuget-local/release:/nuget-local:ro
+    command: sleep infinity

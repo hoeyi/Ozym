@@ -57,7 +57,7 @@ namespace Ozym.Api.Test.Controller
             var mocks = new Mocks();
 
             // Act / Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
                 new ReferenceDataController(
                     expressionBuilder: null!,
                     mapper: mocks.Mapper.Object,
@@ -77,7 +77,7 @@ namespace Ozym.Api.Test.Controller
             var mocks = new Mocks();
 
             // Act / Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
                 new ReferenceDataController(
                     expressionBuilder: mocks.ExpressionBuilder.Object,
                     mapper: null!,
@@ -97,7 +97,7 @@ namespace Ozym.Api.Test.Controller
             var mocks = new Mocks();
 
             // Act / Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
                 new ReferenceDataController(
                     expressionBuilder: mocks.ExpressionBuilder.Object,
                     mapper: mocks.Mapper.Object,
@@ -117,7 +117,7 @@ namespace Ozym.Api.Test.Controller
             var mocks = new Mocks();
 
             // Act / Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
                 new ReferenceDataController(
                     expressionBuilder: mocks.ExpressionBuilder.Object,
                     mapper: mocks.Mapper.Object,
