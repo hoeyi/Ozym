@@ -5,6 +5,7 @@
 		}
 	],
 	"settings": {
-		"chat.disableAIFeatures": true
+		"chat.disableAIFeatures": true,
+		"dotnet.defaultSolution": "Ozym.slnx"
 	}
 }

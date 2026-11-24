@@ -7,6 +7,7 @@
 	<UserSecretsId>aspnet-Ozym.Web-8127480B-07E8-4478-AEFA-EAC0AACF174B</UserSecretsId>
 	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+	<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,7 +30,7 @@
 	<!-- <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" /> -->
 	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
-	<PackageReference Include="Radzen.Blazor" Version="4.32.6" />
+	<PackageReference Include="Radzen.Blazor" Version="13.2.1" />
 	<PackageReference Include="Serilog" Version="4.0.0" />
 	<PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
 	<PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
