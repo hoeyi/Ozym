@@ -378,6 +378,10 @@ FodyWeavers.xsd
 # Migrations bundle app
 /Ozym.EntityModel/*bundle
 
-# Ingore commit message text
+# Ignore commit message text and env files
 .commit
 *.env
+
+# Ignore line counter extension
+.VSCodeCounter
+
