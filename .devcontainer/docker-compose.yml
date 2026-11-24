@@ -1,6 +1,6 @@
 services:
   ozym_dev:
-    image: "mcr.microsoft.com/devcontainers/dotnet:10.0-noble"
+    image: "mcr.microsoft.com/devcontainers/dotnet:10.0"
     environment:
       - DOTNET_NUGET_SIGNATURE_VERIFICATION:false
     volumes:

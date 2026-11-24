@@ -1,0 +1,36 @@
+<Solution>
+  <Folder Name="/installers/" />
+  <Folder Name="/installers/docker/">
+    <File Path="installers/docker-compose.yml" />
+    <File Path="installers/init-ozym-db.sh" />
+    <File Path="installers/init-ozym-db.sql" />
+    <File Path="installers/install-ozym-docker-win.sh" />
+    <File Path="installers/migrate-sample-data.sh" />
+    <File Path="installers/README.md" />
+  </Folder>
+  <Folder Name="/repo-items/">
+    <File Path=".gitignore" />
+    <File Path="CONTRIBUTING.md" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/scripts/">
+    <File Path="scripts/add-migration-ozymidentity.sh" />
+    <File Path="scripts/add-migration-ozymworks-test.sh" />
+    <File Path="scripts/add-migration-ozymworks.sh" />
+    <File Path="scripts/bundle-migration-ozymworks.sh" />
+    <File Path="scripts/run-code-coverage.sh" />
+    <File Path="scripts/update-db-ozymidentity.sh" />
+    <File Path="scripts/update-db-ozymworks.sh" />
+  </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+  <Project Path="Ozym.API.Test/Ozym.API.Test.csproj" />
+  <Project Path="Ozym.API/Ozym.API.csproj" />
+  <Project Path="Ozym.DAL.Test/Ozym.DAL.Test.csproj" />
+  <Project Path="Ozym.DAL/Ozym.DAL.csproj" />
+  <Project Path="Ozym.EntityMigration/Ozym.EntityMigration.csproj" />
+  <Project Path="Ozym.EntityModel/Ozym.EntityModel.csproj" />
+  <Project Path="Ozym.Web.Test/Ozym.Web.Test.csproj" />
+  <Project Path="Ozym.Web/Ozym.Web.csproj" />
+</Solution>
