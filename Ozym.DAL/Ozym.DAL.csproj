@@ -6,11 +6,12 @@
     <RootNamespace>Ozym</RootNamespace>
     <Title>$(AssemblyName)</Title>
     <Product>Ozym</Product>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="16.1.1" />
-    <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="11.0.0" />
+    <PackageReference Include="AutoMapper" Version="17.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="12.0.0" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
   </ItemGroup>
 
